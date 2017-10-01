@@ -1,0 +1,4 @@
+/**
+ * action
+ */
+export default {}

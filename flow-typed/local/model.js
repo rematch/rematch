@@ -9,7 +9,6 @@ declare type $model = {
  },
  select?: {
   [name: string]: (state: any) => any,
-  [name: string]: (state: any) => (param: any) => any,
  },
  hook?: {
   [actionMatch: string]: (action: Object) => void,
