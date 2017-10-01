@@ -1,7 +1,7 @@
 {
   "extends": ["prettier", "airbnb"],
   "parser": "babel-eslint",
-  "plugins": ["flowtype"],
+  "plugins": ["flowtype", "jest"],
   "rules": {
     "arrow-parens": 0,
     "comma-dangle": 0,
@@ -13,5 +13,12 @@
     "no-tabs": 0,
     "semi": [1, "never"],
     "jsx-a11y/href-no-hash": 0
+  },
+  "env": {
+    "jest/globals": true
+  },
+  "globals": {
+    "$model": false,
+    "$config": false
   }
 }
