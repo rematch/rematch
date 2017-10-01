@@ -1,0 +1,17 @@
+{
+  "extends": ["prettier", "airbnb"],
+  "parser": "babel-eslint",
+  "plugins": ["flowtype"],
+  "rules": {
+    "arrow-parens": 0,
+    "comma-dangle": 0,
+    "global-require": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-named-as-default": 0,
+    "import/prefer-default-export": 0,
+    "quotes": [1, "single"],
+    "no-tabs": 0,
+    "semi": [1, "never"],
+    "jsx-a11y/href-no-hash": 0
+  }
+}

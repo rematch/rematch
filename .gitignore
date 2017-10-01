@@ -1,0 +1,6 @@
+# node
+node_modules
+npm-debug.*
+
+# build
+lib
