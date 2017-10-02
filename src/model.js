@@ -1,6 +1,6 @@
 // @flow
 import validate from './validate'
-import { mergeReducer, createReducers } from './reducers'
+import { mergeReducers, createReducers } from './reducers'
 
 /**
  * model
@@ -13,8 +13,7 @@ export default (model: $model): void => {
     [!model.state, 'model "state" is required'],
   ])
 
-  mergeReducer({
-    [model.name]: createReducers(model)
+  mergeReducers({
+    [model.name]: createReducers(model),
   })
 }
-

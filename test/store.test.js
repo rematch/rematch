@@ -1,7 +1,6 @@
 // Test for global exported store object
-import { init, model } from '../src/index'
-import { store } from '../src/init'
-
+import { init } from '../src/index'
+import { store } from '../src/store'
 
 beforeEach(() => {
   jest.resetModules()
@@ -14,16 +13,3 @@ describe('init', () => {
     expect(store.getState()).toEqual({})
   })
 })
-
-// describe('xxx', () => {
-//   it('yyy', () => {
-//     init()
-//
-//     model({
-//       name: 'count',
-//       state: 99,
-//     })
-//
-//     expect(store.getState()).toEqual({ count: 99 })
-//   })
-// })
