@@ -19,6 +19,9 @@
   },
   "globals": {
     "$model": false,
-    "$config": false
+    "$config": false,
+    "$reducer": false,
+    "$reducers": false,
+    "__REDUX_DEVTOOLS_EXTENSION_COMPOSE__": false
   }
 }

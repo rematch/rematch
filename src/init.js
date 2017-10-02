@@ -1,5 +1,9 @@
 // @flow
 import validate from './validate'
+import createStore from './store'
+
+export let store
+
 /**
  * init
  */
@@ -22,4 +26,5 @@ export default (config: $config = {}): void => {
       'init config.onError must be a function',
     ],
   ])
+  store = createStore(config.initialState, config.middleware, config.extraReducers)
 }

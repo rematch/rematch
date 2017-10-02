@@ -4,3 +4,6 @@ npm-debug.*
 
 # build
 lib
+
+# editor
+.vscode

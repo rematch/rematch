@@ -1,6 +1,7 @@
 declare type $config = {
  view?: 'react',
  router?: any,
+ initialState?: any,
  plugins?: any[],
  middleware?: any[],
  extraReducers?: {
