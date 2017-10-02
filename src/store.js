@@ -1,6 +1,7 @@
 // @flow
 /* eslint no-underscore-dangle: 0 */
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import { createReducers } from './reducers'
 
 // enable redux devtools
 const composeEnhancers =
@@ -11,7 +12,7 @@ const composeEnhancers =
 // create store
 export default (initialState: any = {}, middleware: any[] = [], extraReducers: $reducers = {}) => {
   const middlewares = applyMiddleware(...middleware)
-  const rootReducer = combineReducers(extraReducers)
+  const rootReducer = createReducers(extraReducers)
   const enhancer = composeEnhancers(middlewares)
   return createStore(rootReducer, initialState, enhancer)
 }
