@@ -1,7 +1,11 @@
 // @flow
 import { combineReducers } from 'redux'
 
-let reducers: $reducers = {}
+let reducers: $reducers
+
+export const initReducers = () : void => {
+  reducers = {}
+}
 
 // get reducer for given action type
 // pass in (state, payload)

@@ -1,7 +1,7 @@
 // @flow
 /* eslint no-underscore-dangle: 0 */
 import { createStore as _createStore, applyMiddleware, compose } from 'redux'
-import { mergeReducers } from './reducers'
+import { mergeReducers, initReducers } from './reducers'
 
 // enable redux devtools
 const composeEnhancers =
@@ -9,7 +9,7 @@ const composeEnhancers =
    ? global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
    : compose
 
-export let store = {} // eslint-disable-line
+export let _store // eslint-disable-line
 
 // create store
 export const createStore = (
@@ -17,8 +17,14 @@ export const createStore = (
   middleware: $middleware[] = [],
   extraReducers: $reducers = {},
 ): void => {
+  initReducers()
   const middlewares = applyMiddleware(...middleware)
-  const rootReducer = mergeReducers(extraReducers)
+  const hasExtraReducers = Object.keys(extraReducers).length > 0
+  const rootReducer = hasExtraReducers ? mergeReducers(extraReducers) : state => state
   const enhancer = composeEnhancers(middlewares)
-  store = _createStore(rootReducer, initialState, enhancer)
+  _store = _createStore(rootReducer, initialState, enhancer)
+}
+
+export const updateStore = (nextReducer: $reducer) : void => {
+  _store.replaceReducer(nextReducer)
 }
