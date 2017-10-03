@@ -5,7 +5,7 @@ beforeEach(() => {
   jest.resetModules()
 })
 
-describe('createStore', () => {
+describe('createStore:', () => {
   it('no params should create store with state `{}`', () => {
     createStore()
 
@@ -30,4 +30,3 @@ describe('createStore', () => {
     expect(_store.getState()).toEqual({ todos: 999 })
   })
 })
-

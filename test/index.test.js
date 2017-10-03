@@ -6,15 +6,12 @@ beforeEach(() => {
   jest.resetModules()
 })
 
-describe('init', () => {
+describe('init:', () => {
   test('no params should create store with state `{}`', () => {
     init()
 
     expect(_store.getState()).toEqual({})
   })
-})
-
-describe('init & one model', () => {
   test('init() & one model of state type `string`', () => {
     init()
 
@@ -24,7 +21,7 @@ describe('init & one model', () => {
     })
 
     expect(_store.getState()).toEqual({
-      app: 'Hello, world'
+      app: 'Hello, world',
     })
   })
 
@@ -37,7 +34,7 @@ describe('init & one model', () => {
     })
 
     expect(_store.getState()).toEqual({
-      count: 99
+      count: 99,
     })
   })
 
@@ -49,8 +46,8 @@ describe('init & one model', () => {
       state: {
         abc: {
           text: 'PRty down',
-          done: true
-        }
+          done: true,
+        },
       },
     })
 
@@ -58,15 +55,12 @@ describe('init & one model', () => {
       todos: {
         abc: {
           text: 'PRty down',
-          done: true
-        }
-      }
+          done: true,
+        },
+      },
     })
   })
-})
-
-describe('init & multiple models', () => {
-  test('init() & twos models', () => {
+  test('init() & two models', () => {
     init()
 
     model({
@@ -81,7 +75,7 @@ describe('init & multiple models', () => {
 
     expect(_store.getState()).toEqual({
       app: 'Hello, world',
-      count: 99
+      count: 99,
     })
   })
 
@@ -103,8 +97,8 @@ describe('init & multiple models', () => {
       state: {
         abc: {
           text: 'PRty down',
-          done: true
-        }
+          done: true,
+        },
       },
     })
 
@@ -114,9 +108,9 @@ describe('init & multiple models', () => {
       todos: {
         abc: {
           text: 'PRty down',
-          done: true
-        }
-      }
+          done: true,
+        },
+      },
     })
   })
 })
