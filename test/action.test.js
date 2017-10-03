@@ -70,4 +70,22 @@ describe('action:', () => {
       b: 1,
     })
   })
+
+  test('should dispatch an action with payload as 2nd argument', () => {
+    init()
+
+    model({
+      name: 'count',
+      state: 5,
+      reduce: {
+        upBy: (state, payload) => state + payload.amount,
+      },
+    })
+
+    action.count.upBy({ amount: 5 })
+
+    expect(_store.getState()).toEqual({
+      count: 10,
+    })
+  })
 })
