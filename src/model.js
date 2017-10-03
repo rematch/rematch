@@ -2,6 +2,7 @@
 import { validateModel } from './validate'
 import { mergeReducers, createReducers } from './reducers'
 import { createActions } from './action'
+import { createSelectors } from './select'
 import { updateStore } from './store'
 
 /**
@@ -19,4 +20,7 @@ export default (model: $model): void => {
 
   // add actions
   createActions(model)
+
+  // add selectors
+  createSelectors(model)
 }
