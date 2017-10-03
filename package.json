@@ -21,7 +21,8 @@
   "scripts": {
     "build": "webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ./src"
   },
   "dependencies": {
     "redux": "^3.7.2"

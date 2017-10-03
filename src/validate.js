@@ -52,5 +52,5 @@ export const validateModel = (model: $model) =>
       !model.name || typeof model.name !== 'string',
       'model "name" [string] is required',
     ],
-    [!model.state, 'model "state" is required'],
+    [model.state === undefined, 'model "state" is required'],
   ])

@@ -38,6 +38,19 @@ describe('init:', () => {
     })
   })
 
+  test('init() & one model of state is 0', () => {
+    init()
+
+    model({
+      name: 'count',
+      state: 0,
+    })
+
+    expect(_store.getState()).toEqual({
+      count: 0,
+    })
+  })
+
   test('init() & one model of state type `object`', () => {
     init()
 
