@@ -71,21 +71,57 @@ describe('dispatch:', () => {
     })
   })
 
-  test('should dispatch an action with payload as 2nd argument', () => {
-    init({ view: () => () => {} })
+  it('should be called from an dispatch action type', () => {
+    init()
 
     model({
       name: 'count',
-      state: 5,
+      state: 0,
       reduce: {
-        upBy: (state, payload) => state + payload.amount,
+        add: state => state + 1,
       },
     })
 
-    dispatch.count.upBy({ amount: 5 })
+    _store.dispatch({ type: 'count/add' })
 
     expect(_store.getState()).toEqual({
-      count: 10,
+      count: 1,
+    })
+  })
+
+  test('should handle state as the first param', () => {
+    init()
+
+    model({
+      name: 'count',
+      state: 0,
+      effect: {
+        doNothing: state => state,
+      },
+    })
+
+    action.count.doNothing()
+
+    expect(_store.getState()).toEqual({
+      count: 0,
+    })
+  })
+
+  test('should handle payload as the second param', () => {
+    init()
+
+    model({
+      name: 'count',
+      state: 1,
+      effect: {
+        incrementBy: (state, payload) => state + payload,
+      },
+    })
+
+    action.count.incrementBy(5)
+
+    expect(_store.getState()).toEqual({
+      count: 6,
     })
   })
 })
