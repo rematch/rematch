@@ -1,5 +1,5 @@
+import { createSelector } from 'reselect'
 import { model, init, select } from '../src/index'
-import { _store } from '../src/store'
 
 beforeEach(() => {
   jest.resetModules()
@@ -114,5 +114,85 @@ describe('select:', () => {
 
     expect(select.price.tax(0.15)).toEqual(1.5)
     expect(select.price.withTax(0.15)).toEqual(11.50)
+  })
+})
+
+describe('select (using reselect):', () => {
+  test('reselect.createSelector can be used in place of a normal selector - simple example', () => {
+    init()
+
+    model({
+      name: 'count',
+      state: 99,
+      select: {
+        value: state => state,
+        reselectValue: createSelector(
+          state => state,
+          value => value
+        )
+      }
+    })
+
+    expect(select.count.value()).toEqual(99)
+    expect(select.count.reselectValue()).toEqual(99)
+  })
+
+  test('reselect.createSelector can be used in place of a normal selector - complicated example', () => {
+    init()
+
+    const initialState = {
+      taxPercent: 8,
+      items: [
+        { name: 'apple', value: 1.20 },
+        { name: 'orange', value: 0.95 },
+      ]
+    }
+
+    const shopItemsSelector = state => state.items
+    const taxPercentSelector = state => state.taxPercent
+
+    const subtotalSelector = createSelector(
+      shopItemsSelector,
+      items => items.reduce((acc, item) => acc + item.value, 0)
+    )
+
+    const taxSelector = createSelector(
+      subtotalSelector,
+      taxPercentSelector,
+      (subtotal, taxPercent) => subtotal * (taxPercent / 100)
+    )
+
+    const totalSelector = createSelector(
+      subtotalSelector,
+      taxSelector,
+      (subtotal, tax) => ({ total: subtotal + tax })
+    )
+
+    model({
+      name: 'shop',
+      state: initialState,
+      select: {
+        total: totalSelector
+      }
+    })
+
+    expect(select.shop.total()).toEqual({ total: 2.322 })
+  })
+
+  test('reselect.createSelector can take args', () => {
+    init()
+
+    model({
+      name: 'count',
+      state: 99,
+      select: {
+        add: createSelector(
+          (state, amount) => state + amount,
+          value => value
+        )
+      }
+    })
+
+    expect(select.count.add(1)).toEqual(100)
   })
 })

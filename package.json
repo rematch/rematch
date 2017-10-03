@@ -45,6 +45,7 @@
     "eslint-plugin-react": "^7.4.0",
     "flow-bin": "^0.56.0",
     "jest": "^21.2.1",
+    "reselect": "^3.0.1",
     "webpack": "^3.6.0",
     "yargs": "^9.0.1"
   }
