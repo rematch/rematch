@@ -28,3 +28,22 @@ export const createStore = (
 export const updateStore = (nextReducer: $reducer) : void => {
   _store.replaceReducer(nextReducer)
 }
+
+export const listen = (
+  select: (state: {}) => any,
+  onChange: (value: any) => void
+): (() => {}) => {
+  let currentState
+
+  const handleChange = () => {
+    const nextState = select(_store.getState())
+    if (nextState !== currentState) {
+      currentState = nextState
+      onChange(currentState)
+    }
+  }
+
+  const unsubscribe = _store.subscribe(handleChange)
+  handleChange()
+  return unsubscribe
+}
