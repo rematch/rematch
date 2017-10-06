@@ -29,10 +29,10 @@ export const updateStore = (nextReducer: $reducer) : void => {
   _store.replaceReducer(nextReducer)
 }
 
-export const listen = (
+export const subscribe = (
   select: (state: {}) => any,
   onChange: (value: any) => void
-): (() => {}) => {
+): (() => void) => {
   let currentState
 
   const handleChange = () => {

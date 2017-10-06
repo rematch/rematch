@@ -20,8 +20,8 @@ const validate = (validations: Array<$validation>): void => {
 export const validateConfig = (config: $config) =>
   validate([
     [
-      !!config.view && typeof config.view !== 'string',
-      'init config.view must be a string',
+      !!config.view && typeof config.view !== 'function',
+      'init config.view must be a function.',
     ],
     [
       !!config.router && typeof config.router !== 'object',

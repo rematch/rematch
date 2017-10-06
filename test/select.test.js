@@ -11,7 +11,7 @@ describe('select:', () => {
   })
 
   test('model name should be added as key', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'count',
@@ -25,7 +25,7 @@ describe('select:', () => {
   })
 
   test('model selector with no args should return correct value', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'count',
@@ -39,7 +39,7 @@ describe('select:', () => {
   })
 
   test('model selector with 1 arg should return correct value', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'price',
@@ -53,7 +53,7 @@ describe('select:', () => {
   })
 
   test('model selector with multiple args should return correct value', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'todos',
@@ -85,7 +85,7 @@ describe('select:', () => {
   })
 
   test('two selectors', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'price',
@@ -101,7 +101,7 @@ describe('select:', () => {
   })
 
   test('selector within a selector', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'price',
@@ -119,7 +119,7 @@ describe('select:', () => {
 
 describe('select (using reselect):', () => {
   test('reselect.createSelector can be used in place of a normal selector - simple example', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'count',
@@ -138,7 +138,7 @@ describe('select (using reselect):', () => {
   })
 
   test('reselect.createSelector can be used in place of a normal selector - complicated example', () => {
-    init()
+    init({ view: () => {} })
 
     const initialState = {
       taxPercent: 8,
@@ -180,7 +180,7 @@ describe('select (using reselect):', () => {
   })
 
   test('reselect.createSelector can take args', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'count',

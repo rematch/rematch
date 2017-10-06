@@ -7,7 +7,7 @@ beforeEach(() => {
 
 describe('action:', () => {
   test('should dispatch an action', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'count',
@@ -25,7 +25,7 @@ describe('action:', () => {
   })
 
   test('should dispatch multiple actions', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'count',
@@ -44,7 +44,7 @@ describe('action:', () => {
   })
 
   test('should handle multiple models', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'a',
@@ -72,7 +72,7 @@ describe('action:', () => {
   })
 
   test('should dispatch an action with payload as 2nd argument', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'count',

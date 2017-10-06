@@ -3,7 +3,7 @@ import { validateModel } from './validate'
 import { mergeReducers, createReducers } from './reducers'
 import { createActions } from './action'
 import { createSelectors } from './select'
-import { updateStore } from './store'
+import { updateStore, _store } from './store'
 
 /**
  * model
@@ -11,6 +11,8 @@ import { updateStore } from './store'
 export default (model: $model): void => {
   // validate model options
   validateModel(model)
+
+  if (!_store) throw new Error('rematch.init must be called before creating a model')
 
   updateStore(
     mergeReducers({

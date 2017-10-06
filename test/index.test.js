@@ -8,12 +8,12 @@ beforeEach(() => {
 
 describe('init:', () => {
   test('no params should create store with state `{}`', () => {
-    init()
+    init({ view: () => {} })
 
     expect(_store.getState()).toEqual({})
   })
   test('init() & one model of state type `string`', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'app',
@@ -26,7 +26,7 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `number`', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'count',
@@ -39,7 +39,7 @@ describe('init:', () => {
   })
 
   test('init() & one model of state is 0', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'count',
@@ -52,7 +52,7 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `object`', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'todos',
@@ -74,7 +74,7 @@ describe('init:', () => {
     })
   })
   test('init() & two models', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'app',
@@ -93,7 +93,7 @@ describe('init:', () => {
   })
 
   test('init() & three models', () => {
-    init()
+    init({ view: () => {} })
 
     model({
       name: 'app',
