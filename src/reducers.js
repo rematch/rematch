@@ -7,7 +7,7 @@ export const initReducers = () : void => {
   reducers = {}
 }
 
-// get reducer for given action type
+// get reducer for given dispatch type
 // pass in (state, payload)
 export const getReducer = (reduce: $reducers, initialState: any = null) => (
   state: any = initialState,

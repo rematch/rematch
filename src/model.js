@@ -1,28 +1,19 @@
 // @flow
 import { validateModel } from './validate'
-import { mergeReducers, createReducers } from './reducers'
-import { createActions } from './action'
-import { createSelectors } from './select'
-import { updateStore, _store } from './store'
+import { createDispatchers } from './dispatch'
+import { createReducersAndUpdateStore } from './store'
+import { createViews } from './view'
+
 
 /**
  * model
  */
 export default (model: $model): void => {
-  // validate model options
   validateModel(model)
 
-  if (!_store) throw new Error('rematch.init must be called before creating a model')
+  createReducersAndUpdateStore(model)
 
-  updateStore(
-    mergeReducers({
-      [model.name]: createReducers(model),
-    })
-  )
+  createDispatchers(model)
 
-  // add actions
-  createActions(model)
-
-  // add selectors
-  createSelectors(model)
+  createViews(model)
 }

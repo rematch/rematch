@@ -1,7 +1,7 @@
 // @flow
 /* eslint no-underscore-dangle: 0 */
 import { createStore as _createStore, applyMiddleware, compose } from 'redux'
-import { mergeReducers, initReducers } from './reducers'
+import { mergeReducers, initReducers, createReducers } from './reducers'
 
 // enable redux devtools
 const composeEnhancers =
@@ -25,13 +25,19 @@ export const createStore = (
   _store = _createStore(rootReducer, initialState, enhancer)
 }
 
-export const updateStore = (nextReducer: $reducer) : void => {
-  _store.replaceReducer(nextReducer)
+export const createReducersAndUpdateStore = (model: $model) : void => {
+  if (!_store) throw new Error('rematch.init must be called before creating a model')
+
+  _store.replaceReducer(
+    mergeReducers({
+      [model.name]: createReducers(model),
+    })
+  )
 }
 
 export const subscribe = (
   select: (state: {}) => any,
-  onChange: (value: any) => void
+  onChange: (value: any) => void,
 ): (() => void) => {
   let currentState
 

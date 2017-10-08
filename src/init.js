@@ -1,16 +1,15 @@
 // @flow
 import { validateConfig } from './validate'
 import { createStore } from './store'
-import { registerConnect } from './connect'
+import { registerViewImplementation } from './view'
 
 /**
  * init
  */
 export default (config: $config): void => {
-  // validate config options
   validateConfig(config)
 
   createStore(config.initialState, config.middleware, config.extraReducers)
 
-  registerConnect(config.view)
+  registerViewImplementation(config.view)
 }

@@ -1,13 +1,13 @@
-import { model, init, action } from '../src/index'
+import { model, init, dispatch } from '../src/index'
 import { _store } from '../src/store'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
-describe('action:', () => {
+describe('dispatch:', () => {
   test('should dispatch an action', () => {
-    init({ view: () => {} })
+    init({ view: () => () => {} })
 
     model({
       name: 'count',
@@ -17,7 +17,7 @@ describe('action:', () => {
       },
     })
 
-    action.count.add()
+    dispatch.count.add()
 
     expect(_store.getState()).toEqual({
       count: 1,
@@ -25,7 +25,7 @@ describe('action:', () => {
   })
 
   test('should dispatch multiple actions', () => {
-    init({ view: () => {} })
+    init({ view: () => () => {} })
 
     model({
       name: 'count',
@@ -35,8 +35,8 @@ describe('action:', () => {
       },
     })
 
-    action.count.add()
-    action.count.add()
+    dispatch.count.add()
+    dispatch.count.add()
 
     expect(_store.getState()).toEqual({
       count: 2,
@@ -44,7 +44,7 @@ describe('action:', () => {
   })
 
   test('should handle multiple models', () => {
-    init({ view: () => {} })
+    init({ view: () => () => {} })
 
     model({
       name: 'a',
@@ -62,8 +62,8 @@ describe('action:', () => {
       },
     })
 
-    action.a.add()
-    action.b.add()
+    dispatch.a.add()
+    dispatch.b.add()
 
     expect(_store.getState()).toEqual({
       a: 43,
@@ -72,7 +72,7 @@ describe('action:', () => {
   })
 
   test('should dispatch an action with payload as 2nd argument', () => {
-    init({ view: () => {} })
+    init({ view: () => () => {} })
 
     model({
       name: 'count',
@@ -82,7 +82,7 @@ describe('action:', () => {
       },
     })
 
-    action.count.upBy({ amount: 5 })
+    dispatch.count.upBy({ amount: 5 })
 
     expect(_store.getState()).toEqual({
       count: 10,
