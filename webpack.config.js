@@ -2,11 +2,10 @@
 
 const webpack = require('webpack')
 const path = require('path')
-const env = require('yargs').argv.env // use --env with webpack 2
+const env = require('yargs').argv.env
+const libraryName = require('./package.json').name
 
 const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin
-
-const libraryName = 'rematch'
 
 const plugins = []
 let outputFile

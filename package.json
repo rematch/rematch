@@ -1,6 +1,6 @@
 {
-  "name": "rematch",
-  "version": "0.1.0",
+  "name": "rematch-x",
+  "version": "0.0.0-alpha.0",
   "description": "",
   "homepage": "https://github.com/rematch/rematch#readme",
   "bugs": {
@@ -13,7 +13,7 @@
     "package.json",
     "README.md"
   ],
-  "main": "lib/index.js",
+  "main": "lib/rematch-x.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
