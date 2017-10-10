@@ -100,7 +100,7 @@ describe('dispatch:', () => {
       },
     })
 
-    action.count.doNothing()
+    dispatch.count.doNothing()
 
     expect(_store.getState()).toEqual({
       count: 0,
@@ -118,7 +118,7 @@ describe('dispatch:', () => {
       },
     })
 
-    action.count.incrementBy(5)
+    dispatch.count.incrementBy(5)
 
     expect(_store.getState()).toEqual({
       count: 6,

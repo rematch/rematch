@@ -6,10 +6,12 @@ import { registerViewImplementation } from './view'
 /**
  * init
  */
-export default (config: $config): void => {
+export default (config: $config = {}): void => {
   validateConfig(config)
 
   createStore(config.initialState, config.middleware, config.extraReducers)
 
-  registerViewImplementation(config.view)
+  if (config.view) {
+    registerViewImplementation(config.view)
+  }
 }

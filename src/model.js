@@ -15,5 +15,7 @@ export default (model: $model): void => {
 
   createDispatchers(model)
 
+  // NOTE: not sure about this
+  // NOTE: should only be called if a view is used
   createViews(model)
 }

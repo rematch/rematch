@@ -1,5 +1,5 @@
 // @flow
-import { action, createAction } from './action'
+import { dispatch, createDispatcher } from './dispatch'
 
 export const effect = {} // eslint-disable-line
 
@@ -7,11 +7,11 @@ export const effect = {} // eslint-disable-line
  * effect
  */
 export const createEffects = (model: $model) => {
-  if (!action[model.name]) {
-    action[model.name] = {}
+  if (!dispatch[model.name]) {
+    dispatch[model.name] = {}
   }
   Object.keys(model.effect || {}).forEach((actionName: string) => {
-    if (action[model.name][actionName]) {
+    if (dispatch[model.name][actionName]) {
       throw new Error(
         `action ${model.name}/${actionName} already exists. Cannot create effect`
       )
@@ -19,6 +19,6 @@ export const createEffects = (model: $model) => {
     // add effect to effect
     effect[`${model.name}/${actionName}`] = model.effect[actionName]
     // add effect to action
-    action[model.name][actionName] = createAction(model.name, actionName)
+    dispatch[model.name][actionName] = createDispatcher(model.name, actionName)
   })
 }
