@@ -8,7 +8,6 @@ import { registerViewImplementation } from './view'
  */
 export default (config: $config = {}): void => {
   validateConfig(config)
-
   createStore(config.initialState, config.middleware, config.extraReducers)
 
   if (config.view) {

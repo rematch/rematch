@@ -1,8 +1,9 @@
 // @flow
 import { validateModel } from './validate'
 import { createDispatchers } from './dispatch'
+import { createEffects } from './effect'
 import { createReducersAndUpdateStore } from './store'
-import { createViews } from './view'
+// import { createViews } from './view'
 
 
 /**
@@ -14,8 +15,9 @@ export default (model: $model): void => {
   createReducersAndUpdateStore(model)
 
   createDispatchers(model)
+  createEffects(model)
 
   // NOTE: not sure about this
   // NOTE: should only be called if a view is used
-  createViews(model)
+  // createViews(model)
 }

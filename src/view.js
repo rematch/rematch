@@ -15,8 +15,7 @@ export const createViews = (model: $model) => {
 
   Object.keys(selectors || {}).forEach((selectorName: string) => {
     const selector = selectors[selectorName] // eslint-disable-line
-    modelView[selectorName] =
-      connectView(selector, modelName, selectorName)
+    modelView[selectorName] = connectView(selector, modelName, selectorName)
   })
 
   view[modelName] = modelView

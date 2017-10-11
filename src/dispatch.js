@@ -5,7 +5,7 @@
  */
 import { _store } from './store'
 
-export let dispatch = {} // eslint-disable-line
+export let dispatch= {} // eslint-disable-line
 
 export const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
   const action = {
