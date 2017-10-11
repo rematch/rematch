@@ -1,0 +1,10 @@
+# node
+node_modules
+npm-debug.*
+
+# build
+lib
+
+# editor
+.vscode
+.idea/

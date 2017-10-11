@@ -1,0 +1,32 @@
+{
+  "name": "rematch-react",
+  "version": "0.0.0-alpha.2",
+  "description": "React view plugin for Rematch",
+  "license": "MIT",
+  "author": "Blair Bodnar",
+  "files": [
+    "lib",
+    "package.json",
+    "README.md"
+  ],
+  "main": "lib/rematch-react.min.js",
+  "repository": "https://github.com/rematch/rematch-react.git",
+  "scripts": {
+    "build": "webpack --env build",
+    "dev": "webpack --progress --colors --watch --env dev"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.0",
+    "react": "^16.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-preset-env": "1.6.0",
+    "babel-preset-react": "6.24.1",
+    "webpack": "3.6.0",
+    "yargs": "9.0.1"
+  }
+}
