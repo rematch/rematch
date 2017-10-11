@@ -5,7 +5,6 @@ export const createMiddleware = () => middlewareAPI => {
 
   return next => action => {
     let result = next(action)
-    console.log(action)
 
     if (action.type in effect) {
       result = effect[action.type](action.payload, getState)
