@@ -95,12 +95,12 @@ describe('dispatch:', () => {
     model({
       name: 'count',
       state: 0,
-      effect: {
+      reduce: {
         doNothing: state => state,
       },
     })
 
-    action.count.doNothing()
+    dispatch.count.doNothing()
 
     expect(_store.getState()).toEqual({
       count: 0,
@@ -113,12 +113,15 @@ describe('dispatch:', () => {
     model({
       name: 'count',
       state: 1,
-      effect: {
-        incrementBy: (state, payload) => state + payload,
+      reduce: {
+        incrementBy: (state, payload) => {
+          console.log('state/payload', state, payload)
+          return state + payload
+        },
       },
     })
 
-    action.count.incrementBy(5)
+    dispatch.count.incrementBy(5)
 
     expect(_store.getState()).toEqual({
       count: 6,

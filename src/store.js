@@ -2,6 +2,7 @@
 /* eslint no-underscore-dangle: 0 */
 import { createStore as _createStore, applyMiddleware, compose } from 'redux'
 import { mergeReducers, initReducers, createReducers } from './reducers'
+import { createMiddleware } from './middleware'
 
 // enable redux devtools
 const composeEnhancers =
@@ -18,7 +19,8 @@ export const createStore = (
   extraReducers: $reducers = {},
 ): void => {
   initReducers()
-  const middlewares = applyMiddleware(...middleware)
+  const rematchMiddleware = createMiddleware()
+  const middlewares = applyMiddleware(...middleware, rematchMiddleware)
   const hasExtraReducers = Object.keys(extraReducers).length > 0
   const rootReducer = hasExtraReducers ? mergeReducers(extraReducers) : state => state
   const enhancer = composeEnhancers(middlewares)
