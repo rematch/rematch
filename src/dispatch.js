@@ -7,11 +7,12 @@ import { _store } from './store'
 
 export let dispatch = {} // eslint-disable-line
 
-export const createDispatcher = (modelName: string, reducerName: string) => payload => {
-  _store.dispatch({
+export const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
+  const action = {
     type: `${modelName}/${reducerName}`,
-    payload,
-  })
+    ...(payload ? { payload } : {})
+  }
+  _store.dispatch(action)
 }
 
 export const createDispatchers = (model: $model) => {
