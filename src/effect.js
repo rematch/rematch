@@ -7,7 +7,7 @@ export let effect = {} // eslint-disable-line
  * effect
  */
 export const createEffects = (model: $model) => {
-  if (!dispatch[model.name]) { 
+  if (!dispatch[model.name]) {
     dispatch[model.name] = {}
   }
   Object.keys(model.effect || {}).forEach((actionName: string) => {

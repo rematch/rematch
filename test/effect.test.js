@@ -90,7 +90,7 @@ describe('effect:', () => {
       name: 'example',
       state: 3,
       reduce: {
-        addBy: (state, { payload }) => state + payload.value,
+        addBy: (state, payload) => state + payload.value,
       },
       effect: {
         asyncAddBy: async (value) => {
