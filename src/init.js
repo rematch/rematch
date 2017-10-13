@@ -1,7 +1,7 @@
 // @flow
 import { validateConfig } from './validate'
 import { createStore } from './store'
-import { registerViewImplementation } from './view'
+import { registerViewImplementation } from './select'
 
 /**
  * init

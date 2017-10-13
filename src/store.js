@@ -10,7 +10,7 @@ const composeEnhancers =
    ? global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
    : compose
 
-export let _store // eslint-disable-line
+export let store = null // eslint-disable-line
 
 // create store
 export const createStore = (
@@ -24,13 +24,13 @@ export const createStore = (
   const hasExtraReducers = Object.keys(extraReducers).length > 0
   const rootReducer = hasExtraReducers ? mergeReducers(extraReducers) : state => state
   const enhancer = composeEnhancers(middlewares)
-  _store = _createStore(rootReducer, initialState, enhancer)
+  store = _createStore(rootReducer, initialState, enhancer)
 }
 
 export const createReducersAndUpdateStore = (model: $model) : void => {
-  if (!_store) throw new Error('rematch.init must be called before creating a model')
+  if (!store) throw new Error('rematch.init must be called before creating a model')
 
-  _store.replaceReducer(
+  store.replaceReducer(
     mergeReducers({
       [model.name]: createReducers(model),
     })
@@ -44,14 +44,14 @@ export const subscribe = (
   let currentState
 
   const handleChange = () => {
-    const nextState = select(_store.getState())
+    const nextState = select(store.getState())
     if (nextState !== currentState) {
       currentState = nextState
       onChange(currentState)
     }
   }
 
-  const unsubscribe = _store.subscribe(handleChange)
+  const unsubscribe = store.subscribe(handleChange)
   handleChange()
   return unsubscribe
 }

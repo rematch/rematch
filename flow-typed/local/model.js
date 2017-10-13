@@ -1,10 +1,10 @@
 declare type $model = {
  name: string,
  state: any,
- reduce?: {
+ reducers?: {
   [name: string]: (state: any, payload: any) => any,
  },
- effect?: {
+ effects?: {
   [name: string]: (payload: any) => void,
  },
  select?: {

@@ -1,5 +1,5 @@
 import { model, init, dispatch } from '../src/index'
-import { _store } from '../src/store'
+import { store } from '../src/store'
 
 beforeEach(() => {
   jest.resetModules()
@@ -12,14 +12,14 @@ describe('dispatch:', () => {
     model({
       name: 'count',
       state: 0,
-      reduce: {
+      reducers: {
         add: state => state + 1,
       },
     })
 
     dispatch.count.add()
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       count: 1,
     })
   })
@@ -30,7 +30,7 @@ describe('dispatch:', () => {
     model({
       name: 'count',
       state: 0,
-      reduce: {
+      reducers: {
         add: state => state + 1,
       },
     })
@@ -38,7 +38,7 @@ describe('dispatch:', () => {
     dispatch.count.add()
     dispatch.count.add()
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       count: 2,
     })
   })
@@ -49,7 +49,7 @@ describe('dispatch:', () => {
     model({
       name: 'a',
       state: 42,
-      reduce: {
+      reducers: {
         add: state => state + 1,
       },
     })
@@ -57,7 +57,7 @@ describe('dispatch:', () => {
     model({
       name: 'b',
       state: 0,
-      reduce: {
+      reducers: {
         add: state => state + 1,
       },
     })
@@ -65,7 +65,7 @@ describe('dispatch:', () => {
     dispatch.a.add()
     dispatch.b.add()
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       a: 43,
       b: 1,
     })
@@ -77,14 +77,14 @@ describe('dispatch:', () => {
     model({
       name: 'count',
       state: 0,
-      reduce: {
+      reducers: {
         add: state => state + 1,
       },
     })
 
-    _store.dispatch({ type: 'count/add' })
+    store.dispatch({ type: 'count/add' })
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       count: 1,
     })
   })
@@ -95,14 +95,14 @@ describe('dispatch:', () => {
     model({
       name: 'count',
       state: 0,
-      reduce: {
+      reducers: {
         doNothing: state => state,
       },
     })
 
     dispatch.count.doNothing()
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       count: 0,
     })
   })
@@ -113,7 +113,7 @@ describe('dispatch:', () => {
     model({
       name: 'count',
       state: 1,
-      reduce: {
+      reducers: {
         incrementBy: (state, payload) => {
           console.log('state/payload', state, payload)
           return state + payload
@@ -123,7 +123,7 @@ describe('dispatch:', () => {
 
     dispatch.count.incrementBy(5)
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       count: 6,
     })
   })
