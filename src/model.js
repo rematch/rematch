@@ -1,9 +1,9 @@
 // @flow
 import { validateModel } from './validate'
 import { createDispatchers } from './dispatch'
-import { createEffects } from './effect'
+import { createEffects } from './effects'
 import { createReducersAndUpdateStore } from './store'
-// import { createViews } from './view'
+// import { createViews } from './select'
 
 
 /**
@@ -18,6 +18,6 @@ export default (model: $model): void => {
   createEffects(model)
 
   // NOTE: not sure about this
-  // NOTE: should only be called if a view is used
+  // NOTE: should only be called if a select is used
   // createViews(model)
 }

@@ -1,19 +1,19 @@
 import { model, init, dispatch } from '../src/index'
-import { effect } from '../src/effect'
-import { _store } from '../src/store'
+import { effects } from '../src/effects'
+import { store } from '../src/store'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
-describe('effect:', () => {
+describe('effects:', () => {
   test('should create an action', () => {
     init()
 
     model({
       name: 'count',
       state: 0,
-      effect: {
+      effects: {
         add: () => 1,
       },
     })
@@ -21,7 +21,7 @@ describe('effect:', () => {
     expect(typeof dispatch.count.add).toBe('function')
   })
 
-  test('should create an effect', () => {
+  test('should create an effects', () => {
     init()
 
     const add = () => 1
@@ -29,12 +29,12 @@ describe('effect:', () => {
     model({
       name: 'example',
       state: 0,
-      effect: {
+      effects: {
         add,
       },
     })
 
-    expect(effect['example/add']).toEqual(add)
+    expect(effects['example/add']).toEqual(add)
   })
 
   test('should be able to trigger another action', async () => {
@@ -43,10 +43,10 @@ describe('effect:', () => {
     model({
       name: 'example',
       state: 0,
-      reduce: {
+      reducers: {
         addOne: (state) => state + 1,
       },
-      effect: {
+      effects: {
         asyncAddOne: async () => {
           await dispatch.example.addOne()
         }
@@ -55,7 +55,7 @@ describe('effect:', () => {
 
     await dispatch.example.asyncAddOne()
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 1,
     })
   })
@@ -66,10 +66,10 @@ describe('effect:', () => {
     model({
       name: 'example',
       state: 2,
-      reduce: {
+      reducers: {
         addBy: (state, payload) => state + payload,
       },
-      effect: {
+      effects: {
         asyncAddBy: async (value) => {
           await dispatch.example.addBy(value)
         }
@@ -78,7 +78,7 @@ describe('effect:', () => {
 
     await dispatch.example.asyncAddBy(5)
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 7,
     })
   })
@@ -89,10 +89,10 @@ describe('effect:', () => {
     model({
       name: 'example',
       state: 3,
-      reduce: {
+      reducers: {
         addBy: (state, payload) => state + payload.value,
       },
-      effect: {
+      effects: {
         asyncAddBy: async (value) => {
           await dispatch.example.addBy(value)
         }
@@ -101,7 +101,7 @@ describe('effect:', () => {
 
     await dispatch.example.asyncAddBy({ value: 6 })
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 9,
     })
   })
@@ -112,10 +112,10 @@ describe('effect:', () => {
     model({
       name: 'example',
       state: 0,
-      reduce: {
+      reducers: {
         addOne: (state) => state + 1,
       },
-      effect: {
+      effects: {
         asyncAddOne: async () => {
           await dispatch.example.addOne()
         },
@@ -127,7 +127,7 @@ describe('effect:', () => {
 
     await dispatch.example.asyncCallAddOne()
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 1,
     })
   })
@@ -138,10 +138,10 @@ describe('effect:', () => {
     model({
       name: 'example',
       state: 0,
-      reduce: {
+      reducers: {
         addBy: (state, payload) => state + payload,
       },
-      effect: {
+      effects: {
         asyncAddOne: async () => {
           await dispatch.example.addBy(1)
         },
@@ -158,7 +158,7 @@ describe('effect:', () => {
 
     await dispatch.example.asyncAddSome()
 
-    expect(_store.getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 5,
     })
   })

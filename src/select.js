@@ -7,7 +7,7 @@ export const registerViewImplementation = (viewImplementation: any) => {
   connectView = viewImplementation(subscribe)
 }
 
-export const view = {}
+export const select = {}
 
 export const createViews = (model: $model) => {
   const { name: modelName, select: selectors } = model
@@ -18,5 +18,5 @@ export const createViews = (model: $model) => {
     modelView[selectorName] = connectView(selector, modelName, selectorName)
   })
 
-  view[modelName] = modelView
+  select[modelName] = modelView
 }
