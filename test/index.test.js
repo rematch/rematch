@@ -1,6 +1,5 @@
 // Tests for consumer API
-import { model, init } from '../src/index'
-import { store } from '../src/store'
+import { model, init, getStore } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
@@ -10,7 +9,7 @@ describe('init:', () => {
   test('no params should create store with state `{}`', () => {
     init({ view: () => () => {} })
 
-    expect(store.getState()).toEqual({})
+    expect(getStore().getState()).toEqual({})
   })
   test('init() & one model of state type `string`', () => {
     init({ view: () => () => {} })
@@ -20,7 +19,7 @@ describe('init:', () => {
       state: 'Hello, world',
     })
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       app: 'Hello, world',
     })
   })
@@ -33,7 +32,7 @@ describe('init:', () => {
       state: 99,
     })
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       count: 99,
     })
   })
@@ -46,7 +45,7 @@ describe('init:', () => {
       state: 0,
     })
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       count: 0,
     })
   })
@@ -64,7 +63,7 @@ describe('init:', () => {
       },
     })
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       todos: {
         abc: {
           text: 'PRty down',
@@ -86,7 +85,7 @@ describe('init:', () => {
       state: 99,
     })
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       app: 'Hello, world',
       count: 99,
     })
@@ -115,7 +114,7 @@ describe('init:', () => {
       },
     })
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       app: 'Hello, world',
       count: 99,
       todos: {

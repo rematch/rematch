@@ -3,7 +3,7 @@
 /**
  * dispatch
  */
-import { store } from './store'
+import { getStore } from './store'
 
 export let dispatch = {} // eslint-disable-line
 
@@ -12,7 +12,7 @@ export const createDispatcher = (modelName: string, reducerName: string) => (pay
     type: `${modelName}/${reducerName}`,
     ...(payload ? { payload } : {})
   }
-  store.dispatch(action)
+  getStore().dispatch(action)
 }
 
 export const createDispatchers = (model: $model) => {
