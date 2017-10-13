@@ -12,6 +12,8 @@ const composeEnhancers =
 
 export let store = null // eslint-disable-line
 
+export const getStore = () => store
+
 // create store
 export const createStore = (
   initialState: any = {},

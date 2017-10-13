@@ -1,6 +1,5 @@
-import { model, init, dispatch } from '../src/index'
+import { model, init, dispatch, getStore } from '../src/index'
 import { effects } from '../src/effects'
-import { store } from '../src/store'
 
 beforeEach(() => {
   jest.resetModules()
@@ -55,7 +54,7 @@ describe('effects:', () => {
 
     await dispatch.example.asyncAddOne()
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       example: 1,
     })
   })
@@ -78,7 +77,7 @@ describe('effects:', () => {
 
     await dispatch.example.asyncAddBy(5)
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       example: 7,
     })
   })
@@ -101,7 +100,7 @@ describe('effects:', () => {
 
     await dispatch.example.asyncAddBy({ value: 6 })
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       example: 9,
     })
   })
@@ -127,7 +126,7 @@ describe('effects:', () => {
 
     await dispatch.example.asyncCallAddOne()
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       example: 1,
     })
   })
@@ -158,7 +157,7 @@ describe('effects:', () => {
 
     await dispatch.example.asyncAddSome()
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       example: 5,
     })
   })

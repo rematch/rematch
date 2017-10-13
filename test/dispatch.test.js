@@ -1,5 +1,4 @@
-import { model, init, dispatch } from '../src/index'
-import { store } from '../src/store'
+import { model, init, dispatch, getStore } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
@@ -19,7 +18,7 @@ describe('dispatch:', () => {
 
     dispatch.count.add()
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       count: 1,
     })
   })
@@ -38,7 +37,7 @@ describe('dispatch:', () => {
     dispatch.count.add()
     dispatch.count.add()
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       count: 2,
     })
   })
@@ -65,7 +64,7 @@ describe('dispatch:', () => {
     dispatch.a.add()
     dispatch.b.add()
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       a: 43,
       b: 1,
     })
@@ -82,9 +81,9 @@ describe('dispatch:', () => {
       },
     })
 
-    store.dispatch({ type: 'count/add' })
+    getStore().dispatch({ type: 'count/add' })
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       count: 1,
     })
   })
@@ -102,7 +101,7 @@ describe('dispatch:', () => {
 
     dispatch.count.doNothing()
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       count: 0,
     })
   })
@@ -123,7 +122,7 @@ describe('dispatch:', () => {
 
     dispatch.count.incrementBy(5)
 
-    expect(store.getState()).toEqual({
+    expect(getStore().getState()).toEqual({
       count: 6,
     })
   })
