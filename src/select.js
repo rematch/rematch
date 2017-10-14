@@ -9,14 +9,6 @@ export const registerViewImplementation = (viewImplementation: any) => {
 
 export const select = {}
 
-export const createViews = (model: $model) => {
-  const { name: modelName, select: selectors } = model
-  const modelView = connectView(state => state, modelName)
-
-  Object.keys(selectors || {}).forEach((selectorName: string) => {
-    const selector = selectors[selectorName] // eslint-disable-line
-    modelView[selectorName] = connectView(selector, modelName, selectorName)
-  })
-
-  select[modelName] = modelView
+export const createSelectors = (model: $model) => {
+  select[model.name] = model.selectors
 }

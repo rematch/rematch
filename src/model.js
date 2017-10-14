@@ -3,7 +3,7 @@ import { validateModel } from './validate'
 import { createDispatchers } from './dispatch'
 import { createEffects } from './effects'
 import { createReducersAndUpdateStore } from './store'
-// import { createViews } from './select'
+import { createSelectors } from './select'
 
 
 /**
@@ -16,8 +16,5 @@ export default (model: $model): void => {
 
   createDispatchers(model)
   createEffects(model)
-
-  // NOTE: not sure about this
-  // NOTE: should only be called if a select is used
-  // createViews(model)
+  createSelectors(model)
 }
