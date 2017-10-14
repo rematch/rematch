@@ -25,7 +25,7 @@ describe('createSelectors:', () => {
 
     expect(select).toHaveProperty('app')
     expect(select).toHaveProperty('app.selectorWithNoArg')
-    expect(select.app.selectorWithNoArg(1)).toEqual(1)
-    expect(select.app.selectorWithArg(1, 1)).toEqual(2)
+    expect(select.app.selectorWithNoArg({ app: 1 })).toEqual(1)
+    expect(select.app.selectorWithArg({ app: 1 }, 1)).toEqual(2)
   })
 })
