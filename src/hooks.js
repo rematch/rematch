@@ -1,5 +1,5 @@
 // @flow
-const hooks = {}
+const hooks = new Map()
 
 export const createHook = (matcher: string, onAction: () => void) => {
   if (typeof matcher !== 'string') {
@@ -8,7 +8,7 @@ export const createHook = (matcher: string, onAction: () => void) => {
   if (typeof onAction !== 'function') {
     throw new Error('hook onAction must be a function')
   }
-  hooks[matcher] = onAction
+  hooks.set(matcher, onAction)
 }
 
 export const createHooks = (model: $model): void => {
@@ -23,13 +23,13 @@ export const createHooks = (model: $model): void => {
 }
 
 export const removeHook = async (matcher: string) => {
-  await delete hooks[matcher]
+  await hooks.delete(matcher)
 }
 
 export const matchHooks = (action: $action): void => {
   const { type } = action
   // exact match
-  if (hooks[type]) {
-    hooks[type](action)
+  if (hooks.has(type)) {
+    hooks.get(type)(action)
   }
 }
