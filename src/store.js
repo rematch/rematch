@@ -10,7 +10,7 @@ const composeEnhancers =
    ? global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
    : compose
 
-export let store = null // eslint-disable-line
+let store = null // eslint-disable-line
 
 export const getStore = () => store
 

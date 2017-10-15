@@ -130,4 +130,35 @@ describe('effects:', () => {
       example: 1,
     })
   })
+
+  xtest('should be able to trigger another action w/ multiple actions', async () => {
+    init()
+
+    model({
+      name: 'example',
+      state: 0,
+      reducers: {
+        addBy: (state, payload) => state + payload,
+      },
+      effects: {
+        asyncAddOne: async () => {
+          await dispatch.example.addBy(1)
+        },
+        asyncAddThree: async () => {
+          await dispatch.example.addBy(3)
+        },
+        asyncAddSome: async () => {
+          await dispatch.example.asyncAddThree()
+          await dispatch.example.asyncAddOne()
+          await dispatch.example.asyncAddOne()
+        }
+      }
+    })
+
+    await dispatch.example.asyncAddSome()
+
+    expect(getStore().getState()).toEqual({
+      example: 5,
+    })
+  })
 })
