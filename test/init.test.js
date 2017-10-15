@@ -11,6 +11,7 @@ describe('init:', () => {
 
     expect(getStore().getState()).toEqual({})
   })
+  
   test('init() & one model of state type `string`', () => {
     init()
 

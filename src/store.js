@@ -5,6 +5,7 @@ import { mergeReducers, initReducers, createReducers } from './reducers'
 import { createMiddleware } from './middleware'
 
 // enable redux devtools
+/* istanbul ignore next */
 const composeEnhancers =
  process.env.NODE_ENV !== 'production' && global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
    ? global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -30,8 +31,6 @@ export const createStore = (
 }
 
 export const createReducersAndUpdateStore = (model: $model) : void => {
-  if (!store) throw new Error('rematch.init must be called before creating a model')
-
   store.replaceReducer(
     mergeReducers({
       [model.name]: createReducers(model),

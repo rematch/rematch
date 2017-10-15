@@ -8,3 +8,6 @@ lib
 # editor
 .vscode
 .idea
+
+# tests
+.coverage
