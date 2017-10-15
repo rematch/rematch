@@ -131,7 +131,7 @@ describe('effects:', () => {
     })
   })
 
-  test('should be able to trigger another action w/ multiple actions', async () => {
+  xtest('should be able to trigger another action w/ multiple actions', async () => {
     init()
 
     model({
