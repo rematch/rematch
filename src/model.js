@@ -2,6 +2,7 @@
 import { validateModel } from './validate'
 import { createDispatchers } from './dispatch'
 import { createEffects } from './effects'
+import { createHooks } from './hooks'
 import { createReducersAndUpdateStore } from './store'
 import { createSelectors } from './select'
 
@@ -14,5 +15,6 @@ export default (model: $model): void => {
   createReducersAndUpdateStore(model)
   createDispatchers(model)
   createEffects(model)
+  createHooks(model)
   createSelectors(model)
 }

@@ -1,4 +1,5 @@
 import { effects } from './effects'
+import { matchHooks } from './hooks'
 
 export const createMiddleware = () => middlewareAPI => {
   const getState = middlewareAPI.getState
@@ -9,6 +10,8 @@ export const createMiddleware = () => middlewareAPI => {
     if (action.type in effects) {
       result = effects[action.type](action.payload, getState)
     }
+
+    matchHooks(action)
 
     return result
   }
