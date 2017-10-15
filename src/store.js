@@ -38,22 +38,3 @@ export const createReducersAndUpdateStore = (model: $model) : void => {
     })
   )
 }
-
-export const subscribe = (
-  select: (state: {}) => any,
-  onChange: (value: any) => void,
-): (() => void) => {
-  let currentState
-
-  const handleChange = () => {
-    const nextState = select(store.getState())
-    if (nextState !== currentState) {
-      currentState = nextState
-      onChange(currentState)
-    }
-  }
-
-  const unsubscribe = store.subscribe(handleChange)
-  handleChange()
-  return unsubscribe
-}

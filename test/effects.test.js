@@ -107,7 +107,7 @@ describe('effects:', () => {
 
   test('should be able to trigger another action w/ another action', async () => {
     init()
-  
+
     model({
       name: 'example',
       state: 0,

@@ -1,22 +1,12 @@
 // @flow
-import { subscribe } from './store'
-
-let connectView
-
-export const registerViewImplementation = (viewImplementation: any) => {
-  connectView = viewImplementation(subscribe)
-}
-
 export const select = {}
 
-export const createViews = (model: $model) => {
-  const { name: modelName, select: selectors } = model
-  const modelView = connectView(state => state, modelName)
+export const createSelectors = (model: $model) => {
+  select[model.name] = {}
 
-  Object.keys(selectors || {}).forEach((selectorName: string) => {
-    const selector = selectors[selectorName] // eslint-disable-line
-    modelView[selectorName] = connectView(selector, modelName, selectorName)
+  Object.keys(model.selectors || {}).forEach((selectorName: string) => {
+    select[model.name][selectorName] = (state: any, ...args) =>
+      model.selectors[selectorName](state[model.name], ...args)
   })
-
-  select[modelName] = modelView
 }
+

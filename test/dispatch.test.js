@@ -6,7 +6,7 @@ beforeEach(() => {
 
 describe('dispatch:', () => {
   test('should dispatch an action', () => {
-    init({ view: () => () => {} })
+    init()
 
     model({
       name: 'count',
@@ -24,7 +24,7 @@ describe('dispatch:', () => {
   })
 
   test('should dispatch multiple actions', () => {
-    init({ view: () => () => {} })
+    init()
 
     model({
       name: 'count',
@@ -43,7 +43,7 @@ describe('dispatch:', () => {
   })
 
   test('should handle multiple models', () => {
-    init({ view: () => () => {} })
+    init()
 
     model({
       name: 'a',

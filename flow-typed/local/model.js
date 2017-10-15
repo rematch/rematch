@@ -7,8 +7,8 @@ declare type $model = {
  effects?: {
   [name: string]: (payload: any) => void,
  },
- select?: {
-  [name: string]: (state: any) => any,
+ selectors?: {
+  [name: string]: (state: any, arg?: any) => any,
  },
  hook?: {
   [actionMatch: string]: (action: Object) => void,
