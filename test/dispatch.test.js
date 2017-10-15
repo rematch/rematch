@@ -130,10 +130,7 @@ describe('dispatch:', () => {
       name: 'count',
       state: 1,
       reducers: {
-        incrementBy: (state, payload) => {
-          console.log('state/payload', state, payload)
-          return state + payload
-        },
+        incrementBy: (state, payload) => state + payload,
       },
     })
 

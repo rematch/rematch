@@ -8,6 +8,7 @@ type $validation = Array<boolean | string>
  * takes an array of arrays of validations and
  * throws if an error occurs
  */
+/* istanbul ignore next */
 const validate = (validations: Array<$validation>): void => {
   validations.forEach((validation: $validation) => {
     const [condition: boolean, errorMessage: string] = validation
@@ -19,10 +20,6 @@ const validate = (validations: Array<$validation>): void => {
 
 export const validateConfig = (config: $config) =>
   validate([
-    [
-      !!config.router && typeof config.router !== 'object',
-      'init config.router must be an object',
-    ],
     [
       !!config.plugins && !Array.isArray(config.plugins),
       'init config.plugins must be an array',
