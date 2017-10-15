@@ -49,5 +49,17 @@
     "reselect": "^3.0.1",
     "webpack": "^3.6.0",
     "yargs": "^9.0.1"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": ".coverage/",
+    "coverageThreshold": {
+      "global": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    }
   }
 }
