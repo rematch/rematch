@@ -5,6 +5,23 @@ beforeEach(() => {
 })
 
 describe('dispatch:', () => {
+  test('should call dispatch directly', () => {
+    init()
+
+    model({
+      name: 'count',
+      state: 0,
+      reducers: {
+        add: state => state + 1,
+      },
+    })
+
+    dispatch({ type: 'count/add' })
+
+    expect(getStore().getState()).toEqual({
+      count: 1,
+    })
+  })
   test('should dispatch an action', () => {
     init()
 
