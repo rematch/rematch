@@ -42,7 +42,7 @@ describe('plugins:', () => {
         let result = next(action)
 
         if (action.type in pluginExports.effects2) {
-          result = pluginExports.effects2[action.type](action.payload, null)
+          result = pluginExports.effects2[action.type](action.payload, store.getState)
         }
 
         return result
@@ -65,7 +65,7 @@ describe('plugins:', () => {
         increment: s => s + 1
       },
       effects: {
-        asyncIncrement: (payload, getState) => {
+        asyncIncrement: async (payload, getState) => {
           dispatch.count.increment()
         }
       },
