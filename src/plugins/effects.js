@@ -1,7 +1,7 @@
 // TODO assumes there is a dispatch plugin
 export default (pluginExports) => ({
   onInit: () => [{
-    name: 'effects2',
+    name: 'effects',
     val: {}
   }],
   onModel: (model, exports, dispatch) => {
@@ -13,18 +13,18 @@ export default (pluginExports) => ({
       dispatch(action)
     }
 
-    Object.keys(model.effects2 || {}).forEach((effectName: string) => {
-      exports.effects2[`${model.name}/${effectName}`] = model.effects2[effectName] // eslint-disable-line
+    Object.keys(model.effects || {}).forEach((effectName: string) => {
+      exports.effects[`${model.name}/${effectName}`] = model.effects[effectName] // eslint-disable-line
       // add effect to dispatch
-      // is assuming dispatch2 is available already... that the dispatch plugin is in there
-      exports.dispatch2[model.name][effectName] = createDispatcher(model.name, effectName) // eslint-disable-line
+      // is assuming dispatch is available already... that the dispatch plugin is in there
+      exports.dispatch[model.name][effectName] = createDispatcher(model.name, effectName) // eslint-disable-line
     })
   },
   middleware: store => next => action => {
     let result = next(action)
 
-    if (action.type in pluginExports.effects2) {
-      result = pluginExports.effects2[action.type](action.payload, store.getState)
+    if (action.type in pluginExports.effects) {
+      result = pluginExports.effects[action.type](action.payload, store.getState)
     }
 
     return result

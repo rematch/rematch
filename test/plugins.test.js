@@ -29,17 +29,17 @@ describe('plugins:', () => {
       reducers: {
         increment: s => s + 1
       },
-      effects2: {
+      effects: {
         asyncIncrement: async (payload, getState) => {
-          pluginExports.dispatch2.countA.increment()
+          pluginExports.dispatch.countA.increment()
         }
       },
       selectors: {
         double: s => s * 2
       },
-      hooks2: {
+      hooks: {
         'countB/increment': () => {
-          pluginExports.dispatch2.countA.increment()
+          pluginExports.dispatch.countA.increment()
         }
       }
     })
@@ -52,17 +52,17 @@ describe('plugins:', () => {
       },
     })
 
-    pluginExports.dispatch2.countA.asyncIncrement()
-    pluginExports.dispatch2.countB.increment()
+    pluginExports.dispatch.countA.asyncIncrement()
+    pluginExports.dispatch.countB.increment()
 
     const state = getStore().getState()
 
     expect(Object.keys(pluginExports)).toEqual([
-      'dispatch2',
-      'effects2',
+      'dispatch',
+      'effects',
       'select',
-      'hooks2',
-      'patternHooks2'
+      'hooks',
+      'patternHooks'
     ])
     expect(state).toEqual({
       countA: 4,

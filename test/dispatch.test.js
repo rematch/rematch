@@ -36,7 +36,7 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch2.count.add()
+    pluginExports.dispatch.count.add()
 
     expect(getStore().getState()).toEqual({
       count: 1,
@@ -56,8 +56,8 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch2.count.add()
-    pluginExports.dispatch2.count.add()
+    pluginExports.dispatch.count.add()
+    pluginExports.dispatch.count.add()
 
     expect(getStore().getState()).toEqual({
       count: 2,
@@ -85,8 +85,8 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch2.a.add()
-    pluginExports.dispatch2.b.add()
+    pluginExports.dispatch.a.add()
+    pluginExports.dispatch.b.add()
 
     expect(getStore().getState()).toEqual({
       a: 43,
@@ -127,7 +127,7 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch2.count.doNothing()
+    pluginExports.dispatch.count.doNothing()
 
     expect(getStore().getState()).toEqual({
       count: 0,
@@ -147,7 +147,7 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch2.count.incrementBy(5)
+    pluginExports.dispatch.count.incrementBy(5)
 
     expect(getStore().getState()).toEqual({
       count: 6,

@@ -1,9 +1,9 @@
 export default (pluginExports) => ({
   onInit: () => [{
-    name: 'hooks2',
+    name: 'hooks',
     val: new Map()
   }, {
-    name: 'patternHooks2',
+    name: 'patternHooks',
     val: new Map()
   }],
   onModel: (model, exports) => {
@@ -21,26 +21,26 @@ export default (pluginExports) => ({
         throw new Error('hook onAction must be a function')
       }
       if (isPatternMatch(matcher)) {
-        exports.patternHooks2.set(matcher, onAction)
+        exports.patternHooks.set(matcher, onAction)
       } else {
         // set as a pattern hook, if hook does not match a specific action
-        exports.hooks2.set(matcher, onAction)
+        exports.hooks.set(matcher, onAction)
       }
     }
 
-    Object.keys(model.hooks2 || {}).forEach((matcher: string) => {
-      createHook(matcher, model.hooks2[matcher])
+    Object.keys(model.hooks || {}).forEach((matcher: string) => {
+      createHook(matcher, model.hooks[matcher])
     })
   },
   middleware: store => next => action => { // eslint-disable-line
     const matchHooks = (action: $action): void => { // eslint-disable-line
       const { type } = action
       // exact match
-      if (pluginExports.hooks2.has(type)) {
-        pluginExports.hooks2.get(type)(action)
+      if (pluginExports.hooks.has(type)) {
+        pluginExports.hooks.get(type)(action)
       } else {
         // run matches on pattern hooks
-        pluginExports.patternHooks2.forEach((value: (action: $action) => void, key: string) => {
+        pluginExports.patternHooks.forEach((value: (action: $action) => void, key: string) => {
           if (type.match(new RegExp(key))) {
             value(action)
           }

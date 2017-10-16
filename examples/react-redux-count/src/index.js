@@ -20,24 +20,24 @@ init({
 
 model({
   name: 'countA',
-  state: 2,
+  state: 0,
   reducers: {
     increment: s => s + 1
   },
-  effects2: {
+  effects: {
     asyncIncrement: async (payload, getState) => {
       await new Promise((resolve) => {
         setTimeout(resolve, 1000)
       })
-      pluginExports.dispatch2.countA.increment()
+      pluginExports.dispatch.countA.increment()
     }
   },
   selectors: {
     double: s => s * 2
   },
-  hooks2: {
+  hooks: {
     'countB/increment': () => {
-      pluginExports.dispatch2.countA.increment()
+      pluginExports.dispatch.countA.increment()
     }
   }
 })
@@ -81,9 +81,9 @@ const AppContainer = connect(state => ({
   valueA: state.countA,
   valueB: state.countB,
   valueADoubled : pluginExports.select.countA.double(state),
-  incrA: () => pluginExports.dispatch2.countA.increment(),
-  asyncAIncr: () => pluginExports.dispatch2.countA.asyncIncrement(),
-  incrB: () => pluginExports.dispatch2.countB.increment()
+  incrA: () => pluginExports.dispatch.countA.increment(),
+  asyncAIncr: () => pluginExports.dispatch.countA.asyncIncrement(),
+  incrB: () => pluginExports.dispatch.countB.increment()
 }))(App)
 
 // Use react-redux's <Provider /> and pass it the store.
