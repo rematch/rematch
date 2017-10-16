@@ -18,11 +18,10 @@ export const getStore = () => store
 // create store
 export const createStore = (
   initialState: any = {},
-  middleware: $middleware[] = [],
   extraReducers: $reducers = {},
 ): void => {
   initReducers()
-  const middlewares = applyMiddleware(...middleware, ...pluginMiddlewares)
+  const middlewares = applyMiddleware(...pluginMiddlewares)
   const hasExtraReducers = Object.keys(extraReducers).length > 0
   const rootReducer = hasExtraReducers ? mergeReducers(extraReducers) : state => state
   const enhancer = composeEnhancers(middlewares)
