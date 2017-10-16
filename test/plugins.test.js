@@ -9,10 +9,10 @@ describe('plugins:', () => {
   test('init should register a plugin', () => {
 
     const selectorsPlugin = {
-      onInit: () => ({
+      onInit: () => [{
         name: 'selectors',
         val: {}
-      }),
+      }],
       onModel: (model, config, exports) => {
         exports.selectors[model.name] = {}
         Object.keys(model.selectors || {}).forEach((selectorName: string) => {
@@ -27,10 +27,10 @@ describe('plugins:', () => {
     }
 
     const effectsPlugin = {
-      onInit: () => ({
+      onInit: () => [{
         name: 'effects2',
         val: {}
-      }),
+      }],
       onModel: (model, config, exports, dispatch) => {
         const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
           const action = {
@@ -59,10 +59,10 @@ describe('plugins:', () => {
     }
 
     const dispatchPlugin = {
-      onInit: () => ({
+      onInit: () => [{
         name: 'dispatch2',
         val: {}
-      }),
+      }],
       onModel: (model, config, exports, dispatch) => {
         const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
           const action = {
@@ -79,36 +79,113 @@ describe('plugins:', () => {
       }
     }
 
+    const hooksPlugin = {
+      onInit: () => [{
+        name: 'hooks2',
+        val: new Map()
+      }, {
+        name: 'patternHooks2',
+        val: new Map()
+      }],
+      onModel: (model, config, exports, dispatch) => {
+        // matches actions with letter/number characters & -, _
+        const actionRegex = /^[A-Za-z0-9-_]+\/[A-Za-z0-9-_]+$/
+        const isPatternMatch = matcher => !!matcher.match(actionRegex)
+        const createHook = (
+          matcher: string,
+          onAction: (action: $action) => void
+        ) => {
+          if (typeof matcher !== 'string') {
+            throw new Error('hook matcher must be a string')
+          }
+          if (typeof onAction !== 'function') {
+            throw new Error('hook onAction must be a function')
+          }
+          if (isPatternMatch(matcher)) {
+            exports.patternHooks2.set(matcher, onAction)
+          } else {
+            // set as a pattern hook, if hook does not match a specific action
+            exports.hooks2.set(matcher, onAction)
+          }
+        }
+
+        Object.keys(model.hooks2 || {}).forEach((matcher: string) => {
+          createHook(matcher, model.hooks2[matcher])
+        })
+      },
+      middleware: store => next => action => {
+        const matchHooks = (action: $action): void => {
+          const { type } = action
+          // exact match
+          if (pluginExports.hooks2.has(type)) {
+            pluginExports.hooks2.get(type)(action)
+          } else {
+            // run matches on pattern hooks
+            pluginExports.patternHooks2.forEach((value: (action: $action) => void, key: string) => {
+              if (type.match(new RegExp(key))) {
+                value(action)
+              }
+            })
+          }
+        }
+
+        let result = next(action)
+
+        matchHooks(action)
+
+        return result
+      }
+    }
+
     init({
-      plugins: [dispatchPlugin, effectsPlugin, selectorsPlugin]
+      plugins: [dispatchPlugin, effectsPlugin, selectorsPlugin, hooksPlugin]
     })
 
     model({
-      name: 'app',
-      state: 'Hello, world',
-    })
-
-    model({
-      name: 'count',
+      name: 'countA',
       state: 2,
       reducers: {
         increment: s => s + 1
       },
       effects2: {
         asyncIncrement: async (payload, getState) => {
-          pluginExports.dispatch2.count.increment()
+          pluginExports.dispatch2.countA.increment()
         }
       },
       selectors: {
         double: s => s * 2
+      },
+      hooks2: {
+        'countB/increment': () => {
+          pluginExports.dispatch2.countA.increment()
+        }
       }
     })
 
-    pluginExports.dispatch2.count.asyncIncrement()
+    model({
+      name: 'countB',
+      state: 0,
+      reducers: {
+        increment: s => s + 1
+      },
+    })
+
+    pluginExports.dispatch2.countA.asyncIncrement()
+    pluginExports.dispatch2.countB.increment()
 
     const state = getStore().getState()
 
-    expect(Object.keys(pluginExports)).toEqual(['dispatch2', 'effects2', 'selectors'])
-    expect(pluginExports.selectors.count.double(state)).toEqual(6)
+    expect(Object.keys(pluginExports)).toEqual([
+      'dispatch2',
+      'effects2',
+      'selectors',
+      'hooks2',
+      'patternHooks2'
+    ])
+    expect(state).toEqual({
+      countA: 4,
+      countB: 1
+    })
+    expect(pluginExports.selectors.countA.double(state)).toEqual(8)
   })
 })
