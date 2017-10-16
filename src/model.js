@@ -11,6 +11,6 @@ export default (model: $model): void => {
 
   createReducersAndUpdateStore(model)
   onModelHooks.forEach(modelHook => {
-    modelHook(model, null, pluginExports, getStore().dispatch)
+    modelHook(model, pluginExports, getStore().dispatch)
   })
 }

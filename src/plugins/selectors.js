@@ -3,7 +3,7 @@ export default (pluginExports) => ({
     name: 'select',
     val: {}
   }],
-  onModel: (model, config, exports) => {
+  onModel: (model, exports) => {
     exports.select[model.name] = {}
     Object.keys(model.selectors || {}).forEach((selectorName: string) => {
       exports.select[model.name][selectorName] = (state: any, ...args) =>

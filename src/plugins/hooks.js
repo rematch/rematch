@@ -6,7 +6,7 @@ export default (pluginExports) => ({
     name: 'patternHooks2',
     val: new Map()
   }],
-  onModel: (model, config, exports, dispatch) => {
+  onModel: (model, exports, dispatch) => {
     // matches actions with letter/number characters & -, _
     const actionRegex = /^[A-Za-z0-9-_]+\/[A-Za-z0-9-_]+$/
     const isPatternMatch = matcher => !!matcher.match(actionRegex)

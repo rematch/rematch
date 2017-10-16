@@ -4,7 +4,7 @@ export default (pluginExports) => ({
     name: 'effects2',
     val: {}
   }],
-  onModel: (model, config, exports, dispatch) => {
+  onModel: (model, exports, dispatch) => {
     const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
       const action = {
         type: `${modelName}/${reducerName}`,
