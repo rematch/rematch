@@ -47,11 +47,7 @@ export default (pluginExports) => ({
         })
       }
     }
-
-    let result = next(action) // eslint-disable-line
-
     matchHooks(action)
-
-    return result
+    return next(action)
   }
 })

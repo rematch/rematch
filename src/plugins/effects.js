@@ -21,12 +21,9 @@ export default (pluginExports) => ({
     })
   },
   middleware: store => next => action => {
-    let result = next(action)
-
     if (action.type in pluginExports.effects) {
-      result = pluginExports.effects[action.type](action.payload, store.getState)
+      return pluginExports.effects[action.type](action.payload, store.getState)
     }
-
-    return result
+    return next(action)
   }
 })
