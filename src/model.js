@@ -3,7 +3,7 @@ import { validateModel } from './validate'
 import { createDispatchers } from './dispatch'
 import { createEffects } from './effects'
 import { createHooks } from './hooks'
-import { createReducersAndUpdateStore } from './store'
+import { createReducersAndUpdateStore, getStore } from './store'
 import { createSelectors } from './select'
 import { onModelHooks, pluginExports } from './plugins'
 
@@ -15,7 +15,7 @@ export default (model: $model): void => {
 
   createReducersAndUpdateStore(model)
   onModelHooks.forEach(modelHook => {
-    modelHook(model, null, pluginExports)
+    modelHook(model, null, pluginExports, getStore().dispatch)
   })
   createDispatchers(model)
   createEffects(model)

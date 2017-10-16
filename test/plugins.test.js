@@ -1,5 +1,5 @@
 // Tests for consumer API
-import { model, init, getStore, pluginExports, dispatch } from '../src/index'
+import { model, init, getStore, pluginExports } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
@@ -31,11 +31,20 @@ describe('plugins:', () => {
         name: 'effects2',
         val: {}
       }),
-      onModel: (model, config, exports) => {
+      onModel: (model, config, exports, dispatch) => {
+        const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
+          const action = {
+            type: `${modelName}/${reducerName}`,
+            ...(payload ? { payload } : {})
+          }
+          dispatch(action)
+        }
+
         Object.keys(model.effects2 || {}).forEach((effectName: string) => {
           exports.effects2[`${model.name}/${effectName}`] = model.effects2[effectName]
           // add effect to dispatch
-          // dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
+          // is assuming dispatch2 is available already... that the dispatch plugin is in there
+          exports.dispatch2[model.name][effectName] = createDispatcher(model.name, effectName)
         })
       },
       middleware: store => next => action => {
@@ -49,8 +58,29 @@ describe('plugins:', () => {
       }
     }
 
+    const dispatchPlugin = {
+      onInit: () => ({
+        name: 'dispatch2',
+        val: {}
+      }),
+      onModel: (model, config, exports, dispatch) => {
+        const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
+          const action = {
+            type: `${modelName}/${reducerName}`,
+            ...(payload ? { payload } : {})
+          }
+          dispatch(action)
+        }
+
+        exports.dispatch2[model.name] = {}
+        Object.keys(model.reducers || {}).forEach((reducerName: string) => {
+          exports.dispatch2[model.name][reducerName] = createDispatcher(model.name, reducerName)
+        })
+      }
+    }
+
     init({
-      plugins: [effectsPlugin, selectorsPlugin]
+      plugins: [dispatchPlugin, effectsPlugin, selectorsPlugin]
     })
 
     model({
@@ -64,9 +94,9 @@ describe('plugins:', () => {
       reducers: {
         increment: s => s + 1
       },
-      effects: {
+      effects2: {
         asyncIncrement: async (payload, getState) => {
-          dispatch.count.increment()
+          pluginExports.dispatch2.count.increment()
         }
       },
       selectors: {
@@ -74,11 +104,11 @@ describe('plugins:', () => {
       }
     })
 
-    dispatch.count.asyncIncrement()
+    pluginExports.dispatch2.count.asyncIncrement()
 
     const state = getStore().getState()
 
-    expect(Object.keys(pluginExports)).toEqual(['effects2', 'selectors'])
+    expect(Object.keys(pluginExports)).toEqual(['dispatch2', 'effects2', 'selectors'])
     expect(pluginExports.selectors.count.double(state)).toEqual(6)
   })
 })
