@@ -1,7 +1,17 @@
 // @flow
-import { validateModel } from './validate'
+import validate from './utils/validate'
 import { createReducersAndUpdateStore, getStore } from './store'
 import { onModelHooks, pluginExports } from './plugins'
+
+const validateModel = (model: $model) =>
+  validate([
+    [!model, 'model config is required'],
+    [
+      !model.name || typeof model.name !== 'string',
+      'model "name" [string] is required',
+    ],
+    [model.state === undefined, 'model "state" is required'],
+  ])
 
 /**
  * model

@@ -1,7 +1,27 @@
 // @flow
-import { validateConfig } from './validate'
+import validate from './utils/validate'
 import { createStore } from './store'
 import { initPlugins } from './plugins'
+
+const validateConfig = (config: $config) =>
+  validate([
+    [
+      !!config.plugins && !Array.isArray(config.plugins),
+      'init config.plugins must be an array',
+    ],
+    [
+      !!config.middleware && !Array.isArray(config.middleware),
+      'init config.middleware must be an array',
+    ],
+    [
+      !!config.extraReducers && typeof config.extraReducers !== 'object',
+      'init config.extraReducers must be an object',
+    ],
+    [
+      !!config.onError && typeof config.onError !== 'function',
+      'init config.onError must be a function',
+    ],
+  ])
 
 /**
  * init
