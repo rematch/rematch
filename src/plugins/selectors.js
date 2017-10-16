@@ -1,13 +1,13 @@
-export default {
+export default (pluginExports) => ({
   onInit: () => [{
-    name: 'selectors',
+    name: 'select',
     val: {}
   }],
   onModel: (model, config, exports) => {
-    exports.selectors[model.name] = {}
+    exports.select[model.name] = {}
     Object.keys(model.selectors || {}).forEach((selectorName: string) => {
-      exports.selectors[model.name][selectorName] = (state: any, ...args) =>
+      exports.select[model.name][selectorName] = (state: any, ...args) =>
         model.selectors[selectorName](state[model.name], ...args)
     })
   }
-}
+})

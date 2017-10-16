@@ -13,7 +13,12 @@ describe('plugins:', () => {
   test('init should register a plugin', () => {
 
     init({
-      plugins: [dispatchPlugin, effectsPlugin(pluginExports), selectorsPlugin, hooksPlugin(pluginExports)]
+      plugins: [
+        dispatchPlugin,
+        effectsPlugin(pluginExports),
+        selectorsPlugin(pluginExports),
+        hooksPlugin(pluginExports)
+      ]
     })
 
     model({
@@ -53,7 +58,7 @@ describe('plugins:', () => {
     expect(Object.keys(pluginExports)).toEqual([
       'dispatch2',
       'effects2',
-      'selectors',
+      'select',
       'hooks2',
       'patternHooks2'
     ])
@@ -61,6 +66,6 @@ describe('plugins:', () => {
       countA: 4,
       countB: 1
     })
-    expect(pluginExports.selectors.countA.double(state)).toEqual(8)
+    expect(pluginExports.select.countA.double(state)).toEqual(8)
   })
 })

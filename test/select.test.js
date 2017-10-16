@@ -1,31 +1,30 @@
 // Test for internal store
-import { select, createSelectors } from '../src/select'
+import { init, model, pluginExports, getStore } from '../src/index'
+import selectorsPlugin from '../src/plugins/selectors'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('select:', () => {
-  it('should be an object', () => {
-    expect(select).toEqual({})
-  })
-})
-
-describe('createSelectors:', () => {
   it('should populate "select" with selectors in the correct namespace', () => {
-    const model = ({
+    init({
+      plugins: [selectorsPlugin(pluginExports)]
+    })
+
+    model({
       name: 'app',
+      state: 0,
       selectors: {
         selectorWithNoArg: state => state,
         selectorWithArg: (state, arg) => state + arg
       }
     })
 
-    createSelectors(model)
+    const state = getStore().getState()
 
-    expect(select).toHaveProperty('app')
-    expect(select).toHaveProperty('app.selectorWithNoArg')
-    expect(select.app.selectorWithNoArg({ app: 1 })).toEqual(1)
-    expect(select.app.selectorWithArg({ app: 1 }, 1)).toEqual(2)
+    expect(pluginExports).toHaveProperty('select')
+    expect(pluginExports.select.app.selectorWithNoArg(state)).toEqual(0)
+    expect(pluginExports.select.app.selectorWithArg(state, 2)).toEqual(2)
   })
 })

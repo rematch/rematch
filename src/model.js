@@ -4,7 +4,6 @@ import { createDispatchers } from './dispatch'
 import { createEffects } from './effects'
 import { createHooks } from './hooks'
 import { createReducersAndUpdateStore, getStore } from './store'
-import { createSelectors } from './select'
 import { onModelHooks, pluginExports } from './plugins'
 
 /**
@@ -20,5 +19,4 @@ export default (model: $model): void => {
   createDispatchers(model)
   createEffects(model)
   createHooks(model)
-  createSelectors(model)
 }
