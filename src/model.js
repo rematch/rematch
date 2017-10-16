@@ -1,8 +1,5 @@
 // @flow
 import { validateModel } from './validate'
-import { createDispatchers } from './dispatch'
-import { createEffects } from './effects'
-import { createHooks } from './hooks'
 import { createReducersAndUpdateStore, getStore } from './store'
 import { onModelHooks, pluginExports } from './plugins'
 
@@ -16,7 +13,4 @@ export default (model: $model): void => {
   onModelHooks.forEach(modelHook => {
     modelHook(model, null, pluginExports, getStore().dispatch)
   })
-  createDispatchers(model)
-  createEffects(model)
-  createHooks(model)
 }

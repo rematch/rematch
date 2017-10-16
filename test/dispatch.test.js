@@ -1,29 +1,32 @@
-import { model, init, dispatch, getStore } from '../src/index'
+import { model, init, getStore, pluginExports } from '../src/index'
+import dispatchPlugin from '../src/plugins/dispatch'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('dispatch:', () => {
-  test('should call dispatch directly', () => {
-    init()
-
-    model({
-      name: 'count',
-      state: 0,
-      reducers: {
-        add: state => state + 1,
-      },
-    })
-
-    dispatch({ type: 'count/add' })
-
-    expect(getStore().getState()).toEqual({
-      count: 1,
-    })
-  })
+  // test('should call dispatch directly', () => {
+  //   init()
+  //
+  //   model({
+  //     name: 'count',
+  //     state: 0,
+  //     reducers: {
+  //       add: state => state + 1,
+  //     },
+  //   })
+  //
+  //   dispatch({ type: 'count/add' })
+  //
+  //   expect(getStore().getState()).toEqual({
+  //     count: 1,
+  //   })
+  // })
   test('should dispatch an action', () => {
-    init()
+    init({
+      plugins: [dispatchPlugin(pluginExports)]
+    })
 
     model({
       name: 'count',
@@ -33,7 +36,7 @@ describe('dispatch:', () => {
       },
     })
 
-    dispatch.count.add()
+    pluginExports.dispatch2.count.add()
 
     expect(getStore().getState()).toEqual({
       count: 1,
@@ -41,7 +44,9 @@ describe('dispatch:', () => {
   })
 
   test('should dispatch multiple actions', () => {
-    init()
+    init({
+      plugins: [dispatchPlugin(pluginExports)]
+    })
 
     model({
       name: 'count',
@@ -51,8 +56,8 @@ describe('dispatch:', () => {
       },
     })
 
-    dispatch.count.add()
-    dispatch.count.add()
+    pluginExports.dispatch2.count.add()
+    pluginExports.dispatch2.count.add()
 
     expect(getStore().getState()).toEqual({
       count: 2,
@@ -60,7 +65,9 @@ describe('dispatch:', () => {
   })
 
   test('should handle multiple models', () => {
-    init()
+    init({
+      plugins: [dispatchPlugin(pluginExports)]
+    })
 
     model({
       name: 'a',
@@ -78,8 +85,8 @@ describe('dispatch:', () => {
       },
     })
 
-    dispatch.a.add()
-    dispatch.b.add()
+    pluginExports.dispatch2.a.add()
+    pluginExports.dispatch2.b.add()
 
     expect(getStore().getState()).toEqual({
       a: 43,
@@ -88,7 +95,9 @@ describe('dispatch:', () => {
   })
 
   it('should be called from an dispatch action type', () => {
-    init()
+    init({
+      plugins: [dispatchPlugin(pluginExports)]
+    })
 
     model({
       name: 'count',
@@ -106,7 +115,9 @@ describe('dispatch:', () => {
   })
 
   test('should handle state as the first param', () => {
-    init()
+    init({
+      plugins: [dispatchPlugin(pluginExports)]
+    })
 
     model({
       name: 'count',
@@ -116,7 +127,7 @@ describe('dispatch:', () => {
       },
     })
 
-    dispatch.count.doNothing()
+    pluginExports.dispatch2.count.doNothing()
 
     expect(getStore().getState()).toEqual({
       count: 0,
@@ -124,7 +135,9 @@ describe('dispatch:', () => {
   })
 
   test('should handle payload as the second param', () => {
-    init()
+    init({
+      plugins: [dispatchPlugin(pluginExports)]
+    })
 
     model({
       name: 'count',
@@ -134,7 +147,7 @@ describe('dispatch:', () => {
       },
     })
 
-    dispatch.count.incrementBy(5)
+    pluginExports.dispatch2.count.incrementBy(5)
 
     expect(getStore().getState()).toEqual({
       count: 6,
