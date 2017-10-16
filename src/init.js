@@ -28,6 +28,8 @@ const validateConfig = (config: $config) =>
  */
 export default (config: $config = {}): void => {
   validateConfig(config)
-  initPlugins(config.plugins)
+  if (config.plugins) {
+    initPlugins(config.plugins)
+  }
   createStore(config.initialState, config.extraReducers)
 }

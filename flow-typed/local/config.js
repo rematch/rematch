@@ -1,6 +1,6 @@
 declare type $config = {
  initialState?: any,
- plugins: any[],
+ plugins?: $plugin[],
  extraReducers?: {
   [reducerName: string]: (state: any, action: Object) => any,
  },

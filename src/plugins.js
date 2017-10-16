@@ -4,8 +4,8 @@ export const pluginExports = {}
 export const onModelHooks = []
 export const pluginMiddlewares = []
 
-export const initPlugins = plugins => {
-  plugins.forEach(plugin => {
+export const initPlugins = (plugins: $plugin[]) => {
+  plugins.forEach((plugin: $plugin) => {
     if (plugin.onInit) {
       plugin.onInit().forEach(item => {
         pluginExports[item.name] = item.val

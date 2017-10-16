@@ -22,6 +22,7 @@
     "$config": false,
     "$middleware": false,
     "$model": false,
+    "$plugin": false,
     "$reducer": false,
     "$reducers": false,
     "$store": false,
