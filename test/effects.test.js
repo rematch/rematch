@@ -20,20 +20,18 @@ describe('effects:', () => {
     expect(typeof dispatch.count.add).toBe('function')
   })
 
-  test('should create an effects', () => {
+  test('should create an effect', () => {
     init()
-
-    const add = () => 1
 
     model({
       name: 'example',
       state: 0,
       effects: {
-        add,
+        add: () => 1
       },
     })
 
-    expect(effects['example/add']).toEqual(add)
+    expect(effects['example/add']()).toBe(1)
   })
 
   test('should be able to trigger another action', async () => {
@@ -46,8 +44,79 @@ describe('effects:', () => {
         addOne: (state) => state + 1,
       },
       effects: {
-        asyncAddOne: async () => {
+        asyncAddOneArrow: async () => {
           await dispatch.example.addOne()
+        }
+      }
+    })
+
+    await dispatch.example.asyncAddOneArrow()
+
+    expect(getStore().getState()).toEqual({
+      example: 1,
+    })
+  })
+
+  // currently no solution for arrow functions as they are often transpiled by Babel or Typescript
+  // there is no clear way to detect arrow functions
+  xtest('should be able trigger a local reducer using arrow functions and `this`', async () => {
+    init()
+
+    model({
+      name: 'example',
+      state: 0,
+      reducers: {
+        addOne: (state) => state + 1,
+      },
+      effects: {
+        asyncAddOneArrow: async () => {
+          await this.addOne()
+        }
+      }
+    })
+
+    await dispatch.example.asyncAddOneArrow()
+
+    expect(getStore().getState()).toEqual({
+      example: 1,
+    })
+  })
+
+  test('should be able trigger a local reducer using functions and `this`', async () => {
+    init()
+
+    model({
+      name: 'example',
+      state: 0,
+      reducers: {
+        addOne: (state) => state + 1,
+      },
+      effects: {
+        asyncAddOne: async function () {
+          await this.addOne()
+        }
+      }
+    })
+
+    await dispatch.example.asyncAddOne()
+
+    expect(getStore().getState()).toEqual({
+      example: 1,
+    })
+  })
+
+  test('should be able trigger a local reducer using object function shorthand and `this`', async () => {
+    init()
+
+    model({
+      name: 'example',
+      state: 0,
+      reducers: {
+        addOne: (state) => state + 1,
+      },
+      effects: {
+        async asyncAddOne() {
+          await this.addOne()
         }
       }
     })
