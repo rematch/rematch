@@ -2,6 +2,7 @@
 import { validateConfig } from './validate'
 import { createStore } from './store'
 import { createDispatch } from './dispatch'
+import { initPlugins } from './plugins'
 
 export const localConfig = {}
 
@@ -10,6 +11,9 @@ export const localConfig = {}
  */
 export default (config: $config = {}): void => {
   validateConfig(config)
+  if (config.plugins) {
+    initPlugins(config.plugins)
+  }
   createStore(config.initialState, config.middleware, config.extraReducers)
   createDispatch()
 }

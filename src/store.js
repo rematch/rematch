@@ -3,6 +3,7 @@
 import { createStore as _createStore, applyMiddleware, compose } from 'redux'
 import { mergeReducers, initReducers, createReducers } from './reducers'
 import { createMiddleware } from './middleware'
+import { pluginMiddlewares } from './plugins'
 
 // enable redux devtools
 /* istanbul ignore next */
@@ -23,7 +24,7 @@ export const createStore = (
 ): void => {
   initReducers()
   const rematchMiddleware = createMiddleware()
-  const middlewares = applyMiddleware(...middleware, rematchMiddleware)
+  const middlewares = applyMiddleware(...middleware, rematchMiddleware, ...pluginMiddlewares)
   const hasExtraReducers = Object.keys(extraReducers).length > 0
   const rootReducer = hasExtraReducers ? mergeReducers(extraReducers) : state => state
   const enhancer = composeEnhancers(middlewares)
