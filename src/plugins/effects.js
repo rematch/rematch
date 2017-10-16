@@ -14,10 +14,10 @@ export default (pluginExports) => ({
     }
 
     Object.keys(model.effects2 || {}).forEach((effectName: string) => {
-      exports.effects2[`${model.name}/${effectName}`] = model.effects2[effectName]
+      exports.effects2[`${model.name}/${effectName}`] = model.effects2[effectName] // eslint-disable-line
       // add effect to dispatch
       // is assuming dispatch2 is available already... that the dispatch plugin is in there
-      exports.dispatch2[model.name][effectName] = createDispatcher(model.name, effectName)
+      exports.dispatch2[model.name][effectName] = createDispatcher(model.name, effectName) // eslint-disable-line
     })
   },
   middleware: store => next => action => {

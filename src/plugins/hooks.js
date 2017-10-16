@@ -6,7 +6,7 @@ export default (pluginExports) => ({
     name: 'patternHooks2',
     val: new Map()
   }],
-  onModel: (model, exports, dispatch) => {
+  onModel: (model, exports) => {
     // matches actions with letter/number characters & -, _
     const actionRegex = /^[A-Za-z0-9-_]+\/[A-Za-z0-9-_]+$/
     const isPatternMatch = matcher => !!matcher.match(actionRegex)
@@ -32,8 +32,8 @@ export default (pluginExports) => ({
       createHook(matcher, model.hooks2[matcher])
     })
   },
-  middleware: store => next => action => {
-    const matchHooks = (action: $action): void => {
+  middleware: store => next => action => { // eslint-disable-line
+    const matchHooks = (action: $action): void => { // eslint-disable-line
       const { type } = action
       // exact match
       if (pluginExports.hooks2.has(type)) {
@@ -48,7 +48,7 @@ export default (pluginExports) => ({
       }
     }
 
-    let result = next(action)
+    let result = next(action) // eslint-disable-line
 
     matchHooks(action)
 

@@ -1,38 +1,89 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import { init, model, dispatch, select, getStore } from 'rematch-x'
+import { model, init, getStore, pluginExports, plugins } from 'rematch-x'
+const {
+  selectorsPlugin,
+  dispatchPlugin,
+  effectsPlugin,
+  hooksPlugin,
+} = plugins
 
-// No need to specify a 'view' in init.
-init()
+init({
+  plugins: [
+    dispatchPlugin(pluginExports),
+    effectsPlugin(pluginExports),
+    selectorsPlugin(pluginExports),
+    hooksPlugin(pluginExports)
+  ]
+})
 
-// Create the model
 model({
-  name: 'count',
-  state: 0,
+  name: 'countA',
+  state: 2,
   reducers: {
-    increment: state => state + 1
+    increment: s => s + 1
+  },
+  effects2: {
+    asyncIncrement: async (payload, getState) => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000)
+      })
+      pluginExports.dispatch2.countA.increment()
+    }
   },
   selectors: {
-    doubled: state => state * 2
+    double: s => s * 2
+  },
+  hooks2: {
+    'countB/increment': () => {
+      pluginExports.dispatch2.countA.increment()
+    }
   }
+})
+
+model({
+  name: 'countB',
+  state: 0,
+  reducers: {
+    increment: s => s + 1
+  },
 })
 
 // Make a presentational component.
 // It knows nothing about redux or rematch.
-const App = ({ value, valueDoubled, handleClick }) => (
+const App = ({ valueA, valueB, valueADoubled, asyncAIncr, incrB, incrA }) => (
   <div>
-    <div>The count is {value}</div>
-    <div>The count doubled is {valueDoubled}</div>
-    <button onClick={handleClick}>Increment</button>
+    <div>countA is {valueA} <em>(plain 'ol state)</em></div>
+    <div>countB is {valueB} <em>(plain 'ol state)</em></div>
+    <div>countA doubled is {valueADoubled} <em>(a selector!)</em></div>
+    <div>
+      <button onClick={incrA}>Increment countA</button>
+      {' '}
+      <em>(a normal dispatch!)</em>
+    </div>
+    <div>
+      <button onClick={asyncAIncr}>Increment countA (delayed 1 second)</button>
+      {' '}
+      <em>(an async effect!!!)</em>
+    </div>
+    <div>
+      <button onClick={incrB}>Increment countB</button>
+      {' '}
+      <em>(a normal dispatch on countB... And there is a 'countB/increment' hook on countA model,
+        which dispatches 'countA/increment', so this increments countA too!!! </em>
+    </div>
   </div>
 )
 
 // Use react-redux's connect
 const AppContainer = connect(state => ({
-  value: state.count,
-  valueDoubled : select.count.doubled(state),
-  handleClick: () => dispatch.count.increment()
+  valueA: state.countA,
+  valueB: state.countB,
+  valueADoubled : pluginExports.select.countA.double(state),
+  incrA: () => pluginExports.dispatch2.countA.increment(),
+  asyncAIncr: () => pluginExports.dispatch2.countA.asyncIncrement(),
+  incrB: () => pluginExports.dispatch2.countB.increment()
 }))(App)
 
 // Use react-redux's <Provider /> and pass it the store.

@@ -1,9 +1,11 @@
 // Tests for consumer API
-import { model, init, getStore, pluginExports } from '../src/index'
-import selectorsPlugin from '../src/plugins/selectors'
-import dispatchPlugin from '../src/plugins/dispatch'
-import effectsPlugin from '../src/plugins/effects'
-import hooksPlugin from '../src/plugins/hooks'
+import { model, init, getStore, pluginExports, plugins } from '../src/index'
+const {
+  selectorsPlugin,
+  dispatchPlugin,
+  effectsPlugin,
+  hooksPlugin,
+} = plugins
 
 beforeEach(() => {
   jest.resetModules()
