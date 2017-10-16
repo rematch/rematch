@@ -14,7 +14,7 @@ describe('plugins:', () => {
 
     init({
       plugins: [
-        dispatchPlugin,
+        dispatchPlugin(pluginExports),
         effectsPlugin(pluginExports),
         selectorsPlugin(pluginExports),
         hooksPlugin(pluginExports)

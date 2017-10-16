@@ -1,4 +1,4 @@
-export default {
+export default (pluginExports) => ({
   onInit: () => [{
     name: 'dispatch2',
     val: {}
@@ -17,4 +17,4 @@ export default {
       exports.dispatch2[model.name][reducerName] = createDispatcher(model.name, reducerName)
     })
   }
-}
+})
