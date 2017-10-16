@@ -9,5 +9,5 @@ import { initPlugins } from './plugins'
 export default (config: $config = {}): void => {
   validateConfig(config)
   initPlugins(config.plugins)
-  createStore(config.initialState, config.middleware, config.extraReducers)
+  createStore(config.initialState, config.extraReducers)
 }
