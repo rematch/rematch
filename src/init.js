@@ -23,12 +23,13 @@ const validateConfig = (config: $config) =>
     ],
   ])
 
-/**
- * init
- */
-export default (config: $config = {}): void => {
+const init = (config: $config = {}): void => {
   validateConfig(config)
+  // setup plugin pipeline
   createPlugins(config.plugins)
+  // create a redux store with initialState
+  // merge in additional extra reducers
   createStore(config.initialState, config.extraReducers)
 }
 
+export default init

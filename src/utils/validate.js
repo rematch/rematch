@@ -9,7 +9,7 @@ type $validation = Array<boolean | string>
  * throws if an error occurs
  */
 /* istanbul ignore next */
-export default (validations: Array<$validation>): void => {
+const validate = (validations: Array<$validation>): void => {
   validations.forEach((validation: $validation) => {
     const [condition: boolean, errorMessage: string] = validation
     if (condition) {
@@ -17,3 +17,5 @@ export default (validations: Array<$validation>): void => {
     }
   })
 }
+
+export default validate

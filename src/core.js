@@ -4,7 +4,7 @@ export const pluginExports = {}
 export const onModelHooks = []
 export const pluginMiddlewares = []
 
-export default (plugins: $plugin[] = []) => {
+const createPlugins = (plugins: $plugin[] = []) => {
   corePlugins.concat(plugins).forEach((plugin: $plugin) => {
     if (plugin.onInit) {
       plugin.onInit.forEach(item => {
@@ -19,3 +19,5 @@ export default (plugins: $plugin[] = []) => {
     }
   })
 }
+
+export default createPlugins

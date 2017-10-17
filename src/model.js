@@ -13,15 +13,17 @@ const validateModel = (model: $model) =>
     [model.state === undefined, 'model "state" is required'],
   ])
 
-/**
- * model
- */
-export default (model: $model): void => {
+const createModel = (model: $model): void => {
   validateModel(model)
+
+  // add model reducers to redux store
   createReducersAndUpdateStore(model)
 
+  // run plugin model hooks
   const { dispatch } = getStore()
   onModelHooks.forEach(modelHook => {
     modelHook(model, pluginExports, dispatch)
   })
 }
+
+export default createModel

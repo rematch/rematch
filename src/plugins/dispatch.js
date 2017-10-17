@@ -1,7 +1,7 @@
 export default () => ({
   onInit: [{
     name: 'dispatch',
-    val: {}
+    val: {},
   }],
   onModel: (model, exports, dispatch) => {
     const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {

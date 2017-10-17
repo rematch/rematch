@@ -1,3 +1,5 @@
+import validate from '../utils/validate'
+
 export default (pluginExports) => ({
   onInit: [{
     name: 'hooks',
@@ -14,12 +16,10 @@ export default (pluginExports) => ({
       matcher: string,
       onAction: (action: $action) => void
     ) => {
-      if (typeof matcher !== 'string') {
-        throw new Error('hook matcher must be a string')
-      }
-      if (typeof onAction !== 'function') {
-        throw new Error('hook onAction must be a function')
-      }
+      validate([
+        [typeof matcher !== 'string', 'hook matcher must be a string'],
+        [typeof onAction !== 'function', 'hook onAction must be a function'],
+      ])
       if (isPatternMatch(matcher)) {
         exports.patternHooks.set(matcher, onAction)
       } else {
