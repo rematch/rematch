@@ -1,6 +1,6 @@
 // TODO assumes there is a dispatch plugin
 export default (pluginExports) => ({
-  onInit: () => [{
+  onInit: [{
     name: 'effects',
     val: {}
   }],

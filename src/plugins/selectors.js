@@ -1,5 +1,5 @@
 export default () => ({
-  onInit: () => [{
+  onInit: [{
     name: 'select',
     val: {}
   }],

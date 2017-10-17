@@ -1,5 +1,5 @@
 export default (pluginExports) => ({
-  onInit: () => [{
+  onInit: [{
     name: 'hooks',
     val: new Map()
   }, {
