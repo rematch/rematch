@@ -4,8 +4,11 @@ export const pluginExports = {}
 export const onModelHooks = []
 export const pluginMiddlewares = []
 
+const createPlugin = plugin => plugin(pluginExports)
+
 const createPlugins = (plugins: $plugin[] = []) => {
-  corePlugins.concat(plugins).forEach((plugin: $plugin) => {
+  const allPlugins = corePlugins.concat(plugins)
+  allPlugins.map(createPlugin).forEach((plugin: $plugin) => {
     if (plugin.onInit) {
       // merge onInit keys into pluginExports
       Object.keys(plugin.onInit).forEach(k => {

@@ -41,25 +41,25 @@ model({
 // It knows nothing about redux or rematch.
 const App = ({ valueA, valueB, valueADoubled, asyncAIncr, incrB, incrA }) => (
   <div>
-    <div>countA is {valueA} <em>(plain 'ol state)</em></div>
-    <div>countB is {valueB} <em>(plain 'ol state)</em></div>
-    <div>countA doubled is {valueADoubled} <em>(a selector!)</em></div>
-    <div>
+    <h2>countA is <b style={{backgroundColor: '#ccc'}}>{valueA}</b></h2>
+    <h2>countB is <b style={{backgroundColor: '#ccc'}}>{valueB}</b></h2>
+
+    <h2>
       <button onClick={incrA}>Increment countA</button>
       {' '}
-      <em>(a normal dispatch!)</em>
-    </div>
-    <div>
+      <em style={{backgroundColor: 'yellow'}}>(normal dispatch)</em>
+    </h2>
+    <h2>countA doubled is <b style={{backgroundColor: '#ccc'}}>{valueADoubled}</b> <em style={{backgroundColor: 'yellow'}}>(a selector!)</em></h2>
+    <h2>
       <button onClick={asyncAIncr}>Increment countA (delayed 1 second)</button>
       {' '}
-      <em>(an async effect!!!)</em>
-    </div>
-    <div>
+      <em style={{backgroundColor: 'yellow'}}>(an async effect!!!)</em>
+    </h2>
+    <h2>
       <button onClick={incrB}>Increment countB</button>
       {' '}
-      <em>(a normal dispatch on countB... And there is a 'countB/increment' hook on countA model,
-        which dispatches 'countA/increment', so this increments countA too!!! </em>
-    </div>
+      <em style={{backgroundColor: 'yellow'}}>(countA has a hook listening to 'countB/increment')</em>
+    </h2>
   </div>
 )
 
@@ -67,7 +67,7 @@ const App = ({ valueA, valueB, valueADoubled, asyncAIncr, incrB, incrA }) => (
 const AppContainer = connect(state => ({
   valueA: state.countA,
   valueB: state.countB,
-  // valueADoubled : pluginExports.select.countA.double(state),
+  valueADoubled : pluginExports.select.countA.double(state),
   incrA: () => pluginExports.dispatch.countA.increment(),
   asyncAIncr: () => pluginExports.dispatch.countA.asyncIncrement(),
   incrB: () => pluginExports.dispatch.countB.increment()

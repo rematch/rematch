@@ -1,5 +1,4 @@
 import { model, init, getStore, pluginExports } from '../src/index'
-import dispatchPlugin from '../src/plugins/dispatch'
 
 beforeEach(() => {
   jest.resetModules()
@@ -25,9 +24,7 @@ describe('dispatch:', () => {
   })
 
   test('should dispatch an action', () => {
-    init({
-      plugins: [dispatchPlugin(pluginExports)]
-    })
+    init()
 
     model({
       name: 'count',
@@ -45,9 +42,7 @@ describe('dispatch:', () => {
   })
 
   test('should dispatch multiple actions', () => {
-    init({
-      plugins: [dispatchPlugin(pluginExports)]
-    })
+    init()
 
     model({
       name: 'count',
@@ -66,9 +61,7 @@ describe('dispatch:', () => {
   })
 
   test('should handle multiple models', () => {
-    init({
-      plugins: [dispatchPlugin(pluginExports)]
-    })
+    init()
 
     model({
       name: 'a',
@@ -96,9 +89,7 @@ describe('dispatch:', () => {
   })
 
   it('should be called from an dispatch action type', () => {
-    init({
-      plugins: [dispatchPlugin(pluginExports)]
-    })
+    init()
 
     model({
       name: 'count',
@@ -116,9 +107,7 @@ describe('dispatch:', () => {
   })
 
   test('should handle state as the first param', () => {
-    init({
-      plugins: [dispatchPlugin(pluginExports)]
-    })
+    init()
 
     model({
       name: 'count',
@@ -136,9 +125,7 @@ describe('dispatch:', () => {
   })
 
   test('should handle payload as the second param', () => {
-    init({
-      plugins: [dispatchPlugin(pluginExports)]
-    })
+    init()
 
     model({
       name: 'count',
