@@ -1,6 +1,6 @@
 // @flow
 import validate from './utils/validate'
-import { createReducersAndUpdateStore, getStore } from './store'
+import { createReducersAndUpdateStore, getStore } from './redux/store'
 import { onModelHooks, pluginExports } from './core'
 
 const validateModel = (model: $model) =>

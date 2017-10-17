@@ -1,6 +1,6 @@
 // @flow
 import validate from './utils/validate'
-import { createStore } from './store'
+import { createStore } from './redux/store'
 import createPlugins from './core'
 
 const validateConfig = (config: $config) =>

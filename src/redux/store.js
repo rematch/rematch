@@ -2,7 +2,7 @@
 /* eslint no-underscore-dangle: 0 */
 import { createStore as _createStore, applyMiddleware, compose } from 'redux'
 import { mergeReducers, initReducers, createReducers } from './reducers'
-import { pluginMiddlewares } from './core'
+import { pluginMiddlewares } from '../core'
 
 // enable redux devtools
 /* istanbul ignore next */
