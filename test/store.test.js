@@ -1,5 +1,5 @@
 // Test for internal store
-import { createStore, getStore } from '../src/redux/store'
+import { createStore, getStore } from '../src/utils/store'
 
 beforeEach(() => {
   jest.resetModules()

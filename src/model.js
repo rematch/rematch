@@ -1,6 +1,6 @@
 // @flow
 import validate from './utils/validate'
-import { createReducersAndUpdateStore, getStore } from './redux/store'
+import { createReducersAndUpdateStore, getStore } from './utils/store'
 import { onModelHooks, pluginExports } from './core'
 
 const validateModel = (model: $model) =>
@@ -18,11 +18,9 @@ const validateModel = (model: $model) =>
  */
 export default (model: $model): void => {
   validateModel(model)
-
   createReducersAndUpdateStore(model)
 
   const { dispatch } = getStore()
-
   onModelHooks.forEach(modelHook => {
     modelHook(model, pluginExports, dispatch)
   })
