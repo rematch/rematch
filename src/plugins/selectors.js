@@ -1,12 +1,12 @@
-export default (pluginExports) => ({ // eslint-disable-line
+export default () => ({
   onInit: () => [{
     name: 'select',
     val: {}
   }],
   onModel: (model, exports) => {
-    exports.select[model.name] = {} // eslint-disable-line
+    exports.select[model.name] = {}
     Object.keys(model.selectors || {}).forEach((selectorName: string) => {
-      exports.select[model.name][selectorName] = (state: any, ...args) => // eslint-disable-line
+      exports.select[model.name][selectorName] = (state: any, ...args) =>
         model.selectors[selectorName](state[model.name], ...args)
     })
   }

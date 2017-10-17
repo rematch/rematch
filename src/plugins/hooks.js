@@ -32,22 +32,19 @@ export default (pluginExports) => ({
       createHook(matcher, model.hooks[matcher])
     })
   },
-  middleware: store => next => action => { // eslint-disable-line
-    const matchHooks = (action: $action): void => { // eslint-disable-line
-      const { type } = action
-      // exact match
-      if (pluginExports.hooks.has(type)) {
-        pluginExports.hooks.get(type)(action)
-      } else {
-        // run matches on pattern hooks
-        pluginExports.patternHooks.forEach((value: (action: $action) => void, key: string) => {
-          if (type.match(new RegExp(key))) {
-            value(action)
-          }
-        })
-      }
+  middleware: () => next => action => {
+    const { type } = action
+    // exact match
+    if (pluginExports.hooks.has(type)) {
+      pluginExports.hooks.get(type)(action)
+    } else {
+      // run matches on pattern hooks
+      pluginExports.patternHooks.forEach((value: (action: $action) => void, key: string) => {
+        if (type.match(new RegExp(key))) {
+          value(action)
+        }
+      })
     }
-    matchHooks(action)
     return next(action)
   }
 })

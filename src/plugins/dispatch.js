@@ -1,4 +1,4 @@
-export default (pluginExports) => ({ // eslint-disable-line
+export default () => ({
   onInit: () => [{
     name: 'dispatch',
     val: {}
@@ -12,9 +12,9 @@ export default (pluginExports) => ({ // eslint-disable-line
       dispatch(action)
     }
 
-    exports.dispatch[model.name] = {} // eslint-disable-line
+    exports.dispatch[model.name] = {}
     Object.keys(model.reducers || {}).forEach((reducerName: string) => {
-      exports.dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName) // eslint-disable-line
+      exports.dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
     })
   }
 })

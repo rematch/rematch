@@ -1,5 +1,6 @@
 // Tests for consumer API
 import { model, init, getStore, pluginExports, plugins } from '../src/index'
+
 const {
   selectorsPlugin,
   dispatchPlugin,

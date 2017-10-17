@@ -20,7 +20,10 @@ export default (model: $model): void => {
   validateModel(model)
 
   createReducersAndUpdateStore(model)
+
+  const { dispatch } = getStore()
+
   onModelHooks.forEach(modelHook => {
-    modelHook(model, pluginExports, getStore().dispatch)
+    modelHook(model, pluginExports, dispatch)
   })
 }

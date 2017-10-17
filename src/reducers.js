@@ -1,7 +1,8 @@
 // @flow
+/* eslint no-underscore-dangle: 0 */
 import { combineReducers } from 'redux'
 
-let _reducers: $reducers // eslint-disable-line
+let _reducers: $reducers
 
 export const initReducers = () : void => {
   _reducers = {}

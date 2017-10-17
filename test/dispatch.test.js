@@ -23,6 +23,7 @@ describe('dispatch:', () => {
   //     count: 1,
   //   })
   // })
+
   test('should dispatch an action', () => {
     init({
       plugins: [dispatchPlugin(pluginExports)]
