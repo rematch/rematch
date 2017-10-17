@@ -1,8 +1,7 @@
 export default () => ({
-  onInit: [{
-    name: 'select',
-    val: {}
-  }],
+  onInit: {
+    select: {}
+  },
   onModel: (model, exports) => {
     exports.select[model.name] = {}
     Object.keys(model.selectors || {}).forEach((selectorName: string) => {

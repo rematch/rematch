@@ -1,9 +1,8 @@
 // TODO assumes there is a dispatch plugin
 export default (pluginExports) => ({
-  onInit: [{
-    name: 'effects',
-    val: {}
-  }],
+  onInit: {
+    effects: {},
+  },
   onModel: (model, exports, dispatch) => {
     const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
       const action = {

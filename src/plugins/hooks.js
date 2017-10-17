@@ -1,13 +1,10 @@
 import validate from '../utils/validate'
 
 export default (pluginExports) => ({
-  onInit: [{
-    name: 'hooks',
-    val: new Map()
-  }, {
-    name: 'patternHooks',
-    val: new Map()
-  }],
+  onInit: {
+    hooks: new Map(),
+    patternHooks: new Map()
+  },
   onModel: (model, exports) => {
     // matches actions with letter/number characters & -, _
     const actionRegex = /^[A-Za-z0-9-_]+\/[A-Za-z0-9-_]+$/

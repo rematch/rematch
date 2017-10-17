@@ -7,8 +7,9 @@ export const pluginMiddlewares = []
 const createPlugins = (plugins: $plugin[] = []) => {
   corePlugins.concat(plugins).forEach((plugin: $plugin) => {
     if (plugin.onInit) {
-      plugin.onInit.forEach(item => {
-        pluginExports[item.name] = item.val
+      // merge onInit keys into pluginExports
+      Object.keys(plugin.onInit).forEach(k => {
+        pluginExports[k] = plugin.onInit[k]
       })
     }
     if (plugin.onModel) {
