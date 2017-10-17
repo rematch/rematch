@@ -20,7 +20,7 @@ export const getReducer = (reducer: $reducers, initialState: any = null) => (
   return state
 }
 
-// adds "model/reducer" names to
+// adds "model/reducer" names to 
 export const resolveReducers = (modelName: string, reducers: $reducers = {}) =>
   Object.keys(reducers).reduce((acc, reducer) => {
     acc[`${modelName}/${reducer}`] = reducers[reducer]

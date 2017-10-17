@@ -1,28 +1,13 @@
 // Tests for consumer API
-import { model, init, getStore, pluginExports, plugins } from '../src/index'
-
-const {
-  selectorsPlugin,
-  dispatchPlugin,
-  effectsPlugin,
-  hooksPlugin,
-} = plugins
+import { model, init, getStore, pluginExports } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('plugins:', () => {
-  test('init should register a plugin', () => {
-
-    init({
-      plugins: [
-        dispatchPlugin(pluginExports),
-        effectsPlugin(pluginExports),
-        selectorsPlugin(pluginExports),
-        hooksPlugin(pluginExports)
-      ]
-    })
+  xtest('init should register a plugin', () => {
+    init()
 
     model({
       name: 'countA',

@@ -1,22 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import { model, init, getStore, pluginExports, plugins } from 'rematch-x'
-const {
-  selectorsPlugin,
-  dispatchPlugin,
-  effectsPlugin,
-  hooksPlugin,
-} = plugins
+import { model, init, getStore, pluginExports } from 'rematch-x'
 
-init({
-  plugins: [
-    dispatchPlugin(pluginExports),
-    effectsPlugin(pluginExports),
-    selectorsPlugin(pluginExports),
-    hooksPlugin(pluginExports)
-  ]
-})
+init()
 
 model({
   name: 'countA',
@@ -80,7 +67,7 @@ const App = ({ valueA, valueB, valueADoubled, asyncAIncr, incrB, incrA }) => (
 const AppContainer = connect(state => ({
   valueA: state.countA,
   valueB: state.countB,
-  valueADoubled : pluginExports.select.countA.double(state),
+  // valueADoubled : pluginExports.select.countA.double(state),
   incrA: () => pluginExports.dispatch.countA.increment(),
   asyncAIncr: () => pluginExports.dispatch.countA.asyncIncrement(),
   incrB: () => pluginExports.dispatch.countB.increment()

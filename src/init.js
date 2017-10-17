@@ -1,7 +1,7 @@
 // @flow
 import validate from './utils/validate'
 import { createStore } from './store'
-import { initPlugins } from './plugins'
+import initPlugins from './initPlugins'
 
 const validateConfig = (config: $config) =>
   validate([
@@ -28,8 +28,7 @@ const validateConfig = (config: $config) =>
  */
 export default (config: $config = {}): void => {
   validateConfig(config)
-  if (config.plugins) {
-    initPlugins(config.plugins)
-  }
+  initPlugins(config.plugins)
   createStore(config.initialState, config.extraReducers)
 }
+

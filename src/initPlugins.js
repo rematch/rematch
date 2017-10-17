@@ -1,11 +1,12 @@
-// @flow
+import corePlugins from './plugins'
 
 export const pluginExports = {}
 export const onModelHooks = []
 export const pluginMiddlewares = []
 
-export const initPlugins = (plugins: $plugin[]) => {
-  plugins.forEach((plugin: $plugin) => {
+export default (plugins: $plugin[] = []) => {
+  corePlugins.concat(plugins).forEach((plugin: $plugin) => {
+    console.log(plugin.onInit)
     if (plugin.onInit) {
       plugin.onInit().forEach(item => {
         pluginExports[item.name] = item.val
