@@ -1,12 +1,12 @@
 // Tests for consumer API
-import { model, init, getStore, pluginExports } from '../src/index'
+import { model, init, getStore, dispatch, select } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('plugins:', () => {
-  xtest('init should register a plugin', () => {
+  test('init should register a plugin', () => {
     init()
 
     model({
@@ -16,8 +16,8 @@ describe('plugins:', () => {
         increment: s => s + 1
       },
       effects: {
-        asyncIncrement: async (payload, getState) => {
-          pluginExports.dispatch.countA.increment()
+        asyncIncrement: async () => {
+          dispatch.countA.increment()
         }
       },
       selectors: {
@@ -25,7 +25,7 @@ describe('plugins:', () => {
       },
       hooks: {
         'countB/increment': () => {
-          pluginExports.dispatch.countA.increment()
+          dispatch.countA.increment()
         }
       }
     })
@@ -38,22 +38,15 @@ describe('plugins:', () => {
       },
     })
 
-    pluginExports.dispatch.countA.asyncIncrement()
-    pluginExports.dispatch.countB.increment()
+    dispatch.countA.asyncIncrement()
+    dispatch.countB.increment()
 
     const state = getStore().getState()
 
-    expect(Object.keys(pluginExports)).toEqual([
-      'dispatch',
-      'effects',
-      'select',
-      'hooks',
-      'patternHooks'
-    ])
     expect(state).toEqual({
       countA: 4,
       countB: 1
     })
-    expect(pluginExports.select.countA.double(state)).toEqual(8)
+    expect(select.countA.double(state)).toEqual(8)
   })
 })

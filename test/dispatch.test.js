@@ -6,7 +6,6 @@ beforeEach(() => {
 
 describe('dispatch:', () => {
   xtest('should be able to call dispatch directly', () => {
-    
     init()
 
     model({
@@ -16,8 +15,6 @@ describe('dispatch:', () => {
         add: state => state + 1,
       },
     })
-
-    console.log('dispatch', dispatch)
 
     dispatch({ type: 'count/add' })
 
@@ -36,8 +33,6 @@ describe('dispatch:', () => {
         add: state => state + 1,
       },
     })
-
-    console.log('dispatch', dispatch)
 
     dispatch.count.add()
 

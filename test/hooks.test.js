@@ -4,7 +4,7 @@ beforeEach(() => {
   jest.resetModules()
 })
 
-xdescribe('hooks:', () => {
+describe('hooks:', () => {
   test('should create a working hook', () => {
     init()
 
@@ -34,7 +34,7 @@ xdescribe('hooks:', () => {
     })
   })
 
-  describe('pattern matching', () => {
+  xdescribe('pattern matching', () => {
     test('should create working pattern matching hook (*)', () => {
       init()
 
