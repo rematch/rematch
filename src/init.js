@@ -14,12 +14,8 @@ const validateConfig = (config: $config) =>
       'init config.middleware must be an array',
     ],
     [
-      !!config.extraReducers && typeof config.extraReducers !== 'object',
+      !!config.extraReducers && (Array.isArray(config.extraReducers) || typeof config.extraReducers !== 'object'),
       'init config.extraReducers must be an object',
-    ],
-    [
-      !!config.onError && typeof config.onError !== 'function',
-      'init config.onError must be a function',
     ],
   ])
 
