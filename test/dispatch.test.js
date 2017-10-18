@@ -1,4 +1,4 @@
-import { model, init, getStore, pluginExports } from '../src/index'
+import { model, init, getStore, dispatch } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
@@ -6,6 +6,7 @@ beforeEach(() => {
 
 describe('dispatch:', () => {
   xtest('should be able to call dispatch directly', () => {
+    
     init()
 
     model({
@@ -16,7 +17,9 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch({ type: 'count/add' })
+    console.log('dispatch', dispatch)
+
+    dispatch({ type: 'count/add' })
 
     expect(getStore().getState()).toEqual({
       count: 1,
@@ -34,7 +37,9 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch.count.add()
+    console.log('dispatch', dispatch)
+
+    dispatch.count.add()
 
     expect(getStore().getState()).toEqual({
       count: 1,
@@ -52,8 +57,8 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch.count.add()
-    pluginExports.dispatch.count.add()
+    dispatch.count.add()
+    dispatch.count.add()
 
     expect(getStore().getState()).toEqual({
       count: 2,
@@ -79,8 +84,8 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch.a.add()
-    pluginExports.dispatch.b.add()
+    dispatch.a.add()
+    dispatch.b.add()
 
     expect(getStore().getState()).toEqual({
       a: 43,
@@ -117,7 +122,7 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch.count.doNothing()
+    dispatch.count.doNothing()
 
     expect(getStore().getState()).toEqual({
       count: 0,
@@ -135,7 +140,7 @@ describe('dispatch:', () => {
       },
     })
 
-    pluginExports.dispatch.count.incrementBy(5)
+    dispatch.count.incrementBy(5)
 
     expect(getStore().getState()).toEqual({
       count: 6,

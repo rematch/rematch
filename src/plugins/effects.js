@@ -1,27 +1,28 @@
+import { dispatch } from './dispatch'
+
+export const effects = {}
+
 // TODO assumes there is a dispatch plugin
-export default (pluginExports) => ({
-  onInit: {
-    effects: {},
-  },
-  onModel: (model, exports, dispatch) => {
+export default () => ({
+  onModel: (model, storeDispatch) => {
     const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
       const action = {
         type: `${modelName}/${reducerName}`,
         ...(payload ? { payload } : {})
       }
-      dispatch(action)
+      storeDispatch(action)
     }
 
     Object.keys(model.effects || {}).forEach((effectName: string) => {
-      exports.effects[`${model.name}/${effectName}`] = model.effects[effectName]
+      effects[`${model.name}/${effectName}`] = model.effects[effectName]
       // add effect to dispatch
       // is assuming dispatch is available already... that the dispatch plugin is in there
-      exports.dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
+      dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
     })
   },
   middleware: store => next => action => {
-    if (action.type in pluginExports.effects) {
-      return pluginExports.effects[action.type](action.payload, store.getState)
+    if (action.type in effects) {
+      return effects[action.type](action.payload, store.getState)
     }
     return next(action)
   }

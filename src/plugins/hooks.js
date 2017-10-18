@@ -1,11 +1,10 @@
 import validate from '../utils/validate'
 
-export default (pluginExports) => ({
-  onInit: {
-    hooks: new Map(),
-    patternHooks: new Map()
-  },
-  onModel: (model, exports) => {
+const hooks = new Map()
+const patternHooks = new Map()
+
+export default () => ({
+  onModel: (model) => {
     // matches actions with letter/number characters & -, _
     const actionRegex = /^[A-Za-z0-9-_]+\/[A-Za-z0-9-_]+$/
     const isPatternMatch = matcher => !!matcher.match(actionRegex)
@@ -18,10 +17,10 @@ export default (pluginExports) => ({
         [typeof onAction !== 'function', 'hook onAction must be a function'],
       ])
       if (isPatternMatch(matcher)) {
-        exports.patternHooks.set(matcher, onAction)
+        patternHooks.set(matcher, onAction)
       } else {
         // set as a pattern hook, if hook does not match a specific action
-        exports.hooks.set(matcher, onAction)
+        hooks.set(matcher, onAction)
       }
     }
 
@@ -32,11 +31,11 @@ export default (pluginExports) => ({
   middleware: () => next => action => {
     const { type } = action
     // exact match
-    if (pluginExports.hooks.has(type)) {
-      pluginExports.hooks.get(type)(action)
+    if (hooks.has(type)) {
+      hooks.get(type)(action)
     } else {
       // run matches on pattern hooks
-      pluginExports.patternHooks.forEach((value: (action: $action) => void, key: string) => {
+      patternHooks.forEach((value: (action: $action) => void, key: string) => {
         if (type.match(new RegExp(key))) {
           value(action)
         }

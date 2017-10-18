@@ -5,7 +5,7 @@ beforeEach(() => {
   jest.resetModules()
 })
 
-xdescribe('effects:', () => {
+describe('effects:', () => {
   test('should create an action', () => {
     init()
 
@@ -82,7 +82,7 @@ xdescribe('effects:', () => {
     })
   })
 
-  test('should be able trigger a local reducer using functions and `this`', async () => {
+  xtest('should be able trigger a local reducer using functions and `this`', async () => {
     init()
 
     model({
@@ -105,7 +105,7 @@ xdescribe('effects:', () => {
     })
   })
 
-  test('should be able trigger a local reducer using object function shorthand and `this`', async () => {
+  xtest('should be able trigger a local reducer using object function shorthand and `this`', async () => {
     init()
 
     model({

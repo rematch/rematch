@@ -1,19 +1,19 @@
+// @flow
+export const dispatch = {}
+
 export default () => ({
-  onInit: {
-    dispatch: {},
-  },
-  onModel: (model, exports, dispatch) => {
+  onModel: (model: $model, storeDispatch: (action: $action) => any) => {
     const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
       const action = {
         type: `${modelName}/${reducerName}`,
         ...(payload ? { payload } : {})
       }
-      dispatch(action)
+      storeDispatch(action)
     }
 
-    exports.dispatch[model.name] = {}
+    dispatch[model.name] = {}
     Object.keys(model.reducers || {}).forEach((reducerName: string) => {
-      exports.dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
+      dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
     })
   }
 })
