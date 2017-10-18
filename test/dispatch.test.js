@@ -5,7 +5,7 @@ beforeEach(() => {
 })
 
 describe('dispatch:', () => {
-  xtest('should be able to call dispatch directly', () => {
+  test('should be able to call dispatch directly', () => {
     init()
 
     model({
