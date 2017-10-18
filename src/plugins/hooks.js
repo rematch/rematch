@@ -18,8 +18,7 @@ const createHook = (
   if (isAction(matcher)) {
     hooks.set(matcher, onAction)
   } else {
-    matcher = matcher.replace('*', '.*')
-    matcher = `^${matcher}$`
+    throw new Error('Invalid hook matcher', matcher)
   }
 }
 

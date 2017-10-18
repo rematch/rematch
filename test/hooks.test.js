@@ -151,4 +151,19 @@ describe('hooks:', () => {
       })
     })
   })
+
+  test('it should throw if a hook matcher is invalid', () => {
+    init()
+
+    expect(() => model({
+      name: 'first',
+      state: 0,
+      reducers: {
+        addOne: (state) => state + 1,
+      },
+      hooks: {
+        'Not/A/Valid/Matcher': () => dispatch.first.addOne(),
+      }
+    })).toThrow()
+  })
 })
