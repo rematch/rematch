@@ -1,29 +1,40 @@
 // Test for internal store
-// import { select, createSelectors } from '../src/select'
+import { init, model, select, getStore } from '../src'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
-xdescribe('select:', () => {
-  it('should be an object')
+describe('select:', () => {
+  it('should create a valid list of selectors', () => {
+    init()
+    model({
+      name: 'a',
+      state: 0,
+      reducers: {
+        increment: s => s + 1
+      },
+      selectors: {
+        double: s => s * 2
+      },
+    })
+    expect(typeof select.a.double).toBe('function')
+  })
+
+  it('should allow access to the selector', () => {
+    init()
+    model({
+      name: 'a',
+      state: 2,
+      reducers: {
+        increment: s => s + 1
+      },
+      selectors: {
+        double: s => s * 2
+      },
+    })
+    const doubled = select.a.double(getStore().getState())
+    expect(doubled).toBe(4)
+  })
 })
 
-xdescribe('createSelectors:', () => {
-  // it('should populate "select" with selectors in the correct namespace', () => {
-  //   const model = ({
-  //     name: 'app',
-  //     selectors: {
-  //       selectorWithNoArg: state => state,
-  //       selectorWithArg: (state, arg) => state + arg
-  //     }
-  //   })
-
-  //   createSelectors(model)
-
-  //   expect(select).toHaveProperty('app')
-  //   expect(select).toHaveProperty('app.selectorWithNoArg')
-  //   expect(select.app.selectorWithNoArg({ app: 1 })).toEqual(1)
-  //   expect(select.app.selectorWithArg({ app: 1 }, 1)).toEqual(2)
-  // })
-})
