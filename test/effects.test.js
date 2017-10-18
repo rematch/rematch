@@ -200,7 +200,7 @@ describe('effects:', () => {
     })
   })
 
-  xtest('should be able to trigger another action w/ multiple actions', async () => {
+  test('should be able to trigger another action w/ multiple actions', async () => {
     init()
 
     model({
@@ -226,8 +226,10 @@ describe('effects:', () => {
 
     await dispatch.example.asyncAddSome()
 
-    expect(getStore().getState()).toEqual({
-      example: 5,
+    await setTimeout(() => {
+      expect(getStore().getState()).toEqual({
+        example: 5,
+      })
     })
   })
 })
