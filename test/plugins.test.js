@@ -1,12 +1,29 @@
 // Tests for consumer API
 import { model, init, getStore, dispatch, select } from '../src/index'
+import createPlugins from '../src/core'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('plugins:', () => {
-  test('init should register a plugin', () => {
+  test('should not create a plugin with invalid "onModel"', () => {
+    const plugin1 = {
+      onModel: {},
+    }
+    const plugins = [plugin1]
+    expect(() => createPlugins(plugins)).toThrow()
+  })
+
+  test('should not create a plugin with invalid "middleware"', () => {
+    const plugin1 = {
+      middleware: {},
+    }
+    const plugins = [plugin1]
+    expect(() => createPlugins(plugins)).toThrow()
+  })
+
+  xtest('init should register a plugin', () => {
     init()
 
     model({

@@ -1,5 +1,4 @@
 declare type $plugin = {
-  onInit(): any,
-  onModel(model: $model, exports: any, dispatch: any): void,
+  onModel(model: $model, dispatch: any): void,
   middleware: $middleware,
 }
