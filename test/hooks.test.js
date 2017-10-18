@@ -1,4 +1,4 @@
-import { model, init, dispatch, getStore } from '../src/index'
+import { model, init, dispatch, getStore } from '../src'
 
 beforeEach(() => {
   jest.resetModules()

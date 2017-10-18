@@ -1,4 +1,4 @@
-import { init } from '../src/index'
+import { init } from '../src'
 
 beforeEach(() => {
   jest.resetModules()
@@ -20,9 +20,15 @@ describe('init config', () => {
     })).toThrow()
   })
 
-  test('should not accept invalid "extraReducers"', () => {
+  test('should not accept invalid array for "extraReducers"', () => {
     expect(() => init({
       extraReducers: []
+    })).toThrow()
+  })
+
+  test('should not accept invalid value as "extraReducers"', () => {
+    expect(() => init({
+      extraReducers: 42
     })).toThrow()
   })
 })
