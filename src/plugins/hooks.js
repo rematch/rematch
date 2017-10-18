@@ -5,7 +5,7 @@ const patternHooks = new Map()
 
 // matches actions with letter/number characters & -, _
 const actionRegex = /^[A-Za-z0-9-_]+\/[A-Za-z0-9-_]+$/
-const isPatternMatch = matcher => !!matcher.match(actionRegex)
+const isAction = matcher => !!matcher.match(actionRegex)
 
 const createHook = (
   matcher: string,
@@ -15,11 +15,15 @@ const createHook = (
     [typeof matcher !== 'string', 'hook matcher must be a string'],
     [typeof onAction !== 'function', 'hook onAction must be a function'],
   ])
-  if (isPatternMatch(matcher)) {
-    patternHooks.set(matcher, onAction)
-  } else {
-    // set as a pattern hook, if hook does not match a specific action
+
+  if (!isAction(matcher)) {
     hooks.set(matcher, onAction)
+  } else {
+    // TODO: validate is valid action first
+    // examples: *, */*, a/*, */b, a*/b, a/b*, etc.
+
+    // set as a pattern hook, if hook does not match a specific action
+    patternHooks.set(matcher, onAction)
   }
 }
 

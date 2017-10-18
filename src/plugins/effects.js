@@ -14,7 +14,9 @@ export default () => ({
     }
 
     Object.keys(model.effects || {}).forEach((effectName: string) => {
-      effects[`${model.name}/${effectName}`] = model.effects[effectName]
+      effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(
+        dispatch[model.name]
+      )
       // add effect to dispatch
       // is assuming dispatch is available already... that the dispatch plugin is in there
       dispatch[model.name][effectName] = createDispatcher(model.name, effectName)

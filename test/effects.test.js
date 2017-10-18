@@ -82,7 +82,7 @@ describe('effects:', () => {
     })
   })
 
-  xtest('should be able trigger a local reducer using functions and `this`', async () => {
+  test('should be able trigger a local reducer using functions and `this`', async () => {
     init()
 
     model({
@@ -105,7 +105,7 @@ describe('effects:', () => {
     })
   })
 
-  xtest('should be able trigger a local reducer using object function shorthand and `this`', async () => {
+  test('should be able trigger a local reducer using object function shorthand and `this`', async () => {
     init()
 
     model({
