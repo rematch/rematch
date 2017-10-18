@@ -1,7 +1,6 @@
 import validate from '../utils/validate'
 
 const hooks = new Map()
-const patternHooks = new Map()
 
 // matches actions with letter/number characters & -, _
 const actionRegex = /^[A-Za-z0-9-_]+\/[A-Za-z0-9-_]+$/
@@ -16,14 +15,11 @@ const createHook = (
     [typeof onAction !== 'function', 'hook onAction must be a function'],
   ])
 
-  if (!isAction(matcher)) {
+  if (isAction(matcher)) {
     hooks.set(matcher, onAction)
   } else {
-    // TODO: validate is valid action first
-    // examples: *, */*, a/*, */b, a*/b, a/b*, etc.
-
-    // set as a pattern hook, if hook does not match a specific action
-    patternHooks.set(matcher, onAction)
+    matcher = matcher.replace('*', '.*')
+    matcher = `^${matcher}$`
   }
 }
 
@@ -38,13 +34,6 @@ export default () => ({
     // exact match
     if (hooks.has(type)) {
       hooks.get(type)(action)
-    } else {
-      // run matches on pattern hooks
-      patternHooks.forEach((onAction: (action: $action) => void, matcher: string) => {
-        if (type.match(new RegExp(matcher))) {
-          onAction(action)
-        }
-      })
     }
     return next(action)
   }
