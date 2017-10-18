@@ -23,7 +23,7 @@ const createHook = (
   }
 }
 
-export default () => ({
+export default {
   onModel: (model) => {
     Object.keys(model.hooks || {}).forEach((matcher: string) => {
       createHook(matcher, model.hooks[matcher])
@@ -37,4 +37,4 @@ export default () => ({
     }
     return next(action)
   }
-})
+}

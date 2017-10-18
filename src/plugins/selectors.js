@@ -1,6 +1,6 @@
 export const select = {}
 
-export default () => ({
+export default {
   onModel: (model) => {
     select[model.name] = {}
     Object.keys(model.selectors || {}).forEach((selectorName: string) => {
@@ -8,4 +8,4 @@ export default () => ({
         model.selectors[selectorName](state[model.name], ...args)
     })
   }
-})
+}

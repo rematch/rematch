@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import { model, init, getStore, pluginExports } from 'rematch-x'
+import { model, init, dispatch, select, getStore } from 'rematch-x'
 
 init()
 
@@ -16,7 +16,7 @@ model({
       await new Promise((resolve) => {
         setTimeout(resolve, 1000)
       })
-      pluginExports.dispatch.countA.increment()
+      dispatch.countA.increment()
     }
   },
   selectors: {
@@ -24,7 +24,7 @@ model({
   },
   hooks: {
     'countB/increment': () => {
-      pluginExports.dispatch.countA.increment()
+      dispatch.countA.increment()
     }
   }
 })
@@ -67,10 +67,10 @@ const App = ({ valueA, valueB, valueADoubled, asyncAIncr, incrB, incrA }) => (
 const AppContainer = connect(state => ({
   valueA: state.countA,
   valueB: state.countB,
-  valueADoubled : pluginExports.select.countA.double(state),
-  incrA: () => pluginExports.dispatch.countA.increment(),
-  asyncAIncr: () => pluginExports.dispatch.countA.asyncIncrement(),
-  incrB: () => pluginExports.dispatch.countB.increment()
+  valueADoubled : select.countA.double(state),
+  incrA: () => dispatch.countA.increment(),
+  asyncAIncr: () => dispatch.countA.asyncIncrement(),
+  incrB: () => dispatch.countB.increment()
 }))(App)
 
 // Use react-redux's <Provider /> and pass it the store.

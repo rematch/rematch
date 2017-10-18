@@ -3,7 +3,7 @@ let callDispatch // eslint ignore
 
 export const dispatch = (action: $action) => callDispatch(action)
 
-export default () => ({
+export default {
   onModel: (model: $model, storeDispatch: (action: $action) => any) => {
     if (!callDispatch) {
       callDispatch = storeDispatch
@@ -21,4 +21,4 @@ export default () => ({
       dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
     })
   }
-})
+}
