@@ -1,20 +1,29 @@
 // @flow
-import { validateModel } from './validate'
-import { createDispatchers } from './dispatch'
-import { createEffects } from './effects'
-import { createHooks } from './hooks'
-import { createReducersAndUpdateStore } from './store'
-import { createSelectors } from './select'
+import validate from './utils/validate'
+import { createReducersAndUpdateStore, getStore } from './utils/store'
+import { onModelHooks } from './core'
 
-/**
- * model
- */
-export default (model: $model): void => {
+const validateModel = (model: $model) =>
+  validate([
+    [!model, 'model config is required'],
+    [
+      !model.name || typeof model.name !== 'string',
+      'model "name" [string] is required',
+    ],
+    [model.state === undefined, 'model "state" is required'],
+  ])
+
+const createModel = (model: $model): void => {
   validateModel(model)
 
+  // add model reducers to redux store
   createReducersAndUpdateStore(model)
-  createDispatchers(model)
-  createEffects(model)
-  createHooks(model)
-  createSelectors(model)
+
+  // run plugin model hooks
+  const { dispatch } = getStore()
+  onModelHooks.forEach(modelHook => {
+    modelHook(model, dispatch)
+  })
 }
+
+export default createModel

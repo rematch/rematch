@@ -1,38 +1,76 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import { init, model, dispatch, select, getStore } from 'rematch-x'
+import { model, init, dispatch, select, getStore } from 'rematch-x'
 
-// No need to specify a 'view' in init.
 init()
 
-// Create the model
 model({
-  name: 'count',
+  name: 'countA',
   state: 0,
   reducers: {
-    increment: state => state + 1
+    increment: s => s + 1
+  },
+  effects: {
+    asyncIncrement: async (payload, getState) => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000)
+      })
+      dispatch.countA.increment()
+    }
   },
   selectors: {
-    doubled: state => state * 2
+    double: s => s * 2
+  },
+  hooks: {
+    'countB/increment': () => {
+      dispatch.countA.increment()
+    }
   }
+})
+
+model({
+  name: 'countB',
+  state: 0,
+  reducers: {
+    increment: s => s + 1
+  },
 })
 
 // Make a presentational component.
 // It knows nothing about redux or rematch.
-const App = ({ value, valueDoubled, handleClick }) => (
+const App = ({ valueA, valueB, valueADoubled, asyncAIncr, incrB, incrA }) => (
   <div>
-    <div>The count is {value}</div>
-    <div>The count doubled is {valueDoubled}</div>
-    <button onClick={handleClick}>Increment</button>
+    <h2>countA is <b style={{backgroundColor: '#ccc'}}>{valueA}</b></h2>
+    <h2>countB is <b style={{backgroundColor: '#ccc'}}>{valueB}</b></h2>
+
+    <h2>
+      <button onClick={incrA}>Increment countA</button>
+      {' '}
+      <em style={{backgroundColor: 'yellow'}}>(normal dispatch)</em>
+    </h2>
+    <h2>countA doubled is <b style={{backgroundColor: '#ccc'}}>{valueADoubled}</b> <em style={{backgroundColor: 'yellow'}}>(a selector!)</em></h2>
+    <h2>
+      <button onClick={asyncAIncr}>Increment countA (delayed 1 second)</button>
+      {' '}
+      <em style={{backgroundColor: 'yellow'}}>(an async effect!!!)</em>
+    </h2>
+    <h2>
+      <button onClick={incrB}>Increment countB</button>
+      {' '}
+      <em style={{backgroundColor: 'yellow'}}>(countA has a hook listening to 'countB/increment')</em>
+    </h2>
   </div>
 )
 
 // Use react-redux's connect
 const AppContainer = connect(state => ({
-  value: state.count,
-  valueDoubled : select.count.doubled(state),
-  handleClick: () => dispatch.count.increment()
+  valueA: state.countA,
+  valueB: state.countB,
+  valueADoubled : select.countA.double(state),
+  incrA: () => dispatch.countA.increment(),
+  asyncAIncr: () => dispatch.countA.asyncIncrement(),
+  incrB: () => dispatch.countB.increment()
 }))(App)
 
 // Use react-redux's <Provider /> and pass it the store.

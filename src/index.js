@@ -1,21 +1,25 @@
 import init from './init'
 import model from './model'
-import { dispatch } from './dispatch'
-import { select } from './select'
-import { getStore } from './store'
+import { getStore } from './utils/store'
+import { pluginExports } from './core'
+
+import { dispatch } from './plugins/dispatch'
+import { select } from './plugins/selectors'
 
 export default {
   init,
   model,
+  getStore,
+  pluginExports,
   dispatch,
   select,
-  getStore
 }
 
 export {
   init,
   model,
+  getStore,
+  pluginExports,
   dispatch,
-  select,
-  getStore
+  select
 }

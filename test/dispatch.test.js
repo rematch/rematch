@@ -1,11 +1,11 @@
-import { model, init, dispatch, getStore } from '../src/index'
+import { model, init, getStore, dispatch } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('dispatch:', () => {
-  test('should call dispatch directly', () => {
+  test('should be able to call dispatch directly', () => {
     init()
 
     model({
@@ -22,6 +22,7 @@ describe('dispatch:', () => {
       count: 1,
     })
   })
+
   test('should dispatch an action', () => {
     init()
 

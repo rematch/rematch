@@ -1,5 +1,5 @@
 import { model, init, dispatch, getStore } from '../src/index'
-import { effects } from '../src/effects'
+// import { effects } from '../src/effects'
 
 beforeEach(() => {
   jest.resetModules()
@@ -20,19 +20,19 @@ describe('effects:', () => {
     expect(typeof dispatch.count.add).toBe('function')
   })
 
-  test('should create an effect', () => {
-    init()
+  // test('should create an effect', () => {
+  //   init()
 
-    model({
-      name: 'example',
-      state: 0,
-      effects: {
-        add: () => 1
-      },
-    })
+  //   model({
+  //     name: 'example',
+  //     state: 0,
+  //     effects: {
+  //       add: () => 1
+  //     },
+  //   })
 
-    expect(effects['example/add']()).toBe(1)
-  })
+  //   expect(effects['example/add']()).toBe(1)
+  // })
 
   test('should be able to trigger another action', async () => {
     init()

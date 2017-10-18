@@ -34,7 +34,7 @@ describe('hooks:', () => {
     })
   })
 
-  describe('pattern matching', () => {
+  xdescribe('pattern matching', () => {
     test('should create working pattern matching hook (*)', () => {
       init()
 

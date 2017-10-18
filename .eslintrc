@@ -12,7 +12,8 @@
     "quotes": [1, "single"],
     "no-tabs": 0,
     "semi": [1, "never"],
-    "jsx-a11y/href-no-hash": 0
+    "jsx-a11y/href-no-hash": 0,
+    "no-param-reassign": 0
   },
   "env": {
     "jest/globals": true
@@ -22,6 +23,7 @@
     "$config": false,
     "$middleware": false,
     "$model": false,
+    "$plugin": false,
     "$reducer": false,
     "$reducers": false,
     "$store": false,

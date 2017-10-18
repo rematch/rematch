@@ -1,7 +1,8 @@
 // @flow
+/* eslint no-underscore-dangle: 0 */
 import { combineReducers } from 'redux'
 
-let _reducers: $reducers // eslint-disable-line
+let _reducers: $reducers
 
 export const initReducers = () : void => {
   _reducers = {}
@@ -19,7 +20,7 @@ export const getReducer = (reducer: $reducers, initialState: any = null) => (
   return state
 }
 
-// adds "model/reducer" names to
+// adds "model/reducer" names to 
 export const resolveReducers = (modelName: string, reducers: $reducers = {}) =>
   Object.keys(reducers).reduce((acc, reducer) => {
     acc[`${modelName}/${reducer}`] = reducers[reducer]

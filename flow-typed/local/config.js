@@ -1,10 +1,7 @@
 declare type $config = {
- router?: any,
  initialState?: any,
- plugins?: any[],
- middleware?: any[],
+ plugins?: $plugin[],
  extraReducers?: {
   [reducerName: string]: (state: any, action: Object) => any,
  },
- onError?: (error: Error) => void,
 }
