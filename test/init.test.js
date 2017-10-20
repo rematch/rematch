@@ -1,5 +1,5 @@
 // Tests for consumer API
-import { model, init, getStore } from '../src/index'
+import { model, init, getStore } from '../src'
 
 beforeEach(() => {
   jest.resetModules()

@@ -24,9 +24,9 @@ describe('createStore:', () => {
     expect(getStore().getState()).toEqual({ app: 'hello, world' })
   })
 
-  xit('extraReducers should create store with extra reducers', () => {
+  it('extraReducers should create store with extra reducers', () => {
     const extraReducers = { todos: (state = 999) => state }
-    createStore(undefined, [], extraReducers)
+    createStore(undefined, extraReducers)
     expect(getStore().getState()).toEqual({ todos: 999 })
   })
 })

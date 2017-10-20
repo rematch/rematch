@@ -2,6 +2,7 @@
 import validate from './utils/validate'
 import { createStore } from './utils/store'
 import createPlugins from './core'
+import corePlugins from './plugins'
 
 const validateConfig = (config: $config) =>
   validate([
@@ -14,19 +15,15 @@ const validateConfig = (config: $config) =>
       'init config.middleware must be an array',
     ],
     [
-      !!config.extraReducers && typeof config.extraReducers !== 'object',
+      !!config.extraReducers && (Array.isArray(config.extraReducers) || typeof config.extraReducers !== 'object'),
       'init config.extraReducers must be an object',
-    ],
-    [
-      !!config.onError && typeof config.onError !== 'function',
-      'init config.onError must be a function',
     ],
   ])
 
 const init = (config: $config = {}): void => {
   validateConfig(config)
   // setup plugin pipeline
-  createPlugins(config.plugins)
+  createPlugins(config.plugins, corePlugins)
   // create a redux store with initialState
   // merge in additional extra reducers
   createStore(config.initialState, config.extraReducers)

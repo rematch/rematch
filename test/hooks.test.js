@@ -1,4 +1,4 @@
-import { model, init, dispatch, getStore } from '../src/index'
+import { model, init, dispatch, getStore } from '../src'
 
 beforeEach(() => {
   jest.resetModules()
@@ -150,5 +150,20 @@ describe('hooks:', () => {
         second: 1, first: 1,
       })
     })
+  })
+
+  test('it should throw if a hook matcher is invalid', () => {
+    init()
+
+    expect(() => model({
+      name: 'first',
+      state: 0,
+      reducers: {
+        addOne: (state) => state + 1,
+      },
+      hooks: {
+        'Not/A/Valid/Matcher': () => dispatch.first.addOne(),
+      }
+    })).toThrow()
   })
 })
