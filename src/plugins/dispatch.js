@@ -4,10 +4,10 @@ let callDispatch
 export const dispatch = (action: $action) => callDispatch(action)
 
 export default {
-  onInit: (storeDispatch: (action: $action) => any) => {
+  onInit: (storeDispatch: $dispatch) => {
     callDispatch = storeDispatch
   },
-  onModel: (model: $model, storeDispatch: (action: $action) => any) => {
+  onModel: (model: $model, storeDispatch: $dispatch) => {
     const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
       const action = {
         type: `${modelName}/${reducerName}`,

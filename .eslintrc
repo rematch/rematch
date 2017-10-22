@@ -20,6 +20,7 @@
   },
   "globals": {
     "$action": false,
+    "$dispatch": false,
     "$config": false,
     "$middleware": false,
     "$model": false,

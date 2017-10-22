@@ -1,3 +1,4 @@
+// @flow
 import validate from '../utils/validate'
 
 const subscriptions = new Map()
@@ -25,17 +26,17 @@ const createSubscription = (
     }
     subscriptions.set(matcher, handler)
   } else {
-    throw new Error('Invalid subscription matcher', matcher)
+    throw new Error(`Invalid subscription matcher: ${matcher}`)
   }
 }
 
 export default {
-  onModel: model => {
+  onModel: (model: $model) => {
     Object.keys(model.subscriptions || {}).forEach((matcher: string) => {
       createSubscription(model.name, matcher, model.subscriptions[matcher])
     })
   },
-  middleware: () => next => action => {
+  middleware: () => (next: (action: $action) => any) => (action: $action) => {
     const { type } = action
 
     // exact match
