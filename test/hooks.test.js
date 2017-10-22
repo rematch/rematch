@@ -34,6 +34,49 @@ describe('hooks:', () => {
     })
   })
 
+  test('should allow for multiple hooks with same name in different models', () => {
+    init()
+
+    model({
+      name: 'a',
+      state: 0,
+      reducers: {
+        addOne: (state) => state + 1,
+      },
+      hooks: {
+        'b/addOne': () => a.addOne(),
+      }
+    })
+
+    model({
+      name: 'b',
+      state: 0,
+      reducers: {
+        addOne: (state) => state + 1,
+      },
+    })
+
+    model({
+      name: 'c',
+      state: 0,
+      reducers: {
+        addOne: (state) => state + 1,
+      },
+      hooks: {
+        'b/addOne': () => {
+          console.log('c')
+          dispatch.c.addOne()
+        },
+      },
+    })
+
+    dispatch.b.addOne()
+
+    expect(getStore().getState()).toEqual({
+      a: 1, b: 1, c: 1,
+    })
+  })
+
   xdescribe('pattern matching', () => {
     test('should create working pattern matching hook (*)', () => {
       init()

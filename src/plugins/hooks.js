@@ -7,6 +7,7 @@ const actionRegex = /^[A-Za-z0-9-_]+\/[A-Za-z0-9-_]+$/
 const isAction = matcher => !!matcher.match(actionRegex)
 
 const createHook = (
+  modelName: string,
   matcher: string,
   onAction: (action: $action) => void
 ) => {
@@ -16,7 +17,13 @@ const createHook = (
   ])
 
   if (isAction(matcher)) {
-    hooks.set(matcher, onAction)
+    // hooks match on modelName and action
+    // to allow multiple hooks in different models
+    let handler = { [modelName]: onAction }
+    if (hooks.has(matcher)) {
+      handler = { ...hooks.get(matcher), ...handler }
+    }
+    hooks.set(matcher, handler)
   } else {
     throw new Error('Invalid hook matcher', matcher)
   }
@@ -25,15 +32,21 @@ const createHook = (
 export default {
   onModel: (model) => {
     Object.keys(model.hooks || {}).forEach((matcher: string) => {
-      createHook(matcher, model.hooks[matcher])
+      createHook(model.name, matcher, model.hooks[matcher])
     })
   },
   middleware: () => next => action => {
     const { type } = action
+
     // exact match
     if (hooks.has(type)) {
-      hooks.get(type)(action)
+      const allHooks = hooks.get(type)
+      // call each hook[modelName] with action
+      Object.keys(allHooks).forEach((modelName) => {
+        allHooks[modelName](action)
+      })
     }
+
     return next(action)
   }
 }
