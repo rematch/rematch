@@ -21,9 +21,7 @@ const createModel = (model: $model): void => {
 
   // run plugin model subscriptions
   const { dispatch } = getStore()
-  modelHooks.forEach(modelHook => {
-    modelHook(model, dispatch)
-  })
+  modelHooks.forEach(modelHook => modelHook(model, dispatch))
 }
 
 export default createModel

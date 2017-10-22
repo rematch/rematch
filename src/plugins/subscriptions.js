@@ -17,7 +17,7 @@ const createSubscription = (
   ])
 
   if (isAction(matcher)) {
-    // subscriptions match on modelName and action
+    // subscriptions match on { modelName: onAction }
     // to allow multiple subscriptions in different models
     let handler = { [modelName]: onAction }
     if (subscriptions.has(matcher)) {
