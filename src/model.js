@@ -1,7 +1,7 @@
 // @flow
 import validate from './utils/validate'
 import { createReducersAndUpdateStore, getStore } from './utils/store'
-import { modelSubscriptions } from './core'
+import { modelHooks } from './core'
 
 const validateModel = (model: $model) =>
   validate([
@@ -21,7 +21,7 @@ const createModel = (model: $model): void => {
 
   // run plugin model subscriptions
   const { dispatch } = getStore()
-  modelSubscriptions.forEach(modelHook => {
+  modelHooks.forEach(modelHook => {
     modelHook(model, dispatch)
   })
 }
