@@ -1,3 +1,4 @@
+// @flow
 import validate from './utils/validate'
 
 export const modelHooks = []
@@ -15,7 +16,7 @@ const validatePlugin = (plugin: $plugin) =>
     ],
   ])
 
-const createPlugins = (plugins: $plugin[] = [], core: $plugin[]) => {
+const createPlugins = (core: $plugin[], plugins: $plugin[] = []) => {
   const allPlugins = core.concat(plugins)
   allPlugins.forEach((plugin: $plugin) => {
     validatePlugin(plugin)
