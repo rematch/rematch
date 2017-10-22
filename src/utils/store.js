@@ -19,7 +19,7 @@ export const getStore = () => store
 export const createStore = (
   initialState: any = {},
   extraReducers: $reducers = {},
-): void => {
+): any => {
   initReducers()
   const middlewares = applyMiddleware(...pluginMiddlewares)
   const hasExtraReducers = Object.keys(extraReducers).length > 0

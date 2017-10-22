@@ -1,5 +1,5 @@
 // Tests for consumer API
-import createPlugins, { modelHooks, pluginMiddlewares } from '../src/core'
+import { createPlugins, modelHooks, pluginMiddlewares } from '../src/core'
 
 beforeEach(() => {
   jest.resetModules()
@@ -13,7 +13,7 @@ describe('plugins:', () => {
     }, {
       onModel: fns[1]
     }]
-    createPlugins([], plugins)
+    createPlugins(plugins)
     expect(modelHooks).toEqual(fns)
   })
 
@@ -25,7 +25,7 @@ describe('plugins:', () => {
     }, {
       middleware: m2
     }]
-    createPlugins([], plugins)
+    createPlugins(plugins)
     expect(pluginMiddlewares).toEqual([m1, m2])
   })
 
@@ -34,7 +34,7 @@ describe('plugins:', () => {
       onModel: {},
     }
     const plugins = [plugin1]
-    expect(() => createPlugins([], plugins)).toThrow()
+    expect(() => createPlugins(plugins)).toThrow()
   })
 
   test('should not create a plugin with invalid "middleware"', () => {
@@ -42,7 +42,7 @@ describe('plugins:', () => {
       middleware: {},
     }
     const plugins = [plugin1]
-    expect(() => createPlugins([], plugins)).toThrow()
+    expect(() => createPlugins(plugins)).toThrow()
   })
 
 })

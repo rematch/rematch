@@ -1,5 +1,6 @@
 // @flow
 import validate from './utils/validate'
+import { getStore } from './utils/store'
 
 export const modelHooks = []
 export const pluginMiddlewares = []
@@ -16,9 +17,8 @@ const validatePlugin = (plugin: $plugin) =>
     ],
   ])
 
-const createPlugins = (core: $plugin[], plugins: $plugin[] = []) => {
-  const allPlugins = core.concat(plugins)
-  allPlugins.forEach((plugin: $plugin) => {
+export const createPlugins = (plugins: $plugin[]) => {
+  plugins.forEach((plugin: $plugin) => {
     validatePlugin(plugin)
     if (plugin.onModel) {
       modelHooks.push(plugin.onModel)
@@ -29,4 +29,11 @@ const createPlugins = (core: $plugin[], plugins: $plugin[] = []) => {
   })
 }
 
-export default createPlugins
+export const initPlugins = (plugins: $plugin[]) => {
+  plugins.forEach((plugin: $plugin) => {
+    if (plugin.onInit) {
+      const { dispatch } = getStore()
+      plugin.onInit(dispatch)
+    }
+  })
+}
