@@ -1,6 +1,6 @@
 import validate from './utils/validate'
 
-export const onModelHooks = []
+export const modelSubscriptions = []
 export const pluginMiddlewares = []
 
 const validatePlugin = (plugin: $plugin) =>
@@ -13,7 +13,7 @@ const createPlugins = (plugins: $plugin[] = [], core: $plugin[]) =>
   core.concat(plugins).forEach((plugin: $plugin) => {
     validatePlugin(plugin)
     if (plugin.onModel) {
-      onModelHooks.push(plugin.onModel)
+      modelSubscriptions.push(plugin.onModel)
     }
     if (plugin.middleware) {
       pluginMiddlewares.push(plugin.middleware)

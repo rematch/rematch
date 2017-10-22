@@ -4,8 +4,8 @@ beforeEach(() => {
   jest.resetModules()
 })
 
-describe('hooks:', () => {
-  test('should create a working hook', () => {
+describe('subscriptions:', () => {
+  test('should create a working subscription', () => {
     init()
 
     model({
@@ -14,7 +14,7 @@ describe('hooks:', () => {
       reducers: {
         addOne: (state) => state + 1,
       },
-      hooks: {
+      subscriptions: {
         'second/addOne': () => dispatch.first.addOne(),
       }
     })
@@ -34,7 +34,7 @@ describe('hooks:', () => {
     })
   })
 
-  test('should allow for multiple hooks with same name in different models', () => {
+  test('should allow for multiple subscriptions with same name in different models', () => {
     init()
 
     model({
@@ -43,8 +43,8 @@ describe('hooks:', () => {
       reducers: {
         addOne: (state) => state + 1,
       },
-      hooks: {
-        'b/addOne': () => a.addOne(),
+      subscriptions: {
+        'b/addOne': () => dispatch.a.addOne(),
       }
     })
 
@@ -62,11 +62,8 @@ describe('hooks:', () => {
       reducers: {
         addOne: (state) => state + 1,
       },
-      hooks: {
-        'b/addOne': () => {
-          console.log('c')
-          dispatch.c.addOne()
-        },
+      subscriptions: {
+        'b/addOne': () => dispatch.c.addOne(),
       },
     })
 
@@ -78,7 +75,7 @@ describe('hooks:', () => {
   })
 
   xdescribe('pattern matching', () => {
-    test('should create working pattern matching hook (*)', () => {
+    test('should create working pattern matching subscription (*)', () => {
       init()
 
       model({
@@ -87,7 +84,7 @@ describe('hooks:', () => {
         reducers: {
           addOne: (state) => state + 1,
         },
-        hooks: {
+        subscriptions: {
           '*': () => dispatch.first.addOne(),
         }
       })
@@ -107,7 +104,7 @@ describe('hooks:', () => {
       })
     })
 
-    test('should create working pattern matching hook (second/*)', () => {
+    test('should create working pattern matching subscription (second/*)', () => {
       init()
 
       model({
@@ -116,7 +113,7 @@ describe('hooks:', () => {
         reducers: {
           addOne: (state) => state + 1,
         },
-        hooks: {
+        subscriptions: {
           'second/*': () => dispatch.first.addOne(),
         }
       })
@@ -136,7 +133,7 @@ describe('hooks:', () => {
       })
     })
 
-    test('should create working pattern matching hook (*/addOne)', () => {
+    test('should create working pattern matching subsription (*/addOne)', () => {
       init()
 
       model({
@@ -145,7 +142,7 @@ describe('hooks:', () => {
         reducers: {
           addOne: (state) => state + 1,
         },
-        hooks: {
+        subscriptions: {
           '*/addOne': () => dispatch.first.addOne(),
         }
       })
@@ -165,7 +162,7 @@ describe('hooks:', () => {
       })
     })
 
-    test('should create working pattern matching hook (second/add*)', () => {
+    test('should create working pattern matching subscription (second/add*)', () => {
       init()
 
       model({
@@ -174,7 +171,7 @@ describe('hooks:', () => {
         reducers: {
           addOne: (state) => state + 1,
         },
-        hooks: {
+        subscriptions: {
           'second/add*': () => dispatch.first.addOne(),
         }
       })
@@ -195,7 +192,7 @@ describe('hooks:', () => {
     })
   })
 
-  test('it should throw if a hook matcher is invalid', () => {
+  test('it should throw if a subscription matcher is invalid', () => {
     init()
 
     expect(() => model({
@@ -204,7 +201,7 @@ describe('hooks:', () => {
       reducers: {
         addOne: (state) => state + 1,
       },
-      hooks: {
+      subscriptions: {
         'Not/A/Valid/Matcher': () => dispatch.first.addOne(),
       }
     })).toThrow()

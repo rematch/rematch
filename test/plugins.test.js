@@ -1,12 +1,12 @@
 // Tests for consumer API
-import createPlugins, { onModelHooks, pluginMiddlwares } from '../src/core'
+import createPlugins, { modelSubscriptions, pluginMiddlwares } from '../src/core'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('plugins:', () => {
-  test('should add onModel hooks', () => {
+  test('should add onModel subscriptions', () => {
     const fns = [() => 1, () => 2]
     const plugins = [{
       onModel: fns[0],
@@ -14,18 +14,18 @@ describe('plugins:', () => {
       onModel: fns[1]
     }]
     createPlugins(plugins, [])
-    expect(onModelHooks).toEqual(fns)
+    expect(modelSubscriptions).toEqual(fns)
   })
 
-  xtest('should add middleware hooks', () => {
+  xtest('should add multiple middleware', () => {
     const m1 = () => next => action => next(action)
     const m2 = () => next => action => next(action)
-    const hooks = [{
+    const plugins = [{
       middleware: m1,
     }, {
       middleware: m2
     }]
-    createPlugins(hooks, [])
+    createPlugins(plugins, [])
     expect(pluginMiddlwares).toEqual([m1, m2])
   })
 
