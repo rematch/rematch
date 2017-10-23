@@ -67,7 +67,7 @@ const App = ({ valueA, valueB, valueADoubled, asyncAIncr, incrB, incrA }) => (
 const AppContainer = connect(state => ({
   valueA: state.countA,
   valueB: state.countB,
-  valueADoubled : select.countA.double(state),
+  valueADoubled : select.countA.double(),
   incrA: () => dispatch.countA.increment(),
   asyncAIncr: () => dispatch.countA.asyncIncrement(),
   incrB: () => dispatch.countB.increment()
