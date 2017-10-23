@@ -1,5 +1,3 @@
-import { model, init, dispatch, getStore } from '../src'
-
 beforeEach(() => {
   jest.resetModules()
 })
@@ -13,6 +11,7 @@ const common = {
 
 describe('subscriptions:', () => {
   test('should create a working subscription', () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({
@@ -36,37 +35,39 @@ describe('subscriptions:', () => {
   })
 
   test('should allow for two subscriptions with same name in different models', () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({
-      name: 'a',
+      name: 'a1',
       ...common,
       subscriptions: {
-        'b/addOne': () => dispatch.a.addOne(),
+        'b1/addOne': () => dispatch.a1.addOne(),
       }
     })
 
     model({
-      name: 'b',
+      name: 'b1',
       ...common,
     })
 
     model({
-      name: 'c',
+      name: 'c1',
       ...common,
       subscriptions: {
-        'b/addOne': () => dispatch.c.addOne(),
+        'b1/addOne': () => dispatch.c1.addOne(),
       },
     })
 
-    dispatch.b.addOne()
+    dispatch.b1.addOne()
 
     expect(getStore().getState()).toEqual({
-      a: 1, b: 1, c: 1,
+      a1: 1, b1: 1, c1: 1,
     })
   })
 
   test('should allow for three subscriptions with same name in different models', () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({
@@ -98,14 +99,23 @@ describe('subscriptions:', () => {
       },
     })
 
+    // no subscriptions, superfluous model
+    // just an additional check to see that
+    // other models are not effected
+    model({
+      name: 'e',
+      ...common,
+    })
+
     dispatch.b.addOne()
 
     expect(getStore().getState()).toEqual({
-      a: 1, b: 1, c: 1, d: 1
+      a: 1, b: 1, c: 1, d: 1, e: 0
     })
   })
 
   test('it should throw if a subscription matcher is invalid', () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     expect(() => model({
