@@ -2,10 +2,21 @@
 import validate from '../utils/validate'
 
 const subscriptions = new Map()
+const patternSubscriptions = new Map()
 
 // matches actions with letter/number characters & -, _
-const actionRegex = /^[A-Za-z0-9-_]+\/[A-Za-z0-9-_]+$/
-const isAction = matcher => !!matcher.match(actionRegex)
+const actionRegex = /^[A-Z0-9-_]+\/[A-Z0-9-_]+$/i
+// valid pattern match: letters/numbers &_-, *
+// match on 'a/*', '*/b', 'a-*/b', etc.
+// note: cannot match * or creates infinite loop`
+const patternRegex = /^[A-Z0-9-_*]+\/[A-Z0-9-_*]+$/i
+const isAction = (matcher, regex) => !!matcher.match(regex)
+
+const triggerAllSubscriptions = (matches) => (action) => {
+  Object.keys(matches).forEach(modelName => {
+    matches[modelName](action)
+  })
+}
 
 const createSubscription = (
   modelName: string,
@@ -17,14 +28,21 @@ const createSubscription = (
     [typeof onAction !== 'function', 'subscription onAction must be a function'],
   ])
 
-  if (isAction(matcher)) {
-    // subscriptions match on { modelName: onAction }
+  const createHandler = (target) => {
+    // handlers match on { modelName: onAction }
     // to allow multiple subscriptions in different models
     let handler = { [modelName]: onAction }
-    if (subscriptions.has(matcher)) {
+    if (target.has(matcher)) {
       handler = { ...subscriptions.get(matcher), ...handler }
     }
-    subscriptions.set(matcher, handler)
+    target.set(matcher, handler)
+  }
+
+  if (isAction(matcher, actionRegex)) {
+    createHandler(subscriptions)
+  } else if (isAction(matcher, patternRegex)) {
+    matcher = `^${matcher.replace('*', '.*')}$`
+    createHandler(patternSubscriptions)
   } else {
     throw new Error(`Invalid subscription matcher: ${matcher}`)
   }
@@ -43,8 +61,13 @@ export default {
     if (subscriptions.has(type)) {
       const allSubscriptions = subscriptions.get(type)
       // call each hook[modelName] with action
-      Object.keys(allSubscriptions).forEach(modelName => {
-        allSubscriptions[modelName](action)
+      triggerAllSubscriptions(allSubscriptions)(action)
+    } else {
+      patternSubscriptions.forEach((handler: Object, matcher: string) => {
+        if (type.match(new RegExp(matcher))) {
+          const subscriptionMatches = patternSubscriptions.get(matcher)
+          triggerAllSubscriptions(subscriptionMatches)(action)
+        }
       })
     }
 

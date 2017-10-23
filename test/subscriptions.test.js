@@ -115,7 +115,7 @@ describe('subscriptions:', () => {
   })
 
   test('it should throw if a subscription matcher is invalid', () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const { model, init, dispatch } = require('../src')
     init()
 
     expect(() => model({
@@ -127,97 +127,81 @@ describe('subscriptions:', () => {
     })).toThrow()
   })
 
-  // xdescribe('pattern matching', () => {
-  //   test('should create working pattern matching subscription (*)', () => {
-  //     init()
+  describe('pattern matching', () => {
 
-  //     model({
-  //       name: 'first',
-  //       ...common,
-  //       subscriptions: {
-  //         '*': () => dispatch.first.addOne(),
-  //       }
-  //     })
+    test('should create working pattern matching subscription (second/*)', () => {
+      const { model, init, dispatch, getStore } = require('../src')
+      init()
 
-  //     model({
-  //       name: 'second',
-  //       ...common,
-  //     })
+      model({
+        name: 'first',
+        ...common,
+        subscriptions: {
+          'second/*': () => dispatch.first.addOne(),
+        }
+      })
 
-  //     dispatch.second.addOne()
+      model({
+        name: 'second',
+        ...common,
+      })
 
-  //     expect(getStore().getState()).toEqual({
-  //       second: 1, first: 1,
-  //     })
-  //   })
+      dispatch.second.addOne()
 
-  //   test('should create working pattern matching subscription (second/*)', () => {
-  //     init()
+      expect(getStore().getState()).toEqual({
+        second: 1, first: 1,
+      })
+    })
 
-  //     model({
-  //       name: 'first',
-  //       ...common,
-  //       subscriptions: {
-  //         'second/*': () => dispatch.first.addOne(),
-  //       }
-  //     })
+    test('should create working pattern matching subsription (*/addOne)', () => {
+      const { model, init, dispatch, getStore } = require('../src')
+      init()
 
-  //     model({
-  //       name: 'second',
-  //       ...common,
-  //     })
+      model({
+        name: 'first',
+        ...common,
+        subscriptions: {
+          '*/add': () => dispatch.first.addOne(),
+        }
+      })
 
-  //     dispatch.second.addOne()
+      model({
+        name: 'second',
+        state: 0,
+        reducers: {
+          add: (state, payload) => state + payload
+        }
+      })
 
-  //     expect(getStore().getState()).toEqual({
-  //       second: 1, first: 1,
-  //     })
-  //   })
+      dispatch.second.add(2)
 
-  //   test('should create working pattern matching subsription (*/addOne)', () => {
-  //     init()
+      expect(getStore().getState()).toEqual({
+        second: 2, first: 1,
+      })
+    })
 
-  //     model({
-  //       name: 'first',
-  //       ...common,
-  //       subscriptions: {
-  //         '*/addOne': () => dispatch.first.addOne(),
-  //       }
-  //     })
+    test('should create working pattern matching subscription (second/add*)', () => {
+      const { model, init, dispatch, getStore } = require('../src')
+      init()
 
-  //     model({
-  //       name: 'second',
-  //       ...common,
-  //     })
+      model({
+        name: 'first',
+        ...common,
+        subscriptions: {
+          'second/add*': () => dispatch.first.addOne(),
+        }
+      })
 
-  //     dispatch.second.addOne()
+      model({
+        name: 'second',
+        ...common,
+      })
 
-  //     expect(getStore().getState()).toEqual({
-  //       second: 1, first: 1,
-  //     })
-  //   })
+      dispatch.second.addOne()
 
-  //   test('should create working pattern matching subscription (second/add*)', () => {
-  //     init()
-
-  //     model({
-  //       name: 'first',
-  //       ...common,
-  //       subscriptions: {
-  //         'second/add*': () => dispatch.first.addOne(),
-  //       }
-  //     })
-
-  //     model({
-  //       name: 'second',
-  //       ...common,
-  //     })
-
-  //     dispatch.second.addOne()
-
-  //     expect(getStore().getState()).toEqual({
-  //       second: 1, first: 1,
-  //     })
-  //   })
-  // })
+      expect(getStore().getState()).toEqual({
+        second: 1, first: 1,
+      })
+    })
+  })
 })
