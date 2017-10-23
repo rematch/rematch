@@ -7,17 +7,16 @@ const actionRegex = /^[A-Z0-9-_]+\/[A-Z0-9-_]+$/i
 // note: cannot match * or creates infinite loop`
 const patternRegex = /^[A-Z0-9-_*]+\/[A-Z0-9-_*]+$/i
 
-const escapeRegex = (str) => str
-  .replace('*', '.*')
+const escapeRegex = (str) => str.replace('*', '.*')
 
 const isAction = (matcher, regex) => !!matcher.match(regex)
 
 export const onHandlers = (call: (sub: Map) => any) => (matcher: string) => {
   if (isAction(matcher, actionRegex)) {
-    call(subscriptions)
+    call(subscriptions, matcher)
   } else if (isAction(matcher, patternRegex)) {
-    matcher = `^${escapeRegex(matcher)}$`
-    call(patternSubscriptions)
+    const formattedMatcher = `^${escapeRegex(matcher)}$`
+    call(patternSubscriptions, formattedMatcher)
   } else {
     throw new Error(`Invalid subscription matcher: ${matcher}`)
   }

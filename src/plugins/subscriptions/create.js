@@ -12,23 +12,23 @@ export const createSubscription = (
     [typeof onAction !== 'function', 'subscription onAction must be a function'],
   ])
 
-  const createHandler = (target) => {
+  const createHandler = (target, formattedMatcher) => {
     // prevent infinite loops within models by validating against
     // subscription matchers in the action name
     actionList.forEach((actionName: string) => {
-      const regex = new RegExp(matcher)
+      const regex = new RegExp(formattedMatcher)
       if (`${modelName}/${actionName}`.match(regex)) {
-        throw new Error(`Subscription (${matcher}) cannot match action name (${actionName}) in its own model.`)
+        throw new Error(`Subscription (${formattedMatcher}) cannot match action name (${actionName}) in its own model.`)
       }
     })
 
     // handlers match on { modelName: onAction }
     // to allow multiple subscriptions in different models
     let handler = { [modelName]: onAction }
-    if (target.has(matcher)) {
-      handler = { ...target.get(matcher), ...handler }
+    if (target.has(formattedMatcher)) {
+      handler = { ...target.get(formattedMatcher), ...handler }
     }
-    target.set(matcher, handler)
+    target.set(formattedMatcher, handler)
   }
 
   onHandlers(createHandler)(matcher)
