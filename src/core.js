@@ -1,6 +1,7 @@
 // @flow
 import validate from './utils/validate'
 import { getStore } from './utils/store'
+import createModel from './model'
 
 export const modelHooks = []
 export const pluginMiddlewares = []
@@ -34,6 +35,9 @@ export const initPlugins = (plugins: $plugin[]) => {
     if (plugin.onInit) {
       const { dispatch } = getStore()
       plugin.onInit(dispatch)
+    }
+    if (plugin.model) {
+      createModel(plugin.model)
     }
   })
 }

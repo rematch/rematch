@@ -29,6 +29,19 @@ describe('plugins:', () => {
     expect(pluginMiddlewares).toEqual([m1, m2])
   })
 
+  test('should add a model', () => {
+    const { init, getStore } = require('../src')
+    init({
+      plugins: [{
+        model: {
+          name: 'a',
+          state: 0,
+        }
+      }]
+    })
+    expect(getStore().getState()).toEqual({ a: 0 })
+  })
+
   test('should not create a plugin with invalid "onModel"', () => {
     const plugin1 = {
       onModel: {},
