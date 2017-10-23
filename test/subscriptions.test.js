@@ -105,6 +105,18 @@ describe('subscriptions:', () => {
     })
   })
 
+  test('it should throw if a subscription matcher is invalid', () => {
+    init()
+
+    expect(() => model({
+      name: 'first',
+      ...common,
+      subscriptions: {
+        'Not/A/Valid/Matcher': () => dispatch.first.addOne(),
+      }
+    })).toThrow()
+  })
+
   // xdescribe('pattern matching', () => {
   //   test('should create working pattern matching subscription (*)', () => {
   //     init()
@@ -197,17 +209,5 @@ describe('subscriptions:', () => {
   //       second: 1, first: 1,
   //     })
   //   })
-  // })
-
-  // test('it should throw if a subscription matcher is invalid', () => {
-  //   init()
-
-  //   expect(() => model({
-  //     name: 'first',
-  //     ...common,
-  //     subscriptions: {
-  //       'Not/A/Valid/Matcher': () => dispatch.first.addOne(),
-  //     }
-  //   })).toThrow()
   // })
 })
