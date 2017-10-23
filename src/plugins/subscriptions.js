@@ -10,12 +10,24 @@ const actionRegex = /^[A-Z0-9-_]+\/[A-Z0-9-_]+$/i
 // match on 'a/*', '*/b', 'a-*/b', etc.
 // note: cannot match * or creates infinite loop`
 const patternRegex = /^[A-Z0-9-_*]+\/[A-Z0-9-_*]+$/i
+
 const isAction = (matcher, regex) => !!matcher.match(regex)
 
 const triggerAllSubscriptions = (matches) => (action) => {
   Object.keys(matches).forEach(modelName => {
     matches[modelName](action)
   })
+}
+
+const onHandlers = (call: (sub: Map) => any) => (matcher: string) => {
+  if (isAction(matcher, actionRegex)) {
+    call(subscriptions)
+  } else if (isAction(matcher, patternRegex)) {
+    matcher = `^${matcher.replace('*', '.\\*')}$`
+    call(patternSubscriptions)
+  } else {
+    throw new Error(`Invalid subscription matcher: ${matcher}`)
+  }
 }
 
 const createSubscription = (
@@ -47,14 +59,7 @@ const createSubscription = (
     target.set(matcher, handler)
   }
 
-  if (isAction(matcher, actionRegex)) {
-    createHandler(subscriptions)
-  } else if (isAction(matcher, patternRegex)) {
-    matcher = `^${matcher.replace('*', '.*')}$`
-    createHandler(patternSubscriptions)
-  } else {
-    throw new Error(`Invalid subscription matcher: ${matcher}`)
-  }
+  onHandlers(createHandler)(matcher)
 }
 
 export default {
@@ -87,4 +92,28 @@ export default {
 
     return next(action)
   },
+}
+
+const omit = (prop: string, obj = {}) =>
+  Object.keys(obj).reduce((next, key: string) => {
+    if (key !== prop) {
+      next[key] = obj[key]
+    }
+    return next
+  }, {})
+
+export const unsubscribe = (modelName: string, matcher: string) => {
+  const unsubscribeFrom = (target) => {
+    const handler = target.get(matcher)
+    const next = omit(modelName, handler)
+    if (Object.keys(next).length) {
+      // still other hooks under matcher
+      target.set(matcher, next)
+    } else {
+      // no more hooks under matcher
+      target.delete(matcher)
+    }
+  }
+
+  onHandlers(unsubscribeFrom)(matcher)
 }
