@@ -21,7 +21,8 @@ const triggerAllSubscriptions = (matches) => (action) => {
 const createSubscription = (
   modelName: string,
   matcher: string,
-  onAction: (action: $action) => void
+  onAction: (action: $action) => void,
+  actionList: string[]
 ) => {
   validate([
     [typeof matcher !== 'string', 'subscription matcher must be a string'],
@@ -29,6 +30,14 @@ const createSubscription = (
   ])
 
   const createHandler = (target) => {
+    // prevent infinite loops within models by validating against
+    // subscription matchers in the action name
+    actionList.forEach((actionName: string) => {
+      if (`${modelName}/${actionName}`.match(new RegExp(matcher))) {
+        throw new Error(`Subscription (${matcher}) cannot match action name (${actionName}) in its own model.`)
+      }
+    })
+
     // handlers match on { modelName: onAction }
     // to allow multiple subscriptions in different models
     let handler = { [modelName]: onAction }
@@ -50,8 +59,13 @@ const createSubscription = (
 
 export default {
   onModel: (model: $model) => {
+    // necessary to prevent invalid subscription names
+    const actionList = [
+      ...Object.keys(model.reducers || {}),
+      ...Object.keys(model.effects || {})
+    ]
     Object.keys(model.subscriptions || {}).forEach((matcher: string) => {
-      createSubscription(model.name, matcher, model.subscriptions[matcher])
+      createSubscription(model.name, matcher, model.subscriptions[matcher], actionList)
     })
   },
   middleware: () => (next: (action: $action) => any) => (action: $action) => {

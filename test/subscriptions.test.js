@@ -203,5 +203,59 @@ describe('subscriptions:', () => {
         second: 1, first: 1,
       })
     })
+
+    test('should throw an error if a user creates a subscription that matches a reducer in the model', () => {
+      const { model, init } = require('../src')
+      init()
+
+      const createModel = () => model({
+        name: 'first',
+        state: 0,
+        reducers: {
+          addOne: (state) => state + 1
+        },
+        subscriptions: {
+          'first/addOne': () => console.log('anything'),
+        }
+      })
+
+      expect(createModel).toThrow()
+    })
+
+    test('should throw an error if a user creates a subscription that matches an effect in the model', () => {
+      const { model, init } = require('../src')
+      init()
+
+      const createModel = () => model({
+        name: 'first',
+        state: 0,
+        effects: {
+          sayHi: () => console.log('hi')
+        },
+        subscriptions: {
+          'first/sayHi': () => console.log('anything'),
+        }
+      })
+
+      expect(createModel).toThrow()
+    })
+
+    test('should throw an error if a user creates a subscription that pattern matches a reducer in the model', () => {
+      const { model, init } = require('../src')
+      init()
+
+      const createModel = () => model({
+        name: 'first',
+        state: 0,
+        reducers: {
+          addOne: (state) => state + 1
+        },
+        subscriptions: {
+          '*/addOne': () => console.log('anything'),
+        }
+      })
+
+      expect(createModel).toThrow()
+    })
   })
 })
