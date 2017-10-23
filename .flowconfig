@@ -8,3 +8,6 @@ flow-typed/
 [lints]
 
 [options]
+
+[version]
+0.57.3

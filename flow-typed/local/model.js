@@ -10,7 +10,7 @@ declare type $model = {
  selectors?: {
   [name: string]: (state: any, arg?: any) => any,
  },
- hooks?: {
+ subscriptions?: {
   [matcher: string]: (action: $action) => void,
  },
 }

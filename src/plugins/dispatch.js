@@ -1,13 +1,13 @@
 // @flow
-let callDispatch // eslint ignore
+let callDispatch
 
 export const dispatch = (action: $action) => callDispatch(action)
 
 export default {
-  onModel: (model: $model, storeDispatch: (action: $action) => any) => {
-    if (!callDispatch) {
-      callDispatch = storeDispatch
-    }
+  onInit: (storeDispatch: $dispatch) => {
+    callDispatch = storeDispatch
+  },
+  onModel: (model: $model, storeDispatch: $dispatch) => {
     const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
       const action = {
         type: `${modelName}/${reducerName}`,

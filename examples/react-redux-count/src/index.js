@@ -22,7 +22,7 @@ model({
   selectors: {
     double: s => s * 2
   },
-  hooks: {
+  subscriptions: {
     'countB/increment': () => {
       dispatch.countA.increment()
     }

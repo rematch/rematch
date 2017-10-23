@@ -5,140 +5,144 @@ beforeEach(() => {
 })
 
 describe('dispatch:', () => {
-  test('should be able to call dispatch directly', () => {
-    init()
+  describe('action:', () => {
+    it('should be call in the form "modelName/reducerName"', () => {
+      init()
 
-    model({
-      name: 'count',
-      state: 0,
-      reducers: {
-        add: state => state + 1,
-      },
+      model({
+        name: 'count',
+        state: 0,
+        reducers: {
+          add: state => state + 1,
+        },
+      })
+
+      getStore().dispatch({ type: 'count/add' })
+
+      expect(getStore().getState()).toEqual({
+        count: 1,
+      })
     })
 
-    dispatch({ type: 'count/add' })
+    test('should be able to call dispatch directly', () => {
+      init()
 
-    expect(getStore().getState()).toEqual({
-      count: 1,
-    })
-  })
+      model({
+        name: 'count',
+        state: 0,
+        reducers: {
+          addOne: state => state + 1,
+        },
+      })
 
-  test('should dispatch an action', () => {
-    init()
+      dispatch({ type: 'count/addOne' })
 
-    model({
-      name: 'count',
-      state: 0,
-      reducers: {
-        add: state => state + 1,
-      },
-    })
-
-    dispatch.count.add()
-
-    expect(getStore().getState()).toEqual({
-      count: 1,
-    })
-  })
-
-  test('should dispatch multiple actions', () => {
-    init()
-
-    model({
-      name: 'count',
-      state: 0,
-      reducers: {
-        add: state => state + 1,
-      },
+      expect(getStore().getState()).toEqual({
+        count: 1,
+      })
     })
 
-    dispatch.count.add()
-    dispatch.count.add()
+    test('should dispatch an action', () => {
+      init()
 
-    expect(getStore().getState()).toEqual({
-      count: 2,
-    })
-  })
+      model({
+        name: 'count',
+        state: 0,
+        reducers: {
+          add: state => state + 1,
+        },
+      })
 
-  test('should handle multiple models', () => {
-    init()
+      dispatch.count.add()
 
-    model({
-      name: 'a',
-      state: 42,
-      reducers: {
-        add: state => state + 1,
-      },
-    })
-
-    model({
-      name: 'b',
-      state: 0,
-      reducers: {
-        add: state => state + 1,
-      },
+      expect(getStore().getState()).toEqual({
+        count: 1,
+      })
     })
 
-    dispatch.a.add()
-    dispatch.b.add()
+    test('should dispatch multiple actions', () => {
+      init()
 
-    expect(getStore().getState()).toEqual({
-      a: 43,
-      b: 1,
-    })
-  })
+      model({
+        name: 'count',
+        state: 0,
+        reducers: {
+          add: state => state + 1,
+        },
+      })
 
-  it('should be called from an dispatch action type', () => {
-    init()
+      dispatch.count.add()
+      dispatch.count.add()
 
-    model({
-      name: 'count',
-      state: 0,
-      reducers: {
-        add: state => state + 1,
-      },
-    })
-
-    getStore().dispatch({ type: 'count/add' })
-
-    expect(getStore().getState()).toEqual({
-      count: 1,
-    })
-  })
-
-  test('should handle state as the first param', () => {
-    init()
-
-    model({
-      name: 'count',
-      state: 0,
-      reducers: {
-        doNothing: state => state,
-      },
+      expect(getStore().getState()).toEqual({
+        count: 2,
+      })
     })
 
-    dispatch.count.doNothing()
+    test('should handle multiple models', () => {
+      init()
 
-    expect(getStore().getState()).toEqual({
-      count: 0,
+      model({
+        name: 'a',
+        state: 42,
+        reducers: {
+          add: state => state + 1,
+        },
+      })
+
+      model({
+        name: 'b',
+        state: 0,
+        reducers: {
+          add: state => state + 1,
+        },
+      })
+
+      dispatch.a.add()
+      dispatch.b.add()
+
+      expect(getStore().getState()).toEqual({
+        a: 43,
+        b: 1,
+      })
     })
   })
 
-  test('should handle payload as the second param', () => {
-    init()
+  describe('params:', () => {
+    test('should pass state as the first reducer param', () => {
+      init()
 
-    model({
-      name: 'count',
-      state: 1,
-      reducers: {
-        incrementBy: (state, payload) => state + payload,
-      },
+      model({
+        name: 'count',
+        state: 0,
+        reducers: {
+          doNothing: state => state,
+        },
+      })
+
+      dispatch.count.doNothing()
+
+      expect(getStore().getState()).toEqual({
+        count: 0,
+      })
     })
 
-    dispatch.count.incrementBy(5)
+    test('should pass payload as the second param', () => {
+      init()
 
-    expect(getStore().getState()).toEqual({
-      count: 6,
+      model({
+        name: 'count',
+        state: 1,
+        reducers: {
+          incrementBy: (state, payload) => state + payload,
+        },
+      })
+
+      dispatch.count.incrementBy(5)
+
+      expect(getStore().getState()).toEqual({
+        count: 6,
+      })
     })
   })
 })

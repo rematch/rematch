@@ -10,7 +10,7 @@ export const initReducers = () : void => {
 
 // get reducer for given dispatch type
 // pass in (state, payload)
-export const getReducer = (reducer: $reducers, initialState: any = null) => (
+export const getReducer = (reducer: $reducers, initialState: any) => (
   state: any = initialState,
   action: $action,
 ) => {
@@ -20,7 +20,7 @@ export const getReducer = (reducer: $reducers, initialState: any = null) => (
   return state
 }
 
-// adds "model/reducer" names to 
+// adds "model/reducer"
 export const resolveReducers = (modelName: string, reducers: $reducers = {}) =>
   Object.keys(reducers).reduce((acc, reducer) => {
     acc[`${modelName}/${reducer}`] = reducers[reducer]

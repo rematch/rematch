@@ -1,10 +1,11 @@
+// @flow
 import { dispatch } from './dispatch'
 
 export const effects = {}
 
 // TODO assumes there is a dispatch plugin
 export default {
-  onModel: (model, storeDispatch) => {
+  onModel: (model: $model, storeDispatch: $dispatch) => {
     const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
       const action = {
         type: `${modelName}/${reducerName}`,
@@ -22,7 +23,7 @@ export default {
       dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
     })
   },
-  middleware: store => next => action => {
+  middleware: (store: $store) => (next: (action: $action) => any) => (action: $action) => {
     if (action.type in effects) {
       return effects[action.type](action.payload, store.getState)
     }
