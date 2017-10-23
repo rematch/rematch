@@ -262,7 +262,7 @@ describe('subscriptions:', () => {
   describe('unsubscribe:', () => {
     test('a matched action', () => {
       const { model, init, dispatch, getStore } = require('../src')
-      const { unsubscribe } = require('../src/plugins/subscriptions')
+      const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
       init()
 
       model({
@@ -287,7 +287,7 @@ describe('subscriptions:', () => {
     })
     test('a pattern matched action', () => {
       const { model, init, dispatch, getStore } = require('../src')
-      const { unsubscribe } = require('../src/plugins/subscriptions')
+      const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
       init()
 
       model({
@@ -312,7 +312,7 @@ describe('subscriptions:', () => {
     })
     test('a pattern matched action when more than one', () => {
       const { model, init, dispatch, getStore } = require('../src')
-      const { unsubscribe } = require('../src/plugins/subscriptions')
+      const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
       init()
 
       model({
@@ -345,7 +345,7 @@ describe('subscriptions:', () => {
     })
     test('should throw if invalid action', () => {
       const { model, init, dispatch } = require('../src')
-      const { unsubscribe } = require('../src/plugins/subscriptions')
+      const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
       init()
 
       model({
@@ -362,7 +362,7 @@ describe('subscriptions:', () => {
     })
     test('should do nothing if no action', () => {
       const { model, init, dispatch, getStore } = require('../src')
-      const { unsubscribe } = require('../src/plugins/subscriptions')
+      const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
       init()
 
       model({
