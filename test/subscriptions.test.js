@@ -258,4 +258,132 @@ describe('subscriptions:', () => {
       expect(createModel).toThrow()
     })
   })
+
+  describe('unsubscribe:', () => {
+    test('a matched action', () => {
+      const { model, init, dispatch, getStore } = require('../src')
+      const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
+      init()
+
+      model({
+        name: 'first',
+        ...common,
+        subscriptions: {
+          'second/addOne': () => dispatch.first.addOne(),
+        }
+      })
+
+      model({
+        name: 'second',
+        ...common,
+      })
+
+      unsubscribe('first', 'second/addOne')
+      dispatch.second.addOne()
+
+      expect(getStore().getState()).toEqual({
+        second: 1, first: 0,
+      })
+    })
+    test('a pattern matched action', () => {
+      const { model, init, dispatch, getStore } = require('../src')
+      const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
+      init()
+
+      model({
+        name: 'first',
+        ...common,
+        subscriptions: {
+          'second/*': () => dispatch.first.addOne(),
+        }
+      })
+
+      model({
+        name: 'second',
+        ...common,
+      })
+
+      unsubscribe('first', 'second/*')
+      dispatch.second.addOne()
+
+      expect(getStore().getState()).toEqual({
+        second: 1, first: 0,
+      })
+    })
+    test('a pattern matched action when more than one', () => {
+      const { model, init, dispatch, getStore } = require('../src')
+      const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
+      init()
+
+      model({
+        name: 'first',
+        ...common,
+        subscriptions: {
+          'second/*': () => dispatch.first.addOne(),
+        }
+      })
+
+      model({
+        name: 'second',
+        ...common,
+      })
+
+      model({
+        name: 'third',
+        ...common,
+        subscriptions: {
+          'second/*': () => dispatch.third.addOne(),
+        }
+      })
+
+      unsubscribe('first', 'second/*')
+      dispatch.second.addOne()
+
+      expect(getStore().getState()).toEqual({
+        first: 0, second: 1, third: 1
+      })
+    })
+    test('should throw if invalid action', () => {
+      const { model, init, dispatch } = require('../src')
+      const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
+      init()
+
+      model({
+        name: 'first',
+        ...common,
+        subscriptions: {
+          'second/addOne': () => dispatch.first.addOne(),
+        }
+      })
+
+      const onUnsubscribe = () => unsubscribe('first', 'an/invalid/action')
+
+      expect(onUnsubscribe).toThrow()
+    })
+    test('should do nothing if no action', () => {
+      const { model, init, dispatch, getStore } = require('../src')
+      const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
+      init()
+
+      model({
+        name: 'first',
+        ...common,
+        subscriptions: {
+          'second/addOne': () => dispatch.first.addOne(),
+        }
+      })
+
+      model({
+        name: 'second',
+        ...common,
+      })
+
+      unsubscribe('first', 'not/existing')
+      dispatch.second.addOne()
+
+      expect(getStore().getState()).toEqual({
+        second: 1, first: 1,
+      })
+    })
+  })
 })
