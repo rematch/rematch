@@ -145,4 +145,43 @@ describe('dispatch:', () => {
       })
     })
   })
+
+  describe('promise middleware', () => {
+    test('should return a promise from an action', () => {
+      init()
+
+      model({
+        name: 'count',
+        state: 0,
+        reducers: {
+          add: state => state + 1,
+        },
+      })
+
+      const dispatched = dispatch.count.add()
+
+      expect(typeof dispatched.then).toBe('function')
+    })
+
+    test('should return a promise from an effect', () => {
+      init()
+
+      model({
+        name: 'count',
+        state: 0,
+        reducers: {
+          addOne: state => state + 1,
+        },
+        effects: {
+          callAddOne() {
+            return dispatch.count.addOne()
+          }
+        }
+      })
+
+      const dispatched = dispatch.count.addOne()
+
+      expect(typeof dispatched.then).toBe('function')
+    })
+  })
 })

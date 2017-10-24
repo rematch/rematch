@@ -23,10 +23,14 @@ export default {
       dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
     })
   },
-  middleware: (store: $store) => (next: (action: $action) => any) => (action: $action) => {
+  middleware: (store: $store) => (next: (action: $action) => any) => async (action: $action) => {
+    // async/await acts as promise middleware
+    let result
     if (action.type in effects) {
-      return effects[action.type](action.payload, store.getState)
+      result = await effects[action.type](action.payload, store.getState)
+    } else {
+      result = await next(action)
     }
-    return next(action)
+    return result
   }
 }
