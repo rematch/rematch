@@ -18,6 +18,7 @@ export default (storeDispatch: $dispatch) => ({
       effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(
         dispatch[model.name]
       )
+      effects[`${model.name}/${effectName}`].isEffect = true
       // add effect to dispatch
       // is assuming dispatch is available already... that the dispatch plugin is in there
       dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
