@@ -22,6 +22,15 @@ const buildPlugin = (createPlugin): $plugin => {
   return createPlugin(dispatch)
 }
 
+export const addPluginMiddleware = (plugins) => {
+  plugins.forEach(createPlugin => {
+    const plugin = createPlugin()
+    if (plugin.middleware) {
+      pluginMiddlewares.push(plugin.middleware)
+    }
+  })
+}
+
 export const createPlugins = (plugins) => {
   plugins.forEach(createPlugin => {
     const plugin = buildPlugin(createPlugin)
@@ -31,9 +40,6 @@ export const createPlugins = (plugins) => {
     }
     if (plugin.onModel) {
       modelHooks.push(plugin.onModel)
-    }
-    if (plugin.middleware) {
-      pluginMiddlewares.push(plugin.middleware)
     }
     if (plugin.model) {
       createModel(plugin.model)

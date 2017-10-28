@@ -1,7 +1,7 @@
 // @flow
 import validate from './utils/validate'
 import { createStore } from './utils/store'
-import { createPlugins } from './core'
+import { createPlugins, addPluginMiddleware } from './core'
 import corePlugins from './plugins'
 
 const validateConfig = (config: $config) =>
@@ -22,11 +22,16 @@ const validateConfig = (config: $config) =>
 
 const init = (config: $config = {}): void => {
   validateConfig(config)
-  // setup plugin pipeline
+
   const plugins = corePlugins.concat(config.plugins || [])
+  // plugin middleware must be added before creating store
+  addPluginMiddleware(plugins)
+
   // create a redux store with initialState
   // merge in additional extra reducers
   createStore(config.initialState, config.extraReducers)
+
+  // setup plugin pipeline
   createPlugins(plugins)
 }
 

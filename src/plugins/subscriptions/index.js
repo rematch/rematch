@@ -26,7 +26,6 @@ export default () => ({
 
     // exact match
     if (subscriptions.has(type)) {
-      console.log('---------------here')
       const allSubscriptions = subscriptions.get(type)
       // call each hook[modelName] with action
       triggerAllSubscriptions(allSubscriptions)(action)
