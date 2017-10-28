@@ -4,8 +4,8 @@ import { dispatch } from './dispatch'
 export const effects = {}
 
 // TODO assumes there is a dispatch plugin
-export default {
-  onModel: (model: $model, storeDispatch: $dispatch) => {
+export default (storeDispatch: $dispatch) => ({
+  onModel(model: $model) {
     const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
       const action = {
         type: `${modelName}/${reducerName}`,
@@ -33,4 +33,4 @@ export default {
     }
     return result
   }
-}
+})
