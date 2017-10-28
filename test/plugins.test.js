@@ -3,6 +3,15 @@ beforeEach(() => {
 })
 
 describe('plugins:', () => {
+  test('should throw if plugin creator is not a function', () => {
+    const { createPlugins } = require('../src/core')
+    const plugin1 = {
+      middleware: {},
+    }
+    const plugins = [plugin1]
+    expect(() => createPlugins(plugins)).toThrow()
+  })
+
   test('should add onModel subscriptions', () => {
     const { init } = require('../src')
     const { modelHooks } = require('../src/core')

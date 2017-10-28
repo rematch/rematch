@@ -6,6 +6,13 @@ import createModel from './model'
 export const modelHooks = []
 export const pluginMiddlewares = []
 
+const validatePluginCreator = (createPlugin) => validate([
+  [
+    typeof createPlugin !== 'function',
+    'Plugin creator must be a function',
+  ]
+])
+
 const validatePlugin = (plugin: $plugin) => validate([
   [
     plugin.onModel && typeof plugin.onModel !== 'function',
@@ -33,16 +40,17 @@ export const addPluginMiddleware = (plugins) => {
 
 export const createPlugins = (plugins) => {
   plugins.forEach(createPlugin => {
+    validatePluginCreator(createPlugin)
     const plugin = buildPlugin(createPlugin)
     validatePlugin(plugin)
-    if (plugin.onInit) {
-      plugin.onInit()
-    }
     if (plugin.onModel) {
       modelHooks.push(plugin.onModel)
     }
     if (plugin.model) {
       createModel(plugin.model)
+    }
+    if (plugin.onInit) {
+      plugin.onInit()
     }
   })
 }
