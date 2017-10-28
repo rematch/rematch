@@ -26,14 +26,14 @@ export const createPlugins = (plugins) => {
   plugins.forEach(createPlugin => {
     const plugin = buildPlugin(createPlugin)
     validatePlugin(plugin)
+    if (plugin.onInit) {
+      plugin.onInit()
+    }
     if (plugin.onModel) {
       modelHooks.push(plugin.onModel)
     }
     if (plugin.middleware) {
       pluginMiddlewares.push(plugin.middleware)
-    }
-    if (plugin.onInit) {
-      plugin.onInit()
     }
     if (plugin.model) {
       createModel(plugin.model)

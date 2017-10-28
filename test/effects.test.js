@@ -1,12 +1,10 @@
-import { model, init, dispatch, getStore } from '../src'
-// import { effects } from '../src/effects'
-
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('effects:', () => {
   test('should create an action', () => {
+    const { model, init, dispatch } = require('../src')
     init()
 
     model({
@@ -35,6 +33,7 @@ describe('effects:', () => {
   // })
 
   test('should be able to trigger another action', async () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({
@@ -60,6 +59,7 @@ describe('effects:', () => {
   // currently no solution for arrow functions as they are often transpiled by Babel or Typescript
   // there is no clear way to detect arrow functions
   xtest('should be able trigger a local reducer using arrow functions and `this`', async () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({
@@ -83,6 +83,7 @@ describe('effects:', () => {
   })
 
   test('should be able trigger a local reducer using functions and `this`', async () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({
@@ -92,7 +93,7 @@ describe('effects:', () => {
         addOne: (state) => state + 1,
       },
       effects: {
-        asyncAddOne: async function () {
+        asyncAddOne: async function () { // eslint-disable-line
           await this.addOne()
         }
       }
@@ -106,6 +107,7 @@ describe('effects:', () => {
   })
 
   test('should be able trigger a local reducer using object function shorthand and `this`', async () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({
@@ -129,6 +131,7 @@ describe('effects:', () => {
   })
 
   test('should be able to trigger another action with a value', async () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({
@@ -152,6 +155,7 @@ describe('effects:', () => {
   })
 
   test('should be able to trigger another action w/ an object value', async () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({
@@ -175,6 +179,7 @@ describe('effects:', () => {
   })
 
   test('should be able to trigger another action w/ another action', async () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({
@@ -201,6 +206,7 @@ describe('effects:', () => {
   })
 
   test('should be able to trigger another action w/ multiple actions', async () => {
+    const { model, init, dispatch, getStore } = require('../src')
     init()
 
     model({

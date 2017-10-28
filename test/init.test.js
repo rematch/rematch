@@ -1,18 +1,17 @@
-// Tests for consumer API
-import { model, init, getStore } from '../src'
-
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('init:', () => {
   test('no params should create store with state `{}`', () => {
+    const { init, getStore } = require('../src')
     init()
 
     expect(getStore().getState()).toEqual({})
   })
 
   test('init() & one model of state type `string`', () => {
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
@@ -26,6 +25,7 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `number`', () => {
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
@@ -39,6 +39,7 @@ describe('init:', () => {
   })
 
   test('init() & one model of state is 0', () => {
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
@@ -52,6 +53,7 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `object`', () => {
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
@@ -74,6 +76,7 @@ describe('init:', () => {
     })
   })
   test('init() & two models', () => {
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
@@ -93,6 +96,7 @@ describe('init:', () => {
   })
 
   test('init() & three models', () => {
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
