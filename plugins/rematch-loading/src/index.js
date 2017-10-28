@@ -14,23 +14,27 @@ export default (config = {}) => {
     return next
   }
 
-  const plugin = () => ({
-    model: {
+  const createPlugin = () => {
+    const plugin = {
+      model: {
       // optionally change the model name. default is "loading"
-      name: config.name || 'loading',
-      state: {
-        global: false,
-        models: {},
-      },
-      reducers: {
-        show: createLoadingAction(true),
-        hide: createLoadingAction(false),
+        name: config.name || 'loading',
+        state: {
+          global: false,
+          models: {},
+        },
+        reducers: {
+          show: createLoadingAction(true),
+          hide: createLoadingAction(false),
+        }
       }
     }
-  })
-  // optionally enable config effects
-  if (config.effects) {
-    plugin.model.state.effects = {}
+    // optionally enable config effects
+    if (config.effects) {
+      plugin.model.state.effects = {}
+    }
+    return plugin
   }
-  return plugin
+
+  return createPlugin
 }
