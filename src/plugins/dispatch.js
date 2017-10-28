@@ -3,11 +3,11 @@ let callDispatch
 
 export const dispatch = (action: $action) => callDispatch(action)
 
-export default {
-  onInit: (storeDispatch: $dispatch) => {
+export default (storeDispatch: $dispatch) => ({
+  onInit() {
     callDispatch = storeDispatch
   },
-  onModel: (model: $model, storeDispatch: $dispatch) => {
+  onModel(model: $model) {
     const createDispatcher = (modelName: string, reducerName: string) => async (payload: any) => {
       const action = {
         type: `${modelName}/${reducerName}`,
@@ -20,5 +20,5 @@ export default {
     Object.keys(model.reducers || {}).forEach((reducerName: string) => {
       dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
     })
-  },
-}
+  }
+})

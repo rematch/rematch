@@ -1,5 +1,3 @@
-import { model, init, getStore, dispatch } from '../src'
-
 beforeEach(() => {
   jest.resetModules()
 })
@@ -7,6 +5,7 @@ beforeEach(() => {
 describe('dispatch:', () => {
   describe('action:', () => {
     it('should be call in the form "modelName/reducerName"', () => {
+      const { model, init, getStore } = require('../src')
       init()
 
       model({
@@ -25,6 +24,7 @@ describe('dispatch:', () => {
     })
 
     test('should be able to call dispatch directly', () => {
+      const { model, init, getStore, dispatch } = require('../src')
       init()
 
       model({
@@ -43,6 +43,7 @@ describe('dispatch:', () => {
     })
 
     test('should dispatch an action', () => {
+      const { model, init, getStore, dispatch } = require('../src')
       init()
 
       model({
@@ -61,6 +62,7 @@ describe('dispatch:', () => {
     })
 
     test('should dispatch multiple actions', () => {
+      const { model, init, getStore, dispatch } = require('../src')
       init()
 
       model({
@@ -80,6 +82,7 @@ describe('dispatch:', () => {
     })
 
     test('should handle multiple models', () => {
+      const { model, init, getStore, dispatch } = require('../src')
       init()
 
       model({
@@ -110,6 +113,7 @@ describe('dispatch:', () => {
 
   describe('params:', () => {
     test('should pass state as the first reducer param', () => {
+      const { model, init, getStore, dispatch } = require('../src')
       init()
 
       model({
@@ -128,6 +132,7 @@ describe('dispatch:', () => {
     })
 
     test('should pass payload as the second param', () => {
+      const { model, init, getStore, dispatch } = require('../src')
       init()
 
       model({
@@ -148,6 +153,7 @@ describe('dispatch:', () => {
 
   describe('promise middleware', () => {
     test('should return a promise from an action', () => {
+      const { model, init, dispatch } = require('../src')
       init()
 
       model({
@@ -164,6 +170,7 @@ describe('dispatch:', () => {
     })
 
     test('should return a promise from an effect', () => {
+      const { model, init, dispatch } = require('../src')
       init()
 
       model({

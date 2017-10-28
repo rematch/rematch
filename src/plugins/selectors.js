@@ -3,8 +3,8 @@ import { getStore } from '../utils/store'
 
 export const select = {}
 
-export default {
-  onModel: (model: $model) => {
+export default () => ({
+  onModel(model: $model) {
     select[model.name] = {}
     Object.keys(model.selectors || {}).forEach((selectorName: string) => {
       select[model.name][selectorName] = (...args) =>
@@ -12,4 +12,4 @@ export default {
         model.selectors[selectorName](getStore().getState()[model.name], ...args)
     })
   }
-}
+})

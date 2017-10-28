@@ -10,8 +10,8 @@ const triggerAllSubscriptions = (matches) => (action) => {
   })
 }
 
-export default {
-  onModel: (model: $model) => {
+export default () => ({
+  onModel(model: $model) {
     // necessary to prevent invalid subscription names
     const actionList = [
       ...Object.keys(model.reducers || {}),
@@ -40,4 +40,4 @@ export default {
 
     return next(action)
   },
-}
+})
