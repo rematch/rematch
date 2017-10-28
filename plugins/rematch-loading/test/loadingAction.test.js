@@ -14,6 +14,9 @@ describe('plugin:', () => {
       model({
         name: 'count',
         state: 0,
+        reducers: {
+          any: s => s,
+        },
         effects: {
           async timeout() {
             await setTimeout(() => {}, 1000)
