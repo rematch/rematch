@@ -15,9 +15,9 @@ export default (storeDispatch: $dispatch) => ({
     }
 
     Object.keys(model.effects || {}).forEach((effectName: string) => {
-      effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(
-        dispatch[model.name]
-      )
+      effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(dispatch[model.name])
+      // tag effects so they can be differentiated from actions
+      // necessary for plugins
       effects[`${model.name}/${effectName}`].isEffect = true
       // add effect to dispatch
       // is assuming dispatch is available already... that the dispatch plugin is in there

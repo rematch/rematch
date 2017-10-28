@@ -1,3 +1,8 @@
 # Rematch-Loading
 
-WIP
+```js
+const config = {
+  name: 'loading',
+  effects: true,
+}
+```
