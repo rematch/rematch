@@ -1,11 +1,11 @@
 // @flow
 export default {
   expose: { select: {} },
-  init: (exposed) => ({
+  init: ({ select }) => ({
     onModel(model: $model) {
-      exposed.select[model.name] = {}
+      select[model.name] = {}
       Object.keys(model.selectors || {}).forEach((selectorName: string) => {
-        exposed.select[model.name][selectorName] = (state: any, ...args) =>
+        select[model.name][selectorName] = (state: any, ...args) =>
           model.selectors[selectorName](state[model.name], ...args)
       })
     }

@@ -3,7 +3,7 @@ let callDispatch
 
 export default {
   expose: { effects: {} },
-  init: (exposed) => ({
+  init: ({ effects, dispatch }) => ({
     onInit(getStore) {
       callDispatch = getStore().dispatch
     },
@@ -17,19 +17,19 @@ export default {
       }
 
       Object.keys(model.effects || {}).forEach((effectName: string) => {
-        exposed.effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(exposed.dispatch[model.name])
+        effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(dispatch[model.name])
         // add effect to dispatch
         // is assuming dispatch is available already... that the dispatch plugin is in there
-        exposed.dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
+        dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
         // tag effects so they can be differentiated from normal actions
-        exposed.dispatch[model.name][effectName].isEffect = true
+        dispatch[model.name][effectName].isEffect = true
       })
     },
     middleware: (store: $store) => (next: (action: $action) => any) => async (action: $action) => {
       // async/await acts as promise middleware
       let result
-      if (action.type in exposed.effects) {
-        result = await exposed.effects[action.type](action.payload, store.getState)
+      if (action.type in effects) {
+        result = await effects[action.type](action.payload, store.getState)
       } else {
         result = await next(action)
       }

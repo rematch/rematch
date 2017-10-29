@@ -5,7 +5,7 @@ export default {
   expose: {
     dispatch: (action: $action) => callDispatch(action)
   },
-  init: (exposed) => ({
+  init: ({ dispatch }) => ({
     onInit(getStore) {
       callDispatch = getStore().dispatch
     },
@@ -18,9 +18,9 @@ export default {
         await callDispatch(action)
       }
 
-      exposed.dispatch[model.name] = {}
+      dispatch[model.name] = {}
       Object.keys(model.reducers || {}).forEach((reducerName: string) => {
-        exposed.dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
+        dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
       })
     }
   })
