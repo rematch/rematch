@@ -7,29 +7,34 @@ import corePlugins from './plugins'
 export const modelHooks = []
 export const pluginMiddlewares = []
 
-const validatePlugin = (plugin: $plugin) => validate([
-  [
-    plugin.onModel && typeof plugin.onModel !== 'function',
-    'Plugin onModel must be a function',
-  ],
-  [
-    plugin.middleware && typeof plugin.middleware !== 'function',
-    'Plugin middleware must be a function',
-  ],
-])
+const validatePlugin = (plugin: $plugin) =>
+  validate([
+    [
+      plugin.onInit && typeof plugin.onInit !== 'function',
+      'Plugin onInit must be a function'
+    ],
+    [
+      plugin.onModel && typeof plugin.onModel !== 'function',
+      'Plugin onModel must be a function',
+    ],
+    [
+      plugin.middleware && typeof plugin.middleware !== 'function',
+      'Plugin middleware must be a function',
+    ],
+  ])
 
-export const addPluginMiddleware = (plugins, exposed) => {
-  plugins.forEach(createPlugin => {
-    const plugin = createPlugin.init(exposed)
+export const addPluginMiddleware = (plugins: $pluginCreator[], exposed) => {
+  plugins.forEach(({ init }) => {
+    const plugin: $plugin = init(exposed)
     if (plugin.middleware) {
       pluginMiddlewares.push(plugin.middleware)
     }
   })
 }
 
-export const createPlugins = (plugins, exposed) => {
-  plugins.forEach(createPlugin => {
-    const plugin = createPlugin.init(exposed)
+export const createPlugins = (plugins: $pluginCreator[], exposed) => {
+  plugins.forEach(({ init }) => {
+    const plugin: $plugin = init(exposed)
     validatePlugin(plugin)
     if (plugin.onInit) {
       plugin.onInit()
@@ -43,11 +48,11 @@ export const createPlugins = (plugins, exposed) => {
   })
 }
 
-const setupExpose = plugins => {
+const setupExpose = (plugins: $pluginCreator[]) => {
   const exposed = {}
-  plugins.forEach(plugin => {
-    Object.keys(plugin.expose || {}).forEach(key => {
-      exposed[key] = plugin.expose[key]
+  plugins.forEach(({ expose }) => {
+    Object.keys(expose || {}).forEach(key => {
+      exposed[key] = expose[key]
     })
   })
   return exposed
