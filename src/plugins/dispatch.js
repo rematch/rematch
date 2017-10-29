@@ -1,5 +1,7 @@
 // @flow
-export let storeDispatch // eslint-disable-line
+import { getStore } from '../utils/store'
+
+let storeDispatch
 
 export default {
   expose: {
@@ -14,7 +16,7 @@ export default {
       }
   },
   init: ({ dispatch, createDispatcher }) => ({
-    onInit(getStore) {
+    onInit() {
       storeDispatch = getStore().dispatch
     },
     onModel(model: $model) {

@@ -1,16 +1,16 @@
 // @flow
-const createLoadingAction = (show) => (state, { name, action }) => {
-  const next = Object.assign({}, state, {
-    global: show,
-    models: Object.assign({}, state.models, { [name]: show }),
-    effects: Object.assign({}, state.effects, {
-      [name]: Object.assign({}, state.effects[name], {
-        [action]: show
-      })
-    })
-  })
-  return next
-}
+const createLoadingAction = (show) => (state, { name, action }) => ({
+  ...state,
+  global: show,
+  models: { ...state.models, [name]: show },
+  effects: {
+    ...state.effects,
+    [name]: {
+      ...state.effects[name],
+      [action]: show
+    }
+  }
+})
 
 export default (config) => ({
   init: ({ dispatch }) => ({

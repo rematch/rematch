@@ -1,6 +1,6 @@
 // @flow
 import validate from './utils/validate'
-import { getStore, createStore } from './utils/store'
+import { createStore } from './utils/store'
 import createModel from './model'
 import corePlugins from './plugins'
 
@@ -32,7 +32,7 @@ export const createPlugins = (plugins, exposed) => {
     const plugin = createPlugin.init(exposed)
     validatePlugin(plugin)
     if (plugin.onInit) {
-      plugin.onInit(getStore)
+      plugin.onInit()
     }
     if (plugin.onModel) {
       modelHooks.push(plugin.onModel)
