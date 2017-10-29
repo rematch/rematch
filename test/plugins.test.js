@@ -9,8 +9,8 @@ describe('plugins:', () => {
     const fns = [() => 1, () => 2]
     init({
       plugins: [
-        { internalInit: () => ({ onModel: fns[0] }) },
-        { internalInit: () => ({ onModel: fns[1] }) },
+        { init: () => ({ onModel: fns[0] }) },
+        { init: () => ({ onModel: fns[1] }) },
       ]
     })
     expect(modelHooks.slice(-2)).toEqual(fns)
@@ -23,8 +23,8 @@ describe('plugins:', () => {
     const m2 = () => next => action => next(action)
     init({
       plugins: [
-        { internalInit: () => ({ middleware: m1 }) },
-        { internalInit: () => ({ middleware: m2 }) },
+        { init: () => ({ middleware: m1 }) },
+        { init: () => ({ middleware: m2 }) },
       ]
     })
     expect(pluginMiddlewares.slice(-2)).toEqual([m1, m2])
@@ -37,7 +37,7 @@ describe('plugins:', () => {
       state: 0,
     }
     init({
-      plugins: [{ internalInit: () => ({ model }) }]
+      plugins: [{ init: () => ({ model }) }]
     })
     expect(getStore().getState()).toEqual({ a: 0 })
   })

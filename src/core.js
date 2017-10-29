@@ -1,11 +1,11 @@
 // @flow
 import validate from './utils/validate'
-import { getStore } from './utils/store'
+import { getStore, createStore } from './utils/store'
 import createModel from './model'
+import corePlugins from './plugins'
 
 export const modelHooks = []
 export const pluginMiddlewares = []
-const exposed = {}
 
 const validatePlugin = (plugin: $plugin) => validate([
   [
@@ -18,28 +18,18 @@ const validatePlugin = (plugin: $plugin) => validate([
   ],
 ])
 
-export const populateExpose = (plugins) => {
-  plugins.forEach(p => {
-    if (p.expose) {
-      Object.keys(p.expose).forEach(key => {
-        exposed[key] = p.expose[key]
-      })
-    }
-  })
-}
-
-export const addPluginMiddleware = (plugins) => {
+export const addPluginMiddleware = (plugins, exposed) => {
   plugins.forEach(createPlugin => {
-    const plugin = createPlugin.internalInit(exposed)
+    const plugin = createPlugin.init(exposed)
     if (plugin.middleware) {
       pluginMiddlewares.push(plugin.middleware)
     }
   })
 }
 
-export const createPlugins = (plugins) => {
+export const createPlugins = (plugins, exposed) => {
   plugins.forEach(createPlugin => {
-    const plugin = createPlugin.internalInit(exposed)
+    const plugin = createPlugin.init(exposed)
     validatePlugin(plugin)
     if (plugin.onInit) {
       plugin.onInit(getStore)
@@ -52,3 +42,32 @@ export const createPlugins = (plugins) => {
     }
   })
 }
+
+const setupExpose = plugins => {
+  const exposed = {}
+  plugins.forEach(p => {
+    if (p.expose) {
+      Object.keys(p.expose).forEach(key => {
+        exposed[key] = p.expose[key]
+      })
+    }
+  })
+  return exposed
+}
+
+export const setupPlugins = (config) => {
+  const plugins = corePlugins.concat(config.plugins || [])
+
+  const exposed = setupExpose(plugins)
+
+  // plugin middleware must be added before creating store
+  addPluginMiddleware(plugins, exposed)
+  // create a redux store with initialState
+  // merge in additional extra reducers
+  createStore(config.initialState, config.extraReducers)
+
+  // setup plugin pipeline
+  createPlugins(plugins, exposed)
+}
+
+
