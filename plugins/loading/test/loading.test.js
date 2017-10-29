@@ -4,8 +4,8 @@ beforeEach(() => {
 
 describe('loading', () => {
   it('loading.global should be false for normal dispatched action', () => {
-    const { init, model, dispatch, getStore } = require('../src/index')
-    const loadingPlugin = require('../src/plugins/loading').default
+    const { init, model, dispatch, getStore } = require('../../../src/index')
+    const loadingPlugin = require('../src').default
     init({
       plugins: [loadingPlugin()]
     })
@@ -20,8 +20,8 @@ describe('loading', () => {
     expect(getStore().getState().loading.global).toBe(false)
   })
   it('loading.global should be true for dispatched effect', () => {
-    const { init, model, dispatch, getStore } = require('../src/index')
-    const loadingPlugin = require('../src/plugins/loading').default
+    const { init, model, dispatch, getStore } = require('../../../src/index')
+    const loadingPlugin = require('../src').default
     init({
       plugins: [loadingPlugin()]
     })
@@ -38,8 +38,8 @@ describe('loading', () => {
     expect(getStore().getState().loading.global).toBe(true)
   })
   it('should change the loading.models', () => {
-    const { init, model, dispatch, getStore } = require('../src/index')
-    const loadingPlugin = require('../src/plugins/loading').default
+    const { init, model, dispatch, getStore } = require('../../../src/index')
+    const loadingPlugin = require('../src').default
     init({
       plugins: [loadingPlugin()]
     })
@@ -56,8 +56,8 @@ describe('loading', () => {
     expect(getStore().getState().loading.models.count).toBe(true)
   })
   it('should change the loading.effects', () => {
-    const { init, model, dispatch, getStore } = require('../src/index')
-    const loadingPlugin = require('../src/plugins/loading').default
+    const { init, model, dispatch, getStore } = require('../../../src/index')
+    const loadingPlugin = require('../src').default
     init({
       plugins: [loadingPlugin()]
     })
