@@ -7,7 +7,7 @@ describe('loading', () => {
     const { init, model, dispatch, getStore } = require('../src/index')
     const loadingPlugin = require('../src/plugins/loading').default
     init({
-      plugins: [loadingPlugin]
+      plugins: [loadingPlugin()]
     })
     model({
       name: 'count',
@@ -23,7 +23,7 @@ describe('loading', () => {
     const { init, model, dispatch, getStore } = require('../src/index')
     const loadingPlugin = require('../src/plugins/loading').default
     init({
-      plugins: [loadingPlugin]
+      plugins: [loadingPlugin()]
     })
     model({
       name: 'count',
@@ -41,7 +41,7 @@ describe('loading', () => {
     const { init, model, dispatch, getStore } = require('../src/index')
     const loadingPlugin = require('../src/plugins/loading').default
     init({
-      plugins: [loadingPlugin]
+      plugins: [loadingPlugin()]
     })
     model({
       name: 'count',
@@ -59,7 +59,7 @@ describe('loading', () => {
     const { init, model, dispatch, getStore } = require('../src/index')
     const loadingPlugin = require('../src/plugins/loading').default
     init({
-      plugins: [loadingPlugin]
+      plugins: [loadingPlugin()]
     })
     model({
       name: 'count',

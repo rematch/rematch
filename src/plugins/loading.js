@@ -12,7 +12,7 @@ const createLoadingAction = (show) => (state, { name, action }) => {
   return next
 }
 
-export default {
+export default (config) => ({
   init: (exposed) => ({
     model: {
       name: 'loading',
@@ -48,4 +48,4 @@ export default {
       })
     }
   })
-}
+})
