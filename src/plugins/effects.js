@@ -23,6 +23,8 @@ export default {
         // add effect to dispatch
         // is assuming dispatch is available already... that the dispatch plugin is in there
         exposed.dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
+        // tag effects so they can be differentiated from normal actions
+        exposed.dispatch[model.name][effectName].isEffect = true
       })
     },
     middleware: (store: $store) => (next: (action: $action) => any) => async (action: $action) => {
