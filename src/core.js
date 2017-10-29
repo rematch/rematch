@@ -45,12 +45,10 @@ export const createPlugins = (plugins, exposed) => {
 
 const setupExpose = plugins => {
   const exposed = {}
-  plugins.forEach(p => {
-    if (p.expose) {
-      Object.keys(p.expose).forEach(key => {
-        exposed[key] = p.expose[key]
-      })
-    }
+  plugins.forEach(plugin => {
+    Object.keys(plugin.expose || {}).forEach(key => {
+      exposed[key] = plugin.expose[key]
+    })
   })
   return exposed
 }
@@ -69,5 +67,4 @@ export const setupPlugins = (config) => {
   // setup plugin pipeline
   createPlugins(plugins, exposed)
 }
-
 

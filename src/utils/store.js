@@ -29,9 +29,7 @@ export const createStore = (
 }
 
 export const createReducersAndUpdateStore = (model: $model) : void => {
-  store.replaceReducer(
-    mergeReducers({
-      [model.name]: createReducers(model),
-    })
-  )
+  store.replaceReducer(mergeReducers({
+    [model.name]: createReducers(model),
+  }))
 }

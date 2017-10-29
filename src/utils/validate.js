@@ -4,7 +4,7 @@ type $validation = Array<boolean | string>
 
 /**
  * Validate
- * 
+ *
  * takes an array of arrays of validations and
  * throws if an error occurs
  */

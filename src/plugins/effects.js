@@ -17,9 +17,7 @@ export default {
       }
 
       Object.keys(model.effects || {}).forEach((effectName: string) => {
-        exposed.effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(
-          exposed.dispatch[model.name]
-        )
+        exposed.effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(exposed.dispatch[model.name])
         // add effect to dispatch
         // is assuming dispatch is available already... that the dispatch plugin is in there
         exposed.dispatch[model.name][effectName] = createDispatcher(model.name, effectName)

@@ -36,7 +36,7 @@ export default {
           // copy function
           const fn = exposed.dispatch[name][action]
           // create function with pre & post loading calls
-          const dispatchWithHooks = async function (props) {
+          const dispatchWithHooks = async function dispatchWithHooks(props) {
             exposed.dispatch.loading.show({ name, action })
             await fn(props)
             // waits for dispatch function to finish before calling "hide"
