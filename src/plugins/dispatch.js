@@ -1,23 +1,23 @@
 // @flow
-let callDispatch
+export let storeDispatch // eslint-disable-line
 
 export default {
   expose: {
-    dispatch: (action: $action) => callDispatch(action)
+    dispatch: (action: $action) => storeDispatch(action),
+    createDispatcher: (modelName: string, reducerName: string) =>
+      async (payload: any) => {
+        const action = { type: `${modelName}/${reducerName}` }
+        if (payload) {
+          action.payload = payload
+        }
+        await storeDispatch(action)
+      }
   },
-  init: ({ dispatch }) => ({
+  init: ({ dispatch, createDispatcher }) => ({
     onInit(getStore) {
-      callDispatch = getStore().dispatch
+      storeDispatch = getStore().dispatch
     },
     onModel(model: $model) {
-      const createDispatcher = (modelName: string, reducerName: string) => async (payload: any) => {
-        const action = {
-          type: `${modelName}/${reducerName}`,
-          ...(payload ? { payload } : {})
-        }
-        await callDispatch(action)
-      }
-
       dispatch[model.name] = {}
       Object.keys(model.reducers || {}).forEach((reducerName: string) => {
         dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)

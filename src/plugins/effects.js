@@ -1,21 +1,10 @@
 // @flow
-let callDispatch
-
 export default {
-  expose: { effects: {} },
-  init: ({ effects, dispatch }) => ({
-    onInit(getStore) {
-      callDispatch = getStore().dispatch
-    },
+  expose: {
+    effects: {}
+  },
+  init: ({ effects, dispatch, createDispatcher }) => ({
     onModel(model: $model) {
-      const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
-        const action = {
-          type: `${modelName}/${reducerName}`,
-          ...(payload ? { payload } : {})
-        }
-        callDispatch(action)
-      }
-
       Object.keys(model.effects || {}).forEach((effectName: string) => {
         effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(dispatch[model.name])
         // add effect to dispatch
