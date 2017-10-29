@@ -1,36 +1,41 @@
 // @flow
-import { dispatch } from './dispatch'
+let callDispatch
 
-export const effects = {}
-
-// TODO assumes there is a dispatch plugin
-export default (storeDispatch: $dispatch) => ({
+export const internalInit = (exposed) => ({
+  onInit(getStore) {
+    callDispatch = getStore().dispatch
+  },
   onModel(model: $model) {
     const createDispatcher = (modelName: string, reducerName: string) => (payload: any) => {
       const action = {
         type: `${modelName}/${reducerName}`,
         ...(payload ? { payload } : {})
       }
-      storeDispatch(action)
+      callDispatch(action)
     }
 
     Object.keys(model.effects || {}).forEach((effectName: string) => {
-      effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(
-        dispatch[model.name]
+      exposed.effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(
+        exposed.dispatch[model.name]
       )
       // add effect to dispatch
       // is assuming dispatch is available already... that the dispatch plugin is in there
-      dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
+      exposed.dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
     })
   },
   middleware: (store: $store) => (next: (action: $action) => any) => async (action: $action) => {
     // async/await acts as promise middleware
     let result
-    if (action.type in effects) {
-      result = await effects[action.type](action.payload, store.getState)
+    if (action.type in exposed.effects) {
+      result = await exposed.effects[action.type](action.payload, store.getState)
     } else {
       result = await next(action)
     }
     return result
   }
 })
+
+export default {
+  expose: { effects: {} },
+  internalInit
+}

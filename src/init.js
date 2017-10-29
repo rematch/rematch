@@ -1,7 +1,7 @@
 // @flow
 import validate from './utils/validate'
 import { createStore } from './utils/store'
-import { createPlugins, addPluginMiddleware } from './core'
+import { createPlugins, addPluginMiddleware, populateExpose } from './core'
 import corePlugins from './plugins'
 
 const validateConfig = (config: $config) =>
@@ -24,6 +24,9 @@ const init = (config: $config = {}): void => {
   validateConfig(config)
 
   const plugins = corePlugins.concat(config.plugins || [])
+
+  populateExpose(plugins)
+
   // plugin middleware must be added before creating store
   addPluginMiddleware(plugins)
 

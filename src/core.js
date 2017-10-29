@@ -5,6 +5,7 @@ import createModel from './model'
 
 export const modelHooks = []
 export const pluginMiddlewares = []
+const exposed = {}
 
 const validatePlugin = (plugin: $plugin) => validate([
   [
@@ -17,14 +18,19 @@ const validatePlugin = (plugin: $plugin) => validate([
   ],
 ])
 
-const buildPlugin = (createPlugin): $plugin => {
-  const { dispatch } = getStore()
-  return createPlugin(dispatch)
+export const populateExpose = (plugins) => {
+  plugins.forEach(p => {
+    if (p.expose) {
+      Object.keys(p.expose).forEach(key => {
+        exposed[key] = p.expose[key]
+      })
+    }
+  })
 }
 
 export const addPluginMiddleware = (plugins) => {
   plugins.forEach(createPlugin => {
-    const plugin = createPlugin()
+    const plugin = createPlugin.internalInit(exposed)
     if (plugin.middleware) {
       pluginMiddlewares.push(plugin.middleware)
     }
@@ -33,10 +39,10 @@ export const addPluginMiddleware = (plugins) => {
 
 export const createPlugins = (plugins) => {
   plugins.forEach(createPlugin => {
-    const plugin = buildPlugin(createPlugin)
+    const plugin = createPlugin.internalInit(exposed)
     validatePlugin(plugin)
     if (plugin.onInit) {
-      plugin.onInit()
+      plugin.onInit(getStore)
     }
     if (plugin.onModel) {
       modelHooks.push(plugin.onModel)

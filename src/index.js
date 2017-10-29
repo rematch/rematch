@@ -2,8 +2,11 @@ import init from './init'
 import model from './model'
 import { getStore } from './utils/store'
 
-import { dispatch } from './plugins/dispatch'
-import { select } from './plugins/selectors'
+import dispatchPlugin from './plugins/dispatch'
+import selectPlugin from './plugins/selectors'
+
+const { expose: { dispatch } } = dispatchPlugin
+const { expose: { select } } = selectPlugin
 
 export default {
   init,

@@ -10,7 +10,7 @@ const triggerAllSubscriptions = (matches) => (action) => {
   })
 }
 
-export default () => ({
+export const internalInit = () => ({
   onModel(model: $model) {
     // necessary to prevent invalid subscription names
     const actionList = [
@@ -41,3 +41,7 @@ export default () => ({
     return next(action)
   },
 })
+
+export default {
+  internalInit
+}

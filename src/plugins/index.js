@@ -1,13 +1,13 @@
-import dispatch from './dispatch'
-import effects from './effects'
-import subscriptions from './subscriptions'
-import selectors from './selectors'
+import dispatchPlugin from './dispatch'
+import effectsPlugin from './effects'
+import subscriptionsPlugin from './subscriptions'
+import selectorsPlugin from './selectors'
 
 const corePlugins = [
-  dispatch,
-  effects,
-  selectors,
-  subscriptions,
+  dispatchPlugin,
+  effectsPlugin,
+  selectorsPlugin,
+  subscriptionsPlugin,
 ]
 
 export default corePlugins
