@@ -42,7 +42,6 @@ describe('plugins:', () => {
     expect(getStore().getState()).toEqual({ a: 0 })
   })
 
-  // FIXME: this test throws a redux warning
   test('should merge plugin configs into configs', () => {
     const { init, getStore } = require('../src')
     const plugin1 = {
@@ -55,6 +54,8 @@ describe('plugins:', () => {
     }
     init({
       plugins: [plugin1],
+      // added to prevent warning in console if no reducers
+      extraReducers: { app: (state = 1) => state },
     })
     expect(getStore().getState()).toEqual({ app: 1 })
   })
