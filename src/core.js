@@ -1,6 +1,6 @@
 // @flow
 import validate from './utils/validate'
-import { createStore } from './utils/store'
+import { createStore } from './redux/store'
 import createModel from './model'
 import corePlugins from './plugins'
 

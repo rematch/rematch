@@ -1,5 +1,5 @@
 // @flow
-import { getStore } from '../utils/store'
+import { getStore } from '../redux/store'
 
 let storeDispatch
 
