@@ -1,7 +1,7 @@
 // @flow
 import createModel from './model'
 import corePlugins from './plugins'
-import { createStore } from './redux/store'
+import { createStore, getStore } from './redux/store'
 import validate from './utils/validate'
 import mergeConfig from './utils/mergeConfig'
 
@@ -38,7 +38,7 @@ export const createPlugins = (plugins: $pluginCreator[], exposed) => {
     const plugin: $plugin = init(exposed)
     validatePlugin(plugin)
     if (plugin.onInit) {
-      plugin.onInit()
+      plugin.onInit(getStore)
     }
     if (plugin.onModel) {
       modelHooks.push(plugin.onModel)

@@ -1,6 +1,4 @@
 // @flow
-import { getStore } from '../redux/store'
-
 let storeDispatch
 
 export default {
@@ -16,7 +14,7 @@ export default {
       }
   },
   init: ({ dispatch, createDispatcher }) => ({
-    onInit() {
+    onInit(getStore) {
       storeDispatch = getStore().dispatch
     },
     onModel(model: $model) {
