@@ -14,7 +14,7 @@ const persistPlugin = rematchPersist({
 })
 
 init({
-  plugins: [persistPlugin]
+  plugins: [persistPlugin()]
 })
 ```
 
