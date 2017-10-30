@@ -1,31 +1,44 @@
 /* eslint-disable no-undef */
+import createLocalStorageMock from './localStorageMock'
 
 beforeEach(() => {
-  const localStorageMock = (() => {
-    let storage = {}
-    return {
-      getItem(key) {
-        return storage[key]
-      },
-      setItem(key, value) {
-        storage[key] = value.toString()
-      },
-      clear() {
-        storage = {}
-      },
-      removeItem(key) {
-        delete storage[key]
-      }
-    }
-  })()
-  Object.defineProperty(global, 'localStorage', { value: localStorageMock })
+  jest.resetModules()
+  createLocalStorageMock()
 })
 
 describe('persist', () => {
-  test('local storage mock should work', () => {
-    localStorage.setItem('key', 42)
-    expect(localStorage.getItem('key')).toBe('42')
-    localStorage.removeItem('key')
-    expect(localStorage.getItem('key')).toBe(undefined)
+  test('should load the persist plugin with no config', () => {
+    const persistPlugin = require('../src').default
+    const { init, getStore } = require('../../../src')
+    init({
+      initialState: {},
+      plugins: [persistPlugin()]
+    })
+    expect(getStore()).toEqual({})
+  })
+
+  test('should load the persist plugin with a config', () => {
+    const persistPlugin = require('../src').default
+    const { init, getStore } = require('../../../src')
+    const plugin = persistPlugin({
+      key: 'test'
+    })
+    init({
+      initialState: {},
+      plugins: [plugin]
+    })
+    expect(getStore()).toEqual({})
+  })
+
+  test('should create a persistor', () => {
+    const persistPlugin = require('../src').default
+    const { getPersistor } = require('../src')
+    const { init } = require('../../../src')
+    init({
+      initialState: {},
+      plugins: [persistPlugin()]
+    })
+    const persistor = getPersistor()
+    expect(persistor).toEqual('persistor')
   })
 })
