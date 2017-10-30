@@ -7,5 +7,6 @@ declare type $plugin = {
 
 declare type $pluginCreator = {
   expose: Object,
+  config: Object,
   init: (exposed: Object) => $plugin
 }

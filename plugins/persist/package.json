@@ -1,0 +1,14 @@
+{
+  "name": "rematch-persist",
+  "version": "0.1.0",
+  "description": "Redux-Persist v5 plugin for Rematch. Provides simple redux state persistence using local storage options.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "redux-persist": "5.1.0"
+  }
+}

@@ -1,6 +1,6 @@
 import init from './init'
 import model from './model'
-import { getStore } from './utils/store'
+import { getStore } from './redux/store'
 
 import dispatchPlugin from './plugins/dispatch'
 import selectPlugin from './plugins/selectors'

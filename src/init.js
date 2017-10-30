@@ -16,11 +16,14 @@ const validateConfig = (config: $config) =>
       !!config.extraReducers && (Array.isArray(config.extraReducers) || typeof config.extraReducers !== 'object'),
       'init config.extraReducers must be an object',
     ],
+    [
+      !!config.customCombineReducers && typeof config.customCombineReducers !== 'function',
+      'init config.customCombineReducers must be a function'
+    ],
   ])
 
 const init = (config: $config = {}): void => {
   validateConfig(config)
-
   setupPlugins(config)
 }
 
