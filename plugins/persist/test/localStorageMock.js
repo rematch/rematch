@@ -1,5 +1,5 @@
 const localStorageMock = () => {
-  let storage = {}
+  const storage = {}
   return {
     getItem(key) {
       return storage[key]
@@ -7,9 +7,9 @@ const localStorageMock = () => {
     setItem(key, value) {
       storage[key] = value.toString()
     },
-    clear() {
-      storage = {}
-    },
+    // clear() {
+    //   storage = {}
+    // },
     removeItem(key) {
       delete storage[key]
     }

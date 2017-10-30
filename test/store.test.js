@@ -36,14 +36,4 @@ describe('createStore:', () => {
     })
     expect(getStore().getState()).toEqual({ todos: 999 })
   })
-
-  it('customCombineReducers should run a function over combineReducers', () => {
-    const { createStore, getStore } = require('../src/redux/store')
-    const customCombineReducers = () => s => ({ a: s.a * 2 })
-    createStore({
-      initialState: { a: 2 },
-      customCombineReducers,
-    })
-    expect(getStore().getState()).toEqual({ a: 4 })
-  })
 })

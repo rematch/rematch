@@ -22,7 +22,7 @@ export default (config = {}) => {
   return {
     config: {
       // pass in merged config as first param of persistCombineReducers
-      customCombineReducers: persistCombineReducers.bind(mergedConfig),
+      customCombineReducers: persistCombineReducers.bind(null, mergedConfig),
     },
     init: () => ({
       onInit(getStore) {

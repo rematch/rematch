@@ -1,10 +1,16 @@
 /* eslint-disable no-undef */
+/* eslint-disable no-underscore-dangle */
 import createLocalStorageMock from './localStorageMock'
 
 beforeEach(() => {
   jest.resetModules()
   createLocalStorageMock()
 })
+
+const defaultPersist = {
+  rehydrated: false,
+  version: -1,
+}
 
 describe('persist', () => {
   test('should load the persist plugin with no config', () => {
@@ -14,20 +20,24 @@ describe('persist', () => {
       initialState: {},
       plugins: [persistPlugin()]
     })
-    expect(getStore()).toEqual({})
+    expect(getStore().getState()._persist).toEqual(defaultPersist)
   })
 
   test('should load the persist plugin with a config', () => {
     const persistPlugin = require('../src').default
     const { init, getStore } = require('../../../src')
     const plugin = persistPlugin({
-      key: 'test'
+      key: 'test',
+      version: 2
     })
     init({
       initialState: {},
-      plugins: [plugin]
+      plugins: [plugin],
     })
-    expect(getStore()).toEqual({})
+    expect(getStore().getState()._persist).toEqual({
+      ...defaultPersist,
+      version: 2,
+    })
   })
 
   test('should create a persistor', () => {
@@ -39,6 +49,6 @@ describe('persist', () => {
       plugins: [persistPlugin()]
     })
     const persistor = getPersistor()
-    expect(persistor).toEqual('persistor')
+    expect(persistor.purge).toBeDefined()
   })
 })
