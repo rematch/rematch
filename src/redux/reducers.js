@@ -1,7 +1,5 @@
 // @flow
 /* eslint no-underscore-dangle: 0 */
-import { combineReducers } from 'redux'
-
 let _reducers: $reducers
 
 export const initReducers = () : void => {
@@ -32,10 +30,7 @@ export const createReducers = ({ name, reducers, state }: $model) =>
   getReducer(resolveReducers(name, reducers), state)
 
 // uses combineReducers to merge new reducers into existing reducers
-export const mergeReducers = (nextReducers: $reducers, customCombineReducers) => {
+export const mergeReducers = (combine, nextReducers: $reducers) => {
   _reducers = { ..._reducers, ...nextReducers }
-  if (customCombineReducers) {
-    return customCombineReducers(_reducers)
-  }
-  return combineReducers(_reducers)
+  return combine(_reducers)
 }

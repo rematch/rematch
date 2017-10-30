@@ -1,6 +1,6 @@
 // @flow
 /* eslint no-underscore-dangle: 0 */
-import { createStore as _createStore, applyMiddleware, compose } from 'redux'
+import { createStore as _createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { mergeReducers, initReducers, createReducers } from './reducers'
 import { pluginMiddlewares } from '../core'
 
@@ -12,6 +12,7 @@ const composeEnhancers =
    : compose
 
 let store = null
+let combine = combineReducers
 
 export const getStore = () => store
 
@@ -21,11 +22,15 @@ export const createStore = ({ initialState, extraReducers, customCombineReducers
   if (initialState === undefined) {
     initialState = {}
   }
+
+  if (customCombineReducers) {
+    combine = customCombineReducers
+  }
   // reducers
   initReducers()
   let rootReducer = state => state
   if (extraReducers) {
-    rootReducer = mergeReducers(extraReducers, customCombineReducers)
+    rootReducer = mergeReducers(combine, extraReducers)
   }
 
   // middleware
@@ -37,7 +42,7 @@ export const createStore = ({ initialState, extraReducers, customCombineReducers
 }
 
 export const createReducersAndUpdateStore = (model: $model) : void => {
-  store.replaceReducer(mergeReducers({
+  store.replaceReducer(mergeReducers(combine, {
     [model.name]: createReducers(model),
   }))
 }
