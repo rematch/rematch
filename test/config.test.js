@@ -34,4 +34,6 @@ describe('init config', () => {
       extraReducers: 42
     })).toThrow()
   })
+
+  test('plugin config with additional plugins should be added')
 })

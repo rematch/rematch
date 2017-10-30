@@ -59,5 +59,4 @@ describe('plugins:', () => {
     const plugins = [plugin1]
     expect(() => createPlugins(plugins)).toThrow()
   })
-
 })
