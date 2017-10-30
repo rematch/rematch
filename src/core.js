@@ -48,26 +48,23 @@ export const createPlugins = (plugins: $pluginCreator[], exposed) => {
   })
 }
 
-const setupExpose = (plugins: $pluginCreator[]) => {
-  const exposed = {}
-  plugins.forEach(({ expose }) => {
-    Object.keys(expose || {}).forEach(key => {
-      exposed[key] = expose[key]
-    })
-  })
-  return exposed
-}
-
 export const setupPlugins = (config) => {
   const plugins = corePlugins.concat(config.plugins || [])
+  const exposed = {}
+  const mergedConfig = config
 
-  const exposed = setupExpose(plugins)
+  plugins.forEach((plugin) => {
+    // create plugin shared data space called "exposed"
+    Object.keys(plugin.expose || {}).forEach(key => {
+      exposed[key] = plugin.expose[key]
+    })
+  })
 
   // plugin middleware must be added before creating store
   addPluginMiddleware(plugins, exposed)
   // create a redux store with initialState
   // merge in additional extra reducers
-  createStore(config.initialState, config.extraReducers)
+  createStore(mergedConfig)
 
   // setup plugin pipeline
   createPlugins(plugins, exposed)

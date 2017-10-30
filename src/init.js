@@ -20,7 +20,6 @@ const validateConfig = (config: $config) =>
 
 const init = (config: $config = {}): void => {
   validateConfig(config)
-
   setupPlugins(config)
 }
 

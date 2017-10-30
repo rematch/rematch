@@ -16,15 +16,26 @@ let store = null
 export const getStore = () => store
 
 // create store
-export const createStore = (
-  initialState: any = {},
-  extraReducers: $reducers = {},
-): any => {
+export const createStore = ({ initialState, extraReducers, rootReducerEnhancer } = {}) => {
+  // initial state
+  if (initialState === undefined) {
+    initialState = {}
+  }
+  // reducers
   initReducers()
+  let rootReducer = state => state
+  if (extraReducers) {
+    rootReducer = mergeReducers(extraReducers)
+  }
+  if (rootReducerEnhancer) {
+    rootReducer = rootReducerEnhancer(rootReducer)
+  }
+
+  // middleware
   const middlewares = applyMiddleware(...pluginMiddlewares)
-  const hasExtraReducers = Object.keys(extraReducers).length > 0
-  const rootReducer = hasExtraReducers ? mergeReducers(extraReducers) : state => state
   const enhancer = composeEnhancers(middlewares)
+
+  // store
   store = _createStore(rootReducer, initialState, enhancer)
 }
 
