@@ -8,9 +8,13 @@ const commonConfig = {
 }
 
 let persistor
+// persistor is used for PersistGate
+// see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
 export const getPersistor = () => persistor
 
+// rematch plugin
 export default (config = {}) => {
+  // merge config with common config options
   const mergedConfig = {
     ...commonConfig,
     ...config,
@@ -19,10 +23,10 @@ export default (config = {}) => {
     config: {
       // pass in merged config as first param of persistCombineReducers
       rootReducerEnhancer: persistCombineReducers.bind(mergedConfig),
-      storeEnhancer: persistStore,
     },
     init: () => ({
       onInit(getStore) {
+        // run persist store once store is available
         persistor = persistStore(getStore())
       },
     })
