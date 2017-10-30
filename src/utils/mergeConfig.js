@@ -31,10 +31,10 @@ export default (c1 = {}, c2 = {}) => {
     }
   }
 
-  if (c1.rootReducerEnhancer && c2.rootReducerEnhancer) {
-    config.rootReducerEnhancer = pipe(c1.rootReducerEnhancer, c2.rootReducerEnhancer)
+  if (c1.customCombineReducers && c2.customCombineReducers) {
+    config.customCombineReducers = pipe(c1.customCombineReducers, c2.customCombineReducers)
   } else {
-    config.rootReducerEnhancer = c1.rootReducerEnhancer || c2.rootReducerEnhancer
+    config.customCombineReducers = c1.customCombineReducers || c2.customCombineReducers
   }
 
   return config

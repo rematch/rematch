@@ -1,11 +1,5 @@
 import mergeConfig from '../src/utils/mergeConfig'
 
-// plugins?: $plugin[],
-// extraReducers?: {
-//  [reducerName: string]: (state: any, action: Object) => any,
-// },
-// rootReducerEnhancer?: (rootReducer: $reducer) => any,
-
 describe('mergeConfig', () => {
   describe('initialState', () => {
     test('it should handle no secondary config', () => {
@@ -140,41 +134,41 @@ describe('mergeConfig', () => {
     })
   })
 
-  describe('rootReducerEnhancer', () => {
-    test('should handle no extra rootReducerEnhancer', () => {
+  describe('customCombineReducers', () => {
+    test('should handle no extra customCombineReducers', () => {
       const result = mergeConfig({}, {})
       expect(result.extraReducers).toEqual({})
     })
-    test('should handle only c1 rootReducerEnhancer', () => {
+    test('should handle only c1 customCombineReducers', () => {
       const c1f = s => s + 1
       const c1 = {
-        rootReducerEnhancer: c1f
+        customCombineReducers: c1f
       }
       const result = mergeConfig(c1)
-      expect(result.rootReducerEnhancer).toEqual(c1f)
+      expect(result.customCombineReducers).toEqual(c1f)
     })
 
-    test('should handle only c2 rootReducerEnhancer', () => {
+    test('should handle only c2 customCombineReducers', () => {
       const c2f = s => s + 2
       const c2 = {
-        rootReducerEnhancer: c2f
+        customCombineReducers: c2f
       }
       const result = mergeConfig(undefined, c2)
-      expect(result.rootReducerEnhancer).toEqual(c2f)
+      expect(result.customCombineReducers).toEqual(c2f)
     })
 
-    test('if both, c2 rootReducerEnhancer should wrap c1', () => {
+    test('if both, c2 customCombineReducers should wrap c1', () => {
       const c1f = s => s + 1
       const c2f = s => s * 5
       const c1 = {
-        rootReducerEnhancer: c1f,
+        customCombineReducers: c1f,
       }
       const c2 = {
-        rootReducerEnhancer: c2f,
+        customCombineReducers: c2f,
       }
       const result = mergeConfig(c1, c2)
       // (2 + 1) * 5
-      expect(result.rootReducerEnhancer(2)).toBe(15)
+      expect(result.customCombineReducers(2)).toBe(15)
     })
   })
 })

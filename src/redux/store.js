@@ -16,7 +16,7 @@ let store = null
 export const getStore = () => store
 
 // create store
-export const createStore = ({ initialState, extraReducers, rootReducerEnhancer } = {}) => {
+export const createStore = ({ initialState, extraReducers, customCombineReducers } = {}) => {
   // initial state
   if (initialState === undefined) {
     initialState = {}
@@ -25,10 +25,7 @@ export const createStore = ({ initialState, extraReducers, rootReducerEnhancer }
   initReducers()
   let rootReducer = state => state
   if (extraReducers) {
-    rootReducer = mergeReducers(extraReducers)
-  }
-  if (rootReducerEnhancer) {
-    rootReducer = rootReducerEnhancer(rootReducer)
+    rootReducer = mergeReducers(extraReducers, customCombineReducers)
   }
 
   // middleware

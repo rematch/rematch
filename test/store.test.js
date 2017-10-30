@@ -37,13 +37,13 @@ describe('createStore:', () => {
     expect(getStore().getState()).toEqual({ todos: 999 })
   })
 
-  it('rootReducerEnhancer should run a function over combineReducers', () => {
+  it('customCombineReducers should run a function over combineReducers', () => {
     const { createStore, getStore } = require('../src/redux/store')
-    const rootReducerEnhancer = () => () => 42
+    const customCombineReducers = () => s => ({ a: s.a * 2 })
     createStore({
-      initialState: 2,
-      rootReducerEnhancer,
+      initialState: { a: 2 },
+      customCombineReducers,
     })
-    expect(getStore().getState()).toEqual(42)
+    expect(getStore().getState()).toEqual({ a: 4 })
   })
 })

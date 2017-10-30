@@ -32,7 +32,10 @@ export const createReducers = ({ name, reducers, state }: $model) =>
   getReducer(resolveReducers(name, reducers), state)
 
 // uses combineReducers to merge new reducers into existing reducers
-export const mergeReducers = (nextReducers: $reducers) => {
+export const mergeReducers = (nextReducers: $reducers, customCombineReducers) => {
   _reducers = { ..._reducers, ...nextReducers }
+  if (customCombineReducers) {
+    return customCombineReducers(_reducers)
+  }
   return combineReducers(_reducers)
 }

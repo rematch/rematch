@@ -4,5 +4,5 @@ declare type $config = {
  extraReducers?: {
   [reducerName: string]: (state: any, action: Object) => any,
  },
- rootReducerEnhancer?: (rootReducer: $reducer) => any,
+ customCombineReducers?: (rootReducer: $reducer) => any,
 }
