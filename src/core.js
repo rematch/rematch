@@ -1,8 +1,9 @@
 // @flow
-import validate from './utils/validate'
-import { createStore } from './redux/store'
 import createModel from './model'
 import corePlugins from './plugins'
+import { createStore } from './redux/store'
+import validate from './utils/validate'
+import mergeConfig from './utils/mergeConfig'
 
 export const modelHooks = []
 export const pluginMiddlewares = []
@@ -49,9 +50,16 @@ export const createPlugins = (plugins: $pluginCreator[], exposed) => {
 }
 
 export const setupPlugins = (config) => {
-  const plugins = corePlugins.concat(config.plugins || [])
+  // merge config with any plugin configs
+  const mergedConfig = (config.plugins || []).reduce((a, b) => {
+    if (b.config) {
+      return mergeConfig(a, b.config)
+    }
+    return a
+  }, config)
+
+  const plugins = corePlugins.concat(mergedConfig.plugins || [])
   const exposed = {}
-  const mergedConfig = config
 
   plugins.forEach((plugin) => {
     // create plugin shared data space called "exposed"

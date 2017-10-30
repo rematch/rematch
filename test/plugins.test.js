@@ -42,6 +42,22 @@ describe('plugins:', () => {
     expect(getStore().getState()).toEqual({ a: 0 })
   })
 
+  test('should merge plugin configs into configs', () => {
+    const { init, getStore } = require('../src')
+    const plugin1 = {
+      config: {
+        initialState: {
+          app: 1
+        }
+      },
+      init: () => ({}),
+    }
+    init({
+      plugins: [plugin1],
+    })
+    expect(getStore().getState()).toEqual({ app: 1 })
+  })
+
   test('should not create a plugin with invalid "onModel"', () => {
     const { createPlugins } = require('../src/core')
     const plugin1 = () => ({
