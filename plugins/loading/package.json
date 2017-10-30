@@ -1,0 +1,11 @@
+{
+  "name": "rematch-loading",
+  "version": "0.1.0",
+  "description": "Loading indicator plugin for Rematch",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
+  "license": "ISC"
+}

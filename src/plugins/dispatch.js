@@ -1,24 +1,29 @@
 // @flow
-let callDispatch
+import { getStore } from '../utils/store'
 
-export const dispatch = (action: $action) => callDispatch(action)
+let storeDispatch
 
-export default (storeDispatch: $dispatch) => ({
-  onInit() {
-    callDispatch = storeDispatch
-  },
-  onModel(model: $model) {
-    const createDispatcher = (modelName: string, reducerName: string) => async (payload: any) => {
-      const action = {
-        type: `${modelName}/${reducerName}`,
-        ...(payload ? { payload } : {})
+export default {
+  expose: {
+    dispatch: (action: $action) => storeDispatch(action),
+    createDispatcher: (modelName: string, reducerName: string) =>
+      async (payload: any) => {
+        const action = { type: `${modelName}/${reducerName}` }
+        if (payload) {
+          action.payload = payload
+        }
+        await storeDispatch(action)
       }
-      await storeDispatch(action)
+  },
+  init: ({ dispatch, createDispatcher }) => ({
+    onInit() {
+      storeDispatch = getStore().dispatch
+    },
+    onModel(model: $model) {
+      dispatch[model.name] = {}
+      Object.keys(model.reducers || {}).forEach((reducerName: string) => {
+        dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
+      })
     }
-
-    dispatch[model.name] = {}
-    Object.keys(model.reducers || {}).forEach((reducerName: string) => {
-      dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
-    })
-  }
-})
+  })
+}

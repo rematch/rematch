@@ -58,29 +58,29 @@ describe('effects:', () => {
 
   // currently no solution for arrow functions as they are often transpiled by Babel or Typescript
   // there is no clear way to detect arrow functions
-  xtest('should be able trigger a local reducer using arrow functions and `this`', async () => {
-    const { model, init, dispatch, getStore } = require('../src')
-    init()
-
-    model({
-      name: 'example',
-      state: 0,
-      reducers: {
-        addOne: (state) => state + 1,
-      },
-      effects: {
-        asyncAddOneArrow: async () => {
-          await this.addOne()
-        }
-      }
-    })
-
-    await dispatch.example.asyncAddOneArrow()
-
-    expect(getStore().getState()).toEqual({
-      example: 1,
-    })
-  })
+  // xtest('should be able trigger a local reducer using arrow functions and `this`', async () => {
+  //   const { model, init, dispatch, getStore } = require('../src')
+  //   init()
+  //
+  //   model({
+  //     name: 'example',
+  //     state: 0,
+  //     reducers: {
+  //       addOne: (state) => state + 1,
+  //     },
+  //     effects: {
+  //       asyncAddOneArrow: async () => {
+  //         await this.addOne()
+  //       }
+  //     }
+  //   })
+  //
+  //   await dispatch.example.asyncAddOneArrow()
+  //
+  //   expect(getStore().getState()).toEqual({
+  //     example: 1,
+  //   })
+  // })
 
   test('should be able trigger a local reducer using functions and `this`', async () => {
     const { model, init, dispatch, getStore } = require('../src')

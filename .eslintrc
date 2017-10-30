@@ -25,6 +25,7 @@
     "$middleware": false,
     "$model": false,
     "$plugin": false,
+    "$pluginCreator": false,
     "$reducer": false,
     "$reducers": false,
     "$store": false,
