@@ -5,6 +5,7 @@ packages
 flow-typed
 test
 examples
+scripts
 .vscode
 .coverage
 

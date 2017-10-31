@@ -18,5 +18,8 @@
   "main": "lib/@rematch/loading.js",
   "scripts": {
     "test": "jest"
+  },
+  "peerDependencies": {
+    "redux": "^3.0.0"
   }
 }

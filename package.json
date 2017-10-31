@@ -1,5 +1,5 @@
 {
-  "name": "@rematch",
+  "name": "rematch",
   "version": "0.1.0-alpha.1",
   "description": "A Redux Framework",
   "keywords": [
@@ -25,7 +25,7 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "webpack --env build",
+    "build": "bash ./scripts/build.sh",
     "dev": "webpack --progress --colors --watch --env dev",
     "lint": "eslint ./src",
     "test": "jest"

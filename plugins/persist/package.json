@@ -20,6 +20,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "redux": "^3.0.0",
     "redux-persist": "5.1.0"
   }
 }

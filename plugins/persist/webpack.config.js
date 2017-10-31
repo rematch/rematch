@@ -2,7 +2,7 @@
 
 const webpack = require('webpack')
 const path = require('path')
-const libraryName = require('./package.json').name
+const packageName = require('./package.json').name
 const { env } = require('yargs').argv
 
 const { UglifyJsPlugin } = webpack.optimize
@@ -23,7 +23,7 @@ const config = {
   output: {
     path: `${__dirname}/lib`,
     filename: outputFile,
-    library: libraryName,
+    library: packageName,
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },
