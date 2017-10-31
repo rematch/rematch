@@ -11,3 +11,7 @@ lib
 
 # tests
 .coverage
+
+# plugins
+plugins/*/.npmignore
+plugins/*/webpack.config.js

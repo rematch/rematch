@@ -1,32 +1,32 @@
 # Build script to be used locally for now
 
-# run tests
+build_production () {
+  npm install
+  mkdir -p lib
+  webpack --env build
+}
+
+build_plugin () {
+  echo 'Building ' $1
+  cp ./.npmignore ./$1/.npmignore
+  cp ./webpack.config.js ./$1/webpack.config.js
+  cd $1
+  build_production
+  cd ../..
+}
+
+# run tests before building
 echo 'Running tests...'
 npm run test
-echo 'Everything checks out.'
 
+# builds
 echo 'Building libs...'
+build_production
 
-# core
-echo 'Building core...'
-npm install
-mkdir -p lib
-webpack --env build
-
-# loading plugin
-echo 'Building loading plugin...'
-cd plugins/loading
-npm install
-mkdir -p lib
-webpack --env build
-cd ../..
-
-# persist plugin
-echo 'Building persist plugin...'
-cd plugins/persist
-npm install
-mkdir -p lib
-webpack --env build
-cd ../..
+# build all plugins
+for plugin in 'plugins'/*
+do
+  build_plugin $plugin
+done
 
 echo 'Done!'
