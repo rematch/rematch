@@ -12,7 +12,7 @@ const createLoadingAction = (show) => (state, { name, action }) => ({
   }
 })
 
-export default (config) => ({
+export default () => ({
   init: ({ dispatch }) => ({
     model: {
       name: 'loading',
