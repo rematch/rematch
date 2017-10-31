@@ -1,11 +1,22 @@
 {
-  "name": "rematch-loading",
+  "name": "@rematch/loading",
   "version": "0.1.0",
   "description": "Loading indicator plugin for Rematch",
-  "main": "src/index.js",
+  "keywords": [
+    "@rematch",
+    "redux",
+    "rematch",
+    "plugin",
+    "loading"
+  ],
+  "homepage": "https://github.com/rematch/rematch/tree/master/plugins/loading#readme",
+  "bugs": {
+    "url": "git+https://github.com/rematch/rematch/issues"
+  },
+  "license": "ISC",
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
+  "main": "lib/@rematch/loading.js",
   "scripts": {
     "test": "jest"
-  },
-  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
-  "license": "ISC"
+  }
 }

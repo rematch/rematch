@@ -1,19 +1,25 @@
 {
-  "name": "rematch-x",
-  "version": "0.0.0-alpha.0",
-  "description": "",
+  "name": "@rematch",
+  "version": "0.1.0-alpha.1",
+  "description": "A Redux Framework",
+  "keywords": [
+    "@rematch",
+    "redux",
+    "rematch"
+  ],
   "homepage": "https://github.com/rematch/rematch#readme",
   "bugs": {
     "url": "git+https://github.com/rematch/rematch/issues"
   },
   "license": "ISC",
-  "author": "",
-  "files": [
-    "lib",
-    "package.json",
-    "README.md"
+  "contributors": [
+    "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+    "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
   ],
-  "main": "lib/rematch-x.min.js",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/@rematch.min.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
@@ -35,7 +41,7 @@
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
-    "eslint": "^4.9.0",
+    "eslint": "^4.10.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-prettier": "^2.6.0",
     "eslint-loader": "^1.9.0",

@@ -2,10 +2,10 @@
 
 const webpack = require('webpack')
 const path = require('path')
-const env = require('yargs').argv.env
 const libraryName = require('./package.json').name
+const { env } = require('yargs').argv
 
-const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin
+const { UglifyJsPlugin } = webpack.optimize
 
 const plugins = []
 let outputFile
