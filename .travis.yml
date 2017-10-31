@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - "stable"
 before_install:
-  - ./scripts/install.sh
+  - sh ./scripts/install.sh

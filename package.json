@@ -1,10 +1,10 @@
 {
-  "name": "rematch",
+  "name": "@rematch/core",
   "version": "0.1.0-alpha.1",
   "description": "A Redux Framework",
   "keywords": [
-    "@rematch",
     "redux",
+    "@rematch",
     "rematch"
   ],
   "homepage": "https://github.com/rematch/rematch#readme",
