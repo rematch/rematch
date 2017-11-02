@@ -4,11 +4,11 @@
 
 Rethink Redux.
 
-### Purpose
+## Purpose
 
 Rematch makes Redux both easier to work with and more scalable. Helpful for both small and large applications. View agnostic - works with React, Vue, etc.
 
-### Built In
+## Built In
 
 - Redux store
 - Redux devtools
@@ -17,11 +17,34 @@ Rematch makes Redux both easier to work with and more scalable. Helpful for both
 - selectors pattern
 - action listener pattern
 
-### Example
+## Example
+
+### Level 1
+
+```js
+import { init, model, dispatch } from '@rematch/core'
+
+init()
+
+model({
+  name: 'count',
+  state: 0,
+  reducers: {
+    addOne: (state) => state + 1,
+    addBy: (state, payload) => state + payload
+  }
+})
+
+dispatch.count.addOne() // { count: 1 }
+dispatch.count.addBy(5) // { count: 6 }
+```
+
+### Level 2
 
 ##### Level 1
 
 ```js
+<<<<<<< HEAD
 import { init, model, dispatch } from '@rematch/core'
 
 init()
@@ -42,6 +65,8 @@ dispatch.count.addBy(5) // { count: 6 }
 ##### Level 2
 
 ```js
+=======
+>>>>>>> update README examples
 import { init, model, getStore } from '@rematch/core'
 
 init()
@@ -71,31 +96,65 @@ model({
       todos.forEach(todo => actions.todos.addTodo(todo))
     }
   },
+  subscriptions: {
+    'auth/login': () => actions.todos.loadTodos()
+  },
   selectors: {
     getCompletedIds: state => {
       return Object.keys(state).filter(id => state.todos[id].completed)
     }
   },
+<<<<<<< HEAD
   subscriptions: {
     'auth/login': () => actions.todos.loadTodos()
   }
+=======
+>>>>>>> update README examples
 })
 
 const state = getStore().getState()
 select.todos.getCompletedIds(state) // [1, 2, 5]
 ```
 
-### Installation
+## Installation
 
 ```js
 npm install @rematch/core
 ```
 
-### API
+## API
 
-WIP - coming soon
+##### Init
 
-### Plugins
+- init
+  - plugins
+  - middleware
+  - extraReducers
+  - customCombineReducers
+
+##### Core
+
+- model
+  - name
+  - state
+  - reducers
+  - effects
+  - subscriptions
+  - selectors
+- dispatch
+- getStore
+
+##### Plugin
+
+- expose
+- config
+- init
+  - onInit
+  - onModel
+  - model
+  - middleware
+
+## Plugins
 
 - [loading](./plugins/loading)
 - [persist](./plugins/persist)
