@@ -1,6 +1,6 @@
 {
   "name": "@rematch/core",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.0",
   "description": "A Redux Framework",
   "keywords": [
     "redux",
