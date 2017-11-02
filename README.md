@@ -79,9 +79,6 @@ model({
       return Object.keys(state).filter(id => state.todos[id].completed)
     }
   },
-  subscriptions: {
-    'auth/login': () => actions.todos.loadTodos()
-  }
 })
 
 const state = getStore().getState()
@@ -96,16 +93,7 @@ npm install @rematch/core
 
 ## API
 
-##### Init
-
 - init
-  - plugins
-  - middleware
-  - extraReducers
-  - customCombineReducers
-
-##### Core
-
 - model
   - name
   - state
@@ -116,17 +104,11 @@ npm install @rematch/core
 - dispatch
 - getStore
 
-##### Plugin
-
-- expose
-- config
-- init
-  - onInit
-  - onModel
-  - model
-  - middleware
-
 ## Plugins
 
 - [loading](./plugins/loading)
 - [persist](./plugins/persist)
+
+## Inspiration
+
+Inspired by the React/Redux frameworks [dva](github.com/dvajs/dva) & [mirror](https://github.com/mirrorjs/mirror).
