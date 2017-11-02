@@ -17,7 +17,7 @@ const localStorageMock = () => {
 }
 
 const createLocalStorageMock = () => {
-  Object.defineProperty(global, 'localStorage', { value: localStorageMock() })
+  global.localStorage = localStorageMock()
 }
 
 export default createLocalStorageMock
