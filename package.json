@@ -19,7 +19,7 @@
   "files": [
     "lib"
   ],
-  "main": "lib/@rematch.min.js",
+  "main": "lib/index.min.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"

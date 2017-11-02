@@ -15,7 +15,10 @@
   },
   "license": "ISC",
   "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
-  "main": "lib/@rematch/loading.js",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.min.js",
   "scripts": {
     "test": "jest"
   },
