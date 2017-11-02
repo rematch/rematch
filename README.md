@@ -41,32 +41,7 @@ dispatch.count.addBy(5) // { count: 6 }
 
 ### Level 2
 
-##### Level 1
-
 ```js
-<<<<<<< HEAD
-import { init, model, dispatch } from '@rematch/core'
-
-init()
-
-model({
-  name: 'count',
-  state: 0,
-  reducers: {
-    addOne: (state) => state + 1,
-    addBy: (state, payload) => state + payload
-  }
-})
-
-dispatch.count.addOne() // { count: 1 }
-dispatch.count.addBy(5) // { count: 6 }
-```
-
-##### Level 2
-
-```js
-=======
->>>>>>> update README examples
 import { init, model, getStore } from '@rematch/core'
 
 init()
@@ -104,12 +79,9 @@ model({
       return Object.keys(state).filter(id => state.todos[id].completed)
     }
   },
-<<<<<<< HEAD
   subscriptions: {
     'auth/login': () => actions.todos.loadTodos()
   }
-=======
->>>>>>> update README examples
 })
 
 const state = getStore().getState()
