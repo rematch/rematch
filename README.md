@@ -19,8 +19,30 @@ Rematch makes Redux both easier to work with and more scalable. Helpful for both
 
 ### Example
 
+##### Level 1
+
 ```js
-import { init, model } from '@rematch/core'
+import { init, model, dispatch } from '@rematch/core'
+
+init()
+
+model({
+  name: 'count',
+  state: 0,
+  reducers: {
+    addOne: (state) => state + 1,
+    addBy: (state, payload) => state + payload
+  }
+})
+
+dispatch.count.addOne() // { count: 1 }
+dispatch.count.addBy(5) // { count: 6 }
+```
+
+##### Level 2
+
+```js
+import { init, model, getStore } from '@rematch/core'
 
 init()
 
@@ -44,17 +66,23 @@ model({
     }
   },
   effects: {
-    async loadTodos(payload, state) {
+    async loadTodos(payload) {
       const todos = await fetch('https://example.com/todos')
-      todos.forEach(todo => addTodo({ id: 2, text: todo.text }))
+      todos.forEach(todo => actions.todos.addTodo(todo))
     }
   },
   selectors: {
     getCompletedIds: state => {
       return Object.keys(state).filter(id => state.todos[id].completed)
     }
+  },
+  subscriptions: {
+    'auth/login': () => actions.todos.loadTodos()
   }
 })
+
+const state = getStore().getState()
+select.todos.getCompletedIds(state) // [1, 2, 5]
 ```
 
 ### Installation
