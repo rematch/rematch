@@ -8,6 +8,7 @@ build_production () {
 
 build_plugin () {
   echo 'Building ' $1
+  cp ./.babelrc ./$1/.babelrc
   cp ./.npmignore ./$1/.npmignore
   cp ./webpack.config.js ./$1/webpack.config.js
   cd $1
