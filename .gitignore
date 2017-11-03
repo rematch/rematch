@@ -13,6 +13,7 @@ lib
 .coverage
 
 # plugins
+plugins/*/.babelrc
 plugins/*/.npmignore
 plugins/*/webpack.config.js
 
