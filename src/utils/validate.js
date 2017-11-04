@@ -10,12 +10,14 @@ type $validation = Array<boolean | string>
  */
 /* istanbul ignore next */
 const validate = (validations: Array<$validation>): void => {
-  validations.forEach((validation: $validation) => {
-    const [condition: boolean, errorMessage: string] = validation
-    if (condition) {
-      throw new Error(errorMessage)
-    }
-  })
+  if (process.env.NODE_ENV !== 'production') {
+    validations.forEach((validation: $validation) => {
+      const [condition: boolean, errorMessage: string] = validation
+      if (condition) {
+        throw new Error(errorMessage)
+      }
+    })
+  }
 }
 
 export default validate
