@@ -1,29 +1,137 @@
+<style>
+  .badges > * {
+    margin: 0 0.5rem;
+  }
+</style>
+
 # Rematch
 
-<p style='display:flex;'>
-  <a style='margin: 0 0.5rem;' href='https://travis-ci.org/rematch/rematch'>
+<p class='badges'>
+  <a href='https://travis-ci.org/rematch/rematch'>
     <img src='https://travis-ci.org/rematch/rematch.svg?branch=master' alt='Build Status'/>
   </a>
 
-  <a style='margin: 0 0.5rem;' href='https://coveralls.io/github/rematch/rematch?branch=master'>
+  <a href='https://coveralls.io/github/rematch/rematch?branch=master'>
     <img src='https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master' alt='Coverage Status' />
   </a>
 </p>
 
-Rethink Redux.
+> Rethink Redux. 
 
 ## Purpose
 
-Rematch makes Redux both easier to work with and more scalable. Helpful for both small and large applications. View agnostic - works with React, Vue, etc.
+Rematch is Redux best practices without the boilerplate. 
 
-## Built In
+A comparison may help:
 
-- Redux store
-- Redux devtools
-- global dispatch
-- simple async pattern
-- selectors pattern
-- action listener pattern
+#### Rematch
+
+##### model
+```js
+import { init, model } from '@rematch/core'
+
+init()
+
+model({
+  name: 'count',
+  state: 0,
+  reducers: {
+    upBy: (state, payload) => state + payload
+  }
+})
+```
+
+##### view
+```js
+import { dispatch } from '@rematch/core'
+import { connect } from 'react-redux'
+
+// Component
+
+const mapToProps = (state) => ({
+  count: state.count,
+  countUpBy: dispatch.count.upBy,
+})
+
+connect(mapToProps)(Component)
+```
+
+#### Redux Best Practices
+
+##### Action Type
+```js
+export const COUNT_UP_BY = 'COUNT_UP_BY'
+```
+
+##### Action Creator
+```js
+import { COUNT_UP_BY } from '../types/counter'
+
+export const countUpBy = (value) => ({
+  type: COUNT_UP_BY,
+  payload: value,
+})
+```
+
+##### Reducer
+```js
+import { COUNT_UP_BY } from '../types/counter'
+
+const initialState = 0
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case COUNT_UP_BY:
+      return state + action.payload
+    default: return state
+  }
+}
+```
+
+##### Store
+```js
+import { createStore, combineReducers } from 'redux'
+// devtools, reducers, middleware, etc.
+export default createStore(reducers, initialState, enhancers)
+```
+
+##### View
+```js
+import { countUpBy } from '../actions/count'
+import { connect } from 'react-redux'
+
+// Component
+
+const mapStateToProps = (state) => ({
+  count: state.count,
+})
+
+const mapDispatchToProps = dispatch => ({
+  countUpBy(payload) {
+    dispatch(countUpBy(payload))
+  },
+})
+
+connect(mapStateToProps, mapDispatchToProps)(Component)
+```
+
+#### Scoreboard
+
+|   | Redux  | Rematch  |
+|---|---|---|
+| simple setup ‎ |   |  ‎✔	 |
+| less boilerplate |   | ‎✔	 |
+| readability  |   | ‎✔	|
+| configurable | ‎✔  |  ‎✔	 |
+| redux devtools  | ‎✔  |  ‎✔	 |
+| generated action creators | ‎  |  ‎✔	 |
+| global dispatch | ‎  |  ‎✔	 |
+| selectors | ‎  |  ‎✔	 |
+| action listeners | custom ‎middleware  |  ‎✔	 |
+| async | thunks | ‎async/await  |
+
+
+> Rematch?
 
 ## Example
 
@@ -45,6 +153,8 @@ model({
 
 dispatch.count.addOne() // { count: 1 }
 dispatch.count.addBy(5) // { count: 6 }
+dispatch({ type: 'count/addOne' }) // { count: 7 }
+dispatch({ type: 'count/addBy', payload: 5 }) // { count: 12 }
 ```
 
 ### Level 2
@@ -74,7 +184,7 @@ model({
     }
   },
   effects: {
-    async loadTodos(payload) {
+    async loadTodos() {
       const todos = await fetch('https://example.com/todos')
       todos.forEach(todo => actions.todos.addTodo(todo))
     }
