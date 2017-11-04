@@ -37,14 +37,14 @@ export const createPlugins = (plugins: $pluginCreator[], exposed) => {
   plugins.forEach(({ init }) => {
     const plugin: $plugin = init(exposed)
     validatePlugin(plugin)
-    if (plugin.onInit) {
-      plugin.onInit(getStore)
-    }
     if (plugin.onModel) {
       modelHooks.push(plugin.onModel)
     }
     if (plugin.model) {
       createModel(plugin.model)
+    }
+    if (plugin.onInit) {
+      plugin.onInit(getStore)
     }
   })
 }

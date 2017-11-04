@@ -14,20 +14,21 @@ const createLoadingAction = (show) => (state, { name, action }) => ({
 
 export default (config = {}) => {
   const loadingModelName = config.name || 'loading'
+  const model = {
+    name: loadingModelName,
+    state: {
+      global: false,
+      models: {},
+      effects: {}
+    },
+    reducers: {
+      show: createLoadingAction(true),
+      hide: createLoadingAction(false),
+    }
+  }
   return {
     init: ({ dispatch }) => ({
-      model: {
-        name: loadingModelName,
-        state: {
-          global: false,
-          models: {},
-          effects: {}
-        },
-        reducers: {
-          show: createLoadingAction(true),
-          hide: createLoadingAction(false),
-        }
-      },
+      model,
       onModel({ name }) {
       // do not run dispatch on loading model
         if (name === loadingModelName) { return }
@@ -35,7 +36,7 @@ export default (config = {}) => {
         // map over effects within models
         Object.keys(modelActions).forEach(action => {
           if (dispatch[name][action].isEffect) {
-          // copy function
+            // copy function
             const fn = dispatch[name][action]
             // create function with pre & post loading calls
             const dispatchWithHooks = async function dispatchWithHooks(props) {

@@ -33,7 +33,7 @@ In the above case:
 
 ## Demo
 
-See a [demo](./examples/basic)
+See a [demo](./examples/react-loading-example)
 
 ## Setup
 
