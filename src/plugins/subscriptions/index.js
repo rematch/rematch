@@ -11,7 +11,7 @@ const triggerAllSubscriptions = (matches) => (action) => {
 }
 
 export default {
-  init: () => ({
+  init: ({ validate }) => ({
     onModel(model: $model) {
       // necessary to prevent invalid subscription names
       const actionList = [
@@ -19,6 +19,16 @@ export default {
         ...Object.keys(model.effects || {})
       ]
       Object.keys(model.subscriptions || {}).forEach((matcher: string) => {
+        validate([
+          [
+            matcher.match(/\/(.+)?\//),
+            `Invalid subscription matcher (${matcher})`
+          ],
+          [
+            typeof model.subscriptions[matcher] !== 'function',
+            `Subscription matcher in ${model.name} (${matcher}) must be a function`
+          ]
+        ])
         createSubscription(model.name, matcher, model.subscriptions[matcher], actionList)
       })
     },

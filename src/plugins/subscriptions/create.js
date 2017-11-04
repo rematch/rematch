@@ -1,4 +1,3 @@
-import validate from '../../utils/validate'
 import { onHandlers } from './handlers'
 
 export const createSubscription = (
@@ -7,11 +6,6 @@ export const createSubscription = (
   onAction: (action: $action) => void,
   actionList: string[]
 ) => {
-  validate([
-    [typeof matcher !== 'string', 'subscription matcher must be a string'],
-    [typeof onAction !== 'function', 'subscription onAction must be a function'],
-  ])
-
   const createHandler = (target, formattedMatcher) => {
     // prevent infinite loops within models by validating against
     // subscription matchers in the action name

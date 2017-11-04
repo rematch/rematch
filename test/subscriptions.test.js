@@ -11,7 +11,9 @@ const common = {
 
 describe('subscriptions:', () => {
   test('should create a working subscription', () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const {
+      model, init, dispatch, getStore
+    } = require('../src')
     init()
 
     model({
@@ -35,7 +37,9 @@ describe('subscriptions:', () => {
   })
 
   test('should allow for two subscriptions with same name in different models', () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const {
+      model, init, dispatch, getStore
+    } = require('../src')
     init()
 
     model({
@@ -67,7 +71,9 @@ describe('subscriptions:', () => {
   })
 
   test('should allow for three subscriptions with same name in different models', () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const {
+      model, init, dispatch, getStore
+    } = require('../src')
     init()
 
     model({
@@ -114,7 +120,7 @@ describe('subscriptions:', () => {
     })
   })
 
-  test('it should throw if a subscription matcher is invalid', () => {
+  test('should throw if a subscription matcher is invalid', () => {
     const { model, init, dispatch } = require('../src')
     init()
 
@@ -127,10 +133,24 @@ describe('subscriptions:', () => {
     })).toThrow()
   })
 
-  describe('pattern matching', () => {
+  test('should enforce subscriptions are functions', () => {
+    const { model, init } = require('../src')
+    init()
 
+    expect(() => model({
+      name: 'first',
+      ...common,
+      subscriptions: {
+        'valid/matcher': 42,
+      }
+    })).toThrow()
+  })
+
+  describe('pattern matching', () => {
     test('should create working pattern matching subscription (second/*)', () => {
-      const { model, init, dispatch, getStore } = require('../src')
+      const {
+        model, init, dispatch, getStore
+      } = require('../src')
       init()
 
       model({
@@ -154,7 +174,9 @@ describe('subscriptions:', () => {
     })
 
     test('should create working pattern matching subsription (*/addOne)', () => {
-      const { model, init, dispatch, getStore } = require('../src')
+      const {
+        model, init, dispatch, getStore
+      } = require('../src')
       init()
 
       model({
@@ -181,7 +203,9 @@ describe('subscriptions:', () => {
     })
 
     test('should create working pattern matching subscription (second/add*)', () => {
-      const { model, init, dispatch, getStore } = require('../src')
+      const {
+        model, init, dispatch, getStore
+      } = require('../src')
       init()
 
       model({
@@ -261,7 +285,9 @@ describe('subscriptions:', () => {
 
   describe('unsubscribe:', () => {
     test('a matched action', () => {
-      const { model, init, dispatch, getStore } = require('../src')
+      const {
+        model, init, dispatch, getStore
+      } = require('../src')
       const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
       init()
 
@@ -286,7 +312,9 @@ describe('subscriptions:', () => {
       })
     })
     test('a pattern matched action', () => {
-      const { model, init, dispatch, getStore } = require('../src')
+      const {
+        model, init, dispatch, getStore
+      } = require('../src')
       const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
       init()
 
@@ -311,7 +339,9 @@ describe('subscriptions:', () => {
       })
     })
     test('a pattern matched action when more than one', () => {
-      const { model, init, dispatch, getStore } = require('../src')
+      const {
+        model, init, dispatch, getStore
+      } = require('../src')
       const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
       init()
 
@@ -361,7 +391,9 @@ describe('subscriptions:', () => {
       expect(onUnsubscribe).toThrow()
     })
     test('should do nothing if no action', () => {
-      const { model, init, dispatch, getStore } = require('../src')
+      const {
+        model, init, dispatch, getStore
+      } = require('../src')
       const { unsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
       init()
 
