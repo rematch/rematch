@@ -13,13 +13,23 @@ export default {
         await storeDispatch(action)
       }
   },
-  init: ({ dispatch, createDispatcher }) => ({
+  init: ({ dispatch, createDispatcher, validate }) => ({
     onInit(getStore) {
       storeDispatch = getStore().dispatch
     },
     onModel(model: $model) {
       dispatch[model.name] = {}
       Object.keys(model.reducers || {}).forEach((reducerName: string) => {
+        validate([
+          [
+            reducerName.match(/\//),
+            `Invalid reducer name (${model.name}/${reducerName})`
+          ],
+          [
+            typeof model.reducers[reducerName] !== 'function',
+            `Invalid reducer (${model.name}/${reducerName}). Must be a function`
+          ]
+        ])
         dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
       })
     }

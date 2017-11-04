@@ -24,7 +24,9 @@ describe('dispatch:', () => {
     })
 
     test('should be able to call dispatch directly', () => {
-      const { model, init, getStore, dispatch } = require('../src')
+      const {
+        model, init, getStore, dispatch
+      } = require('../src')
       init()
 
       model({
@@ -43,7 +45,9 @@ describe('dispatch:', () => {
     })
 
     test('should dispatch an action', () => {
-      const { model, init, getStore, dispatch } = require('../src')
+      const {
+        model, init, getStore, dispatch
+      } = require('../src')
       init()
 
       model({
@@ -62,7 +66,9 @@ describe('dispatch:', () => {
     })
 
     test('should dispatch multiple actions', () => {
-      const { model, init, getStore, dispatch } = require('../src')
+      const {
+        model, init, getStore, dispatch
+      } = require('../src')
       init()
 
       model({
@@ -82,7 +88,9 @@ describe('dispatch:', () => {
     })
 
     test('should handle multiple models', () => {
-      const { model, init, getStore, dispatch } = require('../src')
+      const {
+        model, init, getStore, dispatch
+      } = require('../src')
       init()
 
       model({
@@ -111,9 +119,41 @@ describe('dispatch:', () => {
     })
   })
 
+  test('should throw if the reducer name is invalid', () => {
+    const {
+      model, init
+    } = require('../src')
+    init()
+
+    expect(() => model({
+      name: 'a',
+      state: 42,
+      reducers: {
+        'invalid/name': () => 43
+      },
+    })).toThrow()
+  })
+
+  test('should throw if the reducer is not a function', () => {
+    const {
+      model, init
+    } = require('../src')
+    init()
+
+    expect(() => model({
+      name: 'a',
+      state: 42,
+      reducers: {
+        is43: 43,
+      },
+    })).toThrow()
+  })
+
   describe('params:', () => {
     test('should pass state as the first reducer param', () => {
-      const { model, init, getStore, dispatch } = require('../src')
+      const {
+        model, init, getStore, dispatch
+      } = require('../src')
       init()
 
       model({
@@ -132,7 +172,9 @@ describe('dispatch:', () => {
     })
 
     test('should pass payload as the second param', () => {
-      const { model, init, getStore, dispatch } = require('../src')
+      const {
+        model, init, getStore, dispatch
+      } = require('../src')
       init()
 
       model({
