@@ -3,3 +3,5 @@ node_js:
   - "stable"
 before_install:
   - sh ./scripts/install.sh
+after_script:
+  - coveralls < .coverage/lcov.info

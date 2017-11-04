@@ -1,6 +1,14 @@
 # Rematch
 
-[![Build Status](https://travis-ci.org/rematch/rematch.svg?branch=master)](https://travis-ci.org/rematch/rematch)
+<p style='display:flex;'>
+  <a style='margin: 0 0.5rem;' href='https://travis-ci.org/rematch/rematch'>
+    <img src='https://travis-ci.org/rematch/rematch.svg?branch=master' alt='Build Status'/>
+  </a>
+
+  <a style='margin: 0 0.5rem;' href='https://coveralls.io/github/rematch/rematch?branch=master'>
+    <img src='https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master' alt='Coverage Status' />
+  </a>
+</p>
 
 Rethink Redux.
 
