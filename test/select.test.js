@@ -20,7 +20,9 @@ describe('select:', () => {
   })
 
   it('should allow access to the selector', () => {
-    const { init, model, select, getStore } = require('../src')
+    const {
+      init, model, select, getStore
+    } = require('../src')
     init()
     model({
       name: 'a',
@@ -38,7 +40,9 @@ describe('select:', () => {
   })
 
   it('should allow passing in of params toselector', () => {
-    const { init, model, select, getStore } = require('../src')
+    const {
+      init, model, select, getStore
+    } = require('../src')
     init()
     model({
       name: 'a',
@@ -55,10 +59,25 @@ describe('select:', () => {
     expect(prepended).toBe('P2')
   })
 
-  describe('reselect: ', () => {
+  test('should throw if selector is not a function', () => {
+    const {
+      init, model
+    } = require('../src')
+    init()
+    expect(() => model({
+      name: 'a',
+      state: 2,
+      selectors: {
+        invalid: 42,
+      },
+    })).toThrow()
+  })
 
+  describe('reselect: ', () => {
     it('should allow for createSelector to be used instead of a normal selector', () => {
-      const { init, model, select, getStore } = require('../src')
+      const {
+        init, model, select, getStore
+      } = require('../src')
       const { createSelector } = require('reselect')
       init()
       model({
@@ -77,7 +96,9 @@ describe('select:', () => {
     })
 
     it('should allow createSelector to be used outside of a model', () => {
-      const { init, model, select, getStore } = require('../src')
+      const {
+        init, model, select, getStore
+      } = require('../src')
       const { createSelector } = require('reselect')
       init()
       model({
@@ -107,7 +128,9 @@ describe('select:', () => {
     })
 
     it('should allow for mixing normal selectors and reselect selectors', () => {
-      const { init, model, select, getStore } = require('../src')
+      const {
+        init, model, select, getStore
+      } = require('../src')
       const { createSelector } = require('reselect')
       init()
       model({

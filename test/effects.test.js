@@ -33,7 +33,9 @@ describe('effects:', () => {
   // })
 
   test('should be able to trigger another action', async () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const {
+      model, init, dispatch, getStore
+    } = require('../src')
     init()
 
     model({
@@ -83,7 +85,9 @@ describe('effects:', () => {
   // })
 
   test('should be able trigger a local reducer using functions and `this`', async () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const {
+      model, init, dispatch, getStore
+    } = require('../src')
     init()
 
     model({
@@ -107,7 +111,9 @@ describe('effects:', () => {
   })
 
   test('should be able trigger a local reducer using object function shorthand and `this`', async () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const {
+      model, init, dispatch, getStore
+    } = require('../src')
     init()
 
     model({
@@ -131,7 +137,9 @@ describe('effects:', () => {
   })
 
   test('should be able to trigger another action with a value', async () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const {
+      model, init, dispatch, getStore
+    } = require('../src')
     init()
 
     model({
@@ -155,7 +163,9 @@ describe('effects:', () => {
   })
 
   test('should be able to trigger another action w/ an object value', async () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const {
+      model, init, dispatch, getStore
+    } = require('../src')
     init()
 
     model({
@@ -179,7 +189,9 @@ describe('effects:', () => {
   })
 
   test('should be able to trigger another action w/ another action', async () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const {
+      model, init, dispatch, getStore
+    } = require('../src')
     init()
 
     model({
@@ -206,7 +218,9 @@ describe('effects:', () => {
   })
 
   test('should be able to trigger another action w/ multiple actions', async () => {
-    const { model, init, dispatch, getStore } = require('../src')
+    const {
+      model, init, dispatch, getStore
+    } = require('../src')
     init()
 
     model({
@@ -237,5 +251,35 @@ describe('effects:', () => {
         example: 5,
       })
     })
+  })
+
+  test('should throw if the effect name is invalid', () => {
+    const {
+      model, init
+    } = require('../src')
+    init()
+
+    expect(() => model({
+      name: 'a',
+      state: 42,
+      effects: {
+        'invalid/effect': () => 43,
+      },
+    })).toThrow()
+  })
+
+  test('should throw if the effect is not a function', () => {
+    const {
+      model, init
+    } = require('../src')
+    init()
+
+    expect(() => model({
+      name: 'a',
+      state: 42,
+      effects: {
+        is43: 43,
+      },
+    })).toThrow()
   })
 })

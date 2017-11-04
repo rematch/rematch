@@ -3,9 +3,21 @@ export default {
   expose: {
     effects: {}
   },
-  init: ({ effects, dispatch, createDispatcher }) => ({
+  init: ({
+    effects, dispatch, createDispatcher, validate
+  }) => ({
     onModel(model: $model) {
       Object.keys(model.effects || {}).forEach((effectName: string) => {
+        validate([
+          [
+            effectName.match(/\//),
+            `Invalid effect name (${model.name}/${effectName})`
+          ],
+          [
+            typeof model.effects[effectName] !== 'function',
+            `Invalid effect (${model.name}/${effectName}). Must be a function`
+          ]
+        ])
         effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(dispatch[model.name])
         // add effect to dispatch
         // is assuming dispatch is available already... that the dispatch plugin is in there

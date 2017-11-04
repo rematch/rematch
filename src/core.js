@@ -59,7 +59,9 @@ export const setupPlugins = (config) => {
   }, config)
 
   const plugins = corePlugins.concat(mergedConfig.plugins || [])
-  const exposed = {}
+  const exposed = {
+    validate,
+  }
 
   plugins.forEach((plugin) => {
     // create plugin shared data space called "exposed"
