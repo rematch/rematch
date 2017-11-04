@@ -19,3 +19,9 @@ plugins/*/webpack.config.js
 
 # release
 .release-it.json
+
+# gitbook
+_book
+*.epub
+*.mobi
+*.pdf
