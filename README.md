@@ -1,118 +1,26 @@
-<style>
-  .badges > * {
-    margin: 0 0.5rem;
-  }
-</style>
-
 # Rematch
 
-<p class='badges'>
-  <a href='https://travis-ci.org/rematch/rematch'>
+<p style='display:flex;'>
+  <a style='margin: 0 0.5rem;' href='https://travis-ci.org/rematch/rematch'>
     <img src='https://travis-ci.org/rematch/rematch.svg?branch=master' alt='Build Status'/>
   </a>
 
-  <a href='https://coveralls.io/github/rematch/rematch?branch=master'>
+  <a style='margin: 0 0.5rem;' href='https://coveralls.io/github/rematch/rematch?branch=master'>
     <img src='https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master' alt='Coverage Status' />
   </a>
 </p>
 
-> Rethink Redux. 
+Rethink Redux.
 
-Rematch is Redux best practices without the boilerplate. 
+## Purpose
 
-<table width='100%' margin=0>
-<thead>
-  <tr>
-    <th>Redux Best Practices</th>
-    <th>Rematch</th>
-  </tr>    
-</thead>
-<tbody>
-  <tr>
-    <td>
-    <h3>Action Types</h3>
-    <div class='highlight highlight-source-js'>
-      <pre><code>export const COUNT_UP_BY = 'COUNT_UP_BY'</code></pre>
-    </div>
-    <h3>Action Creators</h3>
-    <div class='highlight highlight-source-js'>
-      <pre><code>import { COUNT_UP_BY } from '../types/counter'
-
-export const countUpBy = (value) => ({
-  type: COUNT_UP_BY,
-  payload: value,
-})</code></pre>
-    </div>
-    <h3>Reducers</h3>
-    <div class='highlight highlight-source-js'>
-      <pre><code>import { COUNT_UP_BY } from '../types/counter'
-
-const initialState = 0
-
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case COUNT_UP_BY:
-      return state + action.payload
-    default: return state
-  }
-}</code></pre>
-    </div>
-  </td>
-  <td class='highlight highlight-source-js'>
-    <h3>Model</h3>
-    <pre><code>import { model } from '@rematch/core'
-
-model({
-  name: 'count',
-  state: 0,
-  reducers: {
-    upBy: (state, payload) => state + payload
-  }
-})</code></pre>
-    </td>
-  </tr>
-  <tr>
-  <td valign='top'>
-    <h3>Connect</h3>
- <div class='highlight highlight-source-js'>
-      <pre><code>import { countUpBy } from '../actions/count'
-
-const mapStateToProps = (state) => ({
-  count: state.count,
-})
-
-const mapDispatchToProps = dispatch => ({
-  countUpBy(payload) {
-    dispatch(countUpBy(payload))
-  },
-})
-
-connect(mapStateToProps, mapDispatchToProps)(Component)</code></pre>
-    </div>
-  </td>
-  <td valign='top'>
-  <h3>Connect</h3>
- <div class='highlight highlight-source-js'>
-      <pre><code>import { dispatch } from '@rematch/core'
-
-const mapToProps = (state) => ({
-  count: state.count,
-  countUpBy: dispatch.count.upBy,
-})
-
-connect(mapToProps)(Component)</code></pre>
-    </div>
-  </td>
-  </tr>
-</tbody>
-</table>
+Rematch makes Redux both easier to work with and more scalable. Helpful for both small and large applications. View agnostic - works with React, Vue, etc.
 
 ## Built In
 
 - Redux store
 - Redux devtools
 - global dispatch
-- FSA action creators
 - simple async pattern
 - selectors pattern
 - action listener pattern
@@ -137,8 +45,6 @@ model({
 
 dispatch.count.addOne() // { count: 1 }
 dispatch.count.addBy(5) // { count: 6 }
-dispatch({ type: 'count/addOne' }) // { count: 7 }
-dispatch({ type: 'count/addBy', payload: 5 }) // { count: 12 }
 ```
 
 ### Level 2
@@ -168,7 +74,7 @@ model({
     }
   },
   effects: {
-    async loadTodos() {
+    async loadTodos(payload) {
       const todos = await fetch('https://example.com/todos')
       todos.forEach(todo => actions.todos.addTodo(todo))
     }
