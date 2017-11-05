@@ -5,13 +5,6 @@ import { combineReducers } from 'redux'
 let _reducers: $reducers
 let combine = combineReducers
 
-export const initReducers = ({ customCombineReducers }) : void => {
-  if (customCombineReducers) {
-    combine = customCombineReducers
-  }
-  _reducers = {}
-}
-
 // get reducer for given dispatch type
 // pass in (state, payload)
 export const getReducer = (reducer: $reducers, initialState: any) => (
@@ -24,16 +17,13 @@ export const getReducer = (reducer: $reducers, initialState: any) => (
   return state
 }
 
-// adds "model/reducer"
-export const resolveReducers = (modelName: string, reducers: $reducers = {}) =>
-  Object.keys(reducers).reduce((acc, reducer) => {
-    acc[`${modelName}/${reducer}`] = reducers[reducer]
-    return acc
-  }, {})
-
 // creates a reducer out of "reducers" keys and values
-export const createReducer = ({ name, reducers, state }: $model) =>
-  getReducer(resolveReducers(name, reducers), state)
+export const createModelReducer = ({ name, reducers, state }: $model) => ({
+  [name]: getReducer(Object.keys(reducers || {}).reduce((acc, reducer) => {
+    acc[`${name}/${reducer}`] = reducers[reducer]
+    return acc
+  }, {}), state),
+})
 
 // uses combineReducers to merge new reducers into existing reducers
 export const mergeReducers = (nextReducers: $reducers) => {
@@ -41,6 +31,15 @@ export const mergeReducers = (nextReducers: $reducers) => {
   return combine(_reducers)
 }
 
-export const createModelReducer = (model) => mergeReducers({
-  [model.name]: createReducer(model),
-})
+export const initReducers = (models, { customCombineReducers }) : void => {
+  // overwrite combineReducers if config.customCombineReducers
+  if (customCombineReducers) {
+    combine = customCombineReducers
+  }
+  const modelReducers = Object.keys(models).reduce((reducers, key) => ({
+    ...createModelReducer(models[key]),
+    ...reducers,
+  }), {})
+  _reducers = combine(modelReducers)
+}
+

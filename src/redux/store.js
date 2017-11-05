@@ -37,5 +37,5 @@ export const createStore = ({ initialState, extraReducers } = {}) => {
 }
 
 export const createReducersAndUpdateStore = (model: $model) : void => {
-  store.replaceReducer(createModelReducer(model))
+  store.replaceReducer(mergeReducers(createModelReducer(model)))
 }

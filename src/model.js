@@ -29,5 +29,5 @@ export const createInitModels = (config) => {
     const model = config.models[key]
     addModel(model)
   })
-  initReducers(config)
+  initReducers(models, config)
 }
