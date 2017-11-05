@@ -1,4 +1,4 @@
-import mergeConfig from '../src/utils/mergeConfig'
+import { mergeConfig } from '../src/utils/mergeConfig'
 
 describe('mergeConfig', () => {
   describe('initialState', () => {

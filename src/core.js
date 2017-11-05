@@ -3,7 +3,7 @@ import createModel from './model'
 import corePlugins from './plugins'
 import { createStore, getStore } from './redux/store'
 import validate from './utils/validate'
-import mergeConfig from './utils/mergeConfig'
+
 
 export const modelHooks = []
 export const pluginMiddlewares = []
@@ -51,14 +51,8 @@ export const createPlugins = (plugins: $pluginCreator[], exposed) => {
 
 export const setupPlugins = (config) => {
   // merge config with any plugin configs
-  const mergedConfig = (config.plugins || []).reduce((a, b) => {
-    if (b.config) {
-      return mergeConfig(a, b.config)
-    }
-    return a
-  }, config)
 
-  const plugins = corePlugins.concat(mergedConfig.plugins || [])
+  const plugins = corePlugins.concat(config.plugins || [])
   const exposed = {
     validate,
   }
@@ -74,7 +68,7 @@ export const setupPlugins = (config) => {
   addPluginMiddleware(plugins, exposed)
   // create a redux store with initialState
   // merge in additional extra reducers
-  createStore(mergedConfig)
+  createStore(config)
 
   // setup plugin pipeline
   createPlugins(plugins, exposed)
