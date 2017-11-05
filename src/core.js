@@ -1,42 +1,20 @@
 // @flow
 import createModel from './model'
-import corePlugins from './plugins'
-import { createStore, getStore } from './redux/store'
-import validate from './utils/validate'
-
+import { getStore } from './redux/store'
 
 export const modelHooks = []
 export const pluginMiddlewares = []
 
-const validatePlugin = (plugin: $plugin) =>
-  validate([
-    [
-      plugin.onInit && typeof plugin.onInit !== 'function',
-      'Plugin onInit must be a function'
-    ],
-    [
-      plugin.onModel && typeof plugin.onModel !== 'function',
-      'Plugin onModel must be a function',
-    ],
-    [
-      plugin.middleware && typeof plugin.middleware !== 'function',
-      'Plugin middleware must be a function',
-    ],
-  ])
-
-export const addPluginMiddleware = (plugins: $pluginCreator[], exposed) => {
-  plugins.forEach(({ init }) => {
-    const plugin: $plugin = init(exposed)
+export const preStore = (plugins) => {
+  plugins.forEach((plugin) => {
     if (plugin.middleware) {
       pluginMiddlewares.push(plugin.middleware)
     }
   })
 }
 
-export const createPlugins = (plugins: $pluginCreator[], exposed) => {
-  plugins.forEach(({ init }) => {
-    const plugin: $plugin = init(exposed)
-    validatePlugin(plugin)
+export const postStore = (plugins) => {
+  plugins.forEach((plugin) => {
     if (plugin.onModel) {
       modelHooks.push(plugin.onModel)
     }
@@ -48,29 +26,3 @@ export const createPlugins = (plugins: $pluginCreator[], exposed) => {
     }
   })
 }
-
-export const setupPlugins = (config) => {
-  // merge config with any plugin configs
-
-  const plugins = corePlugins.concat(config.plugins || [])
-  const exposed = {
-    validate,
-  }
-
-  plugins.forEach((plugin) => {
-    // create plugin shared data space called "exposed"
-    Object.keys(plugin.expose || {}).forEach(key => {
-      exposed[key] = plugin.expose[key]
-    })
-  })
-
-  // plugin middleware must be added before creating store
-  addPluginMiddleware(plugins, exposed)
-  // create a redux store with initialState
-  // merge in additional extra reducers
-  createStore(config)
-
-  // setup plugin pipeline
-  createPlugins(plugins, exposed)
-}
-
