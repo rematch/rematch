@@ -31,15 +31,11 @@ export const mergeReducers = (nextReducers: $reducers) => {
   return combine(_reducers)
 }
 
-export const initReducers = (models, { customCombineReducers }) : void => {
+export const initReducers = ({ customCombineReducers }) : void => {
   // overwrite combineReducers if config.customCombineReducers
   if (customCombineReducers) {
     combine = customCombineReducers
   }
-  const modelReducers = Object.keys(models).reduce((reducers, key) => ({
-    ...createModelReducer(models[key]),
-    ...reducers,
-  }), {})
-  _reducers = combine(modelReducers)
+  _reducers = {}
 }
 

@@ -1,6 +1,5 @@
 // @flow
 import validate from './utils/validate'
-import { initReducers } from './redux/reducers'
 import { createReducersAndUpdateStore } from './redux/store'
 import { modelHooks } from './core'
 
@@ -23,11 +22,10 @@ export const createModel = (model: $model): void => {
   createReducersAndUpdateStore(model)
 }
 
-export const createInitModels = (config) => {
+export const createInitModelHooks = (config) => {
   const models = config.models || {}
   Object.keys(models).forEach(key => {
     const model = config.models[key]
     addModel(model)
   })
-  initReducers(models, config)
 }
