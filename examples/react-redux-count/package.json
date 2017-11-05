@@ -7,7 +7,7 @@
     "react-dom": "^16.0.0",
     "react-redux": "5.0.6",
     "react-scripts": "1.0.14",
-    "rematch-x": "file:../.."
+    "@rematch/core": "file:../.."
   },
   "scripts": {
     "start": "react-scripts start",
