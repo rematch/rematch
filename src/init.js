@@ -6,6 +6,7 @@ import getExposed from './utils/getExposed'
 import buildPlugins from './utils/buildPlugins'
 import { preStore, postStore } from './core'
 import corePlugins from './plugins'
+import { createInitModels } from './model'
 import { createStore } from './redux/store'
 
 const validateConfig = (config: $config) =>
@@ -39,7 +40,9 @@ const init = (initConfig: $config = {}): void => {
   const exposed = getExposed(pluginConfigs)
   const plugins = buildPlugins(pluginConfigs, exposed)
   // preStore: middleware, initModels
-  preStore(plugins, config)
+  preStore(plugins)
+  // add init models
+  createInitModels(config)
   // create a redux store with initialState
   // merge in additional extra reducers
   createStore(config)
