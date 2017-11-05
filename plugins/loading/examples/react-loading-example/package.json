@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@rematch/core": "0.1.0-alpha.2",
-    "@rematch/loading": "file:../..",
+    "@rematch/loading": "0.1.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
