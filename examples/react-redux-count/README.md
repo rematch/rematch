@@ -3,11 +3,11 @@
 #### To run
 From the rematch directory...
 ```
-yarn install
-yarn run build
+npm install
+npm run build
 cd examples/react-redux-count/
-yarn install
-yarn start
+npm install
+npm start
 ```
 Then go to http://localhost:3000
 
@@ -57,7 +57,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
-
 ```
-
-

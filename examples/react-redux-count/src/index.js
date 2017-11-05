@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import { model, init, dispatch, select, getStore } from 'rematch-x'
+import { model, init, dispatch, select, getStore } from '@rematch/core'
 
 init()
 
@@ -67,7 +67,7 @@ const App = ({ valueA, valueB, valueADoubled, asyncAIncr, incrB, incrA }) => (
 const AppContainer = connect(state => ({
   valueA: state.countA,
   valueB: state.countB,
-  valueADoubled : select.countA.double(),
+  valueADoubled : select.countA.double(state),
   incrA: () => dispatch.countA.increment(),
   asyncAIncr: () => dispatch.countA.asyncIncrement(),
   incrB: () => dispatch.countB.increment()
