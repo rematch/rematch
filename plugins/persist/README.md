@@ -7,10 +7,12 @@ Provides simple redux state persistence using local storage options.
 ## Setup
 
 ```js
+import createRematchPersist from '@rematch/persist'
+
 const persistPlugin = rematchPersist({
   whiteList: ['modelName1'],
   throttle: 5000,
-  version: 1
+  version: 1,
 })
 
 init({
@@ -21,6 +23,8 @@ init({
 ### Persistor
 
 ```js
+import { getPersistor } from '@rematch/persist'
+
 const persistor = getPersistor()
 ```
 
