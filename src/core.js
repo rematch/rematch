@@ -1,5 +1,5 @@
 // @flow
-import createModel from './model'
+import { createModel } from './model'
 import { getStore } from './redux/store'
 
 export const modelHooks = []

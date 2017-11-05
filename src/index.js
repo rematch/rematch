@@ -1,5 +1,5 @@
 import init from './init'
-import model from './model'
+import { createModel as model } from './model'
 import { getStore } from './redux/store'
 
 import dispatchPlugin from './plugins/dispatch'

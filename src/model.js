@@ -13,7 +13,7 @@ const validateModel = (model: $model) =>
     [model.state === undefined, 'model "state" is required'],
   ])
 
-const createModel = (model: $model): void => {
+export const createModel = (model: $model): void => {
   validateModel(model)
 
   // add model reducers to redux store
@@ -22,5 +22,3 @@ const createModel = (model: $model): void => {
   // run plugin model subscriptions
   modelHooks.forEach(modelHook => modelHook(model))
 }
-
-export default createModel
