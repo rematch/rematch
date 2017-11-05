@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { init, model, getStore } from '@rematch/core'
 import createLoadingPlugin from '@rematch/loading'
 import App from './App'
-import form from './form'
+import example from './example'
 
 const loadingPlugin = createLoadingPlugin()
 
@@ -13,7 +13,7 @@ init({
 })
 
 // models
-model(form)
+model(example)
 
 ReactDOM.render(
   <Provider store={getStore()}>

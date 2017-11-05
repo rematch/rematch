@@ -30,13 +30,16 @@ export default (config = {}) => {
     init: ({ dispatch }) => ({
       model,
       onModel({ name }) {
-      // do not run dispatch on loading model
+        // do not run dispatch on loading model
         if (name === loadingModelName) { return }
+        model.state.models[name] = false
+        model.state.effects[name] = {}
         const modelActions = dispatch[name]
         // map over effects within models
         Object.keys(modelActions).forEach(action => {
           if (dispatch[name][action].isEffect) {
             // copy function
+            model.state.effects[name][action] = false
             const fn = dispatch[name][action]
             // create function with pre & post loading calls
             const dispatchWithHooks = async function dispatchWithHooks(props) {
@@ -47,6 +50,8 @@ export default (config = {}) => {
             }
             // replace existing effect with new dispatch
             dispatch[name][action] = dispatchWithHooks
+          } else {
+            model.state.models[name] = false
           }
         })
       }

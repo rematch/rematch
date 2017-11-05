@@ -11,29 +11,36 @@ const styles = {
   loading: {
     border: '1px solid black',
     backgroundColor: 'lightYellow',
-    padding: '1rem'
+    padding: '1rem',
+    width: '15rem',
   }
 }
 
-const App = (props) => (
+const Value = ({ label, value }) => (
+  <p>{label} = <strong>{value.toString()}</strong></p>
+)
+
+const App = ({ submit, loading }) => (
   <div style={styles.page}>
-    <button onClick={props.submit}>Submit Async</button>
+    <button onClick={submit}>
+      Submit Async
+    </button>
     <div style={styles.loading}>
-      <p>state.loading.global: <strong>{props.loading.global.toString()}</strong></p>
-      <p>state.loading.models.app: <strong>{props.loading.model.toString()}</strong></p>
-      {/* <p>state.loading.effects.app.incrementAsync: <strong>{props.loading.effect.toString()}</strong></p> */}
+      <Value label='loading.global' value={loading.global} />
+      <Value label='loading.models.form' value={loading.model} />
+      <Value label='loading.effects.form.submit' value={loading.effect} />
     </div>
   </div>
 )
 
 const mapState = state => ({
-  count: state.form,
-  submit: dispatch.form.submit,
+  count: state.example,
   loading: {
-    global: !!state.loading.global,
-    model: !!state.loading.models.form,
-    // effect: !!state.loading.effects.form.submit,
-  }
+    global: state.loading.global,
+    model: state.loading.models.example,
+    effect: state.loading.effects.example.submit,
+  },
+  submit: dispatch.example.submit,
 })
 
 export default connect(mapState)(App)
