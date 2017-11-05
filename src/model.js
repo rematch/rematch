@@ -3,7 +3,7 @@ import validate from './utils/validate'
 import { createReducersAndUpdateStore } from './redux/store'
 import { modelHooks } from './core'
 
-const validateModel = (model: $model) =>
+const addModel = (model: $model) => {
   validate([
     [!model, 'model config is required'],
     [
@@ -12,15 +12,20 @@ const validateModel = (model: $model) =>
     ],
     [model.state === undefined, 'model "state" is required'],
   ])
-
-const createModel = (model: $model): void => {
-  validateModel(model)
-
-  // add model reducers to redux store
-  createReducersAndUpdateStore(model)
-
   // run plugin model subscriptions
   modelHooks.forEach(modelHook => modelHook(model))
 }
 
-export default createModel
+export const createModel = (model: $model): void => {
+  addModel(model)
+  // add model reducers to redux store
+  createReducersAndUpdateStore(model)
+}
+
+export const createInitModelHooks = (config) => {
+  const models = config.models || {}
+  Object.keys(models).forEach(key => {
+    const model = config.models[key]
+    addModel(model)
+  })
+}

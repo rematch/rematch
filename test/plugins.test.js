@@ -59,22 +59,4 @@ describe('plugins:', () => {
     })
     expect(getStore().getState()).toEqual({ app: 1 })
   })
-
-  test('should not create a plugin with invalid "onModel"', () => {
-    const { createPlugins } = require('../src/core')
-    const plugin1 = () => ({
-      onModel: {},
-    })
-    const plugins = [plugin1]
-    expect(() => createPlugins(plugins)).toThrow()
-  })
-
-  test('should not create a plugin with invalid "middleware"', () => {
-    const { createPlugins } = require('../src/core')
-    const plugin1 = () => ({
-      middleware: {},
-    })
-    const plugins = [plugin1]
-    expect(() => createPlugins(plugins)).toThrow()
-  })
 })

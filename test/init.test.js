@@ -10,6 +10,64 @@ describe('init:', () => {
     expect(getStore().getState()).toEqual({})
   })
 
+  test('should create models', () => {
+    const { init, getStore } = require('../src')
+
+    init({
+      models: {
+        app: {
+          name: 'app',
+          state: 'Hello, model 1',
+        },
+        app2: {
+          name: 'app2',
+          state: 'Hello, model 2',
+        },
+      }
+    })
+
+    expect(getStore().getState()).toEqual({
+      app: 'Hello, model 1',
+      app2: 'Hello, model 2'
+    })
+  })
+
+  test('should allow both init models & model models', () => {
+    const { init, model, getStore } = require('../src')
+
+    init({
+      models: {
+        app: {
+          name: 'app',
+          state: 'Hello, model 1',
+        },
+      }
+    })
+
+    model({
+      name: 'app2',
+      state: 'Hello, model 2',
+    })
+
+    expect(getStore().getState()).toEqual({
+      app: 'Hello, model 1',
+      app2: 'Hello, model 2'
+    })
+  })
+
+  test('should throw if models are not an object', () => {
+    const { init } = require('../src')
+
+    const model = {
+      name: 'app',
+      state: 'Hello, world',
+    }
+
+    expect(() => init({
+      models: [model]
+    })).toThrow()
+  })
+
   test('init() & one model of state type `string`', () => {
     const { model, init, getStore } = require('../src')
     init()

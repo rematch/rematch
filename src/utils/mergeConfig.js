@@ -2,7 +2,7 @@ import pipe from './pipe'
 
 // merges two config objects
 // assumes configs are already validated
-export default (c1 = {}, c2 = {}) => {
+export const mergeConfig = (c1 = {}, c2 = {}) => {
   const config = {}
 
   // initialState
@@ -39,3 +39,10 @@ export default (c1 = {}, c2 = {}) => {
 
   return config
 }
+
+export default (config) => (config.plugins || []).reduce((a, b) => {
+  if (b.config) {
+    return mergeConfig(a, b.config)
+  }
+  return a
+}, config)

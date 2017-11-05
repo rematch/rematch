@@ -1,6 +1,13 @@
 // @flow
 import validate from './utils/validate'
-import { setupPlugins } from './core'
+import isObject from './utils/isObject'
+import mergeConfig from './utils/mergeConfig'
+import getExposed from './utils/getExposed'
+import buildPlugins from './utils/buildPlugins'
+import { preStore, postStore } from './core'
+import corePlugins from './plugins'
+import { createInitModelHooks } from './model'
+import { createStore } from './redux/store'
 
 const validateConfig = (config: $config) =>
   validate([
@@ -9,11 +16,15 @@ const validateConfig = (config: $config) =>
       'init config.plugins must be an array',
     ],
     [
+      !!config.models && isObject(config.models),
+      'init config.models must be an object'
+    ],
+    [
       !!config.middleware && !Array.isArray(config.middleware),
       'init config.middleware must be an array',
     ],
     [
-      !!config.extraReducers && (Array.isArray(config.extraReducers) || typeof config.extraReducers !== 'object'),
+      !!config.extraReducers && isObject(config.extraReducers),
       'init config.extraReducers must be an object',
     ],
     [
@@ -22,9 +33,20 @@ const validateConfig = (config: $config) =>
     ],
   ])
 
-const init = (config: $config = {}): void => {
-  validateConfig(config)
-  setupPlugins(config)
+const init = (initConfig: $config = {}): void => {
+  validateConfig(initConfig)
+  const config = mergeConfig(initConfig)
+  const pluginConfigs = corePlugins.concat(config.plugins || [])
+  const exposed = getExposed(pluginConfigs)
+  const plugins = buildPlugins(pluginConfigs, exposed)
+  // preStore: middleware, initModels
+  preStore(plugins)
+  createInitModelHooks(config)
+  // create a redux store with initialState
+  // merge in additional extra reducers
+  createStore(config)
+  // postStore: onInit
+  postStore(plugins)
 }
 
 export default init
