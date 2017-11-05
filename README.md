@@ -28,17 +28,20 @@ A comparison may help:
 
 ##### model
 ```js
-import { init, model } from '@rematch/core'
+import { init } from '@rematch/core'
 
-init()
-
-model({
+const count = {
   name: 'count',
   state: 0,
   reducers: {
     upBy: (state, payload) => state + payload
   }
+}
+
+init({
+  models: { count }
 })
+
 ```
 
 ##### view
@@ -138,17 +141,19 @@ connect(mapStateToProps, mapDispatchToProps)(Component)
 ### Level 1
 
 ```js
-import { init, model, dispatch } from '@rematch/core'
+import { init, dispatch } from '@rematch/core'
 
-init()
-
-model({
+const count = {
   name: 'count',
   state: 0,
   reducers: {
     addOne: (state) => state + 1,
     addBy: (state, payload) => state + payload
   }
+}
+
+init({
+  models: { count }
 })
 
 dispatch.count.addOne() // { count: 1 }
@@ -162,9 +167,7 @@ dispatch({ type: 'count/addBy', payload: 5 }) // { count: 12 }
 ```js
 import { init, model, getStore } from '@rematch/core'
 
-init()
-
-model({
+const todos = {
   name: 'todos',
   state: {
     todos: {
@@ -197,6 +200,10 @@ model({
       return Object.keys(state).filter(id => state.todos[id].completed)
     }
   },
+}
+
+init({
+  models: { todos }
 })
 
 const state = getStore().getState()
@@ -212,6 +219,10 @@ npm install @rematch/core
 ## API
 
 - init
+  - models
+  - plugins
+  - extraReducers
+  - customCombineReducers
 - model
   - name
   - state
