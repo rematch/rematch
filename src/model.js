@@ -22,10 +22,8 @@ export const createModel = (model: $model): void => {
   createReducersAndUpdateStore(model)
 }
 
-export const createInitModelHooks = (config) => {
-  const models = config.models || {}
+export const createInitModel = (models = {}) => {
   Object.keys(models).forEach(key => {
-    const model = config.models[key]
-    addModel(model)
+    addModel(models[key])
   })
 }

@@ -32,12 +32,32 @@ describe('plugins:', () => {
 
   test('should add a model', () => {
     const { init, getStore } = require('../src')
-    const model = {
+    const a = {
       name: 'a',
       state: 0,
     }
     init({
-      plugins: [{ init: () => ({ model }) }]
+      plugins: [{ init: () => ({ models: {
+        a,
+      } }) }]
+    })
+    expect(getStore().getState()).toEqual({ a: 0 })
+  })
+
+  test('should add multiple models', () => {
+    const { init, getStore } = require('../src')
+    const a = {
+      name: 'a',
+      state: 0,
+    }
+    const b = {
+      name: 'b',
+      state: 0,
+    }
+    init({
+      plugins: [{ init: () => ({ models: {
+        a, b
+      } }) }]
     })
     expect(getStore().getState()).toEqual({ a: 0 })
   })
