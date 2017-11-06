@@ -21,10 +21,5 @@ export const postStore = (plugins) => {
     if (plugin.onInit) {
       plugin.onInit(getStore)
     }
-    if (plugin.models) {
-      Object.keys(plugin.models).forEach(key => {
-        createModel(plugin.models[key])
-      })
-    }
   })
 }

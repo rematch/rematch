@@ -41,7 +41,7 @@ const init = (initConfig: $config = {}): void => {
   const plugins = buildPlugins(pluginConfigs, exposed)
   // preStore: middleware, initModels
   preStore(plugins)
-  createInitModel(config.models)
+  createInitModel(config.models, plugins)
   // create a redux store with initialState
   // merge in additional extra reducers
   createStore(config)

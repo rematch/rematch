@@ -57,4 +57,21 @@ describe('persist', () => {
     const persistor = getPersistor()
     expect(persistor.purge).toBeDefined()
   })
+
+  test('should work with init models', () => {
+    const persistPlugin = require('../src').default
+    const { getPersistor } = require('../src')
+    const { init } = require('../../../src')
+    const a = {
+      name: 'a',
+      state: { b: 1 }
+    }
+    init({
+      initialState: {},
+      plugins: [persistPlugin()],
+      models: { a }
+    })
+    const persistor = getPersistor()
+    expect(persistor.purge).toBeDefined()
+  })
 })
