@@ -75,20 +75,21 @@ describe('persist', () => {
     expect(persistor.purge).toBeDefined()
   })
 
-  test('should load with models instead of extra reducers', () => {
-    const { init, model, getStore } = require('../../../src')
-    const persistPlugin = require('../src').default
-    init({
-      initialState: {},
-      plugins: [persistPlugin()],
-    })
-    model({
-      name: 'a',
-      state: 0,
-      reducers: {
-        addOne: s => s + 1,
-      }
-    })
-    expect(getStore().getState()._persist).toEqual(defaultPersist)
-  })
+  // persist requires models to be run on init
+  // test('should load with model() instead of extra reducers', () => {
+  //   const { init, model, getStore } = require('../../../src')
+  //   const persistPlugin = require('../src').default
+  //   init({
+  //     initialState: {},
+  //     plugins: [persistPlugin()],
+  //   })
+  //   model({
+  //     name: 'a',
+  //     state: 0,
+  //     reducers: {
+  //       addOne: s => s + 1,
+  //     }
+  //   })
+  //   expect(getStore().getState()._persist).toEqual(defaultPersist)
+  // })
 })
