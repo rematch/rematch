@@ -5,6 +5,16 @@ import pipe from './pipe'
 export const mergeConfig = (c1 = {}, c2 = {}) => {
   const config = {}
 
+  if (c1.models) {
+    config.models = Object.keys(c1.models).reduce((a, b) => {
+      const model = c1.models[b]
+      return {
+        [model.name]: model,
+        ...a,
+      }
+    }, {})
+  }
+
   // initialState
   config.initialState = c1.initialState || {}
   if (c2.initialState) {

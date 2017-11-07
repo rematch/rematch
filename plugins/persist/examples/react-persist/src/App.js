@@ -26,7 +26,7 @@ const App = (props) => (
     </div>
     <div>
       <h3>Non-Persisted</h3>
-      {props.countPersisted}
+      {props.countNonpersisted}
     </div>
     <div>
       <h3>State</h3>
