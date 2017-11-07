@@ -4,9 +4,8 @@ beforeEach(() => {
 
 describe('select:', () => {
   it('should create a valid list of selectors', () => {
-    const { init, model, select } = require('../src')
-    init()
-    model({
+    const { init, select } = require('../src')
+    const a = {
       name: 'a',
       state: 0,
       reducers: {
@@ -15,6 +14,9 @@ describe('select:', () => {
       selectors: {
         double: s => s * 2
       },
+    }
+    init({
+      models: { a }
     })
     expect(typeof select.a.double).toBe('function')
   })

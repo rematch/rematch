@@ -4,10 +4,12 @@ import isObject from './utils/isObject'
 import mergeConfig from './utils/mergeConfig'
 import getExposed from './utils/getExposed'
 import buildPlugins from './utils/buildPlugins'
+import getModels from './utils/getModels'
 import { preStore, postStore } from './core'
 import corePlugins from './plugins'
-import { createInitModelHooks } from './model'
+import { initModelHooks } from './model'
 import { createStore } from './redux/store'
+import { initReducers } from './redux/reducers'
 
 const validateConfig = (config: $config) =>
   validate([
@@ -39,12 +41,19 @@ const init = (initConfig: $config = {}): void => {
   const pluginConfigs = corePlugins.concat(config.plugins || [])
   const exposed = getExposed(pluginConfigs)
   const plugins = buildPlugins(pluginConfigs, exposed)
-  // preStore: middleware, initModels
+
+  // preStore: middleware, model hooks
   preStore(plugins)
-  createInitModelHooks(config)
+
+  // collect all models
+  const models = getModels(config, plugins)
+  initModelHooks(models)
+  initReducers(models, config)
+
   // create a redux store with initialState
   // merge in additional extra reducers
   createStore(config)
+
   // postStore: onInit
   postStore(plugins)
 }

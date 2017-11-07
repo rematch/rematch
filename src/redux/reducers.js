@@ -2,8 +2,9 @@
 /* eslint no-underscore-dangle: 0 */
 import { combineReducers } from 'redux'
 
-let _reducers: $reducers
 let combine = combineReducers
+
+let _reducers: $reducers = {}
 
 // get reducer for given dispatch type
 // pass in (state, payload)
@@ -26,16 +27,22 @@ export const createModelReducer = ({ name, reducers, state }: $model) => ({
 })
 
 // uses combineReducers to merge new reducers into existing reducers
-export const mergeReducers = (nextReducers: $reducers) => {
+export const mergeReducers = (nextReducers: $reducers = {}) => {
   _reducers = { ..._reducers, ...nextReducers }
+  if (!Object.keys(_reducers).length) {
+    return state => state
+  }
   return combine(_reducers)
 }
 
-export const initReducers = ({ customCombineReducers }) : void => {
+export const initReducers = (models, { customCombineReducers, extraReducers }) : void => {
   // overwrite combineReducers if config.customCombineReducers
   if (customCombineReducers) {
     combine = customCombineReducers
   }
-  _reducers = {}
+  mergeReducers(models.reduce((reducers, model) => ({
+    ...createModelReducer(model),
+    ...reducers,
+  }), extraReducers || {}))
 }
 

@@ -5,15 +5,16 @@ beforeEach(() => {
 describe('dispatch:', () => {
   describe('action:', () => {
     it('should be call in the form "modelName/reducerName"', () => {
-      const { model, init, getStore } = require('../src')
-      init()
-
-      model({
+      const { init, getStore } = require('../src')
+      const count = {
         name: 'count',
         state: 0,
         reducers: {
           add: state => state + 1,
         },
+      }
+      init({
+        models: { count }
       })
 
       getStore().dispatch({ type: 'count/add' })
@@ -46,16 +47,19 @@ describe('dispatch:', () => {
 
     test('should dispatch an action', () => {
       const {
-        model, init, getStore, dispatch
+        init, getStore, dispatch
       } = require('../src')
-      init()
 
-      model({
+      const count = {
         name: 'count',
         state: 0,
         reducers: {
           add: state => state + 1,
         },
+      }
+
+      init({
+        models: { count }
       })
 
       dispatch.count.add()
