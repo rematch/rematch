@@ -40,11 +40,9 @@ export const initReducers = (models, { customCombineReducers, extraReducers }) :
   if (customCombineReducers) {
     combine = customCombineReducers
   }
-  mergeReducers(
-    models.reduce((reducers, model) => ({
+  mergeReducers(models.reduce((reducers, model) => ({
     ...createModelReducer(model),
     ...reducers,
-  }), extraReducers || {})
-  )
+  }), extraReducers || {}))
 }
 

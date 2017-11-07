@@ -32,7 +32,7 @@ const App = ({ valueA, valueB, valueADoubled, asyncAIncr, incrB, incrA }) => (
 export default connect(state => ({
   valueA: state.countA,
   valueB: state.countB,
-  valueADoubled : 2, //select.countA.double(state),
+  valueADoubled: select.countA.double(state),
   incrA: dispatch.countA.increment,
   asyncAIncr: dispatch.countA.asyncIncrement,
   incrB: dispatch.countB.increment,
