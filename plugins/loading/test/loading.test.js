@@ -25,7 +25,7 @@ describe('loading', () => {
       models: { count },
       plugins: [loadingPlugin()]
     })
-    dispatch.count.increment()
+    dispatch.count.addOne()
     expect(getStore().getState().loading.global).toBe(false)
   })
 
@@ -101,7 +101,7 @@ describe('loading', () => {
       models: { count },
       plugins: [loadingPlugin({ name: 'load' })]
     })
-    dispatch.count.increment()
+    dispatch.count.addOne()
     expect(getStore().getState().load.global).toBe(false)
   })
 })
