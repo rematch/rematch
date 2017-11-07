@@ -35,7 +35,6 @@ describe('persist', () => {
       version: 2
     })
     init({
-      initialState: {},
       plugins: [plugin],
       extraReducers,
     })
@@ -61,17 +60,43 @@ describe('persist', () => {
   test('should work with init models', () => {
     const persistPlugin = require('../src').default
     const { getPersistor } = require('../src')
-    const { init } = require('../../../src')
+    const { init, dispatch, getStore } = require('../../../src')
     const a = {
       name: 'a',
-      state: { b: 1 }
+      state: { b: 1 },
+      reducers: {
+        addOne: s => ({ b: s.b + 1 })
+      }
     }
     init({
-      initialState: {},
       plugins: [persistPlugin()],
       models: { a }
     })
+    dispatch.a.addOne()
     const persistor = getPersistor()
     expect(persistor.purge).toBeDefined()
+    expect(getStore().getState()._persist).toEqual(defaultPersist)
+    expect(getStore().getState().a).toEqual({ b: 2 })
   })
+
+  // NOTE: persist may require models to be run on init. Unsure.
+  // test('should load with model() instead of extra reducers', () => {
+  //   const {
+  //     init, model, dispatch, getStore
+  //   } = require('../../../src')
+  //   const persistPlugin = require('../src').default
+  //   init({
+  //     plugins: [persistPlugin()],
+  //   })
+  //   model({
+  //     name: 'a',
+  //     state: { b: 1 },
+  //     reducers: {
+  //       addOne: s => ({ b: s.b + 1 })
+  //     }
+  //   })
+  //   dispatch.a.addOne()
+  //   expect(getStore().getState()._persist).toEqual(defaultPersist)
+  //   expect(getStore().getState().a).toEqual({ b: 2 })
+  // })
 })
