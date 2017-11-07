@@ -1,7 +1,7 @@
 // @flow
 /* eslint no-underscore-dangle: 0 */
 import { createStore as _createStore, applyMiddleware, compose } from 'redux'
-import { initReducers, mergeReducers, createModelReducer } from './reducers'
+import { getReducers, mergeReducers, createModelReducer } from './reducers'
 import { pluginMiddlewares } from '../core'
 
 // enable redux devtools
@@ -17,26 +17,15 @@ export const getStore = () => store
 
 // create store
 export const createStore = ({
-  models, initialState, extraReducers, customCombineReducers
-} = {}) => {
+  initialState, extraReducers, customCombineReducers
+} = {}, models) => {
   // initial state
   if (initialState === undefined) {
     initialState = {}
   }
-  initReducers({ customCombineReducers })
 
   // reducers
-  let rootReducer = state => state
-  if (extraReducers) {
-    rootReducer = mergeReducers(extraReducers)
-  }
-  if (models) {
-    const modelReducers = Object.keys(models).reduce((reducers, key) => ({
-      ...createModelReducer(models[key]),
-      ...reducers,
-    }), {})
-    rootReducer = mergeReducers(modelReducers)
-  }
+  const rootReducer = getReducers()
 
   // middleware
   const middlewares = applyMiddleware(...pluginMiddlewares)

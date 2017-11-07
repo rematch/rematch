@@ -4,15 +4,15 @@ beforeEach(() => {
 
 describe('createStore:', () => {
   it('no params should create store with state `{}`', () => {
-    const { createStore, getStore } = require('../src/redux/store')
-    createStore()
+    const { init, getStore } = require('../src')
+    init()
 
     expect(getStore().getState()).toEqual({})
   })
 
   it('initialState `null` should create store with state `null`', () => {
-    const { createStore, getStore } = require('../src/redux/store')
-    createStore({
+    const { init, getStore } = require('../src')
+    init({
       initialState: null
     })
 
@@ -20,8 +20,8 @@ describe('createStore:', () => {
   })
 
   it('initialState `{ app: "hello, world" }` should create store with state `{ app: "hello, world" }`', () => {
-    const { createStore, getStore } = require('../src/redux/store')
-    createStore({
+    const { init, getStore } = require('../src')
+    init({
       initialState: { app: 'hello, world' }
     })
 
@@ -29,9 +29,9 @@ describe('createStore:', () => {
   })
 
   it('extraReducers should create store with extra reducers', () => {
-    const { createStore, getStore } = require('../src/redux/store')
+    const { init, getStore } = require('../src')
     const extraReducers = { todos: (state = 999) => state }
-    createStore({
+    init({
       extraReducers
     })
     expect(getStore().getState()).toEqual({ todos: 999 })

@@ -59,7 +59,7 @@ describe('plugins:', () => {
         a, b
       } }) }]
     })
-    expect(getStore().getState()).toEqual({ a: 0 })
+    expect(getStore().getState()).toEqual({ a: 0, b: 0 })
   })
 
   test('should merge plugin configs into configs', () => {

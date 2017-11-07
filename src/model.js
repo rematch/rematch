@@ -22,8 +22,6 @@ export const createModel = (model: $model): void => {
   createReducersAndUpdateStore(model)
 }
 
-export const createInitModels = (models) => {
-  models.forEach(model => {
-    addModel(model)
-  })
+export const initModelHooks = (models) => {
+  models.forEach(model => addModel(model))
 }

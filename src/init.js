@@ -7,8 +7,9 @@ import buildPlugins from './utils/buildPlugins'
 import getModels from './utils/getModels'
 import { preStore, postStore } from './core'
 import corePlugins from './plugins'
-import { createInitModels } from './model'
+import { initModelHooks } from './model'
 import { createStore } from './redux/store'
+import { initReducers } from './redux/reducers'
 
 const validateConfig = (config: $config) =>
   validate([
@@ -46,11 +47,12 @@ const init = (initConfig: $config = {}): void => {
 
   // collect all models
   const models = getModels(config, plugins)
-  createInitModels(models)
+  initModelHooks(models)
+  initReducers(models, config)
 
   // create a redux store with initialState
   // merge in additional extra reducers
-  createStore(config)
+  createStore(config, models)
   
   // postStore: onInit
   postStore(plugins)
