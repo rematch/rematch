@@ -16,6 +16,9 @@ build_plugin () {
   cd ../..
 }
 
+# install plugin deps
+sh ./scripts/install.sh
+
 # run tests before building
 echo 'Running tests...'
 npm run test

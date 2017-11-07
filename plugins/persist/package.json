@@ -22,10 +22,8 @@
   "scripts": {
     "test": "jest"
   },
-  "peerDependencies": {
-    "redux": "^3.0.0"
-  },
   "dependencies": {
+    "redux": "^3.7.2",
     "redux-persist": "5.1.0"
   },
   "devDependencies": {

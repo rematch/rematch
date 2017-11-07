@@ -7,7 +7,13 @@ const { env } = require('yargs').argv
 
 const { UglifyJsPlugin } = webpack.optimize
 
-const plugins = []
+const plugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify('production')
+    }
+  })
+]
 let outputFile
 
 if (env === 'build') {
@@ -25,7 +31,6 @@ const config = {
     filename: outputFile,
     library: libraryName,
     libraryTarget: 'umd',
-    umdNamedDefine: true,
   },
   module: {
     rules: [
