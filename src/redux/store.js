@@ -16,16 +16,14 @@ let store = null
 export const getStore = () => store
 
 // create store
-export const createStore = ({
-  initialState, extraReducers, customCombineReducers
-} = {}, models) => {
+export const createStore = ({ initialState, extraReducers, customCombineReducers }) => {
   // initial state
   if (initialState === undefined) {
     initialState = {}
   }
 
   // reducers
-  const rootReducer = getReducers()
+  const rootReducer = mergeReducers()
 
   // middleware
   const middlewares = applyMiddleware(...pluginMiddlewares)

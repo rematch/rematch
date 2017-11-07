@@ -52,7 +52,7 @@ const init = (initConfig: $config = {}): void => {
 
   // create a redux store with initialState
   // merge in additional extra reducers
-  createStore(config, models)
+  createStore(config)
   
   // postStore: onInit
   postStore(plugins)

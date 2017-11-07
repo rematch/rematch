@@ -5,7 +5,6 @@ import { combineReducers } from 'redux'
 let combine = combineReducers
 
 let _reducers: $reducers = {}
-export const getReducers = () => combine(_reducers)
 
 // get reducer for given dispatch type
 // pass in (state, payload)
@@ -28,8 +27,11 @@ export const createModelReducer = ({ name, reducers, state }: $model) => ({
 })
 
 // uses combineReducers to merge new reducers into existing reducers
-export const mergeReducers = (nextReducers: $reducers) => {
+export const mergeReducers = (nextReducers: $reducers = {}) => {
   _reducers = { ..._reducers, ...nextReducers }
+  if (!Object.keys(_reducers).length) {
+    return state => state
+  }
   return combine(_reducers)
 }
 
