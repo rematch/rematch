@@ -22,7 +22,7 @@
   "scripts": {
     "test": "jest"
   },
-  "peerDependencies": {
+  "dependencies": {
     "redux": "^3.0.0"
   },
   "devDependencies": {
