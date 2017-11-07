@@ -22,18 +22,8 @@ export const createModel = (model: $model): void => {
   createReducersAndUpdateStore(model)
 }
 
-export const createInitModel = (configModels = {}, plugins) => {
-  const models = configModels
-  // add plugin models
-  plugins.forEach(plugin => {
-    if (plugin.models) {
-      Object.keys(plugin.models).forEach(key => {
-        const model = plugin.models[key]
-        configModels[key] = plugin.models[key]
-      })
-    }
-  })
-  Object.keys(models).forEach(key => {
-    addModel(models[key])
+export const createInitModels = (models) => {
+  models.forEach(model => {
+    addModel(model)
   })
 }
