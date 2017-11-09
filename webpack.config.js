@@ -14,6 +14,7 @@ const plugins = [
     }
   })
 ]
+
 let outputFile
 
 if (env === 'build') {
