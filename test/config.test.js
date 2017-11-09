@@ -35,10 +35,21 @@ describe('init config', () => {
     })).toThrow()
   })
 
-  test('should not accept invalid value as "customCombineReducers"', () => {
+  test('should not accept invalid value as "overwrites.combineReducers"', () => {
     const { init } = require('../src')
     expect(() => init({
-      customCombineReducers: 42
+      overwrites: {
+        combineReducers: 42
+      }
+    })).toThrow()
+  })
+
+  test('should not accept invalid value as "overwrites.createStore"', () => {
+    const { init } = require('../src')
+    expect(() => init({
+      overwrites: {
+        createStore: 42
+      }
     })).toThrow()
   })
 })

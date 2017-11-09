@@ -16,10 +16,15 @@ let store = null
 export const getStore = () => store
 
 // create store
-export const createStore = ({ initialState }) => {
+export const initStore = ({ initialState, overwrites }) => {
   // initial state
   if (initialState === undefined) {
     initialState = {}
+  }
+
+  let createStore = _createStore
+  if (overwrites && overwrites.createStore) {
+    createStore = overwrites.createStore // eslint-disable-line
   }
 
   // reducers
@@ -30,7 +35,7 @@ export const createStore = ({ initialState }) => {
   const enhancer = composeEnhancers(middlewares)
 
   // store
-  store = _createStore(rootReducer, initialState, enhancer)
+  store = createStore(rootReducer, initialState, enhancer)
 }
 
 export const createReducersAndUpdateStore = (model: $model) : void => {

@@ -134,41 +134,49 @@ describe('mergeConfig', () => {
     })
   })
 
-  describe('customCombineReducers', () => {
-    test('should handle no extra customCombineReducers', () => {
+  describe('ovewrites', () => {
+    test('should handle no ovewrites.combineReducers', () => {
       const result = mergeConfig({}, {})
       expect(result.extraReducers).toEqual({})
     })
-    test('should handle only c1 customCombineReducers', () => {
+    test('should handle only c1 overwrites.combineReducers', () => {
       const c1f = s => s + 1
       const c1 = {
-        customCombineReducers: c1f
+        overwrites: {
+          combineReducers: c1f,
+        }
       }
       const result = mergeConfig(c1)
-      expect(result.customCombineReducers).toEqual(c1f)
+      expect(result.overwrites.combineReducers).toEqual(c1f)
     })
 
-    test('should handle only c2 customCombineReducers', () => {
+    test('should handle only c2 overwrites.combineReducers', () => {
       const c2f = s => s + 2
       const c2 = {
-        customCombineReducers: c2f
+        overwrites: {
+          combineReducers: c2f,
+        }
       }
       const result = mergeConfig(undefined, c2)
-      expect(result.customCombineReducers).toEqual(c2f)
+      expect(result.overwrites.combineReducers).toEqual(c2f)
     })
 
-    test('if both, c2 customCombineReducers should wrap c1', () => {
+    test('if both, c2 overwrites.combineReducers should take priority over c1', () => {
       const c1f = s => s + 1
       const c2f = s => s * 5
       const c1 = {
-        customCombineReducers: c1f,
+        overwrites: {
+          combineReducers: c1f,
+        }
       }
       const c2 = {
-        customCombineReducers: c2f,
+        overwrites: {
+          combineReducers: c2f,
+        }
       }
       const result = mergeConfig(c1, c2)
       // (2 + 1) * 5
-      expect(result.customCombineReducers(2)).toBe(15)
+      expect(result.overwrites.combineReducers).toBe(c2f)
     })
   })
 })
