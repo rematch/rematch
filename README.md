@@ -28,7 +28,7 @@ A comparison may help:
 
 ##### model
 ```js
-import { init } from '@rematch/core'
+import { init } from '`@rematch/core'
 
 const count = {
   name: 'count',
@@ -222,7 +222,9 @@ npm install @rematch/core
   - models
   - plugins
   - extraReducers
-  - customCombineReducers
+  - overwrites
+    - combineReducers
+    - createStore
 - model
   - name
   - state
