@@ -1,5 +1,3 @@
-import pipe from './pipe'
-
 // merges two config objects
 // assumes configs are already validated
 export const mergeConfig = (c1 = {}, c2 = {}) => {
@@ -41,10 +39,11 @@ export const mergeConfig = (c1 = {}, c2 = {}) => {
     }
   }
 
-  if (c1.customCombineReducers && c2.customCombineReducers) {
-    config.customCombineReducers = pipe(c1.customCombineReducers, c2.customCombineReducers)
-  } else {
-    config.customCombineReducers = c1.customCombineReducers || c2.customCombineReducers
+  // Note: this pattern does not allow for multiple overwrites
+  // of the same name
+  config.overwrites = {
+    ...(c1.overwrites || {}),
+    ...(c2.overwrites || {}),
   }
 
   return config

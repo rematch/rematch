@@ -8,7 +8,7 @@ import getModels from './utils/getModels'
 import { preStore, postStore } from './core'
 import corePlugins from './plugins'
 import { initModelHooks } from './model'
-import { createStore } from './redux/store'
+import { initStore } from './redux/store'
 import { initReducers } from './redux/reducers'
 
 const validateConfig = (config: $config) =>
@@ -30,8 +30,12 @@ const validateConfig = (config: $config) =>
       'init config.extraReducers must be an object',
     ],
     [
-      !!config.customCombineReducers && typeof config.customCombineReducers !== 'function',
-      'init config.customCombineReducers must be a function'
+      (!!config.overwrites && !!config.overwrites.combineReducers) && typeof config.overwrites.combineReducers !== 'function',
+      'init config.overwrites.combineReducers must be a function'
+    ],
+    [
+      (!!config.overwrites && !!config.overwrites.createStore) && typeof config.overwrites.createStore !== 'function',
+      'init config.overwrites.createStore must be a function'
     ],
   ])
 
@@ -52,7 +56,7 @@ const init = (initConfig: $config = {}): void => {
 
   // create a redux store with initialState
   // merge in additional extra reducers
-  createStore(config)
+  initStore(config)
 
   // postStore: onInit
   postStore(plugins)

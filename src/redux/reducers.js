@@ -35,10 +35,9 @@ export const mergeReducers = (nextReducers: $reducers = {}) => {
   return combine(_reducers)
 }
 
-export const initReducers = (models, { customCombineReducers, extraReducers }) : void => {
-  // overwrite combineReducers if config.customCombineReducers
-  if (customCombineReducers) {
-    combine = customCombineReducers
+export const initReducers = (models, { overwrites, extraReducers }) : void => {
+  if (overwrites && overwrites.combineReducers) {
+    combine = overwrites.combineReducers
   }
   mergeReducers(models.reduce((reducers, model) => ({
     ...createModelReducer(model),
