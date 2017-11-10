@@ -34,4 +34,21 @@ describe('init config', () => {
       extraReducers: 42
     })).toThrow()
   })
+
+  test('should run with devtool options', () => {
+    const { init, getStore } = require('../src')
+    init({
+      initialState: { a: 1 },
+      devtoolOptions: {
+        maxAge: 60000,
+      }
+    })
+    expect(getStore().getState()).toEqual({ a: 1 })
+  })
+
+  test('devtools should default to compose', () => {
+    const { composeEnhancers } = require('../src/redux/devtools')
+    const { compose } = require('redux')
+    expect(composeEnhancers()).toEqual(compose)
+  })
 })
