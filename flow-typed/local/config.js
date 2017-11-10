@@ -7,5 +7,6 @@ declare type $config = {
  overwrites?: {
   combineReducers?: (rootReducer: $reducer) => any,
   createStore?: () => any,
- }
+ },
+ devtoolOptions?: Object,
 }
