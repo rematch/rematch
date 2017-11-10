@@ -28,7 +28,7 @@ A comparison may help:
 
 ##### model
 ```js
-import { init } from '`@rematch/core'
+import { init } from '@rematch/core'
 
 const count = {
   name: 'count',
