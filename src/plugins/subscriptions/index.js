@@ -1,5 +1,6 @@
 // @flow
 import { createSubscription } from './create'
+import { createUnsubscribe } from './unsubscribe'
 
 export const subscriptions = new Map()
 export const patternSubscriptions = new Map()
@@ -21,6 +22,7 @@ export default {
       Object.keys(model.subscriptions || {}).forEach((matcher: string) => {
         validate([
           [
+
             matcher.match(/\/(.+)?\//),
             `Invalid subscription matcher (${matcher})`
           ],
@@ -29,7 +31,8 @@ export default {
             `Subscription matcher in ${model.name} (${matcher}) must be a function`
           ]
         ])
-        createSubscription(model.name, matcher, model.subscriptions[matcher], actionList)
+        const onAction = model.subscriptions[matcher]
+        createSubscription(model.name, matcher, onAction, actionList)
       })
     },
     middleware: () => (next: (action: $action) => any) => (action: $action) => {
@@ -44,7 +47,8 @@ export default {
         patternSubscriptions.forEach((handler: Object, matcher: string) => {
           if (type.match(new RegExp(matcher))) {
             const subscriptionMatches = patternSubscriptions.get(matcher)
-            triggerAllSubscriptions(subscriptionMatches)(action)
+            const unsubscribe = createUnsubscribe(handler, matcher)
+            triggerAllSubscriptions(subscriptionMatches)(action, unsubscribe)
           }
         })
       }
