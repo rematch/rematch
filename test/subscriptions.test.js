@@ -301,8 +301,7 @@ describe('subscriptions:', () => {
       init({
         models: { first, second }
       })
-      const handler = { first: () => {} }
-      const unsubscribe = createUnsubscribe(handler, 'second/addOne')
+      const unsubscribe = createUnsubscribe('first', 'second/addOne')
       unsubscribe()
       dispatch.second.addOne()
 
@@ -330,8 +329,7 @@ describe('subscriptions:', () => {
         models: { first, second }
       })
 
-      const handler = { first: () => {} }
-      const unsubscribe = createUnsubscribe(handler, 'second/*')
+      const unsubscribe = createUnsubscribe('first', 'second/*')
       unsubscribe()
       dispatch.second.addOne()
 
@@ -365,8 +363,7 @@ describe('subscriptions:', () => {
       init({
         models: { first, second, third }
       })
-      const handler = { first: () => {} }
-      const unsubscribe = createUnsubscribe(handler, 'second/*')
+      const unsubscribe = createUnsubscribe('first', 'second/*')
       unsubscribe()
       dispatch.second.addOne()
 
@@ -388,8 +385,7 @@ describe('subscriptions:', () => {
         models: { first }
       })
 
-      const handler = { first: () => {} }
-      const unsubscribe = createUnsubscribe(handler, 'an/invalid/action')
+      const unsubscribe = createUnsubscribe('first', 'an/invalid/action')
 
       expect(unsubscribe).toThrow()
     })
@@ -413,8 +409,7 @@ describe('subscriptions:', () => {
         models: { first, second }
       })
 
-      const handler = { first: () => {} }
-      const unsubscribe = createUnsubscribe(handler, 'not/existing')
+      const unsubscribe = createUnsubscribe('first', 'not/existing')
       unsubscribe()
       dispatch.second.addOne()
 
@@ -422,36 +417,67 @@ describe('subscriptions:', () => {
         second: 1, first: 1,
       })
     })
-  })
-  xtest('should allow unsubscribe within a model', () => {
-    const {
-      init, dispatch, getStore
-    } = require('../src')
-    const first = {
-      name: 'first',
-      ...common,
-      subscriptions: {
-        'second/addOne': (action, unsubscribe) => {
-          dispatch.first.addOne()
-          console.log('unsubscribe', action, unsubscribe)
-          unsubscribe()
-        },
+
+    test('should allow unsubscribe within a model', () => {
+      const {
+        init, dispatch, getStore
+      } = require('../src')
+      const first = {
+        name: 'first',
+        ...common,
+        subscriptions: {
+          'second/addOne': (action, unsubscribe) => {
+            dispatch.first.addOne()
+            unsubscribe()
+          },
+        }
       }
-    }
-    const second = {
-      name: 'second',
-      ...common,
-    }
-    init({
-      models: { first, second }
+      const second = {
+        name: 'second',
+        ...common,
+      }
+      init({
+        models: { first, second }
+      })
+
+      dispatch.second.addOne()
+      dispatch.second.addOne()
+      dispatch.second.addOne()
+
+      expect(getStore().getState()).toEqual({
+        second: 3, first: 1,
+      })
     })
 
-    dispatch.second.addOne()
-    dispatch.second.addOne()
-    dispatch.second.addOne()
-    
-    expect(getStore().getState()).toEqual({
-      second: 3, first: 1,
+    test('should allow unsubscribe within a model with a pattern match', () => {
+      const {
+        init, dispatch, getStore
+      } = require('../src')
+      const first = {
+        name: 'first',
+        ...common,
+        subscriptions: {
+          'second/*': (action, unsubscribe) => {
+            dispatch.first.addOne()
+            unsubscribe()
+          },
+        }
+      }
+      const second = {
+        name: 'second',
+        ...common,
+      }
+      init({
+        models: { first, second }
+      })
+
+      dispatch.second.addOne()
+      dispatch.second.addOne()
+      dispatch.second.addOne()
+
+      expect(getStore().getState()).toEqual({
+        second: 3, first: 1,
+      })
     })
   })
 })

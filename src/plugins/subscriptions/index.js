@@ -5,16 +5,18 @@ import { createUnsubscribe } from './unsubscribe'
 export const subscriptions = new Map()
 export const patternSubscriptions = new Map()
 
-const triggerAllSubscriptions = (matches) => (action) => {
+const triggerAllSubscriptions = (matches) => (action, matcher) => {
+  // call each subscription in each model
   Object.keys(matches).forEach(modelName => {
-    matches[modelName](action)
+    matches[modelName](action, () => createUnsubscribe(modelName, matcher)())
   })
 }
 
 export default {
   init: ({ validate }) => ({
     onModel(model: $model) {
-      // necessary to prevent invalid subscription names
+      // a list of actions is only necessary
+      // to create warnings for invalid subscription names
       const actionList = [
         ...Object.keys(model.reducers || {}),
         ...Object.keys(model.effects || {})
@@ -40,15 +42,14 @@ export default {
 
       // exact match
       if (subscriptions.has(type)) {
-        const allSubscriptions = subscriptions.get(type)
+        const allMatches = subscriptions.get(type)
         // call each hook[modelName] with action
-        triggerAllSubscriptions(allSubscriptions)(action)
+        triggerAllSubscriptions(allMatches)(action, type)
       } else {
         patternSubscriptions.forEach((handler: Object, matcher: string) => {
           if (type.match(new RegExp(matcher))) {
-            const subscriptionMatches = patternSubscriptions.get(matcher)
-            const unsubscribe = createUnsubscribe(handler, matcher)
-            triggerAllSubscriptions(subscriptionMatches)(action, unsubscribe)
+            const patternMatches = patternSubscriptions.get(matcher)
+            triggerAllSubscriptions(patternMatches)(action, matcher)
           }
         })
       }

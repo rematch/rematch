@@ -13,7 +13,7 @@ const unsubscribeFrom = (modelName) => (target, formattedMatcher) => {
   }
 }
 
-export const createUnsubscribe = (handler, matcher) => () => {
-  const modelName = Object.keys(handler)[0]
+// creates an unsubscribe function that can be called within a model
+export const createUnsubscribe = (modelName, matcher) => () => {
   onHandlers(unsubscribeFrom(modelName))(matcher)
 }
