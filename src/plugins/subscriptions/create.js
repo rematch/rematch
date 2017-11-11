@@ -3,7 +3,7 @@ import { onHandlers } from './handlers'
 export const createSubscription = (
   modelName: string,
   matcher: string,
-  onAction: (action: $action) => void,
+  onAction: (action: $action, unsubscribe: () => void) => void,
   actionList: string[]
 ) => {
   const createHandler = (target, formattedMatcher) => {
