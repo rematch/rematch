@@ -17,6 +17,77 @@ describe('effects:', () => {
 
     expect(typeof dispatch.count.add).toBe('function')
   })
+  test('first param should be payload', () => {
+    const {
+      model, init, dispatch
+    } = require('../src')
+    init()
+
+    let value = 1
+
+    model({
+      name: 'count',
+      state: 0,
+      effects: {
+        add: (payload) => {
+          value += payload
+        },
+      },
+    })
+
+    dispatch({ type: 'count/add', payload: 4 })
+
+    expect(value).toBe(5)
+  })
+
+  test('second param should contain dispatch', () => {
+    const {
+      model, init, getStore, dispatch
+    } = require('../src')
+    init()
+
+    model({
+      name: 'count',
+      state: 0,
+      reducers: {
+        call: s => s + 1
+      },
+      effects: {
+        makeCall: (payload, { dispatch }) => {
+          dispatch.count.call()
+        },
+      },
+    })
+
+    dispatch.count.makeCall()
+
+    expect(getStore().getState().count).toBe(1)
+  })
+
+  test('second param should contain getState', () => {
+    const {
+      model, init, getStore, dispatch
+    } = require('../src')
+    init()
+
+    model({
+      name: 'count',
+      state: 7,
+      reducers: {
+        add: (s, p) => s + p
+      },
+      effects: {
+        makeCall: (payload, { getState }) => {
+          const { count } = getState()
+          dispatch.count.add(count + 1)
+        },
+      },
+    })
+
+    dispatch.count.makeCall(2)
+
+    expect(getStore().getState().count).toBe(15)
+  })
 
   // test('should create an effect', () => {
   //   init()
