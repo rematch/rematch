@@ -457,26 +457,26 @@ describe('subscriptions:', () => {
         name: 'first',
         ...common,
         subscriptions: {
-          'second/*': (action, unsubscribe) => {
+          'other/*': (action, unsubscribe) => {
             dispatch.first.addOne()
             unsubscribe()
           },
         }
       }
-      const second = {
-        name: 'second',
+      const other = {
+        name: 'other',
         ...common,
       }
       init({
-        models: { first, second }
+        models: { first, other }
       })
 
-      dispatch.second.addOne()
-      dispatch.second.addOne()
-      dispatch.second.addOne()
+      dispatch.other.addOne()
+      dispatch.other.addOne()
+      dispatch.other.addOne()
 
       expect(getStore().getState()).toEqual({
-        second: 3, first: 1,
+        other: 3, first: 1,
       })
     })
   })

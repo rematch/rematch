@@ -8,6 +8,7 @@ export const patternSubscriptions = new Map()
 const triggerAllSubscriptions = (matches) => (action, matcher) => {
   // call each subscription in each model
   Object.keys(matches).forEach(modelName => {
+    // create subscription with (action, unsubscribe)
     matches[modelName](action, () => createUnsubscribe(modelName, matcher)())
   })
 }

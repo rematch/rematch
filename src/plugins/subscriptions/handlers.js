@@ -13,10 +13,16 @@ const isAction = (matcher, regex) => !!matcher.match(regex)
 
 export const onHandlers = (call: (sub: Map) => any) => (matcher: string) => {
   if (isAction(matcher, actionRegex)) {
+    // exact match on create or unsubscribe
     call(subscriptions, matcher)
   } else if (isAction(matcher, patternRegex)) {
+    // pattern match on create
     const formattedMatcher = `^${escapeRegex(matcher)}$`
     call(patternSubscriptions, formattedMatcher)
+  } else if (matcher[0] === '^') {
+    // pattern match, already formatted. Called by unsubscribe
+    // NOTE: this should probably live elsewhere
+    call(patternSubscriptions, matcher)
   } else {
     throw new Error(`Invalid subscription matcher: ${matcher}`)
   }
