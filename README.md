@@ -1,17 +1,11 @@
-<style>
-  .badges > * {
-    margin: 0 0.5rem;
-  }
-</style>
-
 # Rematch
 
 <p class='badges'>
-  <a href='https://travis-ci.org/rematch/rematch'>
+  <a href='https://travis-ci.org/rematch/rematch' style='margin: 0 0.5rem;'>
     <img src='https://travis-ci.org/rematch/rematch.svg?branch=master' alt='Build Status'/>
   </a>
 
-  <a href='https://coveralls.io/github/rematch/rematch?branch=master'>
+  <a href='https://coveralls.io/github/rematch/rematch?branch=master' style='margin: 0 0.5rem;'>
     <img src='https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master' alt='Coverage Status' />
   </a>
 </p>
