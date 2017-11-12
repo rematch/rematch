@@ -1,11 +1,11 @@
 # Inspiration
 
-Refining the ideas of [Dva](github.com/dvajs/dva) & [Mirror](https://github.com/mirrorjs/mirror). 
+Rematch refines and builds upon the ideas of [Dva](github.com/dvajs/dva) & [Mirror](https://github.com/mirrorjs/mirror). 
 
 |   | Rematch | Mirror  | Dva  |
 |---|---|---|---|
 | framework | any, none  | React  | React  |
-| router  | any, none  | RR 4  | RR3, RR4, none  |
+| router  | any, none  | RR4  | RR3, RR4, none  |
 | mobile ready  | ‎✔ | ✘ | ‎✔	|
 | devtools | Redux, Reactotron | Redux | Redux |
 | plugins | ✔ | ✔ | ✔ |
@@ -18,6 +18,8 @@ Refining the ideas of [Dva](github.com/dvajs/dva) & [Mirror](https://github.com/
 | chained dispatch | ✔ | ✔ | ✔ |
 | direct dispatch | ✔ |  |  |
 | dispatch promises | ✔ |   | ✔ |
+| loading plugin | ✔ | ✔ | ✔ |
+| persist plugin | ✔ |  |  |
 
 > Rematch?
 
