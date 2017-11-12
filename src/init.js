@@ -58,7 +58,6 @@ const init = (initConfig: $config = {}): void => {
   // merge in additional extra reducers
   initStore(config)
 
-  // postStore: onInit
   postStore(plugins)
 }
 

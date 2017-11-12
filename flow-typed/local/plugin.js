@@ -1,5 +1,5 @@
 declare type $plugin = {
-  onInit?: () => void,
+  onStoreCreated?: () => void,
   onModel?: (model: $model, dispatch: any) => void,
   model?: $model,
   middleware?: $middleware,

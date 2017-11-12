@@ -13,7 +13,7 @@ There are plenty of examples to base your next plugin on. After all, in Rematch,
 - [init](#init)
   - [onModel](#onModel)
   - [middleware](#middleware)
-  - [onInit](#onInit)
+  - [onStoreCreated](#onStoreCreated)
 
 ## config
 
@@ -106,12 +106,12 @@ Used for creating custom middleware.
 
 See examples with "effects", "loading", & "subscriptions".
 
-### onInit
+### onStoreCreated
 
 ```js
 {
   init: (expose) => ({
-    onInit(getStore) {
+    onStoreCreated(getStore) {
       // do something
     }
   })

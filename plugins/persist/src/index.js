@@ -27,7 +27,7 @@ export default (config = {}) => {
       }
     },
     init: () => ({
-      onInit(getStore) {
+      onStoreCreated(getStore) {
         // run persist store once store is available
         persistor = persistStore(getStore())
       },
