@@ -25,3 +25,6 @@ _book
 *.epub
 *.mobi
 *.pdf
+
+# examples
+*.bundle.js
