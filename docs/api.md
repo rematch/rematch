@@ -20,6 +20,8 @@
   - [devtoolOptions](#devtoolOptions)
 - [getStore](#getStore)
 
+- [pluginsAPI](./pluginsAPI)
+
 ## action
 
 `{ type: 'modelName/actionName', payload: any }`
