@@ -16,4 +16,5 @@
   - overwrite
     - combineReducers
     - createStore
+  - devtoolOptions
 - getStore
