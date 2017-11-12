@@ -1,6 +1,6 @@
 # Inspiration
 
-Rematch refines and builds upon the ideas of [Dva](github.com/dvajs/dva) & [Mirror](https://github.com/mirrorjs/mirror). 
+Rematch refines and builds upon the ideas of [Dva](github.com/dvajs/dva) & [Mirror](https://github.com/mirrorjs/mirror).
 
 |   | Rematch | Mirror  | Dva  |
 |---|---|---|---|

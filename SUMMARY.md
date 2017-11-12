@@ -2,7 +2,7 @@
 
 * [Introduction](README.md)
 * [Purpose](./docs/purpose.md)
-* [API](./docs/api.md)
+* [API Reference](./docs/api.md)
 * Recipes
   * [Devtools](./docs/recipes/devtools.md)
   * [React](./docs/recipes/react.md)

@@ -212,7 +212,7 @@ npm install @rematch/core
 
 ## API
 
-See the [full API](./docs/api.md).
+See the [API Reference](./docs/api.md).
 
 ## Plugins
 
