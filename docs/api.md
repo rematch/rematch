@@ -328,13 +328,57 @@ getStore() // store
 
 ### plugins
 
+```js
+init({
+  plugins: [loadingPlugin, persistPlugin],
+})
+```
+
+Plugins are custom sets of init configurations or internal hooks that can add features to your Rematch setup.
+
+Read more about existing [plugins](./plugins) or about how to create your own plugins using the [plugins API](./pluginsAPI).
+
 ### extraReducers
+
+```js
+init({
+  extraReducers: {
+    nav: navReducer,
+  }
+})
+```
+
+Allows passing in of reducer functions, rather than models. While not recommended, this can be used for migrating a Redux codebase or configuring different Redux extensions.
 
 ### overwrites
 
+Provides access for overwriting Redux core.
+
 #### combineReducers
+
+```js
+init({
+  overwrites: {
+    combineReducers: customCombineReducers
+  }
+})
+```
+
+Allows access to overwrite Redux's `combineReducers` method. Currently necessary for setting up Redux persist v5.
+
 
 #### createStore
 
+```js
+init({
+  overwrites: {
+    createStore: customCreateStore
+  }
+})
+```
+
+Allows access to overwrite Redux's `createStore` method. Currently necessary for setting up Reactotron with Redux.
+
 ### devtoolOptions
 
+Provides access to [redux devtool options]((https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md)) Read more about configuring devtools under [devtool recipes](./recipes/devtools).
