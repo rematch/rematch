@@ -5,5 +5,5 @@
 - init
   - onInit
   - onModel
-  - model
+  - models
   - middleware

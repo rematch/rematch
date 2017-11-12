@@ -5,12 +5,15 @@
   - state
   - reducers
   - effects
-  - subscriptions
   - selectors
+  - subscriptions
 - dispatch
 - init
+  - models
   - initialState
   - plugins
   - extraReducers
-  - customCombineReducers
+  - overwrite
+    - combineReducers
+    - createStore
 - getStore
