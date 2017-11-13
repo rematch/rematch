@@ -314,7 +314,7 @@ model({
 
 `init({ initialState: any })`
 
-The initialState of your app. This is likely not nececssary, as the state of your models will overwrite the initial state.
+The initialState of your app. This is likely not necessary, as the state of your models will overwrite the initial state.
 
 ## getStore
 
