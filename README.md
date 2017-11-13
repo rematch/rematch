@@ -46,7 +46,7 @@ dispatch({ type: 'count/addOne' }) // { count: 7 }
 dispatch({ type: 'count/addBy', payload: 5 }) // { count: 12 }
 ```
 
-### Level 2
+### Level 2:
 
 ```js
 import { init, model, getStore } from '@rematch/core'
@@ -54,20 +54,20 @@ import { init, model, getStore } from '@rematch/core'
 const todos = {
   name: 'todos',
   state: {
-    todos: {
-      1: {
-        text: 'drink coffee',
-        completed: false
-      }
+    1: {
+      text: 'drink coffee',
+      completed: false
     }
   },
   reducers: {
     addTodo: (state, payload) => {
-      state.todos[payload.id] = {
-        text: payload.text,
-        completed: false,
+      return {
+        ...state,
+        [payload.id]: {
+          text: payload.text,
+          completed: false,
+        }
       }
-      return state
     }
   },
   effects: {
@@ -81,7 +81,7 @@ const todos = {
   },
   selectors: {
     getCompletedIds: state => {
-      return Object.keys(state).filter(id => state.todos[id].completed)
+      return Object.keys(state).filter(id => state[id].completed)
     }
   },
 }
@@ -108,6 +108,7 @@ See the [API Reference](./docs/api.md).
 
 - [loading](./plugins/loading)
 - [persist](./plugins/persist)
+- [react-navigation](./plugins/react-navigation)
 
 ## Inspiration
 

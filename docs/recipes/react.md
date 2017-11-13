@@ -27,3 +27,22 @@ export default connect(mapToProps)(Counter)
 There is no longer a need for using `mapDispatchToProps` when using `connect`, as `mapStateToProps` can be hijacked to handle everything you need. 
 
 Also note that it's recommended you keep your `dispatch` statements outside components. This keeps your components pure for testing. 
+
+---
+
+Use `getStore` to setup your React-Redux Provider.
+
+```js
+import React from 'react'
+import { Provider } from 'react-redux'
+import { getStore } from '@rematch/core'
+import App from './App'
+
+init()
+
+export default () => (
+  <Provider store={getStore()}>
+    <App />
+  </Provider>
+)
+```
