@@ -38,7 +38,7 @@ See "persist" as an example.
 
 `{ expose: { [string]: any } }`
 
-A shared object for plugins to communicate with eachother.
+A shared object for plugins to communicate with each other.
 
 ```js
 // example from select plugin
