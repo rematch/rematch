@@ -41,13 +41,17 @@ Note: unfortunately this package has build issues when referencing `react-naviga
 
 ```js
 // index.js
-import { init, getStore } from '@rematch/core'
+import { init, dispatch, getStore } from '@rematch/core'
 import createReactNavigation from '@rematch/react-navigation'
 import * as ReactNavigation from 'react-navigation'
 import Routes from './Routes'
 
 // add react navigation with redux
-const { Navigator, reactNavigationPlugin } = createReactNavigation(ReactNavigation, Routes, 'Landing')
+const { Navigator, reactNavigationPlugin } = createReactNavigation({
+  ReactNavigation,
+  Routes,
+  initialScreen: 'Landing'
+})
 
 init({
   plugins: [reactNavigationPlugin],

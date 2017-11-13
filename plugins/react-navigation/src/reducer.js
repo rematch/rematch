@@ -1,4 +1,4 @@
-export const createNavReducer = (Routes, initialScreen) => {
+export const createNavReducer = ({ Routes, initialScreen }) => {
   const actionForPath = Routes.router.getActionForPathAndParams(initialScreen)
   const initialState = Routes.router.getStateForAction(actionForPath)
   const navReducer = (state = initialState, action) => {

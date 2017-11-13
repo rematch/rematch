@@ -7,7 +7,7 @@ type Props = {
  nav: any,
 }
 
-export const createNavigator = (Routes, ReactNavigation) => {
+export const createNavigator = ({ Routes, ReactNavigation }) => {
   const Navigator = ({ dispatch, nav }: Props) => (
     <Routes navigation={ReactNavigation.addNavigationHelpers({
         dispatch,
