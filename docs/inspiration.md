@@ -21,10 +21,6 @@ Rematch refines and builds upon the ideas of [Dva](github.com/dvajs/dva) & [Mirr
 | loading plugin | ✔ | ✔ | ✔ |
 | persist plugin | ✔ |  |  |
 
-> Rematch?
-
-We think we've made a few significant improvements:
-
 ### Easier to Migrate From Redux
 
 Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. You can continue to use your current reducers, passed in to `init` as `extraReducers`. You can also use `dispatch(action)` directly to trigger actions.
