@@ -1,12 +1,16 @@
 # Rematch
 
-<p class='badges'>
+<p>
   <a href='https://travis-ci.org/rematch/rematch' style='margin: 0 0.5rem;'>
     <img src='https://travis-ci.org/rematch/rematch.svg?branch=master' alt='Build Status'/>
   </a>
 
   <a href='https://coveralls.io/github/rematch/rematch?branch=master&service=github' style='margin: 0 0.5rem;'>
     <img src='https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master&service=github' alt='Coverage Status' />
+  </a>
+
+  <a href='https://badge.fury.io/js/%40rematch%2Fcore' style='margin: 0 0.5rem;'>
+    <img src='https://badge.fury.io/js/%40rematch%2Fcore.svg' alt='npm version' height='18'>
   </a>
 </p>
 
