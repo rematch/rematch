@@ -120,7 +120,7 @@ connect(mapStateToProps, mapDispatchToProps)(Component)
 | configurable | ‎✔  |  ‎✔	 |
 | redux devtools  | ‎✔  |  ‎✔	 |
 | generated action creators | ‎  |  ‎✔	 |
-| global dispatch | ‎✔  |  ‎✔	 |
+| generated dispatchers | ‎  |  ‎✔	 |
 | selectors | ‎  |  ‎✔	 |
 | action listeners | custom ‎middleware  |  ‎✔	 |
 | async | thunks | ‎async/await  |
