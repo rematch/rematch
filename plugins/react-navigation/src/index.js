@@ -1,17 +1,25 @@
 import { createNavigator } from './Navigator'
 import { createNavReducer } from './reducer'
-import { createNavigationDispatch } from './dispatch'
 
-export default (ReactNavigation, Routes, initialScreen = 'Landing') => {
-  createNavigationDispatch(ReactNavigation)
-  return {
-    Navigator: createNavigator(Routes, ReactNavigation),
-    reactNavigationPlugin: {
-      config: {
-        extraReducers: {
-          nav: createNavReducer(Routes, initialScreen),
-        }
+export default ({
+  ReactNavigation, Routes, initialScreen
+}) => ({
+  Navigator: createNavigator({ Routes, ReactNavigation }),
+  reactNavigationPlugin: {
+    config: {
+      extraReducers: {
+        nav: createNavReducer(Routes, initialScreen),
       }
-    }
+    },
+    init: ({ dispatch }) => ({
+      onStoreCreated() {
+        const { NavigationActions } = ReactNavigation
+        dispatch.nav = {}
+        dispatch.nav.navigate = (action) => dispatch(NavigationActions.navigate(action))
+        dispatch.nav.reset = (action) => dispatch(NavigationActions.reset(action))
+        dispatch.nav.back = (action) => dispatch(NavigationActions.back(action))
+        dispatch.nav.setParams = (action) => dispatch(NavigationActions.setParams(action))
+      }
+    })
   }
-}
+})
