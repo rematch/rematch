@@ -1,0 +1,19 @@
+{
+  "gitbook": "3.2.2",
+  "title": "Rematch",
+  "plugins": ["edit-link", "prism", "-highlight", "github"],
+  "pluginsConfig": {
+    "edit-link": {
+      "base": "https://github.com/rematch/rematch/tree/master",
+      "label": "Edit This Page"
+    },
+    "github": {
+      "url": "https://github.com/rematch/rematch/"
+    },
+    "prism": {
+      "css": [
+        "prismjs/themes/prism-tomorrow.css"
+      ]
+    }
+  }
+}
