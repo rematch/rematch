@@ -3,13 +3,11 @@
 build_production () {
   npm install
   mkdir -p lib
-  webpack --env build
+  npm run build
 }
 
 build_plugin () {
   echo 'Building ' $1
-  cp ./.babelrc ./$1/.babelrc
-  cp ./.npmignore ./$1/.npmignore
   cd $1
   build_production
   cd ../..

@@ -31,20 +31,22 @@ export default {
           dispatch[model.name][effectName].isEffect = true
         })
       },
-      middleware: (store: $store) => (next: (action: $action) => any) => async (action: $action) => {
-      // async/await acts as promise middleware
-        let result
-        if (action.type in effects) {
-          // NOTE: if possible, bind getState to exposeToEffects outside middleware
-          result = await effects[action.type](action.payload, {
-            ...exposeToEffects,
-            getState: store.getState,
-          })
-        } else {
-          result = await next(action)
-        }
-        return result
-      }
+      middleware: (store: $store) =>
+        (next: (action: $action) => any) =>
+          async (action: $action) => {
+          // async/await acts as promise middleware
+            let result
+            if (action.type in effects) {
+              // NOTE: if possible, bind getState to exposeToEffects outside middleware
+              result = await effects[action.type](action.payload, {
+                ...exposeToEffects,
+                getState: store.getState,
+              })
+            } else {
+              result = await next(action)
+            }
+            return result
+          }
     }
   }
 }

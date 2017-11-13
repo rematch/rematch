@@ -20,7 +20,7 @@
   ],
   "main": "lib/index.min.js",
   "scripts": {
-    "test": "jest"
+    "build": "webpack --env build"
   },
   "peerDependencies": {
     "@rematch/core": "^0.1.0-alpha.12"

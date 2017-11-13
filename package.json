@@ -25,7 +25,9 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "bash ./scripts/build.sh",
+    "install:all": "bash ./scripts/install.sh",
+    "build:all": "bash ./scripts/build.sh",
+    "build": "webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
     "lint": "eslint ./src",
     "test": "jest"

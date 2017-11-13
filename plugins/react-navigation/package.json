@@ -20,8 +20,7 @@
   "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
   "main": "lib/index.min.js",
   "scripts": {
-    "build": "webpack -p",
-    "prebuild": "mv ./node_modules/react-navigation/lib/PlatformHelpers.native.js ./node_modules/react-navigation/lib/PlatformHelpers.js"
+    "build": "webpack --env build"
   },
   "devDependencies": {
     "@rematch/core": "0.1.0-alpha.12",
