@@ -8,7 +8,7 @@ export default ({
   reactNavigationPlugin: {
     config: {
       extraReducers: {
-        nav: createNavReducer(Routes, initialScreen),
+        nav: createNavReducer({ Routes, initialScreen }),
       }
     },
     init: ({ dispatch }) => ({
