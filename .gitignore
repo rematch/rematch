@@ -12,11 +12,6 @@ lib
 # tests
 .coverage
 
-# plugins
-plugins/*/.babelrc
-plugins/*/.npmignore
-plugins/*/webpack.config.js
-
 # release
 .release-it.json
 

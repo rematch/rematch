@@ -72,6 +72,10 @@
         "lines": 100,
         "statements": 100
       }
-    }
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/plugins/react-navigation/"
+    ]
   }
 }

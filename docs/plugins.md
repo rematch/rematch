@@ -1,7 +1,7 @@
 # Plugins
 
-### Loading Plugin
-- [loading](./plugins/loading)
+### [Loading Plugin](./plugins/loading)
 
-### Persist Plugin
-- [persist](./plugins/persist)
+### [Persist Plugin](./plugins/persist)
+
+### [React Navigation Plugin](./plugins/react-navigation)

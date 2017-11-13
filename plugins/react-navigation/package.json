@@ -1,0 +1,61 @@
+{
+  "name": "@rematch/react-navigation",
+  "version": "0.1.0",
+  "description": "React Navigation plugin for Rematch",
+  "keywords": [
+    "@rematch",
+    "plugin",
+    "react-navigation",
+    "redux",
+    "rematch"
+  ],
+  "homepage": "https://github.com/rematch/rematch/tree/master/plugins/reactNavigation#readme",
+  "bugs": {
+    "url": "git+https://github.com/rematch/rematch/issues"
+  },
+  "files": [
+    "lib"
+  ],
+  "license": "ISC",
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
+  "main": "lib/index.min.js",
+  "scripts": {
+    "build": "webpack -p",
+    "prebuild": "mv ./node_modules/react-navigation/lib/PlatformHelpers.native.js ./node_modules/react-navigation/lib/PlatformHelpers.js"
+  },
+  "devDependencies": {
+    "@rematch/core": "0.1.0-alpha.12",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-flowtype": "^2.39.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.2.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "flow-bin": "^0.59.0",
+    "jest": "^21.2.1",
+    "react": "^16.1.0",
+    "react-redux": "^5.0.6",
+    "webpack": "^3.8.1",
+    "yargs": "^10.0.3"
+  },
+  "peerDependencies": {
+    "@rematch/core": "^0.1.0-alpha.12",
+    "react": "*",
+    "react-native": "*",
+    "react-navigation": "*",
+    "react-redux": "*"
+  }
+}
