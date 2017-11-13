@@ -11,9 +11,9 @@ There are plenty of examples to base your next plugin on. After all, in Rematch,
 - [expose](#expose)
 - [models](#models)
 - [init](#init)
-  - [onModel](#onModel)
+  - [onModel](#onmodel)
   - [middleware](#middleware)
-  - [onStoreCreated](#onStoreCreated)
+  - [onStoreCreated](#onstorecreated)
 
 ## config
 

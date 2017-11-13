@@ -13,14 +13,14 @@
   - [models](#models)
   - [initialState](#initialState)
   - [plugins](#plugins)
-  - [extraReducers](#extraReducers)
+  - [extraReducers](#extrareducers)
   - [overwrites](#overwrites)
-    - [combineReducers](#combineReducers)
-    - [createStore](#createStore)
-  - [devtoolOptions](#devtoolOptions)
-- [getStore](#getStore)
+    - [combineReducers](#combinereducers)
+    - [createStore](#createstore)
+  - [devtoolOptions](#devtooloptions)
+- [getStore](#getstore)
 
-- [pluginsAPI](./pluginsAPI)
+- [pluginsAPI](./pluginsApi.md)
 
 ## action
 
