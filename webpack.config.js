@@ -25,7 +25,7 @@ if (env === 'build') {
 }
 
 const config = {
-  entry: ['babel-polyfill', `${__dirname}/src/index.js`],
+  entry: `${__dirname}/src/index.js`,
   devtool: 'source-map',
   output: {
     path: `${__dirname}/lib`,
@@ -38,7 +38,7 @@ const config = {
       {
         test: /(\.jsx|\.js)$/,
         loader: 'babel-loader!eslint-loader',
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
       },
     ],
   },

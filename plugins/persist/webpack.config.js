@@ -37,7 +37,7 @@ const config = {
       {
         test: /(\.jsx|\.js)$/,
         loader: 'babel-loader!eslint-loader',
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
       },
     ],
   },

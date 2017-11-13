@@ -2,6 +2,6 @@ language: node_js
 node_js:
   - "stable"
 before_install:
-  - sh ./scripts/install.sh
+  - npm run install:all
 after_script:
   - coveralls < .coverage/lcov.info
