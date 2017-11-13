@@ -124,6 +124,3 @@ connect(mapStateToProps, mapDispatchToProps)(Component)
 | selectors | ‎  |  ‎✔	 |
 | action listeners | custom ‎middleware  |  ‎✔	 |
 | async | thunks | ‎async/await  |
-
-
-> Rematch?
