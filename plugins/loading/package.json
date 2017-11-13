@@ -1,6 +1,6 @@
 {
   "name": "@rematch/loading",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Loading indicator plugin for Rematch",
   "keywords": [
     "@rematch",
@@ -21,6 +21,9 @@
   "main": "lib/index.min.js",
   "scripts": {
     "test": "jest"
+  },
+  "peerDependencies": {
+    "@rematch/core": "^0.1.0-alpha.12"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
