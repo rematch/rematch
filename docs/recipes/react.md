@@ -1,8 +1,8 @@
 # React
 
-Moving from plain old Redux to Rematch involves no changes with your components.
+Moving from plain old Redux with React to Rematch is easy. It really involves no necessary changes with your components.
 
-However, you may choose to simplify your connect statements. See an example below:
+However, you may choose to simplify your `connect` statements. See an example below:
 
 ```js
 import React from 'react'
@@ -24,6 +24,6 @@ const mapToProps = (state, ownProps) => ({
 export default connect(mapToProps)(Counter)
 ```
 
-There is no longer a need for using `mapDispatchToProps` when using `connect`. `mapStateToProps` can be hijacked to handle everything you need. 
+There is no longer a need for using `mapDispatchToProps` when using `connect`, as `mapStateToProps` can be hijacked to handle everything you need. 
 
-Also note that it's recommended you keep your `dispatch` statements outside of the component. This keeps components pure for testing. 
+Also note that it's recommended you keep your `dispatch` statements outside components. This keeps your components pure for testing. 

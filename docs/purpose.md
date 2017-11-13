@@ -14,11 +14,11 @@ To clarify, Rematch removes the need for:
 
 ## Comparing Redux & Rematch
 
-A comparison of Rematch & Redux may help clears things up.
+A comparison of Rematch & Redux may help clear things up.
 
 ### Rematch
 
-##### model
+##### 1. model
 ```js
 import { init } from '@rematch/core'
 
@@ -36,7 +36,7 @@ init({
 
 ```
 
-##### view
+##### 2. view
 ```js
 import { dispatch } from '@rematch/core'
 import { connect } from 'react-redux'
@@ -53,12 +53,19 @@ connect(mapToProps)(Component)
 
 ### Redux (best practices)
 
-##### Action Type
+##### 1. Store
+```js
+import { createStore, combineReducers } from 'redux'
+// devtools, reducers, middleware, etc.
+export default createStore(reducers, initialState, enhancers)
+```
+
+##### 2. Action Type
 ```js
 export const COUNT_UP_BY = 'COUNT_UP_BY'
 ```
 
-##### Action Creator
+##### 3. Action Creator
 ```js
 import { COUNT_UP_BY } from '../types/counter'
 
@@ -68,7 +75,7 @@ export const countUpBy = (value) => ({
 })
 ```
 
-##### Reducer
+##### 4. Reducer
 ```js
 import { COUNT_UP_BY } from '../types/counter'
 
@@ -83,14 +90,7 @@ export default (state = initialState, action) => {
 }
 ```
 
-##### Store
-```js
-import { createStore, combineReducers } from 'redux'
-// devtools, reducers, middleware, etc.
-export default createStore(reducers, initialState, enhancers)
-```
-
-##### View
+##### 5. View
 ```js
 import { countUpBy } from '../actions/count'
 import { connect } from 'react-redux'
