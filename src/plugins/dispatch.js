@@ -14,7 +14,7 @@ export default {
       }
   },
   init: ({ dispatch, createDispatcher, validate }) => ({
-    onInit(getStore) {
+    onStoreCreated(getStore) {
       storeDispatch = getStore().dispatch
     },
     onModel(model: $model) {

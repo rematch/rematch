@@ -3,8 +3,8 @@ export default (plugins: $pluginCreator[], exposed) => plugins.reduce((all, { in
     const plugin = init(exposed)
     exposed.validate([
       [
-        plugin.onInit && typeof plugin.onInit !== 'function',
-        'Plugin onInit must be a function'
+        plugin.onStoreCreated && typeof plugin.onStoreCreated !== 'function',
+        'Plugin onStoreCreated must be a function'
       ],
       [
         plugin.onModel && typeof plugin.onModel !== 'function',

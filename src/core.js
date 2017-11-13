@@ -17,8 +17,8 @@ export const preStore = (plugins) => {
 
 export const postStore = (plugins) => {
   plugins.forEach((plugin) => {
-    if (plugin.onInit) {
-      plugin.onInit(getStore)
+    if (plugin.onStoreCreated) {
+      plugin.onStoreCreated(getStore)
     }
   })
 }

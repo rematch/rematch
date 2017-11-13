@@ -5,8 +5,8 @@
     <img src='https://travis-ci.org/rematch/rematch.svg?branch=master' alt='Build Status'/>
   </a>
 
-  <a href='https://coveralls.io/github/rematch/rematch?branch=master' style='margin: 0 0.5rem;'>
-    <img src='https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master' alt='Coverage Status' />
+  <a href='https://coveralls.io/github/rematch/rematch?branch=master&service=github' style='margin: 0 0.5rem;'>
+    <img src='https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master&service=github' alt='Coverage Status' />
   </a>
 </p>
 
@@ -212,22 +212,7 @@ npm install @rematch/core
 
 ## API
 
-- init
-  - models
-  - plugins
-  - extraReducers
-  - overwrites
-    - combineReducers
-    - createStore
-- model
-  - name
-  - state
-  - reducers
-  - effects
-  - subscriptions
-  - selectors
-- dispatch
-- getStore
+See the [API Reference](./docs/api.md).
 
 ## Plugins
 
@@ -236,16 +221,4 @@ npm install @rematch/core
 
 ## Inspiration
 
-Refining the ideas of [Dva](github.com/dvajs/dva) & [Mirror](https://github.com/mirrorjs/mirror). We think we've made a few significant improvements:
-
-##### State only, no View or Router Opinion
-
-Rematch is not bound to any specific router, view library or framework. It can be used with React, Vue, etc., or any combination of view libraries.
-
-##### Easier to Migrate Codebase
-
-Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. You can continue to use your current reducers, passed in to `init` as `extraReducers`. You can also use `dispatch(action)` directly to trigger actions.
-
-##### Composable Plugins
-
-Rematch and its internals are all built upon a plugin pipeline. Everything from dispatch to selectors is a plugin. As a result, developers can make complex custom plugins that modify the setup or add to the `model`, often without requiring any changes to Rematch itself.
+Refining the ideas of [Dva](github.com/dvajs/dva) & [Mirror](https://github.com/mirrorjs/mirror). Read more about what makes rematch different [here](./docs/inspiration.md).
