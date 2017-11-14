@@ -6,9 +6,7 @@ Better README coming soon... For now here's the example:
 import React from 'react'
 import { render } from 'react-dom'
 import Rematch from '@rematch/core'
-import { useReact, connect, RematchReact } from '@rematch/react'
-
-useReact(Rematch)
+import RematchReact, { connect, Provider } from '@rematch/react'
 
 Rematch.init({
   models: {
@@ -25,12 +23,14 @@ Rematch.init({
   }
 })
 
+RematchReact.init(Rematch)
+
 const Component = ({user, count}) => (
   <ul>
     <li>Welcome, {user.state.name} from {user.state.location}</li>
     <li>The count is {count.state}</li>
     <li>The count doubled is {count.select.double()}</li>
-    <li><button onClick={() => count.dispatch.up()}>count Up</button></li>
+    <li><button onClick={() => count.dispatch.up()}>count up</button></li>
   </ul>
 )
 
@@ -40,9 +40,9 @@ const Container = connect(['user', 'count'], ({user, count}) => ({
 }))(Component)
 
 render(
-  <RematchReact>
+  <Provider>
     <Container />
-  </RematchReact>,
+  </Provider>,
   document.getElementById('root')
 )
 ```

@@ -5,7 +5,7 @@ let dispatch = null
 let select = null
 let getStore = null
 
-const useReact = Rematch => {
+const init = Rematch => {
   dispatch = Rematch.dispatch
   select = Rematch.select
   getStore = Rematch.getStore
@@ -35,15 +35,21 @@ const connectRematch = (modelNames, mapToProps) => Component => {
   return connect(state => mapToProps(processModels(state)))(Component)
 }
 
-const RematchReact = props => (
+const RematchReactProvider = props => (
   <Provider store={getStore()}>
     {props.children}
   </Provider>
 )
 
+export default {
+  init,
+  Provider: RematchReactProvider,
+  connect: connectRematch
+}
+
 export {
-  useReact,
-  RematchReact,
+  init,
+  RematchReactProvider as Provider,
   connectRematch as connect
 }
 
