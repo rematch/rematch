@@ -9,5 +9,6 @@
 * Plugins
   * [Loading](./plugins/loading/README.md)
   * [Persist](./plugins/persist/README.md)
+  * [React Navigation](./plugins/react-navigation/README.md)
   * [Plugins API](./docs/pluginsApi.md)
 * [Inspiration](./docs/inspiration.md)
