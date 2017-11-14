@@ -1,0 +1,17 @@
+{
+  "name": "rematch-react-example",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@rematch/core": "file:../../../..",
+    "@rematch/react": "file:../..",
+    "react-scripts": "^1.0.17",
+    "react": "^16.1.0",
+    "react-dom": "^16.1.0"
+  },
+  "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "start": "react-scripts start"
+  }
+}
