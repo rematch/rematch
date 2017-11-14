@@ -1,4 +1,4 @@
-install_plugin_deps () {
+install_deps () {
   npm --prefix ./$1 install ./$1
 }
 
@@ -6,5 +6,12 @@ echo 'installing plugin dependencies'
 
 for plugin in 'plugins'/*
 do
- install_plugin_deps $plugin
+ install_deps $plugin
+done
+
+echo 'installing package dependencies'
+
+for package in 'packages'/*
+do
+ install_deps $package
 done
