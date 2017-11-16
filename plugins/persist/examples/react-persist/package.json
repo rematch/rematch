@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@rematch/core": "file:../../../..",
+    "@rematch/core": "^0.1.0-alpha.12",
     "@rematch/persist": "file:../..",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

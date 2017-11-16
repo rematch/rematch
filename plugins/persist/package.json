@@ -26,10 +26,9 @@
     "@rematch/core": "^0.1.0-alpha.12"
   },
   "dependencies": {
-    "redux-persist": "^5.3.3"
+    "redux-persist": "^5.3.5"
   },
   "devDependencies": {
-    "redux": "^3.7.2",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.2",
     "babel-loader": "^7.1.2",
@@ -49,6 +48,7 @@
     "eslint-plugin-react": "^7.4.0",
     "flow-bin": "^0.59.0",
     "jest": "^21.2.1",
+    "redux": "^3.7.2",
     "webpack": "^3.8.1",
     "yargs": "^10.0.3"
   }

@@ -75,8 +75,12 @@
       }
     },
     "coveragePathIgnorePatterns": [
+      "/_book/",
       "/node_modules/",
       "/plugins/react-navigation/"
+    ],
+    "testPathIgnorePatterns": [
+      "/_book/"
     ]
   }
 }

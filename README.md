@@ -1,5 +1,4 @@
-#
-Rematch
+# Rematch
 
 <p>
 <a href='https://travis-ci.org/rematch/rematch' style='margin: 0 0.5rem;'>
