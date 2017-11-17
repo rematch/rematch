@@ -178,7 +178,7 @@ import { createSelector } from 'reselect'
 
 ### subscriptions
 
-`subscriptions: { [string]: (action, unsubscribe) => any }`
+`subscriptions: { [string]: (action, { dispatch, select, getState }, unsubscribe) => any }`
 
 Subscriptions are way for models to listen to changes in the app. 
 
@@ -190,7 +190,7 @@ Subscriptions are way for models to listen to changes in the app.
     set: (payload) => payload
   },
   subscriptions: {
-    'profile/load': (action) => {
+    'profile/load': (action, { dispatch }) => {
       dispatch.settings.set(action.payload)
     }
   }
@@ -209,7 +209,7 @@ Use `unsubscribe` if you'd like an action to fire only once.
     set: (payload) => payload
   },
   subscriptions: {
-    'profile/load': (action, unsubscribe) => {
+    'profile/load': (action, { dispatch }, unsubscribe) => {
       dispatch.settings.set(action.payload)
       unsubscribe()
     }

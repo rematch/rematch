@@ -176,8 +176,9 @@ const profile = {
     userId: null,
   },
   subscriptions: {
-    'auth/login': (action, unsubscribe) => {
+    'auth/login': (action, { dispatch }, unsubscribe) => {
       dispatch.profile.loadProfile()
+      unsubscribe()
     }
   }
 }

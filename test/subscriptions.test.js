@@ -280,6 +280,32 @@ describe('subscriptions:', () => {
       expect(createModel).toThrow()
     })
   })
+  
+  test('should have access to exposed from second param', () => {
+    const {
+      init, dispatch, getStore
+    } = require('../src')
+    const first = {
+      name: 'first',
+      ...common,
+      subscriptions: {
+        'second/addOne': (action, { dispatch }) => dispatch.first.addOne(),
+      }
+    }
+    const second = {
+      name: 'second',
+      ...common,
+    }
+    init({
+      models: { first, second }
+    })
+
+    dispatch.second.addOne()
+
+    expect(getStore().getState()).toEqual({
+      second: 1, first: 1,
+    })
+  })
 
   describe('unsubscribe:', () => {
     test('a matched action', () => {
@@ -426,7 +452,7 @@ describe('subscriptions:', () => {
         name: 'first',
         ...common,
         subscriptions: {
-          'second/addOne': (action, unsubscribe) => {
+          'second/addOne': (action, exposed, unsubscribe) => {
             dispatch.first.addOne()
             unsubscribe()
           },
@@ -457,7 +483,7 @@ describe('subscriptions:', () => {
         name: 'first',
         ...common,
         subscriptions: {
-          'other/*': (action, unsubscribe) => {
+          'other/*': (action, exposed, unsubscribe) => {
             dispatch.first.addOne()
             unsubscribe()
           },
