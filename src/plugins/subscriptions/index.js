@@ -6,7 +6,9 @@ export const subscriptions = new Map()
 export const patternSubscriptions = new Map()
 
 export default {
-  init: ({ validate, dispatch, select, getState }) => {
+  init: ({
+    validate, dispatch, select, getState
+  }) => {
     const exposed = { dispatch, select, getState }
     const triggerAllSubscriptions = (matches) => (action, matcher) => {
       // call each subscription in each model
