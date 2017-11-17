@@ -8,7 +8,7 @@
     "rematch",
     "react"
   ],
-  "homepage": "https://github.com/rematch/rematch/tree/master/packages/react#readme",
+  "homepage": "https://github.com/rematch/rematch/tree/master/experiments/react#readme",
   "bugs": {
     "url": "git+https://github.com/rematch/rematch/issues"
   },

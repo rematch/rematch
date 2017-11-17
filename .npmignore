@@ -1,7 +1,7 @@
 # directories
 src
 plugins
-packages
+experiments
 flow-typed
 test
 examples

@@ -9,9 +9,9 @@ do
  install_deps $plugin
 done
 
-echo 'installing package dependencies'
+echo 'installing experiment dependencies'
 
-for package in 'packages'/*
+for experiment in 'experiments'/*
 do
- install_deps $package
+ install_deps $experiment
 done

@@ -13,7 +13,7 @@ build_plugin () {
   cd ../..
 }
 
-build_package () {
+build_experiment () {
   echo 'Building ' $1
   cd $1
   build_production
@@ -37,10 +37,10 @@ do
   build_plugin $plugin
 done
 
-# build all packages
-for package in 'packages'/*
+# build all experiments
+for experiment in 'experiments'/*
 do
-  build_package $package
+  build_experiment $experiment
 done
 
 echo 'Done!'
