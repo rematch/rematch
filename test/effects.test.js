@@ -40,31 +40,7 @@ describe('effects:', () => {
     expect(value).toBe(5)
   })
 
-  test('second param should contain dispatch', () => {
-    const {
-      model, init, getStore, dispatch
-    } = require('../src')
-    init()
-
-    model({
-      name: 'count',
-      state: 0,
-      reducers: {
-        call: s => s + 1
-      },
-      effects: {
-        makeCall: (payload, { dispatch }) => {
-          dispatch.count.call()
-        },
-      },
-    })
-
-    dispatch.count.makeCall()
-
-    expect(getStore().getState().count).toBe(1)
-  })
-
-  test('second param should contain getState', () => {
+  test('second param should contain state', () => {
     const {
       model, init, getStore, dispatch
     } = require('../src')
@@ -77,8 +53,8 @@ describe('effects:', () => {
         add: (s, p) => s + p
       },
       effects: {
-        makeCall: (payload, { getState }) => {
-          const { count } = getState()
+        makeCall: (payload, state) => {
+          const { count } = state
           dispatch.count.add(count + 1)
         },
       },

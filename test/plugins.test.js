@@ -37,9 +37,13 @@ describe('plugins:', () => {
       state: 0,
     }
     init({
-      plugins: [{ init: () => ({ models: {
-        a,
-      } }) }]
+      plugins: [{
+        init: () => ({
+          models: {
+            a,
+          }
+        })
+      }]
     })
     expect(getStore().getState()).toEqual({ a: 0 })
   })
@@ -55,9 +59,13 @@ describe('plugins:', () => {
       state: 0,
     }
     init({
-      plugins: [{ init: () => ({ models: {
-        a, b
-      } }) }]
+      plugins: [{
+        init: () => ({
+          models: {
+            a, b
+          }
+        })
+      }]
     })
     expect(getStore().getState()).toEqual({ a: 0, b: 0 })
   })
