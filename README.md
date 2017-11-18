@@ -100,6 +100,8 @@ How do I handle async actions? **effects**
 #### Level 2: Effects
 
 ```js
+import { dispatch } from '@rematch/core'
+
 const auth = {
   name: 'auth',
   state: {
@@ -111,7 +113,7 @@ const auth = {
     },
   },
   effects: {
-    async login(payload, { dispatch ) {
+    async login(payload, state) {
       const token = await fetch('somesite.com', {
         body: {
           email: payload.email,
@@ -170,13 +172,15 @@ Subscriptions provide an easy way to listen for different dispatched actions. Th
 #### Level 4: Subscriptions
 
 ```js
+import { dispatch } from '@rematch/core'
+
 const profile = {
   name: 'profile',
   state: {
     userId: null,
   },
   subscriptions: {
-    'auth/login': (action, { dispatch }, unsubscribe) => {
+    'auth/login': (action, state, unsubscribe) => {
       dispatch.profile.loadProfile()
       unsubscribe()
     }

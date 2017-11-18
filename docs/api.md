@@ -100,15 +100,14 @@ An object of pure named pure functions that can change state.
 
 ### effects
 
-`effects: { [string]: (payload, { getState, dispatch, select }) }`
+`effects: { [string]: (payload, state) }`
 
 An object of functions that can handle the world outside of the model. 
 
 ```js
 {
   effects: {
-    logState(payload, { getState }) {
-      const state = getState()
+    logState(payload, state) {
       console.log(state)
     }
   }
@@ -120,7 +119,7 @@ Effects provide a simple way of handling async actions when used with `async/awa
 ```js
 {
   effects: {
-    async loadData(payload, { dispatch }) {
+    async loadData(payload, state) {
       // wait for data to load
       const response = await fetch('http://example.com/data')
       const data = response.json()
@@ -178,7 +177,7 @@ import { createSelector } from 'reselect'
 
 ### subscriptions
 
-`subscriptions: { [string]: (action, { dispatch, select, getState }, unsubscribe) => any }`
+`subscriptions: { [string]: (action, state, unsubscribe) => any }`
 
 Subscriptions are way for models to listen to changes in the app. 
 
@@ -190,7 +189,7 @@ Subscriptions are way for models to listen to changes in the app.
     set: (payload) => payload
   },
   subscriptions: {
-    'profile/load': (action, { dispatch }) => {
+    'profile/load': (action, state, unsubscribe) => {
       dispatch.settings.set(action.payload)
     }
   }
@@ -209,7 +208,7 @@ Use `unsubscribe` if you'd like an action to fire only once.
     set: (payload) => payload
   },
   subscriptions: {
-    'profile/load': (action, { dispatch }, unsubscribe) => {
+    'profile/load': (action, state, unsubscribe) => {
       dispatch.settings.set(action.payload)
       unsubscribe()
     }
