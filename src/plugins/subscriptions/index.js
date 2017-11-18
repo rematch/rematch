@@ -5,19 +5,23 @@ import { createUnsubscribe } from './unsubscribe'
 export const subscriptions = new Map()
 export const patternSubscriptions = new Map()
 
+let localGetState
+
 export default {
   init: ({
-    validate, dispatch, select, getState
+    validate
   }) => {
-    const exposed = { dispatch, select, getState }
     const triggerAllSubscriptions = (matches) => (action, matcher) => {
       // call each subscription in each model
       Object.keys(matches).forEach(modelName => {
         // create subscription with (action, unsubscribe)
-        matches[modelName](action, exposed, () => createUnsubscribe(modelName, matcher)())
+        matches[modelName](action, localGetState(), () => createUnsubscribe(modelName, matcher)())
       })
     }
     return {
+      onStoreCreated(getStore) {
+        localGetState = getStore().getState
+      },
       onModel(model: $model) {
         // a list of actions is only necessary
         // to create warnings for invalid subscription names

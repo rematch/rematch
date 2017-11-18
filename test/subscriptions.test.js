@@ -280,16 +280,21 @@ describe('subscriptions:', () => {
       expect(createModel).toThrow()
     })
   })
-  
-  test('should have access to exposed from second param', () => {
+
+  test('should have access to state from second param', () => {
     const {
       init, dispatch, getStore
     } = require('../src')
     const first = {
       name: 'first',
-      ...common,
+      state: 3,
+      reducers: {
+        addBy: (state, payload) => state + payload
+      },
       subscriptions: {
-        'second/addOne': (action, { dispatch }) => dispatch.first.addOne(),
+        'second/addOne': (action, state) => {
+          dispatch.first.addBy(state.first)
+        },
       }
     }
     const second = {
@@ -303,7 +308,7 @@ describe('subscriptions:', () => {
     dispatch.second.addOne()
 
     expect(getStore().getState()).toEqual({
-      second: 1, first: 1,
+      second: 1, first: 6,
     })
   })
 
