@@ -1,27 +1,27 @@
 {
-  "name": "@rematch/loading",
-  "version": "0.1.4",
-  "description": "Loading indicator plugin for Rematch",
-  "keywords": [
-    "@rematch",
-    "redux",
-    "rematch",
-    "plugin",
-    "loading"
-  ],
-  "homepage": "https://github.com/rematch/rematch/tree/master/plugins/loading#readme",
-  "bugs": {
-    "url": "git+https://github.com/rematch/rematch/issues"
-  },
-  "license": "ISC",
-  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
-  "files": [
-    "lib"
-  ],
-  "main": "lib/index.min.js",
+  "name": "@rematch/updated",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/index.js",
   "scripts": {
-    "build": "webpack --env build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  },
+  "keywords": [
+    "rematch",
+    "updated",
+    "plugins",
+    "@rematch"
+  ],
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rematch/rematch/issues"
+  },
+  "homepage": "https://github.com/rematch/rematch#readme",
   "peerDependencies": {
     "@rematch/core": "^0.1.0-beta.1"
   },
