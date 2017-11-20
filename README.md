@@ -45,8 +45,6 @@ When you build your apps, you are designing these models. To design these models
 2. What does it's initial state look like? **state**
 3. In which ways do I change the state? **reducers**
 
-#### Level 1
-
 ```js
 import { init } from '@rematch/core'
 
@@ -97,8 +95,6 @@ Not all actions are the same. In fact, categorizing actions by their purpose ena
 How do I change the state? **reducers**
 How do I handle async actions? **effects**
 
-#### Level 2: Effects
-
 ```js
 import { dispatch } from '@rematch/core'
 
@@ -129,71 +125,12 @@ const auth = {
 Note that effects are dispatched in the same way as reducers.
 
 
-### Select
-
-Once you've implemented your models, Rematch makes it easy to access values from the models' state from anywhere in your app
-
-#### Level 3: Selectors
-
-```js
-const cart = {
-  name: 'cart',
-  state: [
-    { item: 'tooth brush', price: 4.00, amount: 1 },
-    { item: 'tooth paste', price: 7.50, amount: 2 },
-  ],
-  selectors: {
-    total(cart) {
-      return cart.reduce((a, b) => {
-        a += b.price * b.amount
-      }, 0)
-    }
-  }
-}
-```
-
-Selectors can be accessed anywhere in your app using the `select`. You'll need to pass in state.
-
-```js
-import { select } from '@rematch/core'
-
-connect(state => {
-  total: select.cart.total(state)
-})
-```
-
-### Subscriptions
-
-Subscriptions provide an easy way to listen for different dispatched actions. This is similar to how "take" and "takeEvery" are used in Redux Saga. There are helpful for a few reasons:
-
-- triggering another action when something happens
-- isolating your models from each other
-
-#### Level 4: Subscriptions
-
-```js
-import { dispatch } from '@rematch/core'
-
-const profile = {
-  name: 'profile',
-  state: {
-    userId: null,
-  },
-  subscriptions: {
-    'auth/login': (action, state, unsubscribe) => {
-      dispatch.profile.loadProfile()
-      unsubscribe()
-    }
-  }
-}
-```
-
-In this case, subscriptions avoid the need of coupling the auth model to the profile model. Profile simply listens to an action.
-
 ## Plugins
 
 Rematch is built around a plugin pipeline, making it easy to use or create your own plugins. Take a look at some examples:
 
+- [select](./plugins/select)
+- [subscriptions](./plugins/subscriptions)
 - [loading](./plugins/loading)
 - [persist](./plugins/persist)
 - [react-navigation](./plugins/react-navigation)

@@ -3,8 +3,8 @@
   "version": "0.1.0-beta.1",
   "description": "A Redux Framework",
   "keywords": [
-    "redux",
     "@rematch",
+    "redux",
     "rematch"
   ],
   "homepage": "https://github.com/rematch/rematch#readme",
@@ -25,10 +25,10 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "install:all": "bash ./scripts/install.sh",
-    "build:all": "bash ./scripts/build.sh",
     "build": "webpack --env build",
+    "build:all": "bash ./scripts/build.sh",
     "dev": "webpack --progress --colors --watch --env dev",
+    "install:all": "bash ./scripts/install.sh",
     "lint": "eslint ./src",
     "test": "jest"
   },
@@ -47,13 +47,13 @@
     "coveralls": "^3.0.0",
     "eslint": "^4.11.0",
     "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^2.7.0",
+    "eslint-config-prettier": "^2.8.0",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-flowtype": "^2.39.1",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.3.2",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react": "^7.5.1",
     "flow-bin": "^0.59.0",
     "gitbook-plugin-edit-link": "^2.0.2",
     "gitbook-plugin-github": "^3.0.0",

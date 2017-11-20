@@ -1,5 +1,5 @@
 import { onHandlers } from './handlers'
-import omit from '../../utils/omit'
+import omit from './omit'
 
 const unsubscribeFrom = (modelName) => (target, formattedMatcher) => {
   const handler = target.get(formattedMatcher)

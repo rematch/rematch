@@ -1,7 +1,9 @@
 // @flow
-export default {
-  expose: { select: {} },
-  init: ({ select, validate }) => ({
+export const select = {}
+
+const selectPlugin = () => ({
+  expose: { select },
+  init: ({ validate }) => ({
     onModel(model: $model) {
       select[model.name] = {}
       Object.keys(model.selectors || {}).forEach((selectorName: string) => {
@@ -16,4 +18,6 @@ export default {
       })
     }
   })
-}
+})
+
+export default selectPlugin
