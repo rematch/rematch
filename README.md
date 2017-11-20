@@ -73,6 +73,7 @@ const CountContainer = connect(state => ({
 ReactDOM.render(
   <Provider store={getStore()}>
     <CountContainer />
-  </Provider>
+  </Provider>,
+  document.getElementById('root')
 )
 ```
