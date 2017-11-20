@@ -13,11 +13,11 @@
   "bugs": {
     "url": "git+https://github.com/rematch/rematch/issues"
   },
+  "license": "ISC",
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
   "files": [
     "lib"
   ],
-  "license": "ISC",
-  "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
   "main": "lib/index.min.js",
   "scripts": {
     "build": "webpack --env build"
@@ -35,13 +35,13 @@
     "babel-preset-react": "^6.24.1",
     "eslint": "^4.10.0",
     "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^2.6.0",
+    "eslint-config-prettier": "^2.8.0",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-flowtype": "^2.39.1",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.2.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react": "^7.5.1",
     "flow-bin": "^0.59.0",
     "jest": "^21.2.1",
     "react": "^16.1.0",

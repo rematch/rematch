@@ -4,10 +4,10 @@
   "description": "Loading indicator plugin for Rematch",
   "keywords": [
     "@rematch",
-    "redux",
-    "rematch",
+    "loading",
     "plugin",
-    "loading"
+    "redux",
+    "rematch"
   ],
   "homepage": "https://github.com/rematch/rematch/tree/master/plugins/loading#readme",
   "bugs": {
@@ -22,9 +22,6 @@
   "scripts": {
     "build": "webpack --env build"
   },
-  "peerDependencies": {
-    "@rematch/core": "^0.1.0-beta.1"
-  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.2",
@@ -34,19 +31,22 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
-    "eslint": "^4.10.0",
+    "eslint": "^4.11.0",
     "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^2.6.0",
+    "eslint-config-prettier": "^2.8.0",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-flowtype": "^2.39.1",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jest": "^21.2.0",
+    "eslint-plugin-jest": "^21.3.2",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react": "^7.5.1",
     "flow-bin": "^0.59.0",
     "jest": "^21.2.1",
     "redux": "^3.0.0",
     "webpack": "^3.8.1",
     "yargs": "^10.0.3"
+  },
+  "peerDependencies": {
+    "@rematch/core": "^0.1.0-beta.1"
   }
 }
