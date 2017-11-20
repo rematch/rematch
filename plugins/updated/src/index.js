@@ -16,13 +16,16 @@ export default (config = {}) => {
     }
   }
   return {
-    init: ({ dispatch }) => ({
+    config: {
       models: {
         updated,
-      },
+      }
+    },
+    init: ({ dispatch }) => ({
       onModel({ name }) {
-        // do not run dispatch on loading model
-        if (name === updatedModelName) { return }
+        // do not run dispatch on loading, updated models
+        const avoidModels = [updatedModelName, 'loading']
+        if (avoidModels.includes(name)) { return }
 
         const modelActions = dispatch[name]
 
@@ -34,14 +37,16 @@ export default (config = {}) => {
           if (dispatch[name][action].isEffect) {
             // copy function
             const fn = dispatch[name][action]
+
             // create function with pre & post loading calls
-            const dispatchWithHooks = async function dispatchWithHooks(props) {
+            const dispatchWithUpdateHook = async function dispatchWithUpdateHook(props) {
               await fn(props)
+
               // waits for dispatch function to finish before calling "hide"
-              dispatch.lastUpdated.onUpdate({ name, action })
+              dispatch.updated.onUpdate({ name, action })
             }
             // replace existing effect with new dispatch
-            dispatch[name][action] = dispatchWithHooks
+            dispatch[name][action] = dispatchWithUpdateHook
           }
         })
       }
