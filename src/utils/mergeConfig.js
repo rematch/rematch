@@ -10,7 +10,7 @@ export const mergeConfig = (c1 = {}, c2 = {}) => {
         [model.name]: model,
         ...a,
       }
-    }, {})
+    }, c2.models || {})
   }
 
   // initialState

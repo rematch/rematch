@@ -1,29 +1,29 @@
 {
-  "name": "@rematch/loading",
-  "version": "0.1.4",
-  "description": "Loading indicator plugin for Rematch",
+  "name": "@rematch/updated",
+  "version": "0.1.0",
+  "description": "Rematch plugin for maintaining timestamps when effects are called",
   "keywords": [
     "@rematch",
-    "redux",
-    "rematch",
     "plugin",
-    "loading"
+    "rematch",
+    "updated"
   ],
-  "homepage": "https://github.com/rematch/rematch/tree/master/plugins/loading#readme",
+  "homepage": "https://github.com/rematch/rematch/plugins/updated#readme",
   "bugs": {
-    "url": "git+https://github.com/rematch/rematch/issues"
+    "url": "https://github.com/rematch/rematch/issues"
   },
   "license": "ISC",
-  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
   "files": [
     "lib"
   ],
   "main": "lib/index.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  },
   "scripts": {
     "build": "webpack --env build"
-  },
-  "peerDependencies": {
-    "@rematch/core": "^0.1.0-beta.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -48,5 +48,8 @@
     "redux": "^3.0.0",
     "webpack": "^3.8.1",
     "yargs": "^10.0.3"
+  },
+  "peerDependencies": {
+    "@rematch/core": "^0.1.0-beta.1"
   }
 }

@@ -16,12 +16,16 @@ const addModel = (model: $model) => {
   modelHooks.forEach(modelHook => modelHook(model))
 }
 
+// main model import method
+// adds config.models
+export const initModelHooks = (models) => {
+  models.forEach(model => addModel(model))
+}
+
+// allows merging of models dynamically
+// model(model)
 export const createModel = (model: $model): void => {
   addModel(model)
   // add model reducers to redux store
   createReducersAndUpdateStore(model)
-}
-
-export const initModelHooks = (models) => {
-  models.forEach(model => addModel(model))
 }

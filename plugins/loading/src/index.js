@@ -27,10 +27,12 @@ export default (config = {}) => {
     }
   }
   return {
-    init: ({ dispatch }) => ({
+    config: {
       models: {
         loading,
       },
+    },
+    init: ({ dispatch }) => ({
       onModel({ name }) {
         // do not run dispatch on loading model
         if (name === loadingModelName) { return }
