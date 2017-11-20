@@ -14,127 +14,65 @@
 </a>
 </p>
 
-> Rethink Redux.
+## Rethink Redux.
 
-## Purpose
+Rematch is Redux best practices without the boilerplate. Rematch removes the need for action types, action creators, switch statements & thunks. Take a look at the [API](./docs/api.md) for details.
 
-Rematch is Redux best practices without the boilerplate. Rematch removes the need for action types, action creators, switch statements & thunks. [See a comparison of the two](./docs/purpose.md)
+## Quick start
+In Redux, the state of your entire application is one single object tree.
 
-## Installation
-
+In Rematch, we refer to the top level keys of that state tree as **models**.
+### Step 1. Write your models
+#### models.js
 ```js
-npm install @rematch/core
-```
+import Rematch from '@rematch/core'
 
-## API
-
-See the [API Reference](./docs/api.md).
-
-
-## WalkThrough
-
-In Redux, the state of your whole application is stored in an object tree within a single store.
-
-In Rematch, we refer to the top level keys of that state tree as models.
-
-### Models
-
-When you build your apps, you are designing these models. To design these models, you should answer these questions:
-
-1. What's the state key name of this model? **name**
-2. What does it's initial state look like? **state**
-3. In which ways do I change the state? **reducers**
-
-```js
-import { init } from '@rematch/core'
-
-const count = {
-  name: 'count',
-  state: 0,
-  reducers: {
-    addOne: (state) => state + 1,
-    addBy: (state, payload) => state + payload
-  }
-}
-
-init({
-  models: { count }
-})
-```
-
-### Dispatch
-
-Dispatch, as in Redux, is the way of sending actions that your models listens for. Dispatch can be accessed globally anywhere in your app.
-
-By default, Rematch listens for state changes of `${model.name}/${action.name}`.
-
-```js
-import { dispatch } from '@rematch/core'
-
-dispatch({ type: 'count/addOne' })
-// state is now { count: 1 }
-
-dispatch({ type: 'count/addBy', payload: 2 })
-// state is { count: 3 }
-```
-
-There is a helpful shorthand for writing dispatches that avoids the need for action types & action creators.
-
-```js
-dispatch.count.addOne()
-// { count: 4 }
-
-dispatch.count.addBy(5)
-// { count: 9 }
-```
-
-### Effects
-
-Not all actions are the same. In fact, categorizing actions by their purpose enables helpful patterns and plugins. Consider the following:
-
-How do I change the state? **reducers**
-How do I handle async actions? **effects**
-
-```js
-import { dispatch } from '@rematch/core'
-
-const auth = {
-  name: 'auth',
-  state: {
-    token: null,
+export const count = {
+  state: 0, // the initial state
+  reducers: { // describe state changes with pure functions
+    incrementBy: (state, payload) => state + payload,    
   },
-  reducers: {
-    setToken: (state, payload) => {
-      token: payload
-    },
-  },
-  effects: {
-    async login(payload, state) {
-      const token = await fetch('somesite.com', {
-        body: {
-          email: payload.email,
-          password: payload.password,
-        },
-      }
-      dispatch.auth.setToken(token)
+  effects: { // describe state changes the with impure functions
+    async incrementByAsync(payload, state) {
+      await Promise.resolve()
+      Rematch.dispatch.count.incrementBy(payload)
     }
   }
 }
 ```
+### Step 2. Start Rematch
+#### index.js
+```js
+import Rematch from '@rematch/core'
+import * as models from './models'
 
-Note that effects are dispatched in the same way as reducers.
+Rematch.init({ models })
+```
+### Step 3. Connect your view layer
+**React** | [Vue](./docs/views/vue.md) | [Angular](./docs/views/vue.md)
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider, connect } from 'react-redux'
+import Rematch from '@rematch/core'
 
+const Count = props => (
+  <div>
+    <h1>The count is: {props.count}</h1>
+    <button onClick={props.incrementByOne}>Increment 1</button>
+    <button onClick={props.incrementByOneAsync}>Increment 1 Async</button>
+  </div>
+)
 
-## Plugins
+const CountContainer = connect(state => ({
+  count: state.count,
+  incrementByOne: () => Rematch.dispatch.count.incrementBy(1),
+  incrementByOneAsync: () => Rematch.dispatch.count.incrementByAsync(1)
+}))(Count)
 
-Rematch is built around a plugin pipeline, making it easy to use or create your own plugins. Take a look at some examples:
-
-- [select](./plugins/select)
-- [subscriptions](./plugins/subscriptions)
-- [loading](./plugins/loading)
-- [persist](./plugins/persist)
-- [react-navigation](./plugins/react-navigation)
-
-## Inspiration
-
-Refining the ideas of [Dva](github.com/dvajs/dva) & [Mirror](https://github.com/mirrorjs/mirror). Read more about what makes rematch different [here](./docs/inspiration.md).
+ReactDOM.render(
+  <Provider store={getStore()}>
+    <CountContainer />
+  </Provider>
+)
+```
