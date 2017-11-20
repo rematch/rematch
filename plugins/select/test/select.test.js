@@ -4,7 +4,9 @@ beforeEach(() => {
 
 describe('select:', () => {
   it('should create a valid list of selectors', () => {
-    const { init, select } = require('../src')
+    const selectPlugin = require('../src').default
+    const { select } = require('../src')
+    const { init } = require('../../../src')
     const a = {
       name: 'a',
       state: 0,
@@ -16,17 +18,17 @@ describe('select:', () => {
       },
     }
     init({
-      models: { a }
+      models: { a },
+      plugins: [selectPlugin()]
     })
     expect(typeof select.a.double).toBe('function')
   })
 
   it('should allow access to the selector', () => {
-    const {
-      init, model, select, getStore
-    } = require('../src')
-    init()
-    model({
+    const selectPlugin = require('../src').default
+    const { select } = require('../src')
+    const { init, getStore } = require('../../../src')
+    const a = {
       name: 'a',
       state: 2,
       reducers: {
@@ -35,6 +37,10 @@ describe('select:', () => {
       selectors: {
         double: s => s * 2
       },
+    }
+    init({
+      models: { a },
+      plugins: [selectPlugin()]
     })
     const state = getStore().getState()
     const doubled = select.a.double(state)
@@ -42,11 +48,10 @@ describe('select:', () => {
   })
 
   it('should allow passing in of params toselector', () => {
-    const {
-      init, model, select, getStore
-    } = require('../src')
-    init()
-    model({
+    const selectPlugin = require('../src').default
+    const { select } = require('../src')
+    const { init, getStore } = require('../../../src')
+    const a = {
       name: 'a',
       state: 2,
       reducers: {
@@ -55,6 +60,10 @@ describe('select:', () => {
       selectors: {
         prependWithLetter: (s, letter) => letter + s
       },
+    }
+    init({
+      models: { a },
+      plugins: [selectPlugin()]
     })
     const state = getStore().getState()
     const prepended = select.a.prependWithLetter(state, 'P')
@@ -62,10 +71,11 @@ describe('select:', () => {
   })
 
   test('should throw if selector is not a function', () => {
-    const {
-      init, model
-    } = require('../src')
-    init()
+    const selectPlugin = require('../src').default
+    const { init, model } = require('../../../src')
+    init({
+      plugins: [selectPlugin()]
+    })
     expect(() => model({
       name: 'a',
       state: 2,
@@ -75,22 +85,43 @@ describe('select:', () => {
     })).toThrow()
   })
 
+  test('should not throw if no selectors', () => {
+    const selectPlugin = require('../src').default
+    const { select } = require('../src')
+    const { init, getStore } = require('../../../src')
+    const a = {
+      name: 'a',
+      state: 2,
+      reducers: {
+        increment: s => s + 1
+      },
+    }
+    const start = () => init({
+      models: { a },
+      plugins: [selectPlugin()]
+    })
+    expect(start).not.toThrow()
+  })
+
   describe('reselect: ', () => {
     it('should allow for createSelector to be used instead of a normal selector', () => {
-      const {
-        init, model, select, getStore
-      } = require('../src')
+      const selectPlugin = require('../src').default
+      const { select } = require('../src')
+      const { init, getStore } = require('../../../src')
       const { createSelector } = require('reselect')
-      init()
-      model({
+      const count = {
         name: 'count',
         state: 2,
         selectors: {
           double: createSelector(
             state => state,
-            count => count * 2
+            c => c * 2
           )
         },
+      }
+      init({
+        models: { count },
+        plugins: [selectPlugin()]
       })
       const state = getStore().getState()
       const doubled = select.count.double(state)
@@ -98,26 +129,28 @@ describe('select:', () => {
     })
 
     it('should allow createSelector to be used outside of a model', () => {
-      const {
-        init, model, select, getStore
-      } = require('../src')
+      const selectPlugin = require('../src').default
+      const { select } = require('../src')
+      const { init, getStore } = require('../../../src')
       const { createSelector } = require('reselect')
-      init()
-      model({
+      const countA = {
         name: 'countA',
         state: 2,
         selectors: {
           double: state => state * 2
         }
-      })
-      model({
+      }
+      const countB = {
         name: 'countB',
         state: 10,
         selectors: {
           double: state => state * 2
         }
+      }
+      init({
+        models: { countA, countB },
+        plugins: [selectPlugin()]
       })
-
       const outsideSelector = createSelector(
         select.countA.double,
         select.countB.double,
@@ -130,31 +163,35 @@ describe('select:', () => {
     })
 
     it('should allow for mixing normal selectors and reselect selectors', () => {
-      const {
-        init, model, select, getStore
-      } = require('../src')
+      const selectPlugin = require('../src').default
+      const { select } = require('../src')
+      const { init, getStore } = require('../../../src')
       const { createSelector } = require('reselect')
-      init()
-      model({
+      const countA = {
         name: 'countA',
         state: 2,
         selectors: {
           double: state => state * 2,
           plusOne: createSelector(
             state => state,
-            countA => countA + 1
+            c => c + 1
           )
         }
-      })
-      model({
+      }
+      const countB = {
         name: 'countB',
         state: 10,
         selectors: {
           double: createSelector(
             state => state,
-            countB => countB * 2
+            c => c * 2
           )
         }
+      }
+
+      init({
+        models: { countA, countB },
+        plugins: [selectPlugin()]
       })
 
       const outsideSelector = createSelector(

@@ -1,0 +1,28 @@
+{
+  "name": "@rematch/select",
+  "version": "0.1.0",
+  "description": "Selectors plugin for Rematch",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  },
+  "keywords": [
+    "rematch",
+    "plugin",
+    "select",
+    "selectors"
+  ],
+  "author": "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rematch/rematch/issues"
+  },
+  "homepage": "https://github.com/rematch/rematch/plugins/select#readme"
+}

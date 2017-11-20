@@ -194,6 +194,8 @@ In this case, subscriptions avoid the need of coupling the auth model to the pro
 
 Rematch is built around a plugin pipeline, making it easy to use or create your own plugins. Take a look at some examples:
 
+- [select](./plugins/select)
+- [subscriptions](./plugins/subscriptions)
 - [loading](./plugins/loading)
 - [persist](./plugins/persist)
 - [react-navigation](./plugins/react-navigation)
