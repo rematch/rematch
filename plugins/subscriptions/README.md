@@ -42,6 +42,8 @@ Subscriptions are way for models to listen to changes in the app.
 }
 ```
 
+In this case, subscriptions avoid the need of coupling the auth model to the profile model. Profile simply listens to an action.
+
 Subscriptions help you make isolated models that know nothing about their neighbours.
 
 Use `unsubscribe` if you'd like an action to fire only once.
@@ -83,3 +85,4 @@ a/b-*
 ```
 
 If possible, pattern matching should be avoided as it can effect performance.
+

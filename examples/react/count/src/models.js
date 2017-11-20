@@ -1,7 +1,7 @@
 import { dispatch } from '@rematch/core'
 
-export const countA = {
-  name: 'countA',
+export const count = {
+  name: 'count',
   state: 0,
   reducers: {
     increment: s => s + 1
@@ -11,23 +11,7 @@ export const countA = {
       await new Promise((resolve) => {
         setTimeout(resolve, 1000)
       })
-      dispatch.countA.increment()
+      dispatch.count.increment()
     }
-  },
-  selectors: {
-    double: s => s * 2
-  },
-  subscriptions: {
-    'countB/increment': () => {
-      dispatch.countA.increment()
-    }
-  }
-}
-
-export const countB = {
-  name: 'countB',
-  state: 0,
-  reducers: {
-    increment: s => s + 1
   },
 }
