@@ -1,4 +1,4 @@
-import { subscriptions, patternSubscriptions } from './index'
+import { subscriptions, patternSubscriptions } from './subscriptions'
 
 // matches actions with letter/number characters & -, _
 const actionRegex = /^[A-Z0-9-_]+\/[A-Z0-9-_]+$/i

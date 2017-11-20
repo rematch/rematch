@@ -1,0 +1,29 @@
+{
+  "name": "@rematch/subscriptions",
+  "version": "0.1.0",
+  "description": "Rematch plugin for subscriptions",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  },
+  "keywords": [
+    "rematch",
+    "plugin",
+    "@rematch",
+    "subscribe",
+    "subscription"
+  ],
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rematch/rematch/issues"
+  },
+  "homepage": "https://github.com/rematch/rematch#readme"
+}

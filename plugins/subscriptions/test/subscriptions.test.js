@@ -13,7 +13,8 @@ describe('subscriptions:', () => {
   test('should create a working subscription', () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../../../src')
+    const subscriptionsPlugin = require('../src').default
     const first = {
       name: 'first',
       ...common,
@@ -26,7 +27,8 @@ describe('subscriptions:', () => {
       ...common,
     }
     init({
-      models: { first, second }
+      models: { first, second },
+      plugins: [subscriptionsPlugin()]
     })
 
     dispatch.second.addOne()
@@ -39,7 +41,8 @@ describe('subscriptions:', () => {
   test('should allow for two subscriptions with same name in different models', () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../../../src')
+    const subscriptionsPlugin = require('../src').default
     const a1 = {
       name: 'a1',
       ...common,
@@ -59,7 +62,8 @@ describe('subscriptions:', () => {
       },
     }
     init({
-      models: { a1, b1, c1 }
+      models: { a1, b1, c1 },
+      plugins: [subscriptionsPlugin()]
     })
 
     dispatch.b1.addOne()
@@ -72,7 +76,8 @@ describe('subscriptions:', () => {
   test('should allow for three subscriptions with same name in different models', () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../../../src')
+    const subscriptionsPlugin = require('../src').default
     const a = {
       name: 'a',
       ...common,
@@ -108,7 +113,8 @@ describe('subscriptions:', () => {
     init({
       models: {
         a, b, c, d, e
-      }
+      },
+      plugins: [subscriptionsPlugin()]
     })
 
     dispatch.b.addOne()
@@ -119,8 +125,11 @@ describe('subscriptions:', () => {
   })
 
   test('should throw if a subscription matcher is invalid', () => {
-    const { model, init, dispatch } = require('../src')
-    init()
+    const { model, init, dispatch } = require('../../../src')
+    const subscriptionsPlugin = require('../src').default
+    init({
+      plugins: [subscriptionsPlugin()]
+    })
 
     expect(() => model({
       name: 'first',
@@ -132,8 +141,11 @@ describe('subscriptions:', () => {
   })
 
   test('should enforce subscriptions are functions', () => {
-    const { model, init } = require('../src')
-    init()
+    const { model, init } = require('../../../src')
+    const subscriptionsPlugin = require('../src').default
+    init({
+      plugins: [subscriptionsPlugin()]
+    })
 
     expect(() => model({
       name: 'first',
@@ -148,7 +160,9 @@ describe('subscriptions:', () => {
     test('should create working pattern matching subscription (second/*)', () => {
       const {
         init, dispatch, getStore
-      } = require('../src')
+      } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
+
       const first = {
         name: 'first',
         ...common,
@@ -161,7 +175,8 @@ describe('subscriptions:', () => {
         ...common,
       }
       init({
-        models: { first, second }
+        models: { first, second },
+        plugins: [subscriptionsPlugin()]
       })
 
       dispatch.second.addOne()
@@ -174,7 +189,9 @@ describe('subscriptions:', () => {
     test('should create working pattern matching subsription (*/addOne)', () => {
       const {
         init, dispatch, getStore
-      } = require('../src')
+      } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
+      
       const first = {
         name: 'first',
         ...common,
@@ -190,7 +207,8 @@ describe('subscriptions:', () => {
         }
       }
       init({
-        models: { first, second }
+        models: { first, second },
+        plugins: [subscriptionsPlugin()]
       })
 
       dispatch.second.add(2)
@@ -203,7 +221,8 @@ describe('subscriptions:', () => {
     test('should create working pattern matching subscription (second/add*)', () => {
       const {
         init, dispatch, getStore
-      } = require('../src')
+      } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
       const first = {
         name: 'first',
         ...common,
@@ -216,7 +235,8 @@ describe('subscriptions:', () => {
         ...common,
       }
       init({
-        models: { first, second }
+        models: { first, second },
+        plugins: [subscriptionsPlugin()]
       })
 
       dispatch.second.addOne()
@@ -227,8 +247,11 @@ describe('subscriptions:', () => {
     })
 
     test('should throw an error if a user creates a subscription that matches a reducer in the model', () => {
-      const { model, init } = require('../src')
-      init()
+      const { model, init } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
+      init({
+        plugins: [subscriptionsPlugin()]
+      })
 
       const createModel = () => model({
         name: 'first',
@@ -245,8 +268,11 @@ describe('subscriptions:', () => {
     })
 
     test('should throw an error if a user creates a subscription that matches an effect in the model', () => {
-      const { model, init } = require('../src')
-      init()
+      const { model, init } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
+      init({
+        plugins: [subscriptionsPlugin()]
+      })
 
       const createModel = () => model({
         name: 'first',
@@ -263,8 +289,11 @@ describe('subscriptions:', () => {
     })
 
     test('should throw an error if a user creates a subscription that pattern matches a reducer in the model', () => {
-      const { model, init } = require('../src')
-      init()
+      const { model, init } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
+      init({
+        plugins: [subscriptionsPlugin()]
+      })
 
       const createModel = () => model({
         name: 'first',
@@ -284,7 +313,8 @@ describe('subscriptions:', () => {
   test('should have access to state from second param', () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../../../src')
+    const subscriptionsPlugin = require('../src').default
     const first = {
       name: 'first',
       state: 3,
@@ -302,7 +332,8 @@ describe('subscriptions:', () => {
       ...common,
     }
     init({
-      models: { first, second }
+      models: { first, second },
+      plugins: [subscriptionsPlugin()]
     })
 
     dispatch.second.addOne()
@@ -316,8 +347,9 @@ describe('subscriptions:', () => {
     test('a matched action', () => {
       const {
         init, dispatch, getStore
-      } = require('../src')
-      const { createUnsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
+      } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
+      const { createUnsubscribe } = require('../src/unsubscribe')
       const first = {
         name: 'first',
         ...common,
@@ -330,7 +362,8 @@ describe('subscriptions:', () => {
         ...common,
       }
       init({
-        models: { first, second }
+        models: { first, second },
+        plugins: [subscriptionsPlugin()]
       })
       const unsubscribe = createUnsubscribe('first', 'second/addOne')
       unsubscribe()
@@ -343,8 +376,9 @@ describe('subscriptions:', () => {
     test('a pattern matched action', () => {
       const {
         init, dispatch, getStore
-      } = require('../src')
-      const { createUnsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
+      } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
+      const { createUnsubscribe } = require('../src/unsubscribe')
       const first = {
         name: 'first',
         ...common,
@@ -357,7 +391,8 @@ describe('subscriptions:', () => {
         ...common,
       }
       init({
-        models: { first, second }
+        models: { first, second },
+        plugins: [subscriptionsPlugin()]
       })
 
       const unsubscribe = createUnsubscribe('first', 'second/*')
@@ -371,8 +406,9 @@ describe('subscriptions:', () => {
     test('a pattern matched action when more than one', () => {
       const {
         init, dispatch, getStore
-      } = require('../src')
-      const { createUnsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
+      } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
+      const { createUnsubscribe } = require('../src/unsubscribe')
       const first = {
         name: 'first',
         ...common,
@@ -392,7 +428,8 @@ describe('subscriptions:', () => {
         }
       }
       init({
-        models: { first, second, third }
+        models: { first, second, third },
+        plugins: [subscriptionsPlugin()]
       })
       const unsubscribe = createUnsubscribe('first', 'second/*')
       unsubscribe()
@@ -403,8 +440,9 @@ describe('subscriptions:', () => {
       })
     })
     test('should throw if invalid action', () => {
-      const { init, dispatch } = require('../src')
-      const { createUnsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
+      const { init, dispatch } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
+      const { createUnsubscribe } = require('../src/unsubscribe')
       const first = {
         name: 'first',
         ...common,
@@ -413,7 +451,8 @@ describe('subscriptions:', () => {
         }
       }
       init({
-        models: { first }
+        models: { first },
+        plugins: [subscriptionsPlugin()]
       })
 
       const unsubscribe = createUnsubscribe('first', 'an/invalid/action')
@@ -423,8 +462,9 @@ describe('subscriptions:', () => {
     test('should do nothing if no action', () => {
       const {
         init, dispatch, getStore
-      } = require('../src')
-      const { createUnsubscribe } = require('../src/plugins/subscriptions/unsubscribe')
+      } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
+      const { createUnsubscribe } = require('../src/unsubscribe')
       const first = {
         name: 'first',
         ...common,
@@ -437,7 +477,8 @@ describe('subscriptions:', () => {
         ...common,
       }
       init({
-        models: { first, second }
+        models: { first, second },
+        plugins: [subscriptionsPlugin()]
       })
 
       const unsubscribe = createUnsubscribe('first', 'not/existing')
@@ -452,7 +493,8 @@ describe('subscriptions:', () => {
     test('should allow unsubscribe within a model', () => {
       const {
         init, dispatch, getStore
-      } = require('../src')
+      } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
       const first = {
         name: 'first',
         ...common,
@@ -468,7 +510,8 @@ describe('subscriptions:', () => {
         ...common,
       }
       init({
-        models: { first, second }
+        models: { first, second },
+        plugins: [subscriptionsPlugin()]
       })
 
       dispatch.second.addOne()
@@ -483,7 +526,8 @@ describe('subscriptions:', () => {
     test('should allow unsubscribe within a model with a pattern match', () => {
       const {
         init, dispatch, getStore
-      } = require('../src')
+      } = require('../../../src')
+      const subscriptionsPlugin = require('../src').default
       const first = {
         name: 'first',
         ...common,
@@ -499,7 +543,8 @@ describe('subscriptions:', () => {
         ...common,
       }
       init({
-        models: { first, other }
+        models: { first, other },
+        plugins: [subscriptionsPlugin()]
       })
 
       dispatch.other.addOne()

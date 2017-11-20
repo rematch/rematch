@@ -1,13 +1,11 @@
 // @flow
 import { createSubscription } from './create'
 import { createUnsubscribe } from './unsubscribe'
-
-export const subscriptions = new Map()
-export const patternSubscriptions = new Map()
+import { subscriptions, patternSubscriptions } from './subscriptions'
 
 let localGetState
 
-export default {
+export default () => ({
   init: ({
     validate
   }) => {
@@ -66,4 +64,4 @@ export default {
       },
     }
   }
-}
+})
