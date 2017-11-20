@@ -9,7 +9,7 @@
     "redux",
     "rematch"
   ],
-  "homepage": "https://github.com/rematch/rematch/tree/master/plugins/reactNavigation#readme",
+  "homepage": "https://github.com/rematch/rematch/tree/master/plugins/react-navigation#readme",
   "bugs": {
     "url": "git+https://github.com/rematch/rematch/issues"
   },
