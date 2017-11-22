@@ -35,14 +35,14 @@ The **model** brings together state, reducers, async actions & action creators i
 import { dispatch } from '@rematch/core'
 
 export const count = {
-  state: 0, // the initial state
-  reducers: { // describe state changes with pure functions
-    incrementBy: (state, payload) => state + payload,    
+  state: 0, // initial state
+  reducers: { // state changes with pure functions
+    addBy: (state, payload) => state + payload,    
   },
-  effects: { // describe state changes the with impure functions
-    async incrementByAsync(payload, state) {
+  effects: { // state changes with impure functions
+    async addByAsync(payload, state) {
       await Promise.resolve()
-      dispatch.count.incrementBy(payload)
+      dispatch.count.addBy(payload)
     }
   }
 }
@@ -89,19 +89,21 @@ import { dispatch, getStore } from '@rematch/core'
 const Count = props => (
   <div>
     <h1>The count is: {props.count}</h1>
-    <button onClick={props.incrementByOne}>Increment 1</button>
-    <button onClick={props.incrementByOneAsync}>Increment 1 Async</button>
+    <button onClick={props.addByOne}>Add 1</button>
+    <button onClick={props.addByOneAsync}>Add 1 Async</button>
   </div>
 )
 
 const CountContainer = connect(state => ({
   count: state.count,
-  incrementByOne: () => dispatch.count.incrementBy(1),
-  incrementByOneAsync: () => dispatch.count.incrementByAsync(1)
+  addByOne: () => dispatch.count.addBy(1),
+  addByOneAsync: () => dispatch.count.addByAsync(1)
 }))(Count)
 
+const store = getStore()
+
 ReactDOM.render(
-  <Provider store={getStore()}>
+  <Provider store={store}>
     <CountContainer />
   </Provider>,
   document.getElementById('root')
