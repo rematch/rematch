@@ -4,35 +4,40 @@ beforeEach(() => {
 
 describe('effects:', () => {
   test('should create an action', () => {
-    const { model, init, dispatch } = require('../src')
-    init()
+    const { init, dispatch } = require('../src')
 
-    model({
-      name: 'count',
+    const count = {
       state: 0,
       effects: {
         add: () => 1,
       },
+    }
+
+    init({
+      models: { count }
     })
 
     expect(typeof dispatch.count.add).toBe('function')
   })
   test('first param should be payload', () => {
     const {
-      model, init, dispatch
+      init, dispatch
     } = require('../src')
-    init()
+
 
     let value = 1
 
-    model({
-      name: 'count',
+    const count = {
       state: 0,
       effects: {
         add: (payload) => {
           value += payload
         },
       },
+    }
+
+    init({
+      models: { count }
     })
 
     dispatch({ type: 'count/add', payload: 4 })
@@ -42,12 +47,10 @@ describe('effects:', () => {
 
   test('second param should contain state', () => {
     const {
-      model, init, getStore, dispatch
+      init, getStore, dispatch
     } = require('../src')
-    init()
 
-    model({
-      name: 'count',
+    const count = {
       state: 7,
       reducers: {
         add: (s, p) => s + p
@@ -58,6 +61,10 @@ describe('effects:', () => {
           dispatch.count.add(count + 1)
         },
       },
+    }
+
+    init({
+      models: { count }
     })
 
     dispatch.count.makeCall(2)
@@ -81,12 +88,10 @@ describe('effects:', () => {
 
   test('should be able to trigger another action', async () => {
     const {
-      model, init, dispatch, getStore
+      init, dispatch, getStore
     } = require('../src')
-    init()
 
-    model({
-      name: 'example',
+    const example = {
       state: 0,
       reducers: {
         addOne: (state) => state + 1,
@@ -96,6 +101,10 @@ describe('effects:', () => {
           await dispatch.example.addOne()
         }
       }
+    }
+
+    init({
+      models: { example }
     })
 
     await dispatch.example.asyncAddOneArrow()
@@ -133,12 +142,10 @@ describe('effects:', () => {
 
   test('should be able trigger a local reducer using functions and `this`', async () => {
     const {
-      model, init, dispatch, getStore
+      init, dispatch, getStore
     } = require('../src')
-    init()
 
-    model({
-      name: 'example',
+    const example = {
       state: 0,
       reducers: {
         addOne: (state) => state + 1,
@@ -148,6 +155,10 @@ describe('effects:', () => {
           await this.addOne()
         }
       }
+    }
+
+    init({
+      models: { example }
     })
 
     await dispatch.example.asyncAddOne()
@@ -159,12 +170,10 @@ describe('effects:', () => {
 
   test('should be able trigger a local reducer using object function shorthand and `this`', async () => {
     const {
-      model, init, dispatch, getStore
+      init, dispatch, getStore
     } = require('../src')
-    init()
 
-    model({
-      name: 'example',
+    const example = {
       state: 0,
       reducers: {
         addOne: (state) => state + 1,
@@ -174,6 +183,10 @@ describe('effects:', () => {
           await this.addOne()
         }
       }
+    }
+
+    init({
+      models: { example }
     })
 
     await dispatch.example.asyncAddOne()
@@ -185,12 +198,10 @@ describe('effects:', () => {
 
   test('should be able to trigger another action with a value', async () => {
     const {
-      model, init, dispatch, getStore
+      init, dispatch, getStore
     } = require('../src')
-    init()
 
-    model({
-      name: 'example',
+    const example = {
       state: 2,
       reducers: {
         addBy: (state, payload) => state + payload,
@@ -200,6 +211,10 @@ describe('effects:', () => {
           await dispatch.example.addBy(value)
         }
       }
+    }
+
+    init({
+      models: { example }
     })
 
     await dispatch.example.asyncAddBy(5)
@@ -211,12 +226,10 @@ describe('effects:', () => {
 
   test('should be able to trigger another action w/ an object value', async () => {
     const {
-      model, init, dispatch, getStore
+      init, dispatch, getStore
     } = require('../src')
-    init()
-
-    model({
-      name: 'example',
+    
+    const example = {
       state: 3,
       reducers: {
         addBy: (state, payload) => state + payload.value,
@@ -226,6 +239,10 @@ describe('effects:', () => {
           await dispatch.example.addBy(value)
         }
       }
+    }
+
+    init({
+      models: { example }
     })
 
     await dispatch.example.asyncAddBy({ value: 6 })
@@ -237,11 +254,10 @@ describe('effects:', () => {
 
   test('should be able to trigger another action w/ another action', async () => {
     const {
-      model, init, dispatch, getStore
+      init, dispatch, getStore
     } = require('../src')
-    init()
 
-    model({
+    const example = {
       name: 'example',
       state: 0,
       reducers: {
@@ -255,6 +271,10 @@ describe('effects:', () => {
           await dispatch.example.asyncAddOne()
         }
       }
+    }
+
+    init({
+      models: { example }
     })
 
     await dispatch.example.asyncCallAddOne()
@@ -266,12 +286,10 @@ describe('effects:', () => {
 
   test('should be able to trigger another action w/ multiple actions', async () => {
     const {
-      model, init, dispatch, getStore
+      init, dispatch, getStore
     } = require('../src')
-    init()
 
-    model({
-      name: 'example',
+    const example = {
       state: 0,
       reducers: {
         addBy: (state, payload) => state + payload,
@@ -289,6 +307,10 @@ describe('effects:', () => {
           await dispatch.example.asyncAddOne()
         }
       }
+    }
+
+    init({
+      models: { example }
     })
 
     await dispatch.example.asyncAddSome()

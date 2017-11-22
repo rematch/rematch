@@ -89,7 +89,6 @@ describe('persist', () => {
   //     plugins: [persistPlugin()],
   //   })
   //   model({
-  //     name: 'a',
   //     state: { b: 1 },
   //     reducers: {
   //       addOne: s => ({ b: s.b + 1 })

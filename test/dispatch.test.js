@@ -7,7 +7,6 @@ describe('dispatch:', () => {
     it('should be call in the form "modelName/reducerName"', () => {
       const { init, getStore } = require('../src')
       const count = {
-        name: 'count',
         state: 0,
         reducers: {
           add: state => state + 1,
@@ -26,16 +25,18 @@ describe('dispatch:', () => {
 
     test('should be able to call dispatch directly', () => {
       const {
-        model, init, getStore, dispatch
+        init, getStore, dispatch
       } = require('../src')
-      init()
 
-      model({
-        name: 'count',
+      const count = {
         state: 0,
         reducers: {
           addOne: state => state + 1,
         },
+      }
+
+      init({
+        models: { count }
       })
 
       dispatch({ type: 'count/addOne' })
@@ -51,7 +52,6 @@ describe('dispatch:', () => {
       } = require('../src')
 
       const count = {
-        name: 'count',
         state: 0,
         reducers: {
           add: state => state + 1,
@@ -71,16 +71,18 @@ describe('dispatch:', () => {
 
     test('should dispatch multiple actions', () => {
       const {
-        model, init, getStore, dispatch
+        init, getStore, dispatch
       } = require('../src')
-      init()
 
-      model({
-        name: 'count',
+      const count = {
         state: 0,
         reducers: {
           add: state => state + 1,
         },
+      }
+
+      init({
+        models: { count }
       })
 
       dispatch.count.add()
@@ -93,24 +95,25 @@ describe('dispatch:', () => {
 
     test('should handle multiple models', () => {
       const {
-        model, init, getStore, dispatch
+        init, getStore, dispatch
       } = require('../src')
-      init()
 
-      model({
-        name: 'a',
+      const a = {
         state: 42,
         reducers: {
           add: state => state + 1,
         },
-      })
+      }
 
-      model({
-        name: 'b',
+      const b = {
         state: 0,
         reducers: {
           add: state => state + 1,
         },
+      }
+
+      init({
+        models: { a, b }
       })
 
       dispatch.a.add()
@@ -156,16 +159,19 @@ describe('dispatch:', () => {
   describe('params:', () => {
     test('should pass state as the first reducer param', () => {
       const {
-        model, init, getStore, dispatch
+        init, getStore, dispatch
       } = require('../src')
-      init()
 
-      model({
-        name: 'count',
+
+      const count = {
         state: 0,
         reducers: {
           doNothing: state => state,
         },
+      }
+
+      init({
+        models: { count }
       })
 
       dispatch.count.doNothing()
@@ -177,16 +183,18 @@ describe('dispatch:', () => {
 
     test('should pass payload as the second param', () => {
       const {
-        model, init, getStore, dispatch
+        init, getStore, dispatch
       } = require('../src')
-      init()
 
-      model({
-        name: 'count',
+      const count = {
         state: 1,
         reducers: {
           incrementBy: (state, payload) => state + payload,
         },
+      }
+
+      init({
+        models: { count }
       })
 
       dispatch.count.incrementBy(5)
@@ -199,15 +207,17 @@ describe('dispatch:', () => {
 
   describe('promise middleware', () => {
     test('should return a promise from an action', () => {
-      const { model, init, dispatch } = require('../src')
-      init()
+      const { init, dispatch } = require('../src')
 
-      model({
-        name: 'count',
+      const count = {
         state: 0,
         reducers: {
           add: state => state + 1,
         },
+      }
+
+      init({
+        models: { count }
       })
 
       const dispatched = dispatch.count.add()
@@ -216,11 +226,9 @@ describe('dispatch:', () => {
     })
 
     test('should return a promise from an effect', () => {
-      const { model, init, dispatch } = require('../src')
-      init()
+      const { init, dispatch } = require('../src')
 
-      model({
-        name: 'count',
+      const count = {
         state: 0,
         reducers: {
           addOne: state => state + 1,
@@ -230,6 +238,10 @@ describe('dispatch:', () => {
             return dispatch.count.addOne()
           }
         }
+      }
+
+      init({
+        models: { count }
       })
 
       const dispatched = dispatch.count.addOne()

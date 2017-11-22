@@ -16,11 +16,9 @@ describe('init:', () => {
     init({
       models: {
         app: {
-          name: 'app',
           state: 'Hello, model 1',
         },
         app2: {
-          name: 'app2',
           state: 'Hello, model 2',
         },
       }
@@ -38,7 +36,6 @@ describe('init:', () => {
     init({
       models: {
         app: {
-          name: 'app',
           state: 'Hello, model 1',
         },
       }
