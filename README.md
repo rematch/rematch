@@ -16,16 +16,32 @@
 
 ## Rethink Redux.
 
-Rematch is Redux best practices without the boilerplate. Rematch removes the need for action types, action creators, switch statements & thunks. Take a look at the [API](./docs/api.md) for details.
+Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks. [See a comparison of the two](./docs/purpose.md)
 
-## Quick start
-In Redux, the state of your entire application is one single object tree.
+## Installation
 
-In Rematch, we refer to the top level keys of that state tree as **models**.
-### Step 1. Write your models
+```js
+npm install @rematch/core
+```
+
+## API
+
+See the [API Reference](./docs/api.md).
+
+
+## WalkThrough
+
+### Step 1. Models
+
+The **model** brings together state, reducers, async actions & action creators in one place. Understanding models is as simple as answering a few questions:
+
+1. What is my initial state? **state**
+2. How do I change the state? **reducers**
+3. How do I handle asynchronous actions? **effects** with async/await
+
 #### models.js
 ```js
-import Rematch from '@rematch/core'
+import { dispatch } from '@rematch/core'
 
 export const count = {
   state: 0, // the initial state
@@ -35,26 +51,43 @@ export const count = {
   effects: { // describe state changes the with impure functions
     async incrementByAsync(payload, state) {
       await Promise.resolve()
-      Rematch.dispatch.count.incrementBy(payload)
+      dispatch.count.incrementBy(payload)
     }
   }
 }
 ```
-### Step 2. Start Rematch
-#### index.js
-```js
-import Rematch from '@rematch/core'
-import * as models from './models'
 
-Rematch.init({ models })
+### Step 2. Init
+
+**init** configures your reducers, devtools & store. For additional setup, pass in a configuration or one of many existing [plugins](./docs/plugins.md).
+
+#### index.js
+
+```js
+import { init } from '@rematch/core'
+import * as models from './models'
+import plugins from './plugins'
+
+init({
+  models,
+  plugins,
+})
 ```
-### Step 3. Connect your view layer
-**React** | [Vue](./docs/views/vue.md) | [Angular](./docs/views/vue.md)
+
+### Step 3. View
+
+**dispatch** is a helpful shorthand for triggering reducers & effects in your models.
+Dispatch standardizes your actions without the need for action types, action creators, or mapDispatchToProps.
+
+In Rematch, `dispatch.count.addOne(1)` is the same as `dispatch({ type: 'count/addOne', payload: 1 })`.
+
+**React** | Vue | AngularJS | Angular 2
+
 ```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
-import Rematch from '@rematch/core'
+import { dispatch, getStore } from '@rematch/core'
 
 const Count = props => (
   <div>
@@ -66,8 +99,8 @@ const Count = props => (
 
 const CountContainer = connect(state => ({
   count: state.count,
-  incrementByOne: () => Rematch.dispatch.count.incrementBy(1),
-  incrementByOneAsync: () => Rematch.dispatch.count.incrementByAsync(1)
+  incrementByOne: () => dispatch.count.incrementBy(1),
+  incrementByOneAsync: () => dispatch.count.incrementByAsync(1)
 }))(Count)
 
 ReactDOM.render(

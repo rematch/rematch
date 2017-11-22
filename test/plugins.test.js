@@ -33,7 +33,6 @@ describe('plugins:', () => {
   test('should add a model', () => {
     const { init, getStore } = require('../src')
     const a = {
-      name: 'a',
       state: 0,
     }
     init({
@@ -51,11 +50,9 @@ describe('plugins:', () => {
   test('should add multiple models', () => {
     const { init, getStore } = require('../src')
     const a = {
-      name: 'a',
       state: 0,
     }
     const b = {
-      name: 'b',
       state: 0,
     }
     init({

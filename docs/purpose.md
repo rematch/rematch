@@ -23,7 +23,6 @@ A comparison of Rematch & Redux may help clear things up.
 import { init } from '@rematch/core'
 
 const count = {
-  name: 'count',
   state: 0,
   reducers: {
     upBy: (state, payload) => state + payload

@@ -16,16 +16,12 @@ describe('subscriptions:', () => {
     } = require('../../../src')
     const subscriptionsPlugin = require('../src').default
     const first = {
-      name: 'first',
       ...common,
       subscriptions: {
         'second/addOne': () => dispatch.first.addOne(),
       }
     }
-    const second = {
-      name: 'second',
-      ...common,
-    }
+    const second = common
     init({
       models: { first, second },
       plugins: [subscriptionsPlugin()]
@@ -44,18 +40,13 @@ describe('subscriptions:', () => {
     } = require('../../../src')
     const subscriptionsPlugin = require('../src').default
     const a1 = {
-      name: 'a1',
       ...common,
       subscriptions: {
         'b1/addOne': () => dispatch.a1.addOne(),
       }
     }
-    const b1 = {
-      name: 'b1',
-      ...common,
-    }
+    const b1 = common
     const c1 = {
-      name: 'c1',
       ...common,
       subscriptions: {
         'b1/addOne': () => dispatch.c1.addOne(),
@@ -79,25 +70,19 @@ describe('subscriptions:', () => {
     } = require('../../../src')
     const subscriptionsPlugin = require('../src').default
     const a = {
-      name: 'a',
       ...common,
       subscriptions: {
         'b/addOne': () => dispatch.a.addOne(),
       }
     }
-    const b = {
-      name: 'b',
-      ...common,
-    }
+    const b = common
     const c = {
-      name: 'c',
       ...common,
       subscriptions: {
         'b/addOne': () => dispatch.c.addOne(),
       },
     }
     const d = {
-      name: 'd',
       ...common,
       subscriptions: {
         'b/addOne': () => dispatch.d.addOne(),
@@ -106,10 +91,7 @@ describe('subscriptions:', () => {
     // no subscriptions, superfluous model
     // just an additional check to see that
     // other models are not effected
-    const e = {
-      name: 'e',
-      ...common,
-    }
+    const e = common
     init({
       models: {
         a, b, c, d, e
@@ -164,16 +146,12 @@ describe('subscriptions:', () => {
       const subscriptionsPlugin = require('../src').default
 
       const first = {
-        name: 'first',
         ...common,
         subscriptions: {
           'second/*': () => dispatch.first.addOne(),
         }
       }
-      const second = {
-        name: 'second',
-        ...common,
-      }
+      const second = common
       init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
@@ -193,14 +171,12 @@ describe('subscriptions:', () => {
       const subscriptionsPlugin = require('../src').default
       
       const first = {
-        name: 'first',
         ...common,
         subscriptions: {
           '*/add': () => dispatch.first.addOne(),
         }
       }
       const second = {
-        name: 'second',
         state: 0,
         reducers: {
           add: (state, payload) => state + payload
@@ -224,16 +200,12 @@ describe('subscriptions:', () => {
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       const first = {
-        name: 'first',
         ...common,
         subscriptions: {
           'second/add*': () => dispatch.first.addOne(),
         }
       }
-      const second = {
-        name: 'second',
-        ...common,
-      }
+      const second = common
       init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
@@ -316,7 +288,6 @@ describe('subscriptions:', () => {
     } = require('../../../src')
     const subscriptionsPlugin = require('../src').default
     const first = {
-      name: 'first',
       state: 3,
       reducers: {
         addBy: (state, payload) => state + payload
@@ -328,7 +299,6 @@ describe('subscriptions:', () => {
       }
     }
     const second = {
-      name: 'second',
       ...common,
     }
     init({
@@ -351,14 +321,12 @@ describe('subscriptions:', () => {
       const subscriptionsPlugin = require('../src').default
       const { createUnsubscribe } = require('../src/unsubscribe')
       const first = {
-        name: 'first',
         ...common,
         subscriptions: {
           'second/addOne': () => dispatch.first.addOne(),
         }
       }
       const second = {
-        name: 'second',
         ...common,
       }
       init({
@@ -380,14 +348,12 @@ describe('subscriptions:', () => {
       const subscriptionsPlugin = require('../src').default
       const { createUnsubscribe } = require('../src/unsubscribe')
       const first = {
-        name: 'first',
         ...common,
         subscriptions: {
           'second/*': () => dispatch.first.addOne(),
         }
       }
       const second = {
-        name: 'second',
         ...common,
       }
       init({
@@ -410,18 +376,15 @@ describe('subscriptions:', () => {
       const subscriptionsPlugin = require('../src').default
       const { createUnsubscribe } = require('../src/unsubscribe')
       const first = {
-        name: 'first',
         ...common,
         subscriptions: {
           'second/*': () => dispatch.first.addOne(),
         }
       }
       const second = {
-        name: 'second',
         ...common,
       }
       const third = {
-        name: 'third',
         ...common,
         subscriptions: {
           'second/*': () => dispatch.third.addOne(),
@@ -444,7 +407,6 @@ describe('subscriptions:', () => {
       const subscriptionsPlugin = require('../src').default
       const { createUnsubscribe } = require('../src/unsubscribe')
       const first = {
-        name: 'first',
         ...common,
         subscriptions: {
           'second/addOne': () => dispatch.first.addOne(),
@@ -466,16 +428,12 @@ describe('subscriptions:', () => {
       const subscriptionsPlugin = require('../src').default
       const { createUnsubscribe } = require('../src/unsubscribe')
       const first = {
-        name: 'first',
         ...common,
         subscriptions: {
           'second/addOne': () => dispatch.first.addOne(),
         }
       }
-      const second = {
-        name: 'second',
-        ...common,
-      }
+      const second = common
       init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
@@ -496,7 +454,6 @@ describe('subscriptions:', () => {
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       const first = {
-        name: 'first',
         ...common,
         subscriptions: {
           'second/addOne': (action, exposed, unsubscribe) => {
@@ -505,10 +462,7 @@ describe('subscriptions:', () => {
           },
         }
       }
-      const second = {
-        name: 'second',
-        ...common,
-      }
+      const second = common
       init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
@@ -529,7 +483,6 @@ describe('subscriptions:', () => {
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       const first = {
-        name: 'first',
         ...common,
         subscriptions: {
           'other/*': (action, exposed, unsubscribe) => {
@@ -538,10 +491,7 @@ describe('subscriptions:', () => {
           },
         }
       }
-      const other = {
-        name: 'other',
-        ...common,
-      }
+      const other = common
       init({
         models: { first, other },
         plugins: [subscriptionsPlugin()]

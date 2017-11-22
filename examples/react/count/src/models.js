@@ -1,7 +1,6 @@
 import { dispatch } from '@rematch/core'
 
 export const count = {
-  name: 'count',
   state: 0,
   reducers: {
     increment: s => s + 1

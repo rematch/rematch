@@ -8,7 +8,6 @@ describe('select:', () => {
     const { select } = require('../src')
     const { init } = require('../../../src')
     const a = {
-      name: 'a',
       state: 0,
       reducers: {
         increment: s => s + 1
@@ -29,7 +28,6 @@ describe('select:', () => {
     const { select } = require('../src')
     const { init, getStore } = require('../../../src')
     const a = {
-      name: 'a',
       state: 2,
       reducers: {
         increment: s => s + 1
@@ -52,7 +50,6 @@ describe('select:', () => {
     const { select } = require('../src')
     const { init, getStore } = require('../../../src')
     const a = {
-      name: 'a',
       state: 2,
       reducers: {
         increment: s => s + 1
@@ -87,10 +84,8 @@ describe('select:', () => {
 
   test('should not throw if no selectors', () => {
     const selectPlugin = require('../src').default
-    const { select } = require('../src')
-    const { init, getStore } = require('../../../src')
+    const { init } = require('../../../src')
     const a = {
-      name: 'a',
       state: 2,
       reducers: {
         increment: s => s + 1
@@ -110,7 +105,6 @@ describe('select:', () => {
       const { init, getStore } = require('../../../src')
       const { createSelector } = require('reselect')
       const count = {
-        name: 'count',
         state: 2,
         selectors: {
           double: createSelector(
@@ -134,14 +128,12 @@ describe('select:', () => {
       const { init, getStore } = require('../../../src')
       const { createSelector } = require('reselect')
       const countA = {
-        name: 'countA',
         state: 2,
         selectors: {
           double: state => state * 2
         }
       }
       const countB = {
-        name: 'countB',
         state: 10,
         selectors: {
           double: state => state * 2
@@ -168,7 +160,6 @@ describe('select:', () => {
       const { init, getStore } = require('../../../src')
       const { createSelector } = require('reselect')
       const countA = {
-        name: 'countA',
         state: 2,
         selectors: {
           double: state => state * 2,
@@ -179,7 +170,6 @@ describe('select:', () => {
         }
       }
       const countB = {
-        name: 'countB',
         state: 10,
         selectors: {
           double: createSelector(

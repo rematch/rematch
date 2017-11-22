@@ -3,7 +3,6 @@ const asyncDelay = (time) => new Promise((resolve) =>
 
 // example model
 export default {
-  name: 'example',
   state: {},
   effects: {
     async submit() {
