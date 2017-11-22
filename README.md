@@ -76,7 +76,7 @@ For additional setup, pass in a configuration or one of many existing [plugins](
 ### Step 3: View
 
 **dispatch** is a helpful shorthand for triggering reducers & effects in your models.
-Dispatch standardizes your actions without the need for action types, action creators, or mapDispatchToProps. `dispatch.count.addOne(1)` is the same as `dispatch({ type: 'count/addOne', payload: 1 })`.
+Dispatch standardizes your actions without the need for action types, action creators, or mapDispatchToProps. `dispatch.count.incrementBy(1)` is the same as `dispatch({ type: 'count/incrementBy', payload: 1 })`.
 
 **React** | Vue | AngularJS | Angular 2
 
