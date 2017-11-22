@@ -1,8 +1,13 @@
+const captureModels = (models = {}) => Object.keys(models).map(name => ({
+  name,
+  ...models[name],
+}))
+
 export default (config, plugins) => [
-  ...Object.keys(config.models || {}).map(key => config.models[key]),
+  ...captureModels(config.models),
   ...plugins.reduce((a, { models }) => {
     if (models) {
-      return a.concat(Object.keys(models).map(key => models[key]))
+      return a.concat(captureModels(models))
     }
     return a
   }, [])
