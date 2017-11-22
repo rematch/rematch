@@ -16,7 +16,7 @@
 
 ## Rethink Redux.
 
-Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks. [See a comparison of the two](./docs/purpose.md)
+Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks. [See a comparison](./docs/purpose.md).
 
 ## Installation
 
@@ -24,20 +24,11 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 npm install @rematch/core
 ```
 
-## API
+## Getting Started
 
-See the [API Reference](./docs/api.md).
+### Step 1: Models
 
-
-## WalkThrough
-
-### Step 1. Models
-
-The **model** brings together state, reducers, async actions & action creators in one place. Understanding models is as simple as answering a few questions:
-
-1. What is my initial state? **state**
-2. How do I change the state? **reducers**
-3. How do I handle asynchronous actions? **effects** with async/await
+The **model** brings together state, reducers, async actions & action creators in one place.
 
 #### models.js
 ```js
@@ -57,9 +48,15 @@ export const count = {
 }
 ```
 
-### Step 2. Init
+Understanding models is as simple as answering a few questions:
 
-**init** configures your reducers, devtools & store. For additional setup, pass in a configuration or one of many existing [plugins](./docs/plugins.md).
+1. What is my initial state? **state**
+2. How do I change the state? **reducers**
+3. How do I handle asynchronous actions? **effects** with async/await
+
+### Step 2: Init
+
+**init** configures your reducers, devtools & store. 
 
 #### index.js
 
@@ -74,12 +71,12 @@ init({
 })
 ```
 
-### Step 3. View
+For additional setup, pass in a configuration or one of many existing [plugins](./docs/plugins.md).
+
+### Step 3: View
 
 **dispatch** is a helpful shorthand for triggering reducers & effects in your models.
-Dispatch standardizes your actions without the need for action types, action creators, or mapDispatchToProps.
-
-In Rematch, `dispatch.count.addOne(1)` is the same as `dispatch({ type: 'count/addOne', payload: 1 })`.
+Dispatch standardizes your actions without the need for action types, action creators, or mapDispatchToProps. `dispatch.count.addOne(1)` is the same as `dispatch({ type: 'count/addOne', payload: 1 })`.
 
 **React** | Vue | AngularJS | Angular 2
 
@@ -110,3 +107,7 @@ ReactDOM.render(
   document.getElementById('root')
 )
 ```
+
+## API
+
+See the [API Reference](./docs/api.md).
