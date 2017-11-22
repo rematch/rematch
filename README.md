@@ -16,13 +16,36 @@
 
 ## Rethink Redux.
 
-Rematch is Redux best practices without the boilerplate. Rematch removes the need for action types, action creators, switch statements & thunks. Take a look at the [API](./docs/api.md) for details.
+Rematch is Redux best practices without the boilerplate. Rematch removes the need for action types, action creators, switch statements & thunks. [See a comparison of the two](./docs/purpose.md)
 
-## Quick start
-In Redux, the state of your entire application is one single object tree.
+## Installation
+
+```js
+npm install @rematch/core
+```
+
+## API
+
+See the [API Reference](./docs/api.md).
+
+
+## WalkThrough
+
+In Redux, the state of your whole application is stored in an object tree within a single store.
+
+In Rematch, we refer to the top level keys of that state tree as models.
+
+### Models
+
+When you build your apps, you are designing these models. To design these models, you should answer these questions:
+
+1. What does it's initial state look like? **state**
+2. In which ways do I change the state? **reducers**
 
 In Rematch, we refer to the top level keys of that state tree as **models**.
+
 ### Step 1. Write your models
+
 #### models.js
 ```js
 import Rematch from '@rematch/core'
@@ -40,16 +63,22 @@ export const count = {
   }
 }
 ```
+
 ### Step 2. Start Rematch
+
 #### index.js
+
 ```js
 import Rematch from '@rematch/core'
 import * as models from './models'
 
 Rematch.init({ models })
 ```
+
 ### Step 3. Connect your view layer
+
 **React** | [Vue](./docs/views/vue.md) | [Angular](./docs/views/vue.md)
+
 ```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'

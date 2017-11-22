@@ -3,8 +3,8 @@
 - [action](#action)
 - [dispatch](#dispatch)
 - [model](#model)
-  - [name](#name)
   - [state](#state)
+  - [name](#name)
   - [reducers](#reducers)
   - [effects](#effects)
 - [init](#init)
@@ -51,18 +51,6 @@ Models organize related code into modules.
 
 Learn more about how to initialize models under [`init.models`](#models).
 
-### name
-
-`name: string` Required
-
-The name of your model. Also used as the key referencing the models state.
-
-```js
-{
-  name: 'example',
-}
-```
-
 ### state
 
 `state: any` Required
@@ -70,9 +58,20 @@ The name of your model. Also used as the key referencing the models state.
 The initial state of the model.
 
 ```js
+const example = {
+  state: { loading: false }
+}
+```
+
+### name
+
+`name: string` Optional
+
+The name of your model. Inferred as the key referencing the models state, but can be overwritten if you use the key of "name".
+
+```js
 {
   name: 'example',
-  state: { loading: false }
 }
 ```
 
@@ -148,7 +147,6 @@ Its recommend to load your model on startup.
 import { init } from '@rematch/core'
 
 const count = {
-  name: 'count',
   state: 0,
 }
 
@@ -159,12 +157,19 @@ init({
 })
 ```
 
+For smaller projects, its recommend you keep your models in a "models.js" file and named export them.
+
+```js
+export const count = {
+  state: 0,
+}
+```
+
 For larger projects, its recommended you keep your models in a "models" folder and export them.
 
 ```js
 // models/count.js
 export default {
-  name: 'count',
   state: 0,
 }
 ```
