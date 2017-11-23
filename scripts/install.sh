@@ -12,4 +12,3 @@ for plugin in 'plugins'/*
 do
  install_plugin_deps $plugin
 done
-n
