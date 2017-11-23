@@ -4,4 +4,5 @@ node_js:
 before_install:
   - npm run install:all
 after_script:
-  - coveralls < .coverage/lcov.info
+  - npm install coveralls
+  - coveralls < coverage/lcov.info
