@@ -4,4 +4,5 @@ node_js:
 before_install:
   - npm run install:all
 after_script:
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - npm install coveralls
+  - coveralls < coverage/lcov.info
