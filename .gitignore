@@ -10,7 +10,7 @@ lib
 .idea
 
 # tests
-.coverage
+coverage
 
 # release
 .release-it.json
