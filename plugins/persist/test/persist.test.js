@@ -13,16 +13,18 @@ const defaultPersist = {
 }
 
 // used to prevent warning if no reducers
-const extraReducers = { todos: (state = 999) => state }
+const reducers = { todos: (state = 999) => state }
 
 describe('persist', () => {
   test('should load the persist plugin with no config', () => {
     const persistPlugin = require('../src').default
     const { init, getStore } = require('../../../src')
     init({
-      initialState: {},
       plugins: [persistPlugin()],
-      extraReducers,
+      redux: {
+        initialState: {},
+        reducers,
+      }
     })
     expect(getStore().getState()._persist).toEqual(defaultPersist)
   })
@@ -36,7 +38,9 @@ describe('persist', () => {
     })
     init({
       plugins: [plugin],
-      extraReducers,
+      redux: {
+        reducers,
+      }
     })
     expect(getStore().getState()._persist).toEqual({
       ...defaultPersist,
@@ -49,9 +53,11 @@ describe('persist', () => {
     const { getPersistor } = require('../src')
     const { init } = require('../../../src')
     init({
-      initialState: {},
       plugins: [persistPlugin()],
-      extraReducers,
+      redux: {
+        initialState: {},
+        reducers,
+      }
     })
     const persistor = getPersistor()
     expect(persistor.purge).toBeDefined()

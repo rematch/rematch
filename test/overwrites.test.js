@@ -6,13 +6,13 @@ describe('overwrites', () => {
   test('combineReducers should replace root', () => {
     const { init, getStore } = require('../src')
     init({
-      initialState: {},
-      extraReducers: {
-        a: () => 12,
-        b: () => 27,
-      },
-      overwrites: {
-        combineReducers: () => () => 42
+      redux: {
+        initialState: {},
+        reducers: {
+          a: () => 12,
+          b: () => 27,
+        },
+        combineReducers: () => () => 42,
       }
     })
     expect(getStore().getState()).toBe(42)
@@ -20,7 +20,7 @@ describe('overwrites', () => {
   test('should not accept invalid value as "overwrites.combineReducers"', () => {
     const { init } = require('../src')
     expect(() => init({
-      overwrites: {
+      redux: {
         combineReducers: 42
       }
     })).toThrow()
@@ -29,8 +29,8 @@ describe('overwrites', () => {
   test('combineReducers should replace root', () => {
     const { init, getStore } = require('../src')
     init({
-      initialState: {},
-      overwrites: {
+      redux: {
+        initialState: {},
         createStore: () => ({
           getState: () => 42,
         }),
@@ -42,7 +42,7 @@ describe('overwrites', () => {
   test('should not accept invalid value as "overwrites.createStore"', () => {
     const { init } = require('../src')
     expect(() => init({
-      overwrites: {
+      redux: {
         createStore: 42
       }
     })).toThrow()

@@ -13,7 +13,9 @@ describe('createStore:', () => {
   it('initialState `null` should create store with state `null`', () => {
     const { init, getStore } = require('../src')
     init({
-      initialState: null
+      redux: {
+        initialState: null,
+      }
     })
 
     expect(getStore().getState()).toEqual(null)
@@ -22,7 +24,9 @@ describe('createStore:', () => {
   it('initialState `{ app: "hello, world" }` should create store with state `{ app: "hello, world" }`', () => {
     const { init, getStore } = require('../src')
     init({
-      initialState: { app: 'hello, world' }
+      redux: {
+        initialState: { app: 'hello, world' }
+      }
     })
 
     expect(getStore().getState()).toEqual({ app: 'hello, world' })
@@ -30,9 +34,11 @@ describe('createStore:', () => {
 
   it('extraReducers should create store with extra reducers', () => {
     const { init, getStore } = require('../src')
-    const extraReducers = { todos: (state = 999) => state }
+    const reducers = { todos: (state = 999) => state }
     init({
-      extraReducers
+      redux: {
+        reducers
+      }
     })
     expect(getStore().getState()).toEqual({ todos: 999 })
   })

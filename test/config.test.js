@@ -24,23 +24,29 @@ describe('init config', () => {
   test('should not accept invalid array for "extraReducers"', () => {
     const { init } = require('../src')
     expect(() => init({
-      extraReducers: []
+      redux: {
+        reducers: []
+      }
     })).toThrow()
   })
 
   test('should not accept invalid value as "extraReducers"', () => {
     const { init } = require('../src')
     expect(() => init({
-      extraReducers: 42
+      redux: {
+        reducers: 42
+      }
     })).toThrow()
   })
 
   test('should run with devtool options', () => {
     const { init, getStore } = require('../src')
     init({
-      initialState: { a: 1 },
-      devtoolOptions: {
-        maxAge: 60000,
+      redux: {
+        initialState: { a: 1 },
+        devtoolOptions: {
+          maxAge: 60000,
+        }
       }
     })
     expect(getStore().getState()).toEqual({ a: 1 })
