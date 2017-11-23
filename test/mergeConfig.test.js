@@ -81,7 +81,7 @@ describe('mergeConfig', () => {
     })
   })
 
-  describe('extraReducers', () => {
+  describe('reducers', () => {
     test('should handle no extra reducers', () => {
       const result = mergeConfig({}, {})
       expect(result.redux.reducers).toEqual({})
@@ -106,7 +106,7 @@ describe('mergeConfig', () => {
           }
         }
       }
-      const result = mergeConfig(undefined, c2)
+      const result = mergeConfig({}, c2)
       expect(result.redux.reducers).toEqual(c2.extraReducers)
     })
 
@@ -177,7 +177,7 @@ describe('mergeConfig', () => {
           combineReducers: c2f,
         }
       }
-      const result = mergeConfig(undefined, c2)
+      const result = mergeConfig({ redux: {} }, c2)
       expect(result.redux.combineReducers).toEqual(c2f)
     })
 

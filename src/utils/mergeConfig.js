@@ -1,6 +1,8 @@
 // merges two config objects
 // assumes configs are already validated
 export const mergeConfig = (c1 = {}, c2 = {}) => {
+  c1.redux = c1.redux || {}
+  c2.redux = c2.redux || {}
   const config = {
     redux: {}
   }
@@ -47,8 +49,8 @@ export const mergeConfig = (c1 = {}, c2 = {}) => {
 
   // Note: this pattern does not allow for multiple overwrites
   // of the same name. TODO: throw an error, or compose functions
-  config.redux.combineReducers = c1.redux.combineReducers || c2.redux.combineReducers
-  config.redux.createStore = c1.redux.createStore || c2.redux.createStore
+  config.redux.combineReducers = c2.redux.combineReducers || c1.redux.combineReducers
+  config.redux.createStore = c2.redux.createStore || c1.redux.createStore
 
   return config
 }

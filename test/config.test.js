@@ -17,7 +17,9 @@ describe('init config', () => {
   test('should not accept invalid "middlewares"', () => {
     const { init } = require('../src')
     expect(() => init({
-      middlewares: {}
+      redux: {
+        middlewares: {}
+      }
     })).toThrow()
   })
 
