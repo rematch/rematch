@@ -34,8 +34,8 @@ export const mergeConfig = (c1 = {}, c2 = {}) => {
   config.redux.initialState = c1.redux.initialState || {}
   if (c2.redux.initialState) {
     config.redux.initialState = {
-      ...c1.initialState,
-      ...c2.initialState,
+      ...c1.redux.initialState,
+      ...c2.redux.initialState,
     }
   }
 

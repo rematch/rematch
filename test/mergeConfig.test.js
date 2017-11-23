@@ -11,7 +11,7 @@ describe('mergeConfig', () => {
         }
       }
       const result = mergeConfig(c1)
-      expect(result.redux.initialState).toEqual(c1.initialState)
+      expect(result.redux.initialState).toEqual(c1.redux.initialState)
     })
     test('it should handle no primary config', () => {
       const c2 = {
@@ -21,8 +21,8 @@ describe('mergeConfig', () => {
           },
         }
       }
-      const result = mergeConfig(undefined, c2)
-      expect(result.redux.initialState).toEqual(c2.initialState)
+      const result = mergeConfig({}, c2)
+      expect(result.redux.initialState).toEqual(c2.redux.initialState)
     })
     test('a secondary config should merge initialState', () => {
       const c1 = {
@@ -82,11 +82,11 @@ describe('mergeConfig', () => {
   })
 
   describe('reducers', () => {
-    test('should handle no extra reducers', () => {
+    test('should handle no redux reducers', () => {
       const result = mergeConfig({}, {})
       expect(result.redux.reducers).toEqual({})
     })
-    test('should handle only c1 extra reducers', () => {
+    test('should handle only c1 redux reducers', () => {
       const c1 = {
         redux: {
           reducers: {
@@ -95,10 +95,10 @@ describe('mergeConfig', () => {
         }
       }
       const result = mergeConfig(c1)
-      expect(result.extraReducers).toEqual(c1.extraReducers)
+      expect(result.redux.reducers).toEqual(c1.redux.reducers)
     })
 
-    test('should handle only c2 extra reducers', () => {
+    test('should handle only c2 redux reducers', () => {
       const c2 = {
         redux: {
           reducers: {
@@ -107,10 +107,10 @@ describe('mergeConfig', () => {
         }
       }
       const result = mergeConfig({}, c2)
-      expect(result.redux.reducers).toEqual(c2.extraReducers)
+      expect(result.redux.reducers).toEqual(c2.redux.reducers)
     })
 
-    test('should merge c1 & c2 extra reducers', () => {
+    test('should merge c1 & c2 redux reducers', () => {
       const c1 = {
         redux: {
           reducers: {
@@ -132,7 +132,7 @@ describe('mergeConfig', () => {
       })
     })
 
-    test('c2 extra reducers should overwrite c1', () => {
+    test('c2 redux reducers should overwrite c1', () => {
       const c1 = {
         redux: {
           reducers: {
