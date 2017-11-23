@@ -5,10 +5,13 @@ export default {
   expose: {
     dispatch: (action: $action) => storeDispatch(action),
     createDispatcher: (modelName: string, reducerName: string) =>
-      async (payload: any) => {
+      async (payload: any, meta: any) => {
         const action = { type: `${modelName}/${reducerName}` }
         if (payload) {
           action.payload = payload
+        }
+        if (meta) {
+          action.meta = meta
         }
         await storeDispatch(action)
       }

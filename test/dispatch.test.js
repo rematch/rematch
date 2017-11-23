@@ -203,6 +203,38 @@ describe('dispatch:', () => {
         count: 6,
       })
     })
+
+    test('should use second param as action meta', (done) => {
+      const {
+        init, dispatch
+      } = require('../src')
+
+      const count = {
+        state: 1,
+        reducers: {
+          incrementBy: (state, payload) => state + payload,
+        },
+      }
+
+      // TODO: capture actions in a more direct way
+      init({
+        models: { count },
+        plugins: [{
+          init() {
+            return {
+              middleware: () => next => action => {
+                if (action.meta) {
+                  expect(action).toEqual({ type: 'count/incrementBy', payload: 5, meta: { metaProperty: true } })
+                  done()
+                }
+                return next(action)
+              }
+            }
+          }
+        }]
+      })
+      dispatch.count.incrementBy(5, { metaProperty: true })
+    })
   })
 
   describe('promise middleware', () => {

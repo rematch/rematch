@@ -28,7 +28,7 @@ Any data attached to an action is added in the payload.
 
 ## dispatch
 
-`dispatch(action)`
+`dispatch(action, meta)`
 
 A dispatch sends an [action](#action)
 
@@ -43,6 +43,10 @@ import { dispatch } from '@rematch/core'
 
 dispatch.cart.addToCart(item)
 ```
+
+Dispatch has an optional second property, "meta", which can be used in subscriptions or middleware. This is for advanced use cases only.
+
+`dispatch.cart.addToCart(item, { syncWithServer: true })`
 
 
 ## model
