@@ -1,3 +1,4 @@
+#!/bin/sh
 # Build script to be used locally for now
 
 build_production () {
