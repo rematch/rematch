@@ -14,10 +14,10 @@ describe('init config', () => {
     })).toThrow()
   })
 
-  test('should not accept invalid "middleware"', () => {
+  test('should not accept invalid "middlewares"', () => {
     const { init } = require('../src')
     expect(() => init({
-      middleware: {}
+      middlewares: {}
     })).toThrow()
   })
 
