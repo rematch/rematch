@@ -7,7 +7,6 @@ declare type $config = {
      [reducerName: string]: (state: any, action: Object) => any,
    },
    middlewares?: Function[],
-   enhancers?: Function[],
    combineReducers?: (rootReducer: $reducer) => any,
    createStore?: () => any,
    devtoolOptions?: Object,

@@ -35,7 +35,7 @@ export const mergeReducers = (nextReducers: $reducers = {}) => {
   return combine(_reducers)
 }
 
-export const initReducers = (models, redux = {}) : void => {
+export const initReducers = (models, redux) : void => {
   // optionally overwrite combineReducers on init
   combine = redux.combineReducers || combine
 

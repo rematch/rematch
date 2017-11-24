@@ -21,7 +21,7 @@ describe('mergeConfig', () => {
           },
         }
       }
-      const result = mergeConfig({}, c2)
+      const result = mergeConfig(undefined, c2)
       expect(result.redux.initialState).toEqual(c2.redux.initialState)
     })
     test('a secondary config should merge initialState', () => {
@@ -52,7 +52,7 @@ describe('mergeConfig', () => {
       const c1 = {
         plugins: []
       }
-      const result = mergeConfig(c1, {})
+      const result = mergeConfig(c1, undefined)
       expect(result.plugins).toEqual([])
     })
 
@@ -83,7 +83,7 @@ describe('mergeConfig', () => {
 
   describe('reducers', () => {
     test('should handle no redux reducers', () => {
-      const result = mergeConfig({}, {})
+      const result = mergeConfig(undefined, undefined)
       expect(result.redux.reducers).toEqual({})
     })
     test('should handle only c1 redux reducers', () => {
@@ -106,7 +106,7 @@ describe('mergeConfig', () => {
           }
         }
       }
-      const result = mergeConfig({}, c2)
+      const result = mergeConfig(undefined, c2)
       expect(result.redux.reducers).toEqual(c2.redux.reducers)
     })
 

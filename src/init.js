@@ -26,10 +26,6 @@ const validateConfig = (config: $config) =>
       'init config.redux.middlewares must be an array',
     ],
     [
-      config.redux.enhancers && !Array.isArray(config.redux.enhancers),
-      'init config.redux.enhancers must be an array',
-    ],
-    [
       config.redux.reducers && isObject(config.redux.reducers),
       'init config.redux.reducers must be an object',
     ],
