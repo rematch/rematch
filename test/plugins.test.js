@@ -71,8 +71,10 @@ describe('plugins:', () => {
     const { init, getStore } = require('../src')
     const plugin1 = {
       config: {
-        initialState: {
-          app: 1
+        redux: {
+          initialState: {
+            app: 1
+          }
         }
       },
       init: () => ({}),

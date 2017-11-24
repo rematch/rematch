@@ -14,32 +14,33 @@ import { initReducers } from './redux/reducers'
 const validateConfig = (config: $config) =>
   validate([
     [
-      !!config.plugins && !Array.isArray(config.plugins),
+      config.plugins && !Array.isArray(config.plugins),
       'init config.plugins must be an array',
     ],
     [
-      !!config.models && isObject(config.models),
+      config.models && isObject(config.models),
       'init config.models must be an object'
     ],
     [
-      !!config.middleware && !Array.isArray(config.middleware),
-      'init config.middleware must be an array',
+      config.redux.middlewares && !Array.isArray(config.redux.middlewares),
+      'init config.redux.middlewares must be an array',
     ],
     [
-      !!config.extraReducers && isObject(config.extraReducers),
-      'init config.extraReducers must be an object',
+      config.redux.reducers && isObject(config.redux.reducers),
+      'init config.redux.reducers must be an object',
     ],
     [
-      (!!config.overwrites && !!config.overwrites.combineReducers) && typeof config.overwrites.combineReducers !== 'function',
-      'init config.overwrites.combineReducers must be a function'
+      config.redux.combineReducers && typeof config.redux.combineReducers !== 'function',
+      'init config.redux.combineReducers must be a function'
     ],
     [
-      (!!config.overwrites && !!config.overwrites.createStore) && typeof config.overwrites.createStore !== 'function',
-      'init config.overwrites.createStore must be a function'
+      config.redux.createStore && typeof config.redux.createStore !== 'function',
+      'init config.redux.createStore must be a function'
     ],
   ])
 
 const init = (initConfig: $config = {}): void => {
+  initConfig.redux = initConfig.redux || {}
   validateConfig(initConfig)
   const config = mergeConfig(initConfig)
   const pluginConfigs = corePlugins.concat(config.plugins || [])
@@ -52,7 +53,7 @@ const init = (initConfig: $config = {}): void => {
   // collect all models
   const models = getModels(config, plugins)
   initModelHooks(models)
-  initReducers(models, config)
+  initReducers(models, config.redux)
 
   // create a redux store with initialState
   // merge in additional extra reducers

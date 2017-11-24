@@ -22,7 +22,7 @@ export default (config = {}) => {
   return {
     config: {
       // pass in merged config as first param of persistCombineReducers
-      overwrites: {
+      redux: {
         combineReducers: persistCombineReducers.bind(null, mergedConfig),
       }
     },

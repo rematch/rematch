@@ -7,8 +7,10 @@ export default ({
   Navigator: createNavigator({ Routes, ReactNavigation }),
   reactNavigationPlugin: {
     config: {
-      extraReducers: {
-        nav: createNavReducer({ Routes, initialScreen }),
+      redux: {
+        reducers: {
+          nav: createNavReducer({ Routes, initialScreen }),
+        }
       }
     },
     init: ({ dispatch }) => ({

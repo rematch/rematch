@@ -1,12 +1,14 @@
 declare type $config = {
- initialState?: any,
+ models?: Object,
  plugins?: $plugin[],
- extraReducers?: {
-  [reducerName: string]: (state: any, action: Object) => any,
- },
- overwrites?: {
-  combineReducers?: (rootReducer: $reducer) => any,
-  createStore?: () => any,
- },
- devtoolOptions?: Object,
+ redux: {
+   initialState?: any,
+   reducers?: {
+     [reducerName: string]: (state: any, action: Object) => any,
+   },
+   middlewares?: Function[],
+   combineReducers?: (rootReducer: $reducer) => any,
+   createStore?: () => any,
+   devtoolOptions?: Object,
+ }
 }

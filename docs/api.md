@@ -12,7 +12,7 @@
   - [initialState](#initialState)
   - [plugins](#plugins)
   - [plugins API](./pluginsApi.md)
-  - [init advanced API)](./initApi.md)
+  - [redux](./initReduxApi.md)
 - [getStore](#getstore)
 
 
@@ -204,12 +204,6 @@ model({
 })
 ```
 
-### initialState
-
-`init({ initialState: any })`
-
-The initialState of your app. This is likely not necessary, as the state of your models will overwrite the initial state.
-
 ## getStore
 
 `function`
@@ -234,6 +228,12 @@ Plugins are custom sets of init configurations or internal hooks that can add fe
 
 Read more about existing [plugins](./plugins) or about how to create your own plugins using the [plugins API](./pluginsAPI).
 
-### Init Options (continued)
+### Init Redux (continued)
 
-For a complete summary of all init options, see the [init options API](./initApi.md).
+There are situations where you might want to access Redux directly. You may want to:
+
+- migrate an existing Redux project
+- add middleware
+- create a custom plugin
+
+For a complete summary of all redux options, see the [init Redux API](./initReduxApi.md).
