@@ -3,7 +3,7 @@
 > This section is likely not helpful for you unless you are building your own plugin or adding middleware. For a list of common init options, see the [API reference](./api.md)
 
 - init
-  - redux
+  - [redux](#redux)
     - [initialState](#initialState)
     - [reducers](#reducers)
     - [middlewares](#middlewares)

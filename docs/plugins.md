@@ -1,13 +1,13 @@
 # Plugins
 
-### [Select Plugin](./plugins/select)
+### [Select Plugin](../plugins/select)
 
-### [Subscriptions Plugin](./plugins/subscriptions)
+### [Subscriptions Plugin](../plugins/subscriptions)
 
-### [Loading Plugin](./plugins/loading)
+### [Loading Plugin](../plugins/loading)
 
-### [Persist Plugin](./plugins/persist)
+### [Persist Plugin](../plugins/persist)
 
-### [Updated Plugin](./plugins/updated)
+### [Updated Plugin](../plugins/updated)
 
-### [React Navigation Plugin](./plugins/react-navigation)
+### [React Navigation Plugin](../plugins/react-navigation)

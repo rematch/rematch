@@ -30,6 +30,7 @@ npm install @rematch/core
 
 ## Getting Started
 
+
 ### Step 1: Models
 
 The **model** brings together state, reducers, async actions & action creators in one place.
@@ -46,7 +47,7 @@ export const count = {
   effects: { // state changes with impure functions
     async addByAsync(payload, state) {
       await Promise.resolve()
-      dispatch.count.addBy(payload)
+      this.addBy(payload)
     }
   }
 }
@@ -58,6 +59,7 @@ Understanding models is as simple as answering a few questions:
 2. How do I change the state? **reducers**
 3. How do I handle asynchronous actions? **effects** with async/await
 
+
 ### Step 2: Init
 
 **init** configures your reducers, devtools & store. 
@@ -67,15 +69,15 @@ Understanding models is as simple as answering a few questions:
 ```js
 import { init } from '@rematch/core'
 import * as models from './models'
-import plugins from './plugins'
 
 init({
   models,
-  plugins,
+//plugins,
 })
 ```
 
 For additional setup, pass in a configuration or one of many existing [plugins](./docs/plugins.md).
+
 
 ### Step 3: View
 
@@ -113,6 +115,7 @@ ReactDOM.render(
   document.getElementById('root')
 )
 ```
+
 
 ## API
 
