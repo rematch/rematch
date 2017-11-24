@@ -1,6 +1,6 @@
 {
   "name": "@rematch/react-navigation",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "React Navigation plugin for Rematch",
   "keywords": [
     "@rematch",
@@ -20,7 +20,7 @@
   ],
   "main": "lib/index.min.js",
   "scripts": {
-    "build": "webpack --env build"
+    "build": "rm -rf lib && webpack --env build"
   },
   "devDependencies": {
     "@rematch/core": "0.1.0-alpha.12",
@@ -50,7 +50,7 @@
     "yargs": "^10.0.3"
   },
   "peerDependencies": {
-    "@rematch/core": "^0.1.0-alpha.12",
+    "@rematch/core": "^0.1.0-beta.5",
     "react": "*",
     "react-native": "*",
     "react-navigation": "*",

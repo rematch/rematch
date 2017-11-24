@@ -1,6 +1,6 @@
 {
   "name": "@rematch/persist",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Redux-Persist v5 plugin for Rematch. Provides simple redux state persistence using local storage options.",
   "keywords": [
     "@rematch",
@@ -20,7 +20,7 @@
   ],
   "main": "lib/index.min.js",
   "scripts": {
-    "build": "webpack --env build"
+    "build": "rm -rf lib && webpack --env build"
   },
   "dependencies": {
     "redux-persist": "^5.4.0"
@@ -50,6 +50,6 @@
     "yargs": "^10.0.3"
   },
   "peerDependencies": {
-    "@rematch/core": "^0.1.0-alpha.12"
+    "@rematch/core": "^0.1.0-beta.5"
   }
 }

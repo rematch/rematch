@@ -1,6 +1,6 @@
 {
   "name": "@rematch/updated",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Rematch plugin for maintaining timestamps when effects are called",
   "keywords": [
     "@rematch",
@@ -23,7 +23,7 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "webpack --env build"
+    "build": "rm -rf lib && webpack --env build"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -50,6 +50,6 @@
     "yargs": "^10.0.3"
   },
   "peerDependencies": {
-    "@rematch/core": "^0.1.0-beta.1"
+    "@rematch/core": "^0.1.0-beta.5"
   }
 }
