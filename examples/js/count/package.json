@@ -1,18 +1,17 @@
 {
   "name": "rematch-vanilla-js-count-example",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "license": "ISC",
+  "main": "src/index.js",
   "scripts": {
     "build": "webpack"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@rematch/core": "0.1.0-alpha.11"
+    "@rematch/core": "file:../../.."
   },
   "devDependencies": {
     "babel-loader": "^7.1.2",
     "webpack": "^3.8.1"
-  }
+  },
+  "private": true
 }
