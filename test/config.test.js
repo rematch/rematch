@@ -14,6 +14,45 @@ describe('init config', () => {
     })).toThrow()
   })
 
+  test('should ensure multiple middlewares are working', (done) => {
+    const { init, dispatch } = require('../src')
+
+    const add5Middleware = () => next => action => {
+      action.payload += 5
+      return next(action)
+    }
+
+    const subtract2Middleware = (store) => next => action => {
+      const state = store.getState()
+      if (state.count > 1) {
+        expect(state.count).toBe(6)
+        done()
+      }
+      return next(action)
+    }
+
+    init({
+      models: {
+        count: {
+          state: 0,
+          reducers: {
+            addBy(state, payload) {
+              return state + payload
+            }
+          }
+        }
+      },
+      redux: {
+        middlewares: [
+          add5Middleware, subtract2Middleware
+        ]
+      }
+    })
+
+    dispatch.count.addBy(1)
+    dispatch.count.addBy(1)
+  })
+
   test('should not accept invalid "middlewares"', () => {
     const { init } = require('../src')
     expect(() => init({
