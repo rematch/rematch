@@ -1,6 +1,6 @@
 import { modelHooks } from './core'
 import { createReducersAndUpdateStore } from './redux/store'
-import { Model } from './typings'
+import { Model } from './typings/rematch'
 import validate from './utils/validate'
 
 const addModel = (model: Model) => {

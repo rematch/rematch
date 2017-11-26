@@ -1,6 +1,6 @@
 import { Middleware } from 'redux'
 import { getStore } from './redux/store'
-import { ModelHook, Plugin } from './typings'
+import { ModelHook, Plugin } from './typings/rematch'
 
 export const modelHooks: ModelHook[] = []
 export const pluginMiddlewares: Middleware[] = []

@@ -1,4 +1,4 @@
-import { Plugin, PluginCreator } from '../typings'
+import { Plugin, PluginCreator } from '../typings/rematch'
 
 export default (plugins: PluginCreator[], exposed: any) => plugins.reduce((all, { init }) => {
   if (init) {
@@ -6,7 +6,7 @@ export default (plugins: PluginCreator[], exposed: any) => plugins.reduce((all, 
     exposed.validate([
       [
         plugin.onStoreCreated && typeof plugin.onStoreCreated !== 'function',
-        'Plugin onStoreCreated must be a function'
+        'Plugin onStoreCreated must be a function',
       ],
       [
         plugin.onModel && typeof plugin.onModel !== 'function',

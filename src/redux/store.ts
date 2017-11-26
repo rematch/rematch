@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 import { applyMiddleware, createStore as _createStore, Store } from 'redux'
 import { pluginMiddlewares } from '../core'
-import { Config, Model } from '../typings'
+import { Config, Model } from '../typings/rematch'
 import { composeEnhancers } from './devtools'
 import { createModelReducer, mergeReducers  } from './reducers'
 

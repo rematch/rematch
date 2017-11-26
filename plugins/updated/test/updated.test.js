@@ -9,7 +9,7 @@ describe('updated', () => {
   test('should record the timestamp of the last time an effect was updated', async () => {
     const {
       init, dispatch, getStore
-    } = require('../../../build/index')
+    } = require('../../../lib')
 
     const updatedPlugin = require('../src').default
 
@@ -46,7 +46,7 @@ describe('updated', () => {
   test('should work with multiple effects', async () => {
     const {
       init, dispatch, getStore
-    } = require('../../../build/index')
+    } = require('../../../lib')
 
     const updatedPlugin = require('../src').default
 

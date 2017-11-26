@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
 import { combineReducers, Reducer} from 'redux'
-import { Action, ConfigRedux, Model, Reducers } from '../typings'
+import { Action, ConfigRedux, Model, Reducers } from '../typings/rematch'
 
 let combine: (Reducers) => Reducer<any> = combineReducers
 

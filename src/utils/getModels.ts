@@ -1,4 +1,4 @@
-import { Config, Plugin } from '../typings'
+import { Config, Plugin } from '../typings/rematch'
 
 const captureModels = (models = {}) => Object.keys(models).map((name: string) => ({
   name,

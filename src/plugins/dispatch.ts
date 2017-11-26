@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { Action, Model, PluginCreator } from '../typings'
+import { Action, Model, PluginCreator } from '../typings/rematch'
 
 let storeDispatch
 
@@ -28,7 +28,7 @@ const dispatchPlugin: PluginCreator = {
         validate([
           [
             reducerName.match(/\//),
-            `Invalid reducer name (${model.name}/${reducerName})`
+            `Invalid reducer name (${model.name}/${reducerName})`,
           ],
           [
             typeof model.reducers[reducerName] !== 'function',

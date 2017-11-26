@@ -17,15 +17,18 @@
     "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
   ],
   "files": [
-    "lib"
+    "dist"
   ],
-  "main": "lib/index.min.js",
+  "main": "dist/rematch.cjs.js",
+  "module": "dist/rematch.esm.js",
+  "browser": "dist/rematch.umd.js",
+  "types": "src/typings/rematch",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "rm -rf lib && webpack --env build",
+    "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c",
     "build:all": "bash ./scripts/build.sh",
     "dev": "webpack --progress --colors --watch --env dev",
     "install:all": "bash ./scripts/install.sh",
@@ -61,6 +64,14 @@
     "gitbook-plugin-prism": "^2.3.0",
     "jest": "^21.2.1",
     "reselect": "^3.0.1",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.52.0",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-plugin-uglify": "^2.0.1",
+    "typescript": "^2.6.1",
     "webpack": "^3.8.1",
     "yargs": "^10.0.3"
   },

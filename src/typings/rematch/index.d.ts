@@ -1,4 +1,22 @@
+// Type definitions for Rematch v0.1.0-beta.5
+// Project: Rematch
+// Definitions by: Shawn McKay https://github.com/shmck
+
 import { combineReducers, createStore, Dispatch, Middleware, Reducer, Store } from 'redux'
+
+export as namespace rematch
+
+export function dispatch(action: Action): Promise<Dispatch<any>>
+export function getStore(): Store<any>
+export function init(config: Config): void
+export function model(model: Model): void
+
+export namespace rematch {
+  export function dispatch(action: Action): Promise<Dispatch<any>>
+  export function getStore(): Store<any>
+  export function init(config: Config): void
+  export function model(model: Model): void
+}
 
 export type Action = {
   type: string,
@@ -28,17 +46,17 @@ export interface Model {
   state: any,
   reducers?: Reducers,
   effects?: {
-   [key: string]: (payload: any) => void,
+  [key: string]: (payload: any) => void,
   },
   selectors?: {
-   [key: string]: (state: any, arg?: any) => any,
+  [key: string]: (state: any, arg?: any) => any,
   },
   subscriptions?: {
-   [matcher: string]: (action: Action) => void,
+  [matcher: string]: (action: Action) => void,
   },
- }
- 
- export interface Plugin {
+}
+
+export interface Plugin {
   onStoreCreated?: (getState: GetState) => void,
   onModel?: ModelHook,
   model?: Model,
@@ -68,4 +86,4 @@ export interface Config {
   },
   plugins?: PluginCreator[],
   redux?: ConfigRedux,
- }
+}

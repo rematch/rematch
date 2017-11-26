@@ -5,7 +5,7 @@ beforeEach(() => {
 describe('dispatch:', () => {
   describe('action:', () => {
     it('should be call in the form "modelName/reducerName"', () => {
-      const { init, getStore } = require('../build')
+      const { init, getStore } = require('../lib')
       const count = {
         state: 0,
         reducers: {
@@ -26,7 +26,7 @@ describe('dispatch:', () => {
     test('should be able to call dispatch directly', () => {
       const {
         init, getStore, dispatch
-      } = require('../build')
+      } = require('../lib')
 
       const count = {
         state: 0,
@@ -49,7 +49,7 @@ describe('dispatch:', () => {
     test('should dispatch an action', () => {
       const {
         init, getStore, dispatch
-      } = require('../build')
+      } = require('../lib')
 
       const count = {
         state: 0,
@@ -72,7 +72,7 @@ describe('dispatch:', () => {
     test('should dispatch multiple actions', () => {
       const {
         init, getStore, dispatch
-      } = require('../build')
+      } = require('../lib')
 
       const count = {
         state: 0,
@@ -96,7 +96,7 @@ describe('dispatch:', () => {
     test('should handle multiple models', () => {
       const {
         init, getStore, dispatch
-      } = require('../build')
+      } = require('../lib')
 
       const a = {
         state: 42,
@@ -129,7 +129,7 @@ describe('dispatch:', () => {
   test('should throw if the reducer name is invalid', () => {
     const {
       model, init
-    } = require('../build')
+    } = require('../lib')
     init()
 
     expect(() => model({
@@ -144,7 +144,7 @@ describe('dispatch:', () => {
   test('should throw if the reducer is not a function', () => {
     const {
       model, init
-    } = require('../build')
+    } = require('../lib')
     init()
 
     expect(() => model({
@@ -160,7 +160,7 @@ describe('dispatch:', () => {
     test('should pass state as the first reducer param', () => {
       const {
         init, getStore, dispatch
-      } = require('../build')
+      } = require('../lib')
 
 
       const count = {
@@ -184,7 +184,7 @@ describe('dispatch:', () => {
     test('should pass payload as the second param', () => {
       const {
         init, getStore, dispatch
-      } = require('../build')
+      } = require('../lib')
 
       const count = {
         state: 1,
@@ -207,7 +207,7 @@ describe('dispatch:', () => {
     test('should use second param as action meta', (done) => {
       const {
         init, dispatch
-      } = require('../build')
+      } = require('../lib')
 
       const count = {
         state: 1,
@@ -239,7 +239,7 @@ describe('dispatch:', () => {
 
   describe('promise middleware', () => {
     test('should return a promise from an action', () => {
-      const { init, dispatch } = require('../build')
+      const { init, dispatch } = require('../lib')
 
       const count = {
         state: 0,
@@ -258,7 +258,7 @@ describe('dispatch:', () => {
     })
 
     test('should return a promise from an effect', () => {
-      const { init, dispatch } = require('../build')
+      const { init, dispatch } = require('../lib')
 
       const count = {
         state: 0,

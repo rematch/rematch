@@ -1,4 +1,4 @@
-import { Config, PluginCreator } from '../typings'
+import { Config, PluginCreator } from '../typings/rematch'
 
 // merges two config objects
 // assumes configs are already validated

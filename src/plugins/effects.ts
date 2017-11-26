@@ -1,5 +1,5 @@
 import { Store } from 'redux'
-import { Action, Model, PluginCreator } from '../typings'
+import { Action, Model, PluginCreator } from '../typings/rematch'
 
 const effectsPlugin: PluginCreator = {
   expose: {
