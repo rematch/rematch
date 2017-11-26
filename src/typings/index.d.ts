@@ -1,4 +1,4 @@
-import { combineReducers, createStore, Dispatch, Middleware, Reducer } from 'redux'
+import { combineReducers, createStore, Dispatch, Middleware, Reducer, Store } from 'redux'
 
 export type Action = {
   type: string,
@@ -8,6 +8,19 @@ export type Action = {
 
 export type Reducers = {
   [key: string]: Reducer<any>,
+}
+
+export type ModelHook = (model: Model) => void
+
+type GetState = () => Store<any>
+
+export type Validation = [boolean, string]
+
+export type Exposed = {
+  dispatch?: Dispatch<any>,
+  effects?: Dispatch<any>,
+  createDispatcher?: (modelName: string, reducerName: string) => any,
+  validate?: (validations: Validation[]) => void,
 }
 
 export interface Model {
@@ -26,18 +39,16 @@ export interface Model {
  }
  
  export interface Plugin {
-  onStoreCreated?: (getState) => void,
-  onModel?: (model: Model, dispatch: Dispatch<any>) => void,
+  onStoreCreated?: (getState: GetState) => void,
+  onModel?: ModelHook,
   model?: Model,
   middleware?: Middleware,
 }
 
 export interface PluginCreator {
-  expose: {
-    [key: string]: any,
-  },
-  config: Config,
-  init: (exposed: Object) => Plugin
+  config?: Config,
+  expose?: any,
+  init?: (exposed: any) => Plugin
 }
 
 export interface ConfigRedux {
@@ -46,8 +57,8 @@ export interface ConfigRedux {
     [key: string]: Reducer<any>,
   },
   middlewares?: Middleware[],
-  combineReducers?: combineReducers<any>,
-  createStore?: createStore,
+  combineReducers?: (Reducers) => Reducer<any>,
+  createStore?: (Reducer, any, Middleware) => Store<any>,
   devtoolOptions?: Object,
 }
 

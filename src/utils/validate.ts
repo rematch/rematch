@@ -1,4 +1,4 @@
-type Validation = [boolean, string]
+import { Validation } from '../typings'
 
 /**
  * Validate

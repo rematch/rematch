@@ -1,8 +1,9 @@
+import { Middleware } from 'redux'
 import { getStore } from './redux/store'
-import { Plugin } from './typings'
+import { ModelHook, Plugin } from './typings'
 
-export const modelHooks = []
-export const pluginMiddlewares = []
+export const modelHooks: ModelHook[] = []
+export const pluginMiddlewares: Middleware[] = []
 
 export const preStore = (plugins: Plugin[]) => {
   plugins.forEach((plugin: Plugin) => {

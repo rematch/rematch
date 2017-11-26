@@ -4,18 +4,18 @@ beforeEach(() => {
 
 describe('init config', () => {
   test('should not throw with an empty config', () => {
-    const { init } = require('../src')
+    const { init } = require('../build')
     expect(() => init()).not.toThrow()
   })
   test('should not accept invalid plugins', () => {
-    const { init } = require('../src')
+    const { init } = require('../build')
     expect(() => init({
       plugins: {}
     })).toThrow()
   })
 
   test('should ensure multiple middlewares are working', (done) => {
-    const { init, dispatch } = require('../src')
+    const { init, dispatch } = require('../build')
 
     const add5Middleware = () => next => action => {
       action.payload += 5
@@ -54,7 +54,7 @@ describe('init config', () => {
   })
 
   test('should not accept invalid "middlewares"', () => {
-    const { init } = require('../src')
+    const { init } = require('../build')
     expect(() => init({
       redux: {
         middlewares: {}
@@ -63,7 +63,7 @@ describe('init config', () => {
   })
 
   test('should not accept invalid array for "extraReducers"', () => {
-    const { init } = require('../src')
+    const { init } = require('../build')
     expect(() => init({
       redux: {
         reducers: []
@@ -72,7 +72,7 @@ describe('init config', () => {
   })
 
   test('should not accept invalid value as "extraReducers"', () => {
-    const { init } = require('../src')
+    const { init } = require('../build')
     expect(() => init({
       redux: {
         reducers: 42
@@ -81,7 +81,7 @@ describe('init config', () => {
   })
 
   test('should run with devtool options', () => {
-    const { init, getStore } = require('../src')
+    const { init, getStore } = require('../build')
     init({
       redux: {
         initialState: { a: 1 },
@@ -94,7 +94,7 @@ describe('init config', () => {
   })
 
   test('devtools should default to compose', () => {
-    const { composeEnhancers } = require('../src/redux/devtools')
+    const { composeEnhancers } = require('../build/redux/devtools')
     const { compose } = require('redux')
     expect(composeEnhancers()).toEqual(compose)
   })

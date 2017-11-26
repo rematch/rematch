@@ -1,12 +1,14 @@
-import { Config } from '../typings'
+import { Config, PluginCreator } from '../typings'
 
 // merges two config objects
 // assumes configs are already validated
-export const mergeConfig = (c1: Config = {}, c2: Config = {}) => {
+export const mergeConfig = (c1: Config = {}, c2: Config = {}): Config => {
   c1.redux = c1.redux || {}
   c2.redux = c2.redux || {}
-  const config = {
-    redux: {}
+  const config: Config = {
+    models: {},
+    plugins: [],
+    redux: {},
   }
 
   // models
@@ -23,7 +25,7 @@ export const mergeConfig = (c1: Config = {}, c2: Config = {}) => {
   // plugins
   config.plugins = c1.plugins || []
   if (c2.plugins) {
-    c2.plugins.forEach(plugin => {
+    c2.plugins.forEach((plugin: PluginCreator) => {
       if (!config.plugins.includes(plugin)) {
         config.plugins.push(plugin)
       }
@@ -45,7 +47,7 @@ export const mergeConfig = (c1: Config = {}, c2: Config = {}) => {
   if (c2.redux.reducers) {
     config.redux.reducers = {
       ...c1.redux.reducers,
-      ...c2.redux.reducers
+      ...c2.redux.reducers,
     }
   }
 
@@ -57,7 +59,7 @@ export const mergeConfig = (c1: Config = {}, c2: Config = {}) => {
   return config
 }
 
-export default (config: Config) => (config.plugins || []).reduce((a, b) => {
+export default (config: Config): Config => (config.plugins || []).reduce((a, b) => {
   if (b.config) {
     b.config.redux = b.config.redux || {}
     return mergeConfig(a, b.config)

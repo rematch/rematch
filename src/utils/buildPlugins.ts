@@ -1,4 +1,4 @@
-import { PluginCreator, Plugin } from '../typings'
+import { Plugin, PluginCreator } from '../typings'
 
 export default (plugins: PluginCreator[], exposed: any) => plugins.reduce((all, { init }) => {
   if (init) {

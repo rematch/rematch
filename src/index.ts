@@ -1,20 +1,20 @@
 import init from './init'
 import { createModel as model } from './model'
-import { getStore } from './redux/store'
 import dispatchPlugin from './plugins/dispatch'
+import { getStore } from './redux/store'
 
 const { expose: { dispatch } } = dispatchPlugin
 
 export default {
+  dispatch,
+  getStore,
   init,
   model,
-  getStore,
-  dispatch,
 }
 
 export {
+  dispatch,
+  getStore,
   init,
   model,
-  getStore,
-  dispatch,
 }

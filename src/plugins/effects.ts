@@ -1,24 +1,22 @@
 import { Store } from 'redux'
-import { Action, Model } from '../typings'
+import { Action, Model, PluginCreator } from '../typings'
 
-export default {
+const effectsPlugin: PluginCreator = {
   expose: {
-    effects: {}
+    effects: {},
   },
-  init: ({
-    effects, dispatch, createDispatcher, validate
-  }) => ({
+  init: ({ effects, dispatch, createDispatcher, validate }) => ({
     onModel(model: Model) {
       Object.keys(model.effects || {}).forEach((effectName: string) => {
         validate([
           [
-            effectName.match(/\//),
-            `Invalid effect name (${model.name}/${effectName})`
+            !!effectName.match(/\//),
+            `Invalid effect name (${model.name}/${effectName})`,
           ],
           [
             typeof model.effects[effectName] !== 'function',
-            `Invalid effect (${model.name}/${effectName}). Must be a function`
-          ]
+            `Invalid effect (${model.name}/${effectName}). Must be a function`,
+          ],
         ])
         effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(dispatch[model.name])
         // add effect to dispatch
@@ -32,14 +30,11 @@ export default {
       (next: (action: Action) => any) =>
         async (action: Action) => {
           // async/await acts as promise middleware
-          let result
-          if (action.type in effects) {
-            // NOTE: if possible, bind getState to exposeToEffects outside middleware
-            result = await effects[action.type](action.payload, store.getState())
-          } else {
-            result = await next(action)
-          }
-          return result
-        }
-  })
+        return await (action.type in effects)
+          ? effects[action.type](action.payload, store.getState())
+          : next(action)
+    },
+  }),
 }
+
+export default effectsPlugin

@@ -1,15 +1,15 @@
-import validate from './utils/validate'
+import { postStore, preStore } from './core'
+import { initModelHooks } from './model'
+import corePlugins from './plugins'
+import { initReducers } from './redux/reducers'
+import { initStore } from './redux/store'
+import { Config } from './typings'
+import buildPlugins from './utils/buildPlugins'
+import getExposed from './utils/getExposed'
+import getModels from './utils/getModels'
 import isObject from './utils/isObject'
 import mergeConfig from './utils/mergeConfig'
-import getExposed from './utils/getExposed'
-import buildPlugins from './utils/buildPlugins'
-import getModels from './utils/getModels'
-import { preStore, postStore } from './core'
-import corePlugins from './plugins'
-import { initModelHooks } from './model'
-import { initStore } from './redux/store'
-import { initReducers } from './redux/reducers'
-import { Config } from './typings'
+import validate from './utils/validate'
 
 const validateConfig = (config: Config) =>
   validate([
@@ -19,7 +19,7 @@ const validateConfig = (config: Config) =>
     ],
     [
       config.models && isObject(config.models),
-      'init config.models must be an object'
+      'init config.models must be an object',
     ],
     [
       config.redux.middlewares && !Array.isArray(config.redux.middlewares),
@@ -31,11 +31,11 @@ const validateConfig = (config: Config) =>
     ],
     [
       config.redux.combineReducers && typeof config.redux.combineReducers !== 'function',
-      'init config.redux.combineReducers must be a function'
+      'init config.redux.combineReducers must be a function',
     ],
     [
       config.redux.createStore && typeof config.redux.createStore !== 'function',
-      'init config.redux.createStore must be a function'
+      'init config.redux.createStore must be a function',
     ],
   ])
 

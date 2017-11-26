@@ -1,13 +1,13 @@
-import { Action, Model } from '../typings'
+import { Dispatch } from 'redux'
+import { Action, Model, PluginCreator } from '../typings'
 
 let storeDispatch
 
-export default {
+const dispatchPlugin: PluginCreator = {
   expose: {
-    dispatch: (action: Action) => storeDispatch(action),
     createDispatcher: (modelName: string, reducerName: string) =>
       async (payload: any, meta: any) => {
-        const action = { type: `${modelName}/${reducerName}` }
+        const action: Action = { type: `${modelName}/${reducerName}` }
         if (payload) {
           action.payload = payload
         }
@@ -15,7 +15,8 @@ export default {
           action.meta = meta
         }
         await storeDispatch(action)
-      }
+      },
+    dispatch: (action: Action) => storeDispatch(action),
   },
   init: ({ dispatch, createDispatcher, validate }) => ({
     onStoreCreated(getStore) {
@@ -31,11 +32,13 @@ export default {
           ],
           [
             typeof model.reducers[reducerName] !== 'function',
-            `Invalid reducer (${model.name}/${reducerName}). Must be a function`
-          ]
+            `Invalid reducer (${model.name}/${reducerName}). Must be a function`,
+          ],
         ])
         dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
       })
-    }
-  })
+    },
+  }),
 }
+
+export default dispatchPlugin

@@ -4,8 +4,8 @@ beforeEach(() => {
 
 describe('plugins:', () => {
   test('should add onModel subscriptions', () => {
-    const { init } = require('../src')
-    const { modelHooks } = require('../src/core')
+    const { init } = require('../build')
+    const { modelHooks } = require('../build/core')
     const fns = [() => 1, () => 2]
     init({
       plugins: [
@@ -17,8 +17,8 @@ describe('plugins:', () => {
   })
 
   test('should add multiple middleware', () => {
-    const { init } = require('../src')
-    const { pluginMiddlewares } = require('../src/core')
+    const { init } = require('../build')
+    const { pluginMiddlewares } = require('../build/core')
     const m1 = () => next => action => next(action)
     const m2 = () => next => action => next(action)
     init({
@@ -31,7 +31,7 @@ describe('plugins:', () => {
   })
 
   test('should add a model', () => {
-    const { init, getStore } = require('../src')
+    const { init, getStore } = require('../build')
     const a = {
       state: 0,
     }
@@ -48,7 +48,7 @@ describe('plugins:', () => {
   })
 
   test('should add multiple models', () => {
-    const { init, getStore } = require('../src')
+    const { init, getStore } = require('../build')
     const a = {
       state: 0,
     }
@@ -68,7 +68,7 @@ describe('plugins:', () => {
   })
 
   test('should merge plugin configs into configs', () => {
-    const { init, getStore } = require('../src')
+    const { init, getStore } = require('../build')
     const plugin1 = {
       config: {
         redux: {

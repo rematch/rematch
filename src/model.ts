@@ -1,7 +1,7 @@
-import validate from './utils/validate'
-import { createReducersAndUpdateStore } from './redux/store'
 import { modelHooks } from './core'
+import { createReducersAndUpdateStore } from './redux/store'
 import { Model } from './typings'
+import validate from './utils/validate'
 
 const addModel = (model: Model) => {
   validate([
@@ -13,12 +13,12 @@ const addModel = (model: Model) => {
     [model.state === undefined, 'model "state" is required'],
   ])
   // run plugin model subscriptions
-  modelHooks.forEach(modelHook => modelHook(model))
+  modelHooks.forEach((modelHook) => modelHook(model))
 }
 
 // main model import method
 // adds config.models
-export const initModelHooks = (models) => {
+export const initModelHooks = (models: Model[]) => {
   models.forEach((model: Model) => addModel(model))
 }
 

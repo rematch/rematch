@@ -4,7 +4,7 @@ beforeEach(() => {
 
 describe('effects:', () => {
   test('should create an action', () => {
-    const { init, dispatch } = require('../src')
+    const { init, dispatch } = require('../build')
 
     const count = {
       state: 0,
@@ -22,7 +22,7 @@ describe('effects:', () => {
   test('first param should be payload', () => {
     const {
       init, dispatch
-    } = require('../src')
+    } = require('../build')
 
 
     let value = 1
@@ -48,7 +48,7 @@ describe('effects:', () => {
   test('second param should contain state', () => {
     const {
       init, getStore, dispatch
-    } = require('../src')
+    } = require('../build')
 
     const count = {
       state: 7,
@@ -89,7 +89,7 @@ describe('effects:', () => {
   test('should be able to trigger another action', async () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../build')
 
     const example = {
       state: 0,
@@ -117,7 +117,7 @@ describe('effects:', () => {
   // currently no solution for arrow functions as they are often transpiled by Babel or Typescript
   // there is no clear way to detect arrow functions
   // xtest('should be able trigger a local reducer using arrow functions and `this`', async () => {
-  //   const { model, init, dispatch, getStore } = require('../src')
+  //   const { model, init, dispatch, getStore } = require('../build')
   //   init()
   //
   //   model({
@@ -143,7 +143,7 @@ describe('effects:', () => {
   test('should be able trigger a local reducer using functions and `this`', async () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../build')
 
     const example = {
       state: 0,
@@ -171,7 +171,7 @@ describe('effects:', () => {
   test('should be able trigger a local reducer using object function shorthand and `this`', async () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../build')
 
     const example = {
       state: 0,
@@ -199,7 +199,7 @@ describe('effects:', () => {
   test('should be able to trigger another action with a value', async () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../build')
 
     const example = {
       state: 2,
@@ -227,7 +227,7 @@ describe('effects:', () => {
   test('should be able to trigger another action w/ an object value', async () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../build')
     
     const example = {
       state: 3,
@@ -255,7 +255,7 @@ describe('effects:', () => {
   test('should be able to trigger another action w/ another action', async () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../build')
 
     const example = {
       name: 'example',
@@ -287,7 +287,7 @@ describe('effects:', () => {
   test('should be able to trigger another action w/ multiple actions', async () => {
     const {
       init, dispatch, getStore
-    } = require('../src')
+    } = require('../build')
 
     const example = {
       state: 0,
@@ -325,7 +325,7 @@ describe('effects:', () => {
   test('should throw if the effect name is invalid', () => {
     const {
       model, init
-    } = require('../src')
+    } = require('../build')
     init()
 
     expect(() => model({
@@ -340,7 +340,7 @@ describe('effects:', () => {
   test('should throw if the effect is not a function', () => {
     const {
       model, init
-    } = require('../src')
+    } = require('../build')
     init()
 
     expect(() => model({

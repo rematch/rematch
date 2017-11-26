@@ -1,16 +1,16 @@
 /* eslint no-underscore-dangle: 0 */
-import { createStore as _createStore, applyMiddleware, Store } from 'redux'
-import { composeEnhancers } from './devtools'
-import { mergeReducers, createModelReducer } from './reducers'
+import { applyMiddleware, createStore as _createStore, Store } from 'redux'
 import { pluginMiddlewares } from '../core'
-import { ConfigRedux, Model } from '../typings'
+import { Config, Model } from '../typings'
+import { composeEnhancers } from './devtools'
+import { createModelReducer, mergeReducers  } from './reducers'
 
 let store: Store<any> = null
 
 // access file scoped store
 export const getStore = () => store
 
-export const initStore = ({ redux }: { redux: ConfigRedux }) => {
+export const initStore = ({ redux }: Config) => {
   const initialState = typeof redux.initialState === 'undefined' ? {} : redux.initialState
   const createStore = redux.createStore || _createStore
   const rootReducer = mergeReducers()
@@ -20,6 +20,6 @@ export const initStore = ({ redux }: { redux: ConfigRedux }) => {
   store = createStore(rootReducer, initialState, enhancers)
 }
 
-export const createReducersAndUpdateStore = (model: Model) : void => {
+export const createReducersAndUpdateStore = (model: Model): void => {
   store.replaceReducer(mergeReducers(createModelReducer(model)))
 }
