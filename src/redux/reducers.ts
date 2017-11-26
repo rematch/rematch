@@ -1,4 +1,3 @@
-// @flow
 /* eslint no-underscore-dangle: 0 */
 import { combineReducers } from 'redux'
 
@@ -10,7 +9,7 @@ let _reducers: $reducers = {}
 // pass in (state, payload)
 export const getReducer = (reducer: $reducers, initialState: any) => (
   state: any = initialState,
-  action: $action,
+  action: action,
 ) => {
   if (typeof reducer[action.type] === 'function') {
     return reducer[action.type](state, action.payload)
@@ -19,7 +18,7 @@ export const getReducer = (reducer: $reducers, initialState: any) => (
 }
 
 // creates a reducer out of "reducers" keys and values
-export const createModelReducer = ({ name, reducers, state }: $model) => ({
+export const createModelReducer = ({ name, reducers, state }: model) => ({
   [name]: getReducer(Object.keys(reducers || {}).reduce((acc, reducer) => {
     acc[`${name}/${reducer}`] = reducers[reducer]
     return acc

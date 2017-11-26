@@ -1,4 +1,3 @@
-// @flow
 export const select = {}
 
 const selectPlugin = () => ({

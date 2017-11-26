@@ -1,5 +1,3 @@
-// @flow
-
 export default (config = {}) => {
   const updatedModelName = config.name || 'updated'
   const updated = {

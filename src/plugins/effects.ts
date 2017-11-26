@@ -1,12 +1,11 @@
-// @flow
-export default {
+\export default {
   expose: {
     effects: {}
   },
   init: ({
     effects, dispatch, createDispatcher, validate
   }) => ({
-    onModel(model: $model) {
+    onModel(model: model) {
       Object.keys(model.effects || {}).forEach((effectName: string) => {
         validate([
           [
@@ -27,8 +26,8 @@ export default {
       })
     },
     middleware: (store: $store) =>
-      (next: (action: $action) => any) =>
-        async (action: $action) => {
+      (next: (action: action) => any) =>
+        async (action: action) => {
           // async/await acts as promise middleware
           let result
           if (action.type in effects) {

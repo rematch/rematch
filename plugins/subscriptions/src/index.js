@@ -1,4 +1,3 @@
-// @flow
 import { createSubscription } from './create'
 import { createUnsubscribe } from './unsubscribe'
 import { subscriptions, patternSubscriptions } from './subscriptions'

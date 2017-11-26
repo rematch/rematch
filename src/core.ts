@@ -1,11 +1,10 @@
-// @flow
 import { getStore } from './redux/store'
 
 export const modelHooks = []
 export const pluginMiddlewares = []
 
-export const preStore = (plugins) => {
-  plugins.forEach((plugin) => {
+export const preStore = (plugins: plugin[]) => {
+  plugins.forEach((plugin: plugin) => {
     if (plugin.middleware) {
       pluginMiddlewares.push(plugin.middleware)
     }
@@ -15,8 +14,8 @@ export const preStore = (plugins) => {
   })
 }
 
-export const postStore = (plugins) => {
-  plugins.forEach((plugin) => {
+export const postStore = (plugins: plugin[]) => {
+  plugins.forEach((plugin: plugin) => {
     if (plugin.onStoreCreated) {
       plugin.onStoreCreated(getStore)
     }

@@ -1,4 +1,4 @@
-export default (plugins: $pluginCreator[], exposed) => plugins.reduce((all, { init }) => {
+export default (plugins: pluginCreator[], exposed) => plugins.reduce((all, { init }) => {
   if (init) {
     const plugin = init(exposed)
     exposed.validate([

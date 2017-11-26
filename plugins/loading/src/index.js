@@ -1,4 +1,3 @@
-// @flow
 const createLoadingAction = (show) => (state, { name, action }) => ({
   ...state,
   global: show,

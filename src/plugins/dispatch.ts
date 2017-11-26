@@ -1,9 +1,8 @@
-// @flow
 let storeDispatch
 
 export default {
   expose: {
-    dispatch: (action: $action) => storeDispatch(action),
+    dispatch: (action: action) => storeDispatch(action),
     createDispatcher: (modelName: string, reducerName: string) =>
       async (payload: any, meta: any) => {
         const action = { type: `${modelName}/${reducerName}` }

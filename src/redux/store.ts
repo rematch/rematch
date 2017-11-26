@@ -1,4 +1,3 @@
-// @flow
 /* eslint no-underscore-dangle: 0 */
 import { createStore as _createStore, applyMiddleware } from 'redux'
 import { composeEnhancers } from './devtools'

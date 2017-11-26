@@ -1,4 +1,3 @@
-// @flow
 import validate from './utils/validate'
 import isObject from './utils/isObject'
 import mergeConfig from './utils/mergeConfig'
@@ -11,7 +10,7 @@ import { initModelHooks } from './model'
 import { initStore } from './redux/store'
 import { initReducers } from './redux/reducers'
 
-const validateConfig = (config: $config) =>
+const validateConfig = (config: config) =>
   validate([
     [
       config.plugins && !Array.isArray(config.plugins),
@@ -39,7 +38,7 @@ const validateConfig = (config: $config) =>
     ],
   ])
 
-const init = (initConfig: $config = {}): void => {
+const init = (initConfig: config = {}): void => {
   initConfig.redux = initConfig.redux || {}
   validateConfig(initConfig)
   const config = mergeConfig(initConfig)
