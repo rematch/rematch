@@ -42,7 +42,7 @@ export interface Model {
   onStoreCreated?: (getState: GetState) => void,
   onModel?: ModelHook,
   model?: Model,
-  middleware?: Middleware,
+  middleware?: (store: Store<any>) => (next: (action: Action) => any) => (action: Action) => any,
 }
 
 export interface PluginCreator {

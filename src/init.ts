@@ -51,7 +51,7 @@ const init = (initConfig: Config = {}): void => {
   preStore(plugins)
 
   // collect all models
-  const models = getModels(config, plugins)
+  const models = getModels(config)
   initModelHooks(models)
   initReducers(models, config.redux)
 

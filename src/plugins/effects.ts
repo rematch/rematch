@@ -26,13 +26,12 @@ const effectsPlugin: PluginCreator = {
         dispatch[model.name][effectName].isEffect = true
       })
     },
-    middleware: (store: Store<any>) =>
-      (next: (action: Action) => any) =>
-        async (action: Action) => {
+    middleware: (store) => (next) => async (action) => {
           // async/await acts as promise middleware
-        return await (action.type in effects)
+        const result = await (action.type in effects)
           ? effects[action.type](action.payload, store.getState())
           : next(action)
+        return result
     },
   }),
 }

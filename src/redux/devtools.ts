@@ -2,7 +2,9 @@
 import { compose } from 'redux'
 
 declare global {
-  interface Window { __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any }
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: any,
+  }
 }
 
 export const composeEnhancers = (devtoolOptions = {}) =>
