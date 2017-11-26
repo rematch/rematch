@@ -18,16 +18,16 @@ const config = {
   ],
 }
 
-// if (env === 'production') {
-//   config.plugins.push(uglify({
-//     compress: {
-//       pure_getters: true,
-//       unsafe: true,
-//       unsafe_comps: true,
-//       warnings: false,
-//     },
-//   }))
-// }
+if (env === 'production') {
+  config.plugins.push(uglify({
+    compress: {
+      pure_getters: true,
+      unsafe: true,
+      unsafe_comps: true,
+      warnings: false,
+    },
+  }))
+}
 
 export default [Object.assign({}, config, {
   name: 'rematch',
@@ -37,6 +37,6 @@ export default [Object.assign({}, config, {
 }), Object.assign({}, config, {
   output: [
     { file: pkg.main, format: 'cjs', exports: 'named' },
-    { file: pkg.module, format: 'es', exports: 'named' },
+    // { file: pkg.module, format: 'es', exports: 'named' },
   ],
 })]
