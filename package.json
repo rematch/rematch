@@ -21,35 +21,26 @@
   ],
   "main": "dist/rematch.cjs.js",
   "module": "dist/rematch.esm.js",
-  "browser": "dist/rematch.umd.js",
   "types": "src/typings/rematch",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c",
+    "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c --input lib/index.js",
     "build:all": "bash ./scripts/build.sh",
     "dev": "tsc --watch src",
     "install:all": "bash ./scripts/install.sh",
     "lint": "eslint ./src",
     "test": "jest"
   },
+  "browser": "dist/rematch.umd.js",
   "dependencies": {
     "redux": "^3.7.2"
   },
   "devDependencies": {
     "@types/redux": "^3.6.0",
     "coveralls": "^3.0.0",
-    "eslint": "^4.11.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^2.8.0",
-    "eslint-loader": "^1.9.0",
-    "eslint-plugin-flowtype": "^2.39.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jest": "^21.3.2",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.5.1",
     "gitbook-plugin-edit-link": "^2.0.2",
     "gitbook-plugin-github": "^3.0.0",
     "gitbook-plugin-prism": "^2.3.0",
@@ -60,7 +51,9 @@
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^2.0.1",
+    "tslint": "^5.8.0",
     "typescript": "^2.6.1",
+    "uglify-es": "^3.2.0",
     "webpack": "^3.8.1",
     "yargs": "^10.0.3"
   },
