@@ -9,8 +9,9 @@ import corePlugins from './plugins'
 import { initModelHooks } from './model'
 import { initStore } from './redux/store'
 import { initReducers } from './redux/reducers'
+import { Config } from './typings'
 
-const validateConfig = (config: config) =>
+const validateConfig = (config: Config) =>
   validate([
     [
       config.plugins && !Array.isArray(config.plugins),
@@ -38,7 +39,7 @@ const validateConfig = (config: config) =>
     ],
   ])
 
-const init = (initConfig: config = {}): void => {
+const init = (initConfig: Config = {}): void => {
   initConfig.redux = initConfig.redux || {}
   validateConfig(initConfig)
   const config = mergeConfig(initConfig)

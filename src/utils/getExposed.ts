@@ -1,8 +1,9 @@
 import validate from './validate'
+import { PluginCreator } from '../typings'
 
-export default (plugins) => plugins.reduce((exposed, plugin) => ({
+export default (plugins: PluginCreator[]) => plugins.reduce((exposed: any, plugin: PluginCreator) => ({
   ...exposed,
-  ...(plugin.expose || {})
-}), {
-  validate,
-})
+    ...(plugin.expose || {})
+  }), {
+    validate,
+  })

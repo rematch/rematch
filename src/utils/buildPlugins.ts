@@ -1,6 +1,8 @@
-export default (plugins: pluginCreator[], exposed) => plugins.reduce((all, { init }) => {
+import { PluginCreator, Plugin } from '../typings'
+
+export default (plugins: PluginCreator[], exposed: any) => plugins.reduce((all, { init }) => {
   if (init) {
-    const plugin = init(exposed)
+    const plugin: Plugin = init(exposed)
     exposed.validate([
       [
         plugin.onStoreCreated && typeof plugin.onStoreCreated !== 'function',

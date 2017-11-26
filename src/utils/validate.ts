@@ -1,4 +1,4 @@
-type validation = [boolean, string]
+type Validation = [boolean, string]
 
 /**
  * Validate
@@ -7,8 +7,8 @@ type validation = [boolean, string]
  * throws if an error occurs
  */
 /* istanbul ignore next */
-const validate = (validations: Array<validation>): void => {
-  validations.forEach((validation: validation) => {
+const validate = (validations: Validation[]): void => {
+  validations.forEach((validation: Validation) => {
     const condition = validation[0]
     const errorMessage = validation[1]
     if (condition) {

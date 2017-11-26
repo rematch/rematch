@@ -1,11 +1,14 @@
-\export default {
+import { Store } from 'redux'
+import { Action, Model } from '../typings'
+
+export default {
   expose: {
     effects: {}
   },
   init: ({
     effects, dispatch, createDispatcher, validate
   }) => ({
-    onModel(model: model) {
+    onModel(model: Model) {
       Object.keys(model.effects || {}).forEach((effectName: string) => {
         validate([
           [
@@ -25,9 +28,9 @@
         dispatch[model.name][effectName].isEffect = true
       })
     },
-    middleware: (store: $store) =>
-      (next: (action: action) => any) =>
-        async (action: action) => {
+    middleware: (store: Store<any>) =>
+      (next: (action: Action) => any) =>
+        async (action: Action) => {
           // async/await acts as promise middleware
           let result
           if (action.type in effects) {

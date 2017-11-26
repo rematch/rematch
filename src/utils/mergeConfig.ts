@@ -1,6 +1,8 @@
+import { Config } from '../typings'
+
 // merges two config objects
 // assumes configs are already validated
-export const mergeConfig = (c1 = {}, c2 = {}) => {
+export const mergeConfig = (c1: Config = {}, c2: Config = {}) => {
   c1.redux = c1.redux || {}
   c2.redux = c2.redux || {}
   const config = {
@@ -55,7 +57,7 @@ export const mergeConfig = (c1 = {}, c2 = {}) => {
   return config
 }
 
-export default (config) => (config.plugins || []).reduce((a, b) => {
+export default (config: Config) => (config.plugins || []).reduce((a, b) => {
   if (b.config) {
     b.config.redux = b.config.redux || {}
     return mergeConfig(a, b.config)

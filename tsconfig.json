@@ -4,6 +4,7 @@
       "allowJs": true,
       "sourceMap": true,
       "target": "es5",
+      "moduleResolution": "node"
   },
   "include": [
       "./src/**/*"

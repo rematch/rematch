@@ -1,15 +1,16 @@
 /* eslint no-underscore-dangle: 0 */
-import { combineReducers } from 'redux'
+import { combineReducers, Reducer} from 'redux'
+import { Action, ConfigRedux, Model, Reducers } from '../typings'
 
-let combine = combineReducers
+let combine: combineReducers = combineReducers
 
-let _reducers: $reducers = {}
+let _reducers: Reducers = {}
 
 // get reducer for given dispatch type
 // pass in (state, payload)
-export const getReducer = (reducer: $reducers, initialState: any) => (
+export const getReducer = (reducer: Reducer<any>, initialState: any) => (
   state: any = initialState,
-  action: action,
+  action: Action,
 ) => {
   if (typeof reducer[action.type] === 'function') {
     return reducer[action.type](state, action.payload)
@@ -18,7 +19,7 @@ export const getReducer = (reducer: $reducers, initialState: any) => (
 }
 
 // creates a reducer out of "reducers" keys and values
-export const createModelReducer = ({ name, reducers, state }: model) => ({
+export const createModelReducer = ({ name, reducers, state }: Model): Reducers => ({
   [name]: getReducer(Object.keys(reducers || {}).reduce((acc, reducer) => {
     acc[`${name}/${reducer}`] = reducers[reducer]
     return acc
@@ -26,7 +27,7 @@ export const createModelReducer = ({ name, reducers, state }: model) => ({
 })
 
 // uses combineReducers to merge new reducers into existing reducers
-export const mergeReducers = (nextReducers: $reducers = {}) => {
+export const mergeReducers = (nextReducers: Reducers = {}) => {
   _reducers = { ..._reducers, ...nextReducers }
   if (!Object.keys(_reducers).length) {
     return state => state
@@ -34,7 +35,7 @@ export const mergeReducers = (nextReducers: $reducers = {}) => {
   return combine(_reducers)
 }
 
-export const initReducers = (models, redux) : void => {
+export const initReducers = (models: Model[], redux: ConfigRedux) : void => {
   // optionally overwrite combineReducers on init
   combine = redux.combineReducers || combine
 

@@ -1,10 +1,11 @@
 import { getStore } from './redux/store'
+import { Plugin } from './typings'
 
 export const modelHooks = []
 export const pluginMiddlewares = []
 
-export const preStore = (plugins: plugin[]) => {
-  plugins.forEach((plugin: plugin) => {
+export const preStore = (plugins: Plugin[]) => {
+  plugins.forEach((plugin: Plugin) => {
     if (plugin.middleware) {
       pluginMiddlewares.push(plugin.middleware)
     }
@@ -14,8 +15,8 @@ export const preStore = (plugins: plugin[]) => {
   })
 }
 
-export const postStore = (plugins: plugin[]) => {
-  plugins.forEach((plugin: plugin) => {
+export const postStore = (plugins: Plugin[]) => {
+  plugins.forEach((plugin: Plugin) => {
     if (plugin.onStoreCreated) {
       plugin.onStoreCreated(getStore)
     }

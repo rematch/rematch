@@ -1,7 +1,8 @@
 import dispatchPlugin from './dispatch'
 import effectsPlugin from './effects'
+import { PluginCreator } from '../typings'
 
-const corePlugins = [
+const corePlugins: PluginCreator[] = [
   dispatchPlugin,
   effectsPlugin,
 ]

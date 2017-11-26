@@ -1,8 +1,10 @@
+import { Action, Model } from '../typings'
+
 let storeDispatch
 
 export default {
   expose: {
-    dispatch: (action: action) => storeDispatch(action),
+    dispatch: (action: Action) => storeDispatch(action),
     createDispatcher: (modelName: string, reducerName: string) =>
       async (payload: any, meta: any) => {
         const action = { type: `${modelName}/${reducerName}` }
@@ -19,7 +21,7 @@ export default {
     onStoreCreated(getStore) {
       storeDispatch = getStore().dispatch
     },
-    onModel(model: $model) {
+    onModel(model: Model) {
       dispatch[model.name] = {}
       Object.keys(model.reducers || {}).forEach((reducerName: string) => {
         validate([
