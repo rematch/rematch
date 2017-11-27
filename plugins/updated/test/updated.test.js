@@ -11,7 +11,7 @@ describe('updated', () => {
       init, dispatch, getStore
     } = require('../../../lib')
 
-    const updatedPlugin = require('../src').default
+    const updatedPlugin = require('../lib').default
 
     const count = {
       name: 'count',
@@ -48,7 +48,7 @@ describe('updated', () => {
       init, dispatch, getStore
     } = require('../../../lib')
 
-    const updatedPlugin = require('../src').default
+    const updatedPlugin = require('../lib').default
 
     const count = {
       name: 'count',

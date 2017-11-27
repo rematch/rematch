@@ -35,14 +35,13 @@ describe('plugins:', () => {
     const a = {
       state: 0,
     }
+    const plugin = {
+      config: {
+        models: { a }
+      }
+    }
     init({
-      plugins: [{
-        init: () => ({
-          models: {
-            a,
-          }
-        })
-      }]
+      plugins: [plugin]
     })
     expect(getStore().getState()).toEqual({ a: 0 })
   })
@@ -55,14 +54,13 @@ describe('plugins:', () => {
     const b = {
       state: 0,
     }
+    const plugin = {
+      config: {
+        models: { a, b }
+      }
+    }
     init({
-      plugins: [{
-        init: () => ({
-          models: {
-            a, b
-          }
-        })
-      }]
+      plugins: [plugin]
     })
     expect(getStore().getState()).toEqual({ a: 0, b: 0 })
   })
@@ -77,12 +75,9 @@ describe('plugins:', () => {
           }
         }
       },
-      init: () => ({}),
     }
     init({
       plugins: [plugin1],
-      // added to prevent warning in console if no reducers
-      extraReducers: { app: (state = 1) => state },
     })
     expect(getStore().getState()).toEqual({ app: 1 })
   })

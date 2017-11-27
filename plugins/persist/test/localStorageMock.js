@@ -20,4 +20,4 @@ const createLocalStorageMock = () => {
   global.localStorage = localStorageMock()
 }
 
-export default createLocalStorageMock
+module.exports = createLocalStorageMock

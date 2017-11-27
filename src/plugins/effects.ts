@@ -28,9 +28,9 @@ const effectsPlugin: PluginCreator = {
     },
     middleware: (store) => (next) => async (action) => {
           // async/await acts as promise middleware
-        const result = await (action.type in effects)
-          ? effects[action.type](action.payload, store.getState())
-          : next(action)
+        const result = (action.type in effects)
+          ? await effects[action.type](action.payload, store.getState())
+          : await next(action)
         return result
     },
   }),

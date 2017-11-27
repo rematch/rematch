@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
-import createLocalStorageMock from './localStorageMock'
+const createLocalStorageMock = require('./localStorageMock')
 
 beforeEach(() => {
   jest.resetModules()

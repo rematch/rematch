@@ -4,8 +4,8 @@ beforeEach(() => {
 
 describe('select:', () => {
   it('should create a valid list of selectors', () => {
-    const selectPlugin = require('../src').default
-    const { select } = require('../src')
+    const selectPlugin = require('../lib').default
+    const { select } = require('../lib')
     const { init } = require('../../../lib')
     const a = {
       state: 0,
@@ -24,8 +24,8 @@ describe('select:', () => {
   })
 
   it('should allow access to the selector', () => {
-    const selectPlugin = require('../src').default
-    const { select } = require('../src')
+    const selectPlugin = require('../lib').default
+    const { select } = require('../lib')
     const { init, getStore } = require('../../../lib')
     const a = {
       state: 2,
@@ -46,8 +46,8 @@ describe('select:', () => {
   })
 
   it('should allow passing in of params toselector', () => {
-    const selectPlugin = require('../src').default
-    const { select } = require('../src')
+    const selectPlugin = require('../lib').default
+    const { select } = require('../lib')
     const { init, getStore } = require('../../../lib')
     const a = {
       state: 2,
@@ -68,7 +68,7 @@ describe('select:', () => {
   })
 
   test('should throw if selector is not a function', () => {
-    const selectPlugin = require('../src').default
+    const selectPlugin = require('../lib').default
     const { init, model } = require('../../../lib')
     init({
       plugins: [selectPlugin()]
@@ -83,7 +83,7 @@ describe('select:', () => {
   })
 
   test('should not throw if no selectors', () => {
-    const selectPlugin = require('../src').default
+    const selectPlugin = require('../lib').default
     const { init } = require('../../../lib')
     const a = {
       state: 2,
@@ -100,8 +100,8 @@ describe('select:', () => {
 
   describe('reselect: ', () => {
     it('should allow for createSelector to be used instead of a normal selector', () => {
-      const selectPlugin = require('../src').default
-      const { select } = require('../src')
+      const selectPlugin = require('../lib').default
+      const { select } = require('../lib')
       const { init, getStore } = require('../../../lib')
       const { createSelector } = require('reselect')
       const count = {
@@ -123,8 +123,8 @@ describe('select:', () => {
     })
 
     it('should allow createSelector to be used outside of a model', () => {
-      const selectPlugin = require('../src').default
-      const { select } = require('../src')
+      const selectPlugin = require('../lib').default
+      const { select } = require('../lib')
       const { init, getStore } = require('../../../lib')
       const { createSelector } = require('reselect')
       const countA = {
@@ -155,8 +155,8 @@ describe('select:', () => {
     })
 
     it('should allow for mixing normal selectors and reselect selectors', () => {
-      const selectPlugin = require('../src').default
-      const { select } = require('../src')
+      const selectPlugin = require('../lib').default
+      const { select } = require('../lib')
       const { init, getStore } = require('../../../lib')
       const { createSelector } = require('reselect')
       const countA = {
