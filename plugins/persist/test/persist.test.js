@@ -17,7 +17,7 @@ const reducers = { todos: (state = 999) => state }
 
 describe('persist', () => {
   test('should load the persist plugin with no config', () => {
-    const persistPlugin = require('../src').default
+    const persistPlugin = require('../lib').default
     const { init, getStore } = require('../../../lib')
     init({
       plugins: [persistPlugin()],
@@ -30,7 +30,7 @@ describe('persist', () => {
   })
 
   test('should load the persist plugin with a config', () => {
-    const persistPlugin = require('../src').default
+    const persistPlugin = require('../lib').default
     const { init, getStore } = require('../../../lib')
     const plugin = persistPlugin({
       key: 'test',
@@ -49,8 +49,8 @@ describe('persist', () => {
   })
 
   test('should create a persistor', () => {
-    const persistPlugin = require('../src').default
-    const { getPersistor } = require('../src')
+    const persistPlugin = require('../lib').default
+    const { getPersistor } = require('../lib')
     const { init } = require('../../../lib')
     init({
       plugins: [persistPlugin()],
@@ -64,8 +64,8 @@ describe('persist', () => {
   })
 
   test('should work with init models', () => {
-    const persistPlugin = require('../src').default
-    const { getPersistor } = require('../src')
+    const persistPlugin = require('../lib').default
+    const { getPersistor } = require('../lib')
     const { init, dispatch, getStore } = require('../../../lib')
     const a = {
       name: 'a',
@@ -90,7 +90,7 @@ describe('persist', () => {
   //   const {
   //     init, model, dispatch, getStore
   //   } = require('../../../lib')
-  //   const persistPlugin = require('../src').default
+  //   const persistPlugin = require('../lib').default
   //   init({
   //     plugins: [persistPlugin()],
   //   })

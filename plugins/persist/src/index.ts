@@ -24,13 +24,13 @@ export default (config = {}) => {
       // pass in merged config as first param of persistCombineReducers
       redux: {
         combineReducers: persistCombineReducers.bind(null, mergedConfig),
-      }
+      },
     },
     init: () => ({
       onStoreCreated(getStore) {
         // run persist store once store is available
         persistor = persistStore(getStore())
       },
-    })
+    }),
   }
 }
