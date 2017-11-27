@@ -1,4 +1,5 @@
 # directories
+lib
 src
 plugins
 packages
@@ -10,9 +11,7 @@ scripts
 .coverage
 
 # files
-.babelrc
 .gitignore
 .prettierrc
 .travis.yml
-webpack.config.js
 yarn.lock

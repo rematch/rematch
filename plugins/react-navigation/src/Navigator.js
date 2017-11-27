@@ -22,3 +22,4 @@ export const createNavigator = ({ Routes, ReactNavigation }) => {
 
   return connect(mapToProps)(Navigator)
 }
+

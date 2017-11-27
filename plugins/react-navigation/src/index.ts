@@ -1,8 +1,9 @@
+import { PluginCreator } from '@rematch/core'
 import { createNavigator } from './Navigator'
 import { createNavReducer } from './reducer'
 
-export default ({
-  ReactNavigation, Routes, initialScreen
+const reactNavigationPlugin: PluginCreator = ({
+  ReactNavigation, Routes, initialScreen,
 }) => ({
   Navigator: createNavigator({ Routes, ReactNavigation }),
   reactNavigationPlugin: {
@@ -10,8 +11,8 @@ export default ({
       redux: {
         reducers: {
           nav: createNavReducer({ Routes, initialScreen }),
-        }
-      }
+        },
+      },
     },
     init: ({ dispatch }) => ({
       onStoreCreated() {
@@ -21,7 +22,9 @@ export default ({
         dispatch.nav.reset = (action) => dispatch(NavigationActions.reset(action))
         dispatch.nav.back = (action) => dispatch(NavigationActions.back(action))
         dispatch.nav.setParams = (action) => dispatch(NavigationActions.setParams(action))
-      }
-    })
-  }
+      },
+    }),
+  },
 })
+
+export default reactNavigationPlugin
