@@ -1,7 +1,7 @@
 import { Config, PluginCreator } from '../typings/rematch'
 
 const merge = (original: object, next: object): any => {
-  return (next) ? { ...next, ...(original || {}) } : original
+  return (next) ? { ...next, ...(original || {}) } : original || {}
 }
 
 export default (config: Config): Config =>

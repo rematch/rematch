@@ -43,6 +43,7 @@ describe('updated', () => {
       }
     })
   })
+  
   test('should work with multiple effects', async () => {
     const {
       init, dispatch, getStore

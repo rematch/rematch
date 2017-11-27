@@ -44,5 +44,5 @@ export const initReducers = (models: Model[], redux: ConfigRedux): void => {
   mergeReducers(models.reduce((reducers, model) => ({
     ...createModelReducer(model),
     ...reducers,
-  }), redux.reducers || {}))
+  }), redux.reducers))
 }
