@@ -2,19 +2,23 @@
 
 <p>
 <a href='https://travis-ci.org/rematch/rematch' style='margin: 0 0.5rem;'>
-<img src='https://travis-ci.org/rematch/rematch.svg?branch=master' alt='Build Status'/>
+<img src='https://travis-ci.org/rematch/rematch.svg?branch=master' alt='Build Status' height='18'/>
 </a>
 
 <a href='https://coveralls.io/github/rematch/rematch?branch=master' style='margin: 0 0.5rem;'>
-<img src='https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master' alt='Coverage Status' />
+<img src='https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master' alt='Coverage Status' height='18'/>
 </a>
 
 <a href='https://www.codacy.com/app/ShMcK/rematch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rematch/rematch&amp;utm_campaign=Badge_Grade' style='margin: 0 0.5rem;'>
-  <img src='https://api.codacy.com/project/badge/Grade/04039822aa23402bb985d9b374ac4a39' alt='Codacy Badge'>
+  <img src='https://api.codacy.com/project/badge/Grade/04039822aa23402bb985d9b374ac4a39' alt='Codacy Badge' height='18'>
 </a>
 
 <a href='https://badge.fury.io/js/%40rematch%2Fcore' style='margin: 0 0.5rem;'>
 <img src='https://badge.fury.io/js/%40rematch%2Fcore.svg' alt='npm version' height='18'>
+</a>
+
+<a href='https://img.shields.io/badge/size-11kb_w/_Redux-brightgreen.svg?style=flat' style='margin: 0 0.5rem;'>
+<img src='https://img.shields.io/badge/size-11kb_w/_Redux-brightgreen.svg?style=flat' alt='file size' height='18'>
 </a>
 </p>
 

@@ -4,20 +4,24 @@
   "description": "A Redux Framework",
   "keywords": [
     "@rematch",
+    "rematch",
     "redux",
-    "rematch"
+    "rematch",
+    "javascript",
+    "state management"
   ],
   "homepage": "https://github.com/rematch/rematch#readme",
   "bugs": {
     "url": "git+https://github.com/rematch/rematch/issues"
   },
   "license": "ISC",
-  "contributors": [
+  "authors": [
     "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
     "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
   ],
   "files": [
-    "dist"
+    "dist",
+    "src/typings/rematch/index.d.ts"
   ],
   "main": "dist/rematch.cjs.js",
   "module": "dist/rematch.esm.js",
