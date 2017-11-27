@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "stable"
 before_install:
-  - npm run install:all
+  - npm install typescript && npm run install:all
 after_script:
   - npm install coveralls
   - coveralls < coverage/lcov.info

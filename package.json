@@ -35,7 +35,7 @@
     "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c",
     "build:all": "bash ./scripts/build.sh",
     "dev": "tsc --watch src",
-    "install:all": "bash ./scripts/install.sh",
+    "install:all": "tsc && bash ./scripts/setup_plugins.sh",
     "lint": "eslint ./src",
     "test": "jest"
   },
