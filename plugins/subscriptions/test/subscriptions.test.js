@@ -14,7 +14,7 @@ describe('subscriptions:', () => {
     const {
       init, dispatch, getStore
     } = require('../../../lib')
-    const subscriptionsPlugin = require('../src').default
+    const subscriptionsPlugin = require('../lib').default
     const first = {
       ...common,
       subscriptions: {
@@ -38,7 +38,7 @@ describe('subscriptions:', () => {
     const {
       init, dispatch, getStore
     } = require('../../../lib')
-    const subscriptionsPlugin = require('../src').default
+    const subscriptionsPlugin = require('../lib').default
     const a1 = {
       ...common,
       subscriptions: {
@@ -68,7 +68,7 @@ describe('subscriptions:', () => {
     const {
       init, dispatch, getStore
     } = require('../../../lib')
-    const subscriptionsPlugin = require('../src').default
+    const subscriptionsPlugin = require('../lib').default
     const a = {
       ...common,
       subscriptions: {
@@ -108,7 +108,7 @@ describe('subscriptions:', () => {
 
   test('should throw if a subscription matcher is invalid', () => {
     const { model, init, dispatch } = require('../../../lib')
-    const subscriptionsPlugin = require('../src').default
+    const subscriptionsPlugin = require('../lib').default
     init({
       plugins: [subscriptionsPlugin()]
     })
@@ -124,7 +124,7 @@ describe('subscriptions:', () => {
 
   test('should enforce subscriptions are functions', () => {
     const { model, init } = require('../../../lib')
-    const subscriptionsPlugin = require('../src').default
+    const subscriptionsPlugin = require('../lib').default
     init({
       plugins: [subscriptionsPlugin()]
     })
@@ -143,7 +143,7 @@ describe('subscriptions:', () => {
       const {
         init, dispatch, getStore
       } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
+      const subscriptionsPlugin = require('../lib').default
 
       const first = {
         ...common,
@@ -168,7 +168,7 @@ describe('subscriptions:', () => {
       const {
         init, dispatch, getStore
       } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
+      const subscriptionsPlugin = require('../lib').default
       
       const first = {
         ...common,
@@ -198,7 +198,7 @@ describe('subscriptions:', () => {
       const {
         init, dispatch, getStore
       } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
+      const subscriptionsPlugin = require('../lib').default
       const first = {
         ...common,
         subscriptions: {
@@ -220,7 +220,7 @@ describe('subscriptions:', () => {
 
     test('should throw an error if a user creates a subscription that matches a reducer in the model', () => {
       const { model, init } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
+      const subscriptionsPlugin = require('../lib').default
       init({
         plugins: [subscriptionsPlugin()]
       })
@@ -241,7 +241,7 @@ describe('subscriptions:', () => {
 
     test('should throw an error if a user creates a subscription that matches an effect in the model', () => {
       const { model, init } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
+      const subscriptionsPlugin = require('../lib').default
       init({
         plugins: [subscriptionsPlugin()]
       })
@@ -262,7 +262,7 @@ describe('subscriptions:', () => {
 
     test('should throw an error if a user creates a subscription that pattern matches a reducer in the model', () => {
       const { model, init } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
+      const subscriptionsPlugin = require('../lib').default
       init({
         plugins: [subscriptionsPlugin()]
       })
@@ -286,7 +286,7 @@ describe('subscriptions:', () => {
     const {
       init, dispatch, getStore
     } = require('../../../lib')
-    const subscriptionsPlugin = require('../src').default
+    const subscriptionsPlugin = require('../lib').default
     const first = {
       state: 3,
       reducers: {
@@ -318,8 +318,8 @@ describe('subscriptions:', () => {
       const {
         init, dispatch, getStore
       } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
-      const { createUnsubscribe } = require('../src/unsubscribe')
+      const subscriptionsPlugin = require('../lib').default
+      const { createUnsubscribe } = require('../lib/unsubscribe')
       const first = {
         ...common,
         subscriptions: {
@@ -345,8 +345,8 @@ describe('subscriptions:', () => {
       const {
         init, dispatch, getStore
       } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
-      const { createUnsubscribe } = require('../src/unsubscribe')
+      const subscriptionsPlugin = require('../lib').default
+      const { createUnsubscribe } = require('../lib/unsubscribe')
       const first = {
         ...common,
         subscriptions: {
@@ -373,8 +373,8 @@ describe('subscriptions:', () => {
       const {
         init, dispatch, getStore
       } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
-      const { createUnsubscribe } = require('../src/unsubscribe')
+      const subscriptionsPlugin = require('../lib').default
+      const { createUnsubscribe } = require('../lib/unsubscribe')
       const first = {
         ...common,
         subscriptions: {
@@ -404,8 +404,8 @@ describe('subscriptions:', () => {
     })
     test('should throw if invalid action', () => {
       const { init, dispatch } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
-      const { createUnsubscribe } = require('../src/unsubscribe')
+      const subscriptionsPlugin = require('../lib').default
+      const { createUnsubscribe } = require('../lib/unsubscribe')
       const first = {
         ...common,
         subscriptions: {
@@ -425,8 +425,8 @@ describe('subscriptions:', () => {
       const {
         init, dispatch, getStore
       } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
-      const { createUnsubscribe } = require('../src/unsubscribe')
+      const subscriptionsPlugin = require('../lib').default
+      const { createUnsubscribe } = require('../lib/unsubscribe')
       const first = {
         ...common,
         subscriptions: {
@@ -452,7 +452,7 @@ describe('subscriptions:', () => {
       const {
         init, dispatch, getStore
       } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
+      const subscriptionsPlugin = require('../lib').default
       const first = {
         ...common,
         subscriptions: {
@@ -481,7 +481,7 @@ describe('subscriptions:', () => {
       const {
         init, dispatch, getStore
       } = require('../../../lib')
-      const subscriptionsPlugin = require('../src').default
+      const subscriptionsPlugin = require('../lib').default
       const first = {
         ...common,
         subscriptions: {

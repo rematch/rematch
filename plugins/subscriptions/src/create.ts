@@ -1,10 +1,11 @@
+import { Action } from '@rematch/core'
 import { onHandlers } from './handlers'
 
 export const createSubscription = (
   modelName: string,
   matcher: string,
-  onAction: (action: $action, unsubscribe: () => void) => void,
-  actionList: string[]
+  onAction: (action: Action, unsubscribe: () => void) => void,
+  actionList: string[],
 ) => {
   const createHandler = (target, formattedMatcher) => {
     // prevent infinite loops within models by validating against

@@ -1,16 +1,15 @@
+import { Action, Model, PluginCreator } from '@rematch/core'
 import { createSubscription } from './create'
+import { patternSubscriptions, subscriptions } from './subscriptions'
 import { createUnsubscribe } from './unsubscribe'
-import { subscriptions, patternSubscriptions } from './subscriptions'
 
 let localGetState
 
-export default () => ({
-  init: ({
-    validate
-  }) => {
+export default (): PluginCreator => ({
+  init: ({ validate }) => {
     const triggerAllSubscriptions = (matches) => (action, matcher) => {
       // call each subscription in each model
-      Object.keys(matches).forEach(modelName => {
+      Object.keys(matches).forEach((modelName: string) => {
         // create subscription with (action, unsubscribe)
         matches[modelName](action, localGetState(), () => createUnsubscribe(modelName, matcher)())
       })
@@ -19,7 +18,7 @@ export default () => ({
       onStoreCreated(getStore) {
         localGetState = getStore().getState
       },
-      onModel(model: $model) {
+      onModel(model: Model) {
         // a list of actions is only necessary
         // to create warnings for invalid subscription names
         const actionList = [
@@ -31,18 +30,18 @@ export default () => ({
             [
 
               matcher.match(/\/(.+)?\//),
-              `Invalid subscription matcher (${matcher})`
+              `Invalid subscription matcher (${matcher})`,
             ],
             [
               typeof model.subscriptions[matcher] !== 'function',
-              `Subscription matcher in ${model.name} (${matcher}) must be a function`
-            ]
+              `Subscription matcher in ${model.name} (${matcher}) must be a function`,
+            ],
           ])
           const onAction = model.subscriptions[matcher]
           createSubscription(model.name, matcher, onAction, actionList)
         })
       },
-      middleware: () => (next: (action: $action) => any) => (action: $action) => {
+      middleware: () => (next: (action: Action) => any) => (action: Action) => {
         const { type } = action
 
         // exact match
@@ -51,7 +50,7 @@ export default () => ({
           // call each hook[modelName] with action
           triggerAllSubscriptions(allMatches)(action, type)
         } else {
-          patternSubscriptions.forEach((handler: Object, matcher: string) => {
+          patternSubscriptions.forEach((handler: object, matcher: string) => {
             if (type.match(new RegExp(matcher))) {
               const patternMatches = patternSubscriptions.get(matcher)
               triggerAllSubscriptions(patternMatches)(action, matcher)
