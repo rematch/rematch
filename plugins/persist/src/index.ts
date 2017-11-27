@@ -1,3 +1,4 @@
+import { PluginCreator } from '@rematch/core'
 import { persistCombineReducers, persistStore } from 'redux-persist'
 // defaults to localStorage in browser, AsyncStorage in React-Native
 import storage from 'redux-persist/lib/storage'
@@ -13,7 +14,7 @@ let persistor
 export const getPersistor = () => persistor
 
 // rematch plugin
-export default (config = {}) => {
+export default (config = {}): PluginCreator => {
   // merge config with common config options
   const mergedConfig = {
     ...commonConfig,

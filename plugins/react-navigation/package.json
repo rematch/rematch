@@ -16,7 +16,7 @@
   "license": "ISC",
   "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
   "files": [
-    "lib"
+    "dist"
   ],
   "main": "dist/rematch-react-navigation.cjs.js",
   "module": "dist/rematch-react-navigation.esm.js",

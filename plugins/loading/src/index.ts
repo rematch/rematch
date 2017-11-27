@@ -17,7 +17,7 @@ interface LoadingConfig {
   name?: string,
 }
 
-const loadingPlugin: PluginCreator = (config: LoadingConfig = {}) => {
+const loadingPlugin = (config: LoadingConfig = {}): PluginCreator => {
   const loadingModelName = config.name || 'loading'
   const loading: Model = {
     name: loadingModelName,
