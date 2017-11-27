@@ -4,14 +4,14 @@ beforeEach(() => {
 
 describe('init:', () => {
   test('no params should create store with state `{}`', () => {
-    const { init, getStore } = require('../lib')
+    const { init, getStore } = require('../src')
     init()
 
     expect(getStore().getState()).toEqual({})
   })
 
   test('should create models', () => {
-    const { init, getStore } = require('../lib')
+    const { init, getStore } = require('../src')
 
     init({
       models: {
@@ -31,7 +31,7 @@ describe('init:', () => {
   })
 
   test('should allow both init models & model models', () => {
-    const { init, model, getStore } = require('../lib')
+    const { init, model, getStore } = require('../src')
 
     init({
       models: {
@@ -53,7 +53,7 @@ describe('init:', () => {
   })
 
   test('should throw if models are not an object', () => {
-    const { init } = require('../lib')
+    const { init } = require('../src')
 
     const model = {
       name: 'app',
@@ -66,7 +66,7 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `string`', () => {
-    const { model, init, getStore } = require('../lib')
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
@@ -80,7 +80,7 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `number`', () => {
-    const { model, init, getStore } = require('../lib')
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
@@ -94,7 +94,7 @@ describe('init:', () => {
   })
 
   test('init() & one model of state is 0', () => {
-    const { model, init, getStore } = require('../lib')
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
@@ -108,7 +108,7 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `object`', () => {
-    const { model, init, getStore } = require('../lib')
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
@@ -131,7 +131,7 @@ describe('init:', () => {
     })
   })
   test('init() & two models', () => {
-    const { model, init, getStore } = require('../lib')
+    const { model, init, getStore } = require('../src')
     init()
 
     model({
@@ -151,7 +151,7 @@ describe('init:', () => {
   })
 
   test('init() & three models', () => {
-    const { model, init, getStore } = require('../lib')
+    const { model, init, getStore } = require('../src')
     init()
 
     model({

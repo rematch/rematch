@@ -6,12 +6,51 @@ beforeEach(() => {
 })
 
 describe('updated', () => {
+  test('should setup with a config name', async () => {
+    const {
+      init, dispatch, getStore
+    } = require('../../../src')
+
+    const updatedPlugin = require('../src').default
+
+    const count = {
+      name: 'count',
+      state: 0,
+      reducers: {
+        addOne: s => s + 1
+      },
+      effects: {
+        async timeout() {
+          dispatch.count.addOne()
+        }
+      }
+    }
+
+    init({
+      models: { count },
+      plugins: [updatedPlugin({
+        name: 'chicken',
+      })]
+    })
+
+    await dispatch.count.timeout()
+
+    const state = getStore().getState()
+    expect(state).toEqual({
+      count: 1,
+      chicken: {
+        count: {
+          timeout: mockDate,
+        }
+      }
+    })
+  })
   test('should record the timestamp of the last time an effect was updated', async () => {
     const {
       init, dispatch, getStore
-    } = require('../../../lib')
+    } = require('../../../src')
 
-    const updatedPlugin = require('../lib').default
+    const updatedPlugin = require('../src').default
 
     const count = {
       name: 'count',
@@ -47,9 +86,9 @@ describe('updated', () => {
   test('should work with multiple effects', async () => {
     const {
       init, dispatch, getStore
-    } = require('../../../lib')
+    } = require('../../../src')
 
-    const updatedPlugin = require('../lib').default
+    const updatedPlugin = require('../src').default
 
     const count = {
       name: 'count',

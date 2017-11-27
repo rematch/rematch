@@ -12,7 +12,6 @@ export default (config: Config): Config =>
       merged.redux = merged.redux || {}
       plugin.config.redux = plugin.config.redux || {}
       merged.models = merged.models || {}
-      merged.plugins = merged.plugins || []
 
       // merge plugin models
       merged.models = merge(merged.models, plugin.config.models)

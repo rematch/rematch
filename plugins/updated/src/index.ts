@@ -47,7 +47,7 @@ export default (config: UpdatedConfig = {}): PluginCreator => {
               await fn(props)
 
               // waits for dispatch function to finish before calling "hide"
-              dispatch.updated.onUpdate({ name, action })
+              dispatch[updatedModelName].onUpdate({ name, action })
             }
             // replace existing effect with new dispatch
             dispatch[name][action] = dispatchWithUpdateHook

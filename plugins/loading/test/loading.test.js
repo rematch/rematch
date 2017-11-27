@@ -19,8 +19,8 @@ describe('loading', () => {
   test('loading.global should be false for normal dispatched action', () => {
     const {
       init, dispatch, getStore
-    } = require('../../../lib')
-    const loadingPlugin = require('../lib').default
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -32,8 +32,8 @@ describe('loading', () => {
   test('loading.global should be true for dispatched effect', () => {
     const {
       init, dispatch, getStore
-    } = require('../../../lib')
-    const loadingPlugin = require('../lib').default
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -45,8 +45,8 @@ describe('loading', () => {
   test('should set loading.models[name] to false', () => {
     const {
       init, getStore
-    } = require('../../../lib')
-    const loadingPlugin = require('../lib').default
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -57,8 +57,8 @@ describe('loading', () => {
   test('should change the loading.models', () => {
     const {
       init, dispatch, getStore
-    } = require('../../../lib')
-    const loadingPlugin = require('../lib').default
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -70,8 +70,8 @@ describe('loading', () => {
   test('should set loading.effects[name] to object of effects', () => {
     const {
       init, getStore
-    } = require('../../../lib')
-    const loadingPlugin = require('../lib').default
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -82,8 +82,8 @@ describe('loading', () => {
   test('should change the loading.effects', () => {
     const {
       init, dispatch, getStore
-    } = require('../../../lib')
-    const loadingPlugin = require('../lib').default
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -95,8 +95,8 @@ describe('loading', () => {
   test('should configure the loading name', () => {
     const {
       init, dispatch, getStore
-    } = require('../../../lib')
-    const loadingPlugin = require('../lib').default
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
     init({
       models: { count },
       plugins: [loadingPlugin({ name: 'load' })]

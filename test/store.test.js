@@ -4,14 +4,14 @@ beforeEach(() => {
 
 describe('createStore:', () => {
   it('no params should create store with state `{}`', () => {
-    const { init, getStore } = require('../lib')
+    const { init, getStore } = require('../src')
     init()
 
     expect(getStore().getState()).toEqual({})
   })
 
   it('initialState `null` should create store with state `null`', () => {
-    const { init, getStore } = require('../lib')
+    const { init, getStore } = require('../src')
     init({
       redux: {
         initialState: null,
@@ -22,7 +22,7 @@ describe('createStore:', () => {
   })
 
   it('initialState `{ app: "hello, world" }` should create store with state `{ app: "hello, world" }`', () => {
-    const { init, getStore } = require('../lib')
+    const { init, getStore } = require('../src')
     init({
       redux: {
         initialState: { app: 'hello, world' }
@@ -33,7 +33,7 @@ describe('createStore:', () => {
   })
 
   it('extraReducers should create store with extra reducers', () => {
-    const { init, getStore } = require('../lib')
+    const { init, getStore } = require('../src')
     const reducers = { todos: (state = 999) => state }
     init({
       redux: {

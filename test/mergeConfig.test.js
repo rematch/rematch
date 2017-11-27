@@ -1,4 +1,4 @@
-const mergeConfig = require('../lib/utils/mergeConfig').default
+const mergeConfig = require('../src/utils/mergeConfig').default
 
 describe('mergeConfig', () => {
   describe('initialState', () => {
@@ -16,7 +16,7 @@ describe('mergeConfig', () => {
   })
 
   describe('plugins', () => {
-    test('should work with no additional c2 plugins', () => {
+    test('should work with no additional plugins configs', () => {
       const config = {
         plugins: []
       }
@@ -33,15 +33,6 @@ describe('mergeConfig', () => {
       const result = mergeConfig(config)
       expect(result.plugins).toEqual([plugin1, plugin2])
     })
-
-    // test('should not add new plugins if they already exist', () => {
-    //   const plugin1 = { init: () => ({ onModel: () => {} }) }
-    //   const config = {
-    //     plugins: [plugin1, plugin1]
-    //   }
-    //   const result = mergeConfig(config)
-    //   expect(result.plugins).toEqual([plugin1])
-    // })
   })
 
   describe('reducers', () => {
