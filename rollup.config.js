@@ -11,6 +11,7 @@ const pkg = require('./package.json')
 const env = process.env.NODE_ENV
 
 const config = {
+  name: 'rematch',
   input: 'lib/index.js',
   sourcemap: true,
   plugins: [
@@ -18,8 +19,18 @@ const config = {
       'process.env.NODE_ENV': JSON.stringify(env),
     }),
     commonJs({
-      // include: ['node_modules/redux/**']
+      compress: {
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        warnings: false,
+      },
     })
+  ],
+  output: [
+    { file: pkg.browser, format: 'umd', exports: 'named' }, // Universal Module
+    { file: pkg.main, format: 'cjs', exports: 'named' }, // CommonJS
+    { file: pkg.module, format: 'es', exports: 'named' } // ES Modules
   ],
 }
 
@@ -31,41 +42,7 @@ if (env === 'production') {
       unsafe_comps: true,
       warnings: false,
     },
-  }))
+  }, minify))
 }
 
-export default [
-  // Universal Module
-  Object.assign({}, config, {
-  name: 'rematch',
-  output: [
-    { file: pkg.browser, format: 'umd', exports: 'named' },
-  ],
-}),
-  // CommonJS
-  Object.assign({}, config, {
-  output: [
-    { file: pkg.main, format: 'cjs', exports: 'named' },
-  ],
-}),
-  // ES Modules
-  Object.assign({}, config, {
-    output: {
-      file: pkg.module, format: 'es', exports: 'named',
-    },
-    plugins: [
-      replace({
-        'process.env.NODE_ENV': JSON.stringify(env),
-      }),
-      commonJs(),
-      uglify({
-        compress: {
-          pure_getters: true,
-          unsafe: true,
-          unsafe_comps: true,
-          warnings: false,
-        },
-      }, minify)
-    ],
-  })
-]
+export default [config]

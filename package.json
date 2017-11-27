@@ -21,20 +21,20 @@
   ],
   "main": "dist/rematch.cjs.js",
   "module": "dist/rematch.esm.js",
+  "browser": "dist/rematch.umd.js",
   "types": "src/typings/rematch",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c --input lib/index.js",
+    "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c",
     "build:all": "bash ./scripts/build.sh",
     "dev": "tsc --watch src",
     "install:all": "bash ./scripts/install.sh",
     "lint": "eslint ./src",
     "test": "jest"
   },
-  "browser": "dist/rematch.umd.js",
   "dependencies": {
     "redux": "^3.7.2"
   },
