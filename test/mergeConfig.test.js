@@ -63,7 +63,7 @@ describe('mergeConfig', () => {
 
     test('should handle only plugin redux reducers', () => {
       const plugin = {
-          config: {
+        config: {
           redux: {
             reducers: {
               example: 1
@@ -80,9 +80,11 @@ describe('mergeConfig', () => {
 
     test('should merge config & plugin redux reducers', () => {
       const plugin = {
-        redux: {
-          reducers: {
-            example: 1
+        config: {
+          redux: {
+            reducers: {
+              example: 1
+            }
           }
         }
       }

@@ -1,40 +1,31 @@
 import { Config, PluginCreator } from '../typings/rematch'
 
+const merge = (original: object, next: object): any => {
+  return (next) ? { ...next, ...(original || {}) } : original
+}
+
 export default (config: Config): Config =>
   (config.plugins || []).reduce((merged, plugin: PluginCreator) => {
     if (plugin.config) {
       // merges two config objects
       // assumes configs are already validated
-      plugin.config.redux = plugin.config.redux || {}
       merged.redux = merged.redux || {}
-      merged.models = merged.models || {}
       plugin.config.redux = plugin.config.redux || {}
+      merged.models = merged.models || {}
+      merged.plugins = merged.plugins || []
 
-      // add plugin models
-      if (plugin.config.models) {
-        Object.keys(plugin.config.models).forEach((modelName: string) => {
-          merged.models[modelName] = plugin.config.models[modelName]
-        })
-      }
+      // merge plugin models
+      merged.models = merge(merged.models, plugin.config.models)
 
       // plugins
-      merged.plugins = merged.plugins || []
       if (plugin.config.plugins) {
         merged.plugins = merged.plugins.concat(plugin.config.plugins)
       }
 
       // redux
-      config.redux.initialState = config.redux.initialState || plugin.config.redux.initialState
-
-      if (plugin.config.redux.reducers) {
-        merged.redux.reducers = merged.redux.reducers || {}
-        Object.keys(plugin.config.redux.reducers).forEach((reducerName: string) => {
-          merged.redux.reducers[reducerName] = plugin.config.redux.reducers[reducerName]
-        })
-      }
-
-      // Note: this pattern does not allow for multiple overwrites
-      // of the same name. TODO: throw an error, or compose functions
+      merged.redux.initialState = merge(merged.redux.initialState, plugin.config.redux.initialState)
+      merged.redux.reducers = merge(merged.redux.reducers, plugin.config.redux.reducers)
+      // overwrites
       merged.redux.combineReducers = merged.redux.combineReducers || plugin.config.redux.combineReducers
       merged.redux.createStore = merged.redux.createStore || plugin.config.redux.createStore
     }
