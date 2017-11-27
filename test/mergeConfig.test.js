@@ -1,4 +1,4 @@
-import { mergeConfig } from '../lib/utils/mergeConfig'
+const { mergeConfig } = require('../lib/utils/mergeConfig')
 
 describe('mergeConfig', () => {
   describe('initialState', () => {

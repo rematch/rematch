@@ -7,7 +7,8 @@
     "rules": {
         "quotemark": [true, "single"],
         "semicolon": [true, "never"],
-        "interface-name": false
+        "interface-name": false,
+        "no-submodule-imports": false
     },
     "rulesDirectory": []
 }
