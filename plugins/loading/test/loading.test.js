@@ -20,7 +20,7 @@ describe('loading', () => {
     const {
       init, dispatch, getStore
     } = require('../../../lib/index')
-    const loadingPlugin = require('../src').default
+    const loadingPlugin = require('../lib').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -33,7 +33,7 @@ describe('loading', () => {
     const {
       init, dispatch, getStore
     } = require('../../../lib/index')
-    const loadingPlugin = require('../src').default
+    const loadingPlugin = require('../lib').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -46,7 +46,7 @@ describe('loading', () => {
     const {
       init, getStore
     } = require('../../../lib/index')
-    const loadingPlugin = require('../src').default
+    const loadingPlugin = require('../lib').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -58,7 +58,7 @@ describe('loading', () => {
     const {
       init, dispatch, getStore
     } = require('../../../lib/index')
-    const loadingPlugin = require('../src').default
+    const loadingPlugin = require('../lib').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -71,7 +71,7 @@ describe('loading', () => {
     const {
       init, getStore
     } = require('../../../lib/index')
-    const loadingPlugin = require('../src').default
+    const loadingPlugin = require('../lib').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -83,7 +83,7 @@ describe('loading', () => {
     const {
       init, dispatch, getStore
     } = require('../../../lib/index')
-    const loadingPlugin = require('../src').default
+    const loadingPlugin = require('../lib').default
     init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -96,7 +96,7 @@ describe('loading', () => {
     const {
       init, dispatch, getStore
     } = require('../../../lib/index')
-    const loadingPlugin = require('../src').default
+    const loadingPlugin = require('../lib').default
     init({
       models: { count },
       plugins: [loadingPlugin({ name: 'load' })]

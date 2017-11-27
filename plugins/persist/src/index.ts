@@ -1,4 +1,4 @@
-import { persistStore, persistCombineReducers } from 'redux-persist'
+import { persistCombineReducers, persistStore } from 'redux-persist'
 // defaults to localStorage in browser, AsyncStorage in React-Native
 import storage from 'redux-persist/lib/storage'
 
