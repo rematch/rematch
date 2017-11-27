@@ -3,7 +3,7 @@ import uglify from 'rollup-plugin-uglify'
 import commonJs from 'rollup-plugin-commonjs'
 
 import { minify } from 'uglify-es'
-// experimental minifier to es modules
+// experimental minifier for ES modules
 // https://github.com/TrySound/rollup-plugin-uglify#warning
 
 const pkg = require('./package.json')
@@ -28,8 +28,8 @@ const config = {
     })
   ],
   output: [
-    { file: pkg.browser, format: 'umd', exports: 'named' }, // Universal Module
-    { file: pkg.main, format: 'cjs', exports: 'named' }, // CommonJS
+    { file: pkg.browser, format: 'umd', exports: 'named' }, // Universal Modules
+    { file: pkg.main, format: 'cjs', exports: 'named' }, // CommonJS Modules
     { file: pkg.module, format: 'es', exports: 'named' } // ES Modules
   ],
 }
