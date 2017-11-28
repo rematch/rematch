@@ -43,7 +43,10 @@ const mapToProps = state => ({
   formattedState: JSON.stringify(state, null, '\t'),
   countPersisted: state.count.total,
   countNonpersisted: state.nonpersistedCount.total,
-  addOne: dispatch.count.addOne,
+  addOne: () => {
+    dispatch.count.addOne()
+    dispatch.nonpersistedCount.addOne()
+  },
 })
 
 export default connect(mapToProps)(App)

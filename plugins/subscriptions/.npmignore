@@ -1,18 +1,10 @@
 # directories
+lib
 src
-plugins
-packages
-flow-typed
 test
 examples
-scripts
-.vscode
-.coverage
 
 # files
-.babelrc
 .gitignore
 .prettierrc
-.travis.yml
-webpack.config.js
 yarn.lock

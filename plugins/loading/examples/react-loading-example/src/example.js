@@ -7,7 +7,7 @@ export default {
   effects: {
     async submit() {
       // mocking the delay of an effect
-      await asyncDelay(1000)
+      await asyncDelay(3000)
     },
   }
 }

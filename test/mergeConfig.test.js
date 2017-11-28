@@ -1,202 +1,154 @@
-import { mergeConfig } from '../src/utils/mergeConfig'
+const mergeConfig = require('../src/utils/mergeConfig').default
 
 describe('mergeConfig', () => {
   describe('initialState', () => {
-    test('it should handle no secondary config', () => {
-      const c1 = {
+    test('it should a regular config', () => {
+      const config = {
         redux: {
           initialState: {
             a: 1,
           },
         }
       }
-      const result = mergeConfig(c1)
-      expect(result.redux.initialState).toEqual(c1.redux.initialState)
-    })
-    test('it should handle no primary config', () => {
-      const c2 = {
-        redux: {
-          initialState: {
-            a: 1,
-          },
-        }
-      }
-      const result = mergeConfig(undefined, c2)
-      expect(result.redux.initialState).toEqual(c2.redux.initialState)
-    })
-    test('a secondary config should merge initialState', () => {
-      const c1 = {
-        redux: {
-          initialState: {
-            a: 1,
-          },
-        }
-      }
-      const c2 = {
-        redux: {
-          initialState: {
-            b: 23,
-          },
-        }
-      }
-      const result = mergeConfig(c1, c2)
-      expect(result.redux.initialState).toEqual({
-        a: 1,
-        b: 23
-      })
+      const result = mergeConfig(config)
+      expect(result.redux.initialState).toEqual(config.redux.initialState)
     })
   })
 
   describe('plugins', () => {
-    test('should work with no additional c2 plugins', () => {
-      const c1 = {
+    test('should work with no additional plugins configs', () => {
+      const config = {
         plugins: []
       }
-      const result = mergeConfig(c1, undefined)
+      const result = mergeConfig(config)
       expect(result.plugins).toEqual([])
     })
 
-    test('should add new c2 plugins to the plugin list', () => {
-      const plugin1 = { init: () => ({ onModel: () => {} }) }
-      const c1 = {
-        plugins: []
-      }
-      const c2 = {
+    test('should add new config plugins to the plugin list', () => {
+      const plugin2 = { init: () => ({ onModel: () => {} }) }
+      const plugin1 = { config: { plugins: [plugin2] }, init: () => ({ onModel: () => {} }) }
+      const config = {
         plugins: [plugin1]
       }
-      const result = mergeConfig(c1, c2)
-      expect(result.plugins).toEqual([plugin1])
-    })
-
-    test('should not add new plugins if they already exist', () => {
-      const plugin1 = { init: () => ({ onModel: () => {} }) }
-      const c1 = {
-        plugins: [plugin1]
-      }
-      const c2 = {
-        plugins: [plugin1]
-      }
-      const result = mergeConfig(c1, c2)
-      expect(result.plugins).toEqual([plugin1])
+      const result = mergeConfig(config)
+      expect(result.plugins).toEqual([plugin1, plugin2])
     })
   })
 
   describe('reducers', () => {
     test('should handle no redux reducers', () => {
-      const result = mergeConfig(undefined, undefined)
-      expect(result.redux.reducers).toEqual({})
+      const result = mergeConfig({ redux: {}, reducers: {} })
+      expect(result.redux.reducers).toBe(undefined)
     })
-    test('should handle only c1 redux reducers', () => {
-      const c1 = {
+    test('should handle only config redux reducers', () => {
+      const config = {
         redux: {
           reducers: {
             example: 1,
           },
         }
       }
-      const result = mergeConfig(c1)
-      expect(result.redux.reducers).toEqual(c1.redux.reducers)
+      const result = mergeConfig(config)
+      expect(result.redux.reducers).toEqual(config.redux.reducers)
     })
 
-    test('should handle only c2 redux reducers', () => {
-      const c2 = {
-        redux: {
-          reducers: {
-            example: 1
+    test('should handle only plugin redux reducers', () => {
+      const plugin = {
+        config: {
+          redux: {
+            reducers: {
+              example: 1
+            }
           }
         }
       }
-      const result = mergeConfig(undefined, c2)
-      expect(result.redux.reducers).toEqual(c2.redux.reducers)
+      const config = {
+        plugins: [plugin]
+      }
+      const result = mergeConfig(config)
+      expect(result.redux.reducers).toEqual({ example: 1 })
     })
 
-    test('should merge c1 & c2 redux reducers', () => {
-      const c1 = {
-        redux: {
-          reducers: {
-            example: 1
+    test('should merge config & plugin redux reducers', () => {
+      const plugin = {
+        config: {
+          redux: {
+            reducers: {
+              example: 1
+            }
           }
         }
       }
-      const c2 = {
+      const config = {
         redux: {
           reducers: {
             sample: 2
           }
-        }
+        },
+        plugins: [plugin]
       }
-      const result = mergeConfig(c1, c2)
+      const result = mergeConfig(config)
       expect(result.redux.reducers).toEqual({
         example: 1,
         sample: 2,
       })
     })
 
-    test('c2 redux reducers should overwrite c1', () => {
-      const c1 = {
+    test('config redux reducers should overwrite plugin reducers', () => {
+      const plugin = {
         redux: {
           reducers: {
             example: 1
           }
         }
       }
-      const c2 = {
+      const config = {
         redux: {
           reducers: {
             example: 2
           }
         }
       }
-      const result = mergeConfig(c1, c2)
+      const result = mergeConfig(config)
       expect(result.redux.reducers).toEqual({
         example: 2,
       })
     })
   })
 
-  describe('ovewrites', () => {
-    test('should handle no ovewrites.combineReducers', () => {
-      const result = mergeConfig({}, {})
-      expect(result.redux.reducers).toEqual({})
+  describe('overwrites', () => {
+    test('should handle no redux combineReducers', () => {
+      const result = mergeConfig({})
+      expect(result.redux).toBe(undefined)
     })
-    test('should handle only c1 overwrites.combineReducers', () => {
-      const c1f = s => s + 1
-      const c1 = {
+    test('should handle config redux combineReducers', () => {
+      const combineReducers = s => s + 1
+      const config = {
         redux: {
-          combineReducers: c1f,
+          combineReducers,
         }
       }
-      const result = mergeConfig(c1)
-      expect(result.redux.combineReducers).toEqual(c1f)
-    })
-
-    test('should handle only c2 overwrites.combineReducers', () => {
-      const c2f = s => s + 2
-      const c2 = {
-        redux: {
-          combineReducers: c2f,
-        }
-      }
-      const result = mergeConfig({ redux: {} }, c2)
-      expect(result.redux.combineReducers).toEqual(c2f)
+      const result = mergeConfig(config)
+      expect(result.redux.combineReducers).toEqual(combineReducers)
     })
 
-    test('if both, c2 overwrites.combineReducers should take priority over c1', () => {
-      const c1f = s => s + 1
-      const c2f = s => s * 5
-      const c1 = {
+    test('if both, plugin overwrites redux.combineReducers should take priority over config', () => {
+      const pluginFn = s => s + 1
+      const configFn = s => s * 5
+      const plugin1 = {
         redux: {
-          combineReducers: c1f,
+          combineReducers: pluginFn,
         }
       }
-      const c2 = {
+      const config = {
         redux: {
-          combineReducers: c2f,
-        }
+          combineReducers: configFn,
+        },
+        plugins: [plugin1]
       }
-      const result = mergeConfig(c1, c2)
+      const result = mergeConfig(config)
       // (2 + 1) * 5
-      expect(result.redux.combineReducers).toBe(c2f)
+      expect(result.redux.combineReducers).toBe(configFn)
     })
   })
 })

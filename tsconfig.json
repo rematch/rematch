@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+      "outDir": "./lib",
+      "allowJs": true,
+      "sourceMap": true,
+      "target": "es5",
+      "lib": ["es2017", "dom"],
+      "moduleResolution": "node"
+  },
+  "files": [
+    "src/typings/rematch/index.d.ts",
+    "src/index.ts"
+  ]
+}
