@@ -1,20 +1,19 @@
 import { PluginCreator } from '@rematch/core'
 import { persistCombineReducers, persistStore } from 'redux-persist'
 
-const commonConfig = {
-  key: 'root',
-}
-
 let persistor
 // persistor is used for PersistGate
 // see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
 export const getPersistor = () => persistor
 
 // rematch plugin
-export default (config = {}): PluginCreator => {
+export default (config): PluginCreator => {
+  if (!config) {
+    throw new Error('@rematch/persist requires a config object containing "storage"')
+  }
   // merge config with common config options
   const mergedConfig = {
-    ...commonConfig,
+    key: 'root',
     ...config,
   }
   return {

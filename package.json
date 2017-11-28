@@ -78,7 +78,8 @@
     "coveragePathIgnorePatterns": [
       "/_book/",
       "/node_modules/",
-      "/plugins/react-navigation/"
+      "/plugins/react-navigation/",
+      ".mock.js"
     ],
     "mapCoverage": true,
     "testPathIgnorePatterns": [

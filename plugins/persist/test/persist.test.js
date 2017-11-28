@@ -1,10 +1,9 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
-const createLocalStorageMock = require('./localStorageMock')
+const createLocalStorageMock = require('./localStorage.mock')
 
 beforeEach(() => {
   jest.resetModules()
-  createLocalStorageMock()
 })
 
 const defaultPersist = {
@@ -16,11 +15,28 @@ const defaultPersist = {
 const reducers = { todos: (state = 999) => state }
 
 describe('persist', () => {
-  test('should load the persist plugin with no config', () => {
+  test('should throw if no config', () => {
     const persistPlugin = require('../src').default
     const { init, getStore } = require('../../../src')
-    init({
+    const storage = createLocalStorageMock()
+    const callInit = () => init({
       plugins: [persistPlugin()],
+      redux: {
+        initialState: {},
+        reducers,
+      }
+    })
+    expect(callInit).toThrow()
+  })
+
+  test('should load the persist plugin with a basic config', () => {
+    const persistPlugin = require('../src').default
+    const { init, getStore } = require('../../../src')
+    const storage = createLocalStorageMock()
+    init({
+      plugins: [persistPlugin({
+        storage,
+      })],
       redux: {
         initialState: {},
         reducers,
@@ -32,9 +48,11 @@ describe('persist', () => {
   test('should load the persist plugin with a config', () => {
     const persistPlugin = require('../src').default
     const { init, getStore } = require('../../../src')
+    const storage = createLocalStorageMock()
     const plugin = persistPlugin({
       key: 'test',
-      version: 2
+      version: 2,
+      storage,
     })
     init({
       plugins: [plugin],
@@ -52,8 +70,11 @@ describe('persist', () => {
     const persistPlugin = require('../src').default
     const { getPersistor } = require('../src')
     const { init } = require('../../../src')
+    const storage = createLocalStorageMock()
     init({
-      plugins: [persistPlugin()],
+      plugins: [persistPlugin({
+        storage
+      })],
       redux: {
         initialState: {},
         reducers,
@@ -67,6 +88,7 @@ describe('persist', () => {
     const persistPlugin = require('../src').default
     const { getPersistor } = require('../src')
     const { init, dispatch, getStore } = require('../../../src')
+    const storage = createLocalStorageMock()
     const a = {
       name: 'a',
       state: { b: 1 },
@@ -75,7 +97,7 @@ describe('persist', () => {
       }
     }
     init({
-      plugins: [persistPlugin()],
+      plugins: [persistPlugin({ storage })],
       models: { a }
     })
     dispatch.a.addOne()
@@ -84,24 +106,4 @@ describe('persist', () => {
     expect(getStore().getState()._persist).toEqual(defaultPersist)
     expect(getStore().getState().a).toEqual({ b: 2 })
   })
-
-  // NOTE: persist may require models to be run on init. Unsure.
-  // test('should load with model() instead of extra reducers', () => {
-  //   const {
-  //     init, model, dispatch, getStore
-  //   } = require('../../../src')
-  //   const persistPlugin = require('../src').default
-  //   init({
-  //     plugins: [persistPlugin()],
-  //   })
-  //   model({
-  //     state: { b: 1 },
-  //     reducers: {
-  //       addOne: s => ({ b: s.b + 1 })
-  //     }
-  //   })
-  //   dispatch.a.addOne()
-  //   expect(getStore().getState()._persist).toEqual(defaultPersist)
-  //   expect(getStore().getState().a).toEqual({ b: 2 })
-  // })
 })
