@@ -1,9 +1,10 @@
 {
   "name": "@rematch/subscriptions",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Rematch plugin for subscriptions",
   "keywords": [
     "@rematch",
+    "rematch",
     "plugin",
     "rematch",
     "subscribe",
@@ -16,7 +17,7 @@
   "license": "ISC",
   "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
   "files": [
-    "lib"
+    "dist"
   ],
   "main": "dist/rematch-subscriptions.cjs.js",
   "module": "dist/rematch-subscriptions.esm.js",
@@ -32,10 +33,10 @@
     "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c"
   },
   "devDependencies": {
-    "@rematch/core": "^0.1.0-beta.5",
+    "@rematch/core": "^0.1.0-beta.7",
     "redux": "^3.0.0"
   },
   "peerDependencies": {
-    "@rematch/core": "^0.1.0-beta.5"
+    "@rematch/core": "^0.1.0-beta.7"
   }
 }

@@ -1,11 +1,11 @@
 {
   "name": "@rematch/updated",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Rematch plugin for maintaining timestamps when effects are called",
   "keywords": [
     "@rematch",
-    "plugin",
     "rematch",
+    "plugin",
     "updated"
   ],
   "homepage": "https://github.com/rematch/rematch/plugins/updated#readme",
@@ -15,7 +15,7 @@
   "license": "ISC",
   "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
   "files": [
-    "lib"
+    "dist"
   ],
   "main": "dist/rematch-updated.cjs.js",
   "module": "dist/rematch-updated.esm.js",
