@@ -35,6 +35,8 @@ In the above case:
 
 See a [demo](./examples/react-loading-example)
 
+![rematch-loading](https://user-images.githubusercontent.com/4660659/33303781-00c786b2-d3ba-11e7-8216-1b2b8eebbf85.gif)
+
 ## Setup
 
 Install `@rematch/loading` as a dependency.

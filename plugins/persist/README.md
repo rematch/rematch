@@ -4,6 +4,8 @@ Redux-Persist v5 plugin for Rematch.
 
 Provides simple redux state persistence using local storage options.
 
+![persist](https://user-images.githubusercontent.com/4660659/33304219-67bd1dc6-d3bc-11e7-8159-a05d65c170bf.gif)
+
 ## Install
 
 ```
