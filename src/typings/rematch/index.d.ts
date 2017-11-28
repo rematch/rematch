@@ -2,7 +2,7 @@
 // Project: Rematch
 // Definitions by: Shawn McKay https://github.com/shmck
 
-import { combineReducers, createStore, Dispatch, Middleware, Reducer, Store } from 'redux'
+import { Dispatch, Middleware, Reducer, Store } from 'redux'
 
 export as namespace rematch
 
@@ -46,13 +46,13 @@ export interface Model {
   state: any,
   reducers?: Reducers,
   effects?: {
-  [key: string]: (payload: any) => void,
+    [key: string]: (payload: any) => void,
   },
   selectors?: {
-  [key: string]: (state: any, arg?: any) => any,
+    [key: string]: (state: any, arg?: any) => any,
   },
   subscriptions?: {
-  [matcher: string]: (action: Action) => void,
+    [matcher: string]: (action: Action) => void,
   },
 }
 

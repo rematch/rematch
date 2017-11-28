@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { dispatch } from '@rematch/core'
+import Spinner from 'react-spinkit'
 
 const styles = {
   page: {
@@ -8,16 +9,26 @@ const styles = {
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  loading: {
+  container: {
     border: '1px solid black',
     backgroundColor: 'lightYellow',
     padding: '1rem',
     width: '15rem',
+    height: '18rem',
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexDirection: 'column',
+  },
+  loading: {
+    height: '5rem',
   }
 }
 
-const Value = ({ label, value }) => (
-  <p>{label} = <strong>{value.toString()}</strong></p>
+const Loading = ({ label, show }) => (
+  <div style={styles.loading}>
+    <p>{label} = <strong>{show.toString()}</strong></p>
+    {show && <Spinner name='line-scale' color='black' />}
+  </div>
 )
 
 const App = ({ submit, loading }) => (
@@ -25,10 +36,10 @@ const App = ({ submit, loading }) => (
     <button onClick={submit}>
       Submit Async
     </button>
-    <div style={styles.loading}>
-      <Value label='loading.global' value={loading.global} />
-      <Value label='loading.models.form' value={loading.model} />
-      <Value label='loading.effects.form.submit' value={loading.effect} />
+    <div style={styles.container}>
+      <Loading label='loading.global' show={loading.global} />
+      <Loading label='loading.models.form' show={loading.model} />
+      <Loading label='loading.effects.form.submit' show={loading.effect} />
     </div>
   </div>
 )
