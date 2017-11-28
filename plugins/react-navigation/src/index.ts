@@ -2,9 +2,14 @@ import { PluginCreator } from '@rematch/core'
 import { createNavigator } from './Navigator'
 import { createNavReducer } from './reducer'
 
+interface ReactNavigationPlugin {
+  Navigator: any,
+  reactNavigationPlugin: PluginCreator,
+}
+
 const reactNavigationPlugin = ({
   ReactNavigation, Routes, initialScreen,
-}): PluginCreator => ({
+}): ReactNavigationPlugin => ({
   Navigator: createNavigator({ Routes, ReactNavigation }),
   reactNavigationPlugin: {
     config: {

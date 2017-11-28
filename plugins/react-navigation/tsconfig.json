@@ -4,6 +4,7 @@
       "sourceMap": true,
       "target": "es5",
       "lib": ["es2017"],
+      "jsx": "react",
       "moduleResolution": "node"
   },
   "files": [

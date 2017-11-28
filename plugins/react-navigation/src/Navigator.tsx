@@ -2,9 +2,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-type Props = {
- dispatch: () => any,
- nav: any,
+interface Props {
+  dispatch: () => any,
+  nav: any,
 }
 
 export const createNavigator = ({ Routes, ReactNavigation }) => {
@@ -16,10 +16,9 @@ export const createNavigator = ({ Routes, ReactNavigation }) => {
     />
   )
 
-  const mapToProps = state => ({
+  const mapToProps = (state) => ({
     nav: state.nav,
   })
 
   return connect(mapToProps)(Navigator)
 }
-
