@@ -1,5 +1,3 @@
-import { dispatch } from '@rematch/core'
-
 export const count = {
   state: { total: 0 },
   reducers: {
@@ -16,7 +14,4 @@ export const nonpersistedCount = {
       total: s.total + 1,
     })
   },
-  subscriptions: {
-    'count/addOne': () => dispatch.nonpersistedCount.addOne(),
-  }
 }

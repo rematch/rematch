@@ -14,6 +14,7 @@ const config = {
   name: 'rematch-persist',
   input: 'lib/index.js',
   sourcemap: true,
+  externals: ['redux-persist', 'redux-persist/lib/storage'],
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify(env),
