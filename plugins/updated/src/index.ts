@@ -37,7 +37,7 @@ export default (config: UpdatedConfig = {}): PluginCreator => {
         updated.state[name] = {}
 
         // map over effects within models
-        Object.keys(modelActions).forEach((action: Action) => {
+        Object.keys(modelActions).forEach((action: string) => {
           if (dispatch[name][action].isEffect) {
             // copy function
             const fn = dispatch[name][action]

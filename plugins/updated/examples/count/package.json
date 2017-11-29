@@ -1,0 +1,20 @@
+{
+  "name": "rematch-example-react-count",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "start": "react-scripts start",
+    "test": "react-scripts test --env=jsdom"
+  },
+  "dependencies": {
+    "@rematch/core": "file:../../../..",
+    "@rematch/updated": "file:../..",
+    "moment": "^2.19.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "react-scripts": "^1.0.17"
+  },
+  "private": true
+}
