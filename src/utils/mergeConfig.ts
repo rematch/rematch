@@ -4,16 +4,16 @@ const merge = (original: object, next: object): any => {
   return (next) ? { ...next, ...(original || {}) } : original || {}
 }
 
-export default (config: Config): Config =>
-  (config.plugins || []).reduce((merged, plugin: PluginCreator) => {
+// merges init config with plugin configs
+export default (config: Config): Config => {
+  // defaults
+  config.redux = config.redux || {}
+  config.models = config.models || {}
+  const plugins = config.plugins || []
+  return (plugins).reduce((merged, plugin: PluginCreator) => {
     if (plugin.config) {
-      // merges two config objects
-      // assumes configs are already validated
-      merged.redux = merged.redux || {}
-      plugin.config.redux = plugin.config.redux || {}
-      merged.models = merged.models || {}
 
-      // merge plugin models
+      // models
       merged.models = merge(merged.models, plugin.config.models)
 
       // plugins
@@ -22,11 +22,13 @@ export default (config: Config): Config =>
       }
 
       // redux
-      merged.redux.initialState = merge(merged.redux.initialState, plugin.config.redux.initialState)
-      merged.redux.reducers = merge(merged.redux.reducers, plugin.config.redux.reducers)
-      // overwrites
-      merged.redux.combineReducers = merged.redux.combineReducers || plugin.config.redux.combineReducers
-      merged.redux.createStore = merged.redux.createStore || plugin.config.redux.createStore
+      if (plugin.config.redux) {
+        merged.redux.initialState = merge(merged.redux.initialState, plugin.config.redux.initialState)
+        merged.redux.reducers = merge(merged.redux.reducers, plugin.config.redux.reducers)
+        merged.redux.combineReducers = merged.redux.combineReducers || plugin.config.redux.combineReducers
+        merged.redux.createStore = merged.redux.createStore || plugin.config.redux.createStore
+      }
     }
     return merged
   }, config)
+}
