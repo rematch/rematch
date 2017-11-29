@@ -1,11 +1,11 @@
-import { Store } from 'redux'
-import { Action, Model, PluginCreator } from '../typings/rematch'
+import { Dispatch, MiddlewareAPI, Store } from 'redux'
+import { Action, Exposed, Model, PluginCreator } from '../typings/rematch'
 
 const effectsPlugin: PluginCreator = {
   expose: {
     effects: {},
   },
-  init: ({ effects, dispatch, createDispatcher, validate }) => ({
+  init: ({ effects, dispatch, createDispatcher, validate }: Exposed): Plugin => ({
     onModel(model: Model) {
       Object.keys(model.effects || {}).forEach((effectName: string) => {
         validate([
@@ -26,7 +26,7 @@ const effectsPlugin: PluginCreator = {
         dispatch[model.name][effectName].isEffect = true
       })
     },
-    middleware: (store) => (next) => async (action) => {
+    middleware: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => async (action: Action) => {
           // async/await acts as promise middleware
         const result = (action.type in effects)
           ? await effects[action.type](action.payload, store.getState())

@@ -2,13 +2,13 @@
 // Project: Rematch
 // Definitions by: Shawn McKay https://github.com/shmck
 
-import { Dispatch, Middleware, Reducer, Store } from 'redux'
+import { Dispatch, Middleware, Reducer, Store, StoreCreator } from 'redux'
 
 export as namespace rematch
 
 export function dispatch(action: Action): Promise<Dispatch<any>>
 export function getStore(): Store<any>
-export function init(config: Config): void
+export function init(config: Config | undefined): void
 export function model(model: Model): void
 
 export namespace rematch {
@@ -28,17 +28,22 @@ export type Reducers = {
   [key: string]: Reducer<any>,
 }
 
+export type Models = {
+  [key: string]: Model,
+}
+
 export type ModelHook = (model: Model) => void
 
-type GetState = () => Store<any>
+type GetStore = () => Store<any>
 
-export type Validation = [boolean, string]
+export type Validation = [boolean | undefined, string]
 
 export type Exposed = {
-  dispatch?: Dispatch<any>,
-  effects?: Dispatch<any>,
-  createDispatcher?: (modelName: string, reducerName: string) => any,
-  validate?: (validations: Validation[]) => void,
+  dispatch: Dispatch<any>,
+  effects: Dispatch<any>,
+  createDispatcher: (modelName: string, reducerName: string) => any,
+  validate: (validations: Validation[]) => void,
+  [key: string]: any,
 }
 
 export interface Model {
@@ -57,33 +62,30 @@ export interface Model {
 }
 
 export interface Plugin {
-  onStoreCreated?: (getState: GetState) => void,
+  onStoreCreated?: (getStore: GetStore) => void,
   onModel?: ModelHook,
-  model?: Model,
-  middleware?: (store: Store<any>) => (next: (action: Action) => any) => (action: Action) => any,
+  middleware?: Middleware,
 }
 
 export interface PluginCreator {
   config?: Config,
-  expose?: any,
-  init?: (exposed: any) => Plugin
+  expose?: {
+    [key: string]: any,
+  },
+  init?: (exposed: Exposed) => Plugin
 }
 
 export interface ConfigRedux {
   initialState?: any,
-  reducers?: {
-    [key: string]: Reducer<any>,
-  },
+  reducers?: Reducers,
   middlewares?: Middleware[],
   combineReducers?: (Reducers) => Reducer<any>,
-  createStore?: (Reducer, any, Middleware) => Store<any>,
+  createStore?: StoreCreator,
   devtoolOptions?: Object,
 }
 
 export interface Config {
-  models?: {
-    [key: string]: Model,
-  },
+  models?: Models,
   plugins?: PluginCreator[],
   redux?: ConfigRedux,
 }

@@ -36,7 +36,7 @@ export const mergeReducers = (nextReducers: Reducers = {}) => {
   return combine(allReducers)
 }
 
-export const initReducers = (models: Model[], redux: ConfigRedux): void => {
+export const initReducers = (models: Model[], redux: ConfigRedux | undefined): void => {
   // optionally overwrite combineReducers on init
   combine = redux.combineReducers || combine
 

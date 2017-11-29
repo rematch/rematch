@@ -11,7 +11,8 @@ import isObject from './utils/isObject'
 import mergeConfig from './utils/mergeConfig'
 import validate from './utils/validate'
 
-const validateConfig = (config: Config) =>
+const init = (config: Config | undefined = {}): void => {
+  config.redux = config.redux || {}
   validate([
     [
       config.plugins && !Array.isArray(config.plugins),
@@ -38,12 +39,9 @@ const validateConfig = (config: Config) =>
       'init config.redux.createStore must be a function',
     ],
   ])
-
-const init = (initConfig: Config = {}): void => {
-  initConfig.redux = initConfig.redux || {}
-  validateConfig(initConfig)
-  const config = mergeConfig(initConfig)
-  const pluginConfigs = corePlugins.concat(config.plugins || [])
+  config.models = config.models || {}
+  const mergedConfig = mergeConfig(config)
+  const pluginConfigs = corePlugins.concat(mergedConfig.plugins || [])
   const exposed = getExposed(pluginConfigs)
   const plugins = buildPlugins(pluginConfigs, exposed)
 
@@ -51,13 +49,13 @@ const init = (initConfig: Config = {}): void => {
   preStore(plugins)
 
   // collect all models
-  const models = getModels(config.models)
+  const models = getModels(mergedConfig.models)
   initModelHooks(models)
-  initReducers(models, config.redux)
+  initReducers(models, mergedConfig.redux)
 
   // create a redux store with initialState
   // merge in additional extra reducers
-  initStore(config)
+  initStore(mergedConfig)
 
   postStore(plugins)
 }

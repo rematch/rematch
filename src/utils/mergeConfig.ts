@@ -5,12 +5,10 @@ const merge = (original: object, next: object): any => {
 }
 
 // merges init config with plugin configs
-export default (config: Config): Config => {
+export default (config): Config => {
   // defaults
-  config.redux = config.redux || {}
-  config.models = config.models || {}
   const plugins = config.plugins || []
-  return (plugins).reduce((merged, plugin: PluginCreator) => {
+  return (plugins).reduce((merged, plugin: PluginCreator): Config => {
     if (plugin.config) {
 
       // models

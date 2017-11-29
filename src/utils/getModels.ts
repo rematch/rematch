@@ -1,6 +1,6 @@
-import { Config, Model, Plugin } from '../typings/rematch'
+import { Config, Model, Models, Plugin } from '../typings/rematch'
 
-export default (models): Model[] => {
+export default (models: Models): Model[] => {
   return Object.keys(models).map((name: string) => ({
     name,
     ...models[name],
