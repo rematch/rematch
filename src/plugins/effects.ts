@@ -1,12 +1,12 @@
 import { Dispatch, MiddlewareAPI, Store } from 'redux'
-import { Action, Exposed, Model, PluginCreator } from '../typings/rematch'
+import { Action, Exposed, Model, Plugin, PluginCreator } from '../typings/rematch'
 
 const effectsPlugin: PluginCreator = {
   expose: {
     effects: {},
   },
   init: ({ effects, dispatch, createDispatcher, validate }: Exposed): Plugin => ({
-    onModel(model: Model) {
+    onModel(model: Model): void {
       Object.keys(model.effects || {}).forEach((effectName: string) => {
         validate([
           [

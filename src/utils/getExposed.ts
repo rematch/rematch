@@ -1,7 +1,7 @@
-import { PluginCreator } from '../typings/rematch'
+import { Exposed, PluginCreator } from '../typings/rematch'
 import validate from './validate'
 
-export default (plugins: PluginCreator[]) => plugins.reduce((exposed: any, plugin: PluginCreator) => ({
+export default (plugins: PluginCreator[]) => plugins.reduce((exposed: Exposed, plugin: PluginCreator) => ({
   ...exposed,
   ...(plugin.expose || {}),
 }), {

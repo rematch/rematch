@@ -2,7 +2,7 @@
 // Project: Rematch
 // Definitions by: Shawn McKay https://github.com/shmck
 
-import { Dispatch, Middleware, Reducer, Store, StoreCreator } from 'redux'
+import { Dispatch, MiddlewareAPI, Middleware, Reducer, Store, StoreCreator } from 'redux'
 
 export as namespace rematch
 
@@ -39,10 +39,10 @@ type GetStore = () => Store<any>
 export type Validation = [boolean | undefined, string]
 
 export type Exposed = {
-  dispatch: Dispatch<any>,
-  effects: Dispatch<any>,
-  createDispatcher: (modelName: string, reducerName: string) => any,
-  validate: (validations: Validation[]) => void,
+  dispatch?: Dispatch<any>,
+  effects?: any,
+  createDispatcher?: (modelName: string, reducerName: string) => any,
+  validate?: (validations: Validation[]) => void,
   [key: string]: any,
 }
 
@@ -64,7 +64,7 @@ export interface Model {
 export interface Plugin {
   onStoreCreated?: (getStore: GetStore) => void,
   onModel?: ModelHook,
-  middleware?: Middleware,
+  middleware?: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => (action: Action) => any,
 }
 
 export interface PluginCreator {

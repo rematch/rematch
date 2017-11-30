@@ -1,6 +1,6 @@
-import { Plugin, PluginCreator } from '../typings/rematch'
+import { Exposed, Plugin, PluginCreator } from '../typings/rematch'
 
-export default (plugins: PluginCreator[], exposed: any) => plugins.reduce((all, { init }) => {
+export default (plugins: PluginCreator[], exposed: Exposed) => plugins.reduce((all, { init }) => {
   if (init) {
     const plugin: Plugin = init(exposed)
     exposed.validate([

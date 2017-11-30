@@ -1,5 +1,5 @@
 /* eslint no-underscore-dangle: 0 */
-import { applyMiddleware, createStore as _createStore, Store } from 'redux'
+import { applyMiddleware, createStore as _createStore, Middleware, Reducer, Store, StoreCreator } from 'redux'
 import { pluginMiddlewares } from '../core'
 import { Config, Model } from '../typings/rematch'
 import { composeEnhancers } from './devtools'
@@ -11,10 +11,10 @@ let store: Store<any> = null
 export const getStore = () => store
 
 export const initStore = ({ redux }: Config) => {
-  const initialState = typeof redux.initialState === 'undefined' ? {} : redux.initialState
-  const createStore = redux.createStore || _createStore
-  const rootReducer = mergeReducers()
-  const middlewareList = [...pluginMiddlewares, ...(redux.middlewares || [])]
+  const initialState: any = typeof redux.initialState === 'undefined' ? {} : redux.initialState
+  const createStore: StoreCreator = redux.createStore || _createStore
+  const rootReducer: Reducer<any> = mergeReducers()
+  const middlewareList: Middleware[] = [...pluginMiddlewares, ...(redux.middlewares || [])]
   const middlewares = applyMiddleware(...middlewareList)
   const enhancers = composeEnhancers(redux.devtoolOptions)(middlewares)
   store = createStore(rootReducer, initialState, enhancers)
