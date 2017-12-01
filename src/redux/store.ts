@@ -5,7 +5,7 @@ import { Config, Model } from '../typings/rematch'
 import { composeEnhancers } from './devtools'
 import { createModelReducer, mergeReducers  } from './reducers'
 
-let store: Store<any> = null
+let store: Store<any>
 
 // access file scoped store
 export const getStore = () => store
