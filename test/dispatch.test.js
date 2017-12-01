@@ -126,6 +126,29 @@ describe('dispatch:', () => {
     })
   })
 
+  test('should include a payload if it is a false value', () => {
+    const {
+      init, getStore, dispatch
+    } = require('../src')
+
+    const a = {
+      state: true,
+      reducers: {
+        toggle: (state, payload) => payload,
+      },
+    }
+
+    init({
+      models: { a }
+    })
+
+    dispatch.a.toggle(false)
+
+    expect(getStore().getState()).toEqual({
+      a: false,
+    })
+  })
+
   test('should throw if the reducer name is invalid', () => {
     const {
       model, init

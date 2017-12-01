@@ -6,12 +6,12 @@ let storeDispatch: Dispatch<any>
 const dispatchPlugin: PluginCreator = {
   expose: {
     createDispatcher: (modelName: string, reducerName: string) =>
-      async (payload: any, meta: any): Promise<any> => {
+      async (payload?: any, meta?: any): Promise<any> => {
         const action: Action = { type: `${modelName}/${reducerName}` }
-        if (payload) {
+        if (typeof payload !== 'undefined') {
           action.payload = payload
         }
-        if (meta) {
+        if (typeof meta !== 'undefined') {
           action.meta = meta
         }
         await storeDispatch(action)

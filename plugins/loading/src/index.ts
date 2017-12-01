@@ -54,13 +54,8 @@ const loadingPlugin = (config: LoadingConfig = {}): PluginCreator => {
             const dispatchWithHooks = async (props) => {
               dispatch.loading.show({ name, action })
               await fn(props)
-                .catch(async () => {
-                  console.log('here')
-                  await dispatch.loading.hide({ name, action })
-                })
-                // waits for dispatch function to finish before calling "hide"
-                .then(() => dispatch.loading.hide({ name, action }))
-
+              // waits for dispatch function to finish before calling "hide"
+              dispatch.loading.hide({ name, action })
             }
             // replace existing effect with new dispatch
             dispatch[name][action] = dispatchWithHooks
