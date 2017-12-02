@@ -3,7 +3,7 @@ import { initModelHooks } from './model'
 import corePlugins from './plugins'
 import { initReducers } from './redux/reducers'
 import { initStore } from './redux/store'
-import { Config } from './typings/rematch'
+import { Config, Exposed } from './typings/rematch'
 import buildPlugins from './utils/buildPlugins'
 import getExposed from './utils/getExposed'
 import getModels from './utils/getModels'
@@ -42,7 +42,7 @@ const init = (config: Config | undefined = {}): void => {
   config.models = config.models || {}
   const mergedConfig = mergeConfig(config)
   const pluginConfigs = corePlugins.concat(mergedConfig.plugins || [])
-  const exposed = getExposed(pluginConfigs)
+  const exposed: Exposed = getExposed(pluginConfigs)
   const plugins = buildPlugins(pluginConfigs, exposed)
 
   // preStore: middleware, model hooks

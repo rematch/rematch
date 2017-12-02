@@ -1,8 +1,8 @@
 /* eslint no-underscore-dangle: 0 */
-import { combineReducers, Reducer} from 'redux'
+import { combineReducers, Reducer, ReducersMapObject} from 'redux'
 import { Action, ConfigRedux, Model, Reducers } from '../typings/rematch'
 
-let combine: (Reducers) => Reducer<any> = combineReducers
+let combine = combineReducers
 
 let allReducers: Reducers = {}
 
@@ -18,10 +18,10 @@ export const getReducer = (reducer: Reducers, initialState: any) =>
 
 // creates a reducer out of "reducers" keys and values
 export const createModelReducer = ({ name, reducers, state }: Model) => {
-  const modelReducers: Reducers = Object.keys(reducers || {}).reduce((acc, reducer) => {
-    acc[`${name}/${reducer}`] = reducers[reducer]
-    return acc
-  }, {})
+  const modelReducers: Reducers = Object.keys(reducers || {}).reduce((acc, reducer) => ({
+    [`${name}/${reducer}`]: reducers[reducer],
+    ...acc,
+  }), {})
   return {
     [name]: getReducer(modelReducers, state),
   }
@@ -31,12 +31,12 @@ export const createModelReducer = ({ name, reducers, state }: Model) => {
 export const mergeReducers = (nextReducers: Reducers = {}) => {
   allReducers = { ...allReducers, ...nextReducers }
   if (!Object.keys(allReducers).length) {
-    return (state) => state
+    return (state: any) => state
   }
   return combine(allReducers)
 }
 
-export const initReducers = (models: Model[], redux: ConfigRedux | undefined): void => {
+export const initReducers = (models: Model[], redux: ConfigRedux): void => {
   // optionally overwrite combineReducers on init
   combine = redux.combineReducers || combine
 
