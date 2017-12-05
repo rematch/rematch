@@ -1,6 +1,6 @@
 {
   "name": "@rematch/select",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Selectors plugin for Rematch",
   "keywords": [
     "plugin",

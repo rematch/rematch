@@ -1,6 +1,6 @@
 {
   "name": "@rematch/persist",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "Redux-Persist v5 plugin for Rematch. Provides simple redux state persistence using local storage options.",
   "keywords": [
     "@rematch",

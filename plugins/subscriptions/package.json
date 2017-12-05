@@ -1,6 +1,6 @@
 {
   "name": "@rematch/subscriptions",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Rematch plugin for subscriptions",
   "keywords": [
     "@rematch",
