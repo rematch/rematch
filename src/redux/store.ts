@@ -13,8 +13,9 @@ export const initStore = ({ redux }: Config): Store<any> => {
   const rootReducer: Reducer<any> = mergeReducers()
   const middlewareList: Middleware[] = [...pluginMiddlewares, ...(redux.middlewares || [])]
   const middlewares = applyMiddleware(...middlewareList)
-  const enhancers = composeEnhancers(redux.devtoolOptions)(middlewares)
-  store = createStore(rootReducer, initialState, enhancers)
+  const enhancers = [redux.devtoolOptions, ...(redux.enhancers || [])]
+  const composedEnhancers = composeEnhancers(...enhancers)(middlewares)
+  store = createStore(rootReducer, initialState, composedEnhancers)
   return store
 }
 

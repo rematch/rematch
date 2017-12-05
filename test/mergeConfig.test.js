@@ -95,6 +95,24 @@ describe('mergeConfig', () => {
       })
     })
 
+    test('should apply additional redux enhancers', () => {
+      const plugin = {
+        config: {
+          redux: {
+            enhancers: [3, 4]
+          }
+        }
+      }
+      const config = {
+        redux: {
+          enhancers: [1, 2]
+        },
+        plugins: [plugin]
+      }
+      const result = mergeConfig(config)
+      expect(result.redux.enhancers).toEqual([1, 2, 3, 4])
+    })
+
     test('config redux reducers should overwrite plugin reducers', () => {
       const plugin = {
         redux: {

@@ -2,7 +2,7 @@
 // Project: Rematch
 // Definitions by: Shawn McKay https://github.com/shmck
 
-import { Dispatch, MiddlewareAPI, Middleware, Reducer, ReducersMapObject, Store, StoreCreator } from 'redux'
+import { Dispatch, MiddlewareAPI, Middleware, Reducer, ReducersMapObject, Store, StoreCreator, StoreEnhancer } from 'redux'
 
 export as namespace rematch
 
@@ -74,6 +74,7 @@ export interface PluginCreator {
 export interface ConfigRedux {
   initialState?: any,
   reducers?: Reducers,
+  enhancers?: StoreEnhancer<any>[],
   middlewares?: Middleware[],
   combineReducers?: (reducers: ReducersMapObject) => Reducer<any>,
   createStore?: StoreCreator,

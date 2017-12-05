@@ -62,7 +62,16 @@ describe('init config', () => {
     })).toThrow()
   })
 
-  test('should not accept invalid array for "extraReducers"', () => {
+  test('should not accept invalid "enhancers"', () => {
+    const { init } = require('../src')
+    expect(() => init({
+      redux: {
+        enhancers: {}
+      }
+    })).toThrow()
+  })
+
+  test('should not accept invalid array for "reducers"', () => {
     const { init } = require('../src')
     expect(() => init({
       redux: {
@@ -71,7 +80,7 @@ describe('init config', () => {
     })).toThrow()
   })
 
-  test('should not accept invalid value as "extraReducers"', () => {
+  test('should not accept invalid value as "reducers"', () => {
     const { init } = require('../src')
     expect(() => init({
       redux: {
