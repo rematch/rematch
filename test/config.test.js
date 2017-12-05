@@ -81,8 +81,8 @@ describe('init config', () => {
   })
 
   test('should run with devtool options', () => {
-    const { init, getStore } = require('../src')
-    init({
+    const { init } = require('../src')
+    const store = init({
       redux: {
         initialState: { a: 1 },
         devtoolOptions: {
@@ -90,7 +90,7 @@ describe('init config', () => {
         }
       }
     })
-    expect(getStore().getState()).toEqual({ a: 1 })
+    expect(store.getState()).toEqual({ a: 1 })
   })
 
   test('devtools should default to compose', () => {

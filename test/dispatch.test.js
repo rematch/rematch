@@ -5,27 +5,27 @@ beforeEach(() => {
 describe('dispatch:', () => {
   describe('action:', () => {
     it('should be call in the form "modelName/reducerName"', () => {
-      const { init, getStore } = require('../src')
+      const { init } = require('../src')
       const count = {
         state: 0,
         reducers: {
           add: state => state + 1,
         },
       }
-      init({
+      const store = init({
         models: { count }
       })
 
-      getStore().dispatch({ type: 'count/add' })
+      store.dispatch({ type: 'count/add' })
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         count: 1,
       })
     })
 
     test('should be able to call dispatch directly', () => {
       const {
-        init, getStore, dispatch
+        init, dispatch
       } = require('../src')
 
       const count = {
@@ -35,20 +35,20 @@ describe('dispatch:', () => {
         },
       }
 
-      init({
+      const store = init({
         models: { count }
       })
 
       dispatch({ type: 'count/addOne' })
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         count: 1,
       })
     })
 
     test('should dispatch an action', () => {
       const {
-        init, getStore, dispatch
+        init, dispatch
       } = require('../src')
 
       const count = {
@@ -58,20 +58,20 @@ describe('dispatch:', () => {
         },
       }
 
-      init({
+      const store = init({
         models: { count }
       })
 
       dispatch.count.add()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         count: 1,
       })
     })
 
     test('should dispatch multiple actions', () => {
       const {
-        init, getStore, dispatch
+        init, dispatch
       } = require('../src')
 
       const count = {
@@ -81,21 +81,21 @@ describe('dispatch:', () => {
         },
       }
 
-      init({
+      const store = init({
         models: { count }
       })
 
       dispatch.count.add()
       dispatch.count.add()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         count: 2,
       })
     })
 
     test('should handle multiple models', () => {
       const {
-        init, getStore, dispatch
+        init, dispatch
       } = require('../src')
 
       const a = {
@@ -112,14 +112,14 @@ describe('dispatch:', () => {
         },
       }
 
-      init({
+      const store = init({
         models: { a, b }
       })
 
       dispatch.a.add()
       dispatch.b.add()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         a: 43,
         b: 1,
       })
@@ -128,7 +128,7 @@ describe('dispatch:', () => {
 
   test('should include a payload if it is a false value', () => {
     const {
-      init, getStore, dispatch
+      init, dispatch
     } = require('../src')
 
     const a = {
@@ -138,13 +138,13 @@ describe('dispatch:', () => {
       },
     }
 
-    init({
+    const store = init({
       models: { a }
     })
 
     dispatch.a.toggle(false)
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       a: false,
     })
   })
@@ -182,7 +182,7 @@ describe('dispatch:', () => {
   describe('params:', () => {
     test('should pass state as the first reducer param', () => {
       const {
-        init, getStore, dispatch
+        init, dispatch
       } = require('../src')
 
 
@@ -193,20 +193,20 @@ describe('dispatch:', () => {
         },
       }
 
-      init({
+      const store = init({
         models: { count }
       })
 
       dispatch.count.doNothing()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         count: 0,
       })
     })
 
     test('should pass payload as the second param', () => {
       const {
-        init, getStore, dispatch
+        init, dispatch
       } = require('../src')
 
       const count = {
@@ -216,13 +216,13 @@ describe('dispatch:', () => {
         },
       }
 
-      init({
+      const store = init({
         models: { count }
       })
 
       dispatch.count.incrementBy(5)
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         count: 6,
       })
     })

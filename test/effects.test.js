@@ -47,7 +47,7 @@ describe('effects:', () => {
 
   test('second param should contain state', () => {
     const {
-      init, getStore, dispatch
+      init, dispatch
     } = require('../src')
 
     const count = {
@@ -63,13 +63,13 @@ describe('effects:', () => {
       },
     }
 
-    init({
+    const store = init({
       models: { count }
     })
 
     dispatch.count.makeCall(2)
 
-    expect(getStore().getState().count).toBe(15)
+    expect(store.getState().count).toBe(15)
   })
 
   // test('should create an effect', () => {
@@ -88,7 +88,7 @@ describe('effects:', () => {
 
   test('should be able to trigger another action', async () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../src')
 
     const example = {
@@ -103,13 +103,13 @@ describe('effects:', () => {
       }
     }
 
-    init({
+    const store = init({
       models: { example }
     })
 
     await dispatch.example.asyncAddOneArrow()
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 1,
     })
   })
@@ -117,8 +117,8 @@ describe('effects:', () => {
   // currently no solution for arrow functions as they are often transpiled by Babel or Typescript
   // there is no clear way to detect arrow functions
   // xtest('should be able trigger a local reducer using arrow functions and `this`', async () => {
-  //   const { model, init, dispatch, getStore } = require('../src')
-  //   init()
+  //   const { model, init, dispatch } = require('../src')
+  //   const store = init()
   //
   //   model({
   //     name: 'example',
@@ -135,14 +135,14 @@ describe('effects:', () => {
   //
   //   await dispatch.example.asyncAddOneArrow()
   //
-  //   expect(getStore().getState()).toEqual({
+  //   expect(store.getState()).toEqual({
   //     example: 1,
   //   })
   // })
 
   test('should be able trigger a local reducer using functions and `this`', async () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../src')
 
     const example = {
@@ -157,20 +157,20 @@ describe('effects:', () => {
       }
     }
 
-    init({
+    const store = init({
       models: { example }
     })
 
     await dispatch.example.asyncAddOne()
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 1,
     })
   })
 
   test('should be able trigger a local reducer using object function shorthand and `this`', async () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../src')
 
     const example = {
@@ -185,20 +185,20 @@ describe('effects:', () => {
       }
     }
 
-    init({
+    const store = init({
       models: { example }
     })
 
     await dispatch.example.asyncAddOne()
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 1,
     })
   })
 
   test('should be able to trigger another action with a value', async () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../src')
 
     const example = {
@@ -213,20 +213,20 @@ describe('effects:', () => {
       }
     }
 
-    init({
+    const store = init({
       models: { example }
     })
 
     await dispatch.example.asyncAddBy(5)
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 7,
     })
   })
 
   test('should be able to trigger another action w/ an object value', async () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../src')
     
     const example = {
@@ -241,20 +241,20 @@ describe('effects:', () => {
       }
     }
 
-    init({
+    const store = init({
       models: { example }
     })
 
     await dispatch.example.asyncAddBy({ value: 6 })
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 9,
     })
   })
 
   test('should be able to trigger another action w/ another action', async () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../src')
 
     const example = {
@@ -273,20 +273,20 @@ describe('effects:', () => {
       }
     }
 
-    init({
+    const store = init({
       models: { example }
     })
 
     await dispatch.example.asyncCallAddOne()
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       example: 1,
     })
   })
 
   test('should be able to trigger another action w/ multiple actions', async () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../src')
 
     const example = {
@@ -309,14 +309,14 @@ describe('effects:', () => {
       }
     }
 
-    init({
+    const store = init({
       models: { example }
     })
 
     await dispatch.example.asyncAddSome()
 
     await setTimeout(() => {
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         example: 5,
       })
     })

@@ -16,10 +16,10 @@ Then go to http://localhost:3000
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import { init, model, dispatch, select, getStore } from 'rematch-x'
+import { init, model, dispatch, select } from '@rematch/core'
 
 // No need to specify a 'view' in init.
-init()
+const store = init()
 
 // Create the model
 model({
@@ -52,7 +52,7 @@ const AppContainer = connect(state => ({
 
 // Use react-redux's <Provider /> and pass it the store.
 ReactDOM.render(
-  <Provider store={getStore()}>
+  <Provider store={store}>
     <AppContainer />
   </Provider>,
   document.getElementById('root')

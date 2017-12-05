@@ -24,9 +24,9 @@ export default (config): PluginCreator => {
       },
     },
     init: () => ({
-      onStoreCreated(getStore) {
+      onStoreCreated(store) {
         // run persist store once store is available
-        persistor = persistStore(getStore())
+        persistor = persistStore(store)
       },
     }),
   }

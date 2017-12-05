@@ -45,8 +45,6 @@ The **model** brings together state, reducers, async actions & action creators i
 
 #### models.js
 ```js
-import { dispatch } from '@rematch/core'
-
 export const count = {
   state: 0, // initial state
   reducers: { // state changes with pure functions
@@ -78,9 +76,9 @@ Understanding models is as simple as answering a few questions:
 import { init } from '@rematch/core'
 import * as models from './models'
 
-init({
+const store = init({
   models,
-//plugins,
+  plugins: [],
 })
 ```
 
@@ -98,7 +96,12 @@ Dispatch standardizes your actions without the need for action types, action cre
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
-import { dispatch, getStore } from '@rematch/core'
+import { dispatch } from '@rematch/core'
+import * as models from './models'
+
+const store = init({
+  models
+})
 
 const Count = props => (
   <div>
@@ -113,8 +116,6 @@ const CountContainer = connect(state => ({
   addByOne: () => dispatch.count.addBy(1),
   addByOneAsync: () => dispatch.count.addByAsync(1)
 }))(Count)
-
-const store = getStore()
 
 ReactDOM.render(
   <Provider store={store}>

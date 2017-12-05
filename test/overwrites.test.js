@@ -4,8 +4,8 @@ beforeEach(() => {
 
 describe('overwrites', () => {
   test('combineReducers should replace root', () => {
-    const { init, getStore } = require('../src')
-    init({
+    const { init } = require('../src')
+    const store = init({
       redux: {
         initialState: {},
         reducers: {
@@ -15,7 +15,7 @@ describe('overwrites', () => {
         combineReducers: () => () => 42,
       }
     })
-    expect(getStore().getState()).toBe(42)
+    expect(store.getState()).toBe(42)
   })
   test('should not accept invalid value as "overwrites.combineReducers"', () => {
     const { init } = require('../src')
@@ -27,8 +27,8 @@ describe('overwrites', () => {
   })
 
   test('combineReducers should replace root', () => {
-    const { init, getStore } = require('../src')
-    init({
+    const { init } = require('../src')
+    const store = init({
       redux: {
         initialState: {},
         createStore: () => ({
@@ -36,7 +36,7 @@ describe('overwrites', () => {
         }),
       }
     })
-    expect(getStore().getState()).toBe(42)
+    expect(store.getState()).toBe(42)
   })
 
   test('should not accept invalid value as "overwrites.createStore"', () => {

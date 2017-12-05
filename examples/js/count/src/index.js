@@ -1,4 +1,5 @@
 import { init } from '@rematch/core'
+import createView from './View'
 
 const count = {
   state: 0,
@@ -7,8 +8,8 @@ const count = {
   }
 }
 
-init({
+const store = init({
   models: { count }
 })
 
-require('./View')
+createView(store)

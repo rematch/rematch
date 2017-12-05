@@ -4,16 +4,16 @@ beforeEach(() => {
 
 describe('init:', () => {
   test('no params should create store with state `{}`', () => {
-    const { init, getStore } = require('../src')
-    init()
+    const { init } = require('../src')
+    const store = init()
 
-    expect(getStore().getState()).toEqual({})
+    expect(store.getState()).toEqual({})
   })
 
   test('should create models', () => {
-    const { init, getStore } = require('../src')
+    const { init } = require('../src')
 
-    init({
+    const store = init({
       models: {
         app: {
           state: 'Hello, model 1',
@@ -24,16 +24,16 @@ describe('init:', () => {
       }
     })
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       app: 'Hello, model 1',
       app2: 'Hello, model 2'
     })
   })
 
   test('should allow both init models & model models', () => {
-    const { init, model, getStore } = require('../src')
+    const { init, model } = require('../src')
 
-    init({
+    const store = init({
       models: {
         app: {
           state: 'Hello, model 1',
@@ -46,7 +46,7 @@ describe('init:', () => {
       state: 'Hello, model 2',
     })
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       app: 'Hello, model 1',
       app2: 'Hello, model 2'
     })
@@ -66,50 +66,50 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `string`', () => {
-    const { model, init, getStore } = require('../src')
-    init()
+    const { model, init } = require('../src')
+    const store = init()
 
     model({
       name: 'app',
       state: 'Hello, world',
     })
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       app: 'Hello, world',
     })
   })
 
   test('init() & one model of state type `number`', () => {
-    const { model, init, getStore } = require('../src')
-    init()
+    const { model, init } = require('../src')
+    const store = init()
 
     model({
       name: 'count',
       state: 99,
     })
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       count: 99,
     })
   })
 
   test('init() & one model of state is 0', () => {
-    const { model, init, getStore } = require('../src')
-    init()
+    const { model, init } = require('../src')
+    const store = init()
 
     model({
       name: 'count',
       state: 0,
     })
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       count: 0,
     })
   })
 
   test('init() & one model of state type `object`', () => {
-    const { model, init, getStore } = require('../src')
-    init()
+    const { model, init } = require('../src')
+    const store = init()
 
     model({
       name: 'todos',
@@ -121,7 +121,7 @@ describe('init:', () => {
       },
     })
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       todos: {
         abc: {
           text: 'PRty down',
@@ -131,8 +131,8 @@ describe('init:', () => {
     })
   })
   test('init() & two models', () => {
-    const { model, init, getStore } = require('../src')
-    init()
+    const { model, init } = require('../src')
+    const store = init()
 
     model({
       name: 'app',
@@ -144,15 +144,15 @@ describe('init:', () => {
       state: 99,
     })
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       app: 'Hello, world',
       count: 99,
     })
   })
 
   test('init() & three models', () => {
-    const { model, init, getStore } = require('../src')
-    init()
+    const { model, init } = require('../src')
+    const store = init()
 
     model({
       name: 'app',
@@ -174,7 +174,7 @@ describe('init:', () => {
       },
     })
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       app: 'Hello, world',
       count: 99,
       todos: {

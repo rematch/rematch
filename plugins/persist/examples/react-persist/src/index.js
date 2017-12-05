@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { init, getStore } from '@rematch/core'
+import { init } from '@rematch/core'
 import createPersistPlugin, { getPersistor } from '@rematch/persist'
 import { PersistGate } from 'redux-persist/es/integration/react'
 import storage from 'redux-persist/lib/storage'
@@ -15,13 +15,13 @@ const persistPlugin = createPersistPlugin({
   storage,
 })
 
-init({
+const store = init({
   models,
   plugins: [persistPlugin],
 })
 
 ReactDOM.render(
-  <Provider store={getStore()}>
+  <Provider store={store}>
     <PersistGate persistor={getPersistor()}>
       <App />
     </PersistGate>

@@ -1,20 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { init, getStore } from '@rematch/core'
+import { init } from '@rematch/core'
 import createLoadingPlugin from '@rematch/loading'
 import App from './App'
 import example from './example'
 
 const loadingPlugin = createLoadingPlugin()
 
-init({
+const store = init({
   plugins: [loadingPlugin],
   models: { example }
 })
 
 ReactDOM.render(
-  <Provider store={getStore()}>
+  <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById('root')

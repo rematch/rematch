@@ -1,3 +1,4 @@
+import { Store } from 'redux'
 import { postStore, preStore } from './core'
 import { initModelHooks } from './model'
 import corePlugins from './plugins'
@@ -11,7 +12,7 @@ import isObject from './utils/isObject'
 import mergeConfig from './utils/mergeConfig'
 import validate from './utils/validate'
 
-const init = (config: Config | undefined = {}): void => {
+const init = (config: Config | undefined = {}): Store<any> => {
   config.redux = config.redux || {}
   validate([
     [
@@ -55,9 +56,9 @@ const init = (config: Config | undefined = {}): void => {
 
   // create a redux store with initialState
   // merge in additional extra reducers
-  initStore(mergedConfig)
-
-  postStore(plugins)
+  const store: Store<any> = initStore(mergedConfig)
+  postStore(plugins, store)
+  return store
 }
 
 export default init
