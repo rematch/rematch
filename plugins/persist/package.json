@@ -28,11 +28,11 @@
     "redux-persist": "^5.4.0"
   },
   "devDependencies": {
-    "@rematch/core": "^0.1.0-beta.5",
+    "@rematch/core": "^0.1.0-beta.8",
     "@types/redux-persist": "^4.3.1",
     "redux": "^3.7.2"
   },
   "peerDependencies": {
-    "@rematch/core": "^0.1.0-beta.5"
+    "@rematch/core": "^0.1.0-beta.8"
   }
 }
