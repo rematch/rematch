@@ -15,8 +15,8 @@ export default (): PluginCreator => ({
       })
     }
     return {
-      onStoreCreated(getStore) {
-        localGetState = getStore().getState
+      onStoreCreated(store) {
+        localGetState = store.getState
       },
       onModel(model: Model) {
         // a list of actions is only necessary

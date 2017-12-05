@@ -1,5 +1,4 @@
 import { Middleware } from 'redux'
-import { getStore } from './redux/store'
 import { ModelHook, Plugin } from './typings/rematch'
 
 export const modelHooks: ModelHook[] = []
@@ -16,10 +15,10 @@ export const preStore = (plugins: Plugin[]) => {
   })
 }
 
-export const postStore = (plugins: Plugin[]) => {
+export const postStore = (plugins: Plugin[], store) => {
   plugins.forEach((plugin: Plugin) => {
     if (plugin.onStoreCreated) {
-      plugin.onStoreCreated(getStore)
+      plugin.onStoreCreated(store)
     }
   })
 }

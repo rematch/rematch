@@ -1,30 +1,17 @@
 # API Reference
 
-- [action](#action)
 - [dispatch](#dispatch)
+  - [action](#action)
 - [model](#model)
   - [state](#state)
-  - [name](#name)
   - [reducers](#reducers)
   - [effects](#effects)
 - [init](#init)
   - [models](#models)
   - [initialState](#initialState)
   - [plugins](#plugins)
-  - [plugins API](./pluginsApi.md)
   - [redux](./initReduxApi.md)
-- [getStore](#getstore)
 
-
-## action
-
-`{ type: 'modelName/actionName', payload: any }`
-
-Actions are messages sent within Redux as a way for disparate parts of your app to communicate state updates.
-
-In Rematch, an action is always structured with a type of "modelName" and "actionName" - referring to either a reducer or effect name.
-
-Any data attached to an action is added in the payload.
 
 ## dispatch
 
@@ -48,6 +35,16 @@ Dispatch has an optional second property, "meta", which can be used in subscript
 
 `dispatch.cart.addToCart(item, { syncWithServer: true })`
 
+### action
+
+`{ type: 'modelName/actionName', payload: any }`
+
+Actions are messages sent within Redux as a way for disparate parts of your app to communicate state updates.
+
+In Rematch, an action is always structured with a type of "modelName" and "actionName" - referring to either a reducer or effect name.
+
+Any data attached to an action is added in the payload.
+
 
 ## model
 
@@ -66,20 +63,6 @@ const example = {
   state: { loading: false }
 }
 ```
-
-### name
-
-`name: string` Optional
-
-The name of your model. Inferred as the key referencing the models state, but can be overwritten if you use the key of "name".
-
-```js
-{
-  name: 'example',
-}
-```
-
-The above example would produce the initial state of `{ example: { loading: false } }`.
 
 ### reducers
 
@@ -131,12 +114,12 @@ Effects provide a simple way of handling async actions when used with `async/awa
 
 `init(config)`
 
-The function called to setup Rematch.
+The function called to setup Rematch. Returns `store`.
 
 ```js
 import { init } from '@rematch/core'
 
-init()
+const store = init()
 ```
 
 Init may also be called with the following configuration option below.
@@ -202,18 +185,6 @@ model({
   name: 'count',
   state: 0,
 })
-```
-
-## getStore
-
-`function`
-
-Provides access to the Redux store.
-
-```js
-import { getStore } from '@rematch/core'
-
-getStore() // store
 ```
 
 ### plugins

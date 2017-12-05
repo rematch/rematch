@@ -17,7 +17,7 @@ const reducers = { todos: (state = 999) => state }
 describe('persist', () => {
   test('should throw if no config', () => {
     const persistPlugin = require('../src').default
-    const { init, getStore } = require('../../../src')
+    const { init } = require('../../../src')
     const storage = createLocalStorageMock()
     const callInit = () => init({
       plugins: [persistPlugin()],
@@ -31,9 +31,9 @@ describe('persist', () => {
 
   test('should load the persist plugin with a basic config', () => {
     const persistPlugin = require('../src').default
-    const { init, getStore } = require('../../../src')
+    const { init } = require('../../../src')
     const storage = createLocalStorageMock()
-    init({
+    const store = init({
       plugins: [persistPlugin({
         storage,
       })],
@@ -42,25 +42,25 @@ describe('persist', () => {
         reducers,
       }
     })
-    expect(getStore().getState()._persist).toEqual(defaultPersist)
+    expect(store.getState()._persist).toEqual(defaultPersist)
   })
 
   test('should load the persist plugin with a config', () => {
     const persistPlugin = require('../src').default
-    const { init, getStore } = require('../../../src')
+    const { init } = require('../../../src')
     const storage = createLocalStorageMock()
     const plugin = persistPlugin({
       key: 'test',
       version: 2,
       storage,
     })
-    init({
+    const store = init({
       plugins: [plugin],
       redux: {
         reducers,
       }
     })
-    expect(getStore().getState()._persist).toEqual({
+    expect(store.getState()._persist).toEqual({
       ...defaultPersist,
       version: 2,
     })
@@ -87,7 +87,7 @@ describe('persist', () => {
   test('should work with init models', () => {
     const persistPlugin = require('../src').default
     const { getPersistor } = require('../src')
-    const { init, dispatch, getStore } = require('../../../src')
+    const { init, dispatch } = require('../../../src')
     const storage = createLocalStorageMock()
     const a = {
       name: 'a',
@@ -96,14 +96,14 @@ describe('persist', () => {
         addOne: s => ({ b: s.b + 1 })
       }
     }
-    init({
+    const store = init({
       plugins: [persistPlugin({ storage })],
       models: { a }
     })
     dispatch.a.addOne()
     const persistor = getPersistor()
     expect(persistor.purge).toBeDefined()
-    expect(getStore().getState()._persist).toEqual(defaultPersist)
-    expect(getStore().getState().a).toEqual({ b: 2 })
+    expect(store.getState()._persist).toEqual(defaultPersist)
+    expect(store.getState().a).toEqual({ b: 2 })
   })
 })

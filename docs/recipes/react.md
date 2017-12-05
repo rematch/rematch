@@ -30,18 +30,18 @@ Also note that it's recommended you keep your `dispatch` statements outside comp
 
 ---
 
-Use `getStore` to setup your React-Redux Provider.
+Use `store` to setup your React-Redux Provider.
 
 ```js
 import React from 'react'
 import { Provider } from 'react-redux'
-import { getStore } from '@rematch/core'
+import { init } from '@rematch/core'
 import App from './App'
 
-init()
+const store = init()
 
 export default () => (
-  <Provider store={getStore()}>
+  <Provider store={store}>
     <App />
   </Provider>
 )

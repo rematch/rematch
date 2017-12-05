@@ -31,7 +31,7 @@ describe('plugins:', () => {
   })
 
   test('should add a model', () => {
-    const { init, getStore } = require('../src')
+    const { init } = require('../src')
     const a = {
       state: 0,
     }
@@ -40,14 +40,14 @@ describe('plugins:', () => {
         models: { a }
       }
     }
-    init({
+    const store = init({
       plugins: [plugin]
     })
-    expect(getStore().getState()).toEqual({ a: 0 })
+    expect(store.getState()).toEqual({ a: 0 })
   })
 
   test('should add multiple models', () => {
-    const { init, getStore } = require('../src')
+    const { init } = require('../src')
     const a = {
       state: 0,
     }
@@ -59,14 +59,14 @@ describe('plugins:', () => {
         models: { a, b }
       }
     }
-    init({
+    const store = init({
       plugins: [plugin]
     })
-    expect(getStore().getState()).toEqual({ a: 0, b: 0 })
+    expect(store.getState()).toEqual({ a: 0, b: 0 })
   })
 
   test('should merge plugin configs into configs', () => {
-    const { init, getStore } = require('../src')
+    const { init } = require('../src')
     const plugin1 = {
       config: {
         redux: {
@@ -76,9 +76,9 @@ describe('plugins:', () => {
         }
       },
     }
-    init({
+    const store = init({
       plugins: [plugin1],
     })
-    expect(getStore().getState()).toEqual({ app: 1 })
+    expect(store.getState()).toEqual({ app: 1 })
   })
 })

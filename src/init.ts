@@ -1,9 +1,10 @@
+import { Store } from 'redux'
 import { postStore, preStore } from './core'
 import { initModelHooks } from './model'
 import corePlugins from './plugins'
 import { initReducers } from './redux/reducers'
 import { initStore } from './redux/store'
-import { Config, Exposed } from './typings/rematch'
+import { Config, ConfigRedux, Exposed } from './typings/rematch'
 import buildPlugins from './utils/buildPlugins'
 import getExposed from './utils/getExposed'
 import getModels from './utils/getModels'
@@ -11,7 +12,7 @@ import isObject from './utils/isObject'
 import mergeConfig from './utils/mergeConfig'
 import validate from './utils/validate'
 
-const init = (config: Config | undefined = {}): void => {
+const init = (config: Config | undefined = {}): Store<any> => {
   config.redux = config.redux || {}
   validate([
     [
@@ -23,12 +24,18 @@ const init = (config: Config | undefined = {}): void => {
       'init config.models must be an object',
     ],
     [
+      config.redux.reducers
+      && isObject(config.redux.reducers),
+      'init config.redux.reducers must be an object',
+    ],
+    [
       config.redux.middlewares && !Array.isArray(config.redux.middlewares),
       'init config.redux.middlewares must be an array',
     ],
     [
-      config.redux.reducers && isObject(config.redux.reducers),
-      'init config.redux.reducers must be an object',
+      config.redux.enhancers
+      && !Array.isArray(config.redux.enhancers),
+      'init config.redux.enhancers must be an array of functions',
     ],
     [
       config.redux.combineReducers && typeof config.redux.combineReducers !== 'function',
@@ -55,9 +62,9 @@ const init = (config: Config | undefined = {}): void => {
 
   // create a redux store with initialState
   // merge in additional extra reducers
-  initStore(mergedConfig)
-
-  postStore(plugins)
+  const store: Store<any> = initStore(mergedConfig)
+  postStore(plugins, store)
+  return store
 }
 
 export default init

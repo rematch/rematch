@@ -111,7 +111,7 @@ See examples with "effects", "loading", & "subscriptions".
 ```js
 {
   init: (expose) => ({
-    onStoreCreated(getStore) {
+    onStoreCreated(store) {
       // do something
     }
   })

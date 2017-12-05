@@ -41,7 +41,7 @@ Note: unfortunately this package has build issues when referencing `react-naviga
 
 ```js
 // index.js
-import { init, dispatch, getStore } from '@rematch/core'
+import { init, dispatch } from '@rematch/core'
 import createReactNavigation from '@rematch/react-navigation'
 import * as ReactNavigation from 'react-navigation'
 import Routes from './Routes'
@@ -53,12 +53,12 @@ const { Navigator, reactNavigationPlugin } = createReactNavigation({
   initialScreen: 'Landing'
 })
 
-init({
+const store = init({
   plugins: [reactNavigationPlugin],
 })
 
 export default () => (
-  <Provider store={getStore()}>
+  <Provider store={store}>
     <Navigator />
   </Provider>
 )

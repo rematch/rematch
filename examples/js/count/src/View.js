@@ -1,15 +1,16 @@
-import { dispatch, getStore } from '@rematch/core'
+import { dispatch } from '@rematch/core'
 
-// select html elements
-const countEl = document.getElementById('count')
-const incrementEl = document.getElementById('increment')
+export default (store) => {
+  // select html elements
+  const countEl = document.getElementById('count')
+  const incrementEl = document.getElementById('increment')
 
-// add onClick listener
-incrementEl.addEventListener('click', () => dispatch.count.addOne())
+  // add onClick listener
+  incrementEl.addEventListener('click', () => dispatch.count.addOne())
 
-// setup store store subscription
-const store = getStore()
-store.subscribe(() => {
-  const state = store.getState()
-  countEl.value = state.count
-})
+  // setup store store subscription
+  store.subscribe(() => {
+    const state = store.getState()
+    countEl.value = state.count
+  })
+}

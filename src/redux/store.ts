@@ -7,17 +7,16 @@ import { createModelReducer, mergeReducers  } from './reducers'
 
 let store: Store<any>
 
-// access file scoped store
-export const getStore = () => store
-
-export const initStore = ({ redux }: Config) => {
+export const initStore = ({ redux }: Config): Store<any> => {
   const initialState: any = typeof redux.initialState === 'undefined' ? {} : redux.initialState
   const createStore: StoreCreator = redux.createStore || _createStore
   const rootReducer: Reducer<any> = mergeReducers()
   const middlewareList: Middleware[] = [...pluginMiddlewares, ...(redux.middlewares || [])]
   const middlewares = applyMiddleware(...middlewareList)
-  const enhancers = composeEnhancers(redux.devtoolOptions)(middlewares)
-  store = createStore(rootReducer, initialState, enhancers)
+  const enhancers = [redux.devtoolOptions, ...(redux.enhancers || [])]
+  const composedEnhancers = composeEnhancers(...enhancers)(middlewares)
+  store = createStore(rootReducer, initialState, composedEnhancers)
+  return store
 }
 
 export const createReducersAndUpdateStore = (model: Model): void => {

@@ -62,7 +62,16 @@ describe('init config', () => {
     })).toThrow()
   })
 
-  test('should not accept invalid array for "extraReducers"', () => {
+  test('should not accept invalid "enhancers"', () => {
+    const { init } = require('../src')
+    expect(() => init({
+      redux: {
+        enhancers: {}
+      }
+    })).toThrow()
+  })
+
+  test('should not accept invalid array for "reducers"', () => {
     const { init } = require('../src')
     expect(() => init({
       redux: {
@@ -71,7 +80,7 @@ describe('init config', () => {
     })).toThrow()
   })
 
-  test('should not accept invalid value as "extraReducers"', () => {
+  test('should not accept invalid value as "reducers"', () => {
     const { init } = require('../src')
     expect(() => init({
       redux: {
@@ -81,8 +90,8 @@ describe('init config', () => {
   })
 
   test('should run with devtool options', () => {
-    const { init, getStore } = require('../src')
-    init({
+    const { init } = require('../src')
+    const store = init({
       redux: {
         initialState: { a: 1 },
         devtoolOptions: {
@@ -90,7 +99,7 @@ describe('init config', () => {
         }
       }
     })
-    expect(getStore().getState()).toEqual({ a: 1 })
+    expect(store.getState()).toEqual({ a: 1 })
   })
 
   test('devtools should default to compose', () => {

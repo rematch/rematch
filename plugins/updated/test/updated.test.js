@@ -8,7 +8,7 @@ beforeEach(() => {
 describe('updated', () => {
   test('should setup with a config name', async () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../../../src')
 
     const updatedPlugin = require('../src').default
@@ -26,7 +26,7 @@ describe('updated', () => {
       }
     }
 
-    init({
+    const store = init({
       models: { count },
       plugins: [updatedPlugin({
         name: 'chicken',
@@ -35,7 +35,7 @@ describe('updated', () => {
 
     await dispatch.count.timeout()
 
-    const state = getStore().getState()
+    const state = store.getState()
     expect(state).toEqual({
       count: 1,
       chicken: {
@@ -47,7 +47,7 @@ describe('updated', () => {
   })
   test('should record the timestamp of the last time an effect was updated', async () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../../../src')
 
     const updatedPlugin = require('../src').default
@@ -65,14 +65,14 @@ describe('updated', () => {
       }
     }
 
-    init({
+    const store = init({
       models: { count },
       plugins: [updatedPlugin()]
     })
 
     await dispatch.count.timeout()
 
-    const state = getStore().getState()
+    const state = store.getState()
     expect(state).toEqual({
       count: 1,
       updated: {
@@ -85,7 +85,7 @@ describe('updated', () => {
   
   test('should work with multiple effects', async () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../../../src')
 
     const updatedPlugin = require('../src').default
@@ -106,7 +106,7 @@ describe('updated', () => {
       }
     }
 
-    init({
+    const store = init({
       models: { count },
       plugins: [updatedPlugin()]
     })
@@ -114,7 +114,7 @@ describe('updated', () => {
     await dispatch.count.timeout()
     await dispatch.count.timeout2()
 
-    const state = getStore().getState()
+    const state = store.getState()
     expect(state).toEqual({
       count: 2,
       updated: {

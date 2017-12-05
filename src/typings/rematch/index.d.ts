@@ -2,19 +2,17 @@
 // Project: Rematch
 // Definitions by: Shawn McKay https://github.com/shmck
 
-import { Dispatch, MiddlewareAPI, Middleware, Reducer, ReducersMapObject, Store, StoreCreator } from 'redux'
+import { Dispatch, MiddlewareAPI, Middleware, Reducer, ReducersMapObject, Store, StoreCreator, StoreEnhancer } from 'redux'
 
 export as namespace rematch
 
 export function dispatch(action: Action): Promise<Dispatch<any>>
-export function getStore(): Store<any>
-export function init(config: Config | undefined): void
+export function init(config: Config | undefined): Store<any>
 export function model(model: Model): void
 
 export namespace rematch {
   export function dispatch(action: Action): Promise<Dispatch<any>>
-  export function getStore(): Store<any>
-  export function init(config: Config): void
+  export function init(config: Config): Store<any>
   export function model(model: Model): void
 }
 
@@ -33,8 +31,6 @@ export type Models = {
 }
 
 export type ModelHook = (model: Model) => void
-
-type GetStore = () => Store<any>
 
 export type Validation = [boolean | undefined, string]
 
@@ -62,7 +58,7 @@ export interface Model {
 }
 
 export interface Plugin {
-  onStoreCreated?: (getStore: GetStore) => void,
+  onStoreCreated?: (store: Store<any>) => void,
   onModel?: ModelHook,
   middleware?: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => (action: Action) => any,
 }
@@ -78,6 +74,7 @@ export interface PluginCreator {
 export interface ConfigRedux {
   initialState?: any,
   reducers?: Reducers,
+  enhancers?: StoreEnhancer<any>[],
   middlewares?: Middleware[],
   combineReducers?: (reducers: ReducersMapObject) => Reducer<any>,
   createStore?: StoreCreator,

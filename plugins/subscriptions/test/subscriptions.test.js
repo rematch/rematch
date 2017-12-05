@@ -12,7 +12,7 @@ const common = {
 describe('subscriptions:', () => {
   test('should create a working subscription', () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../../../src')
     const subscriptionsPlugin = require('../src').default
     const first = {
@@ -22,21 +22,21 @@ describe('subscriptions:', () => {
       }
     }
     const second = common
-    init({
+    const store = init({
       models: { first, second },
       plugins: [subscriptionsPlugin()]
     })
 
     dispatch.second.addOne()
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       second: 1, first: 1,
     })
   })
 
   test('should allow for two subscriptions with same name in different models', () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../../../src')
     const subscriptionsPlugin = require('../src').default
     const a1 = {
@@ -52,21 +52,21 @@ describe('subscriptions:', () => {
         'b1/addOne': () => dispatch.c1.addOne(),
       },
     }
-    init({
+    const store = init({
       models: { a1, b1, c1 },
       plugins: [subscriptionsPlugin()]
     })
 
     dispatch.b1.addOne()
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       a1: 1, b1: 1, c1: 1,
     })
   })
 
   test('should allow for three subscriptions with same name in different models', () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../../../src')
     const subscriptionsPlugin = require('../src').default
     const a = {
@@ -92,7 +92,7 @@ describe('subscriptions:', () => {
     // just an additional check to see that
     // other models are not effected
     const e = common
-    init({
+    const store = init({
       models: {
         a, b, c, d, e
       },
@@ -101,7 +101,7 @@ describe('subscriptions:', () => {
 
     dispatch.b.addOne()
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       a: 1, b: 1, c: 1, d: 1, e: 0
     })
   })
@@ -109,7 +109,7 @@ describe('subscriptions:', () => {
   test('should throw if a subscription matcher is invalid', () => {
     const { model, init, dispatch } = require('../../../src')
     const subscriptionsPlugin = require('../src').default
-    init({
+    const store = init({
       plugins: [subscriptionsPlugin()]
     })
 
@@ -141,7 +141,7 @@ describe('subscriptions:', () => {
   describe('pattern matching', () => {
     test('should create working pattern matching subscription (second/*)', () => {
       const {
-        init, dispatch, getStore
+        init, dispatch
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
 
@@ -152,21 +152,21 @@ describe('subscriptions:', () => {
         }
       }
       const second = common
-      init({
+      const store = init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
       })
 
       dispatch.second.addOne()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         second: 1, first: 1,
       })
     })
 
     test('should create working pattern matching subsription (*/addOne)', () => {
       const {
-        init, dispatch, getStore
+        init, dispatch
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       
@@ -182,21 +182,21 @@ describe('subscriptions:', () => {
           add: (state, payload) => state + payload
         }
       }
-      init({
+      const store = init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
       })
 
       dispatch.second.add(2)
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         second: 2, first: 1,
       })
     })
 
     test('should create working pattern matching subscription (second/add*)', () => {
       const {
-        init, dispatch, getStore
+        init, dispatch
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       const first = {
@@ -206,14 +206,14 @@ describe('subscriptions:', () => {
         }
       }
       const second = common
-      init({
+      const store = init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
       })
 
       dispatch.second.addOne()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         second: 1, first: 1,
       })
     })
@@ -284,7 +284,7 @@ describe('subscriptions:', () => {
 
   test('should have access to state from second param', () => {
     const {
-      init, dispatch, getStore
+      init, dispatch
     } = require('../../../src')
     const subscriptionsPlugin = require('../src').default
     const first = {
@@ -301,14 +301,14 @@ describe('subscriptions:', () => {
     const second = {
       ...common,
     }
-    init({
+    const store = init({
       models: { first, second },
       plugins: [subscriptionsPlugin()]
     })
 
     dispatch.second.addOne()
 
-    expect(getStore().getState()).toEqual({
+    expect(store.getState()).toEqual({
       second: 1, first: 6,
     })
   })
@@ -316,7 +316,7 @@ describe('subscriptions:', () => {
   describe('unsubscribe:', () => {
     test('a matched action', () => {
       const {
-        init, dispatch, getStore
+        init, dispatch
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       const { createUnsubscribe } = require('../src/unsubscribe')
@@ -329,7 +329,7 @@ describe('subscriptions:', () => {
       const second = {
         ...common,
       }
-      init({
+      const store = init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
       })
@@ -337,13 +337,13 @@ describe('subscriptions:', () => {
       unsubscribe()
       dispatch.second.addOne()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         second: 1, first: 0,
       })
     })
     test('a pattern matched action', () => {
       const {
-        init, dispatch, getStore
+        init, dispatch
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       const { createUnsubscribe } = require('../src/unsubscribe')
@@ -356,7 +356,7 @@ describe('subscriptions:', () => {
       const second = {
         ...common,
       }
-      init({
+      const store = init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
       })
@@ -365,13 +365,13 @@ describe('subscriptions:', () => {
       unsubscribe()
       dispatch.second.addOne()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         second: 1, first: 0,
       })
     })
     test('a pattern matched action when more than one', () => {
       const {
-        init, dispatch, getStore
+        init, dispatch, 
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       const { createUnsubscribe } = require('../src/unsubscribe')
@@ -390,7 +390,7 @@ describe('subscriptions:', () => {
           'second/*': () => dispatch.third.addOne(),
         }
       }
-      init({
+      const store = init({
         models: { first, second, third },
         plugins: [subscriptionsPlugin()]
       })
@@ -398,7 +398,7 @@ describe('subscriptions:', () => {
       unsubscribe()
       dispatch.second.addOne()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         first: 0, second: 1, third: 1
       })
     })
@@ -423,7 +423,7 @@ describe('subscriptions:', () => {
     })
     test('should do nothing if no action', () => {
       const {
-        init, dispatch, getStore
+        init, dispatch
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       const { createUnsubscribe } = require('../src/unsubscribe')
@@ -434,7 +434,7 @@ describe('subscriptions:', () => {
         }
       }
       const second = common
-      init({
+      const store = init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
       })
@@ -443,14 +443,14 @@ describe('subscriptions:', () => {
       unsubscribe()
       dispatch.second.addOne()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         second: 1, first: 1,
       })
     })
 
     test('should allow unsubscribe within a model', () => {
       const {
-        init, dispatch, getStore
+        init, dispatch
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       const first = {
@@ -463,7 +463,7 @@ describe('subscriptions:', () => {
         }
       }
       const second = common
-      init({
+      const store = init({
         models: { first, second },
         plugins: [subscriptionsPlugin()]
       })
@@ -472,14 +472,14 @@ describe('subscriptions:', () => {
       dispatch.second.addOne()
       dispatch.second.addOne()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         second: 3, first: 1,
       })
     })
 
     test('should allow unsubscribe within a model with a pattern match', () => {
       const {
-        init, dispatch, getStore
+        init, dispatch
       } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
       const first = {
@@ -492,7 +492,7 @@ describe('subscriptions:', () => {
         }
       }
       const other = common
-      init({
+      const store = init({
         models: { first, other },
         plugins: [subscriptionsPlugin()]
       })
@@ -501,7 +501,7 @@ describe('subscriptions:', () => {
       dispatch.other.addOne()
       dispatch.other.addOne()
 
-      expect(getStore().getState()).toEqual({
+      expect(store.getState()).toEqual({
         other: 3, first: 1,
       })
     })

@@ -19,8 +19,8 @@ const dispatchPlugin: PluginCreator = {
     dispatch: (action: Action) => storeDispatch(action),
   },
   init: ({ dispatch, createDispatcher, validate }: Exposed): Plugin => ({
-    onStoreCreated(getStore: () => Store<any>) {
-      storeDispatch = getStore().dispatch
+    onStoreCreated(store: Store<any>) {
+      storeDispatch = store.dispatch
     },
     onModel(model: Model) {
       dispatch[model.name] = {}

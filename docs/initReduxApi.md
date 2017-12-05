@@ -7,6 +7,7 @@
     - [initialState](#initialState)
     - [reducers](#reducers)
     - [middlewares](#middlewares)
+    - [enhancers](#enhancers)
     - [combineReducers](#combinereducers)
     - [createStore](#createstore)
     - [devtoolOptions](#devtooloptions)
@@ -38,7 +39,7 @@ Allows passing in of reducer functions, rather than models. While not recommende
 
 ### middlewares
 
-```
+```js
 init({
   redux: {
     middlewares: [customMiddleware()]
@@ -47,6 +48,18 @@ init({
 ```
 
 Add middleware to your store.
+
+### enhancers
+
+```js
+init({
+  redux: {
+    enhancers: [customEnhancer()]
+  }
+})
+```
+
+Add enhancer to your store
 
 ### combineReducers
 

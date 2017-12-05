@@ -26,7 +26,7 @@ describe('select:', () => {
   it('should allow access to the selector', () => {
     const selectPlugin = require('../src').default
     const { select } = require('../src')
-    const { init, getStore } = require('../../../src')
+    const { init } = require('../../../src')
     const a = {
       state: 2,
       reducers: {
@@ -36,11 +36,11 @@ describe('select:', () => {
         double: s => s * 2
       },
     }
-    init({
+    const store = init({
       models: { a },
       plugins: [selectPlugin()]
     })
-    const state = getStore().getState()
+    const state = store.getState()
     const doubled = select.a.double(state)
     expect(doubled).toBe(4)
   })
@@ -48,7 +48,7 @@ describe('select:', () => {
   it('should allow passing in of params toselector', () => {
     const selectPlugin = require('../src').default
     const { select } = require('../src')
-    const { init, getStore } = require('../../../src')
+    const { init } = require('../../../src')
     const a = {
       state: 2,
       reducers: {
@@ -58,11 +58,11 @@ describe('select:', () => {
         prependWithLetter: (s, letter) => letter + s
       },
     }
-    init({
+    const store = init({
       models: { a },
       plugins: [selectPlugin()]
     })
-    const state = getStore().getState()
+    const state = store.getState()
     const prepended = select.a.prependWithLetter(state, 'P')
     expect(prepended).toBe('P2')
   })
@@ -102,7 +102,7 @@ describe('select:', () => {
     it('should allow for createSelector to be used instead of a normal selector', () => {
       const selectPlugin = require('../src').default
       const { select } = require('../src')
-      const { init, getStore } = require('../../../src')
+      const { init } = require('../../../src')
       const { createSelector } = require('reselect')
       const count = {
         state: 2,
@@ -113,11 +113,11 @@ describe('select:', () => {
           )
         },
       }
-      init({
+      const store = init({
         models: { count },
         plugins: [selectPlugin()]
       })
-      const state = getStore().getState()
+      const state = store.getState()
       const doubled = select.count.double(state)
       expect(doubled).toBe(4)
     })
@@ -125,7 +125,7 @@ describe('select:', () => {
     it('should allow createSelector to be used outside of a model', () => {
       const selectPlugin = require('../src').default
       const { select } = require('../src')
-      const { init, getStore } = require('../../../src')
+      const { init } = require('../../../src')
       const { createSelector } = require('reselect')
       const countA = {
         state: 2,
@@ -139,7 +139,7 @@ describe('select:', () => {
           double: state => state * 2
         }
       }
-      init({
+      const store = init({
         models: { countA, countB },
         plugins: [selectPlugin()]
       })
@@ -149,7 +149,7 @@ describe('select:', () => {
         (countADoubled, countBDoubled) => countADoubled + countBDoubled
       )
 
-      const state = getStore().getState()
+      const state = store.getState()
       const result = outsideSelector(state)
       expect(result).toBe(24)
     })
@@ -157,7 +157,7 @@ describe('select:', () => {
     it('should allow for mixing normal selectors and reselect selectors', () => {
       const selectPlugin = require('../src').default
       const { select } = require('../src')
-      const { init, getStore } = require('../../../src')
+      const { init } = require('../../../src')
       const { createSelector } = require('reselect')
       const countA = {
         state: 2,
@@ -179,7 +179,7 @@ describe('select:', () => {
         }
       }
 
-      init({
+      const store = init({
         models: { countA, countB },
         plugins: [selectPlugin()]
       })
@@ -192,7 +192,7 @@ describe('select:', () => {
           countADoubled + countAPlusOne + countBDoubled
       )
 
-      const state = getStore().getState()
+      const state = store.getState()
       const result = outsideSelector(state)
       expect(result).toBe(27)
     })
