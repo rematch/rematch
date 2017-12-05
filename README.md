@@ -89,12 +89,16 @@ Understanding models is as simple as answering a few questions:
 ```js
 import { dispatch } from '@rematch/core'
                                               // state = { count: 0 }
+// reducers
 dispatch({ type: 'count/addBy', payload: 1 }) // state = { count: 1 }
 dispatch.count.addBy(1)                       // state = { count: 2 }
-dispatch.count.addByAsync(1)                  // state = { count: 3 } after delay
+
+// effects
+dispatch({ type: 'count/addBy', payload: 1 }) // state = { count: 3 } after delay
+dispatch.count.addByAsync(1)                  // state = { count: 4 } after delay
 ```
 
-Dispatch can be called directly, or with the `dispatch.model.action` shorthand.
+Dispatch can be called directly, or with the `dispatch.model.action(payload)` shorthand.
 
 
 ## Example
@@ -105,7 +109,7 @@ Dispatch can be called directly, or with the `dispatch.model.action` shorthand.
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
-import { dispatch } from '@rematch/core'
+import { init, dispatch } from '@rematch/core'
 import * as models from './models'
 
 const store = init({
