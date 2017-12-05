@@ -32,7 +32,7 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c",
+    "build": "cross-env rimraf build dist && tsc && NODE_ENV='production' rollup -c",
     "build:all": "bash ./scripts/build.sh",
     "dev": "tsc --watch src",
     "install:all": "tsc && bash ./scripts/setup_plugins.sh",
@@ -46,6 +46,7 @@
     "@types/jest": "^21.1.8",
     "@types/redux": "^3.6.0",
     "coveralls": "^3.0.0",
+    "cross-env": "^5.1.1",
     "gitbook-plugin-edit-link": "^2.0.2",
     "gitbook-plugin-github": "^3.0.0",
     "gitbook-plugin-prism": "^2.3.0",
