@@ -38,8 +38,25 @@ npm install @rematch/core
 
 ## Getting Started
 
+### Step 1: Init
 
-### Step 1: Models
+**init** configures your reducers, devtools & store. 
+
+#### index.js
+
+```js
+import { init } from '@rematch/core'
+import * as models from './models'
+
+const store = init({
+  models,
+  plugins: [],
+})
+```
+
+For additional setup, pass in a configuration or one of many existing [plugins](./docs/plugins.md).
+
+### Step 2: Models
 
 The **model** brings together state, reducers, async actions & action creators in one place.
 
@@ -65,30 +82,22 @@ Understanding models is as simple as answering a few questions:
 2. How do I change the state? **reducers**
 3. How do I handle asynchronous actions? **effects** with async/await
 
+### Step 3: Dispatch
 
-### Step 2: Init
-
-**init** configures your reducers, devtools & store. 
-
-#### index.js
+**dispatch** is how we trigger reducers & effects in your models. Dispatch standardizes your actions without the need for action types, action creators, or mapDispatchToProps.
 
 ```js
-import { init } from '@rematch/core'
-import * as models from './models'
-
-const store = init({
-  models,
-  plugins: [],
-})
+import { dispatch } from '@rematch/core'
+                                              // state = { count: 0 }
+dispatch({ type: 'count/addBy', payload: 1 }) // state = { count: 1 }
+dispatch.count.addBy(1)                       // state = { count: 2 }
+dispatch.count.addByAsync(1)                  // state = { count: 3 } after delay
 ```
 
-For additional setup, pass in a configuration or one of many existing [plugins](./docs/plugins.md).
+Dispatch can be called directly, or with the `dispatch.model.action` shorthand.
 
 
-### Step 3: View
-
-**dispatch** is a helpful shorthand for triggering reducers & effects in your models.
-Dispatch standardizes your actions without the need for action types, action creators, or mapDispatchToProps. `dispatch.count.incrementBy(1)` is the same as `dispatch({ type: 'count/incrementBy', payload: 1 })`.
+## Example
 
 **React** | Vue | AngularJS | Angular 2
 
@@ -100,7 +109,7 @@ import { dispatch } from '@rematch/core'
 import * as models from './models'
 
 const store = init({
-  models
+  models,
 })
 
 const Count = props => (
