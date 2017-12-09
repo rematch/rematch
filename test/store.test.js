@@ -42,4 +42,22 @@ describe('createStore:', () => {
     })
     expect(store.getState()).toEqual({ todos: 999 })
   })
+
+  test('should allow capturing of an action through middleware', () => {
+    const { init, dispatch } = require('../src')
+    const middleware1 = () => next => action => {
+      if (action.type === 'MIDDLE') {
+        return 'CAPTURED'
+      }
+      return next(action)
+    }
+    const store = init({
+      redux: {
+        initialState: 'INITIAL',
+        middlewares: [middleware1],
+      }
+    })
+    dispatch({ type: 'MIDDLE' })
+    expect(store.getState()).toBe('MIDDLE')
+  })
 })
