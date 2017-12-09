@@ -45,19 +45,40 @@ describe('createStore:', () => {
 
   test('should allow capturing of an action through middleware', () => {
     const { init, dispatch } = require('../src')
-    const middleware1 = () => next => action => {
+    const rootReducerWrapper = (next) => (state, action) => {
       if (action.type === 'MIDDLE') {
-        return 'CAPTURED'
+        return 'MIDDLE'
       }
       return next(action)
     }
     const store = init({
       redux: {
         initialState: 'INITIAL',
-        middlewares: [middleware1],
+        rootReducerWrapper,
       }
     })
     dispatch({ type: 'MIDDLE' })
+    expect(store.getState()).toBe('MIDDLE')
+  })
+
+  test('should allow capturing of a second action through middleware', () => {
+    const { init, dispatch } = require('../src')
+    const rootReducerWrapper = (rootReducer) => (state, action) => {
+      if (action.type === 'MIDDLE') {
+        return 'MIDDLE'
+      }
+      return rootReducer(state, action)
+    }
+    const store = init({
+      redux: {
+        initialState: 'INITIAL',
+        rootReducerWrapper,
+      }
+    })
+    dispatch({ type: 'SOMETHING' })
+    expect(store.getState()).toBe('INITIAL')
+    dispatch({ type: 'MIDDLE' })
+    
     expect(store.getState()).toBe('MIDDLE')
   })
 })

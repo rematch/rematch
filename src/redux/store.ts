@@ -10,7 +10,10 @@ let store: Store<any>
 export const initStore = ({ redux }: Config): Store<any> => {
   const initialState: any = typeof redux.initialState === 'undefined' ? {} : redux.initialState
   const createStore: StoreCreator = redux.createStore || _createStore
-  const rootReducer: Reducer<any> = mergeReducers()
+  let rootReducer: Reducer<any> = mergeReducers()
+  if (redux.rootReducerWrapper) {
+    rootReducer = redux.rootReducerWrapper(rootReducer)
+  }
   const middlewareList: Middleware[] = [...pluginMiddlewares, ...(redux.middlewares || [])]
   const middlewares = applyMiddleware(...middlewareList)
   const enhancers = [redux.devtoolOptions, ...(redux.enhancers || [])]
