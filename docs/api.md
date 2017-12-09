@@ -10,7 +10,7 @@
   - [models](#models)
   - [initialState](#initialState)
   - [plugins](#plugins)
-  - [redux](./initReduxApi.md)
+  - [redux](#redux)
 
 
 ## dispatch
@@ -199,7 +199,7 @@ Plugins are custom sets of init configurations or internal hooks that can add fe
 
 Read more about existing [plugins](./plugins) or about how to create your own plugins using the [plugins API](./pluginsAPI).
 
-### Init Redux (continued)
+### redux
 
 There are situations where you might want to access Redux directly. You may want to:
 
@@ -207,4 +207,4 @@ There are situations where you might want to access Redux directly. You may want
 - add middleware
 - create a custom plugin
 
-For a complete summary of all redux options, see the [init Redux API](./initReduxApi.md).
+For a complete summary of all redux options, see the [init Redux API](./reduxApi.md).
