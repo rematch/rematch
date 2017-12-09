@@ -43,36 +43,32 @@ describe('createStore:', () => {
     expect(store.getState()).toEqual({ todos: 999 })
   })
 
-  test('should allow capturing of an action through middleware', () => {
+  test('should allow capturing of an action through root reducer', () => {
     const { init, dispatch } = require('../src')
-    const rootReducerWrapper = (next) => (state, action) => {
-      if (action.type === 'MIDDLE') {
-        return 'MIDDLE'
-      }
-      return next(action)
-    }
     const store = init({
       redux: {
         initialState: 'INITIAL',
-        rootReducerWrapper,
+        rootReducers: {
+          'MIDDLE': (state, action) => {
+            return 'MIDDLE'
+          }
+        }
       }
     })
     dispatch({ type: 'MIDDLE' })
     expect(store.getState()).toBe('MIDDLE')
   })
 
-  test('should allow capturing of a second action through middleware', () => {
+  test('should allow capturing of a second action through root reducer', () => {
     const { init, dispatch } = require('../src')
-    const rootReducerWrapper = (rootReducer) => (state, action) => {
-      if (action.type === 'MIDDLE') {
-        return 'MIDDLE'
-      }
-      return rootReducer(state, action)
-    }
     const store = init({
       redux: {
         initialState: 'INITIAL',
-        rootReducerWrapper,
+        rootReducers: {
+          'MIDDLE': (state, action) => {
+            return 'MIDDLE'
+          }
+        }
       }
     })
     dispatch({ type: 'SOMETHING' })
@@ -80,5 +76,32 @@ describe('createStore:', () => {
     dispatch({ type: 'MIDDLE' })
     
     expect(store.getState()).toBe('MIDDLE')
+  })
+
+  test('should allow resetting state through root reducer', () => {
+    const { init, dispatch } = require('../src')
+    const count = {
+      state: 0,
+      reducers: {
+        addOne(state) {
+          return state + 1
+        }
+      }
+    }
+    const store = init({
+      models: { count },
+      redux: {
+        rootReducers: {
+          '@@RESET': (state, action) => {
+            return undefined
+          },
+        }
+      }
+    })
+    dispatch.count.addOne()
+    dispatch.count.addOne()
+    dispatch({ type: '@@RESET' })
+    
+    expect(store.getState()).toEqual({ count: 0 })
   })
 })

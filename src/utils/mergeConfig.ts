@@ -23,6 +23,7 @@ export default (config: Config): Config => {
       if (plugin.config.redux) {
         merged.redux.initialState = merge(merged.redux.initialState, plugin.config.redux.initialState)
         merged.redux.reducers = merge(merged.redux.reducers, plugin.config.redux.reducers)
+        merged.redux.rootReducers = merge(merged.redux.rootReducers, plugin.config.redux.reducers)
         if (plugin.config.redux.enhancers) {
           merged.redux.enhancers = merged.redux.enhancers.concat(plugin.config.redux.enhancers)
         }
