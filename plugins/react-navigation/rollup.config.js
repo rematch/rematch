@@ -11,7 +11,7 @@ const pkg = require('./package.json')
 const env = process.env.NODE_ENV
 
 const config = {
-  name: 'rematch-react-navigation',
+  name: 'RematchReactNavigation',
   input: 'lib/index.js',
   sourcemap: true,
   external: [

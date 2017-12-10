@@ -11,7 +11,7 @@ const pkg = require('./package.json')
 const env = process.env.NODE_ENV
 
 const config = {
-  name: 'rematch-persist',
+  name: 'RematchPersist',
   input: 'lib/index.js',
   sourcemap: true,
   externals: ['redux-persist', 'redux-persist/lib/storage'],

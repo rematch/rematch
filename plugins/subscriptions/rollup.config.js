@@ -11,7 +11,7 @@ const pkg = require('./package.json')
 const env = process.env.NODE_ENV
 
 const config = {
-  name: 'rematch-subscriptions',
+  name: 'RematchSubscriptions',
   input: 'lib/index.js',
   sourcemap: true,
   plugins: [
