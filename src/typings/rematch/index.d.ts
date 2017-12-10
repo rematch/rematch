@@ -72,7 +72,7 @@ export interface PluginCreator {
 }
 
 export interface RootReducers {
-  [type: string]: Reducer<any>,
+  [type: string]: (state: any, action: Action, initialState: any) => any
 }
 
 export interface ConfigRedux {

@@ -3,6 +3,7 @@ import { ModelHook, Plugin } from './typings/rematch'
 
 export const modelHooks: ModelHook[] = []
 export const pluginMiddlewares: Middleware[] = []
+export const initialState = {}
 
 export const preStore = (plugins: Plugin[]) => {
   plugins.forEach((plugin: Plugin) => {
