@@ -104,4 +104,29 @@ describe('createStore:', () => {
     
     expect(store.getState()).toEqual({ count: 0 })
   })
+
+  test('root reducer should work with dynamic model', () => {
+    const { init, dispatch, model } = require('../src')
+    const store = init({
+      models: {
+        countA: { state: 0, reducers: { up: s => s + 1 } },
+        countB: { state: 0 }
+      },
+      redux: {
+        rootReducers: {
+          '@@RESET': (state, action) => {
+            return undefined
+          },
+        }
+      }
+    })
+
+    model({ name: 'countC', state: 0 })
+
+    dispatch.countA.up()
+    dispatch({ type: '@@RESET' })
+
+    expect(store.getState()).toEqual({ countA: 0, countB: 0, countC: 0 })
+  })
+
 })
