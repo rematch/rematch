@@ -1,5 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
-import { combineReducers, Reducer, ReducersMapObject} from 'redux'
+import { combineReducers, Reducer} from 'redux'
+import { initialState } from '../core'
 import { Action, ConfigRedux, Model, Reducers, RootReducers } from '../typings/rematch'
 
 let combine = combineReducers
@@ -53,7 +54,7 @@ export const createRootReducer = (rootReducers: RootReducers = {}): Reducer<any>
     return (state, action) => {
       const rootReducerAction = rootReducers[action.type]
       if (rootReducers[action.type]) {
-        return mergedReducers(rootReducerAction(state, action), action)
+        return mergedReducers(rootReducerAction(state, action, initialState), action)
       }
       return mergedReducers(state, action)
     }

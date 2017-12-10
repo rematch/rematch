@@ -129,4 +129,26 @@ describe('createStore:', () => {
     expect(store.getState()).toEqual({ countA: 0, countB: 0, countC: 0 })
   })
 
+  test('root reducer should receive initial state as third argument', () => {
+    const { init, dispatch, model } = require('../src')
+    const store = init({
+        models: {
+          countA: { state: 0, reducers: { up: s => s + 1 } },
+          countB: { state: 0 }
+        },
+        redux: {
+        rootReducers: {
+          '@@RESET': (state, action, initialState) => {
+            return initialState
+          },
+        }
+      }
+    })
+
+    dispatch.countA.up()
+    dispatch({ type: '@@RESET' })
+
+    expect(store.getState()).toEqual({ countA: 0, countB: 0 })
+  })
+
 })

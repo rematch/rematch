@@ -1,4 +1,4 @@
-import { modelHooks } from './core'
+import { initialState, modelHooks } from './core'
 import { createReducersAndUpdateStore } from './redux/store'
 import { Model } from './typings/rematch'
 import validate from './utils/validate'
@@ -14,6 +14,7 @@ const addModel = (model: Model) => {
   ])
   // run plugin model subscriptions
   modelHooks.forEach((modelHook) => modelHook(model))
+  initialState[model.name] = model.state
 }
 
 // main model import method
