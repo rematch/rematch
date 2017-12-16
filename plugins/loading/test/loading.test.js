@@ -189,24 +189,24 @@ describe('loading', () => {
     expect(createStore).toThrow()
   })
 
-  // test('should handle "hide" if effect throws', () => {
-  //   const {
-  //     init, dispatch
-  //   } = require('../../../src')
-  //   const loadingPlugin = require('../src').default
-  //   const count = {
-  //     state: 0,
-  //     effects: {
-  //       throwError() {
-  //         throw new Error('effect error')
-  //       }
-  //     }
-  //   }
-  //   const store = init({
-  //     models: { count },
-  //     plugins: [loadingPlugin()]
-  //   })
-  //   dispatch.count.throwError()
-  //   expect(store.getState().loading.global).toBe(false)
-  // })
+  test('should handle "hide" if effect throws', async () => {
+    const {
+      init, dispatch
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
+    const count = {
+      state: 0,
+      effects: {
+        throwError() {
+          throw new Error('effect error')
+        }
+      }
+    }
+    const store = init({
+      models: { count },
+      plugins: [loadingPlugin()]
+    })
+    await dispatch.count.throwError()
+    expect(store.getState().loading.global).toBe(false)
+  })
 })

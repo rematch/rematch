@@ -19,7 +19,7 @@ interface LoadingConfig {
   blacklist?: string[],
 }
 
-const loadingPlugin = (config: LoadingConfig = {}): PluginCreator => {
+const loadingPlugin = (config: LoadingConfig = {}): any => {
   // validate config
   if (config.name && typeof config.name !== 'string') {
     throw new Error('loading plugin config name must be a string')
@@ -78,11 +78,12 @@ const loadingPlugin = (config: LoadingConfig = {}): PluginCreator => {
             loading.state.effects[name][action] = false
             const fn = dispatch[name][action]
             // create function with pre & post loading calls
-            const dispatchWithHooks = async (props) => {
+            const dispatchWithHooks = (props) => {
               dispatch.loading.show({ name, action })
-              await fn(props)
+              return fn(props)
+              .catch(() => dispatch.loading.hide({ name, action }))
+              .then(() => dispatch.loading.hide({ name, action }))
               // waits for dispatch function to finish before calling "hide"
-              dispatch.loading.hide({ name, action })
             }
             // replace existing effect with new dispatch
             dispatch[name][action] = dispatchWithHooks
