@@ -70,7 +70,24 @@ The loading reducer defaults to the name of "loading".
 If you would like to change this, use the `name` option.
 
 ```js
-const loading = createLoadingPlugin({ name: 'load' })
+{ name: 'load' }
 ```
 
 In which case, loading can be accessed from `state.load.global`.
+
+### whitelist
+
+A shortlist of actions. Named with "modelName" & "actionName".
+
+```js
+{ whitelist: ['count/addOne'] })
+```
+
+
+### blacklist
+
+A shortlist of actions to exclude from loading indicators.
+
+```js
+{ blacklist: ['count/addOne'] })
+```
