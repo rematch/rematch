@@ -106,4 +106,26 @@ describe('persist', () => {
     expect(store.getState()._persist).toEqual(defaultPersist)
     expect(store.getState().a).toEqual({ b: 2 })
   })
+
+  test('should reset state', async () => {
+    const persistPlugin = require('../src').default
+    const { getPersistor } = require('../src')
+    const { init, dispatch } = require('../../../src')
+    const storage = createLocalStorageMock()
+    const a = {
+      name: 'a',
+      state: { b: 1 },
+      reducers: {
+        addOne: s => ({ b: s.b + 1 })
+      }
+    }
+    const store = init({
+      plugins: [persistPlugin({ storage })],
+      models: { a }
+    })
+    dispatch.a.addOne()
+    dispatch.a.addOne()
+    await dispatch({ type: 'RESET' })
+    expect(store.getState().a).toEqual({ b: 1 })
+  })
 })

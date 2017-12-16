@@ -45,6 +45,16 @@ const Root = () => {
 }
 ```
 
+### Clear
+
+```js
+import { PURGE } from 'redux-persist'
+
+dispatch({ type: PURGE }) // clears local storage
+dispatch({ type: 'RESET' }) // resets state to initial state
+```
+
 ### Config Options
 
 See [redux-persist config docs](https://github.com/rt2zz/redux-persist/blob/master/docs/api.md#type-persistconfig)
+

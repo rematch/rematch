@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { dispatch } from '@rematch/core'
+import { PURGE } from 'redux-persist'
 
 const styles = {
   container: {
@@ -20,6 +21,7 @@ const styles = {
 const App = (props) => (
   <div style={styles.container}>
     <button onClick={props.addOne}>+1</button>
+    <button onClick={props.reset}>Reset</button>
     <div>
       <h3>Persisted</h3>
       {props.countPersisted}
@@ -47,6 +49,10 @@ const mapToProps = state => ({
     dispatch.count.addOne()
     dispatch.nonpersistedCount.addOne()
   },
+  reset: () => {
+    dispatch({ type: PURGE })
+    dispatch({ type: 'RESET' })
+  }
 })
 
 export default connect(mapToProps)(App)
