@@ -1,6 +1,6 @@
 {
   "name": "@rematch/loading",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Loading indicator plugin for Rematch",
   "keywords": [
     "@rematch",
@@ -26,9 +26,9 @@
   },
   "devDependencies": {
     "redux": "^3.0.0",
-    "@rematch/core": "^0.1.0-beta.8"
+    "@rematch/core": "^0.1.1"
   },
   "peerDependencies": {
-    "@rematch/core": "^0.1.0-beta.8"
+    "@rematch/core": "^0.1.1"
   }
 }

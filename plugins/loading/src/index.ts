@@ -1,6 +1,6 @@
 import { Action, Model, PluginCreator } from '@rematch/core'
 
-const createLoadingAction = (show) => (state, { name, action }) => ({
+const createLoadingAction = (show) => (state, { name, action }: any) => ({
   ...state,
   effects: {
     ...state.effects,
@@ -15,9 +15,25 @@ const createLoadingAction = (show) => (state, { name, action }) => ({
 
 interface LoadingConfig {
   name?: string,
+  whitelist?: string[],
+  blacklist?: string[],
 }
 
 const loadingPlugin = (config: LoadingConfig = {}): PluginCreator => {
+  // validate config
+  if (config.name && typeof config.name !== 'string') {
+    throw new Error('loading plugin config name must be a string')
+  }
+  if (config.whitelist && !Array.isArray(config.whitelist)) {
+    throw new Error('loading plugin config whitelist must be an array of strings')
+  }
+  if (config.blacklist && !Array.isArray(config.blacklist)) {
+    throw new Error('loading plugin config blacklist must be an array of strings')
+  }
+  if (config.whitelist && config.blacklist) {
+    throw new Error('loading plugin config cannot have both a whitelist & a blacklist')
+  }
+
   const loadingModelName = config.name || 'loading'
   const loading: Model = {
     name: loadingModelName,
@@ -45,8 +61,19 @@ const loadingPlugin = (config: LoadingConfig = {}): PluginCreator => {
         loading.state.effects[name] = {}
         const modelActions = dispatch[name]
         // map over effects within models
-        Object.keys(modelActions).forEach((action: Action) => {
+        Object.keys(modelActions).forEach((action: string) => {
           if (dispatch[name][action].isEffect) {
+
+            // ignore items not in whitelist
+            if (config.whitelist && !config.whitelist.includes(`${name}/${action}`)) {
+              return
+            }
+
+            // ignore items in blacklist
+            if (config.blacklist && config.blacklist.includes(`${name}/${action}`)) {
+              return
+            }
+
             // copy function
             loading.state.effects[name][action] = false
             const fn = dispatch[name][action]

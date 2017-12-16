@@ -104,6 +104,91 @@ describe('loading', () => {
     expect(store.getState().load.global).toBe(false)
   })
 
+  test('should throw if loading name is not a string', () => {
+    const {
+      init, dispatch
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
+    const createStore = () => init({
+      models: { count },
+      plugins: [loadingPlugin({ name: 42 })]
+    })
+    expect(createStore).toThrow()
+  })
+
+  test('should block items if not in whitelist', () => {
+    const {
+      init, dispatch
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
+    const store = init({
+      models: { count },
+      plugins: [loadingPlugin({
+        whitelist: ['some/action'],
+      })]
+    })
+    dispatch.count.timeout()
+    expect(store.getState().loading.models.count).toBe(false)
+  })
+
+  test('should block items if in blacklist', () => {
+    const {
+      init, dispatch
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
+    const store = init({
+      models: { count },
+      plugins: [loadingPlugin({
+        blacklist: ['count/timeout'],
+      })]
+    })
+    dispatch.count.timeout()
+    expect(store.getState().loading.models.count).toBe(false)
+  })
+
+  test('should throw if whitelist is not an array', () => {
+    const {
+      init, dispatch
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
+    const createStore = () => init({
+      models: { count },
+      plugins: [loadingPlugin({
+        whitelist: 'some/action',
+      })]
+    })
+    expect(createStore).toThrow()
+  })
+
+  test('should throw if blacklist is not an array', () => {
+    const {
+      init, dispatch
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
+    const createStore = () => init({
+      models: { count },
+      plugins: [loadingPlugin({
+        blacklist: 'some/action',
+      })]
+    })
+    expect(createStore).toThrow()
+  })
+
+  test('should throw if contains both a whitelist & blacklist', () => {
+    const {
+      init, dispatch
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
+    const createStore = () => init({
+      models: { count },
+      plugins: [loadingPlugin({
+        whitelist: ['some/action'],
+        blacklist: ['some/action'],
+      })]
+    })
+    expect(createStore).toThrow()
+  })
+
   // test('should handle "hide" if effect throws', () => {
   //   const {
   //     init, dispatch
