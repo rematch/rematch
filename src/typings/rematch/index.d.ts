@@ -71,11 +71,16 @@ export interface PluginCreator {
   init?: (exposed: Exposed) => Plugin
 }
 
+export interface RootReducers {
+  [type: string]: Reducer<any>,
+}
+
 export interface ConfigRedux {
   initialState?: any,
   reducers?: Reducers,
   enhancers?: StoreEnhancer<any>[],
   middlewares?: Middleware[],
+  rootReducers?: RootReducers,
   combineReducers?: (reducers: ReducersMapObject) => Reducer<any>,
   createStore?: StoreCreator,
   devtoolOptions?: Object,

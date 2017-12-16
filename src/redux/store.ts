@@ -3,14 +3,16 @@ import { applyMiddleware, createStore as _createStore, Middleware, Reducer, Stor
 import { pluginMiddlewares } from '../core'
 import { Config, Model } from '../typings/rematch'
 import { composeEnhancers } from './devtools'
-import { createModelReducer, mergeReducers  } from './reducers'
+import { createModelReducer, createRootReducer, mergeReducers } from './reducers'
 
 let store: Store<any>
+let rootReducers
 
 export const initStore = ({ redux }: Config): Store<any> => {
   const initialState: any = typeof redux.initialState === 'undefined' ? {} : redux.initialState
   const createStore: StoreCreator = redux.createStore || _createStore
-  const rootReducer: Reducer<any> = mergeReducers()
+  rootReducers = redux.rootReducers
+  const rootReducer: Reducer<any> = createRootReducer(rootReducers)
   const middlewareList: Middleware[] = [...pluginMiddlewares, ...(redux.middlewares || [])]
   const middlewares = applyMiddleware(...middlewareList)
   const enhancers = [redux.devtoolOptions, ...(redux.enhancers || [])]
@@ -20,5 +22,6 @@ export const initStore = ({ redux }: Config): Store<any> => {
 }
 
 export const createReducersAndUpdateStore = (model: Model): void => {
-  store.replaceReducer(mergeReducers(createModelReducer(model)))
+  mergeReducers(createModelReducer(model))
+  store.replaceReducer(createRootReducer(rootReducers))
 }

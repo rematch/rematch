@@ -42,4 +42,91 @@ describe('createStore:', () => {
     })
     expect(store.getState()).toEqual({ todos: 999 })
   })
+
+  test('should allow capturing of an action through root reducer', () => {
+    const { init, dispatch } = require('../src')
+    const store = init({
+      redux: {
+        initialState: 'INITIAL',
+        rootReducers: {
+          'MIDDLE': (state, action) => {
+            return 'MIDDLE'
+          }
+        }
+      }
+    })
+    dispatch({ type: 'MIDDLE' })
+    expect(store.getState()).toBe('MIDDLE')
+  })
+
+  test('should allow capturing of a second action through root reducer', () => {
+    const { init, dispatch } = require('../src')
+    const store = init({
+      redux: {
+        initialState: 'INITIAL',
+        rootReducers: {
+          'MIDDLE': (state, action) => {
+            return 'MIDDLE'
+          }
+        }
+      }
+    })
+    dispatch({ type: 'SOMETHING' })
+    expect(store.getState()).toBe('INITIAL')
+    dispatch({ type: 'MIDDLE' })
+    
+    expect(store.getState()).toBe('MIDDLE')
+  })
+
+  test('should allow resetting state through root reducer', () => {
+    const { init, dispatch } = require('../src')
+    const count = {
+      state: 0,
+      reducers: {
+        addOne(state) {
+          return state + 1
+        }
+      }
+    }
+    const store = init({
+      models: { count },
+      redux: {
+        rootReducers: {
+          '@@RESET': (state, action) => {
+            return undefined
+          },
+        }
+      }
+    })
+    dispatch.count.addOne()
+    dispatch.count.addOne()
+    dispatch({ type: '@@RESET' })
+    
+    expect(store.getState()).toEqual({ count: 0 })
+  })
+
+  test('root reducer should work with dynamic model', () => {
+    const { init, dispatch, model } = require('../src')
+    const store = init({
+      models: {
+        countA: { state: 0, reducers: { up: s => s + 1 } },
+        countB: { state: 0 }
+      },
+      redux: {
+        rootReducers: {
+          '@@RESET': (state, action) => {
+            return undefined
+          },
+        }
+      }
+    })
+
+    model({ name: 'countC', state: 0 })
+
+    dispatch.countA.up()
+    dispatch({ type: '@@RESET' })
+
+    expect(store.getState()).toEqual({ countA: 0, countB: 0, countC: 0 })
+  })
+
 })

@@ -4,10 +4,11 @@
 
 - init
   - [redux](#redux)
-    - [initialState](#initialState)
+    - [initialState](#initialstate)
     - [reducers](#reducers)
     - [middlewares](#middlewares)
     - [enhancers](#enhancers)
+    - [rootReducers](#rootreducers)
     - [combineReducers](#combinereducers)
     - [createStore](#createstore)
     - [devtoolOptions](#devtooloptions)
@@ -59,7 +60,21 @@ init({
 })
 ```
 
-Add enhancer to your store
+Add enhancers to your store.
+
+### rootReducers
+
+```js
+init({
+  redux: {
+    rootReducers: {
+      'RESET': (state, action) => undefined,
+    }
+  }
+})
+```
+
+A way to setup middleware hooks at the base of your root reducer. Unlike middleware, the return value is the next state. If `undefined`, the state will fallback to the initial state of reducers.
 
 ### combineReducers
 
