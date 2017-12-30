@@ -1,6 +1,7 @@
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
 import commonJs from 'rollup-plugin-commonjs'
+import resolve from 'rollup-plugin-node-resolve'
 
 import { minify } from 'uglify-es'
 // experimental minifier for ES modules
@@ -13,9 +14,6 @@ const env = process.env.NODE_ENV
 const commonOutput = {
   exports: 'named',
   sourcemap: true,
-  globals: {
-    redux: 'redux'
-  }
 }
 
 const config = {
@@ -25,7 +23,6 @@ const config = {
     { file: pkg.main, format: 'cjs', exports: 'named', ...commonOutput }, // CommonJS Modules
     { file: pkg.module, format: 'es', exports: 'named', ...commonOutput } // ES Modules
   ],
-  external: ['redux'],
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify(env),
@@ -37,7 +34,8 @@ const config = {
         unsafe_comps: true,
         warnings: false,
       },
-    })
+    }),
+    resolve(),
   ],
 }
 
