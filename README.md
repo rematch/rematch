@@ -105,6 +105,8 @@ Dispatch can be called directly, or with the `dispatch.model.action(payload)` sh
 
 **React** | Vue | AngularJS | Angular 2
 
+- [Count Demo](https://www.webpackbin.com/bins/-L1cbpl4_RgEeGN1YkPS)
+
 ```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
