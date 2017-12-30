@@ -10,10 +10,22 @@ const pkg = require('./package.json')
 
 const env = process.env.NODE_ENV
 
-const config = {
-  name: 'Rematch',
-  input: 'lib/index.js',
+const commonOutput = {
+  exports: 'named',
   sourcemap: true,
+  globals: {
+    redux: 'redux'
+  }
+}
+
+const config = {
+  input: 'lib/index.js',
+  output: [
+    { name: 'Rematch', file: pkg.browser, format: 'umd', ...commonOutput }, // Universal Modules
+    { file: pkg.main, format: 'cjs', exports: 'named', ...commonOutput }, // CommonJS Modules
+    { file: pkg.module, format: 'es', exports: 'named', ...commonOutput } // ES Modules
+  ],
+  external: ['redux'],
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify(env),
@@ -26,11 +38,6 @@ const config = {
         warnings: false,
       },
     })
-  ],
-  output: [
-    { file: pkg.browser, format: 'umd', exports: 'named' }, // Universal Modules
-    { file: pkg.main, format: 'cjs', exports: 'named' }, // CommonJS Modules
-    { file: pkg.module, format: 'es', exports: 'named' } // ES Modules
   ],
 }
 

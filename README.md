@@ -17,8 +17,8 @@
 <img src='https://badge.fury.io/js/%40rematch%2Fcore.svg' alt='npm version' height='18'>
 </a>
 
-<a href='https://img.shields.io/badge/size-13kb-brightgreen.svg?style=flat' style='margin: 0 0.5rem;'>
-<img src='https://img.shields.io/badge/size-13kb-brightgreen.svg?style=flat' alt='file size' height='18'>
+<a href='https://img.shields.io/badge/size-16kb-brightgreen.svg?style=flat' style='margin: 0 0.5rem;'>
+<img src='https://img.shields.io/badge/size-16kb-brightgreen.svg?style=flat' alt='file size' height='18'>
 </a>
 
 <a href='https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat' style='margin: 0 0.5rem;'>
@@ -94,7 +94,7 @@ dispatch({ type: 'count/addBy', payload: 1 }) // state = { count: 1 }
 dispatch.count.addBy(1)                       // state = { count: 2 }
 
 // effects
-dispatch({ type: 'count/addBy', payload: 1 }) // state = { count: 3 } after delay
+dispatch({ type: 'count/addByAsync', payload: 1 }) // state = { count: 3 } after delay
 dispatch.count.addByAsync(1)                  // state = { count: 4 } after delay
 ```
 
