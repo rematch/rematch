@@ -18,9 +18,13 @@ export default (config): PluginCreator => {
   }
   return {
     config: {
-      // pass in merged config as first param of persistCombineReducers
       redux: {
-        combineReducers: persistCombineReducers.bind(null, mergedConfig),
+        // pass in merged config as first param of persistCombineReducers
+        combineReducers: (reducers) => persistCombineReducers(mergedConfig, reducers),
+        // reset state on dispatch({ type: 'RESET' })
+        rootReducers: {
+          RESET: () => undefined,
+        },
       },
     },
     init: () => ({
