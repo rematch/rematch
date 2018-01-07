@@ -1,6 +1,6 @@
 {
   "name": "@rematch/react-navigation",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React Navigation plugin for Rematch",
   "keywords": [
     "@rematch",
@@ -21,15 +21,15 @@
   "main": "dist/rematch-react-navigation.cjs.js",
   "module": "dist/rematch-react-navigation.esm.js",
   "scripts": {
-    "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c"
+    "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
-    "@rematch/core": "0.1.0-beta.8",
+    "@rematch/core": "^0.1.3",
     "react": "^16.0.0",
     "react-redux": "^5.0.6"
   },
   "peerDependencies": {
-    "@rematch/core": "^0.1.0-beta.8",
+    "@rematch/core": ">0.1.3",
     "react": "*",
     "react-native": "*",
     "react-navigation": "*",
