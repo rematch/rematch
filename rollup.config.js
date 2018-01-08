@@ -21,27 +21,22 @@ const production = {
   ],
   plugins: [
     replace({
-      'process.env.NODE_ENV': 'production',
-    }),
-    commonJs({
-      compress: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false,
-      },
+      'process.env.NODE_ENV': '"production"',
     }),
     resolve({
       jsnext: true,
       browser: true,
-      modulesOnly: true,
     }),
+    commonJs(),
     uglify({
       compress: {
         pure_getters: true,
         unsafe: true,
-        unsafe_comps: true,
-        warnings: false,
+      },
+      output: {
+        bracketize: false,
+        comments: false,
+        semicolons: false,
       },
     }, minify)
   ],
@@ -56,14 +51,7 @@ const development = {
     { file: `${pkg.module}/rematch.dev.js`, format: 'es', exports: 'named', exports: 'named', sourcemap: true } // ES Modules
   ],
   plugins: [
-    commonJs({
-      compress: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false,
-      },
-    }),
+    commonJs(),
     resolve({
       jsnext: true,
       browser: true,
