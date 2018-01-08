@@ -78,12 +78,15 @@ const loadingPlugin = (config: LoadingConfig = {}): any => {
             loading.state.effects[name][action] = false
             const fn = dispatch[name][action]
             // create function with pre & post loading calls
-            const dispatchWithHooks = (props) => {
-              dispatch.loading.show({ name, action })
-              return fn(props)
-              .catch(() => dispatch.loading.hide({ name, action }))
-              .then(() => dispatch.loading.hide({ name, action }))
-              // waits for dispatch function to finish before calling "hide"
+            const dispatchWithHooks = async (props) => {
+              try {
+                dispatch.loading.show({ name, action })
+                await fn(props)
+                // waits for dispatch function to finish before calling "hide"
+                dispatch.loading.hide({ name, action })
+              } catch {
+                dispatch.loading.hide({ name, action })
+              }
             }
             // replace existing effect with new dispatch
             dispatch[name][action] = dispatchWithHooks

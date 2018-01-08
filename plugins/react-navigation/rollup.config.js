@@ -11,11 +11,12 @@ const pkg = require('./package.json')
 const env = process.env.NODE_ENV
 
 const config = {
-  name: 'RematchReactNavigation',
   input: 'lib/index.js',
-  sourcemap: true,
   external: [
-    'react', 'react-redux', 'react-native', 'react-navigation'
+    'react',
+    'react-redux',
+    'react-native',
+    'react-navigation'
   ],
   plugins: [
     replace({
@@ -31,9 +32,8 @@ const config = {
     })
   ],
   output: [
-    // { file: pkg.browser, format: 'umd', exports: 'named' }, // Universal Modules
-    { file: pkg.main, format: 'cjs', exports: 'named' }, // CommonJS Modules
-    { file: pkg.module, format: 'es', exports: 'named' } // ES Modules
+    { file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true, }, // CommonJS Modules
+    { file: pkg.module, format: 'es', exports: 'named', sourcemap: true, } // ES Modules
   ],
 }
 

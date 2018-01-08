@@ -1,5 +1,6 @@
 import { PluginCreator } from '@rematch/core'
 import { persistCombineReducers, persistStore } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 let persistor
 // persistor is used for PersistGate
@@ -14,6 +15,7 @@ export default (config): PluginCreator => {
   // merge config with common config options
   const mergedConfig = {
     key: 'root',
+    storage,
     ...config,
   }
   return {

@@ -9,28 +9,28 @@ Provides simple redux state persistence using local storage options.
 ## Install
 
 ```
-npm install @rematch/persist redux-persist
+npm install @rematch/persist
 ```
 
 ## Setup
 
 ```js
 import createRematchPersist from '@rematch/persist'
-import storage from 'redux-persist/lib/storage'
 
 const persistPlugin = rematchPersist({
-  storage, // required
   whiteList: ['modelName1'],
   throttle: 5000,
   version: 1,
 })
 
 init({
-  plugins: [persistPlugin()]
+  plugins: [persistPlugin]
 })
 ```
 
-### Persistor
+### Persist Gate
+
+With React, display a loading indicator while waiting for data to async load from storage.
 
 ```js
 import { getPersistor } from '@rematch/persist'

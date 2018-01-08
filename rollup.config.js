@@ -11,17 +11,12 @@ const pkg = require('./package.json')
 
 const env = process.env.NODE_ENV
 
-const commonOutput = {
-  exports: 'named',
-  sourcemap: true,
-}
-
 const config = {
   input: 'lib/index.js',
   output: [
-    { name: 'Rematch', file: pkg.browser, format: 'umd', ...commonOutput }, // Universal Modules
-    { file: pkg.main, format: 'cjs', exports: 'named', ...commonOutput }, // CommonJS Modules
-    { file: pkg.module, format: 'es', exports: 'named', ...commonOutput } // ES Modules
+    { name: 'Rematch', file: pkg.browser, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
+    { file: pkg.main, format: 'cjs', exports: 'named', exports: 'named', sourcemap: true }, // CommonJS Modules
+    { file: pkg.module, format: 'es', exports: 'named', exports: 'named', sourcemap: true } // ES Modules
   ],
   plugins: [
     replace({
@@ -35,7 +30,11 @@ const config = {
         warnings: false,
       },
     }),
-    resolve(),
+    resolve({
+      jsnext: true,
+      browser: true,
+      modulesOnly: true,
+    }),
   ],
 }
 

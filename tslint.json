@@ -8,7 +8,8 @@
         "quotemark": [true, "single"],
         "semicolon": [true, "never"],
         "interface-name": false,
-        "no-submodule-imports": false
+        "no-submodule-imports": false,
+        "no-console": [true, "log", "warn"]
     },
     "rulesDirectory": []
 }

@@ -35,7 +35,7 @@ export type ModelHook = (model: Model) => void
 export type Validation = [boolean | undefined, string]
 
 export type Exposed = {
-  dispatch: Dispatch<any>,
+  dispatch: Dispatch<any> | { [key: string]: () => void },
   effects: any,
   createDispatcher: (modelName: string, reducerName: string) => any,
   validate: (validations: Validation[]) => void,

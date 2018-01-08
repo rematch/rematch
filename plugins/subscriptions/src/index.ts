@@ -28,8 +28,7 @@ export default (): PluginCreator => ({
         Object.keys(model.subscriptions || {}).forEach((matcher: string) => {
           validate([
             [
-
-              matcher.match(/\/(.+)?\//),
+              !!matcher.match(/\/(.+)?\//),
               `Invalid subscription matcher (${matcher})`,
             ],
             [

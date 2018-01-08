@@ -41,7 +41,7 @@ Overwrite `createStore` to complete the config.
 import Reactotron from './Reactotron.config.js'
 
 init({
-  overwrites: {
+  redux: {
     createStore: Reactotron.createStore,
   }
 })

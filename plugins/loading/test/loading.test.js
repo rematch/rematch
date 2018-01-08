@@ -10,6 +10,7 @@ const count = {
   effects: {
     async timeout() {
       await setTimeout(() => {}, 1000)
+      this.addOne()
     }
   }
 }
@@ -208,5 +209,28 @@ describe('loading', () => {
     })
     await dispatch.count.throwError()
     expect(store.getState().loading.global).toBe(false)
+  })
+
+  test('should trigger three actions', async () => {
+    const {
+      init, dispatch
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
+
+    let actions = []
+
+    const store = init({
+      models: { count },
+      plugins: [loadingPlugin()],
+      redux: {
+        middlewares: [() => () => action => {
+          actions.push(action.type)
+        }]
+      }
+    })
+
+    await dispatch.count.timeout()
+    
+    expect(actions).toEqual(['loading/show', 'count/addOne', 'loading/hide'])
   })
 })

@@ -1,17 +1,13 @@
-export const count = {
-  state: { total: 0 },
+export const persisted = {
+  state: 0,
   reducers: {
-    addOne: s => ({
-      total: s.total + 1,
-    })
+    addOne: s => s + 1,
   }
 }
 
-export const nonpersistedCount = {
-  state: { total: 0 },
+export const nonpersisted = {
+  state: 0,
   reducers: {
-    addOne: s => ({
-      total: s.total + 1,
-    })
+    addOne: s => s + 1,
   },
 }

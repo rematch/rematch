@@ -1,6 +1,6 @@
 {
   "name": "@rematch/select",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Selectors plugin for Rematch",
   "keywords": [
     "plugin",
@@ -28,13 +28,13 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c"
+    "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
-    "@rematch/core": "^0.1.0-beta.8",
+    "@rematch/core": "^0.1.3",
     "redux": "^3.0.0"
   },
   "peerDependencies": {
-    "@rematch/core": "^0.1.0-beta.8"
+    "@rematch/core": "^0.1.3"
   }
 }

@@ -25,7 +25,7 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "rimraf build dist && tsc && NODE_ENV='production' rollup -c"
+    "build": "rimraf build dist && tsc && NODE_ENV=production' rollup -c"
   },
   "devDependencies": {
     "redux": "^3.0.0",
