@@ -3,11 +3,17 @@ const asyncDelay = (time) => new Promise((resolve) =>
 
 // example model
 export default {
-  state: {},
+  state: 0,
+  reducers: {
+    addOne(s) {
+      return s + 1
+    }
+  },
   effects: {
     async submit() {
       // mocking the delay of an effect
       await asyncDelay(3000)
+      this.addOne()
     },
   }
 }
