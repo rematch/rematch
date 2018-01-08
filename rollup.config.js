@@ -56,9 +56,6 @@ const development = {
     { file: `${pkg.module}/rematch.dev.js`, format: 'es', exports: 'named', exports: 'named', sourcemap: true } // ES Modules
   ],
   plugins: [
-    replace({
-      'process.env.NODE_ENV': process.env.NODE_ENV,
-    }),
     commonJs({
       compress: {
         pure_getters: true,

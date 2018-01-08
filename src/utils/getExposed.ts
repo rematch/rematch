@@ -1,4 +1,4 @@
-import { Exposed, PluginCreator } from '../typings/rematch'
+import { Exposed, PluginCreator } from '../../typings/rematch'
 import validate from './validate'
 
 export default (plugins: PluginCreator[]): Exposed =>

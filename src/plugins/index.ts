@@ -1,4 +1,4 @@
-import { PluginCreator } from '../typings/rematch'
+import { PluginCreator } from '../../typings/rematch'
 import dispatchPlugin from './dispatch'
 import effectsPlugin from './effects'
 

@@ -8,7 +8,7 @@
       "moduleResolution": "node"
   },
   "files": [
-    "src/typings/rematch/index.d.ts",
+    "typings/rematch/index.d.ts",
     "src/index.ts"
   ]
 }

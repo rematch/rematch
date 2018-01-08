@@ -1,5 +1,5 @@
 import { Dispatch, MiddlewareAPI, Store } from 'redux'
-import { Action, Exposed, Model, Plugin, PluginCreator } from '../typings/rematch'
+import { Action, Exposed, Model, Plugin, PluginCreator } from '../../typings/rematch'
 
 const effectsPlugin: PluginCreator = {
   expose: {

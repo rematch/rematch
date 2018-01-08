@@ -1,4 +1,4 @@
-import { Config, PluginCreator } from '../typings/rematch'
+import { Config, PluginCreator } from '../../typings/rematch'
 
 const merge = (original: object, next: object): any => {
   return (next) ? { ...next, ...(original || {}) } : original || {}

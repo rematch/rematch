@@ -1,5 +1,5 @@
 import { Dispatch, Store } from 'redux'
-import { Action, Exposed, Model, Plugin, PluginCreator } from '../typings/rematch'
+import { Action, Exposed, Model, Plugin, PluginCreator } from '../../typings/rematch'
 
 let storeDispatch: Dispatch<any>
 

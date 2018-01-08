@@ -21,12 +21,12 @@
   ],
   "files": [
     "dist",
-    "src/typings/rematch/index.d.ts"
+    "typings/rematch/index.d.ts"
   ],
   "main": "dist/cjs",
   "module": "dist/esm",
   "browser": "dist/umd",
-  "types": "src/typings/rematch",
+  "types": "typings/rematch",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"

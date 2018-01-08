@@ -1,4 +1,4 @@
-import { Validation } from '../typings/rematch'
+import { Validation } from '../../typings/rematch'
 
 /**
  * Validate
