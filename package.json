@@ -32,7 +32,7 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "cross-env rimraf build dist && tsc && rollup -c",
+    "build": "cross-env rimraf build dist && tsc && rollup -c && node ./scripts/bundles",
     "build:all": "bash ./scripts/build.sh",
     "dev": "tsc --watch src",
     "install:all": "tsc && bash ./scripts/setup_plugins.sh",
