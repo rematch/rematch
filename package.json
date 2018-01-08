@@ -23,16 +23,16 @@
     "dist",
     "src/typings/rematch/index.d.ts"
   ],
-  "main": "dist/rematch.cjs.js",
-  "module": "dist/rematch.esm.js",
-  "browser": "dist/rematch.umd.js",
+  "main": "dist/cjs",
+  "module": "dist/esm",
+  "browser": "dist/umd",
   "types": "src/typings/rematch",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "cross-env rimraf build dist && tsc && NODE_ENV='production' rollup -c",
+    "build": "cross-env rimraf build dist && tsc && rollup -c",
     "build:all": "bash ./scripts/build.sh",
     "dev": "tsc --watch src",
     "install:all": "tsc && bash ./scripts/setup_plugins.sh",

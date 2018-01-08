@@ -4,14 +4,16 @@ import { Model } from './typings/rematch'
 import validate from './utils/validate'
 
 const addModel = (model: Model) => {
-  validate([
-    [!model, 'model config is required'],
-    [
-      !model.name || typeof model.name !== 'string',
-      'model "name" [string] is required',
-    ],
-    [model.state === undefined, 'model "state" is required'],
-  ])
+  if (process.env.NODE_ENV !== 'production') {
+    validate([
+      [!model, 'model config is required'],
+      [
+        !model.name || typeof model.name !== 'string',
+        'model "name" [string] is required',
+      ],
+      [model.state === undefined, 'model "state" is required'],
+    ])
+  }
   // run plugin model subscriptions
   modelHooks.forEach((modelHook) => modelHook(model))
 }

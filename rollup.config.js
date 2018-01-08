@@ -1,3 +1,5 @@
+import { mkdirSync, writeFileSync } from 'fs'
+import { join } from 'path'
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
 import commonJs from 'rollup-plugin-commonjs'
@@ -9,18 +11,53 @@ import { minify } from 'uglify-es'
 
 const pkg = require('./package.json')
 
-const env = process.env.NODE_ENV
-
-const config = {
+// minified production builds
+const production = {
   input: 'lib/index.js',
   output: [
-    { name: 'Rematch', file: pkg.browser, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
-    { file: pkg.main, format: 'cjs', exports: 'named', exports: 'named', sourcemap: true }, // CommonJS Modules
-    { file: pkg.module, format: 'es', exports: 'named', exports: 'named', sourcemap: true } // ES Modules
+    { name: 'Rematch', file: `${pkg.browser}/rematch.prod.min.js`, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
+    { file: `${pkg.main}/rematch.prod.min.js`, format: 'cjs', exports: 'named', exports: 'named', sourcemap: true }, // CommonJS Modules
+    { file: `${pkg.module}/rematch.prod.min.js`, format: 'es', exports: 'named', exports: 'named', sourcemap: true } // ES Modules
   ],
   plugins: [
     replace({
-      'process.env.NODE_ENV': JSON.stringify(env),
+      'process.env.NODE_ENV': 'production',
+    }),
+    commonJs({
+      compress: {
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        warnings: false,
+      },
+    }),
+    resolve({
+      jsnext: true,
+      browser: true,
+      modulesOnly: true,
+    }),
+    uglify({
+      compress: {
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        warnings: false,
+      },
+    }, minify)
+  ],
+}
+
+// full source development builds
+const development = {
+  input: 'lib/index.js',
+  output: [
+    { name: 'Rematch', file: `${pkg.browser}/rematch.dev.js`, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
+    { file: `${pkg.main}/rematch.dev.js`, format: 'cjs', exports: 'named', exports: 'named', sourcemap: true }, // CommonJS Modules
+    { file: `${pkg.module}/rematch.dev.js`, format: 'es', exports: 'named', exports: 'named', sourcemap: true } // ES Modules
+  ],
+  plugins: [
+    replace({
+      'process.env.NODE_ENV': process.env.NODE_ENV,
     }),
     commonJs({
       compress: {
@@ -38,15 +75,27 @@ const config = {
   ],
 }
 
-if (env === 'production') {
-  config.plugins.push(uglify({
-    compress: {
-      pure_getters: true,
-      unsafe: true,
-      unsafe_comps: true,
-      warnings: false,
-    },
-  }, minify))
+// point user to needed build
+const root = `'use strict'
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./rematch.prod.min.js')
+} else {
+  module.exports = require('./rematch.dev.js')
+}
+`
+
+const rootFile = (folder) => {
+  mkdirSync(join('dist', folder))
+  writeFileSync(join('dist', folder, 'index.js'), root)
 }
 
-export default [config]
+export default (() => {
+  // generate root mapping files
+  mkdirSync('dist')
+  rootFile('esm')
+  rootFile('umd')
+  rootFile('cjs')
+  
+  return [development, production]
+})()
