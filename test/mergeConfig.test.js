@@ -135,7 +135,7 @@ describe('mergeConfig', () => {
     })
   })
 
-  describe('overwrites', () => {
+  describe('redux', () => {
     test('should handle no redux combineReducers', () => {
       const result = mergeConfig({})
       expect(result.redux).toEqual(undefined)
@@ -151,7 +151,7 @@ describe('mergeConfig', () => {
       expect(result.redux.combineReducers).toEqual(combineReducers)
     })
 
-    test('if both, plugin overwrites redux.combineReducers should take priority over config', () => {
+    test('if both, plugin redux.combineReducers should take priority over config', () => {
       const pluginFn = s => s + 1
       const configFn = s => s * 5
       const plugin1 = {

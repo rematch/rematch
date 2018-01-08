@@ -25,7 +25,7 @@ An init options overwrite object. See [init]('./api/#init) for a full list of op
 // example from persist plugin
 const plugin = {
   config: {
-    overwrites: {
+    redux: {
       combineReducers: customCombineReducers,
     }
   },

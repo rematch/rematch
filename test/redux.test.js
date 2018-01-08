@@ -2,7 +2,7 @@ beforeEach(() => {
   jest.resetModules()
 })
 
-describe('overwrites', () => {
+describe('redux', () => {
   test('combineReducers should replace root', () => {
     const { init } = require('../src')
     const store = init({
@@ -17,7 +17,7 @@ describe('overwrites', () => {
     })
     expect(store.getState()).toBe(42)
   })
-  test('should not accept invalid value as "overwrites.combineReducers"', () => {
+  test('should not accept invalid value as "redux.combineReducers"', () => {
     const { init } = require('../src')
     expect(() => init({
       redux: {
@@ -39,7 +39,7 @@ describe('overwrites', () => {
     expect(store.getState()).toBe(42)
   })
 
-  test('should not accept invalid value as "overwrites.createStore"', () => {
+  test('should not accept invalid value as "redux.createStore"', () => {
     const { init } = require('../src')
     expect(() => init({
       redux: {
