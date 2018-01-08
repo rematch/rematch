@@ -1,5 +1,5 @@
 import { Dispatch, Store } from 'redux'
-import { Action, Exposed, Model, Plugin, PluginCreator } from '../typings/rematch'
+import { Action, Exposed, Model, Plugin, PluginCreator } from '../../typings/rematch'
 
 let storeDispatch: Dispatch<any>
 
@@ -25,16 +25,18 @@ const dispatchPlugin: PluginCreator = {
     onModel(model: Model) {
       dispatch[model.name] = {}
       Object.keys(model.reducers || {}).forEach((reducerName: string) => {
-        validate([
-          [
-            !!reducerName.match(/\//),
-            `Invalid reducer name (${model.name}/${reducerName})`,
-          ],
-          [
-            typeof model.reducers[reducerName] !== 'function',
-            `Invalid reducer (${model.name}/${reducerName}). Must be a function`,
-          ],
-        ])
+        if (process.env.NODE_ENV !== 'production') {
+          validate([
+            [
+              !!reducerName.match(/\//),
+              `Invalid reducer name (${model.name}/${reducerName})`,
+            ],
+            [
+              typeof model.reducers[reducerName] !== 'function',
+              `Invalid reducer (${model.name}/${reducerName}). Must be a function`,
+            ],
+          ])
+        }
         dispatch[model.name][reducerName] = createDispatcher(model.name, reducerName)
       })
     },
