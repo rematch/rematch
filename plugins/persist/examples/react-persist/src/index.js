@@ -5,14 +5,12 @@ import { Provider } from 'react-redux'
 import { init } from '@rematch/core'
 import createPersistPlugin, { getPersistor } from '@rematch/persist'
 import { PersistGate } from 'redux-persist/es/integration/react'
-import storage from 'redux-persist/lib/storage'
 import * as models from './models'
 import App from './App'
 
 const persistPlugin = createPersistPlugin({
   version: 2,
-  whitelist: ['count'],
-  storage,
+  whitelist: ['persisted'],
 })
 
 const store = init({

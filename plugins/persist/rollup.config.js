@@ -4,7 +4,7 @@ import commonJs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 
 import { minify } from 'uglify-es'
-// experimental minifier for ES modules
+// experimental minifier for ES modules`
 // https://github.com/TrySound/rollup-plugin-uglify#warning
 
 const pkg = require('./package.json')
@@ -13,7 +13,6 @@ const env = process.env.NODE_ENV
 
 const config = {
   input: 'lib/index.js',
-  externals: ['redux-persist', 'redux-persist/lib/storage'],
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify(env),
@@ -26,7 +25,10 @@ const config = {
         warnings: false,
       },
     }),
-    resolve()
+    resolve({
+      jsnext: true,
+      browser: true,
+    })
   ],
   output: [
     { name: 'RematchPersist', file: pkg.browser, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules

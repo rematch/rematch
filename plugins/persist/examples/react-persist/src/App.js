@@ -22,11 +22,11 @@ const App = (props) => (
     <button onClick={props.addOne}>+1</button>
     <div>
       <h3>Persisted</h3>
-      {props.countPersisted}
+      {props.count.persisted}
     </div>
     <div>
       <h3>Non-Persisted</h3>
-      {props.countNonpersisted}
+      {props.count.nonpersisted}
     </div>
     <div>
       <h3>State</h3>
@@ -41,11 +41,13 @@ const App = (props) => (
 
 const mapToProps = state => ({
   formattedState: JSON.stringify(state, null, '\t'),
-  countPersisted: state.count.total,
-  countNonpersisted: state.nonpersistedCount.total,
+  count: {
+    persisted: state.persisted,
+    nonpersisted: state.nonpersisted,
+  },
   addOne: () => {
-    dispatch.count.addOne()
-    dispatch.nonpersistedCount.addOne()
+    dispatch.persisted.addOne()
+    dispatch.nonpersisted.addOne()
   },
 })
 
