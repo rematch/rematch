@@ -24,8 +24,8 @@
     "typings/rematch/index.d.ts"
   ],
   "main": "dist/cjs",
-  "module": "dist/esm",
-  "browser": "dist/umd",
+  "module": "dist/esm/rematch.prod.min.js",
+  "browser": "dist/umd/rematch.prod.min.js",
   "types": "typings/rematch",
   "repository": {
     "type": "git",
@@ -67,6 +67,9 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
+    "globals": {
+      "NODE_ENV": "test"
+    },
     "collectCoverage": true,
     "coverageDirectory": "coverage/",
     "coverageThreshold": {
@@ -81,6 +84,7 @@
       "/_book/",
       "/node_modules/",
       "/plugins/react-navigation/",
+      "/dist",
       ".mock.js"
     ],
     "mapCoverage": true,
