@@ -15,9 +15,9 @@ const pkg = require('./package.json')
 const production = {
   input: 'lib/index.js',
   output: [
-    { name: 'Rematch', file: `${pkg.browser}/rematch.prod.min.js`, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
-    { file: `${pkg.main}/rematch.prod.min.js`, format: 'cjs', exports: 'named', exports: 'named', sourcemap: true }, // CommonJS Modules
-    { file: `${pkg.module}/rematch.prod.min.js`, format: 'es', exports: 'named', exports: 'named', sourcemap: true } // ES Modules
+    { name: 'Rematch', file: pkg.browser, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
+    { file: `${pkg.main}/rematch.prod.min.js`, format: 'cjs',  exports: 'named', sourcemap: true }, // CommonJS Modules
+    { file: pkg.module, format: 'es', exports: 'named', sourcemap: true } // ES Modules
   ],
   plugins: [
     replace({
@@ -34,7 +34,6 @@ const production = {
         unsafe: true,
       },
       output: {
-        bracketize: false,
         comments: false,
         semicolons: false,
       },
@@ -46,16 +45,17 @@ const production = {
 const development = {
   input: 'lib/index.js',
   output: [
-    { name: 'Rematch', file: `${pkg.browser}/rematch.dev.js`, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
-    { file: `${pkg.main}/rematch.dev.js`, format: 'cjs', exports: 'named', exports: 'named', sourcemap: true }, // CommonJS Modules
-    { file: `${pkg.module}/rematch.dev.js`, format: 'es', exports: 'named', exports: 'named', sourcemap: true } // ES Modules
+    { file: `${pkg.main}/rematch.dev.js`, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
+    // { file: `${pkg.module}/rematch.dev.js`, format: 'es', exports: 'named', sourcemap: true } // ES Modules
   ],
   plugins: [
+    replace({
+      'process.env.NODE_ENV': '"development"',
+    }),
     commonJs(),
     resolve({
       jsnext: true,
       browser: true,
-      modulesOnly: true,
     }),
   ],
 }
@@ -78,8 +78,6 @@ const rootFile = (folder) => {
 export default (() => {
   // generate root mapping files
   mkdirSync('dist')
-  rootFile('esm')
-  rootFile('umd')
   rootFile('cjs')
   
   return [development, production]

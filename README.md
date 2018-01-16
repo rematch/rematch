@@ -103,6 +103,10 @@ Dispatch can be called directly, or with the `dispatch.model.action(payload)` sh
 
 ## Example
 
+[Count Demo](https://codepen.io/Sh_McK/project/editor/Agpeed#)
+
+## Usage
+
 **React** | Vue | AngularJS | Angular 2
 
 ```jsx
@@ -142,3 +146,7 @@ ReactDOM.render(
 ## API
 
 See the [API Reference](./docs/api.md).
+
+---
+
+Like this project? ★ us on Github :)
