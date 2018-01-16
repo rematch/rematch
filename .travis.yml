@@ -3,6 +3,7 @@ node_js:
   - "stable"
 before_install:
   - npm install typescript && npm run install:all
+  - npm run build
 after_script:
   - npm install coveralls
   - coveralls < coverage/lcov.info
