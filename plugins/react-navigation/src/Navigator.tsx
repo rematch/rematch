@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
-import React from 'react'
+import * as React from 'react'
 import { connect } from 'react-redux'
 
 interface Props {
@@ -8,15 +8,21 @@ interface Props {
 }
 
 export const createNavigator = ({ Routes, ReactNavigation }) => {
-  const Navigator = ({ dispatch, nav }: Props) => (
-    <Routes navigation={ReactNavigation.addNavigationHelpers({
-        dispatch,
-        state: nav,
-      })}
-    />
-  )
+  class Navigator extends React.Component<Props> {
+    private render() {
+      const { dispatch, nav } = this.props
+      return (
+        <Routes
+          navigation={ReactNavigation.addNavigationHelpers({
+          dispatch,
+          state: nav,
+        })}
+      />
+      )
+    }
+  }
 
-  const mapToProps = (state) => ({
+  const mapToProps = (state, props) => ({
     nav: state.nav,
   })
 

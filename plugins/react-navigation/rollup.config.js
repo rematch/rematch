@@ -22,14 +22,7 @@ const config = {
     replace({
       'process.env.NODE_ENV': JSON.stringify(env),
     }),
-    commonJs({
-      compress: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false,
-      },
-    })
+    commonJs()
   ],
   output: [
     { file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true, }, // CommonJS Modules
