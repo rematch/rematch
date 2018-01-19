@@ -104,6 +104,7 @@ Dispatch can be called directly, or with the `dispatch.model.action(payload)` sh
 ## Example
 
 - Count: [React](https://codesandbox.io/s/3kpyz2nnz6)
+- Todos: [React](https://codesandbox.io/s/92mk9n6vww)
 
 ## Usage
 
