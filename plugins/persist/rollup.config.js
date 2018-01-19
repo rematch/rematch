@@ -17,14 +17,7 @@ const config = {
     replace({
       'process.env.NODE_ENV': JSON.stringify(env),
     }),
-    commonJs({
-      compress: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false,
-      },
-    }),
+    commonJs(),
     resolve({
       jsnext: true,
       browser: true,

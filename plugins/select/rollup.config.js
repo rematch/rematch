@@ -16,14 +16,7 @@ const config = {
     replace({
       'process.env.NODE_ENV': JSON.stringify(env),
     }),
-    commonJs({
-      compress: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false,
-      },
-    })
+    commonJs()
   ],
   output: [
     { name: 'RematchSelect', file: pkg.browser, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
