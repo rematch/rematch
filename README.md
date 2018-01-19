@@ -101,7 +101,7 @@ dispatch.count.addByAsync(1)                  // state = { count: 4 } after dela
 Dispatch can be called directly, or with the `dispatch.model.action(payload)` shorthand.
 
 
-## Example
+## Examples
 
 - Count: [React](https://codesandbox.io/s/3kpyz2nnz6)
 - Todos: [React](https://codesandbox.io/s/92mk9n6vww)
