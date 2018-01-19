@@ -103,7 +103,7 @@ Dispatch can be called directly, or with the `dispatch.model.action(payload)` sh
 
 ## Example
 
-[Count Demo](https://codepen.io/Sh_McK/project/editor/Agpeed#)
+- Count: [React](https://codesandbox.io/s/3kpyz2nnz6)
 
 ## Usage
 
