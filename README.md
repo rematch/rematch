@@ -103,12 +103,12 @@ Dispatch can be called directly, or with the `dispatch.model.action(payload)` sh
 
 ## Examples
 
-- Count: [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/6j1vvnl20k)
+- Count: [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/6j1vvnl20k) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
 - Todos: [React](https://codesandbox.io/s/92mk9n6vww)
 
 ## Usage
 
-**React** | Vue | AngularJS | Angular 2
+**React** | Vue | Angular | AngularJS
 
 ```jsx
 import React from 'react'
