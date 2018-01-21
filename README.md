@@ -50,12 +50,10 @@ import * as models from './models'
 
 const store = init({
   models,
-  // plugins: [], // 
-  // redux: {},
 })
 ```
 
-See [plugins](./docs/plugins.md) and [Redux config options](./docs/reduxApi.md).
+*For a more advanced setup, see [plugins](./docs/plugins.md) and [Redux config options](./docs/reduxApi.md).*
 
 ### Step 2: Models
 
