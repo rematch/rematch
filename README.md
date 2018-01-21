@@ -65,12 +65,13 @@ The **model** brings together state, reducers, async actions & action creators i
 export const count = {
   state: 0, // initial state
   reducers: { // state changes with pure functions
-    addBy: (state, payload) => state + payload,    
+    increment: (state, payload) => state + payload,
+    decrement: (state, payload) => state - payload,  
   },
   effects: { // state changes with impure functions
-    async addByAsync(payload, state) {
+    async incrementAsync(payload, state) {
       await Promise.resolve()
-      this.addBy(payload)
+      this.increment(payload)
     }
   }
 }
@@ -88,51 +89,81 @@ Understanding models is as simple as answering a few questions:
 
 ```js
 import { dispatch } from '@rematch/core'
-                                              // state = { count: 0 }
+                                                  // state = { count: 0 }
 // reducers
-dispatch({ type: 'count/addBy', payload: 1 }) // state = { count: 1 }
-dispatch.count.addBy(1)                       // state = { count: 2 }
+dispatch({ type: 'count/increment', payload: 1 }) // state = { count: 1 }
+dispatch.count.increment(1)                       // state = { count: 2 }
 
 // effects
-dispatch({ type: 'count/addByAsync', payload: 1 }) // state = { count: 3 } after delay
-dispatch.count.addByAsync(1)                  // state = { count: 4 } after delay
+dispatch({ type: 'count/incrementAsync', payload: 1 }) // state = { count: 3 } after delay
+dispatch.count.incrementAsync(1)                       // state = { count: 4 } after delay
 ```
 
-Dispatch can be called directly, or with the `dispatch.model.action(payload)` shorthand.
+Dispatch can be called directly, or with the `dispatch[model][action](payload)` shorthand.
 
 
 ## Examples
 
-- Count: [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/6j1vvnl20k) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
+- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/6j1vvnl20k) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
 - Todos: [React](https://codesandbox.io/s/92mk9n6vww)
 
-## Usage
+## Complete Example
 
-**React** | Vue | Angular | AngularJS
+JS | **React** | Vue | Angular
 
 ```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
 import { init, dispatch } from '@rematch/core'
-import * as models from './models'
+
+// State
+
+const count = {
+  state: 0,
+  reducers: {
+    increment: (state, payload) => state + payload,
+    decrement: (state, payload) => state - payload,
+  },
+  effects: {
+    incrementIfOdd(payload, state) {
+      if (state.count % 2) {
+        this.increment(1)
+      }
+    },
+    async incrementAsync(payload, state) {
+      await delay(1000) // simulate async
+      this.increment(payload)
+    }
+  }
+}
+
+const models = {
+  count,
+}
 
 const store = init({
   models,
 })
 
+// View
+
 const Count = props => (
   <div>
     <h1>The count is: {props.count}</h1>
-    <button onClick={props.addByOne}>Add 1</button>
-    <button onClick={props.addByOneAsync}>Add 1 Async</button>
+    <button onClick={props.increment}>+1</button>
+    <button onClick={props.decrement}>-2</button>
+    <button onClick={props.incrementIfOdd}>Add 1 if Odd</button>
+    <button onClick={props.incrementAsync}>Add 2 Async</button>
   </div>
 )
 
 const CountContainer = connect(state => ({
   count: state.count,
-  addByOne: () => dispatch.count.addBy(1),
-  addByOneAsync: () => dispatch.count.addByAsync(1)
+  increment: () => dispatch.count.increment(1),
+  decrement: () => dispatch.count.decrement(2),
+  incrementIfOdd: () => dispatch.count.incrementIfOdd(),
+  incrementAsync: () => dispatch.count.incrementAsync(2),
 }))(Count)
 
 ReactDOM.render(
