@@ -68,8 +68,14 @@ export const count = {
     decrement: (state, payload) => state - payload,  
   },
   effects: { // state changes with impure functions
+    incrementIfOdd(payload, state) {
+      if (state.count % 2) {
+        this.increment(1)
+      }
+    },
+    // use async/await for async actions
     async incrementAsync(payload, state) {
-      await Promise.resolve()
+      await delay(1000)
       this.increment(payload)
     }
   }
@@ -80,7 +86,7 @@ Understanding models is as simple as answering a few questions:
 
 1. What is my initial state? **state**
 2. How do I change the state? **reducers**
-3. How do I handle asynchronous actions? **effects** with async/await
+3. How do I handle async actions? **effects** with async/await
 
 ### Step 3: Dispatch
 
