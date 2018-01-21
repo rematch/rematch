@@ -27,10 +27,17 @@ The initialState of your app. This is likely not necessary, as the state of your
 ### reducers
 
 ```js
+const someReducer = (state, action) => {
+  switch(action.type) {
+    default:
+      return state
+  }
+}
+
 init({
   redux: {
     reducers: {
-      nav: navReducer,
+      someReducer,
     }
   }
 })

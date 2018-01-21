@@ -201,6 +201,17 @@ Read more about existing [plugins](./plugins) or about how to create your own pl
 
 ### redux
 
+```js
+init({
+  redux: {
+    middlewares: [reduxLogger],
+    reducers: {
+      someReducer: (state, action) => ...,
+    }
+  },
+})
+```
+
 There are situations where you might want to access Redux directly. You may want to:
 
 - migrate an existing Redux project
