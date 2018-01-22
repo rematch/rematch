@@ -8,10 +8,7 @@ let persistor
 export const getPersistor = () => persistor
 
 // rematch plugin
-export default (config): PluginCreator => {
-  if (!config) {
-    throw new Error('@rematch/persist requires a config object containing "storage"')
-  }
+export default (config = {}): PluginCreator => {
   // merge config with common config options
   const mergedConfig = {
     key: 'root',

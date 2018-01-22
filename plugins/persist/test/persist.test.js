@@ -15,28 +15,13 @@ const defaultPersist = {
 const reducers = { todos: (state = 999) => state }
 
 describe('persist', () => {
-  test('should throw if no config', () => {
-    const persistPlugin = require('../src').default
-    const { init } = require('../../../src')
-    const storage = createLocalStorageMock()
-    const callInit = () => init({
-      plugins: [persistPlugin()],
-      redux: {
-        initialState: {},
-        reducers,
-      }
-    })
-    expect(callInit).toThrow()
-  })
 
   test('should load the persist plugin with a basic config', () => {
     const persistPlugin = require('../src').default
     const { init } = require('../../../src')
     const storage = createLocalStorageMock()
     const store = init({
-      plugins: [persistPlugin({
-        storage,
-      })],
+      plugins: [persistPlugin()],
       redux: {
         initialState: {},
         reducers,
@@ -105,5 +90,37 @@ describe('persist', () => {
     expect(persistor.purge).toBeDefined()
     expect(store.getState()._persist).toEqual(defaultPersist)
     expect(store.getState().a).toEqual({ b: 2 })
+  })
+
+  test('should allow resetting state through root reducer', () => {
+    const persistPlugin = require('../src').default
+    const { getPersistor } = require('../src')
+    const { init, dispatch } = require('../../../src')
+    const storage = createLocalStorageMock()
+    const count = {
+      state: 0,
+      reducers: {
+        addOne(state) {
+          return state + 1
+        }
+      }
+    }
+    const store = init({
+      models: { count },
+      plugins: [persistPlugin({ storage })],
+      redux: {
+        rootReducers: {
+          'PURGE': (state, action) => {
+            getPersistor().purge()
+            return undefined
+          },
+        }
+      }
+    })
+    dispatch.count.addOne()
+    dispatch.count.addOne()
+    dispatch({ type: 'PURGE' })
+    
+    expect(store.getState().count).toBe(0)
   })
 })
