@@ -304,4 +304,20 @@ describe('dispatch:', () => {
       expect(typeof dispatched.then).toBe('function')
     })
   })
+  test('should not validate dispatch if production', () => {
+    const { init } = require('../src')
+
+      process.env.NODE_ENV = 'production'
+
+      const count = {
+        state: 0,
+        reducers: {
+          'add/invalid': state => state + 1,
+        },
+      }
+
+      expect(() => init({
+        models: { count }
+      })).not.toThrow()
+  })
 })

@@ -185,4 +185,18 @@ describe('init:', () => {
       },
     })
   })
+  test('should not validate if production', () => {
+    const { init } = require('../src')
+
+    process.env.NODE_ENV = 'production'
+    
+    const model = {
+      name: 'app',
+      state: 'Hello, world',
+    }
+
+    expect(() => init({
+      models: [model]
+    })).not.toThrow()
+  })
 })

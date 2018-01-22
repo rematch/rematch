@@ -351,4 +351,21 @@ describe('effects:', () => {
       },
     })).toThrow()
   })
+
+  test('should not validate effect if production', () => {
+    const { init } = require('../src')
+
+      process.env.NODE_ENV = 'production'
+
+      const count = {
+        state: 0,
+        effects: {
+          'add/invalid': state => state + 1,
+        },
+      }
+
+      expect(() => init({
+        models: { count }
+      })).not.toThrow()
+  })
 })
