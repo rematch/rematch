@@ -45,7 +45,7 @@ const production = {
 const development = {
   input: 'lib/index.js',
   output: [
-    { file: `${pkg.main}/rematch.dev.js`, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
+    { file: `${pkg.main}/rematch.dev.js`, format: 'cjs', exports: 'named' }, // CommonJS Modules
     // { file: `${pkg.module}/rematch.dev.js`, format: 'es', exports: 'named', sourcemap: true } // ES Modules
   ],
   plugins: [
