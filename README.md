@@ -90,7 +90,7 @@ Understanding models is as simple as answering a few questions:
 
 ### Step 3: Dispatch
 
-**dispatch** is how we trigger reducers & effects in your models. Dispatch standardizes your actions without the need for action types, action creators, or mapDispatchToProps.
+**dispatch** is how we trigger reducers & effects in your models. Dispatch standardizes your actions without the need for writing action types or action creators.
 
 ```js
 import { dispatch } from '@rematch/core'
@@ -120,7 +120,7 @@ JS | **React** | Vue | Angular
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
-import { init, dispatch } from '@rematch/core'
+import { init } from '@rematch/core'
 
 // State
 
@@ -163,13 +163,18 @@ const Count = props => (
   </div>
 )
 
-const CountContainer = connect(state => ({
+const mapState = state => ({
   count: state.count,
+})
+
+const mapDispatch = dispatch => ({
   increment: () => dispatch.count.increment(1),
   decrement: () => dispatch.count.decrement(2),
   incrementIfOdd: () => dispatch.count.incrementIfOdd(),
   incrementAsync: () => dispatch.count.incrementAsync(2),
-}))(Count)
+})
+
+const CountContainer = connect(mapState, mapDispatch)(Count)
 
 ReactDOM.render(
   <Provider store={store}>
