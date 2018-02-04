@@ -7,7 +7,6 @@ However, you may choose to simplify your `connect` statements. See an example be
 ```js
 import React from 'react'
 import { connect } from 'react-redux'
-import { dispatch } from '@rematch/core'
 
 const Counter = (props) => (
   <div>
@@ -16,17 +15,18 @@ const Counter = (props) => (
   </div>
 )
 
-const mapToProps = (state, ownProps) => ({
+const mapState = (state, ownProps) => ({
   count: state.count,
+})
+
+const mapDispatch = dispatch => ({
   increment: () => dispatch.count.increment(),
 })
 
-export default connect(mapToProps)(Counter)
+export default connect(mapState, mapDispatch)(Counter)
 ```
 
-There is no longer a need for using `mapDispatchToProps` when using `connect`, as `mapStateToProps` can be hijacked to handle everything you need. 
-
-Also note that it's recommended you keep your `dispatch` statements outside components. This keeps your components pure for testing. 
+Note that it's recommended you keep your `dispatch` statements within mapDispatch. This keeps your components pure for testing. 
 
 ---
 

@@ -66,6 +66,10 @@ const init = (config: Config | undefined = {}): Store<any> => {
   // merge in additional extra reducers
   const store: Store<any> = initStore(mergedConfig)
   postStore(plugins, store)
+
+  // use plugin dispatch as store.dispatch
+  store.dispatch = corePlugins[0].expose.dispatch
+
   return store
 }
 

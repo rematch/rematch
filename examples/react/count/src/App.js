@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { dispatch } from '@rematch/core'
 
 // Make a presentational component.
 // It knows nothing about redux or rematch.
@@ -22,9 +21,14 @@ const App = ({ count, asyncIncrement, increment }) => (
   </div>
 )
 
-// Use react-redux's connect
-export default connect(state => ({
+const mapState = state => ({
   count: state.count,
+})
+
+const mapDispatch = dispatch => ({
   increment: dispatch.count.increment,
   asyncIncrement: dispatch.count.asyncIncrement,
-}))(App)
+})
+
+// Use react-redux's connect
+export default connect(mapState, mapDispatch)(App)
