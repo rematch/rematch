@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
 import * as React from 'react'
-import { addNavigationHelpers } from 'react-navigation'
 import { connect } from 'react-redux'
 
 interface Props {
@@ -8,16 +7,17 @@ interface Props {
   nav: any,
 }
 
-export const createNavigator = ({ AppNavigator, addListener }) => {
+export const createNavigator = ({ Routes, ReactNavigation }) => {
   class Navigator extends React.Component<Props> {
     private render() {
       const { dispatch, nav } = this.props
       return (
-        <AppNavigator navigation={addNavigationHelpers({
-          addListener,
-          dispatch: this.props.dispatch,
-          state: this.props.nav,
-        })} />
+        <Routes
+          navigation={ReactNavigation.addNavigationHelpers({
+          dispatch,
+          state: nav,
+        })}
+      />
       )
     }
   }

@@ -1,6 +1,6 @@
 {
   "name": "@rematch/react-navigation",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "React Navigation plugin for Rematch",
   "keywords": [
     "@rematch",
@@ -26,13 +26,17 @@
   "devDependencies": {
     "@rematch/core": "^0.1.6",
     "react": "^16.0.0",
+    "react-navigation": "^1.0.0",
     "react-redux": "^5.0.6"
   },
   "peerDependencies": {
     "@rematch/core": ">0.1.3",
     "react": "*",
     "react-native": "*",
-    "react-navigation": "*",
+    "react-navigation": "^1.0.0",
     "react-redux": "*"
+  },
+  "dependencies": {
+    "react-navigation-redux-helpers": "^1.0.1"
   }
 }
