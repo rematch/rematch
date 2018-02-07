@@ -35,19 +35,21 @@ init({
 
 ```
 
-##### 2. view
+##### 2. View
 ```js
-import { dispatch } from '@rematch/core'
 import { connect } from 'react-redux'
 
 // Component
 
-const mapToProps = (state) => ({
-  count: state.count,
-  countUpBy: dispatch.count.upBy,
+const mapStateToProps = (state) => ({
+  count: state.count
 })
 
-connect(mapToProps)(Component)
+const mapDispatchToProps = (dispatch) => ({
+  countUpBy: dispatch.count.upBy
+})
+
+connect(mapStateToProps, mapDispatchToProps)(Component)
 ```
 
 ### Redux (best practices)
@@ -100,7 +102,7 @@ const mapStateToProps = (state) => ({
   count: state.count,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   countUpBy(payload) {
     dispatch(countUpBy(payload))
   },
