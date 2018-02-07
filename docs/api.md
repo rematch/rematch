@@ -68,7 +68,7 @@ const example = {
 
 `reducers: { [string]: (state, payload) => any }`
 
-An object of pure named pure functions that can change state.
+An object of functions that change the model's state. These functions take the model's previous state and a payload, and return the model's next state. These should be pure functions relying only on the state and payload args to compute the next state. For code that relies on the "outside world" (impure functions like api calls, etc.), use [effects](#effects).
 
 ```js
 {
