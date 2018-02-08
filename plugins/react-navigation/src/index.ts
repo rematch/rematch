@@ -1,34 +1,15 @@
-import {
-  createReactNavigationReduxMiddleware,
-  createReduxBoundAddListener,
-} from 'react-navigation-redux-helpers'
-import { createNavigator } from './Navigator'
+
+import createNavigator from './Navigator'
+import createReduxSetup from './redux'
 
 interface Params {
   AppNavigator: any,
   initialScreen: string,
 }
 
-const reactNavigationPlugin = ({
-  AppNavigator, initialScreen,
-}: Params) => {
-  const { router } = AppNavigator
-  const initialState = router.getStateForAction(router.getActionForPathAndParams(initialScreen))
+const reactNavigationPlugin = (AppNavigator, initialScreen) => {
 
-  // reducer
-  const navReducer = (state = initialState, action) => {
-    const nextState = router.getStateForAction(action, state)
-    // Simply return the original `state` if `nextState` is null or undefined.
-    return nextState || state
-  }
-
-  // middleware
-  const navMiddleware = createReactNavigationReduxMiddleware(
-    'root',
-    (state) => state.nav,
-  )
-  const addListener = createReduxBoundAddListener('root')
-
+  const { addListener, navMiddleware, navReducer } = createReduxSetup(AppNavigator, initialScreen)
   const Navigator = createNavigator({ AppNavigator, addListener })
 
   return {

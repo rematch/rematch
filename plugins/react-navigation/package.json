@@ -18,10 +18,10 @@
   "files": [
     "dist"
   ],
-  "main": "dist/rematch-react-navigation.cjs.js",
-  "module": "dist/rematch-react-navigation.esm.js",
+  "main": "lib",
+  "module": "lib",
   "scripts": {
-    "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
+    "build": "rimraf lib && tsc"
   },
   "devDependencies": {
     "@rematch/core": "^0.1.6",
@@ -30,10 +30,10 @@
     "react-redux": "^5.0.6"
   },
   "peerDependencies": {
-    "@rematch/core": ">0.1.3",
+    "@rematch/core": ">0.2.0",
     "react": "*",
     "react-native": "*",
-    "react-navigation": "^1.0.0",
+    "react-navigation": ">1.0.0",
     "react-redux": "*"
   },
   "dependencies": {

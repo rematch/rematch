@@ -8,7 +8,7 @@ interface Props {
   nav: any,
 }
 
-export const createNavigator = ({ AppNavigator, addListener }) => {
+export default ({ AppNavigator, addListener }) => {
   class Navigator extends React.Component<Props> {
     private render() {
       const { dispatch, nav } = this.props
