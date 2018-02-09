@@ -13,7 +13,7 @@ Rematch refines and builds upon the ideas of [Dva](github.com/dvajs/dva) & [Mirr
 | effects | async/await | async/await | redux saga |
 | effect params | (payload, internals) | (action, state) | (action, state)  |
 | selectors | ✔ |   |   |
-| listeners | subscriptions | hooks | subscriptions |
+| listeners | hooks | hooks | subscriptions |
 | lazy load models | ✔ | ✔ | ✔ |
 | chained dispatch | ✔ | ✔ | ✔ |
 | direct dispatch | ✔ |  |  |
