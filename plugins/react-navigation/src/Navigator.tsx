@@ -11,7 +11,6 @@ type Props = {
 export default (Routes, addListener) => {
   class Navigator extends React.Component<Props> {
     private render() {
-      const { dispatch, nav } = this.props
       return (
         <Routes navigation={addNavigationHelpers({
           addListener,

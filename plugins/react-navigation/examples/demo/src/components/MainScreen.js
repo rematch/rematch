@@ -27,6 +27,6 @@ MainScreen.navigationOptions = {
 
 const mapDispatch = dispatch => ({
   routeToProfile: () => dispatch.nav.navigate({ routeName: 'Profile' }),
-})
+});
 
 export default connect(null, mapDispatch)(MainScreen);

@@ -1,6 +1,6 @@
 {
   "name": "@rematch/react-navigation",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.0",
   "description": "React Navigation plugin for Rematch",
   "keywords": [
     "@rematch",
@@ -16,7 +16,7 @@
   "license": "ISC",
   "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
   "files": [
-    "dist"
+    "lib"
   ],
   "main": "lib",
   "module": "lib",

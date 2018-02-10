@@ -34,6 +34,6 @@ ProfileScreen.navigationOptions = {
 
 const mapDispatch = dispatch => ({
   routeBack: () => dispatch.nav.back(),
-})
+});
 
 export default connect(null, mapDispatch)(ProfileScreen);

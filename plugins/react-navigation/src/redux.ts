@@ -10,7 +10,6 @@ export default (Routes, initialScreen) => {
   // reducer
   const navReducer = (state = initialState, action) => {
     const nextState = router.getStateForAction(action, state)
-    console.log(state, nextState)
     // Simply return the original `state` if `nextState` is null or undefined.
     return nextState || state
   }

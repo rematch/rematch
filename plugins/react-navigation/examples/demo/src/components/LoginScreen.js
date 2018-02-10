@@ -37,6 +37,6 @@ LoginScreen.navigationOptions = {
 
 const mapDispatch = dispatch => ({
   routeToHome: () => dispatch.nav.navigate({ routeName: 'Main' }),
-})
+});
 
 export default connect(null, mapDispatch)(LoginScreen);
