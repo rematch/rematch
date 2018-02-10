@@ -1,8 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-
-import LoginStatusMessage from './LoginStatusMessage';
-import AuthButton from './AuthButton';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,10 +11,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const MainScreen = () => (
+const MainScreen = ({ routeToProfile, resetRoutes }) => (
   <View style={styles.container}>
-    <LoginStatusMessage />
-    <AuthButton />
+    <Text>Home</Text>
+    <Button
+      onPress={routeToProfile}
+      title="Go To Profile"
+    />
   </View>
 );
 
@@ -24,4 +25,8 @@ MainScreen.navigationOptions = {
   title: 'Home Screen',
 };
 
-export default MainScreen;
+const mapDispatch = dispatch => ({
+  routeToProfile: () => dispatch.nav.navigate({ routeName: 'Profile' }),
+})
+
+export default connect(null, mapDispatch)(MainScreen);

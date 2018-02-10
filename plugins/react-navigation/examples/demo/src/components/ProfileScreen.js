@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,11 +16,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProfileScreen = () => (
+const ProfileScreen = ({ routeBack }) => (
   <View style={styles.container}>
     <Text style={styles.welcome}>
       Profile Screen
     </Text>
+    <Button
+      onPress={routeBack}
+      title="Go Back"
+    />
   </View>
 );
 
@@ -27,4 +32,8 @@ ProfileScreen.navigationOptions = {
   title: 'Profile',
 };
 
-export default ProfileScreen;
+const mapDispatch = dispatch => ({
+  routeBack: () => dispatch.nav.back(),
+})
+
+export default connect(null, mapDispatch)(ProfileScreen);

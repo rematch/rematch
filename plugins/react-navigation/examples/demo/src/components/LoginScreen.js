@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const LoginScreen = ({ navigation }) => (
+const LoginScreen = ({ navigation, routeToHome }) => (
   <View style={styles.container}>
     <Text style={styles.welcome}>
       Screen A
@@ -25,18 +25,18 @@ const LoginScreen = ({ navigation }) => (
       This is great
     </Text>
     <Button
-      onPress={() => navigation.dispatch({ type: 'Login' })}
-      title="Log in"
+      onPress={routeToHome}
+      title="Go Home"
     />
   </View>
 );
-
-LoginScreen.propTypes = {
-  navigation: PropTypes.object.isRequired,
-};
 
 LoginScreen.navigationOptions = {
   title: 'Log In',
 };
 
-export default LoginScreen;
+const mapDispatch = dispatch => ({
+  routeToHome: () => dispatch.nav.navigate({ routeName: 'Main' }),
+})
+
+export default connect(null, mapDispatch)(LoginScreen);

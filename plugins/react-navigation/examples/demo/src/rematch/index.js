@@ -1,18 +1,18 @@
 import { init } from '@rematch/core'
-import createReactNavigationPlugin from '@rematch/react-navigation'
+import createReactNavigationPlugin from '../rematch-navigation'
 import * as models from './models'
-import AppNavigator from '../navigators/AppNavigator'
+import Routes from '../Routes'
+import { NavigationActions } from 'react-navigation'
 
-const reactNavigation = createReactNavigationPlugin({
-  AppNavigator,
-  initialScreen: 'Login'
+export const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin({
+  Routes,
+  initialScreen: 'Login',
+  NavigationActions,
 })
 
 const store = init({
   models,
-  // plugins: [reactNavigation],
+  plugins: [reactNavigationPlugin],
 })
-
-console.log('store', store.getState())
 
 export default store

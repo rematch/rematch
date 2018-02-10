@@ -3,14 +3,9 @@ import * as React from 'react'
 import { addNavigationHelpers } from 'react-navigation'
 import { connect } from 'react-redux'
 
-type Props = {
-  dispatch: () => void,
-  nav: any,
-}
-
 export default (Routes, addListener) => {
-  class Navigator extends React.Component<Props> {
-    private render() {
+  class Navigator extends React.Component {
+    render() {
       const { dispatch, nav } = this.props
       return (
         <Routes navigation={addNavigationHelpers({
