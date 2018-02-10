@@ -303,6 +303,36 @@ describe('dispatch:', () => {
 
       expect(typeof dispatched.then).toBe('function')
     })
+
+    test('should return a promise that resolve to a value from an effect', async () => {
+          const { init, dispatch } = require('../src')
+
+          const count = {
+              state: 0,
+              reducers: {
+                  addOne: state => state + 1,
+              },
+              effects: {
+                  async callAddOne() {
+                      dispatch.count.addOne()
+                      return {
+                        added: true
+                      }
+                  }
+              }
+          }
+
+          init({
+              models: { count }
+          })
+
+          const dispatched = dispatch.count.callAddOne()
+          const value = await dispatched
+
+          expect(typeof dispatched.then).toBe('function')
+          expect(typeof value).toBe('object')
+          expect(value).toEqual({ added: true })
+      })
   })
   test('should not validate dispatch if production', () => {
     const { init } = require('../src')
