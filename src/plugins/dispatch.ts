@@ -14,7 +14,7 @@ const dispatchPlugin: PluginCreator = {
         if (typeof meta !== 'undefined') {
           action.meta = meta
         }
-        await storeDispatch(action)
+        return storeDispatch(action)
       },
     dispatch: (action: Action) => storeDispatch(action),
   },
