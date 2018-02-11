@@ -1,6 +1,6 @@
 {
   "name": "@rematch/updated",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "Rematch plugin for maintaining timestamps when effects are called",
   "keywords": [
     "@rematch",
@@ -28,10 +28,9 @@
     "build": "rimraf build dist && tsc && NODE_ENV=production' rollup -c"
   },
   "devDependencies": {
-    "redux": "^3.0.0",
-    "@rematch/core": "^0.1.0-beta.8"
+    "@rematch/core": "^0.3.0"
   },
   "peerDependencies": {
-    "@rematch/core": "^0.1.0-beta.8"
+    "@rematch/core": ">0.1.0"
   }
 }

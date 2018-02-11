@@ -1,6 +1,6 @@
 {
   "name": "@rematch/subscriptions",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Rematch plugin for subscriptions",
   "keywords": [
     "@rematch",
@@ -33,8 +33,7 @@
     "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
-    "@rematch/core": "^0.1.3",
-    "redux": "^3.0.0"
+    "@rematch/core": "^0.3.0"
   },
   "peerDependencies": {
     "@rematch/core": ">0.1.3"
