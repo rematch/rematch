@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "RematchExample",
+    "description": "Try out react-navigation with this awesome Rematch example",
+    "version": "1.0.0",
+    "slug": "RematchExample",
+    "privacy": "public",
+    "orientation": "portrait",
+    "primaryColor": "#cccccc",
+    "icon": "./assets/icons/react-navigation.png",
+    "loading": {
+      "icon": "./assets/icons/react-navigation.png",
+      "hideExponentText": false
+    },
+    "sdkVersion": "25.0.0",
+    "entryPoint": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+    "packagerOpts": {
+      "assetExts": ["ttf", "mp4"]
+    },
+    "ios": {
+      "supportsTablet": true
+    }
+  }
+}
