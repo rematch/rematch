@@ -1,5 +1,5 @@
 import { Dispatch, MiddlewareAPI, Store } from 'redux'
-import { Action, Exposed, Model, Plugin, PluginCreator } from '../../typings/rematch'
+import { Action, Exposed, Model, Plugin, PluginCreator, ReducerContext } from '../../typings/rematch'
 
 const effectsPlugin: PluginCreator = {
   expose: {
@@ -29,9 +29,11 @@ const effectsPlugin: PluginCreator = {
       })
     },
     middleware: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => async (action: Action) => {
-          // async/await acts as promise middleware
+        const reducerContext: ReducerContext = { action }
+
+        // async/await acts as promise middleware
         const result = (action.type in effects)
-          ? await effects[action.type](action.payload, store.getState())
+          ? await effects[action.type](action.payload, store.getState(), reducerContext)
           : await next(action)
         return result
     },

@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
 import { combineReducers, Reducer, ReducersMapObject} from 'redux'
-import { Action, ConfigRedux, Model, Reducers, RootReducers } from '../../typings/rematch'
+import { Action, ConfigRedux, EnhancedReducers, Model, ReducerContext, Reducers, RootReducers } from '../../typings/rematch'
 
 let combine = combineReducers
 
@@ -8,10 +8,11 @@ let allReducers: Reducers = {}
 
 // get reducer for given dispatch type
 // pass in (state, payload)
-export const getReducer = (reducer: Reducers, initialState: any) =>
+export const getReducer = (reducer: EnhancedReducers, initialState: any) =>
   (state: any = initialState, action: Action) => {
   if (typeof reducer[action.type] === 'function') {
-    return reducer[action.type](state, action.payload)
+    const reducerContext: ReducerContext = { action }
+    return reducer[action.type](state, action.payload, reducerContext)
   }
   return state
 }
