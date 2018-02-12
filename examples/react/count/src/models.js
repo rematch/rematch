@@ -6,7 +6,7 @@ export const count = {
     increment: s => s + 1
   },
   effects: {
-    asyncIncrement: async () => {
+    async asyncIncrement() {
       await new Promise((resolve) => {
         setTimeout(resolve, 1000)
       })

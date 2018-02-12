@@ -1,23 +1,22 @@
 /* eslint-disable react/jsx-filename-extension */
 import * as React from 'react'
+import { addNavigationHelpers } from 'react-navigation'
 import { connect } from 'react-redux'
 
-interface Props {
-  dispatch: () => any,
+type Props = {
+  dispatch: () => void,
   nav: any,
 }
 
-export const createNavigator = ({ Routes, ReactNavigation }) => {
+export default (Routes, addListener) => {
   class Navigator extends React.Component<Props> {
     private render() {
-      const { dispatch, nav } = this.props
       return (
-        <Routes
-          navigation={ReactNavigation.addNavigationHelpers({
-          dispatch,
-          state: nav,
-        })}
-      />
+        <Routes navigation={addNavigationHelpers({
+          addListener,
+          dispatch: this.props.dispatch,
+          state: this.props.nav,
+        })} />
       )
     }
   }

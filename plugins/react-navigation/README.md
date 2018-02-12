@@ -8,6 +8,10 @@ React-Navigation
 npm install react-navigation @rematch/react-navigation
 ```
 
+## Example
+
+See [an example](./examples/demo).
+
 ## Setup
 
 Setting up React-Navigation with Redux is a multistep process. Hopefully this plugin simplifies the process.
@@ -35,20 +39,17 @@ export default StackNavigator(
 
 ```
 
-2. Pass `reactNavigation` itself, `Routes` and `initialRouteName` into `createReactNavigation`. 
-
-Note: unfortunately this package has build issues when referencing `react-navigation` directly, so "react-navigation" must be passed in.
+2. Pass `Routes` and `initialRouteName` into `createReactNavigationPlugin`. 
 
 ```js
 // index.js
 import { init, dispatch } from '@rematch/core'
-import createReactNavigation from '@rematch/react-navigation'
+import createReactNavigationPlugin from '@rematch/react-navigation'
 import * as ReactNavigation from 'react-navigation'
 import Routes from './Routes'
 
 // add react navigation with redux
-const { Navigator, reactNavigationPlugin } = createReactNavigation({
-  ReactNavigation,
+const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin({
   Routes,
   initialScreen: 'Landing'
 })
@@ -97,5 +98,3 @@ const resetAction = dispatch.navigate.reset({
   ]
 })
 ```
-
-4. Profit!
