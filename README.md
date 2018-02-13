@@ -26,6 +26,8 @@
 </a>
 </p>
 
+<img src="https://raw.githubusercontent.com/rematch/rematch/logo/logo.png" alt="Rematch Logo">
+
 ## Rethink Redux.
 
 Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks. [See a comparison](./docs/purpose.md).
