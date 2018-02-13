@@ -26,7 +26,7 @@
 </a>
 </p>
 
-<img src="https://raw.githubusercontent.com/rematch/rematch/logo/logo.png" alt="Rematch Logo">
+<img src="https://raw.githubusercontent.com/rematch/rematch/master/logo.png" alt="Rematch Logo">
 
 ## Rethink Redux.
 
