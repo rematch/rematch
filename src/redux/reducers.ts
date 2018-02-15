@@ -11,8 +11,7 @@ let allReducers: Reducers = {}
 export const getReducer = (reducer: EnhancedReducers, initialState: any) =>
   (state: any = initialState, action: Action) => {
   if (typeof reducer[action.type] === 'function') {
-    const { meta } = action
-    return reducer[action.type](state, action.payload, meta)
+    return reducer[action.type](state, action.payload, action.meta)
   }
   return state
 }
