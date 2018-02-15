@@ -22,11 +22,7 @@ export type Action = {
   meta?: any,
 }
 
-export type ReducerContext = {
-    action: AnyAction,
-}
-
-export type EnhancedReducer<S> = (state: S, payload: object, context: ReducerContext) => S;
+export type EnhancedReducer<S> = (state: S, payload: object, meta: object) => S;
 
 export type EnhancedReducers = {
     [key: string]: EnhancedReducer<any>,

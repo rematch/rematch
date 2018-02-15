@@ -227,7 +227,7 @@ describe('dispatch:', () => {
       })
     })
 
-    test('should pass a reducer context as the third param', async () => {
+    test('should pass the meta object as the third param', async () => {
           const {
               init, dispatch
           } = require('../src')
@@ -235,8 +235,8 @@ describe('dispatch:', () => {
           const count = {
               state: 1,
               reducers: {
-                  incrementBy: (state, payload, context) => {
-                      expect(context.action.meta).toEqual({ metaProperty: false })
+                  incrementBy: (state, payload, meta) => {
+                      expect(meta).toEqual({ metaProperty: false })
                       return state + payload
                   },
               },
