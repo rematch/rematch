@@ -11,3 +11,34 @@ and this project adheres to [Semantic Versioning(http://semver.org/spec/v2.0.0.h
 ## [0.3.0] - 2017-02-10
 ### Added
 - a dispatch will return a value as a Promise
+
+## [0.4.0] - 2017-02-18
+### Added
+- export `getState` from core. See example below:
+
+```js
+import { getState } from '@rematch/core'
+
+const state = getState()
+```
+
+- dispatch meta parameter - an optional second dispatch param that can be used to pass "meta" information
+
+```js
+dispatch.example.update(payload, { syncWithServer: true })
+// is equal to:
+// dispatch({ type: 'example/update', payload, meta: { syncWithServer} })
+```
+
+Meta can be accessed as the third param from reducers and effects.
+
+```js
+const model = {
+  state: 0,
+  reducers: {
+    someReducer: (state, payload, meta) {
+      // see meta as third param
+    }
+  }
+}
+```
