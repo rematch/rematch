@@ -2,7 +2,7 @@
 // Project: Rematch
 // Definitions by: Shawn McKay https://github.com/shmck
 
-import { Dispatch, MiddlewareAPI, Middleware, Reducer, ReducersMapObject, Store, StoreCreator, StoreEnhancer } from 'redux'
+import { AnyAction, Dispatch, MiddlewareAPI, Middleware, Reducer, ReducersMapObject, Store, StoreCreator, StoreEnhancer } from 'redux'
 
 export as namespace rematch
 
@@ -20,6 +20,12 @@ export type Action = {
   type: string,
   payload?: any,
   meta?: any,
+}
+
+export type EnhancedReducer<S> = (state: S, payload: object, meta: object) => S;
+
+export type EnhancedReducers = {
+    [key: string]: EnhancedReducer<any>,
 }
 
 export type Reducers = {
