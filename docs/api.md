@@ -8,7 +8,6 @@
   - [effects](#effects)
 - [init](#init)
   - [models](#models)
-  - [initialState](#initialState)
   - [plugins](#plugins)
   - [redux](#redux)
 - [getState](#getState)
