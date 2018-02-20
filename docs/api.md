@@ -80,15 +80,15 @@ An object of functions that change the model's state. These functions take the m
 
 ### effects
 
-`effects: { [string]: (payload, state) }`
+`effects: { [string]: (payload, rootState) }`
 
 An object of functions that can handle the world outside of the model. 
 
 ```js
 {
   effects: {
-    logState(payload, state) {
-      console.log(state)
+    logState(payload, rootState) {
+      console.log(rootState)
     }
   }
 }
@@ -99,7 +99,7 @@ Effects provide a simple way of handling async actions when used with `async/awa
 ```js
 {
   effects: {
-    async loadData(payload, state) {
+    async loadData(payload, rootState) {
       // wait for data to load
       const response = await fetch('http://example.com/data')
       const data = response.json()
