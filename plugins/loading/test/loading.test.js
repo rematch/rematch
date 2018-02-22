@@ -270,7 +270,6 @@ describe('loading', () => {
       state: 0,
       effects: {
         doSomething(payload, state, meta) {
-          console.log('meta',meta);
           expect(meta).toEqual({ metaProp: 1 })
         }
       }
