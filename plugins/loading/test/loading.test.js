@@ -260,4 +260,30 @@ describe('loading', () => {
         expect(err.message).toBe('effect error')
     }
   })
+
+  test('should allow the propagation of the meta object', async () => {
+    const {
+      init, dispatch
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
+    const count = {
+      state: 0,
+      effects: {
+        doSomething(payload, state, meta) {
+          console.log('meta',meta);
+          expect(meta).toEqual({ metaProp: 1 })
+        }
+      }
+    }
+    const store = init({
+      models: { count },
+      plugins: [loadingPlugin()]
+    })
+
+    try {
+      await dispatch.count.doSomething(null, { metaProp: 1 })
+    } catch (err) {
+      throw err
+    }
+  })
 })
