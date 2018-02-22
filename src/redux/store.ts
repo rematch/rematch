@@ -5,7 +5,7 @@ import { pluginMiddlewares } from '../core'
 import { composeEnhancers } from './devtools'
 import { createModelReducer, createRootReducer, mergeReducers } from './reducers'
 
-let store: Store<any>
+export let store: Store<any>
 let rootReducers
 
 export const initStore = ({ redux }: Config): Store<any> => {

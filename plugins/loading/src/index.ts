@@ -84,8 +84,9 @@ const loadingPlugin = (config: LoadingConfig = {}): any => {
                 await fn(props)
                 // waits for dispatch function to finish before calling "hide"
                 dispatch.loading.hide({ name, action })
-              } catch {
-                dispatch.loading.hide({ name, action })
+              } catch (err) {
+                await dispatch.loading.hide({ name, action })
+                throw err
               }
             }
             // replace existing effect with new dispatch

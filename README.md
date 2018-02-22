@@ -26,6 +26,8 @@
 </a>
 </p>
 
+<img src="https://raw.githubusercontent.com/rematch/rematch/master/logo.png" alt="Rematch Logo">
+
 ## Rethink Redux.
 
 Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks. [See a comparison](./docs/purpose.md).
@@ -68,13 +70,13 @@ export const count = {
     decrement: (state, payload) => state - payload,  
   },
   effects: { // state changes with impure functions
-    incrementIfOdd(payload, state) {
+    incrementIfOdd(payload, rootState) {
       if (state.count % 2) {
         this.increment(1)
       }
     },
     // use async/await for async actions
-    async incrementAsync(payload, state) {
+    async incrementAsync(payload, rootState) {
       await delay(1000)
       this.increment(payload)
     }
@@ -131,12 +133,12 @@ const count = {
     decrement: (state, payload) => state - payload,
   },
   effects: {
-    incrementIfOdd(payload, state) {
-      if (state.count % 2) {
+    incrementIfOdd(payload, rootState) {
+      if (rootState.count % 2) {
         this.increment(1)
       }
     },
-    async incrementAsync(payload, state) {
+    async incrementAsync(payload, rootState) {
       await delay(1000) // simulate async
       this.increment(payload)
     }

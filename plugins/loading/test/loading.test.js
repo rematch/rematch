@@ -207,8 +207,11 @@ describe('loading', () => {
       models: { count },
       plugins: [loadingPlugin()]
     })
-    await dispatch.count.throwError()
-    expect(store.getState().loading.global).toBe(false)
+    try {
+      await dispatch.count.throwError()
+    } catch (err) {
+      expect(store.getState().loading.global).toBe(false)
+    }
   })
 
   test('should trigger three actions', async () => {
@@ -230,7 +233,31 @@ describe('loading', () => {
     })
 
     await dispatch.count.timeout()
-    
+
     expect(actions).toEqual(['loading/show', 'count/addOne', 'loading/hide'])
+  })
+
+  test('should allow the propagation of the error', async () => {
+    const {
+        init, dispatch
+    } = require('../../../src')
+    const loadingPlugin = require('../src').default
+    const count = {
+        state: 0,
+        effects: {
+            throwError() {
+                throw new Error('effect error')
+            }
+        }
+    }
+    const store = init({
+        models: { count },
+        plugins: [loadingPlugin()]
+    })
+    try {
+        await dispatch.count.throwError()
+    } catch (err) {
+        expect(err.message).toBe('effect error')
+    }
   })
 })

@@ -8,9 +8,9 @@
   - [effects](#effects)
 - [init](#init)
   - [models](#models)
-  - [initialState](#initialState)
   - [plugins](#plugins)
   - [redux](#redux)
+- [getState](#getState)
 
 
 ## dispatch
@@ -80,15 +80,15 @@ An object of functions that change the model's state. These functions take the m
 
 ### effects
 
-`effects: { [string]: (payload, state) }`
+`effects: { [string]: (payload, rootState) }`
 
 An object of functions that can handle the world outside of the model. 
 
 ```js
 {
   effects: {
-    logState(payload, state) {
-      console.log(state)
+    logState(payload, rootState) {
+      console.log(rootState)
     }
   }
 }
@@ -99,7 +99,7 @@ Effects provide a simple way of handling async actions when used with `async/awa
 ```js
 {
   effects: {
-    async loadData(payload, state) {
+    async loadData(payload, rootState) {
       // wait for data to load
       const response = await fetch('http://example.com/data')
       const data = response.json()
@@ -219,3 +219,13 @@ There are situations where you might want to access Redux directly. You may want
 - create a custom plugin
 
 For a complete summary of all redux options, see the [init Redux API](./reduxApi.md).
+
+## getState
+
+```js
+import { getState } from '@rematch/core'
+
+const state = getState()
+```
+
+Not recommended for common use, but an easy way to access the store's state.
