@@ -98,3 +98,42 @@ const resetAction = dispatch.navigate.reset({
   ]
 })
 ```
+
+## Back Handler
+
+An example for setting up the Android back button handling with react-navigation. 
+
+```js
+import { dispatch, init, getState } from '@rematch/core'
+import createReactNavigation from '@rematch/react-navigation'
+import React from 'react'
+import { BackHandler } from 'react-native'
+import { Provider } from 'react-redux'
+import { Routes } from './Routes'
+
+export class App extends React.Component {
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBack)
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
+  }
+  
+  handleBack = () => {
+    if (getState().nav.index === 0) {
+      BackHandler.exitApp()
+    }
+    dispatch.nav.back()
+    return true
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <Navigator />
+      </Provider>
+    );
+  }
+}
+```
