@@ -1,4 +1,4 @@
-# Rematch
+<img src="https://raw.githubusercontent.com/rematch/rematch/master/logo.png" alt="Rematch Logo">
 
 <p>
 <a href='https://travis-ci.org/rematch/rematch' style='margin: 0 0.5rem;'>
@@ -26,7 +26,7 @@
 </a>
 </p>
 
-<img src="https://raw.githubusercontent.com/rematch/rematch/master/logo.png" alt="Rematch Logo">
+# Rematch
 
 ## Rethink Redux.
 
@@ -34,7 +34,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 
 ## Installation
 
-```js
+```sh
 npm install @rematch/core
 ```
 
@@ -65,19 +65,17 @@ The **model** brings together state, reducers, async actions & action creators i
 ```js
 export const count = {
   state: 0, // initial state
-  reducers: { // state changes with pure functions
-    increment: (state, payload) => state + payload,
-    decrement: (state, payload) => state - payload,  
+  reducers: {
+    // handle state changes with pure functions
+    increment(state, payload) {
+      return state + payload
+    }
   },
-  effects: { // state changes with impure functions
-    incrementIfOdd(payload, rootState) {
-      if (state.count % 2) {
-        this.increment(1)
-      }
-    },
+  effects: {
+    // handle state changes with impure functions.
     // use async/await for async actions
     async incrementAsync(payload, rootState) {
-      await delay(1000)
+      await new Promise(resolve => setTimeout(resolve, 1000))
       this.increment(payload)
     }
   }
@@ -127,53 +125,46 @@ import { init } from '@rematch/core'
 // State
 
 const count = {
-  state: 0,
+  state: 0, // initial state
   reducers: {
-    increment: (state, payload) => state + payload,
-    decrement: (state, payload) => state - payload,
+    // handle state changes with pure functions
+    increment(state, payload) {
+      return state + payload
+    }
   },
   effects: {
-    incrementIfOdd(payload, rootState) {
-      if (rootState.count % 2) {
-        this.increment(1)
-      }
-    },
+    // handle state changes with impure functions.
+    // use async/await for async actions
     async incrementAsync(payload, rootState) {
-      await delay(1000) // simulate async
+      await new Promise(resolve => setTimeout(resolve, 1000))
       this.increment(payload)
     }
   }
 }
 
-const models = {
-  count,
-}
-
 const store = init({
-  models,
+  models: {
+    count
+  }
 })
 
 // View
 
 const Count = props => (
   <div>
-    <h1>The count is: {props.count}</h1>
-    <button onClick={props.increment}>+1</button>
-    <button onClick={props.decrement}>-2</button>
-    <button onClick={props.incrementIfOdd}>Add 1 if Odd</button>
-    <button onClick={props.incrementAsync}>Add 2 Async</button>
+    The count is {props.count}
+    <button onClick={props.increment}>increment</button>
+    <button onClick={props.incrementAsync}>incrementAsync</button>
   </div>
 )
 
 const mapState = state => ({
-  count: state.count,
+  count: state.count
 })
 
 const mapDispatch = dispatch => ({
   increment: () => dispatch.count.increment(1),
-  decrement: () => dispatch.count.decrement(2),
-  incrementIfOdd: () => dispatch.count.incrementIfOdd(),
-  incrementAsync: () => dispatch.count.incrementAsync(2),
+  incrementAsync: () => dispatch.count.incrementAsync(1)
 })
 
 const CountContainer = connect(mapState, mapDispatch)(Count)
