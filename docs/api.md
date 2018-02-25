@@ -1,4 +1,4 @@
-# API Reference
+# @rematch/core API
 
 - [dispatch](#dispatch)
   - [action](#action)

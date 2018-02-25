@@ -2,8 +2,9 @@
 
 * [Introduction](README.md)
 * [Purpose](./docs/purpose.md)
-* [API Reference](./docs/api.md)
-  * [Redux API](./docs/reduxApi.md)
+* API Reference
+  * [@rematch/core API](./docs/api.md)
+  * [Init Redux API](./docs/reduxApi.md)
   * [Plugins API](./docs/pluginsApi.md)
 * Recipes
   * [Devtools](./docs/recipes/devtools.md)
