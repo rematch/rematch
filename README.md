@@ -32,13 +32,11 @@
 
 Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks. [See a comparison](./docs/purpose.md).
 
-## Installation
+## Getting Started
 
 ```sh
 npm install @rematch/core
 ```
-
-## Getting Started
 
 ### Step 1: Init
 

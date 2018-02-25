@@ -1,6 +1,6 @@
 # Summary
 
-* [Introduction](README.md)
+* [Getting Started](README.md)
 * [Purpose](./docs/purpose.md)
 * API Reference
   * [@rematch/core API](./docs/api.md)
