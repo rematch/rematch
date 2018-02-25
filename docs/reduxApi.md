@@ -1,6 +1,6 @@
 # Init Redux API Reference
 
-> This section is likely not helpful for you unless you are building your own plugin or adding middleware. For a list of common init options, see the [API reference](./api.md)
+> This section is likely not helpful for you unless you are building your own plugin or adding middleware. For a list of common init options, see the [@rematch/core API](./api.md)
 
 - init
   - [redux](#redux)

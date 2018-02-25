@@ -122,6 +122,4 @@ connect(mapStateToProps, mapDispatchToProps)(Component)
 | redux devtools  | ‎✔  |  ‎✔	 |
 | generated action creators | ‎  |  ‎✔	 |
 | global dispatch | ‎  |  ‎✔	 |
-| selectors | ‎  |  ‎✔	 |
-| action listeners | custom ‎middleware  |  ‎✔	 |
 | async | thunks | ‎async/await  |
