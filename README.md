@@ -110,10 +110,6 @@ Dispatch can be called directly, or with the `dispatch[model][action](payload)` 
 - Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/6j1vvnl20k) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
 - Todos: [React](https://codesandbox.io/s/92mk9n6vww)
 
-## Complete Example
-
-JS | **React** | Vue | Angular
-
 ```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -178,7 +174,7 @@ ReactDOM.render(
 
 ## API
 
-See the [API Reference](./docs/api.md).
+See the [@rematch/core API](./docs/api.md)
 
 ---
 
