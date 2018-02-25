@@ -20,7 +20,13 @@ This section provides access to your Redux setup, along with options to overwrit
 
 ### initialState
 
-`init({ initialState: any })`
+```js
+init({
+  redux: {
+    initialState: any
+  }
+ })
+```
 
 The initialState of your app. This is likely not necessary, as the state of your models will overwrite the initial state.
 
