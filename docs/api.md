@@ -1,5 +1,9 @@
 # @rematch/core API
 
+```js
+import { dispatch, model, init, getState } from '@rematch/core'
+```
+
 - [dispatch](#dispatch)
   - [action](#action)
 - [model](#model)
@@ -11,7 +15,6 @@
   - [plugins](#plugins)
   - [redux](#redux)
 - [getState](#getState)
-
 
 ## dispatch
 
@@ -45,12 +48,48 @@ In Rematch, an action is always structured with a type of "modelName" and "actio
 
 Any data attached to an action is added in the payload.
 
-
 ## model
 
-Models organize related code into modules.
+Models organize related code into modules. 
 
-Learn more about how to initialize models under [`init.models`](#models).
+A model brings together state, reducers, async actions & action creators in one place.
+
+Rematch allows you to initialize models in two ways:
+
+### init.models
+The preferred way to initialize models is on startup. See [`init.models`](#models).
+```js
+import { init } from '@rematch/core'
+
+init({
+  models: {
+    count: { state: 0 }
+  }
+})
+```
+
+### Lazy-loading 
+It's possible to lazy-load models and merge them into Rematch after `init` has been called.
+```js
+import { init, model } from '@rematch/core'
+
+const store = init({
+  models: {
+    count: { state: 0 }
+  }
+})
+
+store.getState()
+// { count: 0 }
+
+
+// later on
+model({ name: 'countB', state: 99 })
+
+store.getState()
+// { count: 0, countB: state: 99 }
+```
+
 
 ### state
 
@@ -128,8 +167,6 @@ Init may also be called with the following configuration option below.
 
 `init({ models: { [string]: model } })`
 
-Its recommend to load your model on startup.
-
 ```js
 import { init } from '@rematch/core'
 
@@ -174,17 +211,6 @@ import { init } from '@rematch/core'
 import * as models from './models'
 
 init({ models })
-```
-
-It's also possible, though not recommended, to lazy-load models and merge them into Rematch.
-
-```js
-import { model } from '@rematch/core'
-
-model({
-  name: 'count',
-  state: 0,
-})
 ```
 
 ### plugins
