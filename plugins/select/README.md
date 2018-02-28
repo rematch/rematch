@@ -47,7 +47,8 @@ Selectors are read-only snippets of state.
 Selectors can be called anywhere within your app.
 
 ```js
-import { select, getState } from '@rematch/core'
+import { getState } from '@rematch/core'
+import { select } from '@rematch/select'
 
 select.cart.total(getState())
 ```
