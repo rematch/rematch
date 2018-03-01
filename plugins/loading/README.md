@@ -8,7 +8,7 @@ See an example below using a loading indicator within a button.
 
 ```js
 import React from 'react'
-import { dispatch } from '@rematch/core'
+import { connect } from 'react-redux'
 import AwesomeLoadingButton from './components/KindaCoolLoadingButton'
 
 const LoginButton = (props) => (
@@ -17,19 +17,18 @@ const LoginButton = (props) => (
   </AwesomeLoadingButton>
 )
 
-const mapToProps = state => ({
-  submit: () => dispatch.login.submit(),
-  loading: state.loading.models.login,
-  submitting: state.loading.effects.login.submit,
+const mapState = (state) => ({
+  loading: state.loading.effects.login.submit, // true when the `login/submit` effect is running
+  // or
+  loading: state.loading.models.login, // true when ANY effect on the `login` model is running
 })
 
-export default connect(mapState)(App)
+const mapDispatch = (dispatch) => ({
+  submit: () => dispatch.login.submit()
+})
+
+export default connect(mapState, mapDispatch)(App)
 ```
-
-In the above case:
-
-- 'loading' is triggered whenever any effect on the `login` model is running
-- 'submitting' is triggered while `login.submit` is running
 
 ## Demo
 
