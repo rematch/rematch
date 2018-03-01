@@ -223,7 +223,7 @@ init({
 
 Plugins are custom sets of init configurations or internal hooks that can add features to your Rematch setup.
 
-Read more about existing [plugins](./plugins) or about how to create your own plugins using the [plugins API](./pluginsAPI).
+Read more about existing [plugins](./plugins.md) or about how to create your own plugins using the [plugins API](./pluginsApi.md).
 
 ### redux
 
