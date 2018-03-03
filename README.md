@@ -32,8 +32,10 @@
 
 Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks. [See a comparison](./docs/purpose.md).
 
-* [Getting Started](README.md#getting-started)
+* [Getting Started](#getting-started)
 * [Purpose](./docs/purpose.md)
+* [Examples](#examples)
+* [Migration Guide](#migrating-from-redux)
 * API Reference
   * [@rematch/core API](./docs/api.md)
   * [Init Redux API](./docs/reduxApi.md)
@@ -127,7 +129,6 @@ Dispatch can be called directly, or with the `dispatch[model][action](payload)` 
 
 - Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/6j1vvnl20k) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
 - Todos: [React](https://codesandbox.io/s/92mk9n6vww)
-- No Models: [React](https://codesandbox.io/s/qjo9v3mlq)
 
 ```jsx
 import React from 'react'
@@ -190,6 +191,13 @@ ReactDOM.render(
 )
 ```
 
+## Migrating From Redux
+
+Moving from Redux to Rematch involves very few steps.
+
+1. Setup Rematch `init` with Redux [step 1](https://codesandbox.io/s/yw2wy1q929)
+2. Mix reducers & models [step 2](https://codesandbox.io/s/9yk6rjok1r)
+3. Shift to models [step 3](https://codesandbox.io/s/mym2x8m7v9)
 
 ## API
 

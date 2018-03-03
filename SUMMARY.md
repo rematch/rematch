@@ -2,6 +2,8 @@
 
 * [Getting Started](README.md#getting-started)
 * [Purpose](./docs/purpose.md)
+* [Examples](README.md#examples)
+* [Migration Guide](README.md#migrating-from-redux)
 * API Reference
   * [@rematch/core API](./docs/api.md)
   * [Init Redux API](./docs/reduxApi.md)
