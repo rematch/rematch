@@ -22,6 +22,8 @@ const mapState = (state, ownProps) => ({
 const mapDispatch = dispatch => ({
   increment: () => dispatch.count.increment(),
 })
+// You can also use destructuring
+const mapDispatchWithDestructure = ({count: {increment}}) => ({increment})
 
 export default connect(mapState, mapDispatch)(Counter)
 ```
