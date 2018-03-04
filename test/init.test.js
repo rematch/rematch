@@ -41,7 +41,7 @@ describe('init:', () => {
       }
     })
 
-    model({
+    store.model({
       name: 'app2',
       state: 'Hello, model 2',
     })
@@ -69,7 +69,7 @@ describe('init:', () => {
     const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'app',
       state: 'Hello, world',
     })
@@ -83,7 +83,7 @@ describe('init:', () => {
     const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'count',
       state: 99,
     })
@@ -97,7 +97,7 @@ describe('init:', () => {
     const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'count',
       state: 0,
     })
@@ -111,7 +111,7 @@ describe('init:', () => {
     const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'todos',
       state: {
         abc: {
@@ -134,12 +134,12 @@ describe('init:', () => {
     const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'app',
       state: 'Hello, world',
     })
 
-    model({
+    store.model({
       name: 'count',
       state: 99,
     })
@@ -154,17 +154,17 @@ describe('init:', () => {
     const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'app',
       state: 'Hello, world',
     })
 
-    model({
+    store.model({
       name: 'count',
       state: 99,
     })
 
-    model({
+    store.model({
       name: 'todos',
       state: {
         abc: {

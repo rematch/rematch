@@ -14,14 +14,10 @@ export type RematchDispatch = {
 
 export let dispatch: RematchDispatch;
 export function init(config: Config | undefined): Store<any>
-export function model(model: Model): void
-export function getState(): any
 
 export namespace rematch {
   export let dispatch: RematchDispatch;
   export function init(config: Config): Store<any>
-  export function model(model: Model): void
-  export function getState(): any
 }
 
 export type Action = {

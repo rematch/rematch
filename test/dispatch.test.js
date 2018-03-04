@@ -153,9 +153,9 @@ describe('dispatch:', () => {
     const {
       model, init
     } = require('../src')
-    init()
+    const store = init()
 
-    expect(() => model({
+    expect(() => store.model({
       name: 'a',
       state: 42,
       reducers: {
@@ -168,9 +168,9 @@ describe('dispatch:', () => {
     const {
       model, init
     } = require('../src')
-    init()
+    const store = init()
 
-    expect(() => model({
+    expect(() => store.model({
       name: 'a',
       state: 42,
       reducers: {

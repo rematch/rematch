@@ -1,9 +1,8 @@
 import { Model } from '../typings/rematch'
 import { modelHooks } from './core'
-import { createReducersAndUpdateStore } from './redux/store'
 import validate from './utils/validate'
 
-const addModel = (model: Model) => {
+export const addModel = (model: Model) => {
   validate([
     [!model, 'model config is required'],
     [
@@ -20,12 +19,4 @@ const addModel = (model: Model) => {
 // adds config.models
 export const initModelHooks = (models: Model[]) => {
   models.forEach((model: Model) => addModel(model))
-}
-
-// allows merging of models dynamically
-// model(model)
-export const createModel = (model: Model): void => {
-  addModel(model)
-  // add model reducers to redux store
-  createReducersAndUpdateStore(model)
 }

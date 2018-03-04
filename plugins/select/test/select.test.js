@@ -70,10 +70,10 @@ describe('select:', () => {
   test('should throw if selector is not a function', () => {
     const selectPlugin = require('../src').default
     const { init, model } = require('../../../src')
-    init({
+    const store = init({
       plugins: [selectPlugin()]
     })
-    expect(() => model({
+    expect(() => store.model({
       name: 'a',
       state: 2,
       selectors: {

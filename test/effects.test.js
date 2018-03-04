@@ -68,9 +68,9 @@ describe('effects:', () => {
   })
 
   // test('should create an effect', () => {
-  //   init()
+  //   const store = init()
 
-  //   model({
+  //   store.model({
   //     name: 'example',
   //     state: 0,
   //     effects: {
@@ -321,9 +321,9 @@ describe('effects:', () => {
     const {
       model, init
     } = require('../src')
-    init()
+    const store = init()
 
-    expect(() => model({
+    expect(() => store.model({
       name: 'a',
       state: 42,
       effects: {
@@ -336,9 +336,9 @@ describe('effects:', () => {
     const {
       model, init
     } = require('../src')
-    init()
+    const store = init()
 
-    expect(() => model({
+    expect(() => store.model({
       name: 'a',
       state: 42,
       effects: {

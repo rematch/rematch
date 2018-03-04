@@ -113,7 +113,7 @@ describe('subscriptions:', () => {
       plugins: [subscriptionsPlugin()]
     })
 
-    expect(() => model({
+    expect(() => store.model({
       name: 'first',
       ...common,
       subscriptions: {
@@ -125,11 +125,11 @@ describe('subscriptions:', () => {
   test('should enforce subscriptions are functions', () => {
     const { model, init } = require('../../../src')
     const subscriptionsPlugin = require('../src').default
-    init({
+    const store = init({
       plugins: [subscriptionsPlugin()]
     })
 
-    expect(() => model({
+    expect(() => store.model({
       name: 'first',
       ...common,
       subscriptions: {
@@ -221,11 +221,11 @@ describe('subscriptions:', () => {
     test('should throw an error if a user creates a subscription that matches a reducer in the model', () => {
       const { model, init } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
-      init({
+      const store = init({
         plugins: [subscriptionsPlugin()]
       })
 
-      const createModel = () => model({
+      const createModel = () => store.model({
         name: 'first',
         state: 0,
         reducers: {
@@ -242,11 +242,11 @@ describe('subscriptions:', () => {
     test('should throw an error if a user creates a subscription that matches an effect in the model', () => {
       const { model, init } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
-      init({
+      const store = init({
         plugins: [subscriptionsPlugin()]
       })
 
-      const createModel = () => model({
+      const createModel = () => store.model({
         name: 'first',
         state: 0,
         effects: {
@@ -263,11 +263,11 @@ describe('subscriptions:', () => {
     test('should throw an error if a user creates a subscription that pattern matches a reducer in the model', () => {
       const { model, init } = require('../../../src')
       const subscriptionsPlugin = require('../src').default
-      init({
+      const store = init({
         plugins: [subscriptionsPlugin()]
       })
 
-      const createModel = () => model({
+      const createModel = () => store.model({
         name: 'first',
         state: 0,
         reducers: {
