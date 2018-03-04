@@ -28,7 +28,7 @@ const dispatchPlugin: PluginCreator = {
         if (process.env.NODE_ENV !== 'production') {
           validate([
             [
-              !!reducerName.match(/\//),
+              !!reducerName.match(/\/.+\//),
               `Invalid reducer name (${model.name}/${reducerName})`,
             ],
             [

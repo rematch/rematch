@@ -159,7 +159,7 @@ describe('dispatch:', () => {
       name: 'a',
       state: 42,
       reducers: {
-        'invalid/name': () => 43
+        'model/invalid/name': () => 43
       },
     })).toThrow()
   })
