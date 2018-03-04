@@ -20,6 +20,10 @@ export namespace rematch {
   export function init(config: Config): Store<any>
 }
 
+export interface RematchStore<S> extends Store<S> {
+  model?: (model: Model) => void,
+}
+
 export type Action = {
   type: string,
   payload?: any,
