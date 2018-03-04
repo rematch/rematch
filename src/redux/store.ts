@@ -21,6 +21,7 @@ export const initStore = ({ redux }: Config): Store<any> => {
   return store
 }
 
+// allows for "model" to dynamically update the reducers/store
 export const createReducersAndUpdateStore = (model: Model): void => {
   mergeReducers(createModelReducer(model))
   store.replaceReducer(createRootReducer(rootReducers))

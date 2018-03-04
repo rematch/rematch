@@ -6,24 +6,29 @@ let combine = combineReducers
 
 let allReducers: Reducers = {}
 
-// get reducer for given dispatch type
+// create reducer for given dispatch type
 // pass in (state, payload)
-export const getReducer = (reducer: EnhancedReducers, initialState: any) =>
+export const createReducer = (reducer: EnhancedReducers, initialState: any) =>
   (state: any = initialState, action: Action) => {
+  // handle effects
   if (typeof reducer[action.type] === 'function') {
     return reducer[action.type](state, action.payload, action.meta)
   }
   return state
 }
 
+const isListener = (reducer: string): boolean => reducer.includes('/')
+
 // creates a reducer out of "reducers" keys and values
 export const createModelReducer = ({ name, reducers, state }: Model) => {
-  const modelReducers: Reducers = Object.keys(reducers || {}).reduce((acc, reducer) => ({
-    [`${name}/${reducer}`]: reducers[reducer],
-    ...acc,
-  }), {})
+  const modelReducers: Reducers = {}
+  Object.keys(reducers || {})
+    .forEach((reducer) => {
+      const action = isListener(reducer) ? reducer : `${name}/${reducer}`
+      modelReducers[action] = reducers[reducer]
+    })
   return {
-    [name]: getReducer(modelReducers, state),
+    [name]: createReducer(modelReducers, state),
   }
 }
 
