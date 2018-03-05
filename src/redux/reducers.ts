@@ -1,13 +1,9 @@
 /* eslint no-underscore-dangle: 0 */
-import { combineReducers, Reducer, ReducersMapObject} from 'redux'
+import { Reducer, ReducersMapObject} from 'redux'
 import { Action, ConfigRedux, EnhancedReducers, Model, Reducers, RootReducers } from '../../typings/rematch'
 import isListener from '../utils/isListener'
 
-let combine = combineReducers
-
-let allReducers: Reducers = {}
-
-// create reducer for given dispatch type
+// get reducer for given dispatch type
 // pass in (state, payload)
 export const createReducer = (reducer: EnhancedReducers, initialState: any) =>
   (state: any = initialState, action: Action) => {
@@ -32,7 +28,7 @@ export const createModelReducer = ({ name, reducers, state }: Model) => {
 }
 
 // uses combineReducers to merge new reducers into existing reducers
-export const mergeReducers = (nextReducers: Reducers = {}) => {
+export const createMergeReducers = (combine, allReducers) => (nextReducers: Reducers = {}) => {
   allReducers = { ...allReducers, ...nextReducers }
   if (!Object.keys(allReducers).length) {
     return (state: any) => state
@@ -40,10 +36,7 @@ export const mergeReducers = (nextReducers: Reducers = {}) => {
   return combine(allReducers)
 }
 
-export const initReducers = (models: Model[], redux: ConfigRedux): void => {
-  // optionally overwrite combineReducers on init
-  combine = redux.combineReducers || combine
-
+export const initReducers = (mergeReducers) => (models: Model[], redux: ConfigRedux): void => {
   // combine existing reducers, redux.reducers & model.reducers
   mergeReducers(models.reduce((reducers, model) => ({
     ...createModelReducer(model),
@@ -51,7 +44,7 @@ export const initReducers = (models: Model[], redux: ConfigRedux): void => {
   }), redux.reducers))
 }
 
-export const createRootReducer = (rootReducers: RootReducers = {}): Reducer<any> => {
+export const createRootReducer = (mergeReducers) => (rootReducers: RootReducers = {}): Reducer<any> => {
   const mergedReducers: Reducer<any> = mergeReducers()
   if (Object.keys(rootReducers).length) {
     return (state, action) => {
