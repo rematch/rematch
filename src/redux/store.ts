@@ -1,16 +1,24 @@
 /* eslint no-underscore-dangle: 0 */
-import { applyMiddleware, createStore as _createStore, Middleware, Reducer, StoreCreator } from 'redux'
+import { applyMiddleware, combineReducers, createStore as _createStore, Middleware, Reducer, StoreCreator } from 'redux'
 import { Config, Model, RematchStore } from '../../typings/rematch'
 import { pluginMiddlewares } from '../core'
 import { addModel } from '../model'
 import { composeEnhancers } from './devtools'
-import { createModelReducer, createRootReducer, mergeReducers } from './reducers'
+import { createModelReducer, createRootReducer, initReducers, mergeReducers } from './reducers'
 
-export const initStore = <S>({ redux }: Config): RematchStore<S> => {
-  const initialState: any = typeof redux.initialState === 'undefined' ? {} : redux.initialState
+export const initStore = <S>(models, { redux }: Config): RematchStore<S> => {
+  // possible overwrite of redux imports
   const createStore: StoreCreator = redux.createStore || _createStore
+
+  // initial state
+  const initialState: any = typeof redux.initialState === 'undefined' ? {} : redux.initialState
+
+  // reducers
+  initReducers(models, redux)
   const rootReducers = redux.rootReducers
   const rootReducer: Reducer<any> = createRootReducer(rootReducers)
+
+  // middleware/enhancers
   const middlewareList: Middleware[] = [...pluginMiddlewares, ...(redux.middlewares || [])]
   const middlewares = applyMiddleware(...middlewareList)
   const enhancers = composeEnhancers(redux.devtoolOptions)(...redux.enhancers || [], middlewares)

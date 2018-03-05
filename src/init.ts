@@ -77,11 +77,10 @@ const init = (config: Config | undefined = {}): Store<any> => {
   // collect all models
   const models = getModels(mergedConfig.models)
   initModelHooks(models)
-  initReducers(models, mergedConfig.redux)
 
   // create a redux store with initialState
   // merge in additional extra reducers
-  const store: Store<any> = initStore(mergedConfig)
+  const store: Store<any> = initStore(models, mergedConfig)
   postStore(plugins, store)
 
   // use plugin dispatch as store.dispatch
