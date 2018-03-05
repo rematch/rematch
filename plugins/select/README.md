@@ -47,10 +47,11 @@ Selectors are read-only snippets of state.
 Selectors can be called anywhere within your app.
 
 ```js
-import { getState } from '@rematch/core'
 import { select } from '@rematch/select'
 
-select.cart.total(getState())
+const store = init({ ... })
+
+select.cart.total(store.getState())
 ```
 
 Selectors can also be used with memoization libraries like [reselect](https://github.com/reactjs/reselect).
