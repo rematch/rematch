@@ -183,9 +183,9 @@ const mapState = state => ({
   count: state.count
 })
 
-const mapDispatch = dispatch => ({
-  increment: () => dispatch.count.increment(1),
-  incrementAsync: () => dispatch.count.incrementAsync(1)
+const mapDispatch = ({ count: { increment, incrementAsync }}) => ({
+  increment: () => increment(1),
+  incrementAsync: () => incrementAsync(1)
 })
 
 const CountContainer = connect(mapState, mapDispatch)(Count)
