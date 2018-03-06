@@ -15,9 +15,8 @@ export const initStore = ({ redux }: Config): Store<any> => {
   const rootReducer: Reducer<any> = createRootReducer(rootReducers)
   const middlewareList: Middleware[] = [...pluginMiddlewares, ...(redux.middlewares || [])]
   const middlewares = applyMiddleware(...middlewareList)
-  const enhancers = [redux.devtoolOptions, ...(redux.enhancers || [])]
-  const composedEnhancers = composeEnhancers(...enhancers)(middlewares)
-  store = createStore(rootReducer, initialState, composedEnhancers)
+  const enhancers = composeEnhancers(redux.devtoolOptions)(...redux.enhancers || [], middlewares)
+  store = createStore(rootReducer, initialState, enhancers)
   return store
 }
 
