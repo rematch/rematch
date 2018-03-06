@@ -6,22 +6,22 @@ import { AnyAction, Dispatch, MiddlewareAPI, Middleware, ReducersMapObject, Stor
 
 export as namespace rematch
 
-export type RematchDispatch = {
+export type RematchDispatch<S> = {
   [key: string]: {
-    [key:string]: (action: Action) => Promise<Dispatch<any>>
+    [key: string]: (action: Action) => Promise<Dispatch<S>>
   }
-} | ((action: Action) => Promise<Dispatch<any>>)
+} | ((action: Action) => Promise<Dispatch<S>>)
 
-export let dispatch: RematchDispatch;
-export function init(config: Config | undefined): Store<any>
-export function model(model: Model): void
+export function dispatch<S>(): RematchDispatch<S>;
+export function init<S>(config: Config<S> | undefined): Store<S>
+export function model<S>(model: Model<S>): void
 export function getState(): any
 
 export namespace rematch {
-  export let dispatch: RematchDispatch;
-  export function init(config: Config): Store<any>
-  export function model(model: Model): void
-  export function getState(): any
+  export function dispatch<S>(): RematchDispatch<S>;
+  export function init<S>(config: Config<S>): Store<S>
+  export function model<S>(model: Model<S>): void
+  export function getState<S>(): S
 }
 
 export type Action = {
@@ -38,72 +38,74 @@ export type EnhancedReducers = {
 
 export type Reducer<S> = (state: S, payload?: any) => S;
 
-export type Reducers = {
-  [key: string]: Reducer<any>,
+export type Reducers<S> = {
+  [key: string]: Reducer<S>,
 }
 
-export type Models = {
-  [key: string]: Model,
+export type Models<S> = {
+  [key: string]: Model<S>,
 }
 
-export type ModelHook = (model: Model) => void
+export type ModelHook<S> = (model: Model<S>) => void
 
 export type Validation = [boolean | undefined, string]
 
-export type Exposed = {
-  dispatch: Dispatch<any> | { [key: string]: () => void },
+export type Exposed<S> = {
+  dispatch: Dispatch<S> | { [key: string]: () => void },
   effects: any,
   createDispatcher: (modelName: string, reducerName: string) => any,
   validate: (validations: Validation[]) => void,
   [key: string]: any,
 }
 
-export interface Model {
+export interface Model<S> {
   name?: string,
-  state: any,
-  reducers?: Reducers,
+  state: S,
+  reducers?: Reducers<S>,
   effects?: {
-    [key: string]: (payload: any, state: any) => void,
+    [key: string]: (payload: any, state: S) => void,
   },
   selectors?: {
-    [key: string]: (state: any, arg?: any) => any,
+    [key: string]: (state: S, arg?: any) => any,
   },
   subscriptions?: {
     [matcher: string]: (action: Action) => void,
   },
 }
 
-export interface Plugin {
-  onStoreCreated?: (store: Store<any>) => void,
-  onModel?: ModelHook,
-  middleware?: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => (action: Action) => any,
+export interface Plugin<S> {
+  onStoreCreated?: (store: Store<S>) => void,
+  onModel?: ModelHook<S>,
+  middleware?: (store: MiddlewareAPI<S>) => (next: Dispatch<S>) => (action: Action) => any,
 }
 
-export interface PluginCreator {
-  config?: Config,
+export type MiddlewareDefinition<S> = (store: MiddlewareAPI<S>) => (next: Dispatch<S>) => (action: Action) => any;
+
+export interface PluginCreator<S> {
+  config?: Config<S>,
   expose?: {
     [key: string]: any,
   },
-  init?: (exposed: Exposed) => Plugin
+  init?: (exposed: Exposed<S>) => Plugin<S>
 }
 
 export interface RootReducers {
   [type: string]: Reducer<any>,
 }
 
-export interface ConfigRedux {
-  initialState?: any,
-  reducers?: Reducers,
-  enhancers?: StoreEnhancer<any>[],
+export interface ConfigRedux<S> {
+  initialState?: S,
+  reducers?: Reducers<S>,
+  enhancers?: StoreEnhancer<S>[],
   middlewares?: Middleware[],
   rootReducers?: RootReducers,
-  combineReducers?: (reducers: ReducersMapObject) => Reducer<any>,
+  combineReducers?: (reducers: ReducersMapObject) => Reducer<S>,
   createStore?: StoreCreator,
   devtoolOptions?: Object,
 }
 
-export interface Config {
-  models?: Models,
-  plugins?: PluginCreator[],
-  redux?: ConfigRedux,
+export interface Config<S> {
+  models?: Models<S>,
+  plugins?: Array<PluginCreator<S>>,
+  redux?: ConfigRedux<S>,
 }

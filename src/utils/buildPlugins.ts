@@ -1,8 +1,8 @@
 import { Exposed, Plugin, PluginCreator } from '../../typings/rematch'
 
-export default (plugins: PluginCreator[], exposed: Exposed) => plugins.reduce((all, { init }) => {
+export default <S>(plugins: Array<PluginCreator<S>>, exposed: Exposed<S>) => plugins.reduce((all, { init }) => {
   if (init) {
-    const plugin: Plugin = init(exposed)
+    const plugin: Plugin<S> = init(exposed)
     if (process.env.NODE_ENV !== 'production') {
       exposed.validate([
         [

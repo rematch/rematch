@@ -5,11 +5,22 @@
     ],
     "jsRules": {},
     "rules": {
-        "quotemark": [true, "single"],
-        "semicolon": [true, "never"],
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "semicolon": [
+            true,
+            "never"
+        ],
         "interface-name": false,
         "no-submodule-imports": false,
-        "no-console": [true, "log", "warn"]
+        "no-console": [
+            true,
+            "log",
+            "warn"
+        ],
+        "member-ordering": false
     },
     "rulesDirectory": []
 }

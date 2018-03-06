@@ -1,33 +1,48 @@
-import { Model } from '../typings/rematch'
-import { modelHooks } from './core'
-import { createReducersAndUpdateStore } from './redux/store'
+import { Model, ModelHook } from '../typings/rematch'
+import CoreFactory from './core'
+import LocalStore from './redux/store'
 import validate from './utils/validate'
 
-const addModel = (model: Model) => {
-  if (process.env.NODE_ENV !== 'production') {
-    validate([
-      [!model, 'model config is required'],
-      [
-        !model.name || typeof model.name !== 'string',
-        'model "name" [string] is required',
-      ],
-      [model.state === undefined, 'model "state" is required'],
-    ])
+export default class ModelFactory<S> {
+
+  public readonly modelHooks: Array<ModelHook<S>> = []
+  public readonly localStore: LocalStore<S>
+
+  constructor(localStore: LocalStore<S>) {
+    this.localStore = localStore
+
+    this.addModel.bind(this)
+    this.initModelHooks.bind(this)
+    this.createModel.bind(this)
   }
-  // run plugin model subscriptions
-  modelHooks.forEach((modelHook) => modelHook(model))
-}
 
-// main model import method
-// adds config.models
-export const initModelHooks = (models: Model[]) => {
-  models.forEach((model: Model) => addModel(model))
-}
+  public addModel(model: Model<S>) {
+    if (process.env.NODE_ENV !== 'production') {
+      validate([
+        [!model, 'model config is required'],
+        [
+          !model.name || typeof model.name !== 'string',
+          'model "name" [string] is required',
+        ],
+        [model.state === undefined, 'model "state" is required'],
+      ])
+    }
+    // run plugin model subscriptions
+    this.modelHooks.forEach((modelHook) => modelHook(model))
+  }
 
-// allows merging of models dynamically
-// model(model)
-export const createModel = (model: Model): void => {
-  addModel(model)
-  // add model reducers to redux store
-  createReducersAndUpdateStore(model)
+  // main model import method
+  // adds config.models
+  public initModelHooks(models: Array<Model<S>>): void {
+    models.forEach((model: Model<S>) => this.addModel(model))
+  }
+
+  // allows merging of models dynamically
+  // model(model)
+  public createModel(model: Model<S>): void {
+    this.addModel(model)
+    // add model reducers to redux store
+    this.localStore.createReducersAndUpdateStore(model)
+  }
+
 }

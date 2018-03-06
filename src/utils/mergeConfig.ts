@@ -1,18 +1,19 @@
 import { Config, PluginCreator } from '../../typings/rematch'
 
-const merge = (original: object, next: object): any => {
+function merge<S>(original: any, next: any): any {
   return (next) ? { ...next, ...(original || {}) } : original || {}
 }
 
 // merges init config with plugin configs
-export default (config: Config): Config => {
+export default <S>(config: Config<S>): Config<S> => {
   // defaults
   const plugins = config.plugins || []
-  return (plugins).reduce((merged: Config, plugin: PluginCreator): Config => {
+  return (plugins).reduce((merged: Config<S>, plugin: PluginCreator<S>): Config<S> => {
     if (plugin.config) {
 
       // models
-      merged.models = merge(merged.models, plugin.config.models)
+      merged.models =
+        merge(merged.models, plugin.config.models) as typeof merged.models // FIXME: not sure how to avoid this
 
       // plugins
       if (plugin.config.plugins) {
