@@ -1,6 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 import { combineReducers, Reducer, ReducersMapObject} from 'redux'
 import { Action, ConfigRedux, EnhancedReducers, Model, Reducers, RootReducers } from '../../typings/rematch'
+import isListener from '../utils/isListener'
 
 let combine = combineReducers
 
@@ -16,8 +17,6 @@ export const createReducer = (reducer: EnhancedReducers, initialState: any) =>
   }
   return state
 }
-
-const isListener = (reducer: string): boolean => reducer.includes('/')
 
 // creates a reducer out of "reducers" keys and values
 export const createModelReducer = ({ name, reducers, state }: Model) => {
