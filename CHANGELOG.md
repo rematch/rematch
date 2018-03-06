@@ -42,3 +42,23 @@ const model = {
   }
 }
 ```
+
+## [0.5.0] - 2017-03-05
+### Added
+- listen to actions from other models within your reducers
+
+```js
+const count2 = {
+  state: 0,
+  reducers: {
+    // listens for action from other reducer
+    'count1/increment': (state) => state + 1
+  }
+}
+```
+
+Note: not yet available for effects.
+
+
+### Deprecated
+- `getState` from core in 0.4.0 will be removed with v1.0.0.
