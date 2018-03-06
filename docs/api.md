@@ -14,7 +14,6 @@ import { dispatch, model, init, getState } from '@rematch/core'
   - [models](#models)
   - [plugins](#plugins)
   - [redux](#redux)
-- [getState](#getState)
 
 ## dispatch
 
@@ -255,13 +254,3 @@ There are situations where you might want to access Redux directly. You may want
 - create a custom plugin
 
 For a complete summary of all redux options, see the [init Redux API](./reduxApi.md).
-
-## getState
-
-```js
-import { getState } from '@rematch/core'
-
-const state = getState()
-```
-
-Not recommended for common use, but an easy way to access the store's state.
