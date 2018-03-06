@@ -2,15 +2,18 @@ import { Action, Model, PluginCreator } from '@rematch/core'
 
 const createLoadingAction = (show) => (state, { name, action }: any) => ({
   ...state,
+  global: state.global + (show ? 1 : -1),
+  models: {
+    ...state.models,
+    [name]: state.models[name] + (show ? 1 : -1),
+  },
   effects: {
     ...state.effects,
     [name]: {
       ...state.effects[name],
-      [action]: show,
+      [action]: state.effects[name][action] + (show ? 1 : -1),
     },
   },
-  global: show,
-  models: { ...state.models, [name]: show },
 })
 
 interface LoadingConfig {
@@ -43,10 +46,11 @@ const loadingPlugin = (config: LoadingConfig = {}): any => {
     },
     state: {
       effects: {},
-      global: false,
+      global: 0,
       models: {},
     },
   }
+
   return {
     config: {
       models: {
@@ -55,45 +59,49 @@ const loadingPlugin = (config: LoadingConfig = {}): any => {
     },
     init: ({ dispatch }) => ({
       onModel({ name }: Model) {
-        // do not run dispatch on loading model
+        // do not run dispatch on "loading" model
         if (name === loadingModelName) { return }
-        loading.state.models[name] = false
+
+        loading.state.models[name] = 0
         loading.state.effects[name] = {}
         const modelActions = dispatch[name]
+
         // map over effects within models
         Object.keys(modelActions).forEach((action: string) => {
-          if (dispatch[name][action].isEffect) {
-
-            // ignore items not in whitelist
-            if (config.whitelist && !config.whitelist.includes(`${name}/${action}`)) {
-              return
-            }
-
-            // ignore items in blacklist
-            if (config.blacklist && config.blacklist.includes(`${name}/${action}`)) {
-              return
-            }
-
-            // copy function
-            loading.state.effects[name][action] = false
-            const fn = dispatch[name][action]
-            // create function with pre & post loading calls
-            const dispatchWithHooks = async (...props) => {
-              try {
-                dispatch.loading.show({ name, action })
-                await fn(...props)
-                // waits for dispatch function to finish before calling "hide"
-                dispatch.loading.hide({ name, action })
-              } catch (err) {
-                await dispatch.loading.hide({ name, action })
-                throw err
-              }
-            }
-            // replace existing effect with new dispatch
-            dispatch[name][action] = dispatchWithHooks
-          } else {
-            loading.state.models[name] = false
+          if (dispatch[name][action].isEffect !== true) {
+            return
           }
+
+          loading.state.effects[name][action] = 0
+
+          const actionType = `${name}/${action}`
+
+          // ignore items not in whitelist
+          if (config.whitelist && !config.whitelist.includes(actionType)) {
+            return
+          }
+
+          // ignore items in blacklist
+          if (config.blacklist && config.blacklist.includes(actionType)) {
+            return
+          }
+
+          // copy orig effect pointer
+          const origEffect = dispatch[name][action]
+
+          // create function with pre & post loading calls
+          const effectWrapper = async (...props) => {
+            try {
+              dispatch.loading.show({ name, action })
+              await origEffect(...props)
+              // waits for dispatch function to finish before calling "hide"
+            } finally {
+              dispatch.loading.hide({ name, action })
+            }
+          }
+
+          // replace existing effect with new wrapper
+          dispatch[name][action] = effectWrapper
         })
       },
     }),
