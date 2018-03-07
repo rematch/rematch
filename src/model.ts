@@ -35,10 +35,10 @@ export default class ModelFactory<S> {
 
   // allows merging of models dynamically
   // model(model)
-  public createModel = (model: Model<S>): void => {
-    this.addModel(model)
-    // add model reducers to redux store
-    this.localStore.createReducersAndUpdateStore(model)
-  }
+  // public createModel = (model: Model<S>): void => {
+  //   this.addModel(model)
+  //   // add model reducers to redux store
+  //   this.localStore.createReducersAndUpdateStore(model)
+  // }
 
 }

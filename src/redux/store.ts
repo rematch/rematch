@@ -31,9 +31,9 @@ export default class LocalStore<S> {
   }
 
   // allows for "model" to dynamically update the reducers/store
-  public createReducersAndUpdateStore = (model: Model<S>): void => {
-    this.reducersFactory.mergeReducers(this.reducersFactory.createModelReducer(model))
-    this.store.replaceReducer(this.reducersFactory.createRootReducer(this.rootReducers))
-  }
+  // public createReducersAndUpdateStore = (model: Model<S>): void => {
+  //   this.reducersFactory.mergeReducers(this.reducersFactory.createModelReducer(model))
+  //   this.store.replaceReducer(this.reducersFactory.createRootReducer(this.rootReducers))
+  // }
 
 }

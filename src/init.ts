@@ -6,11 +6,8 @@ import CorePlugins from './plugins'
 import ReducersFactory from './redux/reducers'
 import LocalStore from './redux/store'
 import buildPlugins from './utils/buildPlugins'
-import getExposed from './utils/getExposed'
 import getModels from './utils/getModels'
-import isObject from './utils/isObject'
 import mergeConfig from './utils/mergeConfig'
-import validate from './utils/validate'
 
 export default class InitFactory<S> {
 
@@ -33,58 +30,20 @@ export default class InitFactory<S> {
   }
 
   public init = (config: Config<S> | undefined = {}): Store<S> => {
-    config.redux = config.redux || {}
-    if (process.env.NODE_ENV !== 'production') {
-      validate([
-        [
-          config.plugins && !Array.isArray(config.plugins),
-          'init config.plugins must be an array',
-        ],
-        [
-          config.models && isObject(config.models),
-          'init config.models must be an object',
-        ],
-        [
-          config.redux.reducers
-          && isObject(config.redux.reducers),
-          'init config.redux.reducers must be an object',
-        ],
-        [
-          config.redux.middlewares && !Array.isArray(config.redux.middlewares),
-          'init config.redux.middlewares must be an array',
-        ],
-        [
-          config.redux.enhancers
-          && !Array.isArray(config.redux.enhancers),
-          'init config.redux.enhancers must be an array of functions',
-        ],
-        [
-          config.redux.combineReducers && typeof config.redux.combineReducers !== 'function',
-          'init config.redux.combineReducers must be a function',
-        ],
-        [
-          config.redux.createStore && typeof config.redux.createStore !== 'function',
-          'init config.redux.createStore must be a function',
-        ],
-      ])
-    }
-    config.models = config.models || {}
-    const mergedConfig = mergeConfig(config)
-    const pluginConfigs = this.corePlugins.corePlugins.concat(mergedConfig.plugins || [])
-    const exposed: Exposed<S> = getExposed(pluginConfigs)
-    const plugins = buildPlugins(pluginConfigs, exposed)
+    const pluginConfigs = this.corePlugins.corePlugins.concat(config.plugins || [])
+    const plugins = buildPlugins(pluginConfigs)
 
     // preStore: middleware, model hooks
     this.core.preStore(plugins)
 
     // collect all models
-    const models = getModels(mergedConfig.models)
+    const models = getModels(config.models)
     this.model.initModelHooks(models)
-    this.reducersFactory.initReducers(models, mergedConfig.redux)
+    this.reducersFactory.initReducers(models, config.redux)
 
     // create a redux store with initialState
     // merge in additional extra reducers
-    const store: Store<S> = this.localStore.initStore(mergedConfig)
+    const store: Store<S> = this.localStore.initStore(config)
     this.core.postStore(plugins, store)
 
     // use plugin dispatch as store.dispatch
