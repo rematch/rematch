@@ -102,13 +102,7 @@ const mapStateToProps = (state) => ({
   count: state.count,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  countUpBy(payload) {
-    dispatch(countUpBy(payload))
-  },
-})
-
-connect(mapStateToProps, mapDispatchToProps)(Component)
+connect(mapStateToProps, { countUpBy })(Component)
 ```
 
 ### Scoreboard
