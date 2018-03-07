@@ -24,11 +24,11 @@ CounterContainer.vue
   import Counter from './Counter.vue';
 
   // Every provider components need the store. To connect the components to the same instance of
-  // the store, it's recommanded to export the instance of the store in another file and import it
+  // the store, it's recommended to export the instance of the store in another file and import it
   // in the container components.
   const store = init();
 
-  // It's recommanded to declare mapState and mapDispatch outside the component (as pure function)
+  // It's recommended to declare mapState and mapDispatch outside the component (as pure function)
   // for easier tests.
   const mapState = state => ({
     count: state.count,
