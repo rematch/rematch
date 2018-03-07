@@ -1,7 +1,7 @@
 # @rematch/core API
 
 ```js
-import { dispatch, model, init, getState } from '@rematch/core'
+import { dispatch, model, init } from '@rematch/core'
 ```
 
 - [dispatch](#dispatch)
