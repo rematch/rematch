@@ -1,33 +1,15 @@
-import { Dispatch } from 'redux'
-import CoreFactory from './core'
-import InitFactory from './init'
-import ModelFactory from './model'
-import DispatchPluginsFactory from './plugins/dispatch'
-import CorePluginsFactory from './plugins/index'
-import ReducersFactory from './redux/reducers'
-import LocalStore from './redux/store'
-import deprecate from './utils/deprecate'
+import Rematch from './rematch'
 
-export default class Rematch<S> {
-  private corePluginsFactory = new CorePluginsFactory<S>()
-  private reducersFactory = new ReducersFactory<S>()
-  private localStore = new LocalStore<S>(this.reducersFactory)
-  private modelFactory = new ModelFactory<S>(this.localStore)
-  private coreFactory = new CoreFactory<S>(this.modelFactory, this.localStore)
-  private initFactory = new InitFactory<S>(this.coreFactory, this.modelFactory, this.localStore, this.reducersFactory)
+// allows for global dispatch to multiple stores
+const dispatchInstances = []
 
-  constructor() {
-    this.getState.bind(this)
-    this.dispatch.bind(this)
-  }
+export const init = (config) => new Rematch(config)
 
-  public getState = () => {
-    deprecate('getState import will be removed in @rematch/core@v1.0.0')
-    return this.localStore.store.getState()
-  }
+export const dispatch = (action, payload, meta) =>
+    dispatchInstances.forEach((dispatchInstance) =>
+      dispatchInstance(action, payload, meta))
 
-  public dispatch = () => this.corePluginsFactory.dispatchPlugin.expose.dispatch
-  public init = this.initFactory.init
-  public model = this.modelFactory.createModel
-
+export default {
+  dispatch,
+  init,
 }

@@ -1,14 +1,11 @@
 import { Dispatch } from 'redux'
-
-import CorePluginsFactory from './plugins/index'
-
 import CoreFactory from './core'
 import InitFactory from './init'
 import ModelFactory from './model'
 import DispatchPluginsFactory from './plugins/dispatch'
+import CorePluginsFactory from './plugins/index'
 import ReducersFactory from './redux/reducers'
 import LocalStore from './redux/store'
-import deprecate from './utils/deprecate'
 
 export default class Rematch<S> {
   private corePluginsFactory = new CorePluginsFactory<S>()
@@ -18,13 +15,13 @@ export default class Rematch<S> {
   private coreFactory = new CoreFactory<S>(this.modelFactory, this.localStore)
   private initFactory = new InitFactory<S>(this.coreFactory, this.modelFactory, this.localStore, this.reducersFactory)
 
-  public getState = () => {
-    deprecate('getState import will be removed in @rematch/core@v1.0.0')
-    return this.localStore.store.getState()
+  constructor(config) {
+    this.config = config
   }
 
   public dispatch = () => this.corePluginsFactory.dispatchPlugin.expose.dispatch
   public init = this.initFactory.init
-  public model = this.modelFactory.createModel
 
+  // TODO: save as Store.model
+  // public model = this.modelFactory.createModel
 }
