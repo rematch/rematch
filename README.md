@@ -50,6 +50,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 * Recipes
   * [Devtools](./docs/recipes/devtools.md)
   * [React](./docs/recipes/react.md)
+  * [Vue](./docs/recipes/vue.md)
 * Plugins
   * [Subscriptions](./plugins/subscriptions/README.md)
   * [Selectors](./plugins/select/README.md)
@@ -134,7 +135,7 @@ Dispatch can be called directly, or with the `dispatch[model][action](payload)` 
 
 ## Examples
 
-- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/6j1vvnl20k) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
+- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/n3373olqo0) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
 - Todos: [React](https://codesandbox.io/s/92mk9n6vww)
 
 ```jsx
