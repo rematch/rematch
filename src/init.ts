@@ -30,8 +30,6 @@ export default class InitFactory<S> {
     this.model = model
     this.localStore = localStore
     this.reducersFactory = reducersFactory
-
-    this.init = this.init.bind(this)
   }
 
   public init = (config: Config<S> | undefined = {}): Store<S> => {

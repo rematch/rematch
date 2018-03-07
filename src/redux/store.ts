@@ -15,12 +15,9 @@ export default class LocalStore<S> {
 
   constructor(reducersFactory: ReducersFactory<S>) {
     this.reducersFactory = reducersFactory
-
-    this.initStore = this.initStore.bind(this)
-    this.createReducersAndUpdateStore = this.createReducersAndUpdateStore.bind(this)
   }
 
-  public initStore({ redux }: Config<S>): Store<S> {
+  public initStore = ({ redux }: Config<S>): Store<S> => {
     const initialState: any = typeof redux.initialState === 'undefined' ? {} : redux.initialState
     const createStore: StoreCreator = redux.createStore || _createStore
     this.rootReducers = redux.rootReducers
@@ -34,7 +31,7 @@ export default class LocalStore<S> {
   }
 
   // allows for "model" to dynamically update the reducers/store
-  public createReducersAndUpdateStore(model: Model<S>): void {
+  public createReducersAndUpdateStore = (model: Model<S>): void => {
     this.reducersFactory.mergeReducers(this.reducersFactory.createModelReducer(model))
     this.store.replaceReducer(this.reducersFactory.createRootReducer(this.rootReducers))
   }

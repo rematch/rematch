@@ -11,12 +11,9 @@ export default class CoreFactory<S> {
   constructor(model: ModelFactory<S>, localStore: LocalStore<S>) {
     this.model = model
     this.localStore = localStore
-
-    this.preStore.bind(this)
-    this.postStore.bind(this)
   }
 
-  public preStore(plugins: Array<Plugin<S>>) {
+  public preStore = (plugins: Array<Plugin<S>>) => {
     plugins.forEach((plugin: Plugin<S>) => {
       if (plugin.middleware) {
         this.localStore.pluginMiddlewares.push(plugin.middleware)
@@ -28,7 +25,7 @@ export default class CoreFactory<S> {
     })
   }
 
-  public postStore(plugins: Array<Plugin<S>>, store: Store<S>) {
+  public postStore = (plugins: Array<Plugin<S>>, store: Store<S>) => {
     plugins.forEach((plugin: Plugin<S>) => {
       if (plugin.onStoreCreated) {
         plugin.onStoreCreated(store)

@@ -10,13 +10,9 @@ export default class ModelFactory<S> {
 
   constructor(localStore: LocalStore<S>) {
     this.localStore = localStore
-
-    this.addModel.bind(this)
-    this.initModelHooks.bind(this)
-    this.createModel.bind(this)
   }
 
-  public addModel(model: Model<S>) {
+  public addModel = (model: Model<S>) => {
     if (process.env.NODE_ENV !== 'production') {
       validate([
         [!model, 'model config is required'],
@@ -33,13 +29,13 @@ export default class ModelFactory<S> {
 
   // main model import method
   // adds config.models
-  public initModelHooks(models: Array<Model<S>>): void {
+  public initModelHooks = (models: Array<Model<S>>): void => {
     models.forEach((model: Model<S>) => this.addModel(model))
   }
 
   // allows merging of models dynamically
   // model(model)
-  public createModel(model: Model<S>): void {
+  public createModel = (model: Model<S>): void => {
     this.addModel(model)
     // add model reducers to redux store
     this.localStore.createReducersAndUpdateStore(model)

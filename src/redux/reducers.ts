@@ -8,14 +8,6 @@ export default class ReducersFactory<S> {
   private combine: (reducers: ReducersMapObject) => Reducer<S> = combineReducers
   private allReducers: Reducers<S> = {}
 
-  constructor() {
-    this.createReducer = this.createReducer.bind(this)
-    this.createModelReducer = this.createModelReducer.bind(this)
-    this.mergeReducers = this.mergeReducers.bind(this)
-    this.initReducers = this.initReducers.bind(this)
-    this.createRootReducer = this.createRootReducer.bind(this)
-  }
-
   // create reducer for given dispatch type
   // pass in (state, payload)
   public createReducer = (reducer: EnhancedReducers, initialState: S) =>
