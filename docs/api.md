@@ -116,6 +116,16 @@ An object of functions that change the model's state. These functions take the m
 }
 ```
 
+Reducers may also listen to actions from other models by listing the 'model name' + 'action name' as the key.
+
+```js
+{
+  reducers: {
+    'otherModel/actionName': (state, payload) => state + payload,
+  }
+}
+```
+
 ### effects
 
 `effects: { [string]: (payload, rootState) }`
