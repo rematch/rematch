@@ -1,6 +1,6 @@
 # Vue
 
-You can use rematch with Vue the same way you have been using it with Vue, Redux and vuejs-redux.
+You can use rematch with Vue the same way you have been using it with Vue, Redux and [vuejs-redux](https://github.com/titouancreach/vuejs-redux).
 Instead of high order component, we create a container component that is responsible to connect the child component.
 
 See an example below:
