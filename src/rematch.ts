@@ -20,10 +20,10 @@ export default class Rematch<S> {
 
   constructor(config: Config<S>) {
     this.config = mergeConfig(config)
-    this.initFactory.init(this.config)
   }
 
-  public dispatch = () => this.corePluginsFactory.dispatchPlugin.expose.dispatch
+  public init = () => this.initFactory.init(this.config)
+  public dispatch = this.corePluginsFactory.dispatchPlugin.expose.dispatch
 
   // TODO: save as Store.model
   // public model = this.modelFactory.createModel
