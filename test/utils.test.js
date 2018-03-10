@@ -19,7 +19,7 @@ describe('deprecate', ()=> {
       warn.restore()
       process.env.NODE_ENV = cache
   })
-  it('should call console.warn when process.env.NODE_ENV is not production', ()=> {
+  it('should not call console.warn when process.env.NODE_ENV is production', ()=> {
       const warn = stub(console, 'warn')
       const cache = process.env.NODE_ENV
       process.env.NODE_ENV = 'production'
