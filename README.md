@@ -135,14 +135,14 @@ Dispatch can be called directly, or with the `dispatch[model][action](payload)` 
 
 ## Examples
 
-- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/n3373olqo0) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
-- Todos: [React](https://codesandbox.io/s/92mk9n6vww)
+- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/43r3wxk7x4) | [Vue](https://codesandbox.io/s/n3373olqo0) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
+- Todos: [React](https://codesandbox.io/s/43r3wxk7x4)
 
 ```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
-import { init } from '@rematch/core'
+import { init, dispatch } from '@rematch/core'
 
 // State
 
@@ -175,8 +175,8 @@ const store = init({
 const Count = props => (
   <div>
     The count is {props.count}
-    <button onClick={props.increment}>increment</button>
-    <button onClick={props.incrementAsync}>incrementAsync</button>
+    <button onClick={() => dispatch.count.increment(1)}>increment</button>
+    <button onClick={() => dispatch.count.incrementAsync(1)}>incrementAsync</button>
   </div>
 )
 
@@ -184,12 +184,7 @@ const mapState = state => ({
   count: state.count
 })
 
-const mapDispatch = ({ count: { increment, incrementAsync }}) => ({
-  increment: () => increment(1),
-  incrementAsync: () => incrementAsync(1)
-})
-
-const CountContainer = connect(mapState, mapDispatch)(Count)
+const CountContainer = connect(mapState)(Count)
 
 ReactDOM.render(
   <Provider store={store}>
