@@ -1,10 +1,11 @@
+const { init } = require('../src')
+
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('plugins:', () => {
   test('should add onModel subscriptions', () => {
-    const { init } = require('../src')
     const { modelHooks } = require('../src/core')
     const fns = [() => 1, () => 2]
     init({
@@ -17,7 +18,6 @@ describe('plugins:', () => {
   })
 
   test('should add multiple middleware', () => {
-    const { init } = require('../src')
     const { pluginMiddlewares } = require('../src/core')
     const m1 = () => next => action => next(action)
     const m2 = () => next => action => next(action)
@@ -31,7 +31,6 @@ describe('plugins:', () => {
   })
 
   test('should add a model', () => {
-    const { init } = require('../src')
     const a = {
       state: 0,
     }
@@ -47,7 +46,6 @@ describe('plugins:', () => {
   })
 
   test('should add multiple models', () => {
-    const { init } = require('../src')
     const a = {
       state: 0,
     }
@@ -66,7 +64,6 @@ describe('plugins:', () => {
   })
 
   test('should merge plugin configs into configs', () => {
-    const { init } = require('../src')
     const plugin1 = {
       config: {
         redux: {

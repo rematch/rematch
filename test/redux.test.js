@@ -1,10 +1,11 @@
+const { init } = require('../src')
+
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('redux', () => {
   test('combineReducers should replace root', () => {
-    const { init } = require('../src')
     const store = init({
       redux: {
         initialState: {},
@@ -18,7 +19,6 @@ describe('redux', () => {
     expect(store.getState()).toBe(42)
   })
   test('should not accept invalid value as "redux.combineReducers"', () => {
-    const { init } = require('../src')
     expect(() => init({
       redux: {
         combineReducers: 42
@@ -27,7 +27,6 @@ describe('redux', () => {
   })
 
   test('combineReducers should replace root', () => {
-    const { init } = require('../src')
     const store = init({
       redux: {
         initialState: {},
@@ -40,7 +39,6 @@ describe('redux', () => {
   })
 
   test('should not accept invalid value as "redux.createStore"', () => {
-    const { init } = require('../src')
     expect(() => init({
       redux: {
         createStore: 42

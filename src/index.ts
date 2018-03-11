@@ -1,14 +1,15 @@
-import init from './init'
-import dispatchPlugin from './plugins/dispatch'
+import Rematch from './rematch'
 
-const { expose: { dispatch } } = dispatchPlugin
+// allows for global dispatch to multiple stores
+const stores = []
+
+export const init = (config: Config<S>) => new Rematch(config).init()
+
+export const dispatch = (action) =>
+    stores.forEach((store) =>
+      store.dispatch(action))
 
 export default {
-  dispatch,
-  init,
-}
-
-export {
   dispatch,
   init,
 }

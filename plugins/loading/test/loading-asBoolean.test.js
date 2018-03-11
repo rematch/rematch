@@ -253,7 +253,7 @@ describe('loading asBoolean', () => {
     })
 
     try {
-      await dispatch.count.throwError()
+      await store.dispatch.count.throwError()
     } catch (err) {
       expect(store.getState().loading.global).toBe(false)
     }
@@ -290,7 +290,7 @@ describe('loading asBoolean', () => {
     })
 
     try {
-        await dispatch.count.throwError()
+        await store.dispatch.count.throwError()
     } catch (err) {
         expect(err.message).toBe('effect error')
     }
@@ -311,7 +311,7 @@ describe('loading asBoolean', () => {
     })
 
     try {
-      await dispatch.count.doSomething(null, { metaProp: 1 })
+      await store.dispatch.count.doSomething(null, { metaProp: 1 })
     } catch (err) {
       throw err
     }

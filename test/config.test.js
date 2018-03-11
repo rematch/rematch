@@ -1,22 +1,20 @@
+const { init } = require('../src')
+
 beforeEach(() => {
   jest.resetModules()
 })
 
 describe('init config', () => {
   test('should not throw with an empty config', () => {
-    const { init } = require('../src')
     expect(() => init()).not.toThrow()
   })
   test('should not accept invalid plugins', () => {
-    const { init } = require('../src')
     expect(() => init({
       plugins: {}
     })).toThrow()
   })
 
   test('should ensure multiple middlewares are working', (done) => {
-    const { init, dispatch } = require('../src')
-
     const add5Middleware = () => next => action => {
       action.payload += 5
       return next(action)
@@ -31,7 +29,7 @@ describe('init config', () => {
       return next(action)
     }
 
-    init({
+    const store = init({
       models: {
         count: {
           state: 0,
@@ -49,12 +47,11 @@ describe('init config', () => {
       }
     })
 
-    dispatch.count.addBy(1)
-    dispatch.count.addBy(1)
+    store.dispatch.count.addBy(1)
+    store.dispatch.count.addBy(1)
   })
 
   test('should not accept invalid "middlewares"', () => {
-    const { init } = require('../src')
     expect(() => init({
       redux: {
         middlewares: {}
@@ -63,7 +60,6 @@ describe('init config', () => {
   })
 
   test('should not accept invalid "enhancers"', () => {
-    const { init } = require('../src')
     expect(() => init({
       redux: {
         enhancers: {}
@@ -72,7 +68,6 @@ describe('init config', () => {
   })
 
   test('should not accept invalid array for "reducers"', () => {
-    const { init } = require('../src')
     expect(() => init({
       redux: {
         reducers: []
@@ -81,7 +76,6 @@ describe('init config', () => {
   })
 
   test('should not accept invalid value as "reducers"', () => {
-    const { init } = require('../src')
     expect(() => init({
       redux: {
         reducers: 42
@@ -90,7 +84,6 @@ describe('init config', () => {
   })
 
   test('should run with devtool options', () => {
-    const { init } = require('../src')
     const store = init({
       redux: {
         initialState: { a: 1 },

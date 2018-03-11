@@ -1,13 +1,12 @@
+const { init } = require('../src')
+
 describe('multiple stores', () => {
   test('should not throw if multiple stores', () => {
-    const { init } = require('../src')
     const store1 = init({})
     expect(() => init({})).not.toThrow()
   })
 
   test('should store state for multiple stores', () => {
-    const { init } = require('../src')
-
     const store1 = init({ models: { count1: { state: 0 } } })
     const store2 = init({ models: { count2: { state: 42 } } })
 
@@ -16,8 +15,6 @@ describe('multiple stores', () => {
   })
 
   test('should be able to store.dispatch to specific stores', () => {
-    const { init } = require('../src')
-
     const count = {
       state: 0,
       reducers: {
@@ -38,7 +35,7 @@ describe('multiple stores', () => {
   })
 
   test('global dispatch should dispatch to both stores', () => {
-    const { init, dispatch } = require('../src')
+    const { dispatch } = require('../src')
 
     const count = {
       state: 0,

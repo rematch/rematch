@@ -1,6 +1,9 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 const createLocalStorageMock = require('./localStorage.mock')
+const persistPlugin = require('../src').default
+const { getPersistor } = require('../src')
+const { init } = require('../../../src')
 
 beforeEach(() => {
   jest.resetModules()
@@ -17,8 +20,6 @@ const reducers = { todos: (state = 999) => state }
 describe('persist', () => {
 
   test('should load the persist plugin with a basic config', () => {
-    const persistPlugin = require('../src').default
-    const { init } = require('../../../src')
     const storage = createLocalStorageMock()
     const store = init({
       plugins: [persistPlugin()],
@@ -31,8 +32,6 @@ describe('persist', () => {
   })
 
   test('should load the persist plugin with a config', () => {
-    const persistPlugin = require('../src').default
-    const { init } = require('../../../src')
     const storage = createLocalStorageMock()
     const plugin = persistPlugin({
       key: 'test',
@@ -52,9 +51,6 @@ describe('persist', () => {
   })
 
   test('should create a persistor', () => {
-    const persistPlugin = require('../src').default
-    const { getPersistor } = require('../src')
-    const { init } = require('../../../src')
     const storage = createLocalStorageMock()
     init({
       plugins: [persistPlugin({
@@ -70,9 +66,6 @@ describe('persist', () => {
   })
 
   test('should work with init models', () => {
-    const persistPlugin = require('../src').default
-    const { getPersistor } = require('../src')
-    const { init, dispatch } = require('../../../src')
     const storage = createLocalStorageMock()
     const a = {
       name: 'a',
@@ -85,7 +78,7 @@ describe('persist', () => {
       plugins: [persistPlugin({ storage })],
       models: { a }
     })
-    dispatch.a.addOne()
+    store.dispatch.a.addOne()
     const persistor = getPersistor()
     expect(persistor.purge).toBeDefined()
     expect(store.getState()._persist).toEqual(defaultPersist)
@@ -93,9 +86,6 @@ describe('persist', () => {
   })
 
   test('should allow resetting state through root reducer', () => {
-    const persistPlugin = require('../src').default
-    const { getPersistor } = require('../src')
-    const { init, dispatch } = require('../../../src')
     const storage = createLocalStorageMock()
     const count = {
       state: 0,
@@ -117,9 +107,9 @@ describe('persist', () => {
         }
       }
     })
-    dispatch.count.addOne()
-    dispatch.count.addOne()
-    dispatch({ type: 'PURGE' })
+    store.dispatch.count.addOne()
+    store.dispatch.count.addOne()
+    store.dispatch({ type: 'PURGE' })
     
     expect(store.getState().count).toBe(0)
   })
