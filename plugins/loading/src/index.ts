@@ -1,29 +1,28 @@
 import { Action, Model, PluginCreator } from '@rematch/core'
 
-const createLoadingAction = (show) => (state, { name, action }: any) => ({
-  ...state,
-  global: state.global + (show ? 1 : -1),
-  models: {
-    ...state.models,
-    [name]: state.models[name] + (show ? 1 : -1),
-  },
-  effects: {
-    ...state.effects,
-    [name]: {
-      ...state.effects[name],
-      [action]: state.effects[name][action] + (show ? 1 : -1),
-    },
-  },
-})
-
 interface LoadingConfig {
   name?: string,
   whitelist?: string[],
   blacklist?: string[],
 }
 
-const loadingPlugin = (config: LoadingConfig = {}): any => {
-  // validate config
+const createLoadingAction = val => (state, { name, action }: any) => ({
+  ...state,
+  global: state.global + val,
+  models: {
+    ...state.models,
+    [name]: state.models[name] + val,
+  },
+  effects: {
+    ...state.effects,
+    [name]: {
+      ...state.effects[name],
+      [action]: state.effects[name][action] + val,
+    },
+  },
+})
+
+const validateConfig = config => {
   if (config.name && typeof config.name !== 'string') {
     throw new Error('loading plugin config name must be a string')
   }
@@ -36,18 +35,26 @@ const loadingPlugin = (config: LoadingConfig = {}): any => {
   if (config.whitelist && config.blacklist) {
     throw new Error('loading plugin config cannot have both a whitelist & a blacklist')
   }
+}
+
+export default (config: LoadingConfig = {}): any => {
+  validateConfig(config)
 
   const loadingModelName = config.name || 'loading'
+
+  const hide = createLoadingAction(-1)
+  const show = createLoadingAction(1)
+
   const loading: Model = {
     name: loadingModelName,
     reducers: {
-      hide: createLoadingAction(false),
-      show: createLoadingAction(true),
+      hide,
+      show,
     },
     state: {
-      effects: {},
       global: 0,
       models: {},
+      effects: {},
     },
   }
 
@@ -107,5 +114,3 @@ const loadingPlugin = (config: LoadingConfig = {}): any => {
     }),
   }
 }
-
-export default loadingPlugin

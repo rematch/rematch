@@ -121,7 +121,7 @@ describe('loading', () => {
     expect(store.getState().loading.effects.count.timeout).toBe(2)
   })
 
-  test('should capture all global loading for simultaneous diffrent effects', () => {
+  test('should capture all model and global loading for simultaneous effects', async () => {
     count = {
       state: 0,
       effects: {
@@ -138,21 +138,37 @@ describe('loading', () => {
       plugins: [loadingPlugin()]
     })
 
-    dispatch.count.timeout1()
-    dispatch.count.timeout2()
-    expect(store.getState().loading.effects.count.timeout1).toBe(1)
-    expect(store.getState().loading.effects.count.timeout2).toBe(1)
-    expect(store.getState().loading.global).toBe(2)
+    const effect1 = dispatch.count.timeout1()
+    await delay(100)
+    const effect2 = dispatch.count.timeout2()
+
+    const ld = () => store.getState().loading
+    expect(ld().effects.count.timeout1).toBe(1)
+    expect(ld().effects.count.timeout2).toBe(1)
+    expect(ld().models.count).toBe(2)
+    expect(ld().global).toBe(2)
+
+    await effect1
+    expect(ld().effects.count.timeout1).toBe(0)
+    expect(ld().effects.count.timeout2).toBe(1)
+    expect(ld().models.count).toBe(1)
+    expect(ld().global).toBe(1)
+
+    await effect2
+    expect(ld().effects.count.timeout1).toBe(0)
+    expect(ld().effects.count.timeout2).toBe(0)
+    expect(ld().models.count).toBe(0)
+    expect(ld().global).toBe(0)
   })
 
-  test('should configure the loading name to "load"', () => {
+  test('should configure the loading name to "foobar"', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin({ name: 'load' })]
+      plugins: [loadingPlugin({ name: 'foobar' })]
     })
 
     dispatch.count.addOne()
-    expect(store.getState().load.global).toBe(0)
+    expect(store.getState().foobar.global).toBe(0)
   })
 
   test('should throw if loading name is not a string', () => {
