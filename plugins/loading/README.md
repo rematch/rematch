@@ -27,7 +27,7 @@ const mapDispatch = (dispatch) => ({
   submit: () => dispatch.login.submit()
 })
 
-export default connect(mapState, mapDispatch)(App)
+export default connect(mapState, mapDispatch)(LoginButton)
 ```
 
 ## Demo
