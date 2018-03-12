@@ -1,6 +1,6 @@
 const delay = ms => new Promise(r => setTimeout(r, ms))
 
-describe('loading', () => {
+describe('loading asBoolean', () => {
   let count, init, dispatch, loadingPlugin
 
   beforeEach(() => {
@@ -35,7 +35,7 @@ describe('loading', () => {
     })
 
     dispatch.count.addOne()
-    expect(store.getState().loading.global).toBe(0)
+    expect(store.getState().loading.global).toBe(false)
   })
 
   test('loading.global should be 1 for a dispatched effect', () => {
@@ -45,7 +45,7 @@ describe('loading', () => {
     })
 
     dispatch.count.timeout()
-    expect(store.getState().loading.global).toBe(1)
+    expect(store.getState().loading.global).toBe(true)
   })
 
   test('loading.global should be 2 for two dispatched effects', () => {
@@ -56,10 +56,10 @@ describe('loading', () => {
 
     dispatch.count.timeout()
     dispatch.count.timeout()
-    expect(store.getState().loading.global).toBe(2)
+    expect(store.getState().loading.global).toBe(true)
   })
 
-  test('should set loading.models[name] to 0', () => {
+  test('should set loading.models[name] to false', () => {
     const {
       init
     } = require('../../../src')
@@ -68,20 +68,20 @@ describe('loading', () => {
       plugins: [loadingPlugin()]
     })
 
-    expect(store.getState().loading.models.count).toBe(0)
+    expect(store.getState().loading.models.count).toBe(false)
   })
 
-  test('should change the loading.models to 1', () => {
+  test('should change the loading.models to true', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin()]
     })
 
     dispatch.count.timeout()
-    expect(store.getState().loading.models.count).toBe(1)
+    expect(store.getState().loading.models.count).toBe(true)
   })
 
-  test('should change the loading.models to 2', () => {
+  test('should change the loading.models to true (double dispatch)', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -89,7 +89,7 @@ describe('loading', () => {
 
     dispatch.count.timeout()
     dispatch.count.timeout()
-    expect(store.getState().loading.models.count).toBe(2)
+    expect(store.getState().loading.models.count).toBe(true)
   })
 
   test('should set loading.effects[name] to object of effects', () => {
@@ -97,20 +97,20 @@ describe('loading', () => {
       models: { count },
       plugins: [loadingPlugin()]
     })
-    expect(store.getState().loading.effects.count.timeout).toBe(0)
+    expect(store.getState().loading.effects.count.timeout).toBe(false)
   })
 
-  test('should change the loading.effects to 1', () => {
+  test('should change the loading.effects to true', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin()]
     })
 
     dispatch.count.timeout()
-    expect(store.getState().loading.effects.count.timeout).toBe(1)
+    expect(store.getState().loading.effects.count.timeout).toBe(true)
   })
 
-  test('should change the loading.effects to 2', () => {
+  test('should change the loading.effects to true (double dispatch)', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -118,7 +118,7 @@ describe('loading', () => {
 
     dispatch.count.timeout()
     dispatch.count.timeout()
-    expect(store.getState().loading.effects.count.timeout).toBe(2)
+    expect(store.getState().loading.effects.count.timeout).toBe(true)
   })
 
   test('should capture all model and global loading for simultaneous effects', async () => {
@@ -143,22 +143,22 @@ describe('loading', () => {
     const effect2 = dispatch.count.timeout2()
 
     const ld = () => store.getState().loading
-    expect(ld().effects.count.timeout1).toBe(1)
-    expect(ld().effects.count.timeout2).toBe(1)
-    expect(ld().models.count).toBe(2)
-    expect(ld().global).toBe(2)
+    expect(ld().effects.count.timeout1).toBe(true)
+    expect(ld().effects.count.timeout2).toBe(true)
+    expect(ld().models.count).toBe(true)
+    expect(ld().global).toBe(true)
 
     await effect1
-    expect(ld().effects.count.timeout1).toBe(0)
-    expect(ld().effects.count.timeout2).toBe(1)
-    expect(ld().models.count).toBe(1)
-    expect(ld().global).toBe(1)
+    expect(ld().effects.count.timeout1).toBe(false)
+    expect(ld().effects.count.timeout2).toBe(true)
+    expect(ld().models.count).toBe(true)
+    expect(ld().global).toBe(true)
 
     await effect2
-    expect(ld().effects.count.timeout1).toBe(0)
-    expect(ld().effects.count.timeout2).toBe(0)
-    expect(ld().models.count).toBe(0)
-    expect(ld().global).toBe(0)
+    expect(ld().effects.count.timeout1).toBe(false)
+    expect(ld().effects.count.timeout2).toBe(false)
+    expect(ld().models.count).toBe(false)
+    expect(ld().global).toBe(false)
   })
 
   test('should configure the loading name to "foobar"', () => {
@@ -168,7 +168,7 @@ describe('loading', () => {
     })
 
     dispatch.count.addOne()
-    expect(store.getState().foobar.global).toBe(0)
+    expect(store.getState().foobar.global).toBe(false)
   })
 
   test('should throw if loading name is not a string', () => {
@@ -189,7 +189,7 @@ describe('loading', () => {
     })
 
     dispatch.count.timeout()
-    expect(store.getState().loading.models.count).toBe(0)
+    expect(store.getState().loading.models.count).toBe(false)
   })
 
   test('should block items if in blacklist', () => {
@@ -201,7 +201,7 @@ describe('loading', () => {
     })
 
     dispatch.count.timeout()
-    expect(store.getState().loading.models.count).toBe(0)
+    expect(store.getState().loading.models.count).toBe(false)
   })
 
   test('should throw if whitelist is not an array', () => {
@@ -255,7 +255,7 @@ describe('loading', () => {
     try {
       await dispatch.count.throwError()
     } catch (err) {
-      expect(store.getState().loading.global).toBe(0)
+      expect(store.getState().loading.global).toBe(false)
     }
   })
 

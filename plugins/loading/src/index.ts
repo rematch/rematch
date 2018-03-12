@@ -4,27 +4,43 @@ interface LoadingConfig {
   name?: string,
   whitelist?: string[],
   blacklist?: string[],
+  asNumber ?: boolean,
 }
 
-const createLoadingAction = val => (state, { name, action }: any) => ({
-  ...state,
-  global: state.global + val,
-  models: {
-    ...state.models,
-    [name]: state.models[name] + val,
-  },
-  effects: {
-    ...state.effects,
-    [name]: {
-      ...state.effects[name],
-      [action]: state.effects[name][action] + val,
+const cntState = {
+  global: 0,
+  models: {},
+  effects: {},
+}
+
+const createLoadingAction = (converter, i) => (state, { name, action }: any) => {
+  cntState.global += i
+  cntState.models[name] += i
+  cntState.effects[name][action] += i
+
+  return {
+    ...state,
+    global: converter(cntState.global),
+    models: {
+      ...state.models,
+      [name]: converter(cntState.models[name]),
     },
-  },
-})
+    effects: {
+      ...state.effects,
+      [name]: {
+        ...state.effects[name],
+        [action]: converter(cntState.effects[name][action]),
+      },
+    },
+  }
+}
 
 const validateConfig = config => {
   if (config.name && typeof config.name !== 'string') {
     throw new Error('loading plugin config name must be a string')
+  }
+  if (config.asNumber && typeof config.asNumber !== 'boolean') {
+    throw new Error('loading plugin config asNumber must be a boolean')
   }
   if (config.whitelist && !Array.isArray(config.whitelist)) {
     throw new Error('loading plugin config whitelist must be an array of strings')
@@ -42,21 +58,24 @@ export default (config: LoadingConfig = {}): any => {
 
   const loadingModelName = config.name || 'loading'
 
-  const hide = createLoadingAction(-1)
-  const show = createLoadingAction(1)
+  const converter =
+    config.asNumber === true
+      ? cnt => cnt
+      : cnt => cnt > 0
 
   const loading: Model = {
     name: loadingModelName,
     reducers: {
-      hide,
-      show,
+      hide: createLoadingAction(converter, -1),
+      show: createLoadingAction(converter, 1),
     },
     state: {
-      global: 0,
-      models: {},
-      effects: {},
+      ...cntState,
     },
   }
+
+  cntState.global = 0
+  loading.state.global = converter(cntState.global)
 
   return {
     config: {
@@ -69,7 +88,8 @@ export default (config: LoadingConfig = {}): any => {
         // do not run dispatch on "loading" model
         if (name === loadingModelName) { return }
 
-        loading.state.models[name] = 0
+        cntState.models[name] = 0
+        loading.state.models[name] = converter(cntState.models[name])
         loading.state.effects[name] = {}
         const modelActions = dispatch[name]
 
@@ -79,7 +99,8 @@ export default (config: LoadingConfig = {}): any => {
             return
           }
 
-          loading.state.effects[name][action] = 0
+          cntState.effects[name][action] = 0
+          loading.state.effects[name][action] = converter(cntState.effects[name][action])
 
           const actionType = `${name}/${action}`
 

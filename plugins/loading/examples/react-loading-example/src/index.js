@@ -6,7 +6,7 @@ import createLoadingPlugin from '@rematch/loading'
 import App from './App'
 import example from './example'
 
-const loadingPlugin = createLoadingPlugin()
+const loadingPlugin = createLoadingPlugin({ asNumber: true })
 
 const store = init({
   plugins: [loadingPlugin],
