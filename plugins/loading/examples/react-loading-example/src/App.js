@@ -37,9 +37,9 @@ const App = ({ submit, loading }) => (
       Submit Async
     </button>
     <div style={styles.container}>
-      <Loading label='loading.global' show={loading.global} />
-      <Loading label='loading.models.form' show={loading.model} />
-      <Loading label='loading.effects.form.submit' show={loading.effect} />
+      <Loading label='loading.global' show={loading.global > 0} />
+      <Loading label='loading.models.form' show={loading.model > 0} />
+      <Loading label='loading.effects.form.submit' show={loading.effect > 0} />
     </div>
   </div>
 )

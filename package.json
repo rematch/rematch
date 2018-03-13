@@ -50,6 +50,7 @@
     "gitbook-plugin-github": "^3.0.0",
     "gitbook-plugin-prism": "^2.3.0",
     "jest": "^22.4.2",
+    "redux-persist": "^5.9.1",
     "reselect": "^3.0.1",
     "rimraf": "^2.6.2",
     "rollup": "^0.56.4",

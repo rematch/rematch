@@ -62,11 +62,16 @@ init({
 
 ## Options
 
+### asNumber
+
+```js
+{ asNumber: true }
+
+The loading state values are a "counter", returns a number (eg. `store.getState().loading.global === 5`).
+
+Defaults to `false`, returns a boolean (eg. `store.getState().loading.global === true`)
+
 ### name
-
-The loading reducer defaults to the name of "loading".
-
-If you would like to change this, use the `name` option.
 
 ```js
 { name: 'load' }
@@ -74,9 +79,11 @@ If you would like to change this, use the `name` option.
 
 In which case, loading can be accessed from `state.load.global`.
 
+Defaults to the name of `loading` (eg. `state.loading.global`).
+
 ### whitelist
 
-A shortlist of actions. Named with "modelName" & "actionName".
+A shortlist of actions. Named with "modelName" / "actionName".
 
 ```js
 { whitelist: ['count/addOne'] })

@@ -1,5 +1,4 @@
-const asyncDelay = (time) => new Promise((resolve) =>
-  setTimeout(() => resolve(), time))
+const asyncDelay = ms => new Promise(r => setTimeout(r, ms))
 
 // example model
 export default {
