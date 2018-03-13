@@ -2,6 +2,20 @@
 
 Subscriptions plugin for Rematch.
 
+## NOTE
+
+You likely may not need this plugin.
+
+You can now capture actions from other models by simply referencing the model & action names in your reducers:
+
+```js
+reducers: {
+  'otherModel/actionName': (state, payload) => nextState
+}
+```
+
+See the [reducers docs](https://github.com/rematch/rematch/blob/master/docs/api.md#reducers).
+
 ### Install
 
 ```
