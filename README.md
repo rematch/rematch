@@ -108,6 +108,8 @@ export const count = {
 }
 ```
 
+*See the [reducers docs](https://github.com/rematch/rematch/blob/master/docs/api.md#reducers) to learn more, including how to trigger actions from other models.*
+
 Understanding models is as simple as answering a few questions:
 
 1. What is my initial state? **state**
