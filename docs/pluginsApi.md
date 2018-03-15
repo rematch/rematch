@@ -9,7 +9,6 @@ There are plenty of examples to base your next plugin on. After all, in Rematch,
 
 - [config](#config)
 - [expose](#expose)
-- [models](#models)
 - [init](#init)
   - [onModel](#onmodel)
   - [middleware](#middleware)
@@ -48,20 +47,6 @@ const selectors = {
 ```
 
 See "dispatch", "select" as an example.
-
-## models
-
-```js
-{
-  models: {
-    [string]: model
-  }
-}
-```
-
-Use this when adding models to the plugin.
-
-See "loading" as an example.
 
 ## init
 
