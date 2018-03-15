@@ -1,10 +1,15 @@
 import { PluginCreator } from '../../typings/rematch'
-import dispatchPlugin from './dispatch'
-import effectsPlugin from './effects'
+import DispatchPluginsFactory from './dispatch'
+import EffectsPluginsFactory from './effects'
 
-const corePlugins: PluginCreator[] = [
-  dispatchPlugin,
-  effectsPlugin,
-]
+export default class CorePluginsFactory<S> {
 
-export default corePlugins
+  public dispatchPlugin = new DispatchPluginsFactory<S>().dispatchPlugin
+  public effectsPlugin = new EffectsPluginsFactory<S>().effectsPlugin
+
+  public readonly corePlugins: Array<PluginCreator<S>> = [
+    this.dispatchPlugin,
+    this.effectsPlugin,
+  ]
+
+}

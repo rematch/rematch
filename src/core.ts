@@ -1,24 +1,36 @@
-import { Middleware } from 'redux'
-import { ModelHook, Plugin } from '../typings/rematch'
+import { Middleware, Store } from 'redux'
+import { MiddlewareDefinition, ModelHook, Plugin } from '../typings/rematch'
+import ModelFactory from './model'
+import LocalStore from './redux/store'
 
-export const modelHooks: ModelHook[] = []
-export const pluginMiddlewares: Middleware[] = []
+export default class CoreFactory<S> {
 
-export const preStore = (plugins: Plugin[]) => {
-  plugins.forEach((plugin: Plugin) => {
-    if (plugin.middleware) {
-      pluginMiddlewares.push(plugin.middleware)
-    }
-    if (plugin.onModel) {
-      modelHooks.push(plugin.onModel)
-    }
-  })
-}
+  private readonly model: ModelFactory<S>
+  private readonly localStore: LocalStore<S>
 
-export const postStore = (plugins: Plugin[], store) => {
-  plugins.forEach((plugin: Plugin) => {
-    if (plugin.onStoreCreated) {
-      plugin.onStoreCreated(store)
-    }
-  })
+  constructor(model: ModelFactory<S>, localStore: LocalStore<S>) {
+    this.model = model
+    this.localStore = localStore
+  }
+
+  public preStore = (plugins: Array<Plugin<S>>) => {
+    plugins.forEach((plugin: Plugin<S>) => {
+      if (plugin.middleware) {
+        this.localStore.pluginMiddlewares.push(plugin.middleware)
+      }
+
+      if (plugin.onModel) {
+        this.model.modelHooks.push(plugin.onModel)
+      }
+    })
+  }
+
+  public postStore = (plugins: Array<Plugin<S>>, store: Store<S>) => {
+    plugins.forEach((plugin: Plugin<S>) => {
+      if (plugin.onStoreCreated) {
+        plugin.onStoreCreated(store)
+      }
+    })
+  }
+
 }

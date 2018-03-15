@@ -3,7 +3,7 @@ beforeEach(() => {
 })
 
 describe('redux', () => {
-  test('combineReducers should replace root', () => {
+  test('should replace root with "combineReducers"', () => {
     const { init } = require('../src')
     const store = init({
       redux: {
@@ -26,7 +26,7 @@ describe('redux', () => {
     })).toThrow()
   })
 
-  test('combineReducers should replace root', () => {
+  test('should replace root with "redux.createStore"', () => {
     const { init } = require('../src')
     const store = init({
       redux: {
