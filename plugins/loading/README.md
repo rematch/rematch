@@ -66,6 +66,7 @@ init({
 
 ```js
 { asNumber: true }
+```
 
 The loading state values are a "counter", returns a number (eg. `store.getState().loading.global === 5`).
 
