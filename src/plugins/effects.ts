@@ -11,7 +11,7 @@ const effectsPlugin: PluginCreator = {
         if (process.env.NODE_ENV !== 'production') {
           validate([
             [
-              !!effectName.match(/\//),
+              !!effectName.match(/\/.+\//),
               `Invalid effect name (${model.name}/${effectName})`,
             ],
             [
@@ -20,20 +20,66 @@ const effectsPlugin: PluginCreator = {
             ],
           ])
         }
-        effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(dispatch[model.name])
+
+        // the effect we're interested in
+        // if this isn't the root effect then this is in the form `model/effect`
+        let targetEffectName = effectName
+        let isRoot = false;
+
+        // this is the root effect!
+        if (!effectName.includes('/')) {
+          targetEffectName = `${model.name}/${effectName}`;
+          isRoot = true
+        }
+
+        // always bind the effect to the model it's on
+        const effect = model.effects[effectName].bind(dispatch[model.name]);
+
+        // this is a new effect, intiialize it
+        if (!effects[targetEffectName]) {
+          effects[targetEffectName] = {
+            rootEffect: null,
+            listeningEffects: [],        
+          }
+        }
+
+        // update the root effect if this is the root, otherwise add it to the listener list
+        if (isRoot) {
+          effects[targetEffectName].rootEffect = effect
+        } else {
+          effects[targetEffectName].listeningEffects.push(effect)
+        }
+
+        // don't try and re-create the dispatcher if we're nt the root effect or it already exists
+        if (!isRoot || (dispatch[model.name][effectName] && dispatch[model.name][effectName].isEffect)) {
+          return
+        }
+
         // add effect to dispatch
         // is assuming dispatch is available already... that the dispatch plugin is in there
         dispatch[model.name][effectName] = createDispatcher(model.name, effectName)
+
         // tag effects so they can be differentiated from normal actions
         dispatch[model.name][effectName].isEffect = true
       })
     },
     middleware: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => async (action: Action) => {
-        // async/await acts as promise middleware
-        const result = (action.type in effects)
-          ? await effects[action.type](action.payload, store.getState(), action.meta)
-          : await next(action)
-        return result
+      // skip this action if it has no effects
+      if (!(action.type in effects)) {
+        return await next(action);
+      }
+
+      const state = store.getState();
+      let result = null;
+
+      if (effects[action.type].rootEffect) {
+        result = await effects[action.type].rootEffect(action.payload, state, action.meta)
+      }
+
+      // run the listening effects in parallel
+      await Promise.all(effects[action.type].listeningEffects.map(effect => effect(action.payload, state, action.meta)))
+
+      return result
     },
   }),
 }
