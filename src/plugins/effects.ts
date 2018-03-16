@@ -64,22 +64,20 @@ const effectsPlugin: PluginCreator = {
       })
     },
     middleware: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => async (action: Action) => {
-      // skip this action if it has no effects
-      if (!(action.type in effects)) {
-        return await next(action);
+      if (action.type in effects) {
+        const state = store.getState()
+        let result = null
+
+        // wait for the root effect if it's defined
+        if (effects[action.type].rootEffect) {
+          result = await effects[action.type].rootEffect(action.payload, state, action.meta)
+        }
+
+        // run the listening effects in parallel
+        await Promise.all(effects[action.type].listeningEffects.map(effect => effect(action.payload, state, action.meta)))
       }
 
-      const state = store.getState();
-      let result = null;
-
-      if (effects[action.type].rootEffect) {
-        result = await effects[action.type].rootEffect(action.payload, state, action.meta)
-      }
-
-      // run the listening effects in parallel
-      await Promise.all(effects[action.type].listeningEffects.map(effect => effect(action.payload, state, action.meta)))
-
-      return result
+      return await next(action)
     },
   }),
 }
