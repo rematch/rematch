@@ -124,4 +124,4 @@ init({
 })
 ```
 
-Provides access to [redux devtool options]((https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md)) Read more about configuring devtools under [devtool recipes](./recipes/devtools.md).
+Provides access to [redux devtool options](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md). Read more about configuring devtools under [devtool recipes](./recipes/devtools).
