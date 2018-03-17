@@ -62,3 +62,7 @@ Note: not yet available for effects.
 
 ### Deprecated
 - `getState` from core in 0.4.0 will be removed with v1.0.0.
+
+## [0.5.3] - 2017-03-05
+### Added
+Support for devtool action creators. See [#281](https://github.com/rematch/rematch/pull/281).
