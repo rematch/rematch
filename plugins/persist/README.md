@@ -17,7 +17,7 @@ npm install @rematch/persist
 ```js
 import createRematchPersist from '@rematch/persist'
 
-const persistPlugin = rematchPersist({
+const persistPlugin = createRematchPersist({
   whiteList: ['modelName1'],
   throttle: 5000,
   version: 1,
