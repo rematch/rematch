@@ -18,7 +18,7 @@ There are plenty of examples to base your next plugin on. After all, in Rematch,
 
 `{ config: initOptions }`
 
-An init options overwrite object. See [init]('./api/#init) for a full list of options.
+An init options overwrite object. See [init](./api/#init) for a full list of options.
 
 ```js
 // example from persist plugin
