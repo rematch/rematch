@@ -137,3 +137,40 @@ export class App extends React.Component {
   }
 }
 ```
+
+## Selectors
+
+You may find it helpful to add some custom selectors to your `nav` model.  You can easily add selectors by creating a `nav` model configuration object.  This example will add a `currentRouteName` selector:
+
+```js
+// models/nav.js
+export default {
+  selectors: {
+    currentRouteName(state) { return state.routes[state.index].routeName; },
+  },
+}
+```
+
+Add the above model to your rematch configuration:
+
+```js
+// models/index.js
+export { default as nav } from './nav'
+```
+
+Ensure your new model in included in your `init`:
+
+```js
+import { select } from '@rematch/select'
+import * as models from './models'
+
+const store = init({
+  models,
+  plugins: [select, reactNavigationPlugin],
+});
+```
+
+Of course, you will also need to install the
+[Rematch Select plugin](https://github.com/rematch/rematch/blob/master/plugins/select/README.md).
+
+Now you will be able to call `select.nav.currentRouteName(state)` from within your app. See  the [Rematch Select plugin documentation](https://github.com/rematch/rematch/blob/master/plugins/select/README.md) for more details on how to configure and use selectors.
