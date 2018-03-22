@@ -33,6 +33,7 @@
 Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks. 
 
 - [Why we created Rematch](https://hackernoon.com/redesigning-redux-b2baee8b8a38)
+- [Slideshow on Rematch](https://slides.com/redesigning-redux)
 - [A comparison of Redux & Rematch](./docs/purpose.md)
 
 
