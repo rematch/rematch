@@ -1,4 +1,4 @@
-# Tests
+# Testing
 - Todo Example: [React](https://codesandbox.io/s/yvpy2zr8mj)
 
 ### Reducers
