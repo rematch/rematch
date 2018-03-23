@@ -30,7 +30,7 @@
 
 ## Rethink Redux.
 
-Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks. 
+Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
 
 - [Why we created Rematch](https://hackernoon.com/redesigning-redux-b2baee8b8a38)
 - [Slideshow on Rematch](https://slides.com/shmck/redesigning-redux)
@@ -52,6 +52,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
   * [Devtools](./docs/recipes/devtools.md)
   * [React](./docs/recipes/react.md)
   * [Vue](./docs/recipes/vue.md)
+  * [Tests](./docs/recipes/tests.md)
 * Plugins
   * [Subscriptions](./plugins/subscriptions/README.md)
   * [Selectors](./plugins/select/README.md)
@@ -69,7 +70,7 @@ npm install @rematch/core
 
 ### Step 1: Init
 
-**init** configures your reducers, devtools & store. 
+**init** configures your reducers, devtools & store.
 
 #### index.js
 
@@ -209,6 +210,7 @@ Moving from Redux to Rematch involves very few steps.
 1. Setup Rematch `init` with Redux [step 1](https://codesandbox.io/s/yw2wy1q929)
 2. Mix reducers & models [step 2](https://codesandbox.io/s/9yk6rjok1r)
 3. Shift to models [step 3](https://codesandbox.io/s/mym2x8m7v9)
+
 
 ## API
 
