@@ -44,7 +44,6 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 * [Purpose](./docs/purpose.md)
 * [Examples](#examples)
 * [Migration Guide](#migrating-from-redux)
-* [Writing Tests](#writing-tests)
 * API Reference
   * [@rematch/core API](./docs/api.md)
   * [Init Redux API](./docs/reduxApi.md)
@@ -53,6 +52,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
   * [Devtools](./docs/recipes/devtools.md)
   * [React](./docs/recipes/react.md)
   * [Vue](./docs/recipes/vue.md)
+  * [Tests](./docs/recipes/tests.md)
 * Plugins
   * [Subscriptions](./plugins/subscriptions/README.md)
   * [Selectors](./plugins/select/README.md)
@@ -210,87 +210,6 @@ Moving from Redux to Rematch involves very few steps.
 1. Setup Rematch `init` with Redux [step 1](https://codesandbox.io/s/yw2wy1q929)
 2. Mix reducers & models [step 2](https://codesandbox.io/s/9yk6rjok1r)
 3. Shift to models [step 3](https://codesandbox.io/s/mym2x8m7v9)
-
-## Writing Tests
-- Todo Example: [React](https://codesandbox.io/s/yvpy2zr8mj)
-
-### Reducers
-
-Testing with store.
-
-```jsx
-  import { init, dispatch } from "@rematch/core";
-  import myModel from './myModel';
-
-  describe("myModel model", () => {
-    it("reducer: my reducerName should do something", () => {
-      const store = init({
-        models: { myModel }
-      });
-
-      dispatch.myModel.reducerName(payload);
-
-      const myModelData = store.getState().myModel;
-      expect(myModelData).toBe("something");
-    });
-  });
-```
-
-Testing reducers directly.
-
-```jsx
-  import myModel from './myModel';
-
-  describe("myModel model", () => {
-    it("reducer: my reducerName should do something", () => {
-      const result = myModel.reducers.reducerName(payload);
-      expect(result).toBe("something");
-    });
-  });
-```
-
-
-### Effects
-
-Testing with store.
-
-```jsx
-  import { init, dispatch } from "@rematch/core";
-  import myModel from './myModel';
-
-  describe("myModel model", () => {
-      it("effect: my effectName should do something", () => {
-        const store = init({
-          models: { myModel }
-        });
-
-      await dispatch.myModel.effectName(payload);
-
-      const myModelData = store.getState().myModel;
-      expect(myModelData).toBe("something");
-    });
-  });
-```
-
-Testing effects directly.
-```jsx
-  import myModel from './myModel';
-
-  describe("myModel model", () => {
-    it("effect: my effectName should do something", () => {
-      const reducerMockFn = jest.fn();
-
-      // bind the functions you want to check
-      await myModel.effects.effectName.call({ reducerThatIsGoingToBeCalled: reducerMockFn }, payload);
-
-      // checking if it was called
-      expect(reducerMockFn).toHaveBeenCalled();
-
-      // checking if it was called with the expected params
-      expect(reducerMockFn).toHaveBeenCalledWith("something");
-    });
-  });
-```
 
 
 ## API
