@@ -6,7 +6,7 @@ import corePlugins from './plugins'
 import { initReducers } from './redux/reducers'
 import { initStore } from './redux/store'
 import buildPlugins from './utils/buildPlugins'
-import getActionCreators from './utils/getActionCreators';
+import getActionCreators from './utils/getActionCreators'
 import getExposed from './utils/getExposed'
 import getModels from './utils/getModels'
 import isObject from './utils/isObject'
@@ -18,7 +18,7 @@ const init = (config: Config | undefined = {}): Store<any> => {
     ...config,
     models: config.models || {},
     redux: config.redux || {},
-  };
+  }
 
   if (process.env.NODE_ENV !== 'production') {
     validate([
@@ -64,9 +64,9 @@ const init = (config: Config | undefined = {}): Store<any> => {
         // configured devtool options so that they can override ours
         actionCreators: getActionCreators(config.models),
         ...config.redux.devtoolOptions || {},
-      }
-    }
-  };
+      },
+    },
+  }
 
   const mergedConfig = mergeConfig(config)
   const pluginConfigs = corePlugins.concat(mergedConfig.plugins || [])
