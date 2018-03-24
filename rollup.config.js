@@ -37,6 +37,9 @@ const production = {
         comments: false,
         semicolons: false,
       },
+      mangle: {
+        reserved: ['payload', 'type', 'meta']
+      }
     }, minify)
   ],
 }
