@@ -13,9 +13,9 @@ import mergeConfig from './utils/mergeConfig'
 import validate from './utils/validate'
 
 export default class Rematch<S> {
-  private config: Config<S>
+  private config: Config
 
-  constructor(config: Config<S>) {
+  constructor(config: Config) {
     this.config = mergeConfig(config)
   }
 

@@ -1,6 +1,6 @@
 const { init } = require('../src')
 
-describe('multiple stores', () => {
+xdescribe('multiple stores', () => {
   test('should not throw if multiple stores', () => {
     const store1 = init({})
     expect(() => init({})).not.toThrow()
@@ -34,7 +34,7 @@ describe('multiple stores', () => {
     expect(store2.getState()).toEqual({ count: 2 })
   })
 
-  xtest('global dispatch should dispatch to both stores', () => {
+  test('global dispatch should dispatch to both stores', () => {
     const { dispatch } = require('../src')
 
     const count = {

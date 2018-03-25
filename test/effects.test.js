@@ -39,15 +39,16 @@ describe('effects:', () => {
   })
 
   test('second param should contain state', async () => {
+    let secondParam
+
     const count = {
       state: 7,
       reducers: {
         add: (s, p) => s + p
       },
       effects: {
-        makeCall(payload, state) {
-          const { count } = state
-          this.add(count + 1)
+        async makeCall(payload, state) {
+          secondParam = state
         },
       },
     }
@@ -58,7 +59,7 @@ describe('effects:', () => {
 
     await store.dispatch.count.makeCall(2)
 
-    expect(store.getState().count).toBe(15)
+    expect(secondParam).toEqual({ count: 7 })
   })
 
   // test('should create an effect', () => {
@@ -82,7 +83,7 @@ describe('effects:', () => {
         addOne: (state) => state + 1,
       },
       effects: {
-        asyncAddOneArrow: async () => {
+        async asyncAddOneArrow() {
           await this.addOne()
         }
       }
@@ -132,7 +133,7 @@ describe('effects:', () => {
         addOne: (state) => state + 1,
       },
       effects: {
-        asyncAddOne: async function () { // eslint-disable-line
+        async asyncAddOne() {
           await this.addOne()
         }
       }
@@ -180,7 +181,7 @@ describe('effects:', () => {
         addBy: (state, payload) => state + payload,
       },
       effects: {
-        asyncAddBy: async (value) => {
+        async asyncAddBy(value) {
           await this.addBy(value)
         }
       }
@@ -204,7 +205,7 @@ describe('effects:', () => {
         addBy: (state, payload) => state + payload.value,
       },
       effects: {
-        asyncAddBy: async (value) => {
+        async asyncAddBy(value) {
           await this.addBy(value)
         }
       }
@@ -229,10 +230,10 @@ describe('effects:', () => {
         addOne: (state) => state + 1,
       },
       effects: {
-        asyncAddOne: async () => {
+        async asyncAddOne() {
           await this.addOne()
         },
-        asyncCallAddOne: async () => {
+        async asyncCallAddOne() {
           await this.asyncAddOne()
         }
       }
@@ -256,13 +257,13 @@ describe('effects:', () => {
         addBy: (state, payload) => state + payload,
       },
       effects: {
-        asyncAddOne: async () => {
+        async asyncAddOne() {
           await this.addBy(1)
         },
-        asyncAddThree: async () => {
+        async asyncAddThree() {
           await this.addBy(3)
         },
-        asyncAddSome: async () => {
+        async asyncAddSome() {
           await this.asyncAddThree()
           await this.asyncAddOne()
           await this.asyncAddOne()

@@ -7,7 +7,7 @@ beforeEach(() => {
   jest.resetModules()
 })
 
-describe('select:', () => {
+xdescribe('select:', () => {
   it('should create a valid list of selectors', () => {
     const a = {
       state: 0,

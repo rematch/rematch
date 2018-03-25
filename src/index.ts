@@ -1,15 +1,21 @@
+import { Config } from '../typings/rematch'
 import Rematch from './rematch'
 
 // allows for global dispatch to multiple stores
 const stores = []
 
-export const init = (config: Config<S>) => new Rematch(config).init()
+export const init = (config: Config) => new Rematch(config).init()
 
-export const dispatch = (action) =>
+export const globalDispatch = (action) =>
     stores.forEach((store) =>
       store.dispatch(action))
 
+export const globalGetState = () => ({
+  // TODO
+})
+
 export default {
-  dispatch,
+  dispatch: globalDispatch,
+  getState: globalGetState,
   init,
 }
