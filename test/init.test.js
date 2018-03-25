@@ -1,9 +1,5 @@
 const { init } = require('../src')
 
-beforeEach(() => {
-  jest.resetModules()
-})
-
 describe('init:', () => {
   test('no params should create store with state `{}`', () => {
     const store = init()

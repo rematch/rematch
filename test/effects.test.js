@@ -1,10 +1,5 @@
-import { createThisTypeNode } from 'typescript';
-
+const { createThisTypeNode } = require('typescript');
 const { init } = require('../src')
-
-beforeEach(() => {
-  jest.resetModules()
-})
 
 describe('effects:', () => {
   test('should create an action', () => {

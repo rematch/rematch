@@ -1,7 +1,3 @@
-beforeEach(() => {
-  jest.resetModules()
-})
-
 describe('buildPlugins:', () => {
   test('should not create a plugin with invalid "onModel"', () => {
     const buildPlugins = require('../src/utils/buildPlugins').default

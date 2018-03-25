@@ -34,7 +34,7 @@ describe('multiple stores', () => {
     expect(store2.getState()).toEqual({ count: 2 })
   })
 
-  test('global dispatch should dispatch to both stores', () => {
+  xtest('global dispatch should dispatch to both stores', () => {
     const { dispatch } = require('../src')
 
     const count = {
@@ -52,5 +52,6 @@ describe('multiple stores', () => {
 
     expect(store1.getState()).toEqual({ count: 2 })
     expect(store2.getState()).toEqual({ count: 2 })
+    jest.resetModules()
   })
 })

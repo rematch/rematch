@@ -1,9 +1,5 @@
 const { init } = require('../src')
 
-beforeEach(() => {
-  jest.resetModules()
-})
-
 describe('init config', () => {
   test('should not throw with an empty config', () => {
     expect(() => init()).not.toThrow()

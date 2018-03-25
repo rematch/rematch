@@ -1,6 +1,6 @@
 const delay = ms => new Promise(r => setTimeout(r, ms))
 
-describe('loading asNumbers', () => {
+xdescribe('loading asNumbers', () => {
   let count, init, dispatch, loadingPlugin
 
   beforeEach(() => {

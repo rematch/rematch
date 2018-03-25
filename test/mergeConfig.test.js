@@ -138,7 +138,7 @@ describe('mergeConfig', () => {
   describe('redux', () => {
     test('should handle no redux combineReducers', () => {
       const result = mergeConfig({})
-      expect(result.redux).toEqual(undefined)
+      expect(result.redux).toEqual({})
     })
     test('should handle config redux combineReducers', () => {
       const combineReducers = s => s + 1

@@ -1,9 +1,5 @@
 const { init } = require('../src')
 
-beforeEach(() => {
-  jest.resetModules()
-})
-
 describe('redux', () => {
   test('combineReducers should replace root', () => {
     const store = init({

@@ -1,9 +1,5 @@
 const { init } = require('../src')
 
-beforeEach(() => {
-  jest.resetModules()
-})
-
 describe('plugins:', () => {
   test('should add onModel subscriptions', () => {
     const { modelHooks } = require('../src/core')

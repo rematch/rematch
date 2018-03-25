@@ -1,9 +1,5 @@
 const { init } = require('../src')
 
-beforeEach(() => {
-  jest.resetModules()
-})
-
 describe('dispatch:', () => {
   describe('action:', () => {
     it('should be call in the form "modelName/reducerName"', () => {
