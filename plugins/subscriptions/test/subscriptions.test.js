@@ -8,12 +8,14 @@ const common = {
   },
 }
 
-xdescribe('subscriptions:', () => {
+describe('subscriptions:', () => {
   test('should create a working subscription', () => { 
     const first = {
       ...common,
       subscriptions: {
-        'second/addOne': () => dispatch.first.addOne(),
+        'second/addOne'() {
+          this.addOne()
+        },
       }
     }
     const second = common
@@ -33,14 +35,18 @@ xdescribe('subscriptions:', () => {
     const a1 = {
       ...common,
       subscriptions: {
-        'b1/addOne': () => dispatch.a1.addOne(),
+        'b1/addOne'() {
+          this.addOne()
+        },
       }
     }
     const b1 = common
     const c1 = {
       ...common,
       subscriptions: {
-        'b1/addOne': () => dispatch.c1.addOne(),
+        'b1/addOne'() {
+          this.addOne()
+        },
       },
     }
     const store = init({
@@ -59,20 +65,26 @@ xdescribe('subscriptions:', () => {
     const a = {
       ...common,
       subscriptions: {
-        'b/addOne': () => dispatch.a.addOne(),
+        'b/addOne'() {
+          this.addOne()
+        },
       }
     }
     const b = common
     const c = {
       ...common,
       subscriptions: {
-        'b/addOne': () => dispatch.c.addOne(),
+        'b/addOne'() {
+          this.addOne()
+        ,
       },
     }
     const d = {
       ...common,
       subscriptions: {
-        'b/addOne': () => dispatch.d.addOne(),
+        'b/addOne'() {
+          this.addOne()
+        },
       },
     }
     // no subscriptions, superfluous model
@@ -126,7 +138,9 @@ xdescribe('subscriptions:', () => {
       const first = {
         ...common,
         subscriptions: {
-          'second/*': () => dispatch.first.addOne(),
+          'second/*'() {
+            this.addOne()
+          },
         }
       }
       const second = common
@@ -146,7 +160,9 @@ xdescribe('subscriptions:', () => {
       const first = {
         ...common,
         subscriptions: {
-          '*/add': () => store.dispatch.first.addOne(),
+          '*/add'() {
+            this.addOne()
+          },
         }
       }
       const second = {
@@ -171,7 +187,9 @@ xdescribe('subscriptions:', () => {
       const first = {
         ...common,
         subscriptions: {
-          'second/add*': () => dispatch.first.addOne(),
+          'second/add*'() {
+            this.addOne()
+          },
         }
       }
       const second = common
@@ -199,7 +217,9 @@ xdescribe('subscriptions:', () => {
           addOne: (state) => state + 1
         },
         subscriptions: {
-          'first/addOne': () => console.log('anything'),
+          'first/addOne'() {
+            console.log('anything')
+          },
         }
       })
 
@@ -218,7 +238,9 @@ xdescribe('subscriptions:', () => {
           sayHi: () => console.log('hi')
         },
         subscriptions: {
-          'first/sayHi': () => console.log('anything'),
+          'first/sayHi'() {
+            console.log('anything')
+          },
         }
       })
 
@@ -237,7 +259,9 @@ xdescribe('subscriptions:', () => {
           addOne: (state) => state + 1
         },
         subscriptions: {
-          '*/addOne': () => console.log('anything'),
+          '*/addOne'() {
+            console.log('anything')
+          },
         }
       })
 
@@ -252,7 +276,7 @@ xdescribe('subscriptions:', () => {
         addBy: (state, payload) => state + payload
       },
       subscriptions: {
-        ['second/addOne'](action, state) {
+        'second/addOne'(action, state) {
           this.addBy(state.first)
         },
       }
@@ -278,7 +302,9 @@ xdescribe('subscriptions:', () => {
       const first = {
         ...common,
         subscriptions: {
-          'second/addOne': () => dispatch.first.addOne(),
+          'second/addOne'() {
+            this.addOne()
+          },
         }
       }
       const second = {
@@ -301,7 +327,7 @@ xdescribe('subscriptions:', () => {
       const first = {
         ...common,
         subscriptions: {
-          ['second/*']() {
+          'second/*'() {
             this.addOne()
           },
         }
@@ -327,7 +353,7 @@ xdescribe('subscriptions:', () => {
       const first = {
         ...common,
         subscriptions: {
-          ['second/*'] () {
+          'second/*'() {
             this.addOne()
           },
         }
@@ -338,7 +364,7 @@ xdescribe('subscriptions:', () => {
       const third = {
         ...common,
         subscriptions: {
-          ['second/*'] () {
+          'second/*'() {
             this.addOne()
           },
         }
@@ -360,7 +386,7 @@ xdescribe('subscriptions:', () => {
       const first = {
         ...common,
         subscriptions: {
-          ['second/addOne']() {
+          'second/addOne'() {
             this.addOne()
           },
         }
@@ -379,7 +405,9 @@ xdescribe('subscriptions:', () => {
       const first = {
         ...common,
         subscriptions: {
-          'second/addOne': () => dispatch.first.addOne(),
+          'second/addOne'() {
+            this.addOne()
+          },
         }
       }
       const second = common
@@ -401,7 +429,7 @@ xdescribe('subscriptions:', () => {
       const first = {
         ...common,
         subscriptions: {
-          ['second/addOne'](action, exposed, unsubscribe) {
+          'second/addOne'(action, exposed, unsubscribe) {
             this.addOne()
             unsubscribe()
           },
@@ -426,7 +454,7 @@ xdescribe('subscriptions:', () => {
       const first = {
         ...common,
         subscriptions: {
-          ['other/*'](action, exposed, unsubscribe) {
+          'other/*'(action, exposed, unsubscribe) {
             this.addOne()
             unsubscribe()
           },

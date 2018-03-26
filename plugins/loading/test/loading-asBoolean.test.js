@@ -1,40 +1,15 @@
-const delay = ms => new Promise(r => setTimeout(r, ms))
+const { init } = require('../../../src')
+const loadingPlugin = require('../src').default
+const { delay, count } = require('./utils')
 
-xdescribe('loading asBoolean', () => {
-  let count, init, dispatch, loadingPlugin
-
-  beforeEach(() => {
-    loadingPlugin = require('../src').default
-
-    const rm = require('../../../src')
-    init = rm.init
-    dispatch = rm.dispatch
-
-    count = {
-      state: 0,
-      reducers: {
-        addOne: s => s + 1
-      },
-      effects: {
-        async timeout() {
-          await delay(200)
-          this.addOne()
-        }
-      }
-    }
-  })
-
-  afterEach(() => {
-    jest.resetModules()
-  })
-
+describe('loading asBoolean', () => {
   test('loading.global should be 0 for normal dispatched action', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin()]
     })
 
-    dispatch.count.addOne()
+    store.dispatch.count.addOne()
     expect(store.getState().loading.global).toBe(false)
   })
 
@@ -44,7 +19,7 @@ xdescribe('loading asBoolean', () => {
       plugins: [loadingPlugin()]
     })
 
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().loading.global).toBe(true)
   })
 
@@ -54,15 +29,12 @@ xdescribe('loading asBoolean', () => {
       plugins: [loadingPlugin()]
     })
 
-    dispatch.count.timeout()
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().loading.global).toBe(true)
   })
 
   test('should set loading.models[name] to false', () => {
-    const {
-      init
-    } = require('../../../src')
     const store = init({
       models: { count },
       plugins: [loadingPlugin()]
@@ -77,7 +49,7 @@ xdescribe('loading asBoolean', () => {
       plugins: [loadingPlugin()]
     })
 
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().loading.models.count).toBe(true)
   })
 
@@ -87,8 +59,8 @@ xdescribe('loading asBoolean', () => {
       plugins: [loadingPlugin()]
     })
 
-    dispatch.count.timeout()
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().loading.models.count).toBe(true)
   })
 
@@ -106,7 +78,7 @@ xdescribe('loading asBoolean', () => {
       plugins: [loadingPlugin()]
     })
 
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().loading.effects.count.timeout).toBe(true)
   })
 
@@ -116,13 +88,13 @@ xdescribe('loading asBoolean', () => {
       plugins: [loadingPlugin()]
     })
 
-    dispatch.count.timeout()
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().loading.effects.count.timeout).toBe(true)
   })
 
   test('should capture all model and global loading for simultaneous effects', async () => {
-    count = {
+    const count2 = {
       state: 0,
       effects: {
         async timeout1() {
@@ -134,13 +106,13 @@ xdescribe('loading asBoolean', () => {
       }
     }
     const store = init({
-      models: { count },
+      models: { count: count2 },
       plugins: [loadingPlugin()]
     })
 
-    const effect1 = dispatch.count.timeout1()
+    const effect1 = store.dispatch.count.timeout1()
     await delay(100)
-    const effect2 = dispatch.count.timeout2()
+    const effect2 = store.dispatch.count.timeout2()
 
     const ld = () => store.getState().loading
     expect(ld().effects.count.timeout1).toBe(true)
@@ -167,7 +139,7 @@ xdescribe('loading asBoolean', () => {
       plugins: [loadingPlugin({ name: 'foobar' })]
     })
 
-    dispatch.count.addOne()
+    store.dispatch.count.addOne()
     expect(store.getState().foobar.global).toBe(false)
   })
 
@@ -188,7 +160,7 @@ xdescribe('loading asBoolean', () => {
       })]
     })
 
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().loading.models.count).toBe(false)
   })
 
@@ -200,7 +172,7 @@ xdescribe('loading asBoolean', () => {
       })]
     })
 
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().loading.models.count).toBe(false)
   })
 
@@ -239,7 +211,7 @@ xdescribe('loading asBoolean', () => {
   })
 
   test('should handle "hide" if effect throws', async () => {
-    count = {
+    const count2 = {
       state: 0,
       effects: {
         throwError() {
@@ -248,7 +220,7 @@ xdescribe('loading asBoolean', () => {
       }
     }
     const store = init({
-      models: { count },
+      models: { count: count2 },
       plugins: [loadingPlugin()]
     })
 
@@ -276,7 +248,7 @@ xdescribe('loading asBoolean', () => {
   })
 
   test('should allow the propagation of the error', async () => {
-    count = {
+    const count2 = {
         state: 0,
         effects: {
             throwError() {
@@ -285,7 +257,7 @@ xdescribe('loading asBoolean', () => {
         }
     }
     const store = init({
-        models: { count },
+        models: { count: count2 },
         plugins: [loadingPlugin()]
     })
 
@@ -297,7 +269,7 @@ xdescribe('loading asBoolean', () => {
   })
 
   test('should allow the propagation of the meta object', async () => {
-    count = {
+    const count2 = {
       state: 0,
       effects: {
         doSomething(payload, state, meta) {
@@ -306,7 +278,7 @@ xdescribe('loading asBoolean', () => {
       }
     }
     const store = init({
-      models: { count },
+      models: { count: count2 },
       plugins: [loadingPlugin()]
     })
 

@@ -10,12 +10,12 @@ export const globalDispatch = (action) =>
     stores.forEach((store) =>
       store.dispatch(action))
 
-export const globalGetState = () => ({
-  // TODO
-})
+// export const globalGetState = () => ({
+//   // TODO
+// })
 
 export default {
   dispatch: globalDispatch,
-  getState: globalGetState,
+  // getState: globalGetState,
   init,
 }
