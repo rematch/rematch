@@ -1,7 +1,7 @@
 const { init } = require('../src')
 
 describe('plugins:', () => {
-  test('should add onModel subscriptions', () => {
+  xtest('should add onModel subscriptions', () => {
     const { modelHooks } = require('../src/core')
     const fns = [() => 1, () => 2]
     init({
@@ -13,7 +13,7 @@ describe('plugins:', () => {
     expect(modelHooks.slice(-2)).toEqual(fns)
   })
 
-  test('should add multiple middleware', () => {
+  xtest('should add multiple middleware', () => {
     const { pluginMiddlewares } = require('../src/core')
     const m1 = () => next => action => next(action)
     const m2 = () => next => action => next(action)

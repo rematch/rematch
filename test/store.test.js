@@ -42,7 +42,7 @@ describe('createStore:', () => {
       redux: {
         initialState: 'INITIAL',
         rootReducers: {
-          'MIDDLE': (state, action) => {
+          'MIDDLE'(state, action) {
             return 'MIDDLE'
           }
         }
@@ -57,7 +57,7 @@ describe('createStore:', () => {
       redux: {
         initialState: 'INITIAL',
         rootReducers: {
-          'MIDDLE': (state, action) => {
+          'MIDDLE'(state, action) {
             return 'MIDDLE'
           }
         }
@@ -83,7 +83,7 @@ describe('createStore:', () => {
       models: { count },
       redux: {
         rootReducers: {
-          '@@RESET': (state, action) => {
+          '@@RESET'(state, action) {
             return undefined
           },
         }
@@ -104,7 +104,7 @@ describe('createStore:', () => {
       },
       redux: {
         rootReducers: {
-          '@@RESET': (state, action) => {
+          '@@RESET'(state, action) {
             return undefined
           },
         }

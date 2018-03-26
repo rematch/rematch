@@ -1,10 +1,8 @@
-import { Dispatch, Store } from 'redux'
-import { Config, ConfigRedux, Exposed } from '../typings/rematch'
-import { postStore, preStore } from './core'
-import { initModelHooks } from './model'
+import { Dispatch, Middleware, Store } from 'redux'
+import { Config, ConfigRedux, Exposed, Model, ModelHook, Plugin } from '../typings/rematch'
 import corePlugins from './plugins'
-import { initReducers } from './redux/reducers'
-import { initStore } from './redux/store'
+import Redux from './redux'
+import * as Reducers from './redux/reducers'
 import buildPlugins from './utils/buildPlugins'
 import getExposed from './utils/getExposed'
 import getModels from './utils/getModels'
@@ -14,33 +12,71 @@ import validate from './utils/validate'
 
 export default class Rematch<S> {
   private config: Config
+  private models: Model[]
+  private modelHooks: ModelHook[] = []
+  private pluginMiddlewares: Middleware[] = []
+  private redux: any
 
   constructor(config: Config) {
     this.config = mergeConfig(config)
   }
-
-  public init = () => {
+  public preStore(plugins: Plugin[]) {
+    plugins.forEach((plugin: Plugin) => {
+      if (plugin.middleware) {
+        this.pluginMiddlewares.push(plugin.middleware)
+      }
+      if (plugin.onModel) {
+        this.modelHooks.push(plugin.onModel)
+      }
+    })
+  }
+  public postStore(plugins: Plugin[]) {
+    plugins.forEach((plugin: Plugin) => {
+      if (plugin.onStoreCreated) {
+        plugin.onStoreCreated(this.redux.store)
+      }
+    })
+  }
+  public addModel(model: Model) {
+    if (process.env.NODE_ENV !== 'production') {
+      validate([
+        [!model, 'model config is required'],
+        [
+          !model.name || typeof model.name !== 'string',
+          'model "name" [string] is required',
+        ],
+        [model.state === undefined, 'model "state" is required'],
+      ])
+    }
+    // run plugin model subscriptions
+    this.modelHooks.forEach((modelHook) => modelHook(model))
+  }
+  public modifyStore() {
+    // use plugin dispatch as store.dispatch
+    this.redux.store.dispatch = corePlugins[0].expose.dispatch
+    this.redux.store.model = (model: Model): void => {
+      this.addModel(model)
+      this.redux.mergeReducers(Reducers.createModelReducer(model))
+      this.redux.store.replaceReducer(Reducers.createRootReducer(this.redux.mergeReducers)(this.redux.rootReducers))
+    }
+  }
+  public init() {
     const pluginConfigs = corePlugins.concat(this.config.plugins || [])
     const exposed: Exposed = getExposed(pluginConfigs)
     const plugins = buildPlugins(pluginConfigs, exposed)
 
     // preStore: middleware, model hooks
-    preStore(plugins)
+    this.preStore(plugins)
 
     // collect all models
-    const models = getModels(this.config.models)
-    initModelHooks(models)
+    this.models = getModels(this.config.models)
+    this.models.forEach((model: Model) => this.addModel(model))
 
     // create a redux store with initialState
     // merge in additional extra reducers
-    const store: Store<any> = initStore(models, this.config)
-    postStore(plugins, store)
-
-    // use plugin dispatch as store.dispatch
-    store.dispatch = corePlugins[0].expose.dispatch
-    return store
+    this.redux = new Redux(this)
+    this.postStore(plugins)
+    this.modifyStore()
+    return this.redux.store
   }
-
-  // TODO: save as Store.model
-  // public model = this.modelFactory.createModel
 }

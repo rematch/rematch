@@ -8,7 +8,7 @@ const common = {
   },
 }
 
-describe('subscriptions:', () => {
+xdescribe('subscriptions:', () => {
   test('should create a working subscription', () => { 
     const first = {
       ...common,
@@ -76,7 +76,7 @@ describe('subscriptions:', () => {
       subscriptions: {
         'b/addOne'() {
           this.addOne()
-        ,
+        },
       },
     }
     const d = {
