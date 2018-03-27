@@ -13,7 +13,10 @@
     "url": "https://github.com/rematch/rematch/issues"
   },
   "license": "ISC",
-  "author": "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+  "authors": [
+    "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+    "Tom Aranda (https://github.com/taranda)"
+  ],
   "files": [
     "dist"
   ],
