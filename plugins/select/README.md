@@ -79,7 +79,7 @@ The `selectorPlugin()` method will accept a configuration object with the follow
 
 An option that allows the user to specify how the state will be sliced before being passed to the selectors.
 The function takes the `rootState` as the first parameter and the `model` corresponding to the selector as the
-second parameter.  It should return the desited state slice required by the selector.
+second parameter.  It should return the desired state slice required by the selector.
 
 The default is to return the slice of the state that corresponds to the owning model's name,
 but this assumes the store is a Javascript object. Most of the time the default should be used.
