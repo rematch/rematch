@@ -352,6 +352,42 @@ describe('effects:', () => {
     })).toThrow()
   })
 
+  test('should appear as an action', async () => {
+    const { init } = require('../src')
+
+    let count = 0
+
+    const store = init({
+      models: {
+        count: {
+          state: 0,
+          reducers: {
+            addOne(state) {
+              return state + 1
+            }
+          },
+          effects: {
+            addOneAsync() {
+              this.addOne()
+            }
+          }
+        }
+      },
+      redux: {
+        middlewares: [() => next => action => {
+          if (action.type === 'addOneAsync') {
+            count += 1
+          }
+          return next(action)
+        }]
+      }
+    })
+
+    await store.dispatch.count.addOneAsync()
+    await store.dispatch.count.addOneAsync()
+    expect(count).toBe(2)
+  })
+
   test('should not validate effect if production', () => {
     const { init } = require('../src')
 
