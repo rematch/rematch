@@ -19,11 +19,8 @@ describe('effects:', () => {
 
     expect(typeof dispatch.count.add).toBe('function')
   })
-  test('first param should be payload', () => {
-    const {
-      init, dispatch
-    } = require('../src')
-
+  test('first param should be payload', async () => {
+    const { init } = require('../src')
 
     let value = 1
 
@@ -36,19 +33,17 @@ describe('effects:', () => {
       },
     }
 
-    init({
+    const store = init({
       models: { count }
     })
 
-    dispatch({ type: 'count/add', payload: 4 })
+    await store.dispatch({ type: 'count/add', payload: 4 })
 
     expect(value).toBe(5)
   })
 
-  test('second param should contain state', () => {
-    const {
-      init, dispatch
-    } = require('../src')
+  test('second param should contain state', async () => {
+    const { init } = require('../src')
 
     const count = {
       state: 7,
@@ -56,9 +51,9 @@ describe('effects:', () => {
         add: (s, p) => s + p
       },
       effects: {
-        makeCall: (payload, state) => {
+        makeCall(payload, state) {
           const { count } = state
-          dispatch.count.add(count + 1)
+          this.add(count + 1)
         },
       },
     }
@@ -67,7 +62,7 @@ describe('effects:', () => {
       models: { count }
     })
 
-    dispatch.count.makeCall(2)
+    await store.dispatch.count.makeCall(2)
 
     expect(store.getState().count).toBe(15)
   })
@@ -352,7 +347,7 @@ describe('effects:', () => {
     })).toThrow()
   })
 
-  test('should appear as an action', async () => {
+  test('should appear as an action for devtools', async () => {
     const { init } = require('../src')
 
     let count = 0
@@ -375,7 +370,7 @@ describe('effects:', () => {
       },
       redux: {
         middlewares: [() => next => action => {
-          if (action.type === 'addOneAsync') {
+          if (action.type === 'count/addOneAsync') {
             count += 1
           }
           return next(action)
@@ -383,8 +378,10 @@ describe('effects:', () => {
       }
     })
 
-    await store.dispatch.count.addOneAsync()
-    await store.dispatch.count.addOneAsync()
+    await Promise.all([
+      store.dispatch.count.addOneAsync(),
+      store.dispatch.count.addOneAsync()
+    ])
     expect(count).toBe(2)
   })
 

@@ -30,7 +30,7 @@ const effectsPlugin: PluginCreator = {
         // async/await acts as promise middleware
       if (action.type in effects) {
         await next(action)
-        await effects[action.type](action.payload, store.getState(), action.meta)
+        return effects[action.type](action.payload, store.getState(), action.meta)
       } else {
         return next(action)
       }
