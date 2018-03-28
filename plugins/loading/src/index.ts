@@ -5,6 +5,9 @@ interface LoadingConfig {
   whitelist?: string[],
   blacklist?: string[],
   asNumber ?: boolean,
+  model?: any,
+  mergeInitialState?: any,
+  loadingActionCreator?: any,
 }
 
 const cntState = {
@@ -13,31 +16,42 @@ const cntState = {
   effects: {},
 }
 
-const createLoadingAction = (converter, i) => (state, { name, action }: any) => {
+const defaultLoadingActionCreator = (state, name, action, converter, countState) => ({
+  ...state,
+  global: converter(countState.global),
+  models: {
+    ...state.models,
+    [name]: converter(countState.models[name]),
+  },
+  effects: {
+    ...state.effects,
+    [name]: {
+      ...state.effects[name],
+      [action]: converter(countState.effects[name][action]),
+    },
+  },
+})
+
+const defaultMergeInitialState = (state, newObject: any = {}) => (Object.assign(state, {
+  ...newObject,
+  models: Object.assign(state.models, {...newObject.models}),
+  effects: Object.assign(state.effects, {...newObject.effects}),
+}))
+
+const createLoadingAction = (converter, i, loadingActionCreator) => (state, { name, action }: any ) => {
   cntState.global += i
   cntState.models[name] += i
   cntState.effects[name][action] += i
 
-  return {
-    ...state,
-    global: converter(cntState.global),
-    models: {
-      ...state.models,
-      [name]: converter(cntState.models[name]),
-    },
-    effects: {
-      ...state.effects,
-      [name]: {
-        ...state.effects[name],
-        [action]: converter(cntState.effects[name][action]),
-      },
-    },
-  }
+  return loadingActionCreator(state, name, action, converter, cntState)
 }
 
 const validateConfig = config => {
   if (config.name && typeof config.name !== 'string') {
     throw new Error('loading plugin config name must be a string')
+  }
+  if (config.model && config.model.name && typeof config.model.name !== 'string') {
+    throw new Error('loading plugin config model.name must be a string')
   }
   if (config.asNumber && typeof config.asNumber !== 'boolean') {
     throw new Error('loading plugin config asNumber must be a boolean')
@@ -51,31 +65,54 @@ const validateConfig = config => {
   if (config.whitelist && config.blacklist) {
     throw new Error('loading plugin config cannot have both a whitelist & a blacklist')
   }
+  if (typeof config.loadingActionCreator !== 'function') {
+    throw new Error('loading plugin config loadingActionCreator must be a function')
+  }
+  if (typeof config.mergeInitialState !== 'function') {
+    throw new Error('loading plugin config mergeInitialState must be a function')
+  }
+  if (typeof config.model !== 'object') {
+    throw new Error('loading plugin config model must be an object')
+  }
 }
 
 export default (config: LoadingConfig = {}): any => {
+
+  if (!config.loadingActionCreator)
+    config.loadingActionCreator = defaultLoadingActionCreator
+
+  if (!config.mergeInitialState)
+    config.mergeInitialState = defaultMergeInitialState;
+
+  if (!config.model)
+    config.model = {}
+
   validateConfig(config)
 
-  const loadingModelName = config.name || 'loading'
+  const loadingModelName = config.name || config.model.name || 'loading'
 
   const converter =
     config.asNumber === true
       ? cnt => cnt
       : cnt => cnt > 0
 
+  let { reducers, ...modelConfig } = config.model;
+
   const loading: Model = {
-    name: loadingModelName,
     reducers: {
-      hide: createLoadingAction(converter, -1),
-      show: createLoadingAction(converter, 1),
+      ...reducers,
+      hide: createLoadingAction(converter, -1, config.loadingActionCreator),
+      show: createLoadingAction(converter, 1, config.loadingActionCreator),
     },
-    state: {
-      ...cntState,
-    },
+    state: { ...cntState },
+    ...modelConfig,
+    name: loadingModelName,
   }
 
   cntState.global = 0
-  loading.state.global = converter(cntState.global)
+  loading.state = config.mergeInitialState(
+    loading.state, { ...cntState, global: converter(cntState.global) }
+  )
 
   return {
     config: {
@@ -89,8 +126,14 @@ export default (config: LoadingConfig = {}): any => {
         if (name === loadingModelName) { return }
 
         cntState.models[name] = 0
-        loading.state.models[name] = converter(cntState.models[name])
-        loading.state.effects[name] = {}
+        cntState.effects[name] = {}
+
+        let localLoadingState: any = {
+          models: { [name]: converter(cntState.models[name]) },
+          effects: { [name]: {} }
+        }
+        config.mergeInitialState(loading.state, localLoadingState)
+
         const modelActions = dispatch[name]
 
         // map over effects within models
@@ -100,7 +143,16 @@ export default (config: LoadingConfig = {}): any => {
           }
 
           cntState.effects[name][action] = 0
-          loading.state.effects[name][action] = converter(cntState.effects[name][action])
+
+          localLoadingState = {
+            effects: {
+              ...localLoadingState.effects,
+              [name]: {
+                ...localLoadingState.effects[name],
+                [action]: converter(cntState.effects[name][action])
+              }
+            }
+          }
 
           const actionType = `${name}/${action}`
 
@@ -131,6 +183,7 @@ export default (config: LoadingConfig = {}): any => {
           // replace existing effect with new wrapper
           dispatch[name][action] = effectWrapper
         })
+        config.mergeInitialState(loading.state, localLoadingState)
       },
     }),
   }
