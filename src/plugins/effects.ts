@@ -8,18 +8,16 @@ const effectsPlugin: PluginCreator = {
   init: ({ effects, dispatch, createDispatcher, validate }: Exposed): Plugin => ({
     onModel(model: Model): void {
       Object.keys(model.effects || {}).forEach((effectName: string) => {
-        if (process.env.NODE_ENV !== 'production') {
-          validate([
-            [
-              !!effectName.match(/\//),
-              `Invalid effect name (${model.name}/${effectName})`,
-            ],
-            [
-              typeof model.effects[effectName] !== 'function',
-              `Invalid effect (${model.name}/${effectName}). Must be a function`,
-            ],
-          ])
-        }
+        validate([
+          [
+            !!effectName.match(/\//),
+            `Invalid effect name (${model.name}/${effectName})`,
+          ],
+          [
+            typeof model.effects[effectName] !== 'function',
+            `Invalid effect (${model.name}/${effectName}). Must be a function`,
+          ],
+        ])
         effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(dispatch[model.name])
         // add effect to dispatch
         // is assuming dispatch is available already... that the dispatch plugin is in there
