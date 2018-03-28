@@ -11,28 +11,24 @@ const selectPlugin = ({
 }: selectConfig = {}): PluginCreator => ({
   expose: { select },
   init: ({ validate }) => {
-    if (process.env.NODE_ENV !== 'production') {
-      validate([
-       [
-          typeof sliceState !== 'function',
-          `The selectPlugin's getState config must be a function. Instead got type ${typeof sliceState}.`,
-        ],
-      ])
-    }
+    validate([
+     [
+        typeof sliceState !== 'function',
+        `The selectPlugin's getState config must be a function. Instead got type ${typeof sliceState}.`,
+      ],
+    ])
 
     return {
       onModel(model: Model) {
         select[model.name] = {}
 
         Object.keys(model.selectors || {}).forEach((selectorName: string) => {
-          if (process.env.NODE_ENV !== 'production') {
-            validate([
-              [
-                typeof model.selectors[selectorName] !== 'function',
-                `Selector (${model.name}/${selectorName}) must be a function`,
-              ],
-            ])
-          }
+          validate([
+            [
+              typeof model.selectors[selectorName] !== 'function',
+              `Selector (${model.name}/${selectorName}) must be a function`,
+            ],
+          ])
           select[model.name][selectorName] = (state: any, ...args) =>
             model.selectors[selectorName](
               sliceState(state, model),
