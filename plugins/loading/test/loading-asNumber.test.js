@@ -267,7 +267,7 @@ describe('loading asNumbers', () => {
     }
   })
 
-  test('should trigger three actions', async () => {
+  test('should trigger four actions', async () => {
     let actions = []
     const store = init({
       models: { count },
@@ -280,7 +280,7 @@ describe('loading asNumbers', () => {
     })
 
     await dispatch.count.timeout()
-    expect(actions).toEqual(['loading/show', 'count/addOne', 'loading/hide'])
+    expect(actions).toEqual(['loading/show', 'count/timeout', 'count/addOne', 'loading/hide'])
   })
 
   test('should allow the propagation of the error', async () => {

@@ -1,5 +1,3 @@
-import { dispatch } from '@rematch/core'
-
 export const count = {
   state: 0,
   reducers: {
@@ -10,7 +8,7 @@ export const count = {
       await new Promise((resolve) => {
         setTimeout(resolve, 1000)
       })
-      dispatch.count.increment()
+      this.increment()
     }
   },
 }

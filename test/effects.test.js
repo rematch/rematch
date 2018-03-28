@@ -30,7 +30,7 @@ describe('effects:', () => {
     const count = {
       state: 0,
       effects: {
-        add: (payload) => {
+        add(payload) {
           value += payload
         },
       },
