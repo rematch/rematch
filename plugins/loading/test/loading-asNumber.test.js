@@ -244,7 +244,7 @@ describe('loading asNumbers', () => {
     })
 
     try {
-      await dispatch.count.throwError()
+      await store.dispatch.count.throwError()
     } catch (err) {
       expect(store.getState().loading.global).toBe(0)
     }
@@ -262,7 +262,7 @@ describe('loading asNumbers', () => {
       }
     })
 
-    await dispatch.count.timeout()
+    await store.dispatch.count.timeout()
     expect(actions).toEqual(['loading/show', 'count/timeout', 'count/addOne', 'loading/hide'])
   })
 

@@ -243,7 +243,7 @@ describe('loading asBoolean', () => {
       }
     })
 
-    await dispatch.count.timeout()
+    await store.dispatch.count.timeout()
     expect(actions).toEqual(['loading/show', 'count/timeout', 'count/addOne', 'loading/hide'])
   })
 
