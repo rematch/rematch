@@ -196,6 +196,49 @@ describe('select:', () => {
       const result = outsideSelector(state)
       expect(result).toBe(27)
     })
+
+
+  })
+
+  describe('sliceState config: ', () => {
+    test('should throw if sliceState config is not a function', () => {
+      const selectPlugin = require('../src').default
+      const { init } = require('../../../src')
+
+      const start = () => {
+        init({ plugins: [ selectPlugin({ sliceState: 'error' }) ] });
+      }
+
+      expect(start).toThrow();
+    })
+
+    it('should allow access to the global state with a property configured sliceState method', () => {
+      const selectPlugin = require('../src').default
+      const { select } = require('../src')
+      const { init } = require('../../../src')
+
+      const countA = {
+        state: 2,
+        selectors: {
+          double: state => state.countB * 2,
+        }
+      }
+      const countB = {
+        state: 10,
+        selectors: {
+          double: state => state.countA * 2
+        }
+      }
+
+      const store = init({
+        models: { countA, countB },
+        plugins: [selectPlugin({ sliceState: (rootState) => rootState })]
+      })
+
+      const state = store.getState()
+      const result = select.countB.double(state)
+      expect(result).toBe(4)
+    })
   })
 })
 
