@@ -8,18 +8,16 @@ const effectsPlugin: PluginCreator = {
   init: ({ effects, dispatch, createDispatcher, validate }: Exposed): Plugin => ({
     onModel(model: Model): void {
       Object.keys(model.effects || {}).forEach((effectName: string) => {
-        if (process.env.NODE_ENV !== 'production') {
-          validate([
-            [
-              !!effectName.match(/\//),
-              `Invalid effect name (${model.name}/${effectName})`,
-            ],
-            [
-              typeof model.effects[effectName] !== 'function',
-              `Invalid effect (${model.name}/${effectName}). Must be a function`,
-            ],
-          ])
-        }
+        validate([
+          [
+            !!effectName.match(/\//),
+            `Invalid effect name (${model.name}/${effectName})`,
+          ],
+          [
+            typeof model.effects[effectName] !== 'function',
+            `Invalid effect (${model.name}/${effectName}). Must be a function`,
+          ],
+        ])
         effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(dispatch[model.name])
         // add effect to dispatch
         // is assuming dispatch is available already... that the dispatch plugin is in there
@@ -30,10 +28,12 @@ const effectsPlugin: PluginCreator = {
     },
     middleware: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => async (action: Action) => {
         // async/await acts as promise middleware
-        const result = (action.type in effects)
-          ? await effects[action.type](action.payload, store.getState(), action.meta)
-          : await next(action)
-        return result
+      if (action.type in effects) {
+        await next(action)
+        return effects[action.type](action.payload, store.getState(), action.meta)
+      } else {
+        return next(action)
+      }
     },
   }),
 }

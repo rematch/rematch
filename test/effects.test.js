@@ -19,46 +19,16 @@ describe('effects:', () => {
 
     expect(typeof dispatch.count.add).toBe('function')
   })
-  test('first param should be payload', () => {
-    const {
-      init, dispatch
-    } = require('../src')
-
+  test('first param should be payload', async () => {
+    const { init } = require('../src')
 
     let value = 1
 
     const count = {
       state: 0,
       effects: {
-        add: (payload) => {
+        add(payload) {
           value += payload
-        },
-      },
-    }
-
-    init({
-      models: { count }
-    })
-
-    dispatch({ type: 'count/add', payload: 4 })
-
-    expect(value).toBe(5)
-  })
-
-  test('second param should contain state', () => {
-    const {
-      init, dispatch
-    } = require('../src')
-
-    const count = {
-      state: 7,
-      reducers: {
-        add: (s, p) => s + p
-      },
-      effects: {
-        makeCall: (payload, state) => {
-          const { count } = state
-          dispatch.count.add(count + 1)
         },
       },
     }
@@ -67,7 +37,32 @@ describe('effects:', () => {
       models: { count }
     })
 
-    dispatch.count.makeCall(2)
+    await store.dispatch({ type: 'count/add', payload: 4 })
+
+    expect(value).toBe(5)
+  })
+
+  test('second param should contain state', async () => {
+    const { init } = require('../src')
+
+    const count = {
+      state: 7,
+      reducers: {
+        add: (s, p) => s + p
+      },
+      effects: {
+        makeCall(payload, state) {
+          const { count } = state
+          this.add(count + 1)
+        },
+      },
+    }
+
+    const store = init({
+      models: { count }
+    })
+
+    await store.dispatch.count.makeCall(2)
 
     expect(store.getState().count).toBe(15)
   })
@@ -350,6 +345,44 @@ describe('effects:', () => {
         is43: 43,
       },
     })).toThrow()
+  })
+
+  test('should appear as an action for devtools', async () => {
+    const { init } = require('../src')
+
+    let count = 0
+
+    const store = init({
+      models: {
+        count: {
+          state: 0,
+          reducers: {
+            addOne(state) {
+              return state + 1
+            }
+          },
+          effects: {
+            addOneAsync() {
+              this.addOne()
+            }
+          }
+        }
+      },
+      redux: {
+        middlewares: [() => next => action => {
+          if (action.type === 'count/addOneAsync') {
+            count += 1
+          }
+          return next(action)
+        }]
+      }
+    })
+
+    await Promise.all([
+      store.dispatch.count.addOneAsync(),
+      store.dispatch.count.addOneAsync()
+    ])
+    expect(count).toBe(2)
   })
 
   test('should not validate effect if production', () => {
