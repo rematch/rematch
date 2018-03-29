@@ -9,7 +9,7 @@ beforeEach(() => {
 })
 
 describe('immer', () => {
-  test.only('should load the immer plugin with a basic literal', () => {
+  test('should load the immer plugin with a basic literal', () => {
     const count = {
       state: 0,
       reducers: {
