@@ -53,6 +53,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
   * [React](./docs/recipes/react.md)
   * [Vue](./docs/recipes/vue.md)
   * [Testing](./docs/recipes/testing.md)
+  * [Immer](./docs/recipes/immer.md)
 * Plugins
   * [Subscriptions](./plugins/subscriptions/README.md)
   * [Selectors](./plugins/select/README.md)
@@ -60,6 +61,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
   * [Persist](./plugins/persist/README.md)
   * [Updated](./plugins/updated/README.md)
   * [React Navigation](./plugins/react-navigation/README.md)
+  * [Immer](./plugins/immer/README.md)
 * [Inspiration](./docs/inspiration.md)
 
 ## Getting Started
