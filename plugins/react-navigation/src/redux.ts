@@ -3,7 +3,7 @@ import {
   createReduxBoundAddListener,
 } from 'react-navigation-redux-helpers'
 
-export default (Routes, initialScreen) => {
+export default (Routes, initialScreen, sliceState) => {
   const { router } = Routes
   const initialState = router.getStateForAction(router.getActionForPathAndParams(initialScreen))
 
@@ -17,7 +17,7 @@ export default (Routes, initialScreen) => {
   // middleware
   const navMiddleware = createReactNavigationReduxMiddleware(
     'root',
-    (state) => state.nav,
+    (state) => sliceState(state),
   )
 
   const addListener = createReduxBoundAddListener('root')
