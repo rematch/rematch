@@ -23,7 +23,7 @@ init({
 
 ### Usage
 
-Reducer could be use mutable method to achieve immutable state, but this plugin may be some different that reducers must return value because literal don't support immer.
+Use Immer plugin, reducer could be use mutable method to achieve immutable state. Like the example:
 
 ```js
 const todo = {
@@ -43,3 +43,19 @@ const todo = {
   }
 };
 ```
+
+In Immer, reducers perform mutations to achieve the next immutable state. Keep in mind, Immer only supports change detection on plain objects and arrays, so primitive values like strings or numbers will always return a change. Like the example:
+
+```js
+const count = {
+  state: 0,
+  reducers: {
+    add(state) {
+      state += 1
+      return state
+    }
+  }
+};
+```
+
+I suggest to developers that reducers could return changed value all the time.
