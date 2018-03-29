@@ -183,6 +183,17 @@ describe('loading asNumbers', () => {
     expect(createStore).toThrow()
   })
 
+  it('should throw if asNumber is not a boolean', () => {
+    const createStore = () => init({
+      models: { count },
+      plugins: [loadingPlugin({
+        asNumber: 'should throw',
+      })]
+    })
+
+    expect(createStore).toThrow()
+  })
+
   test('should block items if not in whitelist', () => {
     const store = init({
       models: { count },

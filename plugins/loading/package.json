@@ -30,7 +30,10 @@
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^3.0.0",
-    "uglify-es": "^3.3.9"
+    "uglify-es": "^3.3.9",
+    "immutable": "^4.0.0-rc.9",
+    "redux-immutable": "^4.0.0",
+    "@rematch/select": "^0.3.0"
   },
   "peerDependencies": {
     "@rematch/core": ">0.4"
