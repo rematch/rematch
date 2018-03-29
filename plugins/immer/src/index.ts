@@ -1,8 +1,8 @@
-import { PluginCreator, RootReducers, Models } from '@rematch/core'
-import { combineReducers } from 'redux'
+import { Models, PluginCreator } from '@rematch/core'
+import { combineReducers, ReducersMapObject } from 'redux'
 import produce from 'immer'
 
-function combineReducersWithImmer(reducers: RootReducers) {
+function combineReducersWithImmer(reducers: ReducersMapObject) {
   const reducersWithImmer = {}
 
   // reducer must return value because literal don't support immer
