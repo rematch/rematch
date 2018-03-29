@@ -1,6 +1,6 @@
 {
   "name": "@rematch/loading",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Loading indicator plugin for Rematch",
   "keywords": [
     "@rematch",
@@ -26,14 +26,14 @@
   },
   "devDependencies": {
     "@rematch/core": "^0.4.1",
-    "rollup": "^0.56.5",
+    "@rematch/select": "^0.3.0",
+    "immutable": "^4.0.0-rc.9",
+    "redux-immutable": "^4.0.0",
+    "rollup": "^0.57.1",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^3.0.0",
-    "uglify-es": "^3.3.9",
-    "immutable": "^4.0.0-rc.9",
-    "redux-immutable": "^4.0.0",
-    "@rematch/select": "^0.3.0"
+    "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
     "@rematch/core": ">0.4"
