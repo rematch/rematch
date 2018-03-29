@@ -10,7 +10,7 @@ type Props = {
 
 export default (Routes, addListener, sliceState) => {
   class Navigator extends React.Component<Props> {
-    render() {
+    public render() {
       return (
         <Routes navigation={addNavigationHelpers({
           addListener,

@@ -1,6 +1,6 @@
 {
   "name": "@rematch/react-navigation",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "React Navigation plugin for Rematch",
   "keywords": [
     "@rematch",
@@ -24,12 +24,12 @@
     "build": "rimraf lib dist && tsc && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
-    "@rematch/core": "^0.1.6",
+    "@rematch/core": "^0.6.0",
     "@types/react": "^16.1.0",
     "react": "^16.0.0",
-    "react-navigation": "^1.0.0",
-    "react-redux": "^5.0.6",
-    "rollup": "^0.56.5",
+    "react-navigation": "^1.5.8",
+    "react-redux": "^5.0.7",
+    "rollup": "^0.57.1",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^3.0.0",
@@ -43,6 +43,6 @@
     "react-redux": "*"
   },
   "dependencies": {
-    "react-navigation-redux-helpers": "^1.0.1"
+    "react-navigation-redux-helpers": "^1.0.3"
   }
 }
