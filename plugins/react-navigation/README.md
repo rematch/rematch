@@ -174,3 +174,53 @@ Of course, you will also need to install the
 [Rematch Select plugin](https://github.com/rematch/rematch/blob/master/plugins/select/README.md).
 
 Now you will be able to call `select.nav.currentRouteName(state)` from within your app. See  the [Rematch Select plugin documentation](https://github.com/rematch/rematch/blob/master/plugins/select/README.md) for more details on how to configure and use selectors.
+
+## Immutable JS and other non-{ } Stores
+
+If your store is not a standard Javascript Object `{ }`, then you may need to pass a `sliceState` config to
+`createReactNavigationPlugin`.  This function takes the state and returns the slice of the state that contains the
+React Navigation object. It is used in the `Navigator` to map the state to its props and it is used in the
+middleware that listens for changes to the navigation state.  The default is to use `state.nav` which will work fine
+in most cases.
+
+If your store is an [Immutable JS](https://facebook.github.io/immutable-js/) object
+you may need to pass `sliceState: state => state.get('nav')` as a config
+to `createReactNavigationPlugin`.  Here is a minimal example:
+
+```js
+// index.js
+import { init, dispatch } from '@rematch/core'
+import createReactNavigationPlugin from '@rematch/react-navigation'
+import * as ReactNavigation from 'react-navigation'
+import Routes from './Routes'
+import { combineReducers } from 'redux-immutable';
+import { Map } from 'immutable';
+
+// add react navigation with redux
+const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin({
+  Routes,
+  initialScreen: 'Landing',
+  sliceState: state => state.get('nav')  // Returns Immutable JS slice
+})
+
+const store = init({
+  initialState: fromJS({}),
+  plugins: [reactNavigationPlugin],
+  redux: {
+    initialState: Map(),              // Initializes a blank Immutable JS Map
+    combineReducers: combineReducers, // Combines reducers into Immutable JS collection
+  },
+})
+
+export default () => (
+  <Provider store={store}>
+    <Navigator />
+  </Provider>
+)
+```
+
+In the above example, your store is an Immutable JS object. However, the `nav` slice of your store is a standard JS
+object. I recommend this approach since the React Navigation navigators and Redux middleware expects the navigation state
+to be a standard JS object. This is the most performant approach.  The alternative is to store the navigation state as
+an Immutable JS Map, which would require calls `fromJS()` and `toJS()` every time the navigator or the middleware
+needs to access the Rematch state, which would cause a degradation in performance.

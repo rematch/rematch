@@ -8,9 +8,9 @@ type Props = {
   nav: any,
 }
 
-export default (Routes, addListener) => {
+export default (Routes, addListener, sliceState) => {
   class Navigator extends React.Component<Props> {
-    private render() {
+    render() {
       return (
         <Routes navigation={addNavigationHelpers({
           addListener,
@@ -22,7 +22,7 @@ export default (Routes, addListener) => {
   }
 
   const mapToProps = (state, props) => ({
-    nav: state.nav,
+    nav: sliceState(state),
   })
 
   return connect(mapToProps)(Navigator)

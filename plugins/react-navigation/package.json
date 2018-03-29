@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@rematch/core": "^0.1.6",
+    "@types/react": "^16.1.0",
     "react": "^16.0.0",
     "react-navigation": "^1.0.0",
     "react-redux": "^5.0.6",
