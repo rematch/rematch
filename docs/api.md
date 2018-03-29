@@ -150,7 +150,7 @@ Effects provide a simple way of handling async actions when used with `async/awa
     async loadData(payload, rootState) {
       // wait for data to load
       const response = await fetch('http://example.com/data')
-      const data = response.json()
+      const data = await response.json()
       // pass the result to a local reducer
       dispatch.example.update(data)
     }
