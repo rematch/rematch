@@ -2,7 +2,7 @@ const { init } = require('../../../src')
 const loadingPlugin = require('../src').default
 const { delay, count } = require('./utils')
 
-describe('loading asNumbers', () => {
+xdescribe('loading asNumbers', () => {
   test('loading.global should be 0 for normal dispatched action', () => {
     const store = init({
       models: { count },

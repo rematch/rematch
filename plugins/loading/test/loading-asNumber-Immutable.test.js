@@ -2,7 +2,7 @@ const { init } = require('../../../src')
 const loadingPlugin = require('../src').default
 const { delay, count, redux, loadingImmutable } = require('./utils')
 
-describe('loading asBoolean with Immutable', () => {
+xdescribe('loading asBoolean with Immutable', () => {
   test('loading.global should be 0 for normal dispatched action', () => {
     const store = init({
       models: { count },

@@ -1,12 +1,8 @@
-const rematch = require('@rematch/core');
+const { init } = require('@rematch/core');
 const immerPlugin = require('../src').default
-const init = rematch.init;
 
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
-beforeEach(() => {
-  jest.resetModules()
-})
 
 describe('immer', () => {
   test('should load the immer plugin with a basic literal', () => {

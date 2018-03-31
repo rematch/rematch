@@ -2,7 +2,7 @@ const { init } = require('../../../src')
 const loadingPlugin = require('../src').default
 const { delay, count } = require('./utils')
 
-describe('loading model', () => {
+xdescribe('loading model', () => {
   it('should accept custom selector', () => {
     const { select } = require('@rematch/select')
     const selectPlugin = require('@rematch/select').default
