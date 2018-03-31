@@ -7,7 +7,7 @@ function merge<S>(original: any, next: any): any {
 }
 
 // merges init config with plugin configs
-export default <S>(config: Config<S> = {}): Config<S> => {
+export default <S>(config: Config = {}): Config => {
   config.redux = config.redux || {}
   if (process.env.NODE_ENV !== 'production') {
       validate([
@@ -47,7 +47,7 @@ export default <S>(config: Config<S> = {}): Config<S> => {
 
   // defaults
   const plugins = config.plugins || []
-  return (plugins).reduce((merged: Config<S>, plugin: PluginCreator<S>): Config<S> => {
+  return (plugins).reduce((merged: Config, plugin: PluginCreator): Config => {
     if (plugin.config) {
 
       // models
