@@ -44,6 +44,12 @@ export default <S>(config: Config = {}): Config => {
       ])
     }
   config.models = config.models || {}
+  config.redux = {
+    reducers: {},
+    rootReducers: {},
+    enhancers: [],
+    middlewares: [],
+  }
 
   // defaults
   const plugins = config.plugins || []
@@ -66,6 +72,9 @@ export default <S>(config: Config = {}): Config => {
         merged.redux.rootReducers = merge(merged.redux.rootReducers, plugin.config.redux.reducers)
         if (plugin.config.redux.enhancers) {
           merged.redux.enhancers = merged.redux.enhancers.concat(plugin.config.redux.enhancers)
+        }
+        if (plugin.config.redux.middlewares) {
+          merged.redux.middlewares = merged.redux.middlewares.concat(plugin.config.redux.middlewares)
         }
         merged.redux.combineReducers = merged.redux.combineReducers || plugin.config.redux.combineReducers
         merged.redux.createStore = merged.redux.createStore || plugin.config.redux.createStore
