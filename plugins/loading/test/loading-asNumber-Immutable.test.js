@@ -1,92 +1,39 @@
-const delay = ms => new Promise(r => setTimeout(r, ms))
+const { init } = require('../../../src')
+const loadingPlugin = require('../src').default
+const { delay, count, redux, loadingImmutable } = require('./utils')
 
 describe('loading asBoolean with Immutable', () => {
-  let count, init, dispatch, loadingPlugin
-
-  beforeEach(() => {
-    loadingPlugin = require('../src').default
-
-    const rm = require('../../../src')
-    const { isImmutable, fromJS } = require('immutable')
-    const { combineReducers } = require('redux-immutable')
-
-    init = rm.init
-    dispatch = rm.dispatch
-
-    count = {
-      state: 0,
-      reducers: {
-        addOne: s => s + 1
-      },
-      effects: {
-        async timeout() {
-          await delay(200)
-          this.addOne()
-        }
-      }
-    }
-
-    redux = {
-      initialState: fromJS({}),
-      combineReducers: combineReducers,
-    }
-
-    const immutableLoadingActionCreator = (state, name, action, converter, cntState) => (
-      state.asImmutable().withMutations( map => map.set('global', converter(cntState.global))
-        .setIn(['models', name], converter(cntState.models[name]))
-        .setIn(['effects',name, action], converter(cntState.effects[name][action]))
-      )
-    )
-
-    const immutableMergeInitialState = (state, newObj) => (
-      state.asMutable().mergeDeep(fromJS(newObj))
-    )
-
-    loading = {
-      asNumber: true,
-      loadingActionCreator: immutableLoadingActionCreator,
-      mergeInitialState: immutableMergeInitialState,
-      model: {
-        state: fromJS({}),
-      }
-    }
-  })
-
-  afterEach(() => {
-    jest.resetModules()
-  })
-
   test('loading.global should be 0 for normal dispatched action', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
 
-    dispatch.count.addOne()
+    store.dispatch.count.addOne()
     expect(store.getState().getIn(['loading','global'])).toBe(0)
   })
 
   test('loading.global should be 1 for a dispatched effect', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
 
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().getIn(['loading','global'])).toBe(1)
   })
 
   test('loading.global should be 2 for two dispatched effects', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
 
-    dispatch.count.timeout()
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().getIn(['loading','global'])).toBe(2)
   })
 
@@ -96,7 +43,7 @@ describe('loading asBoolean with Immutable', () => {
     } = require('../../../src')
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
 
@@ -106,43 +53,43 @@ describe('loading asBoolean with Immutable', () => {
   test('should change the loading.models to 1', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
 
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().getIn(['loading','models','count'])).toBe(1)
   })
 
   test('should change the loading.models to 2', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
 
-    dispatch.count.timeout()
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().getIn(['loading','models','count'])).toBe(2)
   })
 
   test('should change the state (immutable objects should be different)', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
 
-    let state1 = store.getState().get('loading'), state2
-    dispatch.count.timeout()
-    state2 = store.getState().get('loading')
+    const state1 = store.getState().get('loading')
+    store.dispatch.count.timeout()
+    const state2 = store.getState().get('loading')
     expect(state1).not.toBe(state2)
   })
 
   test('should set loading.effects[name] to object of effects', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
     expect(store.getState().getIn(['loading','effects','count','timeout'])).toBe(0)
@@ -151,28 +98,28 @@ describe('loading asBoolean with Immutable', () => {
   test('should change the loading.effects to 1', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
 
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().getIn(['loading','effects','count','timeout'])).toBe(1)
   })
 
   test('should change the loading.effects to 2', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
 
-    dispatch.count.timeout()
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(store.getState().getIn(['loading','effects','count','timeout'])).toBe(2)
   })
 
   test('should capture all model and global loading for simultaneous effects', async () => {
-    count = {
+    const count2 = {
       state: 0,
       effects: {
         async timeout1() {
@@ -184,14 +131,14 @@ describe('loading asBoolean with Immutable', () => {
       }
     }
     const store = init({
-      models: { count },
-      plugins: [loadingPlugin(loading)],
-      redux
+      models: { count: count2 },
+      plugins: [loadingPlugin(loadingImmutable)],
+      redux,
     })
 
-    const effect1 = dispatch.count.timeout1()
+    const effect1 = store.dispatch.count.timeout1()
     await delay(100)
-    const effect2 = dispatch.count.timeout2()
+    const effect2 = store.dispatch.count.timeout2()
 
     const ld = () => store.getState().get('loading')
     expect(ld().getIn(['effects','count','timeout1'])).toBe(1)
@@ -213,7 +160,7 @@ describe('loading asBoolean with Immutable', () => {
   })
 
   test('should handle "hide" if effect throws', async () => {
-    count = {
+    const count2 = {
       state: 0,
       effects: {
         throwError() {
@@ -222,13 +169,13 @@ describe('loading asBoolean with Immutable', () => {
       }
     }
     const store = init({
-      models: { count },
-      plugins: [loadingPlugin(loading)],
+      models: { count: count2 },
+      plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
 
     try {
-      await dispatch.count.throwError()
+      await store.dispatch.count.throwError()
     } catch (err) {
       expect(store.getState().getIn(['loading','global'])).toBe(0)
     }
@@ -238,7 +185,7 @@ describe('loading asBoolean with Immutable', () => {
     let actions = []
     const store = init({
       models: { count },
-      plugins: [loadingPlugin(loading)],
+      plugins: [loadingPlugin(loadingImmutable)],
       redux: {
         ...redux,
         middlewares: [() => () => action => {
@@ -247,12 +194,12 @@ describe('loading asBoolean with Immutable', () => {
       }
     })
 
-    await dispatch.count.timeout()
+    await store.dispatch.count.timeout()
     expect(actions).toEqual(['loading/show', 'count/timeout', 'count/addOne', 'loading/hide'])
   })
 
   test('should allow the propagation of the error', async () => {
-    count = {
+    const count2 = {
         state: 0,
         effects: {
             throwError() {
@@ -261,20 +208,20 @@ describe('loading asBoolean with Immutable', () => {
         }
     }
     const store = init({
-        models: { count },
-        plugins: [loadingPlugin(loading)],
+        models: { count: count2 },
+        plugins: [loadingPlugin(loadingImmutable)],
         redux,
     })
 
     try {
-        await dispatch.count.throwError()
+        await store.dispatch.count.throwError()
     } catch (err) {
         expect(err.message).toBe('effect error')
     }
   })
 
   test('should allow the propagation of the meta object', async () => {
-    count = {
+    const count2 = {
       state: 0,
       effects: {
         doSomething(payload, state, meta) {
@@ -283,13 +230,13 @@ describe('loading asBoolean with Immutable', () => {
       }
     }
     const store = init({
-      models: { count },
-      plugins: [loadingPlugin(loading)],
+      models: { count: count2 },
+      plugins: [loadingPlugin(loadingImmutable)],
       redux,
     })
 
     try {
-      await dispatch.count.doSomething(null, { metaProp: 1 })
+      await store.dispatch.count.doSomething(null, { metaProp: 1 })
     } catch (err) {
       throw err
     }

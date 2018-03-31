@@ -1,33 +1,8 @@
-const delay = ms => new Promise(r => setTimeout(r, ms))
+const { init } = require('../../../src')
+const loadingPlugin = require('../src').default
+const { delay, count } = require('./utils')
 
 describe('loading model', () => {
-  let count, init, dispatch, loadingPlugin
-
-  beforeEach(() => {
-    loadingPlugin = require('../src').default
-
-    const rm = require('../../../src')
-    init = rm.init
-    dispatch = rm.dispatch
-
-    count = {
-      state: 0,
-      reducers: {
-        addOne: s => s + 1
-      },
-      effects: {
-        async timeout() {
-          await delay(200)
-          this.addOne()
-        }
-      }
-    }
-  })
-
-  afterEach(() => {
-    jest.resetModules()
-  })
-
   it('should accept custom selector', () => {
     const { select } = require('@rematch/select')
     const selectPlugin = require('@rematch/select').default
@@ -45,7 +20,7 @@ describe('loading model', () => {
       ]
     })
 
-    dispatch.count.timeout()
+    store.dispatch.count.timeout()
     expect(select.loading.timeoutLoading(store.getState())).toBe(true)
   })
 
@@ -57,12 +32,12 @@ describe('loading model', () => {
       } }})]
     })
 
-    dispatch.loading.custom('foobar')
+    store.dispatch.loading.custom('foobar')
     expect(store.getState().loading.custom).toBe('foobar')
   })
 
   test('should capture all simultaneous effects when reducers overloaded', async () => {
-    count = {
+    const count2 = {
       state: 0,
       effects: {
         async timeout1() {
@@ -74,16 +49,16 @@ describe('loading model', () => {
       }
     }
     const store = init({
-      models: { count },
+      models: { count: count2 },
       plugins: [loadingPlugin({ model: { reducers: {
         hide: (state, payload) => state,
         show: (state, payload) => state,
       } } } )]
     })
 
-    const effect1 = dispatch.count.timeout1()
+    const effect1 = store.dispatch.count.timeout1()
     await delay(100)
-    const effect2 = dispatch.count.timeout2()
+    const effect2 = store.dispatch.count.timeout2()
 
     const ld = () => store.getState().loading
     expect(ld().effects.count.timeout1).toBe(true)
@@ -110,7 +85,7 @@ describe('loading model', () => {
       plugins: [loadingPlugin({ name: 'foobar', model: { name: 'not foobar' } })]
     })
 
-    dispatch.count.addOne()
+    store.dispatch.count.addOne()
     expect(store.getState().foobar.global).toBe(false)
   })
 
@@ -120,7 +95,7 @@ describe('loading model', () => {
       plugins: [loadingPlugin({ model: { name: 'foobar' } })]
     })
 
-    dispatch.count.addOne()
+    store.dispatch.count.addOne()
     expect(store.getState().foobar.global).toBe(false)
   })
 
