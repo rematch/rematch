@@ -1,6 +1,7 @@
 import { Dispatch, Middleware, Store } from 'redux'
-import { Config, ConfigRedux, Exposed, Model, ModelHook, Plugin } from '../typings/rematch'
-import corePlugins from './plugins'
+import { Config, ConfigRedux, Exposed, Model, ModelHook, Plugin, PluginCreator } from '../typings/rematch'
+import dispatchPlugin from './plugins/dispatch'
+import effectsPlugin from './plugins/effects'
 import Redux from './redux'
 import * as Reducers from './redux/reducers'
 import buildPlugins from './utils/buildPlugins'
@@ -16,6 +17,10 @@ export default class Rematch<S> {
   private modelHooks: ModelHook[] = []
   private pluginMiddlewares: Middleware[] = []
   private redux: any
+  private corePlugins: PluginCreator[] = [
+    dispatchPlugin,
+    effectsPlugin,
+  ]
 
   constructor(config: Config) {
     this.config = mergeConfig(config)
@@ -51,17 +56,8 @@ export default class Rematch<S> {
     // run plugin model subscriptions
     this.modelHooks.forEach((modelHook) => modelHook(model))
   }
-  public modifyStore() {
-    // use plugin dispatch as store.dispatch
-    this.redux.store.dispatch = corePlugins[0].expose.dispatch
-    this.redux.store.model = (model: Model): void => {
-      this.addModel(model)
-      this.redux.mergeReducers(Reducers.createModelReducer(model))
-      this.redux.store.replaceReducer(Reducers.createRootReducer(this.redux.mergeReducers)(this.redux.rootReducers))
-    }
-  }
   public init() {
-    const pluginConfigs = corePlugins.concat(this.config.plugins || [])
+    const pluginConfigs = this.corePlugins.concat(this.config.plugins || [])
     const exposed: Exposed = getExposed(pluginConfigs)
     const plugins = buildPlugins(pluginConfigs, exposed)
 
@@ -76,7 +72,7 @@ export default class Rematch<S> {
     // merge in additional extra reducers
     this.redux = new Redux(this)
     this.postStore(plugins)
-    this.modifyStore()
+    this.redux.store.dispatch = this.corePlugins[0].expose.dispatch
     return this.redux.store
   }
 }

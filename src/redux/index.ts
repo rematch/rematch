@@ -17,24 +17,29 @@ export default class Redux<S> {
   private rootReducer: Reducer<any>
   constructor(rematch) {
     const { config: { redux }, models, addModel, pluginMiddlewares } = rematch
+
     // possible overwrite of redux imports
     const createStore: StoreCreator = redux.createStore || _createStore
     const combineReducers = redux.combineReducers || _combineReducers
 
-  // initial state
+    // initial state
     const initialState: any = typeof redux.initialState === 'undefined' ? {} : redux.initialState
 
-  // reducers
+    // reducers
     const reducers = {}
     this.mergeReducers = createMergeReducers(combineReducers, reducers)
     initReducers(this.mergeReducers)(models, redux)
-    const rootReducers = redux.rootReducers
-    this.rootReducer = createRootReducer(this.mergeReducers)(rootReducers)
+    this.rootReducer = createRootReducer(this.mergeReducers)(redux.rootReducers)
 
-  // middleware/enhancers
+    // middleware/enhancers
     const middlewareList: Middleware[] = [...pluginMiddlewares, ...(redux.middlewares || [])]
     const middlewares = applyMiddleware(...middlewareList)
     const enhancers = composeEnhancers(redux.devtoolOptions)(...redux.enhancers || [], middlewares)
     this.store = createStore(this.rootReducer, initialState, enhancers)
+    this.store.model = (model: Model): void => {
+      rematch.addModel(model)
+      this.mergeReducers(createModelReducer(model))
+      this.store.replaceReducer(createRootReducer(this.mergeReducers)(redux.rootReducers))
+    }
   }
 }
