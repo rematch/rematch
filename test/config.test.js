@@ -90,10 +90,4 @@ describe('init config:', () => {
     })
     expect(store.getState()).toEqual({ a: 1 })
   })
-
-  test('devtools should default to compose', () => {
-    const { composeEnhancers } = require('../src/redux/devtools')
-    const { compose } = require('redux')
-    expect(composeEnhancers()).toEqual(compose)
-  })
 })
