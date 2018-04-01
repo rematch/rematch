@@ -222,16 +222,12 @@ describe('dispatch:', () => {
       const store = init({
         models: { count },
         plugins: [{
-          init() {
-            return {
-              middleware: () => next => action => {
-                if (action.meta) {
-                  expect(action).toEqual({ type: 'count/incrementBy', payload: 5, meta: { metaProperty: true } })
-                  done()
-                }
-                return next(action)
-              }
+          middleware: () => next => action => {
+            if (action.meta) {
+              expect(action).toEqual({ type: 'count/incrementBy', payload: 5, meta: { metaProperty: true } })
+              done()
             }
+            return next(action)
           }
         }]
       })

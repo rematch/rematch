@@ -9,7 +9,6 @@ export default {
       return this.storeDispatch(action)
     },
     createDispatcher(modelName: string, reducerName: string) {
-      const plugin = this
       return async (payload?: any, meta?: any): Promise<any> => {
         const action: Action = { type: `${modelName}/${reducerName}` }
         if (typeof payload !== 'undefined') {
@@ -18,7 +17,7 @@ export default {
         if (typeof meta !== 'undefined') {
           action.meta = meta
         }
-        return plugin.storeDispatch(action)
+        return this.storeDispatch(action)
       }
     },
   },

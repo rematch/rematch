@@ -20,7 +20,7 @@ export default class Rematch<S> {
     this.config = mergeConfig(config)
     this.pluginFactory = new PluginFactory()
     corePlugins
-      // .concat(this.config.plugins)
+      .concat(this.config.plugins)
       .forEach((plugin) => this.plugins.push(this.pluginFactory.create(plugin)))
     // preStore: middleware, model hooks
     this.forEachPlugin('middleware', (middleware) => {

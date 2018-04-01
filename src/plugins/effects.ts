@@ -28,12 +28,13 @@ export default {
     })
   },
   middleware: (store) => {
-    const plugin = this
     return (next) => async (action: Action) => {
       // async/await acts as promise middleware
-      if (action.type in plugin.default.exposed.effects) {
+      // FIXME: why is .default.exposed.effects necessary?
+      if (action.type in this.default.exposed.effects) {
         await next(action)
-        return plugin.default.exposed.effects[action.type]([action.payload, store.getState(), action.meta])
+        // FIXME: why is .default.exposed.effects necessary?
+        return this.default.exposed.effects[action.type](action.payload, store.getState(), action.meta)
       } else {
         return next(action)
       }
