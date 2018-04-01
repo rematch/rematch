@@ -9,8 +9,8 @@
         "semicolon": [true, "never"],
         "interface-name": false,
         "no-submodule-imports": false,
-        "no-console": [true, "log", "warn"],
-        "object-literal-sort-keys": [false]
+        "no-console": [true, "log"],
+        "object-literal-sort-keys": false
     },
     "rulesDirectory": []
 }

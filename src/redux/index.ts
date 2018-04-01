@@ -2,11 +2,10 @@ import {
   applyMiddleware,
   combineReducers as _combineReducers,
   createStore as _createStore,
-  Middleware,
   Reducer,
   StoreCreator,
 } from 'redux'
-import { Config, Model, RematchStore } from '../../typings/rematch'
+import { Model, RematchStore } from '../../typings/rematch'
 import { composeEnhancers } from './devtools'
 import { createMergeReducers, createModelReducer, createRootReducer, initReducers } from './reducers'
 
@@ -15,7 +14,7 @@ export default class Redux<S> {
   private mergeReducers
   private rootReducer: Reducer<S>
   constructor(rematch) {
-    const { config: { redux }, models, addModel } = rematch
+    const { config: { redux }, models } = rematch
 
     // possible overwrite of redux imports
     const createStore: StoreCreator = redux.createStore || _createStore

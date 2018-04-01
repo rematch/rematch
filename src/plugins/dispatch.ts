@@ -1,6 +1,5 @@
-import { Dispatch, Store } from 'redux'
-import { Action, Exposed, Model, Plugin } from '../../typings/rematch'
-import PluginFactory from './PluginFactory'
+import { Store } from 'redux'
+import { Action, Model, Plugin } from '../../typings/rematch'
 
 const dispatchPlugin: Plugin = {
   exposed: {

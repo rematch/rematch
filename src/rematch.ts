@@ -1,5 +1,4 @@
-import { Dispatch, Middleware, Store } from 'redux'
-import { Config, ConfigRedux, Exposed, Model, ModelHook, Plugin } from '../typings/rematch'
+import { Config, Model, Plugin } from '../typings/rematch'
 import dispatchPlugin from './plugins/dispatch'
 import effectsPlugin from './plugins/effects'
 import PluginFactory from './plugins/pluginFactory'
@@ -43,10 +42,7 @@ export default class Rematch<S> {
   public addModel(model: Model) {
     validate([
       [!model, 'model config is required'],
-      [
-        !model.name || typeof model.name !== 'string',
-        'model "name" [string] is required',
-      ],
+      [typeof model.name !== 'string', 'model "name" [string] is required'],
       [model.state === undefined, 'model "state" is required'],
     ])
     // run plugin model subscriptions

@@ -1,5 +1,4 @@
-/* eslint no-underscore-dangle: 0 */
-import { Reducer, ReducersMapObject} from 'redux'
+import { Reducer } from 'redux'
 import { Action, ConfigRedux, EnhancedReducers, Model, Reducers, RootReducers } from '../../typings/rematch'
 import isListener from '../utils/isListener'
 
