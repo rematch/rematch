@@ -1,6 +1,6 @@
 const { init } = require('../src')
 
-describe('init config', () => {
+describe('init config:', () => {
   test('should not throw with an empty config', () => {
     expect(() => init()).not.toThrow()
   })

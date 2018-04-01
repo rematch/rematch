@@ -1,6 +1,6 @@
 const { init } = require('../src')
 
-describe('listener', () => {
+describe('listener:', () => {
   test('should trigger state changes on another models reducers', () => {
     const count1 = {
       state: 0,

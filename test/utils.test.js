@@ -1,4 +1,4 @@
-describe('deprecate', ()=> {
+describe('deprecate:', ()=> {
   const module = require('../src/utils/deprecate')
   const deprecate = module.default
 

@@ -1,6 +1,6 @@
 const { init } = require('../src')
 
-xdescribe('multiple stores', () => {
+xdescribe('multiple stores:', () => {
   test('should not throw if multiple stores', () => {
     const store1 = init({})
     expect(() => init({})).not.toThrow()

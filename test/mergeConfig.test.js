@@ -1,6 +1,6 @@
 const mergeConfig = require('../src/utils/mergeConfig').default
 
-describe('mergeConfig', () => {
+describe('mergeConfig:', () => {
   describe('initialState', () => {
     test('it should a regular config', () => {
       const config = {
@@ -38,7 +38,7 @@ describe('mergeConfig', () => {
   describe('reducers', () => {
     test('should handle no redux reducers', () => {
       const result = mergeConfig({ redux: {}, reducers: {} })
-      expect(result.redux.reducers).toBe(undefined)
+      expect(result.redux.reducers).toEqual({})
     })
     test('should handle only config redux reducers', () => {
       const config = {
@@ -138,7 +138,7 @@ describe('mergeConfig', () => {
   describe('redux', () => {
     test('should handle no redux combineReducers', () => {
       const result = mergeConfig({})
-      expect(result.redux).toEqual({})
+      expect(result.redux.combinedReducers).toEqual(undefined)
     })
     test('should handle config redux combineReducers', () => {
       const combineReducers = s => s + 1

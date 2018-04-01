@@ -1,6 +1,6 @@
 const { init } = require('../src')
 
-describe('redux', () => {
+describe('redux:', () => {
   test('combineReducers should replace root', () => {
     const store = init({
       redux: {
