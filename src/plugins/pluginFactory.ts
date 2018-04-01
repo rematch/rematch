@@ -5,6 +5,21 @@ import validate from '../utils/validate'
 export default class PluginFactory {
   public validate = validate
   public create(plugin) {
+    validate([
+      [
+        plugin.onStoreCreated && typeof plugin.onStoreCreated !== 'function',
+        'Plugin onStoreCreated must be a function',
+      ],
+      [
+        plugin.onModel && typeof plugin.onModel !== 'function',
+        'Plugin onModel must be a function',
+      ],
+      [
+        plugin.middleware && typeof plugin.middleware !== 'function',
+        'Plugin middleware must be a function',
+      ],
+    ])
+
     const result: Plugin = {}
     if (plugin.exposed) {
       Object.keys(plugin.exposed || {}).forEach((key) => {

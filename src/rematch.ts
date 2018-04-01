@@ -4,11 +4,6 @@ import dispatchPlugin from './plugins/dispatch'
 import effectsPlugin from './plugins/effects'
 import PluginFactory from './plugins/pluginFactory'
 import Redux from './redux'
-import * as Reducers from './redux/reducers'
-import buildPlugins from './utils/buildPlugins'
-import getExposed from './utils/getExposed'
-import getModels from './utils/getModels'
-import isObject from './utils/isObject'
 import mergeConfig from './utils/mergeConfig'
 import validate from './utils/validate'
 
@@ -39,6 +34,12 @@ export default class Rematch<S> {
       }
     })
   }
+  public getModels(models) {
+    return Object.keys(models).map((name: string) => ({
+      name,
+      ...models[name],
+    }))
+  }
   public addModel(model: Model) {
     validate([
       [!model, 'model config is required'],
@@ -53,7 +54,7 @@ export default class Rematch<S> {
   }
   public init() {
     // collect all models
-    this.models = getModels(this.config.models)
+    this.models = this.getModels(this.config.models)
     this.models.forEach((model: Model) => this.addModel(model))
     // create a redux store with initialState
     // merge in additional extra reducers

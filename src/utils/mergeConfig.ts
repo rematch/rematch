@@ -1,12 +1,15 @@
 import { Config, PluginCreator } from '../../typings/rematch'
-import isObject from './isObject'
 import validate from './validate'
 
-function merge<S>(original: any, next: any): any {
+const merge = <S>(original: any, next: any): any => {
   return (next) ? { ...next, ...(original || {}) } : original || {}
 }
 
-// merges init config with plugin configs
+const isObject = (obj: object): boolean => (Array.isArray(obj) || typeof obj !== 'object')
+
+/**
+ * merge init configs together
+ */
 export default <S>(initConfig: Config = {}): Config => {
   const config = {
     models: {},
@@ -53,8 +56,6 @@ export default <S>(initConfig: Config = {}): Config => {
       ],
     ])
   }
-
-
 
   // defaults
   for (const plugin of config.plugins || []) {
