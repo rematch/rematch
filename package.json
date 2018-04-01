@@ -35,7 +35,7 @@
     "build:all": "bash ./scripts/build.sh",
     "dev": "tsc --watch src",
     "install:all": "tsc && bash ./scripts/setup_plugins.sh",
-    "lint": "eslint ./src",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "jest"
   },
   "dependencies": {
