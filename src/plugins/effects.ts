@@ -37,7 +37,7 @@ const effectsPlugin: Plugin = {
         return next(action)
       }
     }
-  }
+  },
 }
 
 export default effectsPlugin

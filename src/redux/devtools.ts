@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { compose } from 'redux'
 
 declare global {
