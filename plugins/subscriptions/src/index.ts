@@ -39,24 +39,26 @@ const subscriptionsPlugin = (): Plugin => ({
       createSubscription(model.name, matcher, onAction, actionList)
     })
   },
-  middleware: () => (next: (action: Action) => any) => (action: Action) => {
-    const { type } = action
+  middleware() {
+    return (next: (action: Action) => any) => (action: Action) => {
+      const { type } = action
 
-    // exact match
-    if (subscriptions.has(type)) {
-      const allMatches = subscriptions.get(type)
-      // call each hook[modelName] with action
-      triggerAllSubscriptions(allMatches)(action, type)
-    } else {
-      patternSubscriptions.forEach((handler: object, matcher: string) => {
-        if (type.match(new RegExp(matcher))) {
-          const patternMatches = patternSubscriptions.get(matcher)
-          triggerAllSubscriptions(patternMatches)(action, matcher)
-        }
-      })
+      // exact match
+      if (subscriptions.has(type)) {
+        const allMatches = subscriptions.get(type)
+        // call each hook[modelName] with action
+        triggerAllSubscriptions(allMatches)(action, type)
+      } else {
+        patternSubscriptions.forEach((handler: object, matcher: string) => {
+          if (type.match(new RegExp(matcher))) {
+            const patternMatches = patternSubscriptions.get(matcher)
+            triggerAllSubscriptions(patternMatches)(action, matcher)
+          }
+        })
+      }
+
+      return next(action)
     }
-
-    return next(action)
   },
 })
 

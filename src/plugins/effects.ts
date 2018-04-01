@@ -27,19 +27,19 @@ const effectsPlugin: Plugin = {
       this.dispatch[model.name][effectName].isEffect = true
     })
   },
-  middleware: (store) => {
+  middleware(store) {
     return (next) => async (action: Action) => {
       // async/await acts as promise middleware
       // FIXME: why is .default.exposed.effects necessary?
-      if (action.type in this.default.exposed.effects) {
+      if (action.type in this.effects) {
         await next(action)
         // FIXME: why is .default.exposed.effects necessary?
-        return this.default.exposed.effects[action.type](action.payload, store.getState(), action.meta)
+        return this.effects[action.type](action.payload, store.getState(), action.meta)
       } else {
         return next(action)
       }
     }
-  },
+  }
 }
 
 export default effectsPlugin

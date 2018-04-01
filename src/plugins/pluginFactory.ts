@@ -28,7 +28,9 @@ export default class PluginFactory {
     if (plugin.exposed) {
       Object.keys(plugin.exposed || {}).forEach((key) => {
         this[key] = typeof plugin.exposed[key] === 'function'
+          // bind functions to plugin class
           ? plugin.exposed[key].bind(this)
+          // add exposed to plugin class
           : plugin.exposed[key]
       })
     }

@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@types/jest": "^22.2.2",
-    "@types/node": "^9.6.0",
+    "@types/node": "^9.6.1",
     "coveralls": "^3.0.0",
     "cross-env": "^5.1.4",
     "gitbook-plugin-edit-link": "^2.0.2",

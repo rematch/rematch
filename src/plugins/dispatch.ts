@@ -17,7 +17,7 @@ const dispatchPlugin: Plugin = {
         if (typeof meta !== 'undefined') {
           action.meta = meta
         }
-        return this.storeDispatch(action)
+        return this.dispatch(action)
       }
     },
   },
