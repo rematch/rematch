@@ -7,7 +7,6 @@ import { Validation } from '../../typings/rematch'
  * throws if an error occurs
  */
 const validate = (validations: Validation[]): void => {
-  /* istanbul ignore next */
   if (process.env.NODE_ENV !== 'production') {
     validations.forEach((validation: Validation) => {
       const condition = validation[0]

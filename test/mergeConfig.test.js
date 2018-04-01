@@ -166,7 +166,6 @@ describe('mergeConfig', () => {
         plugins: [plugin1]
       }
       const result = mergeConfig(config)
-      // (2 + 1) * 5
       expect(result.redux.combineReducers).toBe(configFn)
     })
   })

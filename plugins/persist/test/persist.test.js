@@ -17,7 +17,7 @@ const defaultPersist = {
 // used to prevent warning if no reducers
 const reducers = { todos: (state = 999) => state }
 
-describe('persist', () => {
+xdescribe('persist', () => {
 
   test('should load the persist plugin with a basic config', () => {
     const storage = createLocalStorageMock()

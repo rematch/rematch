@@ -12,6 +12,8 @@ import isObject from './utils/isObject'
 import mergeConfig from './utils/mergeConfig'
 import validate from './utils/validate'
 
+const corePlugins = [dispatchPlugin, effectsPlugin]
+
 export default class Rematch<S> {
   private config: Config
   private models: Model[]
@@ -22,14 +24,20 @@ export default class Rematch<S> {
   constructor(config: Config) {
     this.config = mergeConfig(config)
     this.pluginFactory = new PluginFactory()
-    const corePlugins = [dispatchPlugin, effectsPlugin]
-    corePlugins // .concat(this.config.plugins)
+    corePlugins
+      // .concat(this.config.plugins)
       .forEach((plugin) => this.plugins.push(this.pluginFactory.create(plugin)))
     // preStore: middleware, model hooks
-    this.forEachPlugin('middleware', (middleware) => this.config.redux.middlewares.push(middleware))
+    this.forEachPlugin('middleware', (middleware) => {
+      this.config.redux.middlewares.push(middleware)
+    })
   }
   public forEachPlugin(method, fn) {
-    this.plugins.forEach((plugin: Plugin) => plugin[method] && fn(plugin[method]))
+    this.plugins.forEach((plugin: Plugin) => {
+      if (plugin[method]) {
+        fn(plugin[method])
+      }
+    })
   }
   public addModel(model: Model) {
     validate([

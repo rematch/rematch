@@ -6,9 +6,9 @@ const stores = []
 
 export const init = (config: Config) => new Rematch(config).init()
 
-export const globalDispatch = (action) =>
-    stores.forEach((store) =>
-      store.dispatch(action))
+export const globalDispatch = (action) => {
+  return stores.forEach((store) => store.dispatch(action))
+}
 
 // export const globalGetState = () => ({
 //   // TODO

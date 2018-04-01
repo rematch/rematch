@@ -6,9 +6,13 @@ export default class PluginFactory {
   public validate = validate
   public create(plugin) {
     const result: Plugin = {}
-    Object.keys(plugin.exposed || {}).forEach((key) => {
-      this[key] = plugin.exposed[key]
-    })
+    if (plugin.exposed) {
+      Object.keys(plugin.exposed || {}).forEach((key) => {
+        this[key] = typeof plugin.exposed[key] === 'function'
+          ? plugin.exposed[key].bind(this)
+          : plugin.exposed[key]
+      })
+    }
     if (plugin.onModel) {
       result.onModel = plugin.onModel.bind(this)
     }

@@ -32,7 +32,7 @@ export default class Redux<S> {
     this.rootReducer = createRootReducer(this.mergeReducers)(redux.rootReducers)
 
     // middleware/enhancers
-    const middlewares = applyMiddleware(redux.middlewares)
+    const middlewares = applyMiddleware(...redux.middlewares)
     const enhancers = composeEnhancers(redux.devtoolOptions)(...redux.enhancers, middlewares)
 
     // store

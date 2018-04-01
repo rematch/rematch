@@ -2,7 +2,7 @@ const { init } = require('../src')
 
 describe('dispatch:', () => {
   describe('action:', () => {
-    it('should be call in the form "modelName/reducerName"', () => {
+    it('should be called in the form "modelName/reducerName"', () => {
       const count = {
         state: 0,
         reducers: {

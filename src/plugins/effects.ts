@@ -22,18 +22,21 @@ export default {
       this.effects[`${model.name}/${effectName}`] = model.effects[effectName].bind(this.dispatch[model.name])
       // add effect to dispatch
       // is assuming dispatch is available already... that the dispatch plugin is in there
-      this.dispatch[model.name][effectName] = this.createDispatcher(model.name, effectName)
+      this.dispatch[model.name][effectName] = this.createDispatcher.apply(this, [model.name, effectName])
       // tag effects so they can be differentiated from normal actions
       this.dispatch[model.name][effectName].isEffect = true
     })
   },
-  middleware: (store) => (next) => async (action: Action) => {
-    // async/await acts as promise middleware
-    if (action.type in this.effects) {
-      await next(action)
-      return this.effects[action.type](action.payload, store.getState(), action.meta)
-    } else {
-      return next(action)
+  middleware: (store) => {
+    const plugin = this
+    return (next) => async (action: Action) => {
+      // async/await acts as promise middleware
+      if (action.type in plugin.default.exposed.effects) {
+        await next(action)
+        return plugin.default.exposed.effects[action.type]([action.payload, store.getState(), action.meta])
+      } else {
+        return next(action)
+      }
     }
   },
 }

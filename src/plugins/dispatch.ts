@@ -4,11 +4,12 @@ import PluginFactory from './PluginFactory'
 
 export default {
   exposed: {
-    storeDispatch: null,
+    storeDispatch: () => console.warn('Warning: store not yet loaded'),
     dispatch(action: Action) {
       return this.storeDispatch(action)
     },
     createDispatcher(modelName: string, reducerName: string) {
+      const plugin = this
       return async (payload?: any, meta?: any): Promise<any> => {
         const action: Action = { type: `${modelName}/${reducerName}` }
         if (typeof payload !== 'undefined') {
@@ -17,7 +18,7 @@ export default {
         if (typeof meta !== 'undefined') {
           action.meta = meta
         }
-        return this.storeDispatch(action)
+        return plugin.storeDispatch(action)
       }
     },
   },
@@ -37,7 +38,7 @@ export default {
           `Invalid reducer (${model.name}/${reducerName}). Must be a function`,
         ],
       ])
-      this.dispatch[model.name][reducerName] = this.createDispatcher(model.name, reducerName)
+      this.dispatch[model.name][reducerName] = this.createDispatcher.apply(this, [model.name, reducerName])
     })
   },
 }
