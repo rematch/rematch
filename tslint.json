@@ -19,7 +19,7 @@
             true,
             "log"
         ],
-        "object-literal-sort-keys": false,
+        "object-literal-sort-keys": false
     },
     "rulesDirectory": []
 }
