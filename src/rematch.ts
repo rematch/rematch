@@ -43,10 +43,7 @@ export default class Rematch<S> {
   public addModel(model: Model) {
     validate([
       [!model, 'model config is required'],
-      [
-        !model.name || typeof model.name !== 'string',
-        'model "name" [string] is required',
-      ],
+      [typeof model.name !== 'string', 'model "name" [string] is required'],
       [model.state === undefined, 'model "state" is required'],
     ])
     // run plugin model subscriptions
