@@ -1,5 +1,4 @@
-import { Dispatch } from 'redux'
-import { Action, Plugin } from '../../typings/rematch'
+import { Plugin } from '../../typings/rematch'
 import validate from '../utils/validate'
 
 export default class PluginFactory {
