@@ -15,7 +15,7 @@ build_plugin () {
 }
 
 # install plugin deps
-sh ./scripts/install.sh
+sh ./scripts/setup_plugins.sh
 
 # run tests before building
 echo 'Running tests...'
