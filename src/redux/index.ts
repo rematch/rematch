@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle: 0 */
 import {
   applyMiddleware,
   combineReducers as _combineReducers,
@@ -12,9 +11,9 @@ import { composeEnhancers } from './devtools'
 import { createMergeReducers, createModelReducer, createRootReducer, initReducers } from './reducers'
 
 export default class Redux<S> {
-  private store: RematchStore<S>
+  private store: RematchStore
   private mergeReducers
-  private rootReducer: Reducer<any>
+  private rootReducer: Reducer<S>
   constructor(rematch) {
     const { config: { redux }, models, addModel } = rematch
 

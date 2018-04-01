@@ -1,5 +1,5 @@
 import { Dispatch, Middleware, Store } from 'redux'
-import { Config, ConfigRedux, Exposed, Model, ModelHook, PluginCreator } from '../typings/rematch'
+import { Config, ConfigRedux, Exposed, Model, ModelHook, Plugin } from '../typings/rematch'
 import dispatchPlugin from './plugins/dispatch'
 import effectsPlugin from './plugins/effects'
 import PluginFactory from './plugins/pluginFactory'
@@ -7,7 +7,7 @@ import Redux from './redux'
 import mergeConfig from './utils/mergeConfig'
 import validate from './utils/validate'
 
-const corePlugins = [dispatchPlugin, effectsPlugin]
+const corePlugins: Plugin[] = [dispatchPlugin, effectsPlugin]
 
 export default class Rematch<S> {
   private config: Config
@@ -27,7 +27,7 @@ export default class Rematch<S> {
       this.config.redux.middlewares.push(middleware)
     })
   }
-  public forEachPlugin(method, fn) {
+  public forEachPlugin(method: string, fn: (content: any) => void) {
     this.plugins.forEach((plugin: Plugin) => {
       if (plugin[method]) {
         fn(plugin[method])

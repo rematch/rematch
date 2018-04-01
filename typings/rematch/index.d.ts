@@ -2,25 +2,28 @@
 // Project: Rematch
 // Definitions by: Shawn McKay https://github.com/shmck
 
-import { AnyAction, Dispatch, MiddlewareAPI, Middleware, ReducersMapObject, Store, StoreCreator, StoreEnhancer } from 'redux'
+import * as Redux from 'redux'
 
 export as namespace rematch
 
 export type RematchDispatch = {
   [key: string]: {
-    [key:string]: (action: Action) => Promise<Dispatch<any>>
+    [key:string]: (action: Action) => Promise<Redux.Dispatch<any>>
   }
-} | ((action: Action) => Promise<Dispatch<any>>)
+} | ((action: Action) => Promise<Redux.Dispatch<any>>)
 
 export let dispatch: RematchDispatch;
-export function init(config: Config | undefined): Store<any>
+export function init(config: Config | undefined): Redux.Store<any>
 
 export namespace rematch {
   export let dispatch: RematchDispatch;
-  export function init(config: Config): Store<any>
+  export function init(config: Config): Redux.Store<any>
 }
 
-export interface RematchStore<S> extends Store<S> {
+export interface RematchStore {
+  replaceReducer(nextReducer: any): void,
+  dispatch(action: Action): void,
+  getState(): any,
   model?: (model: Model) => void,
 }
 
@@ -51,7 +54,7 @@ export type ModelHook = (model: Model) => void
 export type Validation = [boolean | undefined, string]
 
 export type Exposed = {
-  dispatch: Dispatch<any> | { [key: string]: () => void },
+  dispatch: Redux.Dispatch<any> | { [key: string]: () => void },
   effects: any,
   createDispatcher: (modelName: string, reducerName: string) => any,
   validate: (validations: Validation[]) => void,
@@ -79,9 +82,9 @@ export interface Plugin {
     [key: string]: any,
   },
   onInit?: () => void,
-  onStoreCreated?: (store: Store<any>) => void,
+  onStoreCreated?: (store: Redux.Store<any>) => void,
   onModel?: ModelHook,
-  middleware?: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => (action: Action) => any,
+  middleware?: <S>(store: Redux.MiddlewareAPI<S>) => (next: Redux.Dispatch<S>) => (action: Action) => any,
 }
 
 export interface RootReducers {
@@ -91,11 +94,11 @@ export interface RootReducers {
 export interface ConfigRedux {
   initialState?: any,
   reducers?: Reducers,
-  enhancers?: StoreEnhancer<any>[],
-  middlewares?: Middleware[],
+  enhancers?: Redux.StoreEnhancer<any>[],
+  middlewares?: Redux.Middleware[],
   rootReducers?: RootReducers,
-  combineReducers?: (reducers: ReducersMapObject) => Reducer<any>,
-  createStore?: StoreCreator,
+  combineReducers?: (reducers: Redux.ReducersMapObject) => Reducer<any>,
+  createStore?: Redux.StoreCreator,
   devtoolOptions?: Object,
 }
 

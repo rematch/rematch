@@ -1,4 +1,4 @@
-import { Config, PluginCreator } from '../../typings/rematch'
+import { Config } from '../../typings/rematch'
 import validate from './validate'
 
 const merge = <S>(original: any, next: any): any => {
@@ -10,7 +10,7 @@ const isObject = (obj: object): boolean => (Array.isArray(obj) || typeof obj !==
 /**
  * merge init configs together
  */
-export default <S>(initConfig: Config = {}): Config => {
+export default (initConfig: Config = {}): Config => {
   const config = {
     models: {},
     plugins: [],
@@ -66,21 +66,15 @@ export default <S>(initConfig: Config = {}): Config => {
         merge(config.models, plugin.config.models) as typeof config.models // FIXME: not sure how to avoid this
 
       // plugins
-      if (plugin.config.plugins) {
-        config.plugins = config.plugins.concat(plugin.config.plugins)
-      }
+      config.plugins = [...config.plugins, ...(plugin.config.plugins || [])]
 
       // redux
       if (plugin.config.redux) {
         config.redux.initialState = merge(config.redux.initialState, plugin.config.redux.initialState)
         config.redux.reducers = merge(config.redux.reducers, plugin.config.redux.reducers)
         config.redux.rootReducers = merge(config.redux.rootReducers, plugin.config.redux.reducers)
-        if (plugin.config.redux.enhancers) {
-          config.redux.enhancers = config.redux.enhancers.concat(plugin.config.redux.enhancers)
-        }
-        if (plugin.config.redux.middlewares) {
-          config.redux.middlewares = config.redux.middlewares.concat(plugin.config.redux.middlewares)
-        }
+        config.redux.enhancers = [...config.redux.enhancers, ...(plugin.config.redux.enhancers || [])]
+        config.redux.middlewares = [...config.redux.middlewares, ...(plugin.config.redux.middlewares || [])]
         config.redux.combineReducers = config.redux.combineReducers || plugin.config.redux.combineReducers
         config.redux.createStore = config.redux.createStore || plugin.config.redux.createStore
       }
