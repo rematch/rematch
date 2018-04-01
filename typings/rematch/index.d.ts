@@ -100,6 +100,7 @@ export interface ConfigRedux {
 }
 
 export interface Config {
+  name?: string,
   models?: Models,
   plugins?: Plugin[],
   redux?: ConfigRedux,

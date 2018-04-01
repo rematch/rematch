@@ -1,6 +1,6 @@
 const { init } = require('../src')
 
-xdescribe('multiple stores:', () => {
+describe('multiple stores:', () => {
   test('should not throw if multiple stores', () => {
     const store1 = init({})
     expect(() => init({})).not.toThrow()
@@ -35,7 +35,7 @@ xdescribe('multiple stores:', () => {
   })
 
   test('global dispatch should dispatch to both stores', () => {
-    const { dispatch } = require('../src')
+    const { init, dispatch } = require('../src')
 
     const count = {
       state: 0,
@@ -47,11 +47,53 @@ xdescribe('multiple stores:', () => {
     const store1 = init({ models: { count } })
     const store2 = init({ models: { count } })
 
-    dispatch.count.increment()
-    dispatch.count.increment()
+    dispatch({ type: 'count/increment' })
+    dispatch({ type: 'count/increment' })
 
     expect(store1.getState()).toEqual({ count: 2 })
     expect(store2.getState()).toEqual({ count: 2 })
+    jest.resetModules()
+  })
+
+  test('global getState should get multiple states', () => {
+    const { init, getState } = require('../src')
+
+    const count = {
+      state: 42,
+    }
+
+    const store1 = init({ models: { count } })
+    const store2 = init({ models: { count } })
+
+    expect(getState()).toEqual({
+      0: {
+        count: 42,
+      },
+      1: {
+        count: 42,
+      }
+    })
+    jest.resetModules()
+  })
+
+  test('global getState should allow multiple named stores', () => {
+    const { init, getState } = require('../src')
+
+    const count = {
+      state: 42,
+    }
+
+    const store1 = init({ name: 'first', models: { count } })
+    const store2 = init({ name: 'second', models: { count } })
+
+    expect(getState()).toEqual({
+      first: {
+        count: 42,
+      },
+      second: {
+        count: 42,
+      }
+    })
     jest.resetModules()
   })
 })
