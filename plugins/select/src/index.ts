@@ -1,15 +1,15 @@
-import { Model, Plugin } from '@rematch/core'
+import { Model, Plugin } from '../../../typings/rematch'
 
-interface selectConfig {
+export const select = {}
+
+interface SelectConfig {
   sliceState?: any,
 }
 
 const selectPlugin = ({
   sliceState = (rootState, model) => rootState[model.name],
-}: selectConfig = {}): Plugin => ({
-  exposed: {
-    select: {},
-  },
+}: SelectConfig = {}): Plugin => ({
+  exposed: { select },
   onInit() {
     this.validate([
       [
@@ -19,7 +19,7 @@ const selectPlugin = ({
      ])
   },
   onModel(model: Model) {
-    this.select[model.name] = {}
+    select[model.name] = {}
 
     Object.keys(model.selectors || {}).forEach((selectorName: string) => {
       this.validate([
@@ -28,7 +28,7 @@ const selectPlugin = ({
           `Selector (${model.name}/${selectorName}) must be a function`,
         ],
       ])
-      this.select[model.name][selectorName] = (state: any, ...args) =>
+      select[model.name][selectorName] = (state: any, ...args) =>
         model.selectors[selectorName](
           sliceState(state, model),
           ...args,

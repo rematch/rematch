@@ -3,7 +3,7 @@ const selectPlugin = require('../src').default
 const { select } = require('../src')
 const { init } = require('../../../src')
 
-xdescribe('select:', () => {
+describe('select:', () => {
   it('should create a valid list of selectors', () => {
     const a = {
       state: 0,
