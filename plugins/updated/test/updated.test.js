@@ -8,7 +8,7 @@ beforeEach(() => {
   global.Date = jest.fn(() => mockDate)
 })
 
-xdescribe('updated', () => {
+describe('updated', () => {
   test('should setup with a config name', async () => {
     const count = {
       name: 'count',

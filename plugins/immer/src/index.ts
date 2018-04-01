@@ -1,6 +1,6 @@
-import { Models, PluginCreator } from '@rematch/core'
-import { combineReducers, ReducersMapObject } from 'redux'
+import { Models, Plugin } from '@rematch/core'
 import produce from 'immer'
+import { combineReducers, ReducersMapObject } from 'redux'
 
 function combineReducersWithImmer(reducers: ReducersMapObject) {
   const reducersWithImmer = {}
@@ -22,12 +22,12 @@ function combineReducersWithImmer(reducers: ReducersMapObject) {
 }
 
 // rematch plugin
-export default (): PluginCreator => {
-  return {
-    config: {
-      redux: {
-        combineReducers: combineReducersWithImmer,
-      },
+const immerPlugin = (): Plugin => ({
+  config: {
+    redux: {
+      combineReducers: combineReducersWithImmer,
     },
-  }
-}
+  },
+})
+
+export default immerPlugin

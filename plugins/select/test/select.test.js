@@ -8,10 +8,10 @@ xdescribe('select:', () => {
     const a = {
       state: 0,
       reducers: {
-        increment: s => s + 1
+        increment: s => s + 1,
       },
       selectors: {
-        double: s => s * 2
+        double: s => s * 2,
       },
     }
     init({
@@ -25,10 +25,10 @@ xdescribe('select:', () => {
     const a = {
       state: 2,
       reducers: {
-        increment: s => s + 1
+        increment: s => s + 1,
       },
       selectors: {
-        double: s => s * 2
+        double: s => s * 2,
       },
     }
     const store = init({
@@ -44,7 +44,7 @@ xdescribe('select:', () => {
     const a = {
       state: 2,
       reducers: {
-        increment: s => s + 1
+        increment: s => s + 1,
       },
       selectors: {
         prependWithLetter: (s, letter) => letter + s
@@ -76,7 +76,7 @@ xdescribe('select:', () => {
     const a = {
       state: 2,
       reducers: {
-        increment: s => s + 1
+        increment: s => s + 1,
       },
     }
     const start = () => init({

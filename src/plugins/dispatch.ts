@@ -1,8 +1,8 @@
 import { Dispatch, Store } from 'redux'
-import { Action, Exposed, Model, PluginCreator } from '../../typings/rematch'
+import { Action, Exposed, Model, Plugin } from '../../typings/rematch'
 import PluginFactory from './PluginFactory'
 
-export default {
+const dispatchPlugin: Plugin = {
   exposed: {
     storeDispatch: () => console.warn('Warning: store not yet loaded'),
     dispatch(action: Action) {
@@ -41,3 +41,5 @@ export default {
     })
   },
 }
+
+export default dispatchPlugin

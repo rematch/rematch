@@ -1,6 +1,4 @@
-import { Model, PluginCreator } from '@rematch/core'
-
-export const select = {}
+import { Model, Plugin } from '@rematch/core'
 
 interface selectConfig {
   sliceState?: any,
@@ -8,35 +6,34 @@ interface selectConfig {
 
 const selectPlugin = ({
   sliceState = (rootState, model) => rootState[model.name],
-}: selectConfig = {}): PluginCreator => ({
-  expose: { select },
-  init: ({ validate }) => {
-    validate([
-     [
-        typeof sliceState !== 'function',
-        `The selectPlugin's getState config must be a function. Instead got type ${typeof sliceState}.`,
-      ],
-    ])
+}: selectConfig = {}): Plugin => ({
+  exposed: {
+    select: {},
+  },
+  onInit() {
+    this.validate([
+      [
+         typeof sliceState !== 'function',
+         `The selectPlugin's getState config must be a function. Instead got type ${typeof sliceState}.`,
+       ],
+     ])
+  },
+  onModel(model: Model) {
+    this.select[model.name] = {}
 
-    return {
-      onModel(model: Model) {
-        select[model.name] = {}
-
-        Object.keys(model.selectors || {}).forEach((selectorName: string) => {
-          validate([
-            [
-              typeof model.selectors[selectorName] !== 'function',
-              `Selector (${model.name}/${selectorName}) must be a function`,
-            ],
-          ])
-          select[model.name][selectorName] = (state: any, ...args) =>
-            model.selectors[selectorName](
-              sliceState(state, model),
-              ...args
-            )
-        })
-      },
-    }
+    Object.keys(model.selectors || {}).forEach((selectorName: string) => {
+      this.validate([
+        [
+          typeof model.selectors[selectorName] !== 'function',
+          `Selector (${model.name}/${selectorName}) must be a function`,
+        ],
+      ])
+      this.select[model.name][selectorName] = (state: any, ...args) =>
+        model.selectors[selectorName](
+          sliceState(state, model),
+          ...args,
+        )
+    })
   },
 })
 

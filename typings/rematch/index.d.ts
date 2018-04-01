@@ -74,17 +74,14 @@ export interface Model {
 }
 
 export interface Plugin {
+  config?: Config,
+  exposed?: {
+    [key: string]: any,
+  },
+  onInit?: () => void,
   onStoreCreated?: (store: Store<any>) => void,
   onModel?: ModelHook,
   middleware?: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => (action: Action) => any,
-}
-
-export interface PluginCreator {
-  config?: Config,
-  expose?: {
-    [key: string]: any,
-  },
-  init?: (exposed: Exposed) => Plugin
 }
 
 export interface RootReducers {
@@ -104,6 +101,6 @@ export interface ConfigRedux {
 
 export interface Config {
   models?: Models,
-  plugins?: PluginCreator[],
+  plugins?: Plugin[],
   redux?: ConfigRedux,
 }

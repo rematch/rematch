@@ -1,9 +1,9 @@
 /* tslint-disable member-ordering */
 import { Dispatch, MiddlewareAPI, Store } from 'redux'
-import { Action, Exposed, Model, PluginCreator } from '../../typings/rematch'
+import { Action, Exposed, Model, Plugin } from '../../typings/rematch'
 import PluginFactory from './PluginFactory'
 
-export default {
+const effectsPlugin: Plugin = {
   exposed: {
     effects: {},
   },
@@ -41,3 +41,5 @@ export default {
     }
   },
 }
+
+export default effectsPlugin

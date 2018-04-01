@@ -20,6 +20,10 @@ export default class PluginFactory {
       ],
     ])
 
+    if (plugin.onInit) {
+      plugin.onInit.call(this)
+    }
+
     const result: Plugin = {}
     if (plugin.exposed) {
       Object.keys(plugin.exposed || {}).forEach((key) => {

@@ -1,4 +1,4 @@
-import { Action, Model, PluginCreator } from '@rematch/core'
+import { Action, Model, Plugin } from '@rematch/core'
 
 interface LoadingConfig {
   name?: string,
@@ -46,7 +46,7 @@ const createLoadingAction = (converter, i, loadingActionCreator) => (state, { na
   return loadingActionCreator(state, name, action, converter, cntState)
 }
 
-const validateConfig = config => {
+const validateConfig = (config) => {
   if (config.name && typeof config.name !== 'string') {
     throw new Error('loading plugin config name must be a string')
   }
@@ -76,16 +76,19 @@ const validateConfig = config => {
   }
 }
 
-export default (config: LoadingConfig = {}): any => {
+const loadingPlugin = (config: LoadingConfig = {}): Plugin => {
 
-  if (!config.loadingActionCreator)
+  if (!config.loadingActionCreator) {
     config.loadingActionCreator = defaultLoadingActionCreator
+  }
 
-  if (!config.mergeInitialState)
-    config.mergeInitialState = defaultMergeInitialState;
+  if (!config.mergeInitialState) {
+    config.mergeInitialState = defaultMergeInitialState
+  }
 
-  if (!config.model)
+  if (!config.model) {
     config.model = {}
+  }
 
   validateConfig(config)
 
@@ -93,10 +96,10 @@ export default (config: LoadingConfig = {}): any => {
 
   const converter =
     config.asNumber === true
-      ? cnt => cnt
-      : cnt => cnt > 0
+      ? (cnt) => cnt
+      : (cnt) => cnt > 0
 
-  let { reducers, ...modelConfig } = config.model;
+  const { reducers, ...modelConfig } = config.model
 
   const loading: Model = {
     reducers: {
@@ -111,7 +114,7 @@ export default (config: LoadingConfig = {}): any => {
 
   cntState.global = 0
   loading.state = config.mergeInitialState(
-    loading.state, { ...cntState, global: converter(cntState.global) }
+    loading.state, { ...cntState, global: converter(cntState.global) },
   )
 
   return {
@@ -120,71 +123,71 @@ export default (config: LoadingConfig = {}): any => {
         loading,
       },
     },
-    init: ({ dispatch }) => ({
-      onModel({ name }: Model) {
-        // do not run dispatch on "loading" model
-        if (name === loadingModelName) { return }
+    onModel({ name }: Model) {
+      // do not run dispatch on "loading" model
+      if (name === loadingModelName) { return }
 
-        cntState.models[name] = 0
-        cntState.effects[name] = {}
+      cntState.models[name] = 0
+      cntState.effects[name] = {}
 
-        let localLoadingState: any = {
-          models: { [name]: converter(cntState.models[name]) },
-          effects: { [name]: {} }
+      let localLoadingState: any = {
+        models: { [name]: converter(cntState.models[name]) },
+        effects: { [name]: {} },
+      }
+      config.mergeInitialState(loading.state, localLoadingState)
+
+      const modelActions = this.dispatch[name]
+
+      // map over effects within models
+      Object.keys(modelActions).forEach((action: string) => {
+        if (this.dispatch[name][action].isEffect !== true) {
+          return
         }
-        config.mergeInitialState(loading.state, localLoadingState)
 
-        const modelActions = dispatch[name]
+        cntState.effects[name][action] = 0
 
-        // map over effects within models
-        Object.keys(modelActions).forEach((action: string) => {
-          if (dispatch[name][action].isEffect !== true) {
-            return
+        localLoadingState = {
+          effects: {
+            ...localLoadingState.effects,
+            [name]: {
+              ...localLoadingState.effects[name],
+              [action]: converter(cntState.effects[name][action]),
+            },
+          },
+        }
+
+        const actionType = `${name}/${action}`
+
+        // ignore items not in whitelist
+        if (config.whitelist && !config.whitelist.includes(actionType)) {
+          return
+        }
+
+        // ignore items in blacklist
+        if (config.blacklist && config.blacklist.includes(actionType)) {
+          return
+        }
+
+        // copy orig effect pointer
+        const origEffect = this.dispatch[name][action]
+
+        // create function with pre & post loading calls
+        const effectWrapper = async (...props) => {
+          try {
+            this.dispatch.loading.show({ name, action })
+            await origEffect(...props)
+            // waits for dispatch function to finish before calling "hide"
+          } finally {
+            this.dispatch.loading.hide({ name, action })
           }
+        }
 
-          cntState.effects[name][action] = 0
-
-          localLoadingState = {
-            effects: {
-              ...localLoadingState.effects,
-              [name]: {
-                ...localLoadingState.effects[name],
-                [action]: converter(cntState.effects[name][action])
-              }
-            }
-          }
-
-          const actionType = `${name}/${action}`
-
-          // ignore items not in whitelist
-          if (config.whitelist && !config.whitelist.includes(actionType)) {
-            return
-          }
-
-          // ignore items in blacklist
-          if (config.blacklist && config.blacklist.includes(actionType)) {
-            return
-          }
-
-          // copy orig effect pointer
-          const origEffect = dispatch[name][action]
-
-          // create function with pre & post loading calls
-          const effectWrapper = async (...props) => {
-            try {
-              dispatch.loading.show({ name, action })
-              await origEffect(...props)
-              // waits for dispatch function to finish before calling "hide"
-            } finally {
-              dispatch.loading.hide({ name, action })
-            }
-          }
-
-          // replace existing effect with new wrapper
-          dispatch[name][action] = effectWrapper
-        })
-        config.mergeInitialState(loading.state, localLoadingState)
-      },
-    }),
+        // replace existing effect with new wrapper
+        this.dispatch[name][action] = effectWrapper
+      })
+      config.mergeInitialState(loading.state, localLoadingState)
+    },
   }
 }
+
+export default loadingPlugin

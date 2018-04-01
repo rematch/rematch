@@ -27,15 +27,13 @@ const reactNavigationPlugin = ({ Routes, initialScreen, sliceState = (state) => 
           },
         },
       },
-      init: ({ dispatch }) => ({
-        onStoreCreated() {
-          dispatch.nav = {}
-          dispatch.nav.navigate = (action) => dispatch(NavigationActions.navigate(action))
-          dispatch.nav.reset = (action) => dispatch(NavigationActions.reset(action))
-          dispatch.nav.back = (action) => dispatch(NavigationActions.back(action))
-          dispatch.nav.setParams = (action) => dispatch(NavigationActions.setParams(action))
-        },
-      }),
+      onStoreCreated() {
+        this.dispatch.nav = {}
+        this.dispatch.nav.navigate = (action) => this.dispatch(NavigationActions.navigate(action))
+        this.dispatch.nav.reset = (action) => this.dispatch(NavigationActions.reset(action))
+        this.dispatch.nav.back = (action) => this.dispatch(NavigationActions.back(action))
+        this.dispatch.nav.setParams = (action) => this.dispatch(NavigationActions.setParams(action))
+      },
     },
   }
 }
