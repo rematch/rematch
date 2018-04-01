@@ -1,23 +1,21 @@
-import { Config, Model, Plugin } from '../typings/rematch'
+import { Config, ConfigRedux, Model, Models, Plugin } from '../typings/rematch'
 import dispatchPlugin from './plugins/dispatch'
 import effectsPlugin from './plugins/effects'
 import PluginFactory from './plugins/pluginFactory'
 import Redux from './redux'
-import mergeConfig from './utils/mergeConfig'
 import validate from './utils/validate'
 
 const corePlugins: Plugin[] = [dispatchPlugin, effectsPlugin]
 
-export default class Rematch<S> {
+export default class Rematch {
   private config: Config
   private models: Model[]
-  private redux: any
+  private redux: ConfigRedux
   private plugins = []
-  private pluginFactory
+  private pluginFactory = new PluginFactory()
 
   constructor(config: Config) {
-    this.config = mergeConfig(config)
-    this.pluginFactory = new PluginFactory()
+    this.config = config
     corePlugins
       .concat(this.config.plugins)
       .forEach((plugin) => this.plugins.push(this.pluginFactory.create(plugin)))
@@ -33,7 +31,7 @@ export default class Rematch<S> {
       }
     })
   }
-  public getModels(models) {
+  public getModels(models: Models) {
     return Object.keys(models).map((name: string) => ({
       name,
       ...models[name],

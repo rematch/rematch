@@ -5,12 +5,21 @@
     ],
     "jsRules": {},
     "rules": {
-        "quotemark": [true, "single"],
-        "semicolon": [true, "never"],
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "semicolon": [
+            true,
+            "never"
+        ],
         "interface-name": false,
         "no-submodule-imports": false,
-        "no-console": [true, "log"],
-        "object-literal-sort-keys": false
+        "no-console": [
+            true,
+            "log"
+        ],
+        "object-literal-sort-keys": false,
     },
     "rulesDirectory": []
 }

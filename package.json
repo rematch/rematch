@@ -90,7 +90,8 @@
     "testPathIgnorePatterns": [
       "/_book/",
       "/lib/",
-      "plugins/react-navigation/examples"
+      "plugins/react-navigation/examples",
+      "/examples/ts"
     ],
     "moduleFileExtensions": [
       "ts",

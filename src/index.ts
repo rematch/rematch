@@ -1,5 +1,6 @@
-import { Action, Config } from '../typings/rematch'
+import { Action, Config, InitConfig } from '../typings/rematch'
 import Rematch from './rematch'
+import mergeConfig from './utils/mergeConfig'
 
 // allows for global dispatch to multiple stores
 const stores = {}
@@ -8,9 +9,11 @@ const stores = {}
  * init
  * @param config
  */
-export const init = (config: Config = {}) => {
+export const init = (initConfig: InitConfig = {}) => {
+  const name = initConfig.name || Object.keys(stores).length.toString()
+  const config: Config = mergeConfig({ ...initConfig, name })
   const store = new Rematch(config).init()
-  stores[config.name || Object.keys(stores).length] = store
+  stores[name] = store
   return store
 }
 

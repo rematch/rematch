@@ -17,7 +17,7 @@ export function init(config: Config | undefined): Redux.Store<any>
 
 export namespace rematch {
   export let dispatch: RematchDispatch;
-  export function init(config: Config): Redux.Store<any>
+  export function init(config: InitConfig): Redux.Store<any>
 }
 
 export interface RematchStore {
@@ -91,7 +91,7 @@ export interface RootReducers {
   [type: string]: Reducer<any>,
 }
 
-export interface ConfigRedux {
+export interface InitConfigRedux {
   initialState?: any,
   reducers?: Reducers,
   enhancers?: Redux.StoreEnhancer<any>[],
@@ -102,9 +102,27 @@ export interface ConfigRedux {
   devtoolOptions?: Object,
 }
 
-export interface Config {
+export interface InitConfig {
   name?: string,
   models?: Models,
   plugins?: Plugin[],
-  redux?: ConfigRedux,
+  redux?: InitConfigRedux,
+}
+
+export interface Config {
+  name: string,
+  models: Models,
+  plugins: Plugin[],
+  redux: ConfigRedux,
+}
+
+export interface ConfigRedux {
+  initialState?: any,
+  reducers: Reducers,
+  enhancers: Redux.StoreEnhancer<any>[],
+  middlewares: Redux.Middleware[],
+  rootReducers?: RootReducers,
+  combineReducers?: (reducers: Redux.ReducersMapObject) => Reducer<any>,
+  createStore?: Redux.StoreCreator,
+  devtoolOptions?: Object,
 }

@@ -11,11 +11,10 @@ import { createMergeReducers, createModelReducer, createRootReducer, initReducer
 
 export default class Redux<S> {
   private store: RematchStore
-  private mergeReducers
+  private mergeReducers: Reducer<any>
   private rootReducer: Reducer<S>
   constructor(rematch) {
     const { config: { redux }, models } = rematch
-
     // possible overwrite of redux imports
     const createStore: StoreCreator = redux.createStore || _createStore
     const combineReducers = redux.combineReducers || _combineReducers

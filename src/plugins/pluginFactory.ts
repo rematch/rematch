@@ -3,7 +3,7 @@ import validate from '../utils/validate'
 
 export default class PluginFactory {
   public validate = validate
-  public create(plugin) {
+  public create(plugin: Plugin) {
     validate([
       [
         plugin.onStoreCreated && typeof plugin.onStoreCreated !== 'function',
