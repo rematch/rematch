@@ -19,9 +19,18 @@ const composeEnhancersWithDevtools = (devtoolOptions = {}): any => (
 
 export default class Redux<S> {
   private store: RematchStore
-  private mergeReducers: Reducer<any>
   private rootReducer: Reducer<S>
   private reducers: ReducersMapObject = {}
+  private combineReducers = _combineReducers
+  private createStore: StoreCreator = _createStore
+
+  private mergeReducers(nextReducers: Reducers = {}) {
+      this.reducers = { ...this.reducers, ...nextReducers }
+      if (!Object.keys(this.reducers).length) {
+        return (state: any) => state
+      }
+      return this.combineReducers(this.reducers)
+  }
 
   public createReducer(reducer: EnhancedReducers, initialState: any) {
     return (state: any = initialState, action: Action) => {
@@ -45,30 +54,19 @@ export default class Redux<S> {
     }
   }
 
-  // uses combineReducers to merge new reducers into existing reducers
-  public createMergeReducers(combine, allReducers) {
-    return (nextReducers: Reducers = {}) => {
-      allReducers = { ...allReducers, ...nextReducers }
-      if (!Object.keys(allReducers).length) {
-        return (state: any) => state
-      }
-      return combine(allReducers)
-    }
-  }
-
-  public initReducers(mergeReducers) {
+  public initReducers() {
     return (models: Model[], redux: ConfigRedux): void => {
       // combine existing reducers, redux.reducers & model.reducers
-      mergeReducers(models.reduce((reducers, model) => ({
+      this.mergeReducers(models.reduce((reducers, model) => ({
         ...this.createModelReducer(model),
         ...reducers,
       }), redux.reducers))
     }
   }
 
-  public createRootReducer(mergeReducers) {
+  public createRootReducer() {
     return (rootReducers: RootReducers = {}): Reducer<any> => {
-      const mergedReducers: Reducer<any> = mergeReducers()
+      const mergedReducers: Reducer<any> = this.mergeReducers()
       if (Object.keys(rootReducers).length) {
         return (state, action) => {
           const rootReducerAction = rootReducers[action.type]
@@ -85,16 +83,18 @@ export default class Redux<S> {
   constructor(rematch) {
     const { config: { redux }, models } = rematch
     // possible overwrite of redux imports
-    const createStore: StoreCreator = redux.createStore || _createStore
-    const combineReducers = redux.combineReducers || _combineReducers
+    if (redux.createStore) {
+      this.createStore = redux.createStore
+    }
+    if (redux.combineReducers) {
+      this.combineReducers = redux.combineReducers
+    }
 
     // initial state
     const initialState: any = typeof redux.initialState === 'undefined' ? {} : redux.initialState
 
     // reducers
-    
-    this.mergeReducers = this.createMergeReducers(combineReducers, this.reducers)
-    this.initReducers(this.mergeReducers)(models, redux)
+    this.initReducers(this.mergeReducers())(models, redux)
     this.rootReducer = this.createRootReducer(this.mergeReducers)(redux.rootReducers)
 
     // middleware/enhancers
@@ -102,7 +102,7 @@ export default class Redux<S> {
     const enhancers = composeEnhancersWithDevtools(redux.devtoolOptions)(...redux.enhancers, middlewares)
 
     // store
-    this.store = createStore(this.rootReducer, initialState, enhancers)
+    this.store = this.createStore(this.rootReducer, initialState, enhancers)
 
     // dynamic loading of models with `replaceReducer`
     this.store.model = (model: Model): void => {

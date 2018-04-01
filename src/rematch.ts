@@ -10,8 +10,8 @@ const corePlugins: Plugin[] = [dispatchPlugin, effectsPlugin]
 export default class Rematch {
   private config: Config
   private models: Model[]
-  private redux: ConfigRedux
-  private plugins = []
+  private redux: any
+  private plugins: Plugin[] = []
   private pluginFactory = new PluginFactory()
 
   constructor(config: Config) {
