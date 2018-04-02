@@ -1,4 +1,4 @@
-import { Config, InitConfig } from '../../typings/rematch'
+import * as R from '../../typings/rematch'
 import validate from './validate'
 
 const merge = (original: any, next: any): any => {
@@ -10,8 +10,8 @@ const isObject = (obj: object): boolean => (Array.isArray(obj) || typeof obj !==
 /**
  * merge init configs together
  */
-export default (initConfig: InitConfig): Config => {
-  const config: Config = {
+export default (initConfig: R.InitConfig): R.Config => {
+  const config: R.Config = {
     name: initConfig.name || '0', // unnecessary
     models: {},
     plugins: [],

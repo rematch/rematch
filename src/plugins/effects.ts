@@ -1,11 +1,11 @@
 /* tslint-disable member-ordering */
-import { Action, Model, Plugin } from '../../typings/rematch'
+import * as R from '../../typings/rematch'
 
-const effectsPlugin: Plugin = {
+const effectsPlugin: R.Plugin = {
   exposed: {
     effects: {},
   },
-  onModel(model: Model): void {
+  onModel(model: R.Model): void {
     if (!model.effects) {
       return
     }
@@ -28,8 +28,8 @@ const effectsPlugin: Plugin = {
       this.dispatch[model.name][effectName].isEffect = true
     }
   },
-  middleware(store) {
-    return (next) => async (action: Action) => {
+  middleware(store: R.RematchStore) {
+    return (next: R.RematchDispatch) => async (action: R.Action) => {
       // async/await acts as promise middleware
       // FIXME: why is .default.exposed.effects necessary?
       if (action.type in this.effects) {

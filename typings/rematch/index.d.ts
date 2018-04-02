@@ -21,10 +21,11 @@ export namespace rematch {
 }
 
 export interface RematchStore {
-  replaceReducer(nextReducer: any): void,
+  replaceReducer(nextReducer: Redux.Reducer): void,
   dispatch(action: Action): void,
   getState(): any,
   model: (model: Model) => void,
+  subscribe(listener: () => void): void,
 }
 
 export type Action = {
@@ -83,6 +84,10 @@ export interface Model {
   },
 }
 
+export interface PluginFactory extends Plugin {
+  create(plugin: Plugin): Plugin,
+}
+
 export interface Plugin {
   config?: InitConfig,
   onInit?: () => void,
@@ -94,11 +99,11 @@ export interface Plugin {
   exposed?: {
     [key: string]: any,
   },
-  validate(validations: Validation[]): void,
-  storeDispatch: Redux.Dispatch<any>,
-  dispatch: RematchDispatch,
-  effects: Object,
-  createDispatcher(modelName: string, reducerName: string): void,
+  validate?(validations: Validation[]): void,
+  storeDispatch?: Redux.Dispatch<any>,
+  dispatch?: RematchDispatch,
+  effects?: Object,
+  createDispatcher?(modelName: string, reducerName: string): void,
 }
 
 export interface RootReducers {

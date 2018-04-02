@@ -1,9 +1,9 @@
-import { Plugin } from '../typings/rematch'
+import * as R from '../typings/rematch'
 import validate from './utils/validate'
 
 export default class PluginFactory {
   public validate = validate
-  public create(plugin: Plugin): Plugin {
+  public create(plugin: R.Plugin): R.Plugin {
     validate([
       [
         plugin.onStoreCreated && typeof plugin.onStoreCreated !== 'function',
@@ -23,7 +23,7 @@ export default class PluginFactory {
       plugin.onInit.call(this)
     }
 
-    const result: Plugin | any = {}
+    const result: R.Plugin | any = {}
 
     if (plugin.exposed) {
       for (const key of Object.keys(plugin.exposed)) {

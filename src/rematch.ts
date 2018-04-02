@@ -1,20 +1,20 @@
-import { Config, Model, Models, Plugin } from '../typings/rematch'
+import * as R from '../typings/rematch'
 import PluginFactory from './pluginFactory'
 import dispatchPlugin from './plugins/dispatch'
 import effectsPlugin from './plugins/effects'
 import Redux from './redux'
 import validate from './utils/validate'
 
-const corePlugins: Plugin[] = [dispatchPlugin, effectsPlugin]
+const corePlugins: R.Plugin[] = [dispatchPlugin, effectsPlugin]
 
 export default class Rematch {
-  private config: Config
-  private models: Model[]
+  private config: R.Config
+  private models: R.Model[]
   private redux: any
-  private plugins: Plugin[] = []
-  private pluginFactory = new PluginFactory()
+  private plugins: R.Plugin[] = []
+  private pluginFactory: R.PluginFactory = new PluginFactory()
 
-  constructor(config: Config) {
+  constructor(config: R.Config) {
     this.config = config
     for (const plugin of corePlugins.concat(this.config.plugins)) {
       this.plugins.push(this.pluginFactory.create(plugin))
@@ -31,13 +31,13 @@ export default class Rematch {
       }
     }
   }
-  public getModels(models: Models) {
+  public getModels(models: R.Models) {
     return Object.keys(models).map((name: string) => ({
       name,
       ...models[name],
     }))
   }
-  public addModel(model: Model) {
+  public addModel(model: R.Model) {
     validate([
       [!model, 'model config is required'],
       [typeof model.name !== 'string', 'model "name" [string] is required'],

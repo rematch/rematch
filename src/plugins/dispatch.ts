@@ -1,15 +1,14 @@
-import { Store } from 'redux'
-import { Action, Model, Plugin } from '../../typings/rematch'
+import * as R from '../../typings/rematch'
 
-const dispatchPlugin: Plugin = {
+const dispatchPlugin: R.Plugin = {
   exposed: {
     storeDispatch: () => console.warn('Warning: store not yet loaded'),
-    dispatch(action: Action) {
+    dispatch(action: R.Action) {
       return this.storeDispatch(action)
     },
     createDispatcher(modelName: string, reducerName: string) {
       return async (payload?: any, meta?: any): Promise<any> => {
-        const action: Action = { type: `${modelName}/${reducerName}` }
+        const action: R.Action = { type: `${modelName}/${reducerName}` }
         if (typeof payload !== 'undefined') {
           action.payload = payload
         }
@@ -20,10 +19,10 @@ const dispatchPlugin: Plugin = {
       }
     },
   },
-  onStoreCreated(store: Store<any>) {
+  onStoreCreated(store: R.RematchStore) {
     this.storeDispatch = store.dispatch
   },
-  onModel(model: Model) {
+  onModel(model: R.Model) {
     this.dispatch[model.name] = {}
     if (!model.reducers) {
       return
