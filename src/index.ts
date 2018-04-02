@@ -7,6 +7,9 @@ const stores = {}
 
 /**
  * init
+ *
+ * generates a Rematch store
+ * with a set configuration
  * @param config
  */
 export const init = (initConfig: R.InitConfig = {}): R.RematchStore => {
@@ -19,6 +22,8 @@ export const init = (initConfig: R.InitConfig = {}): R.RematchStore => {
 
 /**
  * global Dispatch
+ *
+ * calls store.dispatch in all stores
  * @param action
  */
 export const dispatch = (action: R.Action) => {
@@ -29,6 +34,9 @@ export const dispatch = (action: R.Action) => {
 
 /**
  * global getState
+ *
+ * loads state from all stores
+ * returns an object with key: storeName, value: store.getState()
  */
 export const getState = () => {
   const state = {}

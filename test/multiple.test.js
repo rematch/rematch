@@ -1,6 +1,11 @@
 const { init } = require('../src')
 
 describe('multiple stores:', () => {
+
+  afterEach(() => {
+    jest.resetModules()
+  })
+
   test('should not throw if multiple stores', () => {
     const store1 = init({})
     expect(() => init({})).not.toThrow()
@@ -52,7 +57,70 @@ describe('multiple stores:', () => {
 
     expect(store1.getState()).toEqual({ count: 2 })
     expect(store2.getState()).toEqual({ count: 2 })
-    jest.resetModules()
+  })
+  
+  test('dispatch should not overwrite another dispatch', () => {
+    const { init, dispatch } = require('../src')
+
+    const count1 = {
+      state: 0,
+      reducers: {
+        increment: (state) => state + 1,
+      }
+    }
+
+    const count2 = {
+      state: 0,
+      reducers: {
+        increment: (state) => state + 2,
+      }
+    }
+
+    const store1 = init({ models: { count: count1 } })
+    const store2 = init({ models: { count: count2 } })
+
+    store1.dispatch({ type: 'count/increment' })
+    store2.dispatch({ type: 'count/increment' })
+
+    expect(store1.getState()).toEqual({ count: 1 })
+    expect(store2.getState()).toEqual({ count: 2 })
+  })
+
+  test('dispatch should not overwrite another effect', async () => {
+    const { init, dispatch } = require('../src')
+
+    const count1 = {
+      state: 0,
+      reducers: {
+        increment: (state) => state + 1,
+      },
+      effects: {
+        async asyncIncrement() {
+          await this.increment()
+        }
+      }
+    }
+
+    const count2 = {
+      state: 0,
+      reducers: {
+        increment: (state) => state + 2,
+      },
+      effects: {
+        async asyncIncrement() {
+          await this.increment()
+        }
+      }
+    }
+
+    const store1 = init({ models: { count: count1 } })
+    const store2 = init({ models: { count: count2 } })
+
+    await store1.dispatch.count.asyncIncrement()
+    await store2.dispatch.count.asyncIncrement()
+
+    expect(store1.getState()).toEqual({ count: 1 })
+    expect(store2.getState()).toEqual({ count: 2 })
   })
 
   test('global getState should get multiple states', () => {
@@ -73,7 +141,6 @@ describe('multiple stores:', () => {
         count: 42,
       }
     })
-    jest.resetModules()
   })
 
   test('global getState should allow multiple named stores', () => {
@@ -94,6 +161,5 @@ describe('multiple stores:', () => {
         count: 42,
       }
     })
-    jest.resetModules()
   })
 })

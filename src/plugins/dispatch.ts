@@ -7,10 +7,26 @@ import * as R from '../../typings/rematch'
  */
 const dispatchPlugin: R.Plugin = {
   exposed: {
+    // required as a placeholder for store.dispatch
     storeDispatch: () => console.warn('Warning: store not yet loaded'),
+
+    /**
+     * dispatch
+     *
+     * both a function (dispatch) and an object (dispatch[modelName][actionName])
+     * @param action R.Action
+     */
     dispatch(action: R.Action) {
       return this.storeDispatch(action)
     },
+
+    /**
+     * createDispatcher
+     *
+     * genereates an action creator for a given model & reducer
+     * @param modelName string
+     * @param reducerName string
+     */
     createDispatcher(modelName: string, reducerName: string) {
       return async (payload?: any, meta?: any): Promise<any> => {
         const action: R.Action = { type: `${modelName}/${reducerName}` }
@@ -24,9 +40,13 @@ const dispatchPlugin: R.Plugin = {
       }
     },
   },
+
+  // access store.dispatch after store is created
   onStoreCreated(store: R.RematchStore) {
     this.storeDispatch = store.dispatch
   },
+
+  // generate action creators for all model.reducers
   onModel(model: R.Model) {
     this.dispatch[model.name] = {}
     if (!model.reducers) {

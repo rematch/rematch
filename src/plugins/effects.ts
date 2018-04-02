@@ -9,15 +9,11 @@ import * as R from '../../typings/rematch'
 const effectsPlugin: R.Plugin = {
 
   exposed: {
+    // expose effects for access from dispatch plugin
     effects: {},
   },
 
-  /**
-   * Effects onModel
-   *
-   * add effects to dispatch
-   * @param model
-   */
+  // add effects to dispatch so that dispatch[modelName][effectName] calls an effect
   onModel(model: R.Model): void {
     if (!model.effects) {
       return
@@ -42,12 +38,7 @@ const effectsPlugin: R.Plugin = {
     }
   },
 
-  /**
-   * Effects Middleware
-   *
-   * process async/await actions
-   * @param store
-   */
+  // process async/await actions
   middleware(store: R.RematchStore) {
     return (next: R.RematchDispatch) => async (action: R.Action) => {
       // async/await acts as promise middleware

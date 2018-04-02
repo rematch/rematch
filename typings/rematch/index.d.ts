@@ -22,7 +22,7 @@ export namespace rematch {
 
 export interface RematchStore {
   replaceReducer(nextReducer: Redux.Reducer): void,
-  dispatch(action: Action): void,
+  dispatch: Redux.Dispatch<Action>,
   getState(): any,
   model: (model: Model) => void,
   subscribe(listener: () => void): void,
@@ -93,14 +93,14 @@ export interface Plugin {
   onInit?: () => void,
   onStoreCreated?: (store: Redux.Store<any>) => void,
   onModel?: ModelHook,
-  middleware?: <S>(store: Redux.MiddlewareAPI<S>) => (next: Redux.Dispatch<S>) => (action: Action) => any,
+  middleware?: <S>(store: Redux.MiddlewareAPI) => (next: Redux.Dispatch) => (action: Action) => any,
 
   // exposed
   exposed?: {
     [key: string]: any,
   },
   validate?(validations: Validation[]): void,
-  storeDispatch?: Redux.Dispatch<any>,
+  storeDispatch?(action: Action): Redux.Dispatch<any> | undefined,
   dispatch?: RematchDispatch,
   effects?: Object,
   createDispatcher?(modelName: string, reducerName: string): void,
