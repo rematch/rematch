@@ -91,6 +91,7 @@
       "/_book/",
       "/lib/",
       "plugins/react-navigation/examples",
+      "plugins/subscriptions",
       "/examples/ts"
     ],
     "moduleFileExtensions": [
