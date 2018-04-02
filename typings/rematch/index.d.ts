@@ -146,6 +146,12 @@ export interface ConfigRedux {
   devtoolOptions?: Object,
 }
 
+export interface RematchClass {
+  config: Config,
+  models: Model[],
+  addModel(model: Model): void,
+}
+
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: any,

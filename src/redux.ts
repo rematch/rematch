@@ -9,12 +9,6 @@ const composeEnhancersWithDevtools = (devtoolOptions = {}): any => (
     : Redux.compose
 )
 
-interface RematchClass {
-  config: R.Config,
-  models: R.Models,
-  addModel(model: R.Model): void,
-}
-
 export default class RematchRedux {
   protected store: R.RematchStore
   private rootReducer: Redux.Reducer<any>
@@ -22,7 +16,7 @@ export default class RematchRedux {
   private combineReducers = Redux.combineReducers
   private createStore: Redux.StoreCreator = Redux.createStore
 
-  constructor(rematch: RematchClass) {
+  constructor(rematch: R.RematchClass) {
     const { config: { redux }, models } = rematch
     // possible overwrite of redux imports
     for (const overwrite of ['createStore', 'combineReducers']) {

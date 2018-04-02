@@ -8,8 +8,8 @@ import validate from './utils/validate'
 const corePlugins: R.Plugin[] = [dispatchPlugin, effectsPlugin]
 
 export default class Rematch {
-  private config: R.Config
-  private models: R.Model[]
+  protected config: R.Config
+  protected models: R.Model[]
   private redux: any
   private plugins: R.Plugin[] = []
   private pluginFactory: R.PluginFactory = new PluginFactory()
@@ -31,7 +31,7 @@ export default class Rematch {
       }
     }
   }
-  public getModels(models: R.Models) {
+  public getModels(models: R.Models): R.Model[] {
     return Object.keys(models).map((name: string) => ({
       name,
       ...models[name],
