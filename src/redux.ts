@@ -9,6 +9,11 @@ const composeEnhancersWithDevtools = (devtoolOptions = {}): any => (
     : Redux.compose
 )
 
+/**
+ * RematchRedux class
+ *
+ * the core Redux implementation of Rematch
+ */
 export default class RematchRedux {
   protected store: R.RematchStore
   private rootReducer: Redux.Reducer<any>

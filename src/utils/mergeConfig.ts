@@ -8,6 +8,8 @@ const merge = (original: any, next: any): any => {
 const isObject = (obj: object): boolean => (Array.isArray(obj) || typeof obj !== 'object')
 
 /**
+ * mergeConfig
+ *
  * merge init configs together
  */
 export default (initConfig: R.InitConfig): R.Config => {

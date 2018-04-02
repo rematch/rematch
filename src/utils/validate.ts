@@ -1,7 +1,7 @@
 import { Validation } from '../../typings/rematch'
 
 /**
- * Validate
+ * validate
  *
  * takes an array of arrays of validations and
  * throws if an error occurs

@@ -1,8 +1,25 @@
 import * as R from '../typings/rematch'
 import validate from './utils/validate'
 
+/**
+ * PluginFactory
+ *
+ * makes Plugin objects extend and inherit from a root PluginFactory
+ */
 export default class PluginFactory {
+  /**
+   * validate
+   *
+   * bind validate to the store for easy access
+   */
   public validate = validate
+
+  /**
+   * create plugin
+   *
+   * binds plugin properties and functions to an instance of PluginFactorys
+   * @param plugin
+   */
   public create(plugin: R.Plugin): R.Plugin {
     validate([
       [

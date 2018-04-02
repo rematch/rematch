@@ -1,5 +1,10 @@
 import * as R from '../../typings/rematch'
 
+/**
+ * Dispatch Plugin
+ *
+ * generates dispatch[modelName][actionName]
+ */
 const dispatchPlugin: R.Plugin = {
   exposed: {
     storeDispatch: () => console.warn('Warning: store not yet loaded'),

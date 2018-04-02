@@ -1,10 +1,23 @@
 /* tslint-disable member-ordering */
 import * as R from '../../typings/rematch'
 
+/**
+ * Effects Plugin
+ *
+ * Plugin for handling async actions
+ */
 const effectsPlugin: R.Plugin = {
+
   exposed: {
     effects: {},
   },
+
+  /**
+   * Effects onModel
+   *
+   * add effects to dispatch
+   * @param model
+   */
   onModel(model: R.Model): void {
     if (!model.effects) {
       return
@@ -28,6 +41,13 @@ const effectsPlugin: R.Plugin = {
       this.dispatch[model.name][effectName].isEffect = true
     }
   },
+
+  /**
+   * Effects Middleware
+   *
+   * process async/await actions
+   * @param store
+   */
   middleware(store: R.RematchStore) {
     return (next: R.RematchDispatch) => async (action: R.Action) => {
       // async/await acts as promise middleware
