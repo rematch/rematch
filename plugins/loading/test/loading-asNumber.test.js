@@ -2,7 +2,7 @@ const { init } = require('../../../src')
 const loadingPlugin = require('../src').default
 const { delay, count } = require('./utils')
 
-xdescribe('loading asNumbers', () => {
+describe('loading asNumbers', () => {
   test('loading.global should be 0 for normal dispatched action', () => {
     const store = init({
       models: { count },
@@ -34,7 +34,7 @@ xdescribe('loading asNumbers', () => {
     expect(store.getState().loading.global).toBe(2)
   })
 
-  test('should set loading.models[name] to 0', () => {
+  xtest('should set loading.models[name] to 0', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin({ asNumber: true })]
@@ -64,7 +64,7 @@ xdescribe('loading asNumbers', () => {
     expect(store.getState().loading.models.count).toBe(2)
   })
 
-  test('should set loading.effects[name] to object of effects', () => {
+  xtest('should set loading.effects[name] to object of effects', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin({ asNumber: true })]
@@ -93,7 +93,7 @@ xdescribe('loading asNumbers', () => {
     expect(store.getState().loading.effects.count.timeout).toBe(2)
   })
 
-  test('should capture all model and global loading for simultaneous effects', async () => {
+  xtest('should capture all model and global loading for simultaneous effects', async () => {
     const count2 = {
       state: 0,
       effects: {
@@ -166,7 +166,7 @@ xdescribe('loading asNumbers', () => {
     expect(createStore).toThrow()
   })
 
-  test('should block items if not in whitelist', () => {
+  xtest('should block items if not in whitelist', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin({
@@ -229,7 +229,7 @@ xdescribe('loading asNumbers', () => {
     expect(createStore).toThrow()
   })
 
-  test('should handle "hide" if effect throws', async () => {
+  xtest('should handle "hide" if effect throws', async () => {
     const count2 = {
       state: 0,
       effects: {
@@ -250,7 +250,7 @@ xdescribe('loading asNumbers', () => {
     }
   })
 
-  test('should trigger four actions', async () => {
+  xtest('should trigger four actions', async () => {
     let actions = []
     const store = init({
       models: { count },

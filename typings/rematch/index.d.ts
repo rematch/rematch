@@ -77,7 +77,7 @@ export interface Model {
 }
 
 export interface Plugin {
-  config?: Config,
+  config?: InitConfig,
   exposed?: {
     [key: string]: any,
   },

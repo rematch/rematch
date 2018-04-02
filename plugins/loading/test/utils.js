@@ -13,7 +13,7 @@ exports.count = {
   effects: {
     async timeout() {
       await delay(200)
-      this.addOne()
+      await this.addOne()
     }
   }
 }

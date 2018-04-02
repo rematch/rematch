@@ -4,8 +4,8 @@ const { init } = require('../../../src')
 const loadingPlugin = require('../src').default
 const { delay, count, redux, loadingImmutable } = require('./utils')
 
-xdescribe('loading asNumbers with Immutable', () => {
-  test('loading.global should be false for normal dispatched action', () => {
+describe('loading asNumbers with Immutable', () => {
+  xtest('loading.global should be false for normal dispatched action', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin(loadingImmutable)],
@@ -16,7 +16,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     expect(store.getState().getIn(['loading','global'])).toBe(false)
   })
 
-  test('loading.global should be true for a dispatched effect', () => {
+  xtest('loading.global should be true for a dispatched effect', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin(loadingImmutable)],
@@ -27,7 +27,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     expect(store.getState().getIn(['loading','global'])).toBe(true)
   })
 
-  test('loading.global should be true for two dispatched effects', () => {
+  xtest('loading.global should be true for two dispatched effects', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin(loadingImmutable)],
@@ -39,7 +39,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     expect(store.getState().getIn(['loading','global'])).toBe(true)
   })
 
-  test('should set loading.models[name] to true', () => {
+  xtest('should set loading.models[name] to true', () => {
     const {
       init
     } = require('../../../src')
@@ -52,7 +52,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     expect(store.getState().getIn(['loading','models','count'])).toBe(false)
   })
 
-  test('should change the loading.models to true', () => {
+  xtest('should change the loading.models to true', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin(loadingImmutable)],
@@ -63,7 +63,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     expect(store.getState().getIn(['loading','models','count'])).toBe(true)
   })
 
-  test('should change the loading.models to true (double dispatch)', () => {
+  xtest('should change the loading.models to true (double dispatch)', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin(loadingImmutable)],
@@ -88,7 +88,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     expect(state1).not.toBe(state2)
   })
 
-  test('should set loading.effects[name] to object of effects', () => {
+  xtest('should set loading.effects[name] to object of effects', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin(loadingImmutable)],
@@ -97,7 +97,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     expect(store.getState().getIn(['loading','effects','count','timeout'])).toBe(false)
   })
 
-  test('should change the loading.effects to true', () => {
+  xtest('should change the loading.effects to true', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin(loadingImmutable)],
@@ -108,7 +108,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     expect(store.getState().getIn(['loading','effects','count','timeout'])).toBe(true)
   })
 
-  test('should change the loading.effects to true (double dispatch)', () => {
+  xtest('should change the loading.effects to true (double dispatch)', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin(loadingImmutable)],
@@ -120,7 +120,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     expect(store.getState().getIn(['loading','effects','count','timeout'])).toBe(true)
   })
 
-  test('should capture all model and global loading for simultaneous effects', async () => {
+  xtest('should capture all model and global loading for simultaneous effects', async () => {
     const count2 = {
       state: 0,
       effects: {
@@ -161,7 +161,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     expect(ld().get('global')).toBe(false)
   })
 
-  test('should handle "hide" if effect throws', async () => {
+  xtest('should handle "hide" if effect throws', async () => {
     const count2 = {
       state: 0,
       effects: {
@@ -183,7 +183,7 @@ xdescribe('loading asNumbers with Immutable', () => {
     }
   })
 
-  test('should trigger four actions', async () => {
+  xtest('should trigger four actions', async () => {
     let actions = []
     const store = init({
       models: { count },

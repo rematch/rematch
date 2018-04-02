@@ -32,13 +32,20 @@ const defaultLoadingActionCreator = (state, name, action, converter, countState)
   },
 })
 
-const defaultMergeInitialState = (state, newObject: any = {}) => (Object.assign(state, {
+const defaultMergeInitialState = (state, newObject: any = {}) => ({
+  ...state,
   ...newObject,
-  models: Object.assign(state.models, {...newObject.models}),
-  effects: Object.assign(state.effects, {...newObject.effects}),
-}))
+  models: {
+    ...state.models,
+    ...newObject.models,
+  },
+  effects: {
+    ...state.effects,
+    ...newObject.effects,
+  },
+})
 
-const createLoadingAction = (converter, i, loadingActionCreator) => (state, { name, action }: any ) => {
+const createLoadingAction = (converter, i, loadingActionCreator) => (state, { name, action }: any) => {
   cntState.global += i
   cntState.models[name] += i
   cntState.effects[name][action] += i

@@ -2,7 +2,7 @@ const { init } = require('../../../src')
 const loadingPlugin = require('../src').default
 const { delay, count, redux, loadingImmutable } = require('./utils')
 
-xdescribe('loading asBoolean with Immutable', () => {
+describe('loading asBoolean with Immutable', () => {
   test('loading.global should be 0 for normal dispatched action', () => {
     const store = init({
       models: { count },
@@ -86,7 +86,7 @@ xdescribe('loading asBoolean with Immutable', () => {
     expect(state1).not.toBe(state2)
   })
 
-  test('should set loading.effects[name] to object of effects', () => {
+  xtest('should set loading.effects[name] to object of effects', () => {
     const store = init({
       models: { count },
       plugins: [loadingPlugin(loadingImmutable)],
@@ -118,7 +118,7 @@ xdescribe('loading asBoolean with Immutable', () => {
     expect(store.getState().getIn(['loading','effects','count','timeout'])).toBe(2)
   })
 
-  test('should capture all model and global loading for simultaneous effects', async () => {
+  xtest('should capture all model and global loading for simultaneous effects', async () => {
     const count2 = {
       state: 0,
       effects: {
@@ -159,7 +159,7 @@ xdescribe('loading asBoolean with Immutable', () => {
     expect(ld().get('global')).toBe(0)
   })
 
-  test('should handle "hide" if effect throws', async () => {
+  xtest('should handle "hide" if effect throws', async () => {
     const count2 = {
       state: 0,
       effects: {
@@ -181,7 +181,7 @@ xdescribe('loading asBoolean with Immutable', () => {
     }
   })
 
-  test('should trigger four actions', async () => {
+  xtest('should trigger four actions', async () => {
     let actions = []
     const store = init({
       models: { count },
