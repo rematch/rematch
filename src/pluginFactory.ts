@@ -1,9 +1,9 @@
-import { Plugin } from '../../typings/rematch'
-import validate from '../utils/validate'
+import { Plugin } from '../typings/rematch'
+import validate from './utils/validate'
 
 export default class PluginFactory {
   public validate = validate
-  public create(plugin: Plugin) {
+  public create(plugin: Plugin): Plugin {
     validate([
       [
         plugin.onStoreCreated && typeof plugin.onStoreCreated !== 'function',
@@ -23,24 +23,21 @@ export default class PluginFactory {
       plugin.onInit.call(this)
     }
 
-    const result: Plugin = {}
+    const result: Plugin | any = {}
+
     if (plugin.exposed) {
-      Object.keys(plugin.exposed || {}).forEach((key) => {
+      for (const key of Object.keys(plugin.exposed)) {
         this[key] = typeof plugin.exposed[key] === 'function'
           // bind functions to plugin class
           ? plugin.exposed[key].bind(this)
           // add exposed to plugin class
           : plugin.exposed[key]
-      })
+      }
     }
-    if (plugin.onModel) {
-      result.onModel = plugin.onModel.bind(this)
-    }
-    if (plugin.middleware) {
-      result.middleware = plugin.middleware.bind(this)
-    }
-    if (plugin.onStoreCreated) {
-      result.onStoreCreated = plugin.onStoreCreated.bind(this)
+    for (const method of ['onModel', 'middleware', 'onStoreCreated']) {
+      if (plugin[method]) {
+        result[method] = plugin[method].bind(this)
+      }
     }
     return result
   }

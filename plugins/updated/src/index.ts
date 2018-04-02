@@ -37,7 +37,7 @@ const updatedPlugin = (config: UpdatedConfig = {}): Plugin => {
       updated.state[name] = {}
 
       // map over effects within models
-      Object.keys(modelActions).forEach((action: string) => {
+      for (const action of Object.keys(modelActions)) {
         if (this.dispatch[name][action].isEffect) {
           // copy function
           const fn = this.dispatch[name][action]
@@ -52,7 +52,7 @@ const updatedPlugin = (config: UpdatedConfig = {}): Plugin => {
           // replace existing effect with new dispatch
           this.dispatch[name][action] = dispatchWithUpdateHook
         }
-      })
+      }
     },
   }
 }

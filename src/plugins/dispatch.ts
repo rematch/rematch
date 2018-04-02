@@ -25,7 +25,10 @@ const dispatchPlugin: Plugin = {
   },
   onModel(model: Model) {
     this.dispatch[model.name] = {}
-    Object.keys(model.reducers || {}).forEach((reducerName: string) => {
+    if (!model.reducers) {
+      return
+    }
+    for (const reducerName of Object.keys(model.reducers)) {
       this.validate([
         [
           !!reducerName.match(/\/.+\//),
@@ -37,7 +40,7 @@ const dispatchPlugin: Plugin = {
         ],
       ])
       this.dispatch[model.name][reducerName] = this.createDispatcher.apply(this, [model.name, reducerName])
-    })
+    }
   },
 }
 

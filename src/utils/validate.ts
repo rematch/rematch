@@ -8,13 +8,13 @@ import { Validation } from '../../typings/rematch'
  */
 const validate = (validations: Validation[]): void => {
   if (process.env.NODE_ENV !== 'production') {
-    validations.forEach((validation: Validation) => {
+    for (const validation of validations) {
       const condition = validation[0]
       const errorMessage = validation[1]
       if (condition) {
         throw new Error(errorMessage)
       }
-    })
+    }
   }
 }
 

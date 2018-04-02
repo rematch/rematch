@@ -1,4 +1,4 @@
-import { Action, Config, InitConfig } from '../typings/rematch'
+import { Action, Config, InitConfig, RematchStore } from '../typings/rematch'
 import Rematch from './rematch'
 import mergeConfig from './utils/mergeConfig'
 
@@ -9,7 +9,7 @@ const stores = {}
  * init
  * @param config
  */
-export const init = (initConfig: InitConfig = {}) => {
+export const init = (initConfig: InitConfig = {}): RematchStore => {
   const name = initConfig.name || Object.keys(stores).length.toString()
   const config: Config = mergeConfig({ ...initConfig, name })
   const store = new Rematch(config).init()

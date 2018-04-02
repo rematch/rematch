@@ -17,9 +17,9 @@ const composeEnhancersWithDevtools = (devtoolOptions = {}): any => (
     : compose
 )
 
-export default class Redux<S> {
+export default class Redux {
   private store: RematchStore
-  private rootReducer: Reducer<S>
+  private rootReducer: Reducer<any>
   private reducers: ReducersMapObject = {}
   private combineReducers = _combineReducers
   private createStore: StoreCreator = _createStore
@@ -68,11 +68,11 @@ export default class Redux<S> {
 
   public createModelReducer({ name, reducers, state }: Model) {
     const modelReducers: Reducers = {}
-    Object.keys(reducers || {})
-      .forEach((reducer) => {
-        const action = isListener(reducer) ? reducer : `${name}/${reducer}`
-        modelReducers[action] = reducers[reducer]
-      })
+    const allReducers = reducers || {}
+    for (const reducer of Object.keys(allReducers)) {
+      const action = isListener(reducer) ? reducer : `${name}/${reducer}`
+      modelReducers[action] = allReducers[reducer]
+    }
     return {
       [name]: this.createReducer(modelReducers, state),
     }

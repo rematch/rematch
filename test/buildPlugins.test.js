@@ -1,4 +1,4 @@
-const PluginFactory = require('../src/plugins/pluginFactory').default
+const PluginFactory = require('../src/pluginFactory').default
 
 describe('buildPlugins:', () => {
   test('should not create a plugin with invalid "onModel"', () => {

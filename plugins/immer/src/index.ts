@@ -6,7 +6,7 @@ function combineReducersWithImmer(reducers: ReducersMapObject) {
   const reducersWithImmer = {}
 
   // reducer must return value because literal don't support immer
-  Object.entries(reducers).forEach(([key, reducerFn]) => {
+  for (const [key, reducerFn] of Object.entries(reducers)) {
     reducersWithImmer[key] = (state, payload) => {
       if (typeof state === 'object') {
         return produce(state, (draft: Models) => {
@@ -16,7 +16,7 @@ function combineReducersWithImmer(reducers: ReducersMapObject) {
         return reducerFn(state, payload)
       }
     }
-  })
+  }
 
   return combineReducers(reducersWithImmer)
 }

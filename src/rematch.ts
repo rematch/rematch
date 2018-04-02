@@ -1,7 +1,7 @@
-import { Config, ConfigRedux, Model, Models, Plugin } from '../typings/rematch'
+import { Config, Model, Models, Plugin } from '../typings/rematch'
+import PluginFactory from './pluginFactory'
 import dispatchPlugin from './plugins/dispatch'
 import effectsPlugin from './plugins/effects'
-import PluginFactory from './plugins/pluginFactory'
 import Redux from './redux'
 import validate from './utils/validate'
 
@@ -16,20 +16,20 @@ export default class Rematch {
 
   constructor(config: Config) {
     this.config = config
-    corePlugins
-      .concat(this.config.plugins)
-      .forEach((plugin) => this.plugins.push(this.pluginFactory.create(plugin)))
+    for (const plugin of corePlugins.concat(this.config.plugins)) {
+      this.plugins.push(this.pluginFactory.create(plugin))
+    }
     // preStore: middleware, model hooks
     this.forEachPlugin('middleware', (middleware) => {
       this.config.redux.middlewares.push(middleware)
     })
   }
   public forEachPlugin(method: string, fn: (content: any) => void) {
-    this.plugins.forEach((plugin: Plugin) => {
+    for (const plugin of this.plugins) {
       if (plugin[method]) {
         fn(plugin[method])
       }
-    })
+    }
   }
   public getModels(models: Models) {
     return Object.keys(models).map((name: string) => ({
@@ -49,7 +49,9 @@ export default class Rematch {
   public init() {
     // collect all models
     this.models = this.getModels(this.config.models)
-    this.models.forEach((model: Model) => this.addModel(model))
+    for (const model of this.models) {
+      this.addModel(model)
+    }
     // create a redux store with initialState
     // merge in additional extra reducers
     this.redux = new Redux(this)

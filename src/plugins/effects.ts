@@ -6,7 +6,10 @@ const effectsPlugin: Plugin = {
     effects: {},
   },
   onModel(model: Model): void {
-    Object.keys(model.effects || {}).forEach((effectName: string) => {
+    if (!model.effects) {
+      return
+    }
+    for (const effectName of Object.keys(model.effects)) {
       this.validate([
         [
           !!effectName.match(/\//),
@@ -23,7 +26,7 @@ const effectsPlugin: Plugin = {
       this.dispatch[model.name][effectName] = this.createDispatcher.apply(this, [model.name, effectName])
       // tag effects so they can be differentiated from normal actions
       this.dispatch[model.name][effectName].isEffect = true
-    })
+    }
   },
   middleware(store) {
     return (next) => async (action: Action) => {

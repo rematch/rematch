@@ -24,7 +24,7 @@ export interface RematchStore {
   replaceReducer(nextReducer: any): void,
   dispatch(action: Action): void,
   getState(): any,
-  model?: (model: Model) => void,
+  model: (model: Model) => void,
 }
 
 export type Action = {
@@ -46,23 +46,30 @@ export type Reducers = {
 }
 
 export type Models = {
-  [key: string]: Model,
+  [key: string]: Model | ModelConfig,
 }
 
 export type ModelHook = (model: Model) => void
 
 export type Validation = [boolean | undefined, string]
 
-export type Exposed = {
-  dispatch: Redux.Dispatch<any> | { [key: string]: () => void },
-  effects: any,
-  createDispatcher: (modelName: string, reducerName: string) => any,
-  validate: (validations: Validation[]) => void,
-  [key: string]: any,
+export interface ModelConfig {
+  name?: string,
+  state: any,
+  reducers?: Reducers,
+  effects?: {
+    [key: string]: (payload: any, state: any) => void,
+  },
+  selectors?: {
+    [key: string]: (state: any, arg?: any) => any,
+  },
+  subscriptions?: {
+    [matcher: string]: (action: Action) => void,
+  },
 }
 
 export interface Model {
-  name?: string,
+  name: string,
   state: any,
   reducers?: Reducers,
   effects?: {
@@ -78,13 +85,20 @@ export interface Model {
 
 export interface Plugin {
   config?: InitConfig,
-  exposed?: {
-    [key: string]: any,
-  },
   onInit?: () => void,
   onStoreCreated?: (store: Redux.Store<any>) => void,
   onModel?: ModelHook,
   middleware?: <S>(store: Redux.MiddlewareAPI<S>) => (next: Redux.Dispatch<S>) => (action: Action) => any,
+
+  // exposed
+  exposed?: {
+    [key: string]: any,
+  },
+  validate(validations: Validation[]): void,
+  storeDispatch: Redux.Dispatch<any>,
+  dispatch: RematchDispatch,
+  effects: Object,
+  createDispatcher(modelName: string, reducerName: string): void,
 }
 
 export interface RootReducers {
