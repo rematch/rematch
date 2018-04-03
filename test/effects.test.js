@@ -309,7 +309,7 @@ describe('effects:', () => {
   })
 
   test('should appear as an action for devtools', async () => {
-    let count = 0
+    const actions = []
 
     const store = init({
       models: {
@@ -329,19 +329,14 @@ describe('effects:', () => {
       },
       redux: {
         middlewares: [() => next => action => {
-          if (action.type === 'count/addOneAsync') {
-            count += 1
-          }
+          actions.push(action.type)
           return next(action)
         }]
       }
     })
 
-    await Promise.all([
-      store.dispatch.count.addOneAsync(),
-      store.dispatch.count.addOneAsync()
-    ])
-    expect(count).toBe(2)
+    await store.dispatch.count.addOneAsync()
+    expect(actions).toEqual(['count/addOneAsync', 'count/addOne'])
   })
 
   test('should not validate effect if production', () => {

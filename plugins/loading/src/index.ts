@@ -1,4 +1,4 @@
-import { Action, Model, Plugin } from '@rematch/core'
+import { Action, Model, PluginCreator } from '@rematch/core'
 
 interface LoadingConfig {
   name?: string,
@@ -45,7 +45,7 @@ const defaultMergeInitialState = (state, newObject: any = {}) => ({
   },
 })
 
-const createLoadingAction = (converter, i, loadingActionCreator) => (state, { name, action }: any) => {
+const createLoadingAction = (converter, i, loadingActionCreator) => (state, { name, action }: any ) => {
   cntState.global += i
   cntState.models[name] += i
   cntState.effects[name][action] += i
@@ -83,7 +83,7 @@ const validateConfig = (config) => {
   }
 }
 
-const loadingPlugin = (config: LoadingConfig = {}): Plugin => {
+export default (config: LoadingConfig = {}): any => {
 
   if (!config.loadingActionCreator) {
     config.loadingActionCreator = defaultLoadingActionCreator
@@ -196,5 +196,3 @@ const loadingPlugin = (config: LoadingConfig = {}): Plugin => {
     },
   }
 }
-
-export default loadingPlugin
