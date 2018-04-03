@@ -8,7 +8,7 @@ import * as R from '../../typings/rematch'
 const dispatchPlugin: R.Plugin = {
   exposed: {
     // required as a placeholder for store.dispatch
-    storeDispatch: () => console.warn('Warning: store not yet loaded'),
+    storeDispatch: (action: R.Action) => console.warn('Warning: store not yet loaded'),
 
     /**
      * dispatch
@@ -42,7 +42,7 @@ const dispatchPlugin: R.Plugin = {
   },
 
   // access store.dispatch after store is created
-  onStoreCreated(store: R.RematchStore) {
+  onStoreCreated(store: any) {
     this.storeDispatch = store.dispatch
   },
 

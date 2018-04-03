@@ -22,7 +22,7 @@ export namespace rematch {
 
 export interface RematchStore {
   replaceReducer(nextReducer: Redux.Reducer): void,
-  dispatch: Redux.Dispatch<Action>,
+  dispatch: (action: Action) => Redux.Dispatch<Action>,
   getState(): any,
   model: (model: Model) => void,
   subscribe(listener: () => void): void,

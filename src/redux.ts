@@ -15,13 +15,13 @@ const composeEnhancersWithDevtools = (devtoolOptions = {}): any => (
  * the core Redux implementation of Rematch
  */
 export default class RematchRedux {
-  protected store: R.RematchStore
+  protected store: any
   private rootReducer: Redux.Reducer<any>
   private reducers: Redux.ReducersMapObject = {}
   private combineReducers = Redux.combineReducers
   private createStore: Redux.StoreCreator = Redux.createStore
 
-  constructor(rematch: R.RematchClass) {
+  constructor(rematch: any) {
     const { config: { redux }, models } = rematch
     // possible overwrite of redux imports
     for (const overwrite of ['createStore', 'combineReducers']) {
@@ -34,8 +34,8 @@ export default class RematchRedux {
     const initialState: any = typeof redux.initialState !== 'undefined' ? redux.initialState : {}
 
     // reducers
-    this.initReducers(this.mergeReducers())(models, redux)
-    this.rootReducer = this.createRootReducer(this.mergeReducers)(redux.rootReducers)
+    this.initReducers(models, redux)
+    this.rootReducer = this.createRootReducer()(redux.rootReducers)
 
     // middleware/enhancers
     const middlewares = Redux.applyMiddleware(...redux.middlewares)
@@ -49,7 +49,7 @@ export default class RematchRedux {
       model: (model: R.Model) => {
         rematch.addModel(model)
         this.mergeReducers(this.createModelReducer(model))
-        store.replaceReducer(this.createRootReducer(this.mergeReducers)(redux.rootReducers))
+        store.replaceReducer(this.createRootReducer()(redux.rootReducers))
       },
     }
   }
@@ -76,14 +76,12 @@ export default class RematchRedux {
     }
   }
 
-  public initReducers() {
-    return (models: R.Model[], redux: R.ConfigRedux): void => {
-      // combine existing reducers, redux.reducers & model.reducers
-      this.mergeReducers(models.reduce((reducers, model) => ({
-        ...this.createModelReducer(model),
-        ...reducers,
-      }), redux.reducers))
-    }
+  public initReducers(models: R.Model[], redux: R.ConfigRedux) {
+    // combine existing reducers, redux.reducers & model.reducers
+    this.mergeReducers(models.reduce((reducers, model) => ({
+      ...this.createModelReducer(model),
+      ...reducers,
+    }), redux.reducers))
   }
 
   public createRootReducer() {

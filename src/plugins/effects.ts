@@ -39,8 +39,8 @@ const effectsPlugin: R.Plugin = {
   },
 
   // process async/await actions
-  middleware(store: R.RematchStore) {
-    return (next: R.RematchDispatch) => async (action: R.Action) => {
+  middleware(store) {
+    return (next) => async (action: R.Action) => {
       // async/await acts as promise middleware
       // FIXME: why is .default.exposed.effects necessary?
       if (action.type in this.effects) {
