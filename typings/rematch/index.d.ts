@@ -13,11 +13,11 @@ export type RematchDispatch = {
 } | ((action: Action) => Promise<Redux.Dispatch<any>>)
 
 export let dispatch: RematchDispatch;
-export function init(config: Config | undefined): Redux.Store<any>
+export function init(config: InitConfig | undefined): Redux.Store<any>
 
 export namespace rematch {
   export let dispatch: RematchDispatch;
-  export function init(config: InitConfig): Redux.Store<any>
+  export function init(config: InitConfig | undefined): Redux.Store<any>
 }
 
 export interface RematchStore {
