@@ -35,7 +35,7 @@ export default class RematchRedux {
 
     // reducers
     this.initReducers(models, redux)
-    this.rootReducer = this.createRootReducer()(redux.rootReducers)
+    this.rootReducer = this.createRootReducer(redux.rootReducers)
 
     // middleware/enhancers
     const middlewares = Redux.applyMiddleware(...redux.middlewares)
@@ -49,30 +49,26 @@ export default class RematchRedux {
       model: (model: R.Model) => {
         rematch.addModel(model)
         this.mergeReducers(this.createModelReducer(model))
-        store.replaceReducer(this.createRootReducer()(redux.rootReducers))
+        store.replaceReducer(this.createRootReducer(redux.rootReducers))
       },
     }
   }
 
-  public createReducer(reducer: R.EnhancedReducers, initialState: any) {
-    return (state: any = initialState, action: R.Action) => {
-      // handle effects
-      if (typeof reducer[action.type] === 'function') {
-        return reducer[action.type](state, action.payload, action.meta)
-      }
-      return state
-    }
-  }
-
-  public createModelReducer({ name, reducers, state }: R.Model) {
-    const modelReducers: R.Reducers = {}
+  public createModelReducer({ name, reducers, state: initialState }: R.Model) {
+    const modelReducers = {}
     const allReducers = reducers || {}
     for (const reducer of Object.keys(allReducers)) {
       const action = isListener(reducer) ? reducer : `${name}/${reducer}`
       modelReducers[action] = allReducers[reducer]
     }
     return {
-      [name]: this.createReducer(modelReducers, state),
+      [name]: (state: any = initialState, action: R.Action) => {
+        // handle effects
+        if (typeof modelReducers[action.type] === 'function') {
+          return modelReducers[action.type](state, action.payload, action.meta)
+        }
+        return state
+      },
     }
   }
 
@@ -84,8 +80,8 @@ export default class RematchRedux {
     }), redux.reducers))
   }
 
-  public createRootReducer() {
-    return (rootReducers: R.RootReducers = {}): Redux.Reducer<any> => {
+  // combine all reducers to create reducer
+  public createRootReducer(rootReducers: R.RootReducers = {}): Redux.Reducer<any> {
       const mergedReducers: Redux.Reducer<any> = this.mergeReducers()
       if (Object.keys(rootReducers).length) {
         return (state, action) => {
@@ -98,9 +94,9 @@ export default class RematchRedux {
       }
       return mergedReducers
     }
-  }
 
   private mergeReducers(nextReducers: R.Reducers = {}) {
+    // set reducers
     this.reducers = { ...this.reducers, ...nextReducers }
     if (!Object.keys(this.reducers).length) {
       return (state: any) => state

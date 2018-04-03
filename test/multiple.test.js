@@ -89,26 +89,22 @@ describe('multiple stores:', () => {
   test('dispatch should not overwrite another effect', async () => {
     const { init, dispatch } = require('../src')
 
+    const calls = []
+
     const count1 = {
       state: 0,
-      reducers: {
-        increment: (state) => state + 1,
-      },
       effects: {
         async asyncIncrement() {
-          await this.increment()
+          await calls.push('count1')
         }
       }
     }
 
     const count2 = {
       state: 0,
-      reducers: {
-        increment: (state) => state + 2,
-      },
       effects: {
         async asyncIncrement() {
-          await this.increment()
+          await calls.push('count2')
         }
       }
     }
@@ -119,8 +115,7 @@ describe('multiple stores:', () => {
     await store1.dispatch.count.asyncIncrement()
     await store2.dispatch.count.asyncIncrement()
 
-    expect(store1.getState()).toEqual({ count: 1 })
-    expect(store2.getState()).toEqual({ count: 2 })
+    expect(calls).toEqual(['count1', 'count2'])
   })
 
   test('global getState should get multiple states', () => {
