@@ -48,7 +48,7 @@ export default class PluginFactory {
           // bind functions to plugin class
           ? plugin.exposed[key].bind(this)
           // add exposed to plugin class
-          : plugin.exposed[key]
+          : Object.create(plugin.exposed[key])
       }
     }
     for (const method of ['onModel', 'middleware', 'onStoreCreated']) {
