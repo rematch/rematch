@@ -116,7 +116,7 @@ An object of functions that change the model's state. These functions take the m
 }
 ```
 
-Reducers may also listen to actions from other models by listing the 'model name' + 'action name' as the key.
+Reducers may listen to actions from other models by listing the 'model name' + 'action name' as the key.
 
 ```js
 {
@@ -124,6 +124,18 @@ Reducers may also listen to actions from other models by listing the 'model name
     'otherModel/actionName': (state, payload) => state + payload,
   }
 }
+```
+
+Reducers may listen to actions generated outside of Rematch by prefixing the reducer key and
+action type with `#`.
+```js
+{
+  reducers: {
+    '#increment': (state, payload) => state + payload,
+  }
+}
+
+dispatch({ type: '#increment', payload: 1 })
 ```
 
 ### effects
