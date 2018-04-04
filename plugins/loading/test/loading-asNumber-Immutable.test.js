@@ -1,11 +1,13 @@
 const { init } = require('../../../src')
 const loadingPlugin = require('../src').default
-const { delay, count, redux, loadingImmutable } = require('./utils')
+const { delay, countModelMaker, redux, loadingImmutableConfigMaker } = require('./utils')
 
-describe('loading asBoolean with Immutable', () => {
+const loadingImmutable = loadingImmutableConfigMaker({ asNumber: true })
+
+describe('loading asNumber with Immutable', () => {
   test('loading.global should be 0 for normal dispatched action', () => {
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
@@ -16,7 +18,7 @@ describe('loading asBoolean with Immutable', () => {
 
   test('loading.global should be 1 for a dispatched effect', () => {
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
@@ -27,7 +29,7 @@ describe('loading asBoolean with Immutable', () => {
 
   test('loading.global should be 2 for two dispatched effects', () => {
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
@@ -42,7 +44,7 @@ describe('loading asBoolean with Immutable', () => {
       init
     } = require('../../../src')
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
@@ -52,7 +54,7 @@ describe('loading asBoolean with Immutable', () => {
 
   test('should change the loading.models to 1', () => {
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
@@ -63,7 +65,7 @@ describe('loading asBoolean with Immutable', () => {
 
   test('should change the loading.models to 2', () => {
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
@@ -75,7 +77,7 @@ describe('loading asBoolean with Immutable', () => {
 
   test('should change the state (immutable objects should be different)', () => {
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
@@ -86,9 +88,9 @@ describe('loading asBoolean with Immutable', () => {
     expect(state1).not.toBe(state2)
   })
 
-  xtest('should set loading.effects[name] to object of effects', () => {
+  test('should set loading.effects[name] to object of effects', () => {
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
@@ -97,7 +99,7 @@ describe('loading asBoolean with Immutable', () => {
 
   test('should change the loading.effects to 1', () => {
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
@@ -108,7 +110,7 @@ describe('loading asBoolean with Immutable', () => {
 
   test('should change the loading.effects to 2', () => {
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux
     })
@@ -118,7 +120,7 @@ describe('loading asBoolean with Immutable', () => {
     expect(store.getState().getIn(['loading','effects','count','timeout'])).toBe(2)
   })
 
-  xtest('should capture all model and global loading for simultaneous effects', async () => {
+  test('should capture all model and global loading for simultaneous effects', async () => {
     const count2 = {
       state: 0,
       effects: {
@@ -159,7 +161,7 @@ describe('loading asBoolean with Immutable', () => {
     expect(ld().get('global')).toBe(0)
   })
 
-  xtest('should handle "hide" if effect throws', async () => {
+  test('should handle "hide" if effect throws', async () => {
     const count2 = {
       state: 0,
       effects: {
@@ -181,10 +183,10 @@ describe('loading asBoolean with Immutable', () => {
     }
   })
 
-  xtest('should trigger four actions', async () => {
+  test('should trigger four actions', async () => {
     let actions = []
     const store = init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin(loadingImmutable)],
       redux: {
         ...redux,
@@ -244,7 +246,7 @@ describe('loading asBoolean with Immutable', () => {
 
   test('should throw if config loadingActionCreator is not a function', () => {
     const createStore = () => init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin({
         loadingActionCreator: 'should throw',
       })]
@@ -255,7 +257,7 @@ describe('loading asBoolean with Immutable', () => {
 
   test('should throw if config mergeInitialState is not a function', () => {
     const createStore = () => init({
-      models: { count },
+      models: { count: countModelMaker() },
       plugins: [loadingPlugin({
         mergeInitialState: 'should throw',
       })]
