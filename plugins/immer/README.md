@@ -11,7 +11,7 @@ npm install @rematch/immer
 ### Setup
 
 ```js
-import selectorsPlugin from '@rematch/immer'
+import immerPlugin from '@rematch/immer'
 import { init } from '@rematch/core'
 
 const immer = immerPlugin()
