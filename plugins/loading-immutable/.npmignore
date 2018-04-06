@@ -1,0 +1,10 @@
+# directories
+lib
+src
+test
+examples
+
+# files
+.gitignore
+.prettierrc
+yarn.lock

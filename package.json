@@ -92,6 +92,7 @@
       "/lib/",
       "plugins/react-navigation/examples",
       "plugins/subscriptions",
+      "plugins/loading-immutable",
       "/examples/ts"
     ],
     "moduleFileExtensions": [

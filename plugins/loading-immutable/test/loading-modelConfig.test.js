@@ -2,8 +2,8 @@ const { init } = require('../../../src')
 const loadingPlugin = require('../src').default
 const { delay, count } = require('./utils')
 
-describe('loading model', () => {
-  xit('should accept custom selector', () => {
+xdescribe('loading model', () => {
+  it('should accept custom selector', () => {
     const { select } = require('@rematch/select')
     const selectPlugin = require('@rematch/select').default
     const store = init({
@@ -27,9 +27,12 @@ describe('loading model', () => {
   test('should accept custom reducer', () => {
     const store = init({
       models: { count },
-      plugins: [loadingPlugin({ model: { reducers: {
-        custom: (state, payload) => ({ ...state, custom: payload })
-      } }})]
+      plugins: [loadingPlugin({
+        model: {
+          reducers: {
+            custom: (state, payload) => ({ ...state, custom: payload })
+          }
+        }})]
     })
 
     store.dispatch.loading.custom('foobar')

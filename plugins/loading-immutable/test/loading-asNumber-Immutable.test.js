@@ -4,7 +4,7 @@ const { delay, countModelMaker, redux, loadingImmutableConfigMaker } = require('
 
 const loadingImmutable = loadingImmutableConfigMaker({ asNumber: true })
 
-describe('loading asNumber with Immutable', () => {
+xdescribe('loading asNumber with Immutable', () => {
   test('loading.global should be 0 for normal dispatched action', () => {
     const store = init({
       models: { count: countModelMaker() },
