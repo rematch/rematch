@@ -1,5 +1,5 @@
 import * as R from '../typings/rematch'
-import PluginFactory from './pluginFactory'
+import pluginFactory from './pluginFactory'
 import dispatchPlugin from './plugins/dispatch'
 import effectsPlugin from './plugins/effects'
 import Redux from './redux'
@@ -17,7 +17,7 @@ export default class Rematch {
   protected models: R.Model[]
   private redux: any
   private plugins: R.Plugin[] = []
-  private pluginFactory: R.PluginFactory = new PluginFactory()
+  private pluginFactory: R.PluginFactory = pluginFactory()
 
   constructor(config: R.Config) {
     this.config = config

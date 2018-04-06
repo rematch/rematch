@@ -6,13 +6,13 @@ import validate from './utils/validate'
  *
  * makes Plugin objects extend and inherit from a root PluginFactory
  */
-export default class PluginFactory {
+export default () => ({
   /**
    * validate
    *
    * bind validate to the store for easy access
    */
-  public validate = validate
+  validate,
 
   /**
    * create plugin
@@ -20,7 +20,7 @@ export default class PluginFactory {
    * binds plugin properties and functions to an instance of PluginFactorys
    * @param plugin
    */
-  public create(plugin: R.Plugin): R.Plugin {
+  create(plugin: R.Plugin): R.Plugin {
     validate([
       [
         plugin.onStoreCreated && typeof plugin.onStoreCreated !== 'function',
@@ -57,5 +57,5 @@ export default class PluginFactory {
       }
     }
     return result
-  }
-}
+  },
+})
