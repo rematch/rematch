@@ -1,5 +1,6 @@
 import * as R from '../typings/rematch'
 import Rematch from './rematch'
+import isListener from './utils/isListener'
 import mergeConfig from './utils/mergeConfig'
 
 // allows for global dispatch to multiple stores
@@ -17,6 +18,18 @@ export const init = (initConfig: R.InitConfig = {}): R.RematchStore => {
   const config: R.Config = mergeConfig({ ...initConfig, name })
   const store = new Rematch(config).init()
   stores[name] = store
+  for (const modelName of Object.keys(store.dispatch)) {
+    if (!dispatch[modelName]) {
+      dispatch[modelName] = {}
+    }
+    for (const actionName of Object.keys(store.dispatch[modelName])) {
+      if (!isListener(actionName)) {
+        if (!store.dispatch[modelName][actionName].isEffect) {
+          dispatch[modelName][actionName] = store.dispatch[modelName][actionName]
+        }
+      }
+    }
+  }
   return store
 }
 
@@ -27,8 +40,8 @@ export const init = (initConfig: R.InitConfig = {}): R.RematchStore => {
  * @param action
  */
 export const dispatch = (action: R.Action) => {
-  for (const name of Object.keys(stores)) {
-    stores[name].dispatch(action)
+  for (const storeName of Object.keys(stores)) {
+    stores[storeName].dispatch(action)
   }
 }
 
