@@ -1,1 +1,3 @@
-export default (reducer: string): boolean => reducer.includes('/')
+export default (reducer: string): boolean => {
+  return reducer.startsWith('#') || reducer.includes('/')
+}
