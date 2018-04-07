@@ -15,5 +15,7 @@ Reselect selectors for Rematch models.
 ### [Subscriptions Plugin](../plugins/subscriptions)
 Listen for actions and trigger effects.
 
+> Deprecated
+
 ### [Updated Plugin](../plugins/updated)
 Simple time recorders for when models, effects or reducers were last triggered.
