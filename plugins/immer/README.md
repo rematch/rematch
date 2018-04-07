@@ -8,6 +8,8 @@ Immer plugin for Rematch. Provides immutable ability on immer library.
 npm install @rematch/immer
 ```
 
+> For @rematch/core@0.x use @rematch/immer@0.1.0
+
 ### Setup
 
 ```js

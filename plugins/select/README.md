@@ -8,6 +8,8 @@ Selectors plugin for Rematch.
 npm install @rematch/select
 ```
 
+> For @rematch/core@0.x use @rematch/select@0.3.0
+
 ### Setup
 
 ```js

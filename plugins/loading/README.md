@@ -2,6 +2,14 @@
 
 Adds automated loading indicators for effects to [Rematch](https://github.com/rematch/rematch). Inspired by [dva-loading](https://github.com/dvajs/dva-loading).
 
+## Install
+
+```shell
+npm install @rematch/loading
+```
+
+> For @rematch/core@0.x use @rematch/loading@0.5.0
+
 ## Example
 
 See an example below using a loading indicator within a button.
@@ -37,12 +45,6 @@ See a [demo](./examples/react-loading-example)
 ![rematch-loading](https://user-images.githubusercontent.com/4660659/33303781-00c786b2-d3ba-11e7-8216-1b2b8eebbf85.gif)
 
 ## Setup
-
-Install `@rematch/loading` as a dependency.
-
-```shell
-npm install @rematch/loading
-```
 
 Configure loading.
 
