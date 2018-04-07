@@ -58,18 +58,18 @@ export default class Rematch {
     }
     // create a redux store with initialState
     // merge in additional extra reducers
-    const reduxStore = createRedux({
+    const redux = createRedux({
       redux: this.config.redux,
       models: this.models,
     })
 
     const rematchStore = {
-      ...reduxStore,
+      ...redux.store,
       // dynamic loading of models with `replaceReducer`
       model: (model: R.Model) => {
-        // this.addModel(model)
-        // this.mergeReducers(this.createModelReducer(model))
-        // reduxStore.replaceReducer(this.createRootReducer(this.config.redux.rootReducers))
+        this.addModel(model)
+        redux.mergeReducers(redux.createModelReducer(model))
+        redux.store.replaceReducer(redux.createRootReducer(this.config.redux.rootReducers))
       },
     }
 
