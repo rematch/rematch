@@ -2,7 +2,7 @@ import * as R from '../typings/rematch'
 import pluginFactory from './pluginFactory'
 import dispatchPlugin from './plugins/dispatch'
 import effectsPlugin from './plugins/effects'
-import Redux from './redux'
+import createRedux from './redux'
 import validate from './utils/validate'
 
 const corePlugins: R.Plugin[] = [dispatchPlugin, effectsPlugin]
@@ -15,7 +15,6 @@ const corePlugins: R.Plugin[] = [dispatchPlugin, effectsPlugin]
 export default class Rematch {
   protected config: R.Config
   protected models: R.Model[]
-  private redux: any
   private plugins: R.Plugin[] = []
   private pluginFactory: R.PluginFactory = pluginFactory()
 
@@ -59,9 +58,25 @@ export default class Rematch {
     }
     // create a redux store with initialState
     // merge in additional extra reducers
-    this.redux = new Redux(this)
-    this.forEachPlugin('onStoreCreated', (onStoreCreated) => onStoreCreated(this.redux.store))
-    this.redux.store.dispatch = this.pluginFactory.dispatch
-    return this.redux.store
+    const redux = createRedux({
+      redux: this.config.redux,
+      models: this.models,
+    })
+
+    const rematchStore = {
+      ...redux.store,
+      // dynamic loading of models with `replaceReducer`
+      model: (model: R.Model) => {
+        this.addModel(model)
+        redux.mergeReducers(redux.createModelReducer(model))
+        redux.store.replaceReducer(redux.createRootReducer(this.config.redux.rootReducers))
+      },
+    }
+
+    this.forEachPlugin('onStoreCreated', (onStoreCreated) => onStoreCreated(rematchStore))
+
+    rematchStore.dispatch = this.pluginFactory.dispatch
+
+    return rematchStore
   }
 }

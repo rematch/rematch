@@ -9,98 +9,62 @@ const composeEnhancersWithDevtools = (devtoolOptions = {}): any => (
     : Redux.compose
 )
 
-/**
- * RematchRedux class
- *
- * the core Redux implementation of Rematch
- */
-export default class RematchRedux {
-  protected store: any
-  private rootReducer: Redux.Reducer<any>
-  private reducers: Redux.ReducersMapObject = {}
-  private combineReducers = Redux.combineReducers
-  private createStore: Redux.StoreCreator = Redux.createStore
+export default ({ redux, models }: { redux: R.ConfigRedux, models: R.Model[] }) => {
+  const combineReducers = redux.combineReducers || Redux.combineReducers
+  const createStore: Redux.StoreCreator = redux.createStore || Redux.createStore
+  const initialState: any = typeof redux.initialState !== 'undefined' ? redux.initialState : {}
 
-  constructor(rematch: any) {
-    const { config: { redux }, models } = rematch
-    // possible overwrite of redux imports
-    for (const overwrite of ['createStore', 'combineReducers']) {
-      if (redux[overwrite]) {
-        this[overwrite] = redux[overwrite]
-      }
-    }
+  this.reducers = redux.reducers
 
-    // initial state
-    const initialState: any = typeof redux.initialState !== 'undefined' ? redux.initialState : {}
-
-    // reducers
-    this.initReducers(models, redux)
-    this.rootReducer = this.createRootReducer(redux.rootReducers)
-
-    // middleware/enhancers
-    const middlewares = Redux.applyMiddleware(...redux.middlewares)
-    const enhancers = composeEnhancersWithDevtools(redux.devtoolOptions)(...redux.enhancers, middlewares)
-
-    const store = this.createStore(this.rootReducer, initialState, enhancers)
-    // store
-    this.store = {
-      ...store,
-      // dynamic loading of models with `replaceReducer`
-      model: (model: R.Model) => {
-        rematch.addModel(model)
-        this.mergeReducers(this.createModelReducer(model))
-        store.replaceReducer(this.createRootReducer(redux.rootReducers))
-      },
-    }
-  }
-
-  public createModelReducer({ name, reducers, state: initialState }: R.Model) {
-    const modelReducers = {}
-    const allReducers = reducers || {}
-    for (const reducer of Object.keys(allReducers)) {
-      const action = isListener(reducer) ? reducer : `${name}/${reducer}`
-      modelReducers[action] = allReducers[reducer]
-    }
-    return {
-      [name]: (state: any = initialState, action: R.Action) => {
-        // handle effects
-        if (typeof modelReducers[action.type] === 'function') {
-          return modelReducers[action.type](state, action.payload, action.meta)
-        }
-        return state
-      },
-    }
-  }
-
-  public initReducers(models: R.Model[], redux: R.ConfigRedux) {
-    // combine existing reducers, redux.reducers & model.reducers
-    this.mergeReducers(models.reduce((reducers, model) => ({
-      ...this.createModelReducer(model),
-      ...reducers,
-    }), redux.reducers))
-  }
-
-  // combine all reducers to create reducer
-  public createRootReducer(rootReducers: R.RootReducers = {}): Redux.Reducer<any> {
-      const mergedReducers: Redux.Reducer<any> = this.mergeReducers()
-      if (Object.keys(rootReducers).length) {
-        return (state, action) => {
-          const rootReducerAction = rootReducers[action.type]
-          if (rootReducers[action.type]) {
-            return mergedReducers(rootReducerAction(state, action), action)
-          }
-          return mergedReducers(state, action)
-        }
-      }
-      return mergedReducers
-    }
-
-  private mergeReducers(nextReducers: R.Reducers = {}) {
+  // combine models to generate reducers
+  this.mergeReducers = (nextReducers: R.Reducers = {}) => {
     // set reducers
     this.reducers = { ...this.reducers, ...nextReducers }
     if (!Object.keys(this.reducers).length) {
       return (state: any) => state
     }
-    return this.combineReducers(this.reducers)
+    return combineReducers(this.reducers)
   }
+
+  this.createModelReducer = (model: R.Model) => {
+    const modelReducers = {}
+    for (const modelReducer of Object.keys(model.reducers || {})) {
+      const action = isListener(modelReducer) ? modelReducer : `${model.name}/${modelReducer}`
+      modelReducers[action] = model.reducers[modelReducer]
+    }
+    this.reducers[model.name] = (state: any = model.state, action: R.Action) => {
+      // handle effects
+      if (typeof modelReducers[action.type] === 'function') {
+        return modelReducers[action.type](state, action.payload, action.meta)
+      }
+      return state
+    }
+  }
+  // initialize model reducers
+  for (const model of models) {
+    this.createModelReducer(model)
+  }
+
+  this.createRootReducer = (rootReducers: R.RootReducers = {}): Redux.Reducer<any> => {
+    const mergedReducers: Redux.Reducer<any> = this.mergeReducers()
+    if (Object.keys(rootReducers).length) {
+      return (state, action) => {
+        const rootReducerAction = rootReducers[action.type]
+        if (rootReducers[action.type]) {
+          return mergedReducers(rootReducerAction(state, action), action)
+        }
+        return mergedReducers(state, action)
+      }
+    }
+    return mergedReducers
+  }
+
+  const rootReducer = this.createRootReducer(redux.rootReducers)
+
+  const middlewares = Redux.applyMiddleware(...redux.middlewares)
+  const enhancers = composeEnhancersWithDevtools(redux.devtoolOptions)(...redux.enhancers, middlewares)
+
+  this.store = createStore(rootReducer, initialState, enhancers)
+
+  return this
 }
