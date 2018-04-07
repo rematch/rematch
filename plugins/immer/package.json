@@ -28,7 +28,7 @@
     "immer": "^1.2.0"
   },
   "devDependencies": {
-    "@rematch/core": "../..",
+    "@rematch/core": "1.0.0-alpha.0",
     "rollup": "^0.56.5",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-node-resolve": "^3.3.0",
@@ -37,7 +37,6 @@
     "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
-    "@rematch/core": ">1.0.0.alpha.0",
-    "redux": ">3"
+    "@rematch/core": ">=1.0.0-alpha.0"
   }
 }

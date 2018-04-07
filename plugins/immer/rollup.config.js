@@ -36,7 +36,7 @@ if (env === 'production') {
       pure_getters: true,
       warnings: false,
     },
-  }))
+  }, minify))
 }
 
 export default [config]

@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { dispatch } from '@rematch/core'
 import Spinner from 'react-spinkit'
 
 const styles = {
@@ -51,7 +50,10 @@ const mapState = state => ({
     model: state.loading.models.example,
     effect: state.loading.effects.example.submit,
   },
+})
+
+const mapDispatch = dispatch => ({
   submit: dispatch.example.submit,
 })
 
-export default connect(mapState)(App)
+export default connect(mapState, mapDispatch)(App)

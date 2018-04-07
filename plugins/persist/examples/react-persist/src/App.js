@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { dispatch } from '@rematch/core'
 
 const styles = {
   container: {
@@ -39,16 +38,19 @@ const App = (props) => (
   </div>
 )
 
-const mapToProps = state => ({
+const mapState = state => ({
   formattedState: JSON.stringify(state, null, '\t'),
   count: {
     persisted: state.persisted,
     nonpersisted: state.nonpersisted,
   },
+})
+
+const mapDispatch = dispatch => ({
   addOne: () => {
     dispatch.persisted.addOne()
     dispatch.nonpersisted.addOne()
   },
 })
 
-export default connect(mapToProps)(App)
+export default connect(mapState, mapDispatch)(App)

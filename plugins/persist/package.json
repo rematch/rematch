@@ -28,7 +28,7 @@
     "redux-persist": "^5.9.1"
   },
   "devDependencies": {
-    "@rematch/core": "../..",
+    "@rematch/core": "1.0.0-alpha.0",
     "@types/react": "^16.3.5",
     "@types/redux-persist": "^4.3.1",
     "react": "^16.3.1",
@@ -39,6 +39,6 @@
     "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
-    "@rematch/core": ">1.0.0.alpha.0"
+    "@rematch/core": ">=1.0.0-alpha.0"
   }
 }
