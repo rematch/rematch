@@ -1,0 +1,27 @@
+{
+  "name": "rematch-typescript",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@rematch/core": "file:../../..",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "react-redux": "^5.0.7",
+    "react-scripts-ts": "2.14.0",
+    "redux": "^3.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.2",
+    "@types/node": "^9.6.1",
+    "@types/react": "^16.1.0",
+    "@types/react-dom": "^16.0.4",
+    "@types/react-redux": "^5.0.15",
+    "typescript": "^2.8.1"
+  }
+}
