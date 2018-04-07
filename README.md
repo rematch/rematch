@@ -194,6 +194,12 @@ Moving from Redux to Rematch involves very few steps.
 
 See the [@rematch/core API](./docs/api.md)
 
+## Experiment with v1.0.0-alpha
+
+Install rematch and all plugins with the @next flag. 
+
+See the [CHANGELOG](./CHANGELOG.md) to see what's new.
+
 ---
 
 Like this project? ★ us on Github :)
