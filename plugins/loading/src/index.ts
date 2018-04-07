@@ -53,7 +53,7 @@ const validateConfig = (config) => {
   }
 }
 
-export default (config: LoadingConfig = {}): any => {
+export default (config: LoadingConfig = {}): Plugin => {
   validateConfig(config)
 
   const loadingModelName = config.name || 'loading'
