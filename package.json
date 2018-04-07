@@ -39,7 +39,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "redux": "^4.0.0-beta.2"
+    "redux": "4.0.0-beta.2"
   },
   "devDependencies": {
     "@types/jest": "^22.2.2",

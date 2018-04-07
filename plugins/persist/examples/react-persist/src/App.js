@@ -53,4 +53,4 @@ const mapDispatch = dispatch => ({
   },
 })
 
-export default connect(mapState)(App)
+export default connect(mapState, mapDispatch)(App)
