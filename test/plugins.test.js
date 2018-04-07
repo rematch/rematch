@@ -1,29 +1,39 @@
 const { init } = require('../src')
 
 describe('plugins:', () => {
-  xtest('should add onModel subscriptions', () => {
-    const { modelHooks } = require('../src/core')
-    const fns = [() => 1, () => 2]
+  test('should add onModel subscription', () => {
+    let messageFromOnModel = null
     init({
-      plugins: [
-        { init: () => ({ onModel: fns[0] }) },
-        { init: () => ({ onModel: fns[1] }) },
-      ]
+      models: {
+        count: { state: 0 }
+      },
+      plugins: [{
+        onModel: () => {
+          messageFromOnModel = 'Hello, Rematch!'
+        }
+      }]
     })
-    expect(modelHooks.slice(-2)).toEqual(fns)
+    expect(messageFromOnModel).toEqual('Hello, Rematch!')
   })
 
-  xtest('should add multiple middleware', () => {
-    const { pluginMiddlewares } = require('../src/core')
-    const m1 = () => next => action => next(action)
-    const m2 = () => next => action => next(action)
-    init({
+  test('should add middleware', () => {
+    const payloadIsAlways100Middleware = () => next => action => {
+      return next({ ...action, payload: 100 })
+    }
+    const store = init({
+      models: {
+        a: {
+          state: 0,
+          reducers: { set: (state, payload) => payload }
+        }
+      },
       plugins: [
-        { init: () => ({ middleware: m1 }) },
-        { init: () => ({ middleware: m2 }) },
+        { middleware: payloadIsAlways100Middleware },
       ]
     })
-    expect(pluginMiddlewares.slice(-2)).toEqual([m1, m2])
+    store.dispatch.a.set(1)
+    expect(store.getState()).toEqual({ a: 100 })
+
   })
 
   test('should add a model', () => {
