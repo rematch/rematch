@@ -85,14 +85,15 @@
       "/node_modules/",
       "/plugins/react-navigation/",
       "/dist",
-      ".mock.js"
+      ".mock.js",
+      "/test/utils.js"
     ],
     "testPathIgnorePatterns": [
       "/_book/",
       "/lib/",
-      "plugins/react-navigation/examples",
-      "plugins/subscriptions",
-      "plugins/loading-immutable",
+      "/plugins/react-navigation/examples",
+      "/plugins/subscriptions",
+      "/plugins/loading-immutable",
       "/examples/ts"
     ],
     "moduleFileExtensions": [
