@@ -1,8 +1,4 @@
-beforeEach(() => {
-  jest.resetModules()
-})
-
-describe('production', () => {
+describe('production:', () => {
   test('should create a valid common js dev build', () => {
     const { init } = require('../dist/cjs/rematch.dev')
     expect(init).toBeDefined()

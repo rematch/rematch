@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning(http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-alpha.0] - 2018-04-07
+### Added
+- Support for TypeScript. See [notes](./docs/recipes/typescript.md)
+- Support for multiple stores. See [api docs](./docs/api.md)
+
+### Changed
+- plugin API has changed to avoid using `init`. Shared dependencies are accessed with `this`. See the [plugins API](./docs/pluginsApi.md)
+- as a result of plugin API changes, v1.0.0-alpha.0 requires updating all plugins
+- imported global `dispatch` now fires into all stores
+- imported global `getState` now gets state from all stores.
+  Note: `init({ name })` will be used as the store.name, otherwise it defaults to the index.
+
 ## [0.6.0] - 2018-03-27
 ### Changed
 Effects now dispatch actions that can be seen in the devtools.
@@ -29,7 +41,7 @@ const count2 = {
 Note: not yet available for effects.
 
 ### Deprecated
-- `getState` from core in 0.4.0 will be removed with v1.0.0.
+- `getState` from core in 0.4.0 will be altered with v1.0.0.
 
 ## [0.4.0] - 2018-02-18
 ### Added

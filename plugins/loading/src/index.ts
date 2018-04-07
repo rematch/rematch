@@ -1,13 +1,10 @@
-import { Action, Model, PluginCreator } from '@rematch/core'
+import { Action, Model, Plugin } from '@rematch/core'
 
 interface LoadingConfig {
   name?: string,
   whitelist?: string[],
   blacklist?: string[],
   asNumber ?: boolean,
-  model?: any,
-  mergeInitialState?: any,
-  loadingActionCreator?: any,
 }
 
 const cntState = {
@@ -16,42 +13,31 @@ const cntState = {
   effects: {},
 }
 
-const defaultLoadingActionCreator = (state, name, action, converter, countState) => ({
-  ...state,
-  global: converter(countState.global),
-  models: {
-    ...state.models,
-    [name]: converter(countState.models[name]),
-  },
-  effects: {
-    ...state.effects,
-    [name]: {
-      ...state.effects[name],
-      [action]: converter(countState.effects[name][action]),
-    },
-  },
-})
-
-const defaultMergeInitialState = (state, newObject: any = {}) => (Object.assign(state, {
-  ...newObject,
-  models: Object.assign(state.models, {...newObject.models}),
-  effects: Object.assign(state.effects, {...newObject.effects}),
-}))
-
-const createLoadingAction = (converter, i, loadingActionCreator) => (state, { name, action }: any ) => {
+const createLoadingAction = (converter, i) => (state, { name, action }: any) => {
   cntState.global += i
   cntState.models[name] += i
   cntState.effects[name][action] += i
 
-  return loadingActionCreator(state, name, action, converter, cntState)
+  return {
+    ...state,
+    global: converter(cntState.global),
+    models: {
+      ...state.models,
+      [name]: converter(cntState.models[name]),
+    },
+    effects: {
+      ...state.effects,
+      [name]: {
+        ...state.effects[name],
+        [action]: converter(cntState.effects[name][action]),
+      },
+    },
+  }
 }
 
-const validateConfig = config => {
+const validateConfig = (config) => {
   if (config.name && typeof config.name !== 'string') {
     throw new Error('loading plugin config name must be a string')
-  }
-  if (config.model && config.model.name && typeof config.model.name !== 'string') {
-    throw new Error('loading plugin config model.name must be a string')
   }
   if (config.asNumber && typeof config.asNumber !== 'boolean') {
     throw new Error('loading plugin config asNumber must be a boolean')
@@ -65,54 +51,31 @@ const validateConfig = config => {
   if (config.whitelist && config.blacklist) {
     throw new Error('loading plugin config cannot have both a whitelist & a blacklist')
   }
-  if (typeof config.loadingActionCreator !== 'function') {
-    throw new Error('loading plugin config loadingActionCreator must be a function')
-  }
-  if (typeof config.mergeInitialState !== 'function') {
-    throw new Error('loading plugin config mergeInitialState must be a function')
-  }
-  if (typeof config.model !== 'object') {
-    throw new Error('loading plugin config model must be an object')
-  }
 }
 
-export default (config: LoadingConfig = {}): any => {
-
-  if (!config.loadingActionCreator)
-    config.loadingActionCreator = defaultLoadingActionCreator
-
-  if (!config.mergeInitialState)
-    config.mergeInitialState = defaultMergeInitialState;
-
-  if (!config.model)
-    config.model = {}
-
+export default (config: LoadingConfig = {}): Plugin => {
   validateConfig(config)
 
-  const loadingModelName = config.name || config.model.name || 'loading'
+  const loadingModelName = config.name || 'loading'
 
   const converter =
     config.asNumber === true
-      ? cnt => cnt
-      : cnt => cnt > 0
-
-  let { reducers, ...modelConfig } = config.model;
+      ? (cnt: number) => cnt
+      : (cnt: number) => cnt > 0
 
   const loading: Model = {
-    reducers: {
-      ...reducers,
-      hide: createLoadingAction(converter, -1, config.loadingActionCreator),
-      show: createLoadingAction(converter, 1, config.loadingActionCreator),
-    },
-    state: { ...cntState },
-    ...modelConfig,
     name: loadingModelName,
+    reducers: {
+      hide: createLoadingAction(converter, -1),
+      show: createLoadingAction(converter, 1),
+    },
+    state: {
+      ...cntState,
+    },
   }
 
   cntState.global = 0
-  loading.state = config.mergeInitialState(
-    loading.state, { ...cntState, global: converter(cntState.global) }
-  )
+  loading.state.global = converter(cntState.global)
 
   return {
     config: {
@@ -120,71 +83,53 @@ export default (config: LoadingConfig = {}): any => {
         loading,
       },
     },
-    init: ({ dispatch }) => ({
-      onModel({ name }: Model) {
-        // do not run dispatch on "loading" model
-        if (name === loadingModelName) { return }
+    onModel({ name }: Model) {
+      // do not run dispatch on "loading" model
+      if (name === loadingModelName) { return }
 
-        cntState.models[name] = 0
-        cntState.effects[name] = {}
+      cntState.models[name] = 0
+      loading.state.models[name] = converter(cntState.models[name])
+      loading.state.effects[name] = {}
+      const modelActions = this.dispatch[name]
 
-        let localLoadingState: any = {
-          models: { [name]: converter(cntState.models[name]) },
-          effects: { [name]: {} }
+      // map over effects within models
+      Object.keys(modelActions).forEach((action: string) => {
+        if (this.dispatch[name][action].isEffect !== true) {
+          return
         }
-        config.mergeInitialState(loading.state, localLoadingState)
 
-        const modelActions = dispatch[name]
+        cntState.effects[name][action] = 0
+        loading.state.effects[name][action] = converter(cntState.effects[name][action])
 
-        // map over effects within models
-        Object.keys(modelActions).forEach((action: string) => {
-          if (dispatch[name][action].isEffect !== true) {
-            return
+        const actionType = `${name}/${action}`
+
+        // ignore items not in whitelist
+        if (config.whitelist && !config.whitelist.includes(actionType)) {
+          return
+        }
+
+        // ignore items in blacklist
+        if (config.blacklist && config.blacklist.includes(actionType)) {
+          return
+        }
+
+        // copy orig effect pointer
+        const origEffect = this.dispatch[name][action]
+
+        // create function with pre & post loading calls
+        const effectWrapper = async (...props) => {
+          try {
+            this.dispatch.loading.show({ name, action })
+            await origEffect(...props)
+            // waits for dispatch function to finish before calling "hide"
+          } finally {
+            this.dispatch.loading.hide({ name, action })
           }
+        }
 
-          cntState.effects[name][action] = 0
-
-          localLoadingState = {
-            effects: {
-              ...localLoadingState.effects,
-              [name]: {
-                ...localLoadingState.effects[name],
-                [action]: converter(cntState.effects[name][action])
-              }
-            }
-          }
-
-          const actionType = `${name}/${action}`
-
-          // ignore items not in whitelist
-          if (config.whitelist && !config.whitelist.includes(actionType)) {
-            return
-          }
-
-          // ignore items in blacklist
-          if (config.blacklist && config.blacklist.includes(actionType)) {
-            return
-          }
-
-          // copy orig effect pointer
-          const origEffect = dispatch[name][action]
-
-          // create function with pre & post loading calls
-          const effectWrapper = async (...props) => {
-            try {
-              dispatch.loading.show({ name, action })
-              await origEffect(...props)
-              // waits for dispatch function to finish before calling "hide"
-            } finally {
-              dispatch.loading.hide({ name, action })
-            }
-          }
-
-          // replace existing effect with new wrapper
-          dispatch[name][action] = effectWrapper
-        })
-        config.mergeInitialState(loading.state, localLoadingState)
-      },
-    }),
+        // replace existing effect with new wrapper
+        this.dispatch[name][action] = effectWrapper
+      })
+    },
   }
 }

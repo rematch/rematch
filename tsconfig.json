@@ -5,7 +5,14 @@
       "sourceMap": true,
       "target": "es5",
       "lib": ["es2017", "dom"],
-      "moduleResolution": "node"
+      "moduleResolution": "node",
+      "forceConsistentCasingInFileNames": true,
+      "noImplicitReturns": true,
+      "noImplicitThis": false,
+      "noImplicitAny": true,
+      "strictNullChecks": false,
+      "suppressImplicitAnyIndexErrors": true,
+      "noUnusedLocals": true
   },
   "files": [
     "typings/rematch/index.d.ts",

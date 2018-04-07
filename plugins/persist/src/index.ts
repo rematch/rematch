@@ -1,4 +1,4 @@
-import { PluginCreator } from '@rematch/core'
+import { Plugin } from '@rematch/core'
 import { persistCombineReducers, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -8,7 +8,7 @@ let persistor
 export const getPersistor = () => persistor
 
 // rematch plugin
-export default (config = {}): PluginCreator => {
+const reactNavigationPlugin = (config = {}): Plugin => {
   // merge config with common config options
   const mergedConfig = {
     key: 'root',
@@ -22,11 +22,11 @@ export default (config = {}): PluginCreator => {
         combineReducers: persistCombineReducers.bind(null, mergedConfig),
       },
     },
-    init: () => ({
-      onStoreCreated(store) {
-        // run persist store once store is available
-        persistor = persistStore(store)
-      },
-    }),
+    onStoreCreated(store) {
+      // run persist store once store is available
+      persistor = persistStore(store)
+    },
   }
 }
+
+export default reactNavigationPlugin

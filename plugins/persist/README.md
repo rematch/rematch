@@ -12,6 +12,8 @@ Provides simple redux state persistence using local storage options.
 npm install @rematch/persist
 ```
 
+> For @rematch/core@0.x use @rematch/persist@0.2.1
+
 ## Setup
 
 ```js

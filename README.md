@@ -45,7 +45,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 * [Examples](#examples)
 * [Migration Guide](#migrating-from-redux)
 * API Reference
-  * [@rematch/core API](./docs/api.md)
+  * [Core API](./docs/api.md)
   * [Init Redux API](./docs/reduxApi.md)
   * [Plugins API](./docs/pluginsApi.md)
 * Recipes
@@ -53,9 +53,9 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
   * [React](./docs/recipes/react.md)
   * [Vue](./docs/recipes/vue.md)
   * [Testing](./docs/recipes/testing.md)
+  * [TypeScript](./docs/recipes/typescript.md)
   * [Immer](./docs/recipes/immer.md)
 * Plugins
-  * [Subscriptions](./plugins/subscriptions/README.md)
   * [Selectors](./plugins/select/README.md)
   * [Loading](./plugins/loading/README.md)
   * [Persist](./plugins/persist/README.md)
@@ -83,6 +83,8 @@ import * as models from './models'
 const store = init({
   models,
 })
+
+export default store
 ```
 
 *For a more advanced setup, see [plugins](./docs/plugins.md) and [Redux config options](./docs/reduxApi.md).*
@@ -125,7 +127,9 @@ Understanding models is as simple as answering a few questions:
 **dispatch** is how we trigger reducers & effects in your models. Dispatch standardizes your actions without the need for writing action types or action creators.
 
 ```js
-import { dispatch } from '@rematch/core'
+import store from './index'
+
+const { dispatch } = store
                                                   // state = { count: 0 }
 // reducers
 dispatch({ type: 'count/increment', payload: 1 }) // state = { count: 1 }
@@ -139,7 +143,7 @@ dispatch.count.incrementAsync(1)                       // state = { count: 4 } a
 Dispatch can be called directly, or with the `dispatch[model][action](payload)` shorthand.
 
 
-## Examples
+### Step 4: View
 
 - Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/n3373olqo0) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
 - Todos: [React](https://codesandbox.io/s/92mk9n6vww)
@@ -148,35 +152,7 @@ Dispatch can be called directly, or with the `dispatch[model][action](payload)` 
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
-import { init } from '@rematch/core'
-
-// State
-
-const count = {
-  state: 0, // initial state
-  reducers: {
-    // handle state changes with pure functions
-    increment(state, payload) {
-      return state + payload
-    }
-  },
-  effects: {
-    // handle state changes with impure functions.
-    // use async/await for async actions
-    async incrementAsync(payload, rootState) {
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      this.increment(payload)
-    }
-  }
-}
-
-const store = init({
-  models: {
-    count
-  }
-})
-
-// View
+import store from './index'
 
 const Count = props => (
   <div>

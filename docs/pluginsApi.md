@@ -8,13 +8,12 @@ There are plenty of examples to base your next plugin on. After all, in Rematch,
 # Plugin API Reference
 
 - [config](#config)
-- [expose](#expose)
-- [init](#init)
-  - [onModel](#onmodel)
-  - [middleware](#middleware)
-  - [onStoreCreated](#onstorecreated)
+- [exposed](#exposed)
+- [onModel](#onmodel)
+- [middleware](#middleware)
+- [onStoreCreated](#onstorecreated)
 
-## config
+### config
 
 `{ config: initOptions }`
 
@@ -33,9 +32,9 @@ const plugin = {
 
 See "persist" as an example.
 
-## expose
+### exposed
 
-`{ expose: { [string]: any } }`
+`{ exposed: { [string]: any } }`
 
 A shared object for plugins to communicate with each other.
 
@@ -48,23 +47,16 @@ const selectors = {
 
 See "dispatch", "select" as an example.
 
-## init
-
-`{ init: (expose) => pluginInitOptions }`
-
-A function called when plugins are initialized.
-
-The function passes in `expose`, which contains various shared methods such as `dispatch`, `select`, `validate`, etc.
 
 ### onModel
 
+`{ onModel(model: Model): void }`
+
 ```js
-{
-  init: (expose) => ({
-    onModel(model) {
-      // do something
-    }
-  })
+const plugin = {
+  onModel(model) {
+    // do something
+  }
 }
 ```
 
@@ -76,14 +68,14 @@ As an example, see "dispatch", "effects", "subscriptions", etc.
 
 ### middleware
 
+`{ middleware: (store: Model) => (next: Dispatch) => (action: Action): nextState }`
+
 ```js
-{
-  init: (expose) => ({
-    middleware: store => next => action => {
-      // do something here
-      return next(action)
-    }
-  })
+const plugin = {
+  middleware: store => next => action => {
+    // do something here
+    return next(action)
+  }
 }
 ```
 
@@ -93,13 +85,13 @@ See examples with "effects", "loading", & "subscriptions".
 
 ### onStoreCreated
 
+`{ onStoreCreated(store: Store): void }`
+
 ```js
-{
-  init: (expose) => ({
-    onStoreCreated(store) {
-      // do something
-    }
-  })
+const plugin = {
+  onStoreCreated(store) {
+    // do something
+  }
 }
 ```
 

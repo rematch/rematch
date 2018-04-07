@@ -13,9 +13,9 @@
   * [React](./docs/recipes/react.md)
   * [Vue](./docs/recipes/vue.md)
   * [Testing](./docs/recipes/testing.md)
+  * [TypeScript](./docs/recipes/typescript.md)
   * [Immer](./docs/recipes/immer.md)
 * Plugins
-  * [Subscriptions](./plugins/subscriptions/README.md)
   * [Selectors](./plugins/select/README.md)
   * [Loading](./plugins/loading/README.md)
   * [Persist](./plugins/persist/README.md)

@@ -2,26 +2,30 @@
 // Project: Rematch
 // Definitions by: Shawn McKay https://github.com/shmck
 
-import { AnyAction, Dispatch, MiddlewareAPI, Middleware, ReducersMapObject, Store, StoreCreator, StoreEnhancer } from 'redux'
+import * as Redux from 'redux'
 
 export as namespace rematch
 
 export type RematchDispatch = {
   [key: string]: {
-    [key:string]: (action: Action) => Promise<Dispatch<any>>
+    [key:string]: (action: Action) => Promise<Redux.Dispatch<any>>
   }
-} | ((action: Action) => Promise<Dispatch<any>>)
+} | ((action: Action) => Promise<Redux.Dispatch<any>>)
 
 export let dispatch: RematchDispatch;
-export function init(config: Config | undefined): Store<any>
-export function model(model: Model): void
-export function getState(): any
+export function init(config: InitConfig | undefined): Redux.Store<any>
 
 export namespace rematch {
   export let dispatch: RematchDispatch;
-  export function init(config: Config): Store<any>
-  export function model(model: Model): void
-  export function getState(): any
+  export function init(config: InitConfig | undefined): Redux.Store<any>
+}
+
+export interface RematchStore {
+  replaceReducer(nextReducer: Redux.Reducer): void,
+  dispatch: (action: Action) => Redux.Dispatch<Action>,
+  getState(): any,
+  model: (model: Model) => void,
+  subscribe(listener: () => void): void,
 }
 
 export type Action = {
@@ -43,22 +47,14 @@ export type Reducers = {
 }
 
 export type Models = {
-  [key: string]: Model,
+  [key: string]: Model | ModelConfig,
 }
 
 export type ModelHook = (model: Model) => void
 
 export type Validation = [boolean | undefined, string]
 
-export type Exposed = {
-  dispatch: Dispatch<any> | { [key: string]: () => void },
-  effects: any,
-  createDispatcher: (modelName: string, reducerName: string) => any,
-  validate: (validations: Validation[]) => void,
-  [key: string]: any,
-}
-
-export interface Model {
+export interface ModelConfig {
   name?: string,
   state: any,
   reducers?: Reducers,
@@ -73,37 +69,91 @@ export interface Model {
   },
 }
 
-export interface Plugin {
-  onStoreCreated?: (store: Store<any>) => void,
-  onModel?: ModelHook,
-  middleware?: <S>(store: MiddlewareAPI<S>) => (next: Dispatch<S>) => (action: Action) => any,
+export interface Model {
+  name: string,
+  state: any,
+  reducers?: Reducers,
+  effects?: {
+    [key: string]: (payload: any, state: any) => void,
+  },
+  selectors?: {
+    [key: string]: (state: any, arg?: any) => any,
+  },
+  subscriptions?: {
+    [matcher: string]: (action: Action) => void,
+  },
 }
 
-export interface PluginCreator {
-  config?: Config,
-  expose?: {
+export interface PluginFactory extends Plugin {
+  create(plugin: Plugin): Plugin,
+}
+
+export interface Plugin {
+  config?: InitConfig,
+  onInit?: () => void,
+  onStoreCreated?: (store: Redux.Store<any>) => void,
+  onModel?: ModelHook,
+  middleware?: <S>(store: Redux.MiddlewareAPI) => (next: Redux.Dispatch) => (action: Action) => any,
+
+  // exposed
+  exposed?: {
     [key: string]: any,
   },
-  init?: (exposed: Exposed) => Plugin
+  validate?(validations: Validation[]): void,
+  storeDispatch?(action: Action): Redux.Dispatch<any> | undefined,
+  dispatch?: RematchDispatch,
+  effects?: Object,
+  createDispatcher?(modelName: string, reducerName: string): void,
 }
 
 export interface RootReducers {
   [type: string]: Reducer<any>,
 }
 
-export interface ConfigRedux {
+export interface InitConfigRedux {
   initialState?: any,
   reducers?: Reducers,
-  enhancers?: StoreEnhancer<any>[],
-  middlewares?: Middleware[],
+  enhancers?: Redux.StoreEnhancer<any>[],
+  middlewares?: Redux.Middleware[],
   rootReducers?: RootReducers,
-  combineReducers?: (reducers: ReducersMapObject) => Reducer<any>,
-  createStore?: StoreCreator,
+  combineReducers?: (reducers: Redux.ReducersMapObject) => Reducer<any>,
+  createStore?: Redux.StoreCreator,
   devtoolOptions?: Object,
 }
 
-export interface Config {
+export interface InitConfig {
+  name?: string,
   models?: Models,
-  plugins?: PluginCreator[],
-  redux?: ConfigRedux,
+  plugins?: Plugin[],
+  redux?: InitConfigRedux,
+}
+
+export interface Config {
+  name: string,
+  models: Models,
+  plugins: Plugin[],
+  redux: ConfigRedux,
+}
+
+export interface ConfigRedux {
+  initialState?: any,
+  reducers: Reducers,
+  enhancers: Redux.StoreEnhancer<any>[],
+  middlewares: Redux.Middleware[],
+  rootReducers?: RootReducers,
+  combineReducers?: (reducers: Redux.ReducersMapObject) => Reducer<any>,
+  createStore?: Redux.StoreCreator,
+  devtoolOptions?: Object,
+}
+
+export interface RematchClass {
+  config: Config,
+  models: Model[],
+  addModel(model: Model): void,
+}
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: any,
+  }
 }

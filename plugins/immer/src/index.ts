@@ -1,12 +1,12 @@
-import { Models, PluginCreator } from '@rematch/core'
-import { combineReducers, ReducersMapObject } from 'redux'
+import { Models, Plugin } from '@rematch/core'
 import produce from 'immer'
+import { combineReducers, ReducersMapObject } from 'redux'
 
 function combineReducersWithImmer(reducers: ReducersMapObject) {
   const reducersWithImmer = {}
 
   // reducer must return value because literal don't support immer
-  Object.entries(reducers).forEach(([key, reducerFn]) => {
+  for (const [key, reducerFn] of Object.entries(reducers)) {
     reducersWithImmer[key] = (state, payload) => {
       if (typeof state === 'object') {
         return produce(state, (draft: Models) => {
@@ -16,18 +16,18 @@ function combineReducersWithImmer(reducers: ReducersMapObject) {
         return reducerFn(state, payload)
       }
     }
-  })
+  }
 
   return combineReducers(reducersWithImmer)
 }
 
 // rematch plugin
-export default (): PluginCreator => {
-  return {
-    config: {
-      redux: {
-        combineReducers: combineReducersWithImmer,
-      },
+const immerPlugin = (): Plugin => ({
+  config: {
+    redux: {
+      combineReducers: combineReducersWithImmer,
     },
-  }
-}
+  },
+})
+
+export default immerPlugin

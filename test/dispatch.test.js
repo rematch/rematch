@@ -1,11 +1,8 @@
-beforeEach(() => {
-  jest.resetModules()
-})
+const { init } = require('../src')
 
 describe('dispatch:', () => {
   describe('action:', () => {
-    it('should be call in the form "modelName/reducerName"', () => {
-      const { init } = require('../src')
+    it('should be called in the form "modelName/reducerName"', () => {
       const count = {
         state: 0,
         reducers: {
@@ -24,10 +21,6 @@ describe('dispatch:', () => {
     })
 
     test('should be able to call dispatch directly', () => {
-      const {
-        init, dispatch
-      } = require('../src')
-
       const count = {
         state: 0,
         reducers: {
@@ -39,7 +32,7 @@ describe('dispatch:', () => {
         models: { count }
       })
 
-      dispatch({ type: 'count/addOne' })
+      store.dispatch({ type: 'count/addOne' })
 
       expect(store.getState()).toEqual({
         count: 1,
@@ -47,10 +40,6 @@ describe('dispatch:', () => {
     })
 
     test('should dispatch an action', () => {
-      const {
-        init, dispatch
-      } = require('../src')
-
       const count = {
         state: 0,
         reducers: {
@@ -62,7 +51,7 @@ describe('dispatch:', () => {
         models: { count }
       })
 
-      dispatch.count.add()
+      store.dispatch.count.add()
 
       expect(store.getState()).toEqual({
         count: 1,
@@ -70,10 +59,6 @@ describe('dispatch:', () => {
     })
 
     test('should dispatch multiple actions', () => {
-      const {
-        init, dispatch
-      } = require('../src')
-
       const count = {
         state: 0,
         reducers: {
@@ -85,8 +70,8 @@ describe('dispatch:', () => {
         models: { count }
       })
 
-      dispatch.count.add()
-      dispatch.count.add()
+      store.dispatch.count.add()
+      store.dispatch.count.add()
 
       expect(store.getState()).toEqual({
         count: 2,
@@ -94,10 +79,6 @@ describe('dispatch:', () => {
     })
 
     test('should handle multiple models', () => {
-      const {
-        init, dispatch
-      } = require('../src')
-
       const a = {
         state: 42,
         reducers: {
@@ -116,8 +97,8 @@ describe('dispatch:', () => {
         models: { a, b }
       })
 
-      dispatch.a.add()
-      dispatch.b.add()
+      store.dispatch.a.add()
+      store.dispatch.b.add()
 
       expect(store.getState()).toEqual({
         a: 43,
@@ -127,10 +108,6 @@ describe('dispatch:', () => {
   })
 
   test('should include a payload if it is a false value', () => {
-    const {
-      init, dispatch
-    } = require('../src')
-
     const a = {
       state: true,
       reducers: {
@@ -142,7 +119,7 @@ describe('dispatch:', () => {
       models: { a }
     })
 
-    dispatch.a.toggle(false)
+    store.dispatch.a.toggle(false)
 
     expect(store.getState()).toEqual({
       a: false,
@@ -150,12 +127,9 @@ describe('dispatch:', () => {
   })
 
   test('should throw if the reducer name is invalid', () => {
-    const {
-      model, init
-    } = require('../src')
-    init()
+    const store = init()
 
-    expect(() => model({
+    expect(() => store.model({
       name: 'a',
       state: 42,
       reducers: {
@@ -168,9 +142,9 @@ describe('dispatch:', () => {
     const {
       model, init
     } = require('../src')
-    init()
+    const store = init()
 
-    expect(() => model({
+    expect(() => store.model({
       name: 'a',
       state: 42,
       reducers: {
@@ -181,11 +155,6 @@ describe('dispatch:', () => {
 
   describe('params:', () => {
     test('should pass state as the first reducer param', () => {
-      const {
-        init, dispatch
-      } = require('../src')
-
-
       const count = {
         state: 0,
         reducers: {
@@ -197,7 +166,7 @@ describe('dispatch:', () => {
         models: { count }
       })
 
-      dispatch.count.doNothing()
+      store.dispatch.count.doNothing()
 
       expect(store.getState()).toEqual({
         count: 0,
@@ -205,10 +174,6 @@ describe('dispatch:', () => {
     })
 
     test('should pass payload as the second param', () => {
-      const {
-        init, dispatch
-      } = require('../src')
-
       const count = {
         state: 1,
         reducers: {
@@ -220,7 +185,7 @@ describe('dispatch:', () => {
         models: { count }
       })
 
-      dispatch.count.incrementBy(5)
+      store.dispatch.count.incrementBy(5)
 
       expect(store.getState()).toEqual({
         count: 6,
@@ -228,32 +193,24 @@ describe('dispatch:', () => {
     })
 
     test('should pass the meta object as the third param', async () => {
-          const {
-              init, dispatch
-          } = require('../src')
-
-          const count = {
-              state: 1,
-              reducers: {
-                  incrementBy: (state, payload, meta) => {
-                      expect(meta).toEqual({ metaProperty: false })
-                      return state + payload
-                  },
+      const count = {
+          state: 1,
+          reducers: {
+              incrementBy: (state, payload, meta) => {
+                  expect(meta).toEqual({ metaProperty: false })
+                  return state + payload
               },
-          }
+          },
+      }
 
-          const store = init({
-              models: { count }
-          })
-
-          await dispatch.count.incrementBy(5, { metaProperty: false })
+      const store = init({
+          models: { count }
       })
 
-    test('should use second param as action meta', (done) => {
-      const {
-        init, dispatch
-      } = require('../src')
+      await store.dispatch.count.incrementBy(5, { metaProperty: false })
+    })
 
+    test('should use second param as action meta', (done) => {
       const count = {
         state: 1,
         reducers: {
@@ -262,30 +219,24 @@ describe('dispatch:', () => {
       }
 
       // TODO: capture actions in a more direct way
-      init({
+      const store = init({
         models: { count },
         plugins: [{
-          init() {
-            return {
-              middleware: () => next => action => {
-                if (action.meta) {
-                  expect(action).toEqual({ type: 'count/incrementBy', payload: 5, meta: { metaProperty: true } })
-                  done()
-                }
-                return next(action)
-              }
+          middleware: () => next => action => {
+            if (action.meta) {
+              expect(action).toEqual({ type: 'count/incrementBy', payload: 5, meta: { metaProperty: true } })
+              done()
             }
+            return next(action)
           }
         }]
       })
-      dispatch.count.incrementBy(5, { metaProperty: true })
+      store.dispatch.count.incrementBy(5, { metaProperty: true })
     })
   })
 
   describe('promise middleware', () => {
     test('should return a promise from an action', () => {
-      const { init, dispatch } = require('../src')
-
       const count = {
         state: 0,
         reducers: {
@@ -293,18 +244,16 @@ describe('dispatch:', () => {
         },
       }
 
-      init({
+      const store = init({
         models: { count }
       })
 
-      const dispatched = dispatch.count.add()
+      const dispatched = store.dispatch.count.add()
 
       expect(typeof dispatched.then).toBe('function')
     })
 
     test('should return a promise from an effect', () => {
-      const { init, dispatch } = require('../src')
-
       const count = {
         state: 0,
         reducers: {
@@ -317,17 +266,17 @@ describe('dispatch:', () => {
         }
       }
 
-      init({
+      const store = init({
         models: { count }
       })
 
-      const dispatched = dispatch.count.addOne()
+      const dispatched = store.dispatch.count.addOne()
 
       expect(typeof dispatched.then).toBe('function')
     })
 
     test('should return a promise that resolves to a value from an effect', async () => {
-      const { init, dispatch } = require('../src')
+      const { init } = require('../src')
 
       const count = {
         state: 0,
@@ -336,7 +285,7 @@ describe('dispatch:', () => {
         },
         effects: {
           async callAddOne() {
-            await dispatch.count.addOne()
+            await this.addOne()
             return {
               added: true
             }
@@ -356,19 +305,17 @@ describe('dispatch:', () => {
     })
   })
   test('should not validate dispatch if production', () => {
-    const { init } = require('../src')
+    process.env.NODE_ENV = 'production'
 
-      process.env.NODE_ENV = 'production'
+    const count = {
+      state: 0,
+      reducers: {
+        'add/invalid': state => state + 1,
+      },
+    }
 
-      const count = {
-        state: 0,
-        reducers: {
-          'add/invalid': state => state + 1,
-        },
-      }
-
-      expect(() => init({
-        models: { count }
-      })).not.toThrow()
+    expect(() => init({
+      models: { count }
+    })).not.toThrow()
   })
 })

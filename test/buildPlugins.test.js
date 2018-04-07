@@ -1,34 +1,19 @@
-beforeEach(() => {
-  jest.resetModules()
-})
+const PluginFactory = require('../src/pluginFactory').default
 
 describe('buildPlugins:', () => {
   test('should not create a plugin with invalid "onModel"', () => {
-    const buildPlugins = require('../src/utils/buildPlugins').default
+    const pluginFactory = new PluginFactory()
     const plugin1 = {
-      init: () => ({
-        onModel: {},
-      })
+      onModel: {},
     }
-    const plugins = [plugin1]
-    expect(() => buildPlugins(plugins, {})).toThrow()
+    expect(() => pluginFactory.create(plugin1)).toThrow()
   })
 
   test('should not create a plugin with invalid "middleware"', () => {
-    const buildPlugins = require('../src/utils/buildPlugins').default
+    const pluginFactory = new PluginFactory()
     const plugin1 = {
-      init: () => ({
-        middleware: {},
-      })
+      middleware: {},
     }
-    const plugins = [plugin1]
-    expect(() => buildPlugins(plugins, {})).toThrow()
-  })
-
-  test('build plugins should do nothing if no plugin has "init"', () => {
-    const buildPlugins = require('../src/utils/buildPlugins').default
-    const plugin1 = {}
-    const plugins = [plugin1]
-    expect(buildPlugins(plugins, {})).toEqual([])
+    expect(() => pluginFactory.create(plugin1)).toThrow()
   })
 })

@@ -22,7 +22,7 @@ import { init, model, dispatch, select } from '@rematch/core'
 const store = init()
 
 // Create the model
-model({
+store.model({
   name: 'count',
   state: 0,
   reducers: {

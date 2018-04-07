@@ -7,6 +7,7 @@ React-Navigation
 ```
 npm install react-navigation @rematch/react-navigation
 ```
+> For @rematch/core@0.x use @rematch/react-navigation@1.1.0
 
 ## Example
 
@@ -104,7 +105,7 @@ const resetAction = dispatch.navigate.reset({
 An example for setting up the Android back button handling with react-navigation. 
 
 ```js
-import { dispatch, init, getState } from '@rematch/core'
+import { dispatch, init } from '@rematch/core'
 import createReactNavigation from '@rematch/react-navigation'
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -121,7 +122,7 @@ export class App extends React.Component {
   }
   
   handleBack = () => {
-    if (getState().nav.index === 0) {
+    if (store.getState().nav.index === 0) {
       BackHandler.exitApp()
     }
     dispatch.nav.back()

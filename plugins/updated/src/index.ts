@@ -1,10 +1,11 @@
-import { Action, Model, PluginCreator } from '@rematch/core'
+import { Action, Model, Plugin } from '@rematch/core'
 
 interface UpdatedConfig {
   name?: string,
 }
 
-export default (config: UpdatedConfig = {}): PluginCreator => {
+const updatedPlugin = (config: UpdatedConfig = {}): Plugin => {
+  // model
   const updatedModelName = config.name || 'updated'
   const updated = {
     name: updatedModelName,
@@ -25,35 +26,35 @@ export default (config: UpdatedConfig = {}): PluginCreator => {
         updated,
       },
     },
-    init: ({ dispatch }) => ({
-      onModel({ name }: Model) {
-        // do not run dispatch on loading, updated models
-        const avoidModels = [updatedModelName, 'loading']
-        if (avoidModels.includes(name)) { return }
+    onModel({ name }: Model) {
+      // do not run dispatch on loading, updated models
+      const avoidModels = [updatedModelName, 'loading']
+      if (avoidModels.includes(name)) { return }
 
-        const modelActions = dispatch[name]
+      const modelActions = this.dispatch[name]
 
-        // add empty object for effects
-        updated.state[name] = {}
+      // add empty object for effects
+      updated.state[name] = {}
 
-        // map over effects within models
-        Object.keys(modelActions).forEach((action: string) => {
-          if (dispatch[name][action].isEffect) {
-            // copy function
-            const fn = dispatch[name][action]
+      // map over effects within models
+      for (const action of Object.keys(modelActions)) {
+        if (this.dispatch[name][action].isEffect) {
+          // copy function
+          const fn = this.dispatch[name][action]
 
-            // create function with pre & post loading calls
-            const dispatchWithUpdateHook = async (props) => {
-              await fn(props)
+          // create function with pre & post loading calls
+          const dispatchWithUpdateHook = async (props) => {
+            await fn(props)
 
-              // waits for dispatch function to finish before calling "hide"
-              dispatch[updatedModelName].onUpdate({ name, action })
-            }
-            // replace existing effect with new dispatch
-            dispatch[name][action] = dispatchWithUpdateHook
+            // waits for dispatch function to finish before calling "hide"
+            this.dispatch[updatedModelName].onUpdate({ name, action })
           }
-        })
-      },
-    }),
+          // replace existing effect with new dispatch
+          this.dispatch[name][action] = dispatchWithUpdateHook
+        }
+      }
+    },
   }
 }
+
+export default updatedPlugin

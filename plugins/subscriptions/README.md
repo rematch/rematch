@@ -2,9 +2,11 @@
 
 Subscriptions plugin for Rematch.
 
-## NOTE
+## DEPRECATED
 
-You likely may not need this plugin.
+This plugin no longer works with @rematch/core v1.0.0.
+
+Regardless, you likely may not need this plugin.
 
 You can now capture actions from other models by simply referencing the model & action names in your reducers:
 

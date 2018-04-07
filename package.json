@@ -1,6 +1,6 @@
 {
   "name": "@rematch/core",
-  "version": "0.6.0",
+  "version": "1.0.0-alpha.0",
   "description": "A Redux Framework",
   "keywords": [
     "@rematch",
@@ -35,15 +35,15 @@
     "build:all": "bash ./scripts/build.sh",
     "dev": "tsc --watch src",
     "install:all": "tsc && bash ./scripts/setup_plugins.sh",
-    "lint": "eslint ./src",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "jest"
   },
   "dependencies": {
-    "redux": "^3.7.2"
+    "redux": "^4.0.0-beta.2"
   },
   "devDependencies": {
     "@types/jest": "^22.2.2",
-    "@types/node": "^9.6.0",
+    "@types/node": "^9.6.1",
     "coveralls": "^3.0.0",
     "cross-env": "^5.1.4",
     "gitbook-plugin-edit-link": "^2.0.2",
@@ -90,7 +90,10 @@
     "testPathIgnorePatterns": [
       "/_book/",
       "/lib/",
-      "plugins/react-navigation/examples"
+      "plugins/react-navigation/examples",
+      "plugins/subscriptions",
+      "plugins/loading-immutable",
+      "/examples/ts"
     ],
     "moduleFileExtensions": [
       "ts",

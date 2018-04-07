@@ -1,18 +1,13 @@
-beforeEach(() => {
-  jest.resetModules()
-})
+const { init } = require('../src')
 
 describe('init:', () => {
   test('no params should create store with state `{}`', () => {
-    const { init } = require('../src')
     const store = init()
 
     expect(store.getState()).toEqual({})
   })
 
   test('should create models', () => {
-    const { init } = require('../src')
-
     const store = init({
       models: {
         app: {
@@ -31,8 +26,6 @@ describe('init:', () => {
   })
 
   test('should allow both init models & model models', () => {
-    const { init, model } = require('../src')
-
     const store = init({
       models: {
         app: {
@@ -41,7 +34,7 @@ describe('init:', () => {
       }
     })
 
-    model({
+    store.model({
       name: 'app2',
       state: 'Hello, model 2',
     })
@@ -53,8 +46,6 @@ describe('init:', () => {
   })
 
   test('should throw if models are not an object', () => {
-    const { init } = require('../src')
-
     const model = {
       name: 'app',
       state: 'Hello, world',
@@ -66,10 +57,9 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `string`', () => {
-    const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'app',
       state: 'Hello, world',
     })
@@ -80,10 +70,9 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `number`', () => {
-    const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'count',
       state: 99,
     })
@@ -94,10 +83,9 @@ describe('init:', () => {
   })
 
   test('init() & one model of state is 0', () => {
-    const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'count',
       state: 0,
     })
@@ -108,10 +96,9 @@ describe('init:', () => {
   })
 
   test('init() & one model of state type `object`', () => {
-    const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'todos',
       state: {
         abc: {
@@ -131,15 +118,14 @@ describe('init:', () => {
     })
   })
   test('init() & two models', () => {
-    const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'app',
       state: 'Hello, world',
     })
 
-    model({
+    store.model({
       name: 'count',
       state: 99,
     })
@@ -151,20 +137,19 @@ describe('init:', () => {
   })
 
   test('init() & three models', () => {
-    const { model, init } = require('../src')
     const store = init()
 
-    model({
+    store.model({
       name: 'app',
       state: 'Hello, world',
     })
 
-    model({
+    store.model({
       name: 'count',
       state: 99,
     })
 
-    model({
+    store.model({
       name: 'todos',
       state: {
         abc: {
@@ -186,8 +171,6 @@ describe('init:', () => {
     })
   })
   test('should not validate if production', () => {
-    const { init } = require('../src')
-
     process.env.NODE_ENV = 'production'
     
     const model = {

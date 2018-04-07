@@ -1,4 +1,7 @@
+const { init } = require('../../../src')
+const updatedPlugin = require('../src').default
 const mockDate = new Date()
+
 
 beforeEach(() => {
   jest.resetModules()
@@ -7,12 +10,6 @@ beforeEach(() => {
 
 describe('updated', () => {
   test('should setup with a config name', async () => {
-    const {
-      init, dispatch
-    } = require('../../../src')
-
-    const updatedPlugin = require('../src').default
-
     const count = {
       name: 'count',
       state: 0,
@@ -21,7 +18,7 @@ describe('updated', () => {
       },
       effects: {
         async timeout() {
-          dispatch.count.addOne()
+          this.addOne()
         }
       }
     }
@@ -33,7 +30,7 @@ describe('updated', () => {
       })]
     })
 
-    await dispatch.count.timeout()
+    await store.dispatch.count.timeout()
 
     const state = store.getState()
     expect(state).toEqual({
@@ -46,12 +43,6 @@ describe('updated', () => {
     })
   })
   test('should record the timestamp of the last time an effect was updated', async () => {
-    const {
-      init, dispatch
-    } = require('../../../src')
-
-    const updatedPlugin = require('../src').default
-
     const count = {
       name: 'count',
       state: 0,
@@ -60,7 +51,7 @@ describe('updated', () => {
       },
       effects: {
         async timeout() {
-          dispatch.count.addOne()
+          this.addOne()
         }
       }
     }
@@ -70,7 +61,7 @@ describe('updated', () => {
       plugins: [updatedPlugin()]
     })
 
-    await dispatch.count.timeout()
+    await store.dispatch.count.timeout()
 
     const state = store.getState()
     expect(state).toEqual({
@@ -84,12 +75,6 @@ describe('updated', () => {
   })
   
   test('should work with multiple effects', async () => {
-    const {
-      init, dispatch
-    } = require('../../../src')
-
-    const updatedPlugin = require('../src').default
-
     const count = {
       name: 'count',
       state: 0,
@@ -98,10 +83,10 @@ describe('updated', () => {
       },
       effects: {
         async timeout() {
-          dispatch.count.addOne()
+          this.addOne()
         },
         async timeout2() {
-          dispatch.count.addOne()
+          this.addOne()
         }
       }
     }
@@ -111,8 +96,8 @@ describe('updated', () => {
       plugins: [updatedPlugin()]
     })
 
-    await dispatch.count.timeout()
-    await dispatch.count.timeout2()
+    await store.dispatch.count.timeout()
+    await store.dispatch.count.timeout2()
 
     const state = store.getState()
     expect(state).toEqual({
