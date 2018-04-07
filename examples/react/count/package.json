@@ -11,7 +11,7 @@
     "@rematch/core": "file:../../..",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-redux": "5.0.6",
+    "react-redux": "^5.0.7",
     "react-scripts": "^1.1.0"
   },
   "private": true
