@@ -1,7 +1,6 @@
 import React from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import { dispatch } from '@rematch/core'
 
 const App = ({ count, asyncIncrement, lastUpdated }) => (
   <div>
@@ -17,8 +16,13 @@ const App = ({ count, asyncIncrement, lastUpdated }) => (
   </div>
 )
 
-export default connect(state => ({
+const mapState = state => ({
   count: state.count,
-  asyncIncrement: dispatch.count.asyncIncrement,
   lastUpdated: state.updated.count.asyncIncrement,
-}))(App)
+})
+
+const mapDispatch = dispatch => ({
+  asyncIncrement: dispatch.count.asyncIncrement,
+})
+
+export default connect(mapState, mapDispatch)(App)
