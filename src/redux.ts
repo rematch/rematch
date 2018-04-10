@@ -17,7 +17,7 @@ export default ({ redux, models }: { redux: R.ConfigRedux, models: R.Model[] }) 
   this.reducers = redux.reducers
 
   // combine models to generate reducers
-  this.mergeReducers = (nextReducers: R.Reducers = {}) => {
+  this.mergeReducers = (nextReducers: R.ModelReducers = {}) => {
     // set reducers
     this.reducers = { ...this.reducers, ...nextReducers }
     if (!Object.keys(this.reducers).length) {
@@ -45,7 +45,7 @@ export default ({ redux, models }: { redux: R.ConfigRedux, models: R.Model[] }) 
     this.createModelReducer(model)
   }
 
-  this.createRootReducer = (rootReducers: R.RootReducers = {}): Redux.Reducer<any> => {
+  this.createRootReducer = (rootReducers: R.RootReducers = {}): Redux.Reducer<any, R.Action> => {
     const mergedReducers: Redux.Reducer<any> = this.mergeReducers()
     if (Object.keys(rootReducers).length) {
       return (state, action) => {

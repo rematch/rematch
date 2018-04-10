@@ -16,7 +16,7 @@ export type RematchDispatch = {
     [key:string]: RematchDispatcher;
   }
 } & ((action: Action) => Promise<Redux.Dispatch<Action>>)
-& (Redux.Dispatch<any>)
+  & (Redux.Dispatch<any>) // for library compatability
 
 export let dispatch: RematchDispatch;
 export function init(config: InitConfig | undefined): Redux.Store<any>
@@ -28,7 +28,7 @@ export namespace rematch {
 
 export interface RematchStore {
   replaceReducer(nextReducer: Redux.Reducer): void,
-  dispatch: (action: Action) => Redux.Dispatch<Action>,
+  dispatch: (action: Action) => RematchDispatch,
   getState(): any,
   model: (model: Model) => void,
   subscribe(listener: () => void): void,
@@ -44,12 +44,10 @@ export type EnhancedReducer<S> = (state: S, payload: object, meta: object) => S;
 
 export type EnhancedReducers = {
   [key: string]: EnhancedReducer<any>,
-}
+};
 
-export type Reducer<S> = (state: S, payload?: any) => S;
-
-export type Reducers = {
-  [key: string]: Reducer<any>,
+export type ModelReducers = {
+  [key: string]: (state: any, payload: any) => any,
 }
 
 export type Models = {
@@ -63,7 +61,7 @@ export type Validation = [boolean | undefined, string]
 export interface ModelConfig {
   name?: string,
   state: any,
-  reducers?: Reducers,
+  reducers?: ModelReducers,
   effects?: {
     [key: string]: (payload: any, state: any) => void,
   },
@@ -78,7 +76,7 @@ export interface ModelConfig {
 export interface Model {
   name?: string,
   state: any,
-  reducers?: Reducers,
+  reducers?: ModelReducers,
   effects?: {
     [key: string]: (payload: any, state: any) => void,
   },
@@ -113,16 +111,16 @@ export interface Plugin {
 }
 
 export interface RootReducers {
-  [type: string]: Reducer<any>,
+  [type: string]: Redux.Reducer<any, Action>,
 }
 
 export interface InitConfigRedux {
   initialState?: any,
-  reducers?: Reducers,
+  reducers?: ModelReducers,
   enhancers?: Redux.StoreEnhancer<any>[],
   middlewares?: Redux.Middleware[],
   rootReducers?: RootReducers,
-  combineReducers?: (reducers: Redux.ReducersMapObject) => Reducer<any>,
+  combineReducers?: (reducers: Redux.ReducersMapObject) => Redux.Reducer<any, Action>,
   createStore?: Redux.StoreCreator,
   devtoolOptions?: Object,
 }
@@ -143,11 +141,11 @@ export interface Config {
 
 export interface ConfigRedux {
   initialState?: any,
-  reducers: Reducers,
+  reducers: ModelReducers,
   enhancers: Redux.StoreEnhancer<any>[],
   middlewares: Redux.Middleware[],
   rootReducers?: RootReducers,
-  combineReducers?: (reducers: Redux.ReducersMapObject) => Reducer<any>,
+  combineReducers?: (reducers: Redux.ReducersMapObject) => Redux.Reducer<any, Action>,
   createStore?: Redux.StoreCreator,
   devtoolOptions?: Object,
 }
