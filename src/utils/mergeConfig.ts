@@ -14,7 +14,7 @@ const isObject = (obj: object): boolean => (Array.isArray(obj) || typeof obj !==
  */
 export default (initConfig: R.InitConfig): R.Config => {
   const config: R.Config = {
-    name: initConfig.name || '0', // unnecessary
+    name: initConfig.name,
     models: {},
     plugins: [],
     ...initConfig,
@@ -24,6 +24,10 @@ export default (initConfig: R.InitConfig): R.Config => {
       enhancers: [],
       middlewares: [],
       ...initConfig.redux,
+      devtoolOptions: {
+        name: initConfig.name,
+        ...(initConfig.redux && initConfig.redux.devtoolOptions ? initConfig.redux.devtoolOptions : {}),
+      },
     },
   }
 
@@ -61,7 +65,7 @@ export default (initConfig: R.InitConfig): R.Config => {
   }
 
   // defaults
-  for (const plugin of config.plugins || []) {
+  for (const plugin of config.plugins) {
     if (plugin.config) {
 
       // models
