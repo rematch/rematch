@@ -55,6 +55,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
   * [Testing](./docs/recipes/testing.md)
   * [TypeScript](./docs/recipes/typescript.md)
   * [Immer](./docs/recipes/immer.md)
+  * [Decoupling reducers](./docs/recipes/decouplingReducers.md)
 * Plugins
   * [Selectors](./plugins/select/README.md)
   * [Loading](./plugins/loading/README.md)
