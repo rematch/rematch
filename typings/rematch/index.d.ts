@@ -8,7 +8,7 @@ export as namespace rematch
 
 export interface RematchDispatcher {
   (action: Action): Promise<Redux.Dispatch<any>>;
-  (payload?: any): any;
+  (payload?: any, meta?: any): Promise<Redux.Dispatch<any>>;
 }
 
 export type RematchDispatch = {
