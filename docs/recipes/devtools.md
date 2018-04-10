@@ -12,7 +12,9 @@ Its also possible to add redux devtools [configuration options](https://github.c
 
 ```js
 init({
-  devtoolOptions: options,
+  redux: {
+    devtoolOptions: options,
+  },
 })
 ```
 
