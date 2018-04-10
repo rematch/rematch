@@ -27,7 +27,7 @@ const todoList = {
   }
 }
 ```
-`byId` key store the entity while `allIds` keeps the track of the order of our entities.
+`byId` key stores the entity while `allIds` keeps the track of the order of our entities.
 
 This driven us into an edge case: 
   - `byId` and `allIds` refers to the same entity, they definitely need to live into the same model
