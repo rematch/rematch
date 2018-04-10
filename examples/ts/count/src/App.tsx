@@ -34,9 +34,9 @@ const mapState = (state: any) => ({
 });
 
 const mapDispatch = (dispatch: any) => ({
-  incrementSharks: dispatch.sharks.increment,
+  incrementSharks: () => dispatch.sharks.increment(1),
   incrementDolphins: dispatch.dolphins.increment,
-  incrementSharksAsync: dispatch.sharks.incrementAsync,
+  incrementSharksAsync: () => dispatch.sharks.incrementAsync(1),
   incrementDolphinsAsync: dispatch.dolphins.incrementAsync,
 });
 
