@@ -55,12 +55,13 @@ const todoList = {
       const { idToToggle } = payload;
       return {
         ...state, // don't update allIds,
-        byId: Object.entries(state.byId)
-          .map(([id, todo]) => [
-            id,
-            id === idToToggle ? { ...todo, isDone: !todo.isDone } : todo
-          ])
-          .reduce((acc, [id, todo]) => ({ ...acc, [id]: todo }), {})
+        byId: {
+          ...state.byId,
+          [idToToggle]: {
+            ...state.byId[idToToggle],
+            isDone: !state.byId[idToToggle].isDone
+          }
+        }       
       };
     }
   }
@@ -71,7 +72,7 @@ const todoList = {
 We see that our reducers start to be big and pretty unreadable.
 Hopefully, we can separate our update functions.
 
-We can start to isolate our pure reusable functions
+We can start to isolate our pure reusable function
 
 ```javascript
 function filterObjectByKey(obj, f) {
@@ -80,11 +81,6 @@ function filterObjectByKey(obj, f) {
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 }
 
-function updateObject(obj, f) {
-  return Object.entries(obj)
-    .map(([key, value]) => [key, f(key, value)])
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-}
 ```
 
 Now we can separate our `update functions`, the functions that update a part of the state.
@@ -102,10 +98,13 @@ function removeAllIds(state, payload) {
 
 function toggleById(state, payload) {
   const { idToToggle } = payload;
-  return updateObject(
-    state,
-    (id, todo) => (id === idToToggle ? { ...todo, isDone: !todo.isDone } : todo)
-  );
+  return {
+   ...state,
+   [idToToggle]: {
+     ...state[idToToggle],
+     isDone: !state[idToToogle].isDone
+   }
+  }
 }
 
 function toggleAllIds(state, payload) {
