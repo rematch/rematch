@@ -1,4 +1,6 @@
-export default {
+import { Model } from '@rematch/core';
+
+const dolphins: Model = {
     state: 0,
     reducers: {
         increment: (state: any) => state + 1
@@ -9,3 +11,5 @@ export default {
         }
     }
 };
+
+export default dolphins;

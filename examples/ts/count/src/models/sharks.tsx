@@ -1,7 +1,9 @@
+import { Model } from '@rematch/core';
+
 export interface SharkReducers {
     increment: (state: any) => void;
 }
-export default {
+const sharks: Model = {
   state: 0,
   reducers: {
     increment: (state: any, payload: number) => state + payload
@@ -12,3 +14,5 @@ export default {
     }
   }
 };
+
+export default sharks;
