@@ -4,11 +4,11 @@ export interface SharkReducers {
 export default {
   state: 0,
   reducers: {
-    increment: (state: any) => state + 1
+    increment: (state: any, payload: number) => state + payload
   },
   effects: {
     async incrementAsync() {
-        this.increment();
+        this.increment(1);
     }
   }
 };
