@@ -7,15 +7,16 @@ import * as Redux from 'redux'
 export as namespace rematch
 
 export interface RematchDispatcher {
-  (action: Action): Promise<Redux.Dispatch<any>>;
-  (payload?: any, meta?: any): Promise<Redux.Dispatch<any>>;
+  (action: Action): Promise<Redux.Dispatch<Action>>;
+  (payload?: any, meta?: any): Promise<Action>;
 }
 
 export type RematchDispatch = {
   [key: string]: {
     [key:string]: RematchDispatcher;
   }
-} & ((action: Action) => Promise<Redux.Dispatch<any>>)
+} & ((action: Action) => Promise<Redux.Dispatch<Action>>)
+& (Redux.Dispatch<any>)
 
 export let dispatch: RematchDispatch;
 export function init(config: InitConfig | undefined): Redux.Store<any>
@@ -75,7 +76,7 @@ export interface ModelConfig {
 }
 
 export interface Model {
-  name: string,
+  name?: string,
   state: any,
   reducers?: Reducers,
   effects?: {
