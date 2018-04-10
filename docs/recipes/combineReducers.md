@@ -31,10 +31,10 @@ const todoList = {
 
 This driven us into an edge case: 
   - `byId` and `allIds` refers to the same entity, they definitely need to live into the same model
-  - `byId` and `allIds` are don't depend on each other, they definitely need to be handled separately
+  - `byId` and `allIds` don't depend on each other, they definitely need to be handled separately
  
 
-Let's try to see what we get if we use the same model:
+Let's try to see what we get without decoupling our reducers:
  
  ```javascript
 const todoList = {
@@ -69,7 +69,7 @@ const todoList = {
 ```
 
 We see that our reducers start to be big and pretty unreadable.
-Hopefully, we can separate our update function.
+Hopefully, we can separate our update functions.
 
 We can start to isolate our pure reusable functions
 
