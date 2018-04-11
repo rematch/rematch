@@ -1,14 +1,12 @@
 # Decoupling reducers
 
-Rematch and more generally Redux, encourage to keep a flat state to solve several [issues](https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape).
+Rematch and more generally Redux, encourage you to keep a flat state to solve several [issues](https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape).
 Each model should be considered as a separate entity and should only be updated by its reducer, this is why Rematch doesn't allow nested reducers.
 
-This being said, there is some case where nested reducer can be a good thing.
-In this recipe, we will see how to decoupling reducers that tends to grow too much.
+This being said, there is some case where nested reducers can be a good thing.
+In this recipe, we will see how to use reusable reducer functions.
 
-Let's start with an example. A common pattern in Redux, when we want to store an ordered list, is "allIds, byId". Store  the entities as
-an array requires to iterate over the array to find our target but store the entities as an object doesn't let us to keep 
-an order. So let's use both: 
+Let's start with an example. A common pattern in Redux, when we want to store an ordered list, is "allIds, byId". Storing the entities as an array requires an additional cost of iterating over the array to find our target. On the other hand, storing the entities as an object doesn't preserve the order of items. So let's use both: 
 
 ```javascript
 const todoList = {
@@ -27,9 +25,9 @@ const todoList = {
   }
 }
 ```
-`byId` key stores the entity while `allIds` keeps the track of the order of our entities.
+`byId` key stores the entity while `allIds` keeps track of the order of our entities.
 
-This driven us into an edge case: 
+This creates another issue: 
   - `byId` and `allIds` refers to the same entity, they definitely need to live into the same model
   - `byId` and `allIds` don't depend on each other, they definitely need to be handled separately
  
@@ -83,7 +81,7 @@ function filterObjectByKey(obj, f) {
 
 ```
 
-Now we can separate our `update functions`, the functions that update a part of the state.
+Now we can separate our `reducer functions`, the functions that update a part of the state.
 
 ```javascript
 function removeById(state, payload) {
@@ -112,7 +110,7 @@ function toggleAllIds(state, payload) {
 }
 ```
 
-And we finally mix all together by distibuting a part of the state to our update functions:
+And we finally mix everything all together by distibuting a part of the state to our reducers functions:
 
 ```javascript
 const todoList = {
@@ -134,7 +132,7 @@ const todoList = {
 };
 
 ```
-Our model seems much better and more readable.
+Reducer functions make our model simpler and more readable.
 
 
 
