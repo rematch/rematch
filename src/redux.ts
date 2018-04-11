@@ -18,9 +18,10 @@ export default ({ redux, models }: { redux: R.ConfigRedux, models: R.Model[] }) 
 
   // combine models to generate reducers
   this.mergeReducers = (nextReducers: R.ModelReducers = {}) => {
-    // set reducers
+    // merge new reducers with existing reducers
     this.reducers = { ...this.reducers, ...nextReducers }
     if (!Object.keys(this.reducers).length) {
+      // no reducers, just return state
       return (state: any) => state
     }
     return combineReducers(this.reducers)
