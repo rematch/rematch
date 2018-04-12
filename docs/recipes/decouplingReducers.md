@@ -66,6 +66,7 @@ const todoList = {
 };
 
 ```
+[React example](https://codesandbox.io/s/lry6024mkl)
 
 We see that our reducers start to be big and pretty unreadable.
 Hopefully, we can separate our update functions.
@@ -132,6 +133,8 @@ const todoList = {
 };
 
 ```
+
+[React example](https://codesandbox.io/s/x2r7nryn24)  
 Reducer functions make our model simpler and more readable.
 
 
