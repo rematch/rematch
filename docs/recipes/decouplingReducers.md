@@ -37,7 +37,7 @@ Let's try to see what we get without decoupling our reducers:
  ```javascript
 const todoList = {
   state: {...},
-  reducer: {
+  reducers: {
     // update allIds and byId
     remove(state, payload) {
       const { idToRemove } = payload;
@@ -86,7 +86,7 @@ Now we can separate our `reducer functions`, the functions that update a part of
 ```javascript
 function removeById(state, payload) {
   const { idToRemove } = payload;
-  return filterObjectById(state, id => id !== idToRemove);
+  return filterObjectByKey(state, id => id !== idToRemove);
 }
 
 function removeAllIds(state, payload) {
@@ -100,7 +100,7 @@ function toggleById(state, payload) {
    ...state,
    [idToToggle]: {
      ...state[idToToggle],
-     isDone: !state[idToToogle].isDone
+     isDone: !state[idToToggle].isDone
    }
   }
 }
@@ -115,7 +115,7 @@ And we finally mix everything all together by distibuting a part of the state to
 ```javascript
 const todoList = {
   state: {...},
-  reducer: {
+  reducers: {
     remove(state, payload) {
       return {
         byId: removeById(state.byId, payload),
@@ -125,7 +125,7 @@ const todoList = {
     toggle(state, payload) {
       return {
         byId: toggleById(state.byId, payload),
-        allIds: toogleAllIds(state.allIds, payload)
+        allIds: toggleAllIds(state.allIds, payload)
       };
     }
   }
