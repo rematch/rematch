@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/rematch/rematch/master/logo.png" alt="Rematch Logo">
+<img src="./logo/rematch-logo.svg" height='250' width='250' alt="Rematch Logo">
 
 <p>
 <a href='https://travis-ci.org/rematch/rematch' style='margin: 0 0.5rem;'>
