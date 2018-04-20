@@ -5,5 +5,6 @@ before_install:
   - npm install typescript && npm run install:all
   - npm run build
 after_script:
+  - npm run size
   - npm install coveralls
   - coveralls < coverage/lcov.info
