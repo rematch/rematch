@@ -17,8 +17,8 @@
 <img src='https://badge.fury.io/js/%40rematch%2Fcore.svg' alt='npm version' height='18'>
 </a>
 
-<a href='https://img.shields.io/badge/size-<18kb-brightgreen.svg?style=flat' style='margin: 0 0.5rem;'>
-<img src='https://img.shields.io/badge/size-<18kb-brightgreen.svg?style=flat' alt='file size' height='18'>
+<a href='https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat' style='margin: 0 0.5rem;'>
+<img src='https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat' alt='bundle size' height='18'>
 </a>
 
 <a href='https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat' style='margin: 0 0.5rem;'>
