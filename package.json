@@ -36,7 +36,8 @@
     "dev": "tsc --watch src",
     "install:all": "tsc && bash ./scripts/setup_plugins.sh",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "test": "jest"
+    "test": "jest",
+    "size": "bundlesize"
   },
   "dependencies": {
     "redux": "4.0.0-beta.2"
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@types/jest": "^22.2.2",
     "@types/node": "^9.6.1",
+    "bundlesize": "^0.17.0",
     "coveralls": "^3.0.0",
     "cross-env": "^5.1.4",
     "gitbook-plugin-edit-link": "^2.0.2",
@@ -103,5 +105,14 @@
       "jsx",
       "json"
     ]
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/umd/rematch.prod.min.js",
+      "maxSize": "6 kB"
+    }, {
+      "path": "./dist/cjs/rematch.prod.min.js",
+      "maxSize": "6 kB"
+    }
+  ]
 }
