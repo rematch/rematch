@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@rematch/core": "1.0.0-alpha.0",
+    "@rematch/core": "../../..",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-redux": "^5.0.7",
@@ -16,11 +16,11 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/jest": "^22.2.2",
-    "@types/node": "^9.6.2",
-    "@types/react": "^16.3.5",
-    "@types/react-dom": "^16.0.4",
-    "@types/react-redux": "^5.0.15",
+    "@types/jest": "^22.2.3",
+    "@types/node": "^9.6.6",
+    "@types/react": "^16.3.12",
+    "@types/react-dom": "^16.0.5",
+    "@types/react-redux": "^5.0.16",
     "typescript": "^2.8.1"
   }
 }

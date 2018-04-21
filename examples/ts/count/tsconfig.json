@@ -13,9 +13,10 @@
     "noImplicitReturns": true,
     "noImplicitThis": false,
     "noImplicitAny": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "baseUrl": "."
   },
   "exclude": [
     "node_modules",
