@@ -135,14 +135,15 @@ export interface Plugin {
   onInit?: () => void,
   onStoreCreated?: (store: Redux.Store<any>) => void,
   onModel?: ModelHook,
-  middleware?: <S>(store: Redux.MiddlewareAPI) => (next: Redux.Dispatch) => (action: Action) => any,
+  middleware?: Middleware,
 
   // exposed
   exposed?: {
     [key: string]: any,
   },
   validate?(validations: Validation[]): void,
-  storeDispatch?(action: Action): Redux.Dispatch<any> | undefined,
+  storeDispatch?(action: Action, state: any): Redux.Dispatch<any> | undefined,
+  storeGetState?(): any,
   dispatch?: RematchDispatch<any>,
   effects?: Object,
   createDispatcher?(modelName: string, reducerName: string): void,
@@ -156,7 +157,7 @@ export interface InitConfigRedux {
   initialState?: any,
   reducers?: ModelReducers,
   enhancers?: Redux.StoreEnhancer<any>[],
-  middlewares?: Redux.Middleware[],
+  middlewares?: Middleware[],
   rootReducers?: RootReducers,
   combineReducers?: (reducers: Redux.ReducersMapObject) => Redux.Reducer<any, Action>,
   createStore?: Redux.StoreCreator,
@@ -177,11 +178,15 @@ export interface Config {
   redux: ConfigRedux,
 }
 
+export interface Middleware<DispatchExt = {}, S = any, D extends Redux.Dispatch = Redux.Dispatch> {
+  (api: Redux.MiddlewareAPI<D, S>): (next: Redux.Dispatch<Action>) => (action: any, state?: any) => any;
+}
+
 export interface ConfigRedux {
   initialState?: any,
   reducers: ModelReducers,
   enhancers: Redux.StoreEnhancer<any>[],
-  middlewares: Redux.Middleware[],
+  middlewares: Middleware[],
   rootReducers?: RootReducers,
   combineReducers?: (reducers: Redux.ReducersMapObject) => Redux.Reducer<any, Action>,
   createStore?: Redux.StoreCreator,
