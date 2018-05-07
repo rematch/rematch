@@ -17,7 +17,8 @@
   "license": "ISC",
   "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "main": "dist/rematch-subscriptions.cjs.js",
   "module": "dist/rematch-subscriptions.esm.js",

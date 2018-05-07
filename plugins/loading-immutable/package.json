@@ -16,7 +16,8 @@
   "license": "ISC",
   "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "main": "dist/rematch-loading.cjs.js",
   "module": "dist/rematch-loading.esm.js",

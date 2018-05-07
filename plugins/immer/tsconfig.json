@@ -4,7 +4,9 @@
     "sourceMap": true,
     "target": "es5",
     "lib": ["es2017"],
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "declaration": true,
+    "declarationDir": "./dist"
   },
   "files": [
     "src/index.ts"

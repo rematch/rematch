@@ -2,7 +2,7 @@ import { Model, Plugin } from '../../../typings/rematch'
 
 export const select = {}
 
-interface SelectConfig {
+export interface SelectConfig {
   sliceState?: any,
 }
 
