@@ -1,6 +1,6 @@
 {
   "name": "@rematch/loading",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Loading indicator plugin for Rematch",
   "keywords": [
     "@rematch",
@@ -26,7 +26,7 @@
     "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
-    "@rematch/core": "1.0.0-alpha.0",
+    "@rematch/core": "^1.0.0-alpha.3",
     "@rematch/select": "^0.3.0",
     "immutable": "^4.0.0-rc.9",
     "redux-immutable": "^4.0.0",
