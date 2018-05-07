@@ -40,11 +40,11 @@ const effectsPlugin: R.Plugin = {
 
   // process async/await actions
   middleware(store) {
-    return (next) => async (action: R.Action) => {
+    return (next) => async (action: R.Action, state: any) => {
       // async/await acts as promise middleware
       if (action.type in this.effects) {
         await next(action)
-        return this.effects[action.type](action.payload, store.getState(), action.meta)
+        return this.effects[action.type](action.payload, state, action.meta)
       } else {
         return next(action)
       }
