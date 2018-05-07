@@ -16,7 +16,8 @@
   "license": "ISC",
   "author": "arcthur <arthurtemptation@gmail.com>",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "main": "dist/rematch-immer.cjs.js",
   "module": "dist/rematch-immer.esm.js",

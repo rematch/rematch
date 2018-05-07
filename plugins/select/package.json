@@ -18,7 +18,8 @@
     "Tom Aranda <tga@arandacybersolutions.com> (https://github.com/taranda)"
   ],
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "main": "dist/rematch-select.cjs.js",
   "module": "dist/rematch-select.esm.js",

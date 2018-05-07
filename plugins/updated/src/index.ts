@@ -1,6 +1,6 @@
 import { Action, Model, Plugin } from '@rematch/core'
 
-interface UpdatedConfig {
+export interface UpdatedConfig {
   name?: string,
 }
 

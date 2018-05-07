@@ -1,6 +1,6 @@
 import { Action, Model, Plugin } from '@rematch/core'
 
-interface LoadingConfig {
+export interface LoadingConfig {
   name?: string,
   whitelist?: string[],
   blacklist?: string[],
