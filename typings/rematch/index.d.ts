@@ -74,19 +74,20 @@ export type RematchDispatch<M extends Models | void = void> =
 export let dispatch: RematchDispatch<any>;
 export function init<M extends Models>(
   config: InitConfig<M> | undefined,
-): Redux.Store<RematchRootState<M>>
+): RematchStore<M>
 
 export namespace rematch {
   export let dispatch: RematchDispatch<any>;
-  export function init<M extends Models>(config: InitConfig<M> | undefined): Redux.Store<RematchRootState<M>>
+  export function init<M extends Models>(config: InitConfig<M> | undefined): RematchStore<M>
 }
 
-export interface RematchStore {
-  replaceReducer(nextReducer: Redux.Reducer<any, Action>): void,
-  dispatch(action: Action): RematchDispatch<any>,
-  getState(): any,
+export interface RematchStore<M extends Models = Models, A extends Action = Action>
+  extends Redux.Store<RematchRootState<M>, A> {
+  replaceReducer(nextReducer: Redux.Reducer<RematchRootState<M>, A>): void,
+  dispatch: RematchDispatch<M>,
+  getState(): RematchRootState<M>,
   model(model: Model): void,
-  subscribe(listener: () => void): void,
+  subscribe(listener: () => void): Redux.Unsubscribe,
 }
 
 export type Action<P = any, M = any> = {
@@ -132,10 +133,10 @@ export interface PluginFactory extends Plugin {
   create(plugin: Plugin): Plugin,
 }
 
-export interface Plugin {
-  config?: InitConfig<any>,
+export interface Plugin<M extends Models = Models, A extends Action = Action> {
+  config?: InitConfig<M>,
   onInit?: () => void,
-  onStoreCreated?: (store: Redux.Store<any>) => void,
+  onStoreCreated?: (store: RematchStore<M, A>) => void,
   onModel?: ModelHook,
   middleware?: Middleware,
 
