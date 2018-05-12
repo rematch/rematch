@@ -72,11 +72,13 @@ export type RematchDispatch<M extends Models | void = void> =
   & (Redux.Dispatch<any>) // for library compatability
 
 export let dispatch: RematchDispatch<any>;
-export function init(config: InitConfig | undefined): Redux.Store<any>
+export function init<M extends Models>(
+  config: InitConfig<M> | undefined,
+): Redux.Store<RematchRootState<M>>
 
 export namespace rematch {
   export let dispatch: RematchDispatch<any>;
-  export function init(config: InitConfig | undefined): Redux.Store<any>
+  export function init<M extends Models>(config: InitConfig<M> | undefined): Redux.Store<RematchRootState<M>>
 }
 
 export interface RematchStore {
@@ -131,7 +133,7 @@ export interface PluginFactory extends Plugin {
 }
 
 export interface Plugin {
-  config?: InitConfig,
+  config?: InitConfig<any>,
   onInit?: () => void,
   onStoreCreated?: (store: Redux.Store<any>) => void,
   onModel?: ModelHook,
@@ -153,8 +155,8 @@ export interface RootReducers {
   [type: string]: Redux.Reducer<any, Action>,
 }
 
-export interface InitConfigRedux {
-  initialState?: any,
+export interface InitConfigRedux<S = any> {
+  initialState?: S,
   reducers?: ModelReducers,
   enhancers?: Redux.StoreEnhancer<any>[],
   middlewares?: Middleware[],
@@ -164,16 +166,16 @@ export interface InitConfigRedux {
   devtoolOptions?: Object,
 }
 
-export interface InitConfig {
+export interface InitConfig<M extends Models = Models> {
   name?: string,
-  models?: Models,
+  models?: M,
   plugins?: Plugin[],
   redux?: InitConfigRedux,
 }
 
-export interface Config {
+export interface Config<M extends Models = Models> {
   name: string,
-  models: Models,
+  models: M,
   plugins: Plugin[],
   redux: ConfigRedux,
 }
