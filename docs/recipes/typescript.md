@@ -1,15 +1,20 @@
 # TypeScript
 
+### Examples
+
+- [Counter](../../examples/ts/count)
+
+### Changes
+
 Rematch can work with TypeScript with the following changes:
 
-##### Turn off "noImplicitThis".
+##### Turn off `noImplicitThis`.
 
 Rematch often specifies the context of `this`, leading to TS errors. 
 
 You can turn these off by specifying `noImplicitThis` as false in your "tsconfig.json".
 
-// tsconfig.json
-
+`tsconfig.json`
 ```json
 {
   "compilerOptions": {
@@ -17,6 +22,8 @@ You can turn these off by specifying `noImplicitThis` as false in your "tsconfig
   }
 }
 ```
+
+### Dependencies
 
 ##### Ensure `Redux@3.x` is not a dependency. 
 
