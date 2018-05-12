@@ -68,7 +68,7 @@ export type RematchDispatch<M extends Models | void = void> =
           [key:string]: RematchDispatcher | RematchDispatcherAsync;
         }
     })
-  & ((action: Action) => Promise<Redux.Dispatch<Action>>)
+  & (RematchDispatcher | RematchDispatcherAsync)
   & (Redux.Dispatch<any>) // for library compatability
 
 export let dispatch: RematchDispatch<any>;
