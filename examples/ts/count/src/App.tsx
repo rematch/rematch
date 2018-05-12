@@ -4,12 +4,12 @@ import { RematchDispatch, RematchRootState } from '@rematch/core';
 
 import { models, select } from './store';
 
-const mapState = (state: RematchRootState<typeof models>) => ({
+const mapState = (state: RematchRootState<models>) => ({
   dolphins: state.dolphins,
   sharks: select.sharks.total(state),
 });
 
-const mapDispatch = (dispatch: RematchDispatch<typeof models>) => ({
+const mapDispatch = (dispatch: RematchDispatch<models>) => ({
   incrementDolphins: dispatch.dolphins.increment,
   incrementDolphinsAsync: dispatch.dolphins.incrementAsync,
   incrementSharks: () => dispatch.sharks.increment(1),
