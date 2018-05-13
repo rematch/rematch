@@ -3,7 +3,7 @@ import {
   createReduxBoundAddListener,
 } from 'react-navigation-redux-helpers'
 
-export default (Routes, initialScreen, sliceState) => {
+export default (Routes, initialScreen, sliceState): any => {
   const { router } = Routes
   const initialState = router.getStateForAction(router.getActionForPathAndParams(initialScreen))
 
