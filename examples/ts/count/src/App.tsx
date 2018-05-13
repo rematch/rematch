@@ -39,4 +39,4 @@ const Count: React.SFC<CountProps> = props => (
   </div>
 );
 
-export default connect(mapState, mapDispatch)(Count);
+export default connect(mapState as any, mapDispatch as any)(Count);
