@@ -17,8 +17,8 @@ const mapDispatch = (dispatch: RematchDispatch<models>) => ({
   incrementSharksAsync2: () => dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
 });
 
-interface CountProps
-  extends ReturnType<typeof mapState>, ReturnType<typeof mapDispatch> {}
+interface CountProps extends Partial<ReturnType<typeof mapState>>,
+Partial<ReturnType<typeof mapDispatch>> {}
 
 const Count: React.SFC<CountProps> = props => (
   <div style={{ display: 'flex', flexDirection: 'row' }}>
