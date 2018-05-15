@@ -10,3 +10,6 @@ after_script:
   - coveralls < coverage/lcov.info
 git:
   depth: 5
+cache:
+  directories:
+    - node_modules
