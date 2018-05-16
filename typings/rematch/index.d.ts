@@ -68,23 +68,26 @@ export type RematchDispatch<M extends Models | void = void> =
           [key:string]: RematchDispatcher | RematchDispatcherAsync;
         }
     })
-  & ((action: Action) => Promise<Redux.Dispatch<Action>>)
+  & (RematchDispatcher | RematchDispatcherAsync)
   & (Redux.Dispatch<any>) // for library compatability
 
 export let dispatch: RematchDispatch<any>;
-export function init(config: InitConfig | undefined): Redux.Store<any>
+export function init<M extends Models>(
+  config: InitConfig<M> | undefined,
+): RematchStore<M>
 
 export namespace rematch {
   export let dispatch: RematchDispatch<any>;
-  export function init(config: InitConfig | undefined): Redux.Store<any>
+  export function init<M extends Models>(config: InitConfig<M> | undefined): RematchStore<M>
 }
 
-export interface RematchStore {
-  replaceReducer(nextReducer: Redux.Reducer<any, Action>): void,
-  dispatch(action: Action): RematchDispatch<any>,
-  getState(): any,
+export interface RematchStore<M extends Models = Models, A extends Action = Action>
+  extends Redux.Store<RematchRootState<M>, A> {
+  replaceReducer(nextReducer: Redux.Reducer<RematchRootState<M>, A>): void,
+  dispatch: RematchDispatch<M>,
+  getState(): RematchRootState<M>,
   model(model: Model): void,
-  subscribe(listener: () => void): void,
+  subscribe(listener: () => void): Redux.Unsubscribe,
 }
 
 export type Action<P = any, M = any> = {
@@ -130,10 +133,10 @@ export interface PluginFactory extends Plugin {
   create(plugin: Plugin): Plugin,
 }
 
-export interface Plugin {
-  config?: InitConfig,
+export interface Plugin<M extends Models = Models, A extends Action = Action> {
+  config?: InitConfig<M>,
   onInit?: () => void,
-  onStoreCreated?: (store: Redux.Store<any>) => void,
+  onStoreCreated?: (store: RematchStore<M, A>) => void,
   onModel?: ModelHook,
   middleware?: Middleware,
 
@@ -153,8 +156,8 @@ export interface RootReducers {
   [type: string]: Redux.Reducer<any, Action>,
 }
 
-export interface InitConfigRedux {
-  initialState?: any,
+export interface InitConfigRedux<S = any> {
+  initialState?: S,
   reducers?: ModelReducers,
   enhancers?: Redux.StoreEnhancer<any>[],
   middlewares?: Middleware[],
@@ -164,16 +167,16 @@ export interface InitConfigRedux {
   devtoolOptions?: Object,
 }
 
-export interface InitConfig {
+export interface InitConfig<M extends Models = Models> {
   name?: string,
-  models?: Models,
+  models?: M,
   plugins?: Plugin[],
   redux?: InitConfigRedux,
 }
 
-export interface Config {
+export interface Config<M extends Models = Models> {
   name: string,
-  models: Models,
+  models: M,
   plugins: Plugin[],
   redux: ConfigRedux,
 }
