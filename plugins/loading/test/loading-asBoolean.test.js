@@ -288,4 +288,23 @@ describe('loading asBoolean', () => {
       throw err
     }
   })
+
+  test('should allow the propagation of the effect result', async () => {
+    const count2 = {
+      state: 0,
+      effects: {
+        doSomething() {
+          return 'foo'
+        }
+      }
+    }
+    const store = init({
+      models: { count: count2 },
+      plugins: [loadingPlugin()]
+    })
+
+    const effectResult = await store.dispatch.count.doSomething()
+
+    expect(effectResult).toEqual('foo')
+  })
 })
