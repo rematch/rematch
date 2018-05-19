@@ -8,6 +8,8 @@ after_script:
   - npm run size
   - npm install coveralls
   - coveralls < coverage/lcov.info
+git:
+  depth: 5
 cache:
   directories:
     - node_modules
