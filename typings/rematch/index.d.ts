@@ -114,7 +114,7 @@ export type ModelHook = (model: Model) => void
 
 export type Validation = [boolean | undefined, string]
 
-export interface Model<S = any> {
+export interface Model<S = any, SS = S> {
   name?: string,
   state: S,
   reducers?: ModelReducers<S>,
@@ -122,7 +122,7 @@ export interface Model<S = any> {
     [key: string]: (payload: any, rootState: any) => void,
   },
   selectors?: {
-    [key: string]: (state: S, ...args: any[]) => any,
+    [key: string]: (state: SS, ...args: any[]) => any,
   },
   subscriptions?: {
     [matcher: string]: (action: Action) => void,
