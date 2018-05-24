@@ -65,6 +65,7 @@ import { createSelector } from 'reselect'
 {
   selectors: {
     total: createSelector(
+      state => state,
       state => state.reduce((a, b) => a + (b.price * b.amount), 0)
     )
   }
