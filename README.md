@@ -65,6 +65,8 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
   * [Immer](./plugins/immer/README.md)
 * [Inspiration](./docs/inspiration.md)
 
+#### [中文手册](https://rematch.gitbook.io/handbook)
+
 ## Getting Started
 
 ```sh
