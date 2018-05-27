@@ -9,11 +9,11 @@ describe('production:', () => {
   })
   xtest('should create a valid es module prod build', () => {
     // fails due to export not found
-    const { init } = require('../dist/esm/rematch.prod.min')
+    const { init } = require('../dist/esm/rematch')
     expect(init).toBeDefined()
   })
   test('should create a valid universal module prod build', () => {
-    const rematch = require('../dist/umd/rematch.prod.min').default
+    const rematch = require('../dist/umd/rematch').default
     expect(rematch.init).toBeDefined()
   })
 })
