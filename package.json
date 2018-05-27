@@ -23,8 +23,8 @@
     "typings/rematch/index.d.ts"
   ],
   "main": "dist/cjs",
-  "module": "dist/esm/rematch.prod.min.js",
-  "browser": "dist/umd/rematch.prod.min.js",
+  "module": "dist/esm/rematch.js",
+  "browser": "dist/umd/rematch.js",
   "types": "typings/rematch",
   "repository": {
     "type": "git",
