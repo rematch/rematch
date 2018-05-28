@@ -34,6 +34,17 @@ export const getState = () => {
 }
 
 /**
+ * global getDispatch
+ *
+ * Usage: const dispatch = getDispatch<models>()
+ * this is for autocomplete purposes only
+ * returns the dispatch object with typings information
+ */
+export function getDispatch<M extends R.Models>() {
+  return dispatch as R.RematchDispatch<M>
+}
+
+/**
  * global createModel
  *
  * creates a model for the given object

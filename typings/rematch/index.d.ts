@@ -76,6 +76,8 @@ export function init<M extends Models>(
   config: InitConfig<M> | undefined,
 ): RematchStore<M>
 
+export function getDispatch<M extends Models>(): RematchDispatch<M>
+
 export function createModel<S = any, M extends Model<S> = Model>(
   model: M,
 ): M
