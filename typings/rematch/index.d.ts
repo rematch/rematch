@@ -151,7 +151,7 @@ export interface Plugin<M extends Models = Models, A extends Action = Action> {
   validate?(validations: Validation[]): void,
   storeDispatch?(action: Action, state: any): Redux.Dispatch<any> | undefined,
   storeGetState?(): any,
-  dispatch?: RematchDispatch<any>,
+  dispatch?: RematchDispatch<M>,
   effects?: Object,
   createDispatcher?(modelName: string, reducerName: string): void,
 }
