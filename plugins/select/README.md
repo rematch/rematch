@@ -13,13 +13,13 @@ npm install @rematch/select
 ### Setup
 
 ```js
-import selectorsPlugin from '@rematch/select'
+import selectPlugin, { getSelect } from '@rematch/select'
 import { init } from '@rematch/core'
 
-const select = selectorsPlugin()
+export const select = getSelect();
 
 init({
-  plugins: [select]
+  plugins: [selectPlugin()]
 })
 ```
 
