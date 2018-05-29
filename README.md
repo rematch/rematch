@@ -148,8 +148,7 @@ Dispatch can be called directly, or with the `dispatch[model][action](payload)` 
 
 ### Step 4: View
 
-- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/n3373olqo0) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
-- Todos: [React](https://codesandbox.io/s/92mk9n6vww)
+Rematch can be used with native redux integrations. See examples below.
 
 ```jsx
 import React from 'react'
@@ -183,6 +182,11 @@ ReactDOM.render(
   document.getElementById('root')
 )
 ```
+
+## Examples
+
+- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/n3373olqo0) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
+- Todos: [React](https://codesandbox.io/s/92mk9n6vww)
 
 ## Migrating From Redux
 
