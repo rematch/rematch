@@ -16,44 +16,62 @@ Then go to http://localhost:3000
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import { init, model, dispatch, select } from 'rematch-x'
+import { init } from '@rematch/core'
+
+const count = {
+ state: 0,
+  reducers: {
+    increment: s => s + 1
+  },
+  effects: {
+    async asyncIncrement() {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000)
+      })
+      this.increment()
+    }
+  },
+}
 
 // No need to specify a 'view' in init.
-const store = init()
-
-// Create the model
-store.model({
-  name: 'count',
-  state: 0,
-  reducers: {
-    increment: state => state + 1
-  },
-  selectors: {
-    doubled: state => state * 2
-  }
+const store = init({
+  models: { count }
 })
 
 // Make a presentational component.
 // It knows nothing about redux or rematch.
-const App = ({ value, valueDoubled, handleClick }) => (
+const App = ({ count, asyncIncrement, increment }) => (
   <div>
-    <div>The count is {value}</div>
-    <div>The count doubled is {valueDoubled}</div>
-    <button onClick={handleClick}>Increment</button>
+    <h2>count is <b style={{ backgroundColor: '#ccc' }}>{count}</b></h2>
+    
+    <h2>
+      <button onClick={increment}>Increment count</button>
+    {' '}
+    <em style={{ backgroundColor: 'yellow' }}>(normal dispatch)</em>
+    </h2>
+
+    <h2>
+    <button onClick={asyncIncrement}>Increment count (delayed 1 second)</button>
+    {' '}
+    <em style={{ backgroundColor: 'yellow' }}>(an async effect!!!)</em>
+    </h2>
   </div>
 )
 
-// Use react-redux's connect
-const AppContainer = connect(state => ({
-  value: state.count,
-  valueDoubled : select.count.doubled(state),
-  handleClick: () => dispatch.count.increment()
-}))(App)
+const mapState = state => ({
+  count: state.count,
+})
+
+const mapDispatch = dispatch => ({
+  increment: dispatch.count.increment,
+  asyncIncrement: dispatch.count.asyncIncrement,
+})
+
 
 // Use react-redux's <Provider /> and pass it the store.
 ReactDOM.render(
   <Provider store={store}>
-    <AppContainer />
+    <App />
   </Provider>,
   document.getElementById('root')
 )
