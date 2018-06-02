@@ -1,4 +1,4 @@
-import { createModel, init } from '@rematch/core'
+import { init } from '@rematch/core'
 
 const count = {
   state: 0,

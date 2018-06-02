@@ -8,19 +8,56 @@
 
 Rematch can work with TypeScript with the following changes:
 
-##### Turn off `noImplicitThis`.
+##### Autocomplete Dispatch/Models
 
-Rematch often specifies the context of `this`, leading to TS errors. 
+To ensure autocomplete works, with TS wrap models with `createModel`. See example below:
 
-You can turn these off by specifying `noImplicitThis` as false in your "tsconfig.json".
+```ts
+import { createModel } from '@rematch/core';
 
-`tsconfig.json`
-```json
-{
-  "compilerOptions": {
-    "noImplicitThis": false,
+import { delay } from '../helpers';
+
+export type SharksState = number;
+
+export const sharks = createModel({
+  state: 0,
+  reducers: {
+    increment: (state: SharksState, payload: number): SharksState => state + payload,
+  },
+  effects: {
+    // TODO: Optional args breaks TypeScript autocomplete (e.g. payload: number = 1)
+    async incrementAsync(payload: number) {
+      await delay(500);
+      this.increment(payload || 1);
+    },
+  },
+  selectors: {
+    total(state: SharksState) {
+      return state;
+    }
   }
-}
+});
+```
+
+##### Select Plugin
+
+To enable autocomplete of select, use `getSelect` with the select plugin. See example below:
+
+```ts
+import selectPlugin, { getSelect } from '@rematch/select';
+import { init } from '@rematch/core';
+
+import * as models from './models';
+
+export { models };
+export type models = typeof models;
+
+export const select = getSelect<models>();
+
+export const store = init({
+  plugins: [selectPlugin()],
+  models,
+});
 ```
 
 ### Dependencies
