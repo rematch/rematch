@@ -1,8 +1,10 @@
+import { createModel } from '@rematch/core';
+
 import { delay } from '../helpers';
 
 export type SharksState = number;
 
-export const sharks = {
+export const sharks = createModel({
   state: 0,
   reducers: {
     increment: (state: SharksState, payload: number): SharksState => state + payload,
@@ -19,4 +21,4 @@ export const sharks = {
       return state;
     }
   }
-};
+});

@@ -1,6 +1,10 @@
-import { Model, Plugin } from '../../../typings/rematch'
+import { ExtractRematchSelectorsFromModels, Model, Models, Plugin } from '../../../typings/rematch'
 
 export const select = {}
+
+export function getSelect<M extends Models = Models>() {
+  return select as ExtractRematchSelectorsFromModels<M>
+}
 
 export interface SelectConfig {
   sliceState?: any,

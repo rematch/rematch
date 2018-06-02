@@ -1,8 +1,10 @@
+import { createModel } from '@rematch/core';
+
 import { delay } from '../helpers';
 
 export type DolphinsState = number;
 
-export const dolphins = {
+export const dolphins = createModel({
    state: 0,
    reducers: {
       increment: (state: DolphinsState) => state + 1,
@@ -13,4 +15,4 @@ export const dolphins = {
          this.increment();
       },
    },
-};
+});

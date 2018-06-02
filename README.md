@@ -99,7 +99,9 @@ The **model** brings together state, reducers, async actions & action creators i
 
 #### models.js
 ```js
-export const count = {
+import { createModel } from '@rematch/core'
+
+export const count = createModel({
   state: 0, // initial state
   reducers: {
     // handle state changes with pure functions
@@ -115,7 +117,7 @@ export const count = {
       this.increment(payload)
     }
   }
-}
+})
 ```
 
 *See the [reducers docs](https://github.com/rematch/rematch/blob/master/docs/api.md#reducers) to learn more, including how to trigger actions from other models.*
