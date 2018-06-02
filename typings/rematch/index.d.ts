@@ -119,7 +119,11 @@ export interface Model<S = any, SS = S> {
   state: S,
   reducers?: ModelReducers<S>,
   effects?: {
-    [key: string]: (payload: any, rootState: any) => void,
+    [key: string]: (
+      this: { [key: string]: (payload?: any, meta?: any) => Action<any, any> },
+      payload: any,
+      rootState: any
+    ) => void,
   },
   selectors?: {
     [key: string]: (state: SS, ...args: any[]) => any,
