@@ -126,13 +126,10 @@ export interface Model<S = any, SS = S> {
   reducers?: ModelReducers<S>,
   effects?: {
     [key: string]: (
-      this: (
-        // ExtractRematchDispatchersFromModel<this> & // TODO: Make this work, if possible
-        { [key: string]: RematchDispatcher | RematchDispatcherAsync }
-      ),
+      this: { [key: string]: (payload?: any, meta?: any) => Action<any, any> },
       payload: any,
       rootState: any
-    ) => void
+    ) => void,
   },
   selectors?: {
     [key: string]: (state: SS, ...args: any[]) => any,
