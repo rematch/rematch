@@ -1,6 +1,4 @@
-import { createModel } from '@rematch/core';
-
-export const count = createModel({
+export const count = {
   state: 0,
   reducers: {
     increment: s => s + 1
@@ -13,4 +11,4 @@ export const count = createModel({
       this.increment()
     }
   },
-})
+}
