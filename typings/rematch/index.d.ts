@@ -116,6 +116,14 @@ export type Models = {
   [key: string]: Model,
 }
 
+type Effects<S> = {
+  [key: string]: (
+    this: { [key: string]: (payload?: any, meta?: any) => Action<any, any> },
+    payload: any,
+    rootState: S
+  ) => void
+}
+
 export type ModelHook = (model: Model) => void
 
 export type Validation = [boolean | undefined, string]
@@ -124,13 +132,7 @@ export interface Model<S = any, SS = S> {
   name?: string,
   state: S,
   reducers?: ModelReducers<S>,
-  effects?: {
-    [key: string]: (
-      this: { [key: string]: (payload?: any, meta?: any) => Action<any, any> },
-      payload: any,
-      rootState: any
-    ) => void,
-  },
+  effects?: Effects<S> & ((dispatch: RematchDispatch<any>) => Effects<S>),
   selectors?: {
     [key: string]: (state: SS, ...args: any[]) => any,
   },
