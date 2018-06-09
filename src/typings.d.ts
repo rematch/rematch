@@ -132,7 +132,7 @@ export interface Model<S = any, SS = S> {
   name?: string,
   state: S,
   reducers?: ModelReducers<S>,
-  effects?: Effects<S> & ((dispatch: RematchDispatch<any>) => Effects<S>),
+  effects?: Effects<S> | ((dispatch: RematchDispatch<any>) => Effects<S>),
   selectors?: {
     [key: string]: (state: SS, ...args: any[]) => any,
   },
