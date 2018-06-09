@@ -24,7 +24,10 @@
   "browser": "dist/rematch-loading.umd.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "npx rimraf build dist && tsc && NODE_ENV=production rollup -c"
+    "clean:dist": "npx rimraf dist",
+    "clean:build": "npx rimraf build",
+    "clean": "npm run clean:dist & npm run clean:build",
+    "build": "NODE_ENV=production npm run clean && rollup -c"
   },
   "devDependencies": {
     "@rematch/core": "^1.0.0-alpha.3",
