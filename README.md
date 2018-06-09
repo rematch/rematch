@@ -36,7 +36,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 - [Video: Introducing Rematch](https://www.youtube.com/watch?v=3ezSBYoL5do)
 - [A comparison of Redux & Rematch](./docs/purpose.md)
 
-
+> See [v0 stable docs](https://github.com/rematch/rematch/tree/v0). Currently only displaying experimental @next documentation.
 
 ## Index
 
