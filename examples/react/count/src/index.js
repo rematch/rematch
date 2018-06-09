@@ -6,13 +6,13 @@ import App from './App'
 import * as models from './models'
 
 const store = init({
-  models,
+	models,
 })
 
 // Use react-redux's <Provider /> and pass it the store.
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.getElementById('root')
 )

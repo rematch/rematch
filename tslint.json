@@ -5,6 +5,8 @@
     ],
     "jsRules": {},
     "rules": {
+        "align": [true, "parameters", "statements"],
+        "arrow-parens": false,
         "quotemark": [
             true,
             "single"
@@ -13,13 +15,22 @@
             true,
             "never"
         ],
+        "indent": [
+            true,
+            "tabs",
+            2
+        ],
         "interface-name": false,
         "no-submodule-imports": false,
         "no-console": [
             true,
             "log"
         ],
-        "object-literal-sort-keys": false
+        "object-literal-sort-keys": false,
+        "trailing-comma": [
+            true,
+            { "esSpecCompliant": true } 
+        ]
     },
     "rulesDirectory": []
 }
