@@ -22,6 +22,7 @@
   "main": "dist/rematch-loading.cjs.js",
   "module": "dist/rematch-loading.esm.js",
   "browser": "dist/rematch-loading.umd.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "npx rimraf build dist && tsc && NODE_ENV=production rollup -c"
   },
