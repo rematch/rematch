@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning(http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-alpha.8] - 2018-06-02
+## Added
+- Use a function as your "effects" to access local `dispatch`
+
+```js
+{
+  effects: (dispatch) => ({
+    async someEffect() {
+      dispatch.someModel.someAction()
+    }
+  })
+}
+```
+
 ## [1.0.0-alpha.7] - 2018-06-02
 ### Changed
 - TS typings improvements:
