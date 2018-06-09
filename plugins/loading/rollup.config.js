@@ -1,6 +1,7 @@
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
 import commonJs from 'rollup-plugin-commonjs'
+import typescript from 'rollup-plugin-typescript'
 
 import { minify } from 'uglify-es'
 // experimental minifier for ES modules
@@ -11,17 +12,21 @@ const pkg = require('./package.json')
 const env = process.env.NODE_ENV
 
 const config = {
-  input: 'lib/index.js',
+  entry: 'src/index.ts',
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify(env),
     }),
-    commonJs()
+    typescript({
+      typescript: require('typescript')
+    }),
+    commonJs(),
   ],
   output: [
     { name: 'RematchLoading', file: pkg.browser, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
     { file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
-    { file: pkg.module, format: 'es', exports: 'named', sourcemap: true } // ES Modules
+    { file: pkg.module, format: 'es', exports: 'named', sourcemap: true }, // ES Modules
+    { file: pkg.types, format: 'es' },
   ],
 }
 
