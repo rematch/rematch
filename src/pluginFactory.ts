@@ -1,4 +1,4 @@
-import * as R from '../typings/rematch'
+import * as R from './typings'
 import validate from './utils/validate'
 
 /**

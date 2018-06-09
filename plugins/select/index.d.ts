@@ -1,5 +1,5 @@
 import index from './dist';
-import { ExtractRematchSelectorsFromModels, Models } from '../../typings/rematch/index'
+import { ExtractRematchSelectorsFromModels, Models } from '../../src/typings'
 
 // @ts-ignore
 export const select = {}

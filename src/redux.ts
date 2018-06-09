@@ -1,5 +1,5 @@
 import * as Redux from 'redux'
-import * as R from '../typings/rematch'
+import * as R from './typings'
 import isListener from './utils/isListener'
 
 const composeEnhancersWithDevtools = (devtoolOptions = {}): any =>
@@ -8,13 +8,13 @@ const composeEnhancersWithDevtools = (devtoolOptions = {}): any =>
 		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devtoolOptions)
 		: Redux.compose
 
-export default ({
+export default function({
 	redux,
 	models,
 }: {
 	redux: R.ConfigRedux,
 	models: R.Model[],
-}) => {
+}) {
 	const combineReducers = redux.combineReducers || Redux.combineReducers
 	const createStore: Redux.StoreCreator = redux.createStore || Redux.createStore
 	const initialState: any =

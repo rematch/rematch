@@ -1,5 +1,5 @@
 /* tslint-disable member-ordering */
-import * as R from '../../typings/rematch'
+import * as R from '../typings'
 
 /**
  * Effects Plugin

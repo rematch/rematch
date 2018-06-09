@@ -1,4 +1,4 @@
-import * as R from '../../typings/rematch'
+import * as R from '../typings'
 import validate from './validate'
 
 const merge = (original: any, next: any): any => {
