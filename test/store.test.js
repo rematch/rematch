@@ -1,4 +1,4 @@
-const { init } = require('../src')
+const { createModel, init } = require('../src')
 
 describe('createStore:', () => {
   it('no params should create store with state `{}`', () => {
@@ -23,6 +23,18 @@ describe('createStore:', () => {
         initialState: { app: 'hello, world' }
       }
     })
+
+    expect(store.getState()).toEqual({ app: 'hello, world' })
+  })
+
+  it('supports createModel', () => {
+    const model = createModel({
+      redux: {
+        initialState: { app: 'hello, world' }
+      }
+    })
+
+    const store = init(model)
 
     expect(store.getState()).toEqual({ app: 'hello, world' })
   })

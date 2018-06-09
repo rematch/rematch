@@ -27,64 +27,73 @@ export type ExtractRematchDispatcherAsyncFromEffect<E> =
   E extends (payload: infer P, meta: infer M) => Promise<void> ? RematchDispatcherAsync<P, M> :
   RematchDispatcherAsync<any, any>
 
-export type ExtractRematchDispatchersFromModels<M extends Models> = {
-  [modelKey in keyof M]: {
-    [reducerKey in keyof M[modelKey]['reducers']]:
-      ExtractRematchDispatcherFromReducer<M[modelKey]['reducers'][reducerKey]>
-  } & {
-    [effectKey in keyof M[modelKey]['effects']]:
-      ExtractRematchDispatcherAsyncFromEffect<M[modelKey]['effects'][effectKey]>
+export type ExtractRematchDispatchersFromModel<M extends Model> = {
+  [reducerKey in keyof M['reducers']]:
+  ExtractRematchDispatcherFromReducer<M['reducers'][reducerKey]>
+} & {
+    [effectKey in keyof M['effects']]:
+    ExtractRematchDispatcherAsyncFromEffect<M['effects'][effectKey]>
   }
+
+export type ExtractRematchDispatchersFromModels<M extends Models> = {
+  [modelKey in keyof M]: ExtractRematchDispatchersFromModel<M[modelKey]>
 }
 
 export type ExtractRematchSelectorsFromModels<M extends Models, RootState = any> = {
   [modelKey in keyof M]: {
     [reducerKey in keyof M[modelKey]['selectors']]:
-      (state: RematchRootState<M>, ...args:any[]) => ReturnType<M[modelKey]['selectors'][reducerKey]>
+    (state: RematchRootState<M>, ...args: any[]) => ReturnType<M[modelKey]['selectors'][reducerKey]>
   }
 }
 
-export type RematchDispatcher<P = any, M = any> = {
-  (action: Action<P, M>): Redux.Dispatch<Action<P, M>>;
-}
+export type RematchDispatcher<P = void, M = void> =
+  ((action: Action<P, M>) => Redux.Dispatch<Action<P, M>>)
   &
-    P extends void ? { (): Action<void, void>; } :
-    M extends void ? { (payload: P): Action<P, void>; } :
-    { (payload: P, meta: M): Action<P, M>; }
+  (P extends void ? () => Action<void, void> :
+    M extends void ? (payload: P) => Action<P, void> :
+    (payload: P, meta: M) => Action<P, M>)
 
-export type RematchDispatcherAsync<P = any, M = any> = {
-  (action: Action<P, M>): Promise<Redux.Dispatch<Action<P, M>>>;
-}
+export type RematchDispatcherAsync<P = void, M = void> =
+  ((action: Action<P, M>) => Promise<Redux.Dispatch<Action<P, M>>>)
   &
-    P extends void ? { (): Promise<Action<void, void>>; } :
-    M extends void ? { (payload?: P): Promise<Action<P, void>>; } :
-    { (payload?: P, meta?: M): Promise<Action<P, M>>; }
+  (P extends void ? () => Promise<Action<void, void>> :
+    M extends void ? (payload?: P) => Promise<Action<P, void>> :
+    (payload?: P, meta?: M) => Promise<Action<P, M>>)
 
 export type RematchDispatch<M extends Models | void = void> =
   (M extends Models
     ? ExtractRematchDispatchersFromModels<M>
     : {
-        [key: string]: {
-          [key:string]: RematchDispatcher | RematchDispatcherAsync;
-        }
+      [key: string]: {
+        [key: string]: RematchDispatcher | RematchDispatcherAsync;
+      }
     })
-  & ((action: Action) => Promise<Redux.Dispatch<Action>>)
+  & (RematchDispatcher | RematchDispatcherAsync)
   & (Redux.Dispatch<any>) // for library compatability
 
 export let dispatch: RematchDispatch<any>;
-export function init(config: InitConfig | undefined): Redux.Store<any>
+export function init<M extends Models>(
+  config: InitConfig<M> | undefined,
+): RematchStore<M>
+
+export function getDispatch<M extends Models>(): RematchDispatch<M>
+
+export function createModel<S = any, M extends Model<S> = Model>(
+  model: M,
+): M
 
 export namespace rematch {
   export let dispatch: RematchDispatch<any>;
-  export function init(config: InitConfig | undefined): Redux.Store<any>
+  export function init<M extends Models>(config: InitConfig<M> | undefined): RematchStore<M>
 }
 
-export interface RematchStore {
-  replaceReducer(nextReducer: Redux.Reducer<any, Action>): void,
-  dispatch(action: Action): RematchDispatch<any>,
-  getState(): any,
+export interface RematchStore<M extends Models = Models, A extends Action = Action>
+  extends Redux.Store<RematchRootState<M>, A> {
+  replaceReducer(nextReducer: Redux.Reducer<RematchRootState<M>, A>): void,
+  dispatch: RematchDispatch<M>,
+  getState(): RematchRootState<M>,
   model(model: Model): void,
-  subscribe(listener: () => void): void,
+  subscribe(listener: () => void): Redux.Unsubscribe,
 }
 
 export type Action<P = any, M = any> = {
@@ -111,15 +120,19 @@ export type ModelHook = (model: Model) => void
 
 export type Validation = [boolean | undefined, string]
 
-export interface Model<S = any> {
+export interface Model<S = any, SS = S> {
   name?: string,
   state: S,
   reducers?: ModelReducers<S>,
   effects?: {
-    [key: string]: (payload: any, rootState: any) => void,
+    [key: string]: (
+      this: { [key: string]: (payload?: any, meta?: any) => Action<any, any> },
+      payload: any,
+      rootState: any
+    ) => void,
   },
   selectors?: {
-    [key: string]: (state: S, ...args: any[]) => any,
+    [key: string]: (state: SS, ...args: any[]) => any,
   },
   subscriptions?: {
     [matcher: string]: (action: Action) => void,
@@ -130,10 +143,10 @@ export interface PluginFactory extends Plugin {
   create(plugin: Plugin): Plugin,
 }
 
-export interface Plugin {
-  config?: InitConfig,
+export interface Plugin<M extends Models = Models, A extends Action = Action> {
+  config?: InitConfig<M>,
   onInit?: () => void,
-  onStoreCreated?: (store: Redux.Store<any>) => void,
+  onStoreCreated?: (store: RematchStore<M, A>) => void,
   onModel?: ModelHook,
   middleware?: Middleware,
 
@@ -144,7 +157,7 @@ export interface Plugin {
   validate?(validations: Validation[]): void,
   storeDispatch?(action: Action, state: any): Redux.Dispatch<any> | undefined,
   storeGetState?(): any,
-  dispatch?: RematchDispatch<any>,
+  dispatch?: RematchDispatch<M>,
   effects?: Object,
   createDispatcher?(modelName: string, reducerName: string): void,
 }
@@ -153,8 +166,8 @@ export interface RootReducers {
   [type: string]: Redux.Reducer<any, Action>,
 }
 
-export interface InitConfigRedux {
-  initialState?: any,
+export interface InitConfigRedux<S = any> {
+  initialState?: S,
   reducers?: ModelReducers,
   enhancers?: Redux.StoreEnhancer<any>[],
   middlewares?: Middleware[],
@@ -164,16 +177,16 @@ export interface InitConfigRedux {
   devtoolOptions?: Object,
 }
 
-export interface InitConfig {
+export interface InitConfig<M extends Models = Models> {
   name?: string,
-  models?: Models,
+  models?: M,
   plugins?: Plugin[],
   redux?: InitConfigRedux,
 }
 
-export interface Config {
+export interface Config<M extends Models = Models> {
   name: string,
-  models: Models,
+  models: M,
   plugins: Plugin[],
   redux: ConfigRedux,
 }

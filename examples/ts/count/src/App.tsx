@@ -4,12 +4,12 @@ import { RematchDispatch, RematchRootState } from '@rematch/core';
 
 import { models, select } from './store';
 
-const mapState = (state: RematchRootState<typeof models>) => ({
+const mapState = (state: RematchRootState<models>) => ({
   dolphins: state.dolphins,
   sharks: select.sharks.total(state),
 });
 
-const mapDispatch = (dispatch: RematchDispatch<typeof models>) => ({
+const mapDispatch = (dispatch: RematchDispatch<models>) => ({
   incrementDolphins: dispatch.dolphins.increment,
   incrementDolphinsAsync: dispatch.dolphins.incrementAsync,
   incrementSharks: () => dispatch.sharks.increment(1),
@@ -17,8 +17,8 @@ const mapDispatch = (dispatch: RematchDispatch<typeof models>) => ({
   incrementSharksAsync2: () => dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
 });
 
-interface CountProps
-  extends ReturnType<typeof mapState>, ReturnType<typeof mapDispatch> {}
+interface CountProps extends Partial<ReturnType<typeof mapState>>,
+Partial<ReturnType<typeof mapDispatch>> {}
 
 const Count: React.SFC<CountProps> = props => (
   <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -39,4 +39,4 @@ const Count: React.SFC<CountProps> = props => (
   </div>
 );
 
-export default connect(mapState, mapDispatch)(Count);
+export default connect(mapState as any, mapDispatch as any)(Count);

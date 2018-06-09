@@ -6,7 +6,8 @@
     "lib": ["es2017"],
     "moduleResolution": "node",
     "declaration": true,
-    "declarationDir": "./dist"
+    "declarationDir": "./dist",
+    "esModuleInterop": true
   },
   "files": [
     "src/index.ts"

@@ -13,13 +13,13 @@ npm install @rematch/select
 ### Setup
 
 ```js
-import selectorsPlugin from '@rematch/select'
+import selectPlugin, { getSelect } from '@rematch/select'
 import { init } from '@rematch/core'
 
-const select = selectorsPlugin()
+export const select = getSelect();
 
 init({
-  plugins: [select]
+  plugins: [selectPlugin()]
 })
 ```
 
@@ -65,6 +65,7 @@ import { createSelector } from 'reselect'
 {
   selectors: {
     total: createSelector(
+      state => state,
       state => state.reduce((a, b) => a + (b.price * b.amount), 0)
     )
   }

@@ -40,7 +40,7 @@ export default connect(mapState, mapDispatch)(LoginButton)
 
 ## Demo
 
-See a [demo](./examples/react-loading-example)
+See a [demo](https://github.com/rematch/rematch/tree/master/plugins/loading/examples/react-loading-example)
 
 ![rematch-loading](https://user-images.githubusercontent.com/4660659/33303781-00c786b2-d3ba-11e7-8216-1b2b8eebbf85.gif)
 
