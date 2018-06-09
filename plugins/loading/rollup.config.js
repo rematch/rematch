@@ -1,7 +1,7 @@
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
 import commonJs from 'rollup-plugin-commonjs'
-import typescript from 'rollup-plugin-typescript'
+import typescript from 'rollup-plugin-typescript2'
 
 import { minify } from 'uglify-es'
 // experimental minifier for ES modules
@@ -12,13 +12,13 @@ const pkg = require('./package.json')
 const env = process.env.NODE_ENV
 
 const config = {
-  entry: 'src/index.ts',
+  input: 'src/index.ts',
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify(env),
     }),
     typescript({
-      typescript: require('typescript')
+      typescript: require('typescript'),
     }),
     commonJs(),
   ],
