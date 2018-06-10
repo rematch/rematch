@@ -45,7 +45,7 @@
     "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
-    "@rematch/core": ">=1.0.0-alpha.3",
+    "@rematch/core": ">=1.0.0-alpha.8",
     "typescript": "^2.9.1"
   }
 }
