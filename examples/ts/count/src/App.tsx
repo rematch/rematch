@@ -5,23 +5,23 @@ import { RematchDispatch, RematchRootState } from '@rematch/core'
 import { models, select } from './store'
 
 const mapState = (state: RematchRootState<models>) => ({
-  dolphins: state.dolphins,
-  sharks: select.sharks.total(state),
+	dolphins: state.dolphins,
+	sharks: select.sharks.total(state),
 })
 
 const mapDispatch = (dispatch: RematchDispatch<models>) => ({
-  incrementDolphins: dispatch.dolphins.increment,
-  incrementDolphinsAsync: dispatch.dolphins.incrementAsync,
-  incrementSharks: () => dispatch.sharks.increment(1),
-  incrementSharksAsync: () => dispatch.sharks.incrementAsync(1),
-  incrementSharksAsync2: () => dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
+	incrementDolphins: dispatch.dolphins.increment,
+	incrementDolphinsAsync: dispatch.dolphins.incrementAsync,
+	incrementSharks: () => dispatch.sharks.increment(1),
+	incrementSharksAsync: () => dispatch.sharks.incrementAsync(1),
+	incrementSharksAsync2: () => dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
 })
 
 interface CountProps extends Partial<ReturnType<typeof mapState>>,
 Partial<ReturnType<typeof mapDispatch>> {}
 
 const Count: React.SFC<CountProps> = props => (
-  <div style={{ display: 'flex', flexDirection: 'row' }}>
+	<div style={{ display: 'flex', flexDirection: 'row' }}>
 		<div style={{ width: 120 }}>
 			<h3>Dolphins</h3>
 			<h1>{props.dolphins}</h1>
