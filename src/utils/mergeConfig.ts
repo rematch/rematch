@@ -2,7 +2,7 @@ import * as R from '../typings'
 import validate from './validate'
 
 const merge = (original: any, next: any): any => {
-  return (next) ? { ...next, ...(original || {}) } : original || {}
+	return (next) ? { ...next, ...(original || {}) } : original || {}
 }
 
 const isObject = (obj: object): boolean => (Array.isArray(obj) || typeof obj !== 'object')
@@ -13,41 +13,41 @@ const isObject = (obj: object): boolean => (Array.isArray(obj) || typeof obj !==
  * merge init configs together
  */
 export default (initConfig: R.InitConfig): R.Config => {
-  const config: R.Config = {
-    name: initConfig.name,
-    models: {},
-    plugins: [],
-    ...initConfig,
-    redux: {
-      reducers: {},
-      rootReducers: {},
-      enhancers: [],
-      middlewares: [],
-      ...initConfig.redux,
-      devtoolOptions: {
-        name: initConfig.name,
-        ...(initConfig.redux && initConfig.redux.devtoolOptions ? initConfig.redux.devtoolOptions : {}),
-      },
-    },
-  }
+	const config: R.Config = {
+		name: initConfig.name,
+		models: {},
+		plugins: [],
+		...initConfig,
+		redux: {
+			reducers: {},
+			rootReducers: {},
+			enhancers: [],
+			middlewares: [],
+			...initConfig.redux,
+			devtoolOptions: {
+				name: initConfig.name,
+				...(initConfig.redux && initConfig.redux.devtoolOptions ? initConfig.redux.devtoolOptions : {}),
+			},
+		},
+	}
 
-  if (process.env.NODE_ENV !== 'production') {
-    validate([
-      [
-        !Array.isArray(config.plugins),
-        'init config.plugins must be an array',
-      ],
-      [
-        isObject(config.models),
-        'init config.models must be an object',
-      ],
-      [
-        isObject(config.redux.reducers),
-        'init config.redux.reducers must be an object',
-      ],
-      [
-        !Array.isArray(config.redux.middlewares),
-        'init config.redux.middlewares must be an array',
+	if (process.env.NODE_ENV !== 'production') {
+		validate([
+			[
+				!Array.isArray(config.plugins),
+				'init config.plugins must be an array',
+			],
+			[
+				isObject(config.models),
+				'init config.models must be an object',
+			],
+			[
+				isObject(config.redux.reducers),
+				'init config.redux.reducers must be an object',
+			],
+			[
+				!Array.isArray(config.redux.middlewares),
+				'init config.redux.middlewares must be an array',
 			],
 			[
 				!Array.isArray(config.redux.enhancers),

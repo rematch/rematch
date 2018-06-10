@@ -46,10 +46,8 @@ export default () => ({
 			for (const key of Object.keys(plugin.exposed)) {
 				this[key] =
 					typeof plugin.exposed[key] === 'function'
-						? // bind functions to plugin class
-						  plugin.exposed[key].bind(this)
-						: // add exposed to plugin class
-						  Object.create(plugin.exposed[key])
+						? plugin.exposed[key].bind(this) // bind functions to plugin class
+						: Object.create(plugin.exposed[key]) // add exposed to plugin class
 			}
 		}
 		for (const method of ['onModel', 'middleware', 'onStoreCreated']) {

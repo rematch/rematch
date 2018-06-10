@@ -73,27 +73,27 @@ export const init = (initConfig: R.InitConfig = {}): R.RematchStore => {
     }
     for (const actionName of Object.keys(store.dispatch[modelName])) {
       if (!isListener(actionName)) {
-        const action = store.dispatch[modelName][actionName]
-        if (!dispatches[modelName]) {
-          dispatches[modelName] = {}
-        }
-        if (!dispatches[modelName][actionName]) {
-          dispatches[modelName][actionName] = {}
-        }
-        dispatches[modelName][actionName][name] = action
-        dispatch[modelName][actionName] = (payload: any, meta: any) => {
-          for (const storeName of Object.keys(dispatches[modelName][actionName])) {
-            stores[storeName].dispatch[modelName][actionName](payload, meta)
-          }
-        }
-      }
-    }
-  }
-  return store
+				const action = store.dispatch[modelName][actionName]
+				if (!dispatches[modelName]) {
+					dispatches[modelName] = {}
+				}
+				if (!dispatches[modelName][actionName]) {
+					dispatches[modelName][actionName] = {}
+				}
+				dispatches[modelName][actionName][name] = action
+				dispatch[modelName][actionName] = (payload: any, meta: any) => {
+					for (const storeName of Object.keys(dispatches[modelName][actionName])) {
+						stores[storeName].dispatch[modelName][actionName](payload, meta)
+					}
+				}
+			}
+		}
+	}
+	return store
 }
 
 export default {
-  dispatch,
-  getState,
-  init,
+	dispatch,
+	getState,
+	init,
 }

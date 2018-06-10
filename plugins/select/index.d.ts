@@ -1,13 +1,9 @@
-import index from './dist';
-import { ExtractRematchSelectorsFromModels, Models } from '../../src/typings'
+import { Action, ExtractRematchSelectorsFromModels, Models, Plugin } from '@rematch/core'
 
-// @ts-ignore
-export const select = {}
-
-// @ts-ignore
-export function getSelect<M extends Models = Models>() {
-  return select as ExtractRematchSelectorsFromModels<M>
+export declare const select: {}
+export declare function getSelect<M extends Models = Models>(): ExtractRematchSelectorsFromModels<M, any>
+export interface SelectConfig {
+    sliceState?: any
 }
-
-export * from './dist';
-export default index;
+declare const selectPlugin: ({ sliceState, }?: SelectConfig) => Plugin<Models, Action<any, any>>
+export default selectPlugin

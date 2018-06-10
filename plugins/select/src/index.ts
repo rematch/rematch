@@ -1,44 +1,44 @@
-import { ExtractRematchSelectorsFromModels, Model, Models, Plugin } from '../../../src/typings'
+import { ExtractRematchSelectorsFromModels, Model, Models, Plugin } from '@rematch/core'
 
 export const select = {}
 
 export function getSelect<M extends Models = Models>() {
-  return select as ExtractRematchSelectorsFromModels<M>
+	return select as ExtractRematchSelectorsFromModels<M>
 }
 
 export interface SelectConfig {
-  sliceState?: any,
+	sliceState?: any,
 }
 
 const selectPlugin = ({
-  sliceState = (rootState, model) => rootState[model.name],
+	sliceState = (rootState, model) => rootState[model.name],
 }: SelectConfig = {}): Plugin => ({
-  exposed: { select },
-  onInit() {
-    this.validate([
-      [
-         typeof sliceState !== 'function',
-         `The selectPlugin's getState config must be a function. Instead got type ${typeof sliceState}.`,
-       ],
-     ])
-  },
-  onModel(model: Model) {
-    select[model.name] = {}
+	exposed: { select },
+	onInit() {
+		this.validate([
+			[
+					typeof sliceState !== 'function',
+					`The selectPlugin's getState config must be a function. Instead got type ${typeof sliceState}.`,
+				],
+			])
+	},
+	onModel(model: Model) {
+		select[model.name] = {}
 
-    Object.keys(model.selectors || {}).forEach((selectorName: string) => {
-      this.validate([
-        [
-          typeof model.selectors[selectorName] !== 'function',
-          `Selector (${model.name}/${selectorName}) must be a function`,
-        ],
-      ])
-      select[model.name][selectorName] = (state: any, ...args) =>
-        model.selectors[selectorName](
-          sliceState(state, model),
-          ...args,
-        )
-    })
-  },
+		Object.keys(model.selectors || {}).forEach((selectorName: string) => {
+			this.validate([
+				[
+					typeof model.selectors[selectorName] !== 'function',
+					`Selector (${model.name}/${selectorName}) must be a function`,
+				],
+			])
+			select[model.name][selectorName] = (state: any, ...args) =>
+				model.selectors[selectorName](
+					sliceState(state, model),
+					...args,
+				)
+		})
+	},
 })
 
 export default selectPlugin
