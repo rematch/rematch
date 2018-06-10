@@ -71,7 +71,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 ## Getting Started
 
 ```sh
-npm install @rematch/core
+npm install @rematch/core@next
 ```
 
 ### Step 1: Init
