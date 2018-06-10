@@ -1,5 +1,5 @@
-import * as R from '../typings/rematch'
 import Rematch from './rematch'
+import * as R from './typings'
 import isListener from './utils/isListener'
 import mergeConfig from './utils/mergeConfig'
 

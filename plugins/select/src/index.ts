@@ -1,4 +1,4 @@
-import { ExtractRematchSelectorsFromModels, Model, Models, Plugin } from '../../../typings/rematch'
+import { ExtractRematchSelectorsFromModels, Model, Models, Plugin } from '../../../src/typings'
 
 export const select = {}
 

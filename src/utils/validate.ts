@@ -1,4 +1,4 @@
-import { Validation } from '../../typings/rematch'
+import { Validation } from '../typings'
 
 /**
  * validate
@@ -7,15 +7,15 @@ import { Validation } from '../../typings/rematch'
  * throws if an error occurs
  */
 const validate = (validations: Validation[]): void => {
-  if (process.env.NODE_ENV !== 'production') {
-    for (const validation of validations) {
-      const condition = validation[0]
-      const errorMessage = validation[1]
-      if (condition) {
-        throw new Error(errorMessage)
-      }
-    }
-  }
+	if (process.env.NODE_ENV !== 'production') {
+		for (const validation of validations) {
+			const condition = validation[0]
+			const errorMessage = validation[1]
+			if (condition) {
+				throw new Error(errorMessage)
+			}
+		}
+	}
 }
 
 export default validate

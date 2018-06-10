@@ -1,8 +1,8 @@
-import * as R from '../typings/rematch'
 import pluginFactory from './pluginFactory'
 import dispatchPlugin from './plugins/dispatch'
 import effectsPlugin from './plugins/effects'
 import createRedux from './redux'
+import * as R from './typings'
 import validate from './utils/validate'
 
 const corePlugins: R.Plugin[] = [dispatchPlugin, effectsPlugin]
@@ -58,7 +58,7 @@ export default class Rematch {
     }
     // create a redux store with initialState
     // merge in additional extra reducers
-    const redux = createRedux({
+    const redux = createRedux.call(this, {
       redux: this.config.redux,
       models: this.models,
     })

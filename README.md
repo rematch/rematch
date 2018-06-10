@@ -36,7 +36,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 - [Video: Introducing Rematch](https://www.youtube.com/watch?v=3ezSBYoL5do)
 - [A comparison of Redux & Rematch](./docs/purpose.md)
 
-
+> See [v0 stable docs](https://github.com/rematch/rematch/tree/v0). Currently only displaying experimental @next documentation.
 
 ## Index
 
@@ -107,13 +107,13 @@ export const count = {
       return state + payload
     }
   },
-  effects: {
+  effects: (dispatch) => ({
     // handle state changes with impure functions.
     // use async/await for async actions
     async incrementAsync(payload, rootState) {
       await new Promise(resolve => setTimeout(resolve, 1000))
-      this.increment(payload)
-    }
+      dispatch.count.increment(payload)
+    })
   }
 }
 ```
