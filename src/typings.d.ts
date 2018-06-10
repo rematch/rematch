@@ -27,13 +27,21 @@ export type ExtractRematchDispatcherAsyncFromEffect<E> =
   E extends (payload: infer P, meta: infer M) => Promise<void> ? RematchDispatcherAsync<P, M> :
   RematchDispatcherAsync<any, any>
 
+export type ExtractRematchDispatchersFromEffectsObject<effects extends Effects<any>> = {
+  [effectKey in keyof effects]: ExtractRematchDispatcherAsyncFromEffect<effects[effectKey]>
+}
+
 export type ExtractRematchDispatchersFromModel<M extends Model> = {
   [reducerKey in keyof M['reducers']]:
   ExtractRematchDispatcherFromReducer<M['reducers'][reducerKey]>
-} & {
-    [effectKey in keyof M['effects']]:
-    ExtractRematchDispatcherAsyncFromEffect<M['effects'][effectKey]>
-  }
+} &
+    (M['effects'] extends ((...args: any[]) => infer R)
+      ? R extends Effects<any>
+        ? ExtractRematchDispatchersFromEffectsObject<R>
+        : {}
+      : M['effects'] extends Effects<any>
+        ? ExtractRematchDispatchersFromEffectsObject<M['effects']>
+        : {})
 
 export type ExtractRematchDispatchersFromModels<M extends Models> = {
   [modelKey in keyof M]: ExtractRematchDispatchersFromModel<M[modelKey]>
@@ -132,7 +140,7 @@ export interface Model<S = any, SS = S> {
   name?: string,
   state: S,
   reducers?: ModelReducers<S>,
-  effects?: Effects<S> | ((dispatch: RematchDispatch<any>) => Effects<S>),
+  effects?: Effects<any> | ((dispatch: RematchDispatch) => Effects<any>),
   selectors?: {
     [key: string]: (state: SS, ...args: any[]) => any,
   },
