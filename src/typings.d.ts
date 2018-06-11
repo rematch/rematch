@@ -44,11 +44,11 @@ export type ExtractRematchDispatchersFromReducersObject<reducers extends ModelRe
   [reducerKey in keyof reducers]: ExtractRematchDispatcherFromReducer<reducers[reducerKey]>
 }
 
-export type ExtractRematchDispatchersFromReducers<reducers extends Model['reducers']> =
+export type ExtractRematchDispatchersFromReducers<reducers extends ModelReducers<any>> =
   ExtractRematchDispatchersFromReducersObject<reducers>
 
 export type ExtractRematchDispatchersFromModel<M extends Model> = 
-  ExtractRematchDispatchersFromReducers<M['reducers']> &
+  ExtractRematchDispatchersFromReducers<ModelReducers<any>> &
   ExtractRematchDispatchersFromEffects<M['effects']>
 
 export type ExtractRematchDispatchersFromModels<M extends Models> = {
@@ -58,7 +58,7 @@ export type ExtractRematchDispatchersFromModels<M extends Models> = {
 export type ExtractRematchSelectorsFromModels<M extends Models, RootState = any> = {
   [modelKey in keyof M]: {
     [reducerKey in keyof M[modelKey]['selectors']]:
-    (state: RematchRootState<M>, ...args: any[]) => ReturnType<M[modelKey]['selectors'][reducerKey]>
+    (state: RematchRootState<M>, ...args: any[]) => ReturnType<any>
   }
 }
 
