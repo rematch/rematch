@@ -26,7 +26,7 @@ export default function({
 	this.mergeReducers = (nextReducers: R.ModelReducers = {}) => {
 		// merge new reducers with existing reducers
 		this.reducers = { ...this.reducers, ...nextReducers }
-		if (!Object.keys(this.reducers).length) {
+		if (isEmptyObject(this.reducers)) {
 			// no reducers, just return state
 			return (state: any) => state
 		}
@@ -61,7 +61,7 @@ export default function({
 		rootReducers: R.RootReducers = {}
 	): Redux.Reducer<any, R.Action> => {
 		const mergedReducers: Redux.Reducer<any> = this.mergeReducers()
-		if (Object.keys(rootReducers).length) {
+		if (!isEmptyObject(rootReducers)) {
 			return (state, action) => {
 				const rootReducerAction = rootReducers[action.type]
 				if (rootReducers[action.type]) {
@@ -84,4 +84,10 @@ export default function({
 	this.store = createStore(rootReducer, initialState, enhancers)
 
 	return this
+}
+function isEmptyObject(obj: Object) : boolean{
+    for(var i in obj){
+        return false;
+    }
+    return true;
 }
