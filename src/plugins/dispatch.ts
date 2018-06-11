@@ -8,7 +8,7 @@ import * as R from '../typings.d'
 const dispatchPlugin: R.Plugin = {
 	exposed: {
 		// required as a placeholder for store.dispatch
-		storeDispatch(action: R.Action) {
+		storeDispatch(action: R.Action, state: any) {
 			console.warn('Warning: store not yet loaded')
 		},
 
@@ -22,8 +22,8 @@ const dispatchPlugin: R.Plugin = {
 		 * both a function (dispatch) and an object (dispatch[modelName][actionName])
 		 * @param action R.Action
 		 */
-		dispatch(action: R.Action, state: any) {
-			return this.storeDispatch(action, state)
+		dispatch(action: R.Action) {
+			return this.storeDispatch(action)
 		},
 
 		/**
@@ -45,7 +45,7 @@ const dispatchPlugin: R.Plugin = {
 				if (this.dispatch[modelName][reducerName].isEffect) {
 					// ensure that effect state is captured on dispatch
 					// to avoid possible mutations and warnings
-					return this.dispatch(action, this.storeGetState())
+					return this.dispatch(action)
 				}
 				return this.dispatch(action)
 			}
