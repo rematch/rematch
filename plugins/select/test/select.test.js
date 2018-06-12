@@ -183,7 +183,9 @@ describe('select:', () => {
         },
         selectors: {
           double: s => s * 2,
-          quadruple (s) { return this.double() + this.double() }
+          quadruple (s) {
+            return this.double() * 2
+          }
         }
       }
       const store = init({
@@ -205,7 +207,9 @@ describe('select:', () => {
         },
         selectors: (select) => ({
           double: s => s * 2,
-          quadruple (s) { return select.a.double() + select.a.double() }
+          quadruple (s) {
+            return select.a.double() * 2
+          }
         })
       }
       const store = init({
@@ -227,7 +231,9 @@ describe('select:', () => {
         },
         selectors: {
           double: s => s * 2,
-          curriedDouble (s) { return this.double(42) }
+          curriedDouble (s) {
+            return this.double(42)
+          }
         }
       }
       const store = init({
