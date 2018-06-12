@@ -13,7 +13,7 @@ const isObject = (obj: object): boolean =>
  *
  * merge init configs together
  */
-export default (initConfig: R.Config): R.Config => {
+export default (initConfig: R.InitConfig & { name: string }): R.Config => {
 	const config: R.Config = {
 		name: initConfig.name,
 		models: {},
