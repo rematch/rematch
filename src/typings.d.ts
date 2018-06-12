@@ -147,7 +147,12 @@ export type ModelHook = (model: Model) => void
 
 export type Validation = [boolean | undefined, string]
 
-export interface Model<S = any, SS = S> {
+export interface Model<S = any, SS = S> extends ModelConfig {
+  name: string,
+  reducers: ModelReducers<S>,
+}
+
+export interface ModelConfig<S = any, SS = S> {
   name?: string,
   state: S,
   reducers?: ModelReducers<S>,
@@ -205,7 +210,7 @@ export interface InitConfig<M extends Models = Models> {
   redux?: InitConfigRedux,
 }
 
-export interface Config<M extends Models = Models> {
+export interface Config<M extends Models = Models> extends InitConfig {
   name: string,
   models: M,
   plugins: Plugin[],
