@@ -21,7 +21,7 @@ Setting up React-Navigation with Redux is a multistep process. Hopefully this pl
 
 ```js
 // Routes.js
-export default StackNavigator(
+export default createStackNavigator(
   {
     Landing: {
       screen: Screen.Landing,
@@ -40,7 +40,7 @@ export default StackNavigator(
 
 ```
 
-2. Pass `Routes` and `initialRouteName` into `createReactNavigationPlugin`. 
+2. Pass `Routes` into `createReactNavigationPlugin`. 
 
 ```js
 // index.js
@@ -50,10 +50,9 @@ import * as ReactNavigation from 'react-navigation'
 import Routes from './Routes'
 
 // add react navigation with redux
-const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin({
-  Routes,
-  initialScreen: 'Landing'
-})
+const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin(
+  { Routes }
+)
 
 const store = init({
   plugins: [reactNavigationPlugin],
@@ -71,9 +70,14 @@ export default () => (
 ```js
 // included in plugin
 dispatch.nav.navigate = (action) => dispatch(NavigationActions.navigate(action))
-dispatch.nav.reset = (action) => dispatch(NavigationActions.reset(action))
 dispatch.nav.back = (action) => dispatch(NavigationActions.back(action))
-dispatch.nav.setParams = (action) => dispatch(NavigationActions.setParams(action))
+dispatch.nav.setParams = (action) => dispatch(NavigationActions.setParams(action)
+dispatch.nav.reset = (action) => dispatch(StackActions.reset(action))
+dispatch.nav.replace = (action) => dispatch(StackActions.replace(action))
+dispatch.nav.push = (action) => dispatch(StackActions.push(action))
+dispatch.nav.pop = (action) => dispatch(StackActions.pop(action))
+dispatch.nav.popToTop = (action) => dispatch(StackActions.popToTop(action))
+)
 ```
 
 Just pass the NavigationAction options.
@@ -141,6 +145,7 @@ export class App extends React.Component {
 
 ## Selectors
 
+# [WIP] Starting v1.0 you need state in models so following won't work 
 You may find it helpful to add some custom selectors to your `nav` model.  You can easily add selectors by creating a `nav` model configuration object.  This example will add a `currentRouteName` selector:
 
 ```js
@@ -200,7 +205,6 @@ import { Map } from 'immutable';
 // add react navigation with redux
 const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin({
   Routes,
-  initialScreen: 'Landing',
   sliceState: state => state.get('nav')  // Returns Immutable JS slice
 })
 
