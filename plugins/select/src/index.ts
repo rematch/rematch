@@ -10,35 +10,51 @@ export interface SelectConfig {
 	sliceState?: any,
 }
 
-const selectPlugin = ({
-	sliceState = (rootState, model) => rootState[model.name],
+export const select = {};
+
+const createSelectPlugin = ({
+  sliceState = (rootState, model) => rootState[model.name]
 }: SelectConfig = {}): Plugin => ({
-	exposed: { select },
-	onInit() {
-		this.validate([
-			[
-					typeof sliceState !== 'function',
-					`The selectPlugin's getState config must be a function. Instead got type ${typeof sliceState}.`,
-				],
-			])
-	},
-	onModel(model: Model) {
-		select[model.name] = {}
+  exposed: {
+    select,
+    createSelector(model: Model, selector: Function) {
+      return (state: any, ...args) => selector(sliceState(state, model), ...args);
+    }
+  },
+  onInit() {
+    this.validate([
+      [
+        typeof sliceState !== "function",
+        `createSelectPlugin's getState config must be a function. Instead got type ${typeof sliceState}.`
+      ]
+    ]);
+  },
+  onModel(model: Model) {
+    select[model.name] = {};
+    this.select[model.name] = {};
 
-		Object.keys(model.selectors || {}).forEach((selectorName: string) => {
-			this.validate([
-				[
-					typeof model.selectors[selectorName] !== 'function',
-					`Selector (${model.name}/${selectorName}) must be a function`,
-				],
-			])
-			select[model.name][selectorName] = (state: any, ...args) =>
-				model.selectors[selectorName](
-					sliceState(state, model),
-					...args,
-				)
-		})
-	},
-})
+    const selectors =
+      typeof model.selectors === "function"
+        ? model.selectors(this.select)
+        : model.selectors;
 
-export default selectPlugin
+    Object.keys(selectors || {}).forEach((selectorName: String) => {
+      this.validate([
+        [
+          typeof selectors[selectorName] !== "function",
+          `Selector (${model.name}/${selectorName}) must be a function`
+        ]
+      ]);
+
+      select[model.name][selectorName] = this.createSelector(
+        model,
+        selectors[selectorName].bind(this.select[model.name])
+      );
+
+      this.select[model.name][selectorName] = (...args) =>
+        select[model.name][selectorName](this.storeGetState(), ...args);
+    });
+  }
+});
+
+export default createSelectPlugin;
