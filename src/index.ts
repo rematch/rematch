@@ -14,9 +14,9 @@ const dispatches = {}
  * @param action
  */
 export const dispatch = (action: R.Action) => {
-  for (const storeName of Object.keys(stores)) {
-    stores[storeName].dispatch(action)
-  }
+	for (const storeName of Object.keys(stores)) {
+		stores[storeName].dispatch(action)
+	}
 }
 
 /**
@@ -26,11 +26,11 @@ export const dispatch = (action: R.Action) => {
  * returns an object with key: storeName, value: store.getState()
  */
 export const getState = () => {
-  const state = {}
-  for (const name of Object.keys(stores)) {
-    state[name] = stores[name].getState()
-  }
-  return state
+	const state = {}
+	for (const name of Object.keys(stores)) {
+		state[name] = stores[name].getState()
+	}
+	return state
 }
 
 /**
@@ -41,7 +41,7 @@ export const getState = () => {
  * returns the dispatch object with typings information
  */
 export function getDispatch<M extends R.Models>() {
-  return dispatch as R.RematchDispatch<M>
+	return dispatch as R.RematchDispatch<M>
 }
 
 /**
@@ -51,8 +51,8 @@ export function getDispatch<M extends R.Models>() {
  * this is for autocomplete purposes only
  * returns the same object that was received as argument
  */
-export function createModel<S = any, M extends R.Model<S> = any>(model: M) {
-  return model
+export function createModel<S = any, M extends R.ModelConfig<S> = any>(model: M) {
+	return model
 }
 
 /**
@@ -63,16 +63,16 @@ export function createModel<S = any, M extends R.Model<S> = any>(model: M) {
  * @param config
  */
 export const init = (initConfig: R.InitConfig = {}): R.RematchStore => {
-  const name = initConfig.name || Object.keys(stores).length.toString()
-  const config: R.Config = mergeConfig({ ...initConfig, name })
-  const store = new Rematch(config).init()
-  stores[name] = store
-  for (const modelName of Object.keys(store.dispatch)) {
-    if (!dispatch[modelName]) {
-      dispatch[modelName] = {}
-    }
-    for (const actionName of Object.keys(store.dispatch[modelName])) {
-      if (!isListener(actionName)) {
+	const name = initConfig.name || Object.keys(stores).length.toString()
+	const config: R.Config = mergeConfig({ ...initConfig, name })
+	const store = new Rematch(config).init()
+	stores[name] = store
+	for (const modelName of Object.keys(store.dispatch)) {
+		if (!dispatch[modelName]) {
+			dispatch[modelName] = {}
+		}
+		for (const actionName of Object.keys(store.dispatch[modelName])) {
+			if (!isListener(actionName)) {
 				const action = store.dispatch[modelName][actionName]
 				if (!dispatches[modelName]) {
 					dispatches[modelName] = {}

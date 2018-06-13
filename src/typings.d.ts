@@ -45,7 +45,7 @@ export type ExtractRematchDispatchersFromReducersObject<reducers extends ModelRe
 }
 
 export type ExtractRematchDispatchersFromReducers<reducers extends Model['reducers']> =
-  ExtractRematchDispatchersFromReducersObject<reducers>
+  ExtractRematchDispatchersFromReducersObject<reducers & {}>
 
 export type ExtractRematchDispatchersFromModel<M extends Model> = 
   ExtractRematchDispatchersFromReducers<M['reducers']> &
@@ -58,7 +58,10 @@ export type ExtractRematchDispatchersFromModels<M extends Models> = {
 export type ExtractRematchSelectorsFromModels<M extends Models, RootState = any> = {
   [modelKey in keyof M]: {
     [reducerKey in keyof M[modelKey]['selectors']]:
-    (state: RematchRootState<M>, ...args: any[]) => ReturnType<M[modelKey]['selectors'][reducerKey]>
+    (state: RematchRootState<M>, ...args: any[]) =>
+      M[modelKey]['selectors'][reducerKey] extends ((...args: any[]) => any)
+        ? ReturnType<M[modelKey]['selectors'][reducerKey]>
+        : {}
   }
 }
 
@@ -144,7 +147,12 @@ export type ModelHook = (model: Model) => void
 
 export type Validation = [boolean | undefined, string]
 
-export interface Model<S = any, SS = S> {
+export interface Model<S = any, SS = S> extends ModelConfig {
+  name: string,
+  reducers: ModelReducers<S>,
+}
+
+export interface ModelConfig<S = any, SS = S> {
   name?: string,
   state: S,
   reducers?: ModelReducers<S>,
@@ -202,7 +210,7 @@ export interface InitConfig<M extends Models = Models> {
   redux?: InitConfigRedux,
 }
 
-export interface Config<M extends Models = Models> {
+export interface Config<M extends Models = Models> extends InitConfig {
   name: string,
   models: M,
   plugins: Plugin[],
