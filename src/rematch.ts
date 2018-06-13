@@ -70,6 +70,7 @@ export default class Rematch {
 				this.addModel(model)
 				redux.mergeReducers(redux.createModelReducer(model))
 				redux.store.replaceReducer(redux.createRootReducer(this.config.redux.rootReducers))
+				redux.store.dispatch({ type: '@@redux/REPLACE '})
 			},
 		}
 
