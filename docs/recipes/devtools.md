@@ -18,7 +18,7 @@ init({
 })
 ```
 
-### Redux-Devtools-Remote
+### Remote-Redux-Devtools
 
 To use Redux Devtools in React Native, simply use [Remote Redux Devtools](https://github.com/zalmoxisus/remote-redux-devtools).
 
