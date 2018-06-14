@@ -2,11 +2,13 @@ import * as Redux from 'redux'
 import * as R from './typings'
 import isListener from './utils/isListener'
 
-const composeEnhancersWithDevtools = (devtoolOptions = {}): any =>
+const composeEnhancersWithDevtools = (devtoolOptions: R.DevtoolOptions = {}): any => {
+	const { disabled, ...options } = devtoolOptions
 	/* istanbul ignore next */
-	typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devtoolOptions)
+	return !disabled && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(options)
 		: Redux.compose
+}
 
 export default function({
 	redux,
