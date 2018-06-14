@@ -108,6 +108,7 @@ export namespace rematch {
 
 export interface RematchStore<M extends Models = Models, A extends Action = Action>
   extends Redux.Store<RematchRootState<M>, A> {
+  name: string,
   replaceReducer(nextReducer: Redux.Reducer<RematchRootState<M>, A>): void,
   dispatch: RematchDispatch<M>,
   getState(): RematchRootState<M>,

@@ -65,6 +65,7 @@ export default class Rematch {
 		})
 
 		const rematchStore = {
+			name: this.config.name,
 			...redux.store,
 			// dynamic loading of models with `replaceReducer`
 			model: (model: R.Model) => {
