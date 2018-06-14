@@ -6,7 +6,7 @@ import validate from './utils/validate'
  *
  * makes Plugin objects extend and inherit from a root PluginFactory
  */
-export default (config) => ({
+export default (config: any) => ({
 	config,
 
 	/**
