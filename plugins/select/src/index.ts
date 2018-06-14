@@ -1,20 +1,30 @@
-import { ExtractRematchSelectorsFromModels, Model, Models, Plugin } from '@rematch/core'
+import { ExtractRematchSelectorsFromModels, Store, Model, Models, Plugin } from '@rematch/core'
 
 export const select = {}
+
+const stores = []
+const localSelects = []
+
+const mapStateToStore = (state: any) =>
+	stores.findIndex((store) => store.getState() === state)
+
+export function withSelect(mapSelectToProps: Function) {
+	return (state, ...args) =>
+		mapSelectToProps(
+			localSelects[mapStateToStore(state)],
+			...args
+		)
+}
 
 export function getSelect<M extends Models = Models>() {
 	return select as ExtractRematchSelectorsFromModels<M>
 }
 
 export interface SelectConfig {
-  name?: string,
 	sliceState?: any,
 }
 
 const validateConfig = (config) => {
-  if (config.name && typeof config.name !== 'string') {
-    throw new Error('select plugin config name must be a string')
-  }
   if (config.sliceState && typeof config.sliceState !== 'function') {
     throw new Error('select plugin config sliceState must be a function')
   }
@@ -25,55 +35,46 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
 
   const sliceState = config.sliceState || ((rootState, model) => rootState[model.name])
 
-  const selectModelName = config.name || 'select'
-
-  const selectModel: Model = {
-    state: {},
-    name: selectModelName,
-  }
+	const localSelect = {}
 
   return {
-    config: {
-      models: {
-        selectModel,
-      },
-    },
     onModel(model: Model) {
-      if (model.name === selectModelName) { return }
 
       select[model.name] = {}
-      selectModel.state[model.name] = {}
+			localSelect[model.name] = {}
 
       const selectors =
         typeof model.selectors === "function"
-          ? model.selectors(selectModel.state)
+          ? model.selectors(localSelect)
           : model.selectors
 
-      Object.keys(selectors || {}).forEach((selectorName: String) => {
-        this.validate([
-          [
-            typeof selectors[selectorName] !== "function",
-            `Selector (${model.name}/${selectorName}) must be a function`
-          ]
-        ])
+     	Object.keys(selectors || {}).forEach((selectorName: String) => {
+				this.validate([
+				  [
+				    typeof selectors[selectorName] !== "function",
+				    `Selector (${model.name}/${selectorName}) must be a function`
+				  ]
+				])
 
+				localSelect[model.name][selectorName] = (...args) =>
+					selectors[selectorName].call(
+						localSelect[model.name],
+						sliceState(this.storeGetState(), model),
+						...args
+					)
 
-        select[model.name][selectorName] = (state: any, ...args) =>
-          selectors[selectorName].call(
-            state[selectModelName][model.name],
-            sliceState(state, model),
-            ...args
-          )
-
-
-        selectModel.state[model.name][selectorName] = (...args) =>
-          selectors[selectorName].call(
-            selectModel.state[model.name],
-            sliceState(this.storeGetState(), model),
-            ...args
-          )
-      })
-    }
+				select[model.name][selectorName] = (state: any, ...args) =>
+				  selectors[selectorName].call(
+				    localSelects[mapStateToStore(state)][model.name],
+				    sliceState(state, model),
+				    ...args
+				  )
+			})
+    },
+		onStoreCreated(store: Store) {
+			stores.push(store)
+			localSelects.push(localSelect)
+		}
   }
 }
 
