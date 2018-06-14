@@ -193,6 +193,11 @@ export interface RootReducers {
   [type: string]: Redux.Reducer<any, Action>,
 }
 
+export interface DevtoolOptions {
+  disabled?: boolean,
+  [key: string]: any,
+}
+
 export interface InitConfigRedux<S = any> {
   initialState?: S,
   reducers?: ModelReducers,
@@ -201,7 +206,7 @@ export interface InitConfigRedux<S = any> {
   rootReducers?: RootReducers,
   combineReducers?: (reducers: Redux.ReducersMapObject) => Redux.Reducer<any, Action>,
   createStore?: Redux.StoreCreator,
-  devtoolOptions?: Object,
+  devtoolOptions?: DevtoolOptions,
 }
 
 export interface InitConfig<M extends Models = Models> {
@@ -230,7 +235,7 @@ export interface ConfigRedux {
   rootReducers?: RootReducers,
   combineReducers?: (reducers: Redux.ReducersMapObject) => Redux.Reducer<any, Action>,
   createStore?: Redux.StoreCreator,
-  devtoolOptions?: Object,
+  devtoolOptions?: DevtoolOptions,
 }
 
 export interface RematchClass {

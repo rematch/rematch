@@ -18,6 +18,18 @@ init({
 })
 ```
 
+To disable redux devtools, set `disabled` property to `true`:
+
+```js
+init({
+  redux: {
+    devtoolOptions: {
+      disabled: true,
+    },
+  },
+})
+```
+
 ### Remote-Redux-Devtools
 
 To use Redux Devtools in React Native, simply use [Remote Redux Devtools](https://github.com/zalmoxisus/remote-redux-devtools).
