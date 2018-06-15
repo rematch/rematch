@@ -1,5 +1,5 @@
 const { createSelector } = require('reselect')
-const createSelectPlugin = require('../src').default
+const { default: createSelectPlugin, SELECT_REF_KEY } = require('../src')
 const { select } = require('../src')
 const { init } = require('../../../src')
 
@@ -171,6 +171,32 @@ describe('select:', () => {
       const state = store.getState()
       const result = outsideSelector(state)
       expect(result).toBe(27)
+    })
+  })
+
+  describe('store ref: ', () => {
+    it('should expose the store name', async () => {
+      const store = init({
+        plugins: [createSelectPlugin()]
+      })
+
+      const state = store.getState()
+      expect(state).toEqual({
+        [SELECT_REF_KEY]: store.name
+      })
+    })
+
+    it('should expose the store name with a configured key', async () => {
+      const store = init({
+        plugins: [createSelectPlugin({
+          name: 'chicken'
+        })]
+      })
+
+      const state = store.getState()
+      expect(state).toEqual({
+        'chicken': store.name
+      })
     })
   })
 
