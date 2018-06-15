@@ -1,17 +1,14 @@
 import { ExtractRematchSelectorsFromModels, Store, Model, Models, Plugin } from '@rematch/core'
 
+export const SELECT_REF_KEY = '@@selectRef'
+
 export const select = {}
+const localSelects = {}
 
-const stores = []
-const localSelects = []
-
-const mapStateToStore = (state: any) =>
-	stores.findIndex((store) => store.getState() === state)
-
-export function withSelect(mapSelectToProps: Function) {
+export function withSelect(mapSelectToProps: Function, name = SELECT_REF_KEY) {
 	return (state, ...args) =>
 		mapSelectToProps(
-			localSelects[mapStateToStore(state)],
+			localSelects[state[name]],
 			...args
 		)
 }
@@ -21,10 +18,14 @@ export function getSelect<M extends Models = Models>() {
 }
 
 export interface SelectConfig {
+	name?: string,
 	sliceState?: any,
 }
 
 const validateConfig = (config) => {
+	if (config.name && typeof config.name !== 'string') {
+		throw new Error('select plugin config name must be a string')
+	}
   if (config.sliceState && typeof config.sliceState !== 'function') {
     throw new Error('select plugin config sliceState must be a function')
   }
@@ -36,6 +37,8 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
   const sliceState = config.sliceState || ((rootState, model) => rootState[model.name])
 
 	const localSelect = {}
+
+	const refKey = config.name || SELECT_REF_KEY
 
   return {
     onModel(model: Model) {
@@ -65,15 +68,19 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
 
 				select[model.name][selectorName] = (state: any, ...args) =>
 				  selectors[selectorName].call(
-				    localSelects[mapStateToStore(state)][model.name],
+				    localSelects[state[refKey]][model.name],
 				    sliceState(state, model),
 				    ...args
 				  )
 			})
     },
 		onStoreCreated(store: Store) {
-			stores.push(store)
-			localSelects.push(localSelect)
+			const ref = store.name || 'fixme'
+			localSelects[ref] = localSelect
+			store.model({
+				name: refKey,
+				state: ref
+			})
 		}
   }
 }
