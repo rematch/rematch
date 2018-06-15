@@ -11,6 +11,9 @@ const exposeStoreNamePlugin = (config: ExposeStoreNameConfig = {}): Plugin => {
   const name = config.name || STORE_NAME_KEY
 
   return {
+    expose: {
+      storeNameKey: name
+    },
     onInit() {
       this.validate([
         [
