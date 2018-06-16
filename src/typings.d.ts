@@ -94,6 +94,7 @@ export let dispatch: RematchDispatch<any>;
 export function init<M extends Models>(
   config: InitConfig<M> | undefined,
 ): RematchStore<M>
+export function getState(): { [key: string]: RematchRootState<any> }
 
 export function getDispatch<M extends Models>(): RematchDispatch<M>
 
@@ -104,6 +105,7 @@ export function createModel<S = any, M extends ModelConfig<S> = ModelConfig>(
 export namespace rematch {
   export let dispatch: RematchDispatch<any>;
   export function init<M extends Models>(config: InitConfig<M> | undefined): RematchStore<M>
+  export function getState(): { [key: string]: RematchRootState<any> }
 }
 
 export interface RematchStore<M extends Models = Models, A extends Action = Action>
