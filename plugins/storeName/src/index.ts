@@ -2,16 +2,16 @@ import { Store, Plugin } from '@rematch/core'
 
 export const STORE_NAME_KEY = '@@rematchStoreName'
 
-export interface ExposeStoreNameConfig {
+export interface StoreNameConfig {
   name?: string,
 }
 
-const exposeStoreNamePlugin = (config: ExposeStoreNameConfig = {}): Plugin => {
+const storeNamePlugin = (config: StoreNameConfig = {}): Plugin => {
   // model
   const name = config.name || STORE_NAME_KEY
 
   return {
-    expose: {
+    exposed: {
       storeNameKey: name
     },
     onInit() {
@@ -28,4 +28,4 @@ const exposeStoreNamePlugin = (config: ExposeStoreNameConfig = {}): Plugin => {
   }
 }
 
-export default exposeStoreNamePlugin
+export default storeNamePlugin
