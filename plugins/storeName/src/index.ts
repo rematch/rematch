@@ -12,7 +12,7 @@ const storeNamePlugin = (config: StoreNameConfig = {}): Plugin => {
 
   return {
     exposed: {
-      storeNameKey: name
+      storeName: { key: name }
     },
     onInit() {
       this.validate([
