@@ -94,7 +94,7 @@ export let dispatch: RematchDispatch<any>;
 export function init<M extends Models>(
   config: InitConfig<M> | undefined,
 ): RematchStore<M>
-export function getState(): { [key: string]: RematchRootState<any> }
+export function getState<M extends Models>(): RematchRootState<M>
 
 export function getDispatch<M extends Models>(): RematchDispatch<M>
 
