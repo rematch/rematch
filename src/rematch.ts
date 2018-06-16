@@ -16,10 +16,11 @@ export default class Rematch {
 	protected config: R.Config
 	protected models: R.Model[]
 	private plugins: R.Plugin[] = []
-	private pluginFactory: R.PluginFactory = pluginFactory()
+	private pluginFactory: R.PluginFactory
 
 	constructor(config: R.Config) {
 		this.config = config
+		this.pluginFactory = pluginFactory(config)
 		for (const plugin of corePlugins.concat(this.config.plugins)) {
 			this.plugins.push(this.pluginFactory.create(plugin))
 		}
