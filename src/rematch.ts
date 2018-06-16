@@ -39,6 +39,7 @@ export default class Rematch {
 		return Object.keys(models).map((name: string) => ({
 			name,
 			...models[name],
+			reducers: models[name].reducers || {},
 		}))
 	}
 	public addModel(model: R.Model) {
