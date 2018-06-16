@@ -24,7 +24,7 @@ export type ExtractRematchDispatchersFromEffectsObject<effects extends ModelEffe
   [effectKey in keyof effects]: ExtractRematchDispatcherAsyncFromEffect<effects[effectKey]>
 }
 
-export type ExtractRematchDispatchersFromEffects<effects extends Model['effects']> = 
+export type ExtractRematchDispatchersFromEffects<effects extends ModelConfig['effects']> = 
   (effects extends ((...args: any[]) => infer R)
     ? R extends ModelEffects<any>
       ? ExtractRematchDispatchersFromEffectsObject<R>
@@ -44,10 +44,10 @@ export type ExtractRematchDispatchersFromReducersObject<reducers extends ModelRe
   [reducerKey in keyof reducers]: ExtractRematchDispatcherFromReducer<reducers[reducerKey]>
 }
 
-export type ExtractRematchDispatchersFromReducers<reducers extends Model['reducers']> =
+export type ExtractRematchDispatchersFromReducers<reducers extends ModelConfig['reducers']> =
   ExtractRematchDispatchersFromReducersObject<reducers & {}>
 
-export type ExtractRematchDispatchersFromModel<M extends Model> = 
+export type ExtractRematchDispatchersFromModel<M extends ModelConfig> = 
   ExtractRematchDispatchersFromReducers<M['reducers']> &
   ExtractRematchDispatchersFromEffects<M['effects']>
 
@@ -97,7 +97,7 @@ export function init<M extends Models>(
 
 export function getDispatch<M extends Models>(): RematchDispatch<M>
 
-export function createModel<S = any, M extends Model<S> = Model>(
+export function createModel<S = any, M extends ModelConfig<S> = ModelConfig>(
   model: M,
 ): M
 
@@ -141,7 +141,7 @@ type ModelEffects<S> = {
 }
 
 export type Models = {
-  [key: string]: Model,
+  [key: string]: ModelConfig,
 }
 
 export type ModelHook = (model: Model) => void
