@@ -148,7 +148,7 @@ Dispatch can be called directly, or with the `dispatch[model][action](payload)` 
 
 ### Step 4: View
 
-Rematch can be used with native redux integrations. See examples below.
+Rematch can be used with native redux integrations such as "react-redux". See an example below.
 
 ```jsx
 import React from 'react'
