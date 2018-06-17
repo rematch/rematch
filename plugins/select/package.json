@@ -1,6 +1,6 @@
 {
   "name": "@rematch/select",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Selectors plugin for Rematch",
   "keywords": [
     "plugin",
@@ -48,6 +48,7 @@
     "reselect": "^3.0.1"
   },
   "authors": [
+    "Sam Richard <sam.richard@gmail.com> (https://github.com/d3dc)",
     "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
     "Tom Aranda <tga@arandacybersolutions.com> (https://github.com/taranda)"
   ]
