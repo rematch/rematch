@@ -3,27 +3,26 @@ import { Store, Plugin } from '@rematch/core'
 export const STORE_NAME_KEY = '@@rematchStoreName'
 
 export interface StoreNameConfig {
-  name?: string,
+  key?: string,
 }
 
 const storeNamePlugin = (config: StoreNameConfig = {}): Plugin => {
-  // model
-  const name = config.name || STORE_NAME_KEY
+  const key = config.key || STORE_NAME_KEY
 
   return {
     exposed: {
-      storeName: { key: name }
+      storeName: { key }
     },
     onInit() {
       this.validate([
         [
           typeof name !== 'string',
-          'getters plugin config name must be a string'
+          'getters plugin config key must be a string'
         ]
       ])
     },
     onStoreCreated(store: Store) {
-      store.model({ name, state: store.name })
+      store.model({ name: key, state: store.name })
     }
   }
 }

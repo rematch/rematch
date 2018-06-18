@@ -2,12 +2,12 @@ const { default: storeNamePlugin, STORE_NAME_KEY } = require('../src')
 const { init } = require('../../../src')
 
 describe('store name:', () => {
-  test('should throw if name config is not a string', () => {
+  test('should throw if key config is not a string', () => {
     const storeNamePlugin = require('../src').default
     const { init } = require('../../../src')
 
     const start = () => {
-      init({ plugins: [ storeNamePlugin({ name: (error) => error }) ] })
+      init({ plugins: [ storeNamePlugin({ key: (error) => error }) ] })
     }
 
     expect(start).toThrow()
@@ -27,7 +27,7 @@ describe('store name:', () => {
   it('should expose the store name with a configured key', async () => {
     const store = init({
       plugins: [storeNamePlugin({
-        name: 'chicken'
+        key: 'chicken'
       })]
     })
 
