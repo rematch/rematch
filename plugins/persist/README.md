@@ -36,7 +36,7 @@ With React, display a loading indicator while waiting for data to async load fro
 
 ```js
 import { getPersistor } from '@rematch/persist'
-import { PersistGate } from 'redux-persist/es/integration/react'
+import { PersistGate } from "redux-persist/lib/integration/react"
 
 const persistor = getPersistor()
 
