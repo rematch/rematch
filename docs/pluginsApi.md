@@ -3,7 +3,7 @@
 There are plenty of examples to base your next plugin on. After all, in Rematch, everything is a plugin: `dispatch`, `effects`, `selectors`, `subscriptions` - all plugins. Optional plugins can be provided as packages, such as "loading" & "persist".
 
 - [core plugins](https://github.com/rematch/rematch/tree/master/src/plugins)
-- [plugin packages](/https://github.com/rematch/rematch/tree/master/plugins)
+- [plugin packages](https://github.com/rematch/rematch/tree/master/plugins)
 
 # Plugin API Reference
 
