@@ -118,15 +118,15 @@ export default (config: LoadingConfig = {}): Plugin => {
 
         // create function with pre & post loading calls
         const effectWrapper = async (...props) => {
-          let effectResult
-
           try {
             this.dispatch.loading.show({ name, action })
-            effectResult = await origEffect(...props)
             // waits for dispatch function to finish before calling "hide"
-          } finally {
+            const effectResult = await origEffect(...props)
             this.dispatch.loading.hide({ name, action })
             return effectResult
+          } catch(error) {
+            this.dispatch.loading.hide({ name, action })
+            throw error
           }
         }
 
