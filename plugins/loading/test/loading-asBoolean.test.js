@@ -307,4 +307,22 @@ describe('loading asBoolean', () => {
 
     expect(effectResult).toEqual('foo')
   })
+
+  test('should allow the propagation of the effect reject', async () => {
+    const count2 = {
+      state: 0,
+      effects: {
+        doSomething() {
+          throw 'foo'
+        }
+      }
+    }
+    const store = init({
+      models: { count: count2 },
+      plugins: [loadingPlugin()]
+    })
+
+    const promise = store.dispatch.count.doSomething()
+    await expect(promise).rejects.toBe('foo')
+  })
 })
