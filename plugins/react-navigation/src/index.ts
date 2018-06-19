@@ -27,26 +27,26 @@ const reactNavigationPlugin = ({ Routes, sliceState = state => state.nav }) => {
 					},
 				},
 			},
-			onStoreCreated: store => {
-				store.dispatch.nav = {}
+			onStoreCreated() {
+				this.dispatch.nav = {}
 				// NavigationActions
-				store.dispatch.nav.navigate = action =>
-					store.dispatch(NavigationActions.navigate(action))
-				store.dispatch.nav.back = action =>
-					store.dispatch(NavigationActions.back(action))
-				store.dispatch.nav.setParams = action =>
-					store.dispatch(NavigationActions.setParams(action))
+				this.dispatch.nav.navigate = action =>
+					this.dispatch(NavigationActions.navigate(action))
+				this.dispatch.nav.back = action =>
+					this.dispatch(NavigationActions.back(action))
+				this.dispatch.nav.setParams = action =>
+					this.dispatch(NavigationActions.setParams(action))
 				// StackActions
-				store.dispatch.nav.reset = action =>
-					store.dispatch(StackActions.reset(action))
-				store.dispatch.nav.replace = action =>
-					store.dispatch(StackActions.replace(action))
-				store.dispatch.nav.push = action =>
-					store.dispatch(StackActions.push(action))
-				store.dispatch.nav.pop = action =>
-					store.dispatch(StackActions.pop(action))
-				store.dispatch.nav.popToTop = action =>
-					store.dispatch(StackActions.popToTop(action))
+				this.dispatch.nav.reset = action =>
+					this.dispatch(StackActions.reset(action))
+				this.dispatch.nav.replace = action =>
+					this.dispatch(StackActions.replace(action))
+				this.dispatch.nav.push = action =>
+					this.dispatch(StackActions.push(action))
+				this.dispatch.nav.pop = action =>
+					this.dispatch(StackActions.pop(action))
+				this.dispatch.nav.popToTop = action =>
+					this.dispatch(StackActions.popToTop(action))
 			},
 		},
 	}
