@@ -209,4 +209,4 @@ See the [CHANGELOG](./CHANGELOG.md) to see what's new.
 
 ---
 
-Like this project? ★ us on Github :)
+Like this project? ★ us on GitHub :)
