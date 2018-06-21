@@ -77,9 +77,16 @@ export default class Rematch {
 			},
 		}
 
-		this.forEachPlugin('onStoreCreated', (onStoreCreated) => onStoreCreated(rematchStore))
-
-		rematchStore.dispatch = this.pluginFactory.dispatch
+		this.forEachPlugin('onStoreCreated', (onStoreCreated) => {
+			const returned = onStoreCreated(rematchStore)
+			// if onStoreCreated returns an object value
+			// merge its returned value onto the store
+			if (returned) {
+				Object.keys(returned || {}).forEach((key) => {
+					rematchStore[key] = returned[key]
+				})
+			}
+		})
 
 		return rematchStore
 	}

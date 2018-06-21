@@ -98,3 +98,19 @@ const plugin = {
 Run last, as it is after the store is created. This provides access to the `store`.
 
 See examples with "dispatch" & "persist".
+
+Returning an object from `onStoreCreated` will result in the keys being merged onto the `store` object. 
+
+```
+const plugin = {
+  onStoreCreated(store) {
+    return { count: 42 } 
+  }
+}
+
+const store = init({ plugins: [plugin] })
+store.count // 42
+```
+
+If you choose to do this with a plugin with TypeScript, be sure to update your stores typings.
+
