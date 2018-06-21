@@ -56,6 +56,7 @@ const dispatchPlugin: R.Plugin = {
 	onStoreCreated(store: any) {
 		this.storeDispatch = store.dispatch
 		this.storeGetState = store.getState
+		return { dispatch: this.dispatch }
 	},
 
 	// generate action creators for all model.reducers
