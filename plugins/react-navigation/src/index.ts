@@ -1,52 +1,83 @@
 import { NavigationActions, StackActions } from 'react-navigation'
 import createNavigator from './createNavigator'
 
-const reactNavigationPlugin = ({ Routes, sliceState = state => state.nav }) => {
-	if (!Routes) {
-		throw new Error('Rematch React Navigation requires app routes.')
+const reactNavigationPlugin = ({
+	Navigator,
+	storeKey = 'nav',
+	sliceState = state => state.nav,
+}) => {
+	if (!Navigator) {
+		throw new Error(
+			'Rematch React Navigation requires a preconfigured Navigator.'
+		)
 	}
 	if (typeof sliceState !== 'function') {
 		throw new Error(
 			'Rematch React Navigation requires sliceState config to be a function.'
 		)
 	}
+	if (typeof storeKey !== 'string') {
+		throw new Error(
+			'Rematch React Navigation requires storeKey config to be a string.'
+		)
+	}
 
-	const { Navigator, navMiddleware, navReducer } = createNavigator(
-		Routes,
+	const { ConnectedNavigator, navMiddleware, navReducer } = createNavigator(
+		Navigator,
 		sliceState
 	)
 
+	const effects = dispatch => ({
+		// NavigationActions
+		navigate(action) {
+			return dispatch(NavigationActions.navigate(action))
+		},
+
+		back(action) {
+			return dispatch(NavigationActions.back(action))
+		},
+
+		setParams(action) {
+			return dispatch(NavigationActions.setParams(action))
+		},
+
+		// StackActions
+		reset(action) {
+			return dispatch(StackActions.reset(action))
+		},
+		replace(action) {
+			return dispatch(StackActions.replace(action))
+		},
+
+		push(action) {
+			return dispatch(StackActions.push(action))
+		},
+
+		pop(action) {
+			return dispatch(StackActions.pop(action))
+		},
+
+		popToTop(action) {
+			return dispatch(StackActions.popToTop(action))
+		},
+	})
+
 	return {
-		Navigator,
+		Navigator: ConnectedNavigator,
 		reactNavigationPlugin: {
 			config: {
+				models: {
+					[storeKey]: {
+						state: null,
+						effects,
+					},
+				},
 				redux: {
 					middleware: [navMiddleware],
 					reducers: {
 						nav: navReducer,
 					},
 				},
-			},
-			onStoreCreated() {
-				this.dispatch.nav = {}
-				// NavigationActions
-				this.dispatch.nav.navigate = action =>
-					this.dispatch(NavigationActions.navigate(action))
-				this.dispatch.nav.back = action =>
-					this.dispatch(NavigationActions.back(action))
-				this.dispatch.nav.setParams = action =>
-					this.dispatch(NavigationActions.setParams(action))
-				// StackActions
-				this.dispatch.nav.reset = action =>
-					this.dispatch(StackActions.reset(action))
-				this.dispatch.nav.replace = action =>
-					this.dispatch(StackActions.replace(action))
-				this.dispatch.nav.push = action =>
-					this.dispatch(StackActions.push(action))
-				this.dispatch.nav.pop = action =>
-					this.dispatch(StackActions.pop(action))
-				this.dispatch.nav.popToTop = action =>
-					this.dispatch(StackActions.popToTop(action))
 			},
 		},
 	}
