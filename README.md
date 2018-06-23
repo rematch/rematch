@@ -131,8 +131,9 @@ Understanding models is as simple as answering a few questions:
 **dispatch** is how we trigger reducers & effects in your models. Dispatch standardizes your actions without the need for writing action types or action creators.
 
 ```js
-import { dispatch } from '@rematch/core'
+import { init } from '@rematch/core'
 
+export const { dispatch } = init()
                                                   // state = { count: 0 }
 // reducers
 dispatch({ type: 'count/increment', payload: 1 }) // state = { count: 1 }

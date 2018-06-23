@@ -16,9 +16,7 @@ import { init, dispatch, getState } from '@rematch/core'
   - [getState](#store.getstate)
   - [name](#store.name)
   - [model](#store.model)
-- [dispatch](#dispatch)
-  - [action](#action)
-- [getState](#getstate)
+- [action](#action)
 
 ---
 
@@ -194,7 +192,7 @@ For a complete summary of all redux options, see the [init Redux API](./reduxApi
 
 ### store.dispatch
 
-As in Redux, a function that dispatches actions.
+As in Redux, a function that dispatches an [action](#action).
 
 In Rematch, `store.dispatch` can be called directly or as an object.
 
@@ -211,6 +209,10 @@ dispatch.count.increment(1)                       // state = { count: 2 }
 dispatch({ type: 'count/incrementAsync', payload: 1 }) // state = { count: 3 } after delay
 dispatch.count.incrementAsync(1)                       // state = { count: 4 } after delay
 ```
+
+Dispatch has an optional second property, "meta", which can be used in subscriptions or middleware. This is for advanced use cases only.
+
+`dispatch.count.increment(2, { syncWithServer: true })`
 
 ### store.getState
 
@@ -249,29 +251,7 @@ store.getState()
 
 ---
 
-## dispatch
-
-`dispatch(action, meta)`
-
-Dispatch sends triggers [action](#action)'s in **all stores**.
-
-`dispatch.modelName.actionName(any)`
-
-In Rematch, its more common to use the shorthand above, which will create and structure an action for you.
-
-Dispatch can be called anywhere within your app, though it is recommended to use `store.dispatch` instead.
-
-```js
-import { dispatch } from '@rematch/core'
-
-dispatch.cart.addToCart(item)
-```
-
-Dispatch has an optional second property, "meta", which can be used in subscriptions or middleware. This is for advanced use cases only.
-
-`dispatch.cart.addToCart(item, { syncWithServer: true })`
-
-### action
+## action
 
 `{ type: 'modelName/actionName', payload: any }`
 
@@ -281,26 +261,3 @@ In Rematch, an action is always structured with a type of "modelName" and "actio
 
 Any data attached to an action is added in the payload.
 
----
-
-## getState
-
-`getState(): { [storeName]: state }`
-
-Returns an object of all named stores with their state.
-
-```js
-import { init, getState } from '@rematch/core'
-
-const firstStore = init({
-  name: 'first',
-  models: { count: { state: 0 } }
-})
-
-const secondStore = init({
-  name: 'second',
-  models: { count: { state: 5 } }
-})
-
-getState() // { first: { count: 1 }, second: { count: 5 } }
-```
