@@ -55,16 +55,6 @@ export type ExtractRematchDispatchersFromModels<M extends Models> = {
   [modelKey in keyof M]: ExtractRematchDispatchersFromModel<M[modelKey]>
 }
 
-export type ExtractRematchSelectorsFromModels<M extends Models, RootState = any> = {
-  [modelKey in keyof M]: {
-    [reducerKey in keyof M[modelKey]['selectors']]:
-    (state: RematchRootState<M>, ...args: any[]) =>
-      M[modelKey]['selectors'][reducerKey] extends ((...args: any[]) => any)
-        ? ReturnType<M[modelKey]['selectors'][reducerKey]>
-        : {}
-  }
-}
-
 export type RematchDispatcher<P = void, M = void> =
   ((action: Action<P, M>) => Redux.Dispatch<Action<P, M>>) &
   ((action: Action<P, void>) => Redux.Dispatch<Action<P, void>>) &
@@ -160,9 +150,6 @@ export interface ModelConfig<S = any, SS = S> {
   baseReducer?: (state: SS, action: Action) => SS,
   reducers?: ModelReducers<S>,
   effects?: ModelEffects<any> | ((dispatch: RematchDispatch) => ModelEffects<any>),
-  selectors?: {
-    [key: string]: (state: SS, ...args: any[]) => any,
-  },
   subscriptions?: {
     [matcher: string]: (action: Action) => void,
   },

@@ -106,7 +106,7 @@ total () {
 
 `@rematch/select` injects `select` into each selector factory to allow it to depend on other models state.
 
-> Its less redundant to give `select` the descriptive name `models` internally.
+> It's less redundant to give `select` the descriptive name `models` internally.
 
 > If your factory is a `function`, you can use `this` as a shortcut to the current model's selectors
 
