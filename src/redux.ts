@@ -2,10 +2,14 @@ import * as Redux from 'redux'
 import * as R from './typings'
 import isListener from './utils/isListener'
 
-const composeEnhancersWithDevtools = (devtoolOptions: R.DevtoolOptions = {}): any => {
+const composeEnhancersWithDevtools = (
+	devtoolOptions: R.DevtoolOptions = {}
+): any => {
 	const { disabled, ...options } = devtoolOptions
 	/* istanbul ignore next */
-	return !disabled && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+	return !disabled &&
+		typeof window === 'object' &&
+		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(options)
 		: Redux.compose
 }
@@ -36,6 +40,7 @@ export default function({
 	}
 
 	this.createModelReducer = (model: R.Model) => {
+		const modelReduxReducer = model.reduxReducer
 		const modelReducers = {}
 		for (const modelReducer of Object.keys(model.reducers || {})) {
 			const action = isListener(modelReducer)
@@ -51,7 +56,7 @@ export default function({
 			if (typeof modelReducers[action.type] === 'function') {
 				return modelReducers[action.type](state, action.payload, action.meta)
 			}
-			return state
+			return modelReduxReducer ? modelReduxReducer(state, action) : state
 		}
 	}
 	// initialize model reducers

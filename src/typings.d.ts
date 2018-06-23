@@ -154,6 +154,7 @@ export interface Model<S = any, SS = S> extends ModelConfig {
 export interface ModelConfig<S = any, SS = S> {
   name?: string,
   state: S,
+  reduxReducer?: (state: SS, action: Action) => SS,
   reducers?: ModelReducers<S>,
   effects?: ModelEffects<any> | ((dispatch: RematchDispatch) => ModelEffects<any>),
   selectors?: {
