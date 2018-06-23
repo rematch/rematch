@@ -115,5 +115,4 @@ connect(mapStateToProps, { countUpBy })(Component)
 | configurable | ‎✔  |  ‎✔	 |
 | redux devtools  | ‎✔  |  ‎✔	 |
 | generated action creators | ‎  |  ‎✔	 |
-| global dispatch | ‎  |  ‎✔	 |
 | async | thunks | ‎async/await  |

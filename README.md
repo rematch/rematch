@@ -38,6 +38,8 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 
 > See [v0 stable docs](https://github.com/rematch/rematch/tree/v0). Currently only displaying experimental @next documentation.
 
+> WARNING: Breaking changes with 1.0.0-beta.3. Global imports of `dispatch` and `getState` have been removed. See the [Changelog](./CHANGELOG.md) for details.
+
 ## Index
 
 * [Getting Started](#getting-started)
@@ -69,6 +71,8 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 * [中文手册](https://rematch.gitbook.io/handbook)
 
 ## Getting Started
+
+As we approach v1.0.0, the latest version of rematch and rematch plugins can be installed with the `@next` flag.
 
 ```sh
 npm install @rematch/core@next
@@ -131,8 +135,14 @@ Understanding models is as simple as answering a few questions:
 **dispatch** is how we trigger reducers & effects in your models. Dispatch standardizes your actions without the need for writing action types or action creators.
 
 ```js
-import { dispatch } from '@rematch/core'
+import { init } from '@rematch/core'
+import * as models from './models'
 
+const store = init({
+  models,
+})
+
+export const { dispatch } = store
                                                   // state = { count: 0 }
 // reducers
 dispatch({ type: 'count/increment', payload: 1 }) // state = { count: 1 }
@@ -201,9 +211,7 @@ Moving from Redux to Rematch involves very few steps.
 
 See the [@rematch/core API](./docs/api.md)
 
-## Experiment with v1.0.0-alpha
-
-Install rematch and all plugins with the @next flag. 
+## Changelog
 
 See the [CHANGELOG](./CHANGELOG.md) to see what's new.
 

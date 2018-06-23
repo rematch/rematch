@@ -4,19 +4,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning(http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-beta.3] - 2018-06-23
+### Breaking Change
+- removed `dispatch` & `getState` imports. See [#446](https://github.com/rematch/rematch/pull/446).
+Instead it is recommended to use:
+
+```js
+import { init } from '@rematch/core'
+
+const store = init()
+
+export const { getState, dispatch } = store
+export default store
+```
+
+### Added
+- plugin `onStoreCreated` can now return an object, that will merge into the return value of `init`. See [#443](https://github.com/rematch/rematch/pull/443).
+
+
 ## [1.0.0-beta.2] - 2018-06-16
-## Added
+### Added
 - Option to disable devtools [9a17312](https://github.com/rematch/rematch/commit/9a1731282cbc90394220b09f3b7d1a3e4ca61849)
 - Improved typings
 - Option to name a store on init [6c69529](https://github.com/rematch/rematch/commit/6c695297a1f200a59a47070d5fa4f9e1c492020e)
 - Access to config inside of plugins for plugin development
 
 ## [1.0.0-beta.1] - 2018-06-12
-## Added
+### Added
 - fix to ensure lazy loaded stores will update [9a44865](https://github.com/rematch/rematch/commit/9a44865fa028585e7fadf8d63d47db89cf0a5402)
 
 ## [1.0.0-beta.0] - 2018-06-11
-## Added
+### Added
 - typings fixes
 - support TS strict null types
 
@@ -26,7 +44,7 @@ and this project adheres to [Semantic Versioning(http://semver.org/spec/v2.0.0.h
 
 
 ## [1.0.0-alpha.8] - 2018-06-02
-## Added
+### Added
 - Use a function as your "effects" to access local `dispatch`
 
 ```js

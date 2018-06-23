@@ -37,6 +37,7 @@
     "build": "npm run clean && NODE_ENV=production rollup -c",
     "build:all": "bash ./scripts/build.sh",
     "dev": "tsc --watch src",
+    "postinstall": " node ./scripts/post_install.js",
     "install:all": "tsc && bash ./scripts/setup_plugins.sh",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "jest",
