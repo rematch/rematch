@@ -1,6 +1,7 @@
 import createReactNavigationPlugin from '@rematch/react-navigation'
-import Routes from '../Routes'
+import Navigator from '../Navigator'
 
-export const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin(
-	{ Routes }
-)
+export const {
+	ConnectedNavigator,
+	reactNavigationPlugin,
+} = createReactNavigationPlugin({ Navigator })

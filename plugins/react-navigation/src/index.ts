@@ -1,3 +1,4 @@
+import { RematchStore } from '@rematch/core'
 import { NavigationActions, StackActions } from 'react-navigation'
 import createNavigator from './createNavigator'
 
@@ -62,14 +63,24 @@ const reactNavigationPlugin = ({
 		},
 	})
 
+	const selectors = {
+		currentRouteName() {
+			return state => {
+				const nav = state[storeKey]
+				return nav.routes[nav.index].routeName
+			}
+		},
+	}
+
 	return {
-		Navigator: ConnectedNavigator,
+		ConnectedNavigator,
 		reactNavigationPlugin: {
 			config: {
 				models: {
 					[storeKey]: {
 						state: null,
 						effects,
+						selectors
 					},
 				},
 				redux: {

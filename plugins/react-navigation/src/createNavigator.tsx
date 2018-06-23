@@ -20,7 +20,7 @@ export default (Navigator, sliceState) => {
 	})
 
 	return {
-		Navigator: connect(mapStateToProps)(ReduxNavigator),
+		ConnectedNavigator: connect(mapStateToProps)(ReduxNavigator),
 		navReducer,
 		navMiddleware,
 	}

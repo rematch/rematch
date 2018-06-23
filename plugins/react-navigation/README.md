@@ -17,42 +17,35 @@ See [an example](./examples/demo).
 
 Setting up React-Navigation with Redux is a multistep process. Hopefully this plugin simplifies the process.
 
-1. Create your `<Routes />`, and select the name of your `initialRouteName`.
+1. Create your Navigator normally
 
 ```js
-// Routes.js
 export default createStackNavigator(
-  {
-    Landing: {
-      screen: Screen.Landing,
-    },
-    Login: {
-      screen: Screen.Login,
-    },
-    App: {
-      screen: App,
-    },
-  },
-  {
-    initialRouteName: 'Landing',
-  }
+	{
+		Login: { screen: LoginScreen },
+		Main: { screen: MainScreen },
+		Profile: { screen: ProfileScreen },
+	},
+	{
+		initialRouteName: 'Landing',
+	}
 )
-
 ```
 
-2. Pass `Routes` into `createReactNavigationPlugin`. 
+2. Pass your navigator into `createReactNavigationPlugin`. 
 
 ```js
 // index.js
 import { init, dispatch } from '@rematch/core'
 import createReactNavigationPlugin from '@rematch/react-navigation'
-import * as ReactNavigation from 'react-navigation'
-import Routes from './Routes'
+import { createStackNavigator } from 'react-navigation'
+import Navigator from './Navigator'
 
-// add react navigation with redux
-const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin(
-  { Routes }
-)
+// adds redux to your navigator
+// and prepares the plugin
+const { ConnectedNavigator, reactNavigationPlugin } = createReactNavigationPlugin({    
+  Navigator
+})
 
 const store = init({
   plugins: [reactNavigationPlugin],
@@ -60,42 +53,42 @@ const store = init({
 
 export default () => (
   <Provider store={store}>
-    <Navigator />
+    <ConnectedNavigator />
   </Provider>
 )
 ```
 
-3. Use the plugins included navigation helpers to simplify dispatching Navigation actions.
+3. The plugins acts as a store model at `nav` or the configured `storeKey` to dispatch `react-navigation` actions.
 
 ```js
-// included in plugin
-dispatch.nav.navigate = (action) => dispatch(NavigationActions.navigate(action))
-dispatch.nav.back = (action) => dispatch(NavigationActions.back(action))
-dispatch.nav.setParams = (action) => dispatch(NavigationActions.setParams(action)
-dispatch.nav.reset = (action) => dispatch(StackActions.reset(action))
-dispatch.nav.replace = (action) => dispatch(StackActions.replace(action))
-dispatch.nav.push = (action) => dispatch(StackActions.push(action))
-dispatch.nav.pop = (action) => dispatch(StackActions.pop(action))
-dispatch.nav.popToTop = (action) => dispatch(StackActions.popToTop(action))
-)
+const { dispatch } = store
+
+dispatch.nav.navigate(payload)
+dispatch.nav.back(payload)
+dispatch.nav.setParams(payload)
+dispatch.nav.reset(payload)
+dispatch.nav.replace(payload)
+dispatch.nav.push(payload)
+dispatch.nav.pop(payload)
+dispatch.nav.popToTop(payload)
 ```
 
-Just pass the NavigationAction options.
+Just pass the same payload you would to a NavigationAction.
 
 ```js
-// somewhere in your app
-import { dispatch } from '@rematch/core'
+const { dispatch } = store
+
+...
 
 dispatch.nav.navigate({ routeName: 'Login' })
 ```
 
-If necessary, import `NavigationActions`.
-
+If you need to, you can import actions directly from `react-navigation`:
 ```js
 import { dispatch } from '@rematch/core'
 import { NavigationActions } from 'react-navigation'
 
-const resetAction = dispatch.navigate.reset({
+const resetAction = dispatch.nav.reset({
   index: 1,
   actions: [
     NavigationActions.navigate({ routeName: 'Profile'}),
@@ -144,42 +137,12 @@ export class App extends React.Component {
 ```
 
 ## Selectors
-
-# [WIP] Starting v1.0 you need state in models so following won't work 
-You may find it helpful to add some custom selectors to your `nav` model.  You can easily add selectors by creating a `nav` model configuration object.  This example will add a `currentRouteName` selector:
+If you are using the [Rematch Select plugin](https://github.com/rematch/rematch/blob/master/plugins/select/README.md), the `nav` store model adds some frequently used shortcuts.
 
 ```js
-// models/nav.js
-export default {
-  selectors: {
-    currentRouteName(state) { return state.routes[state.index].routeName; },
-  },
-}
+selectors.nav.currentRouteName(state)
 ```
 
-Add the above model to your rematch configuration:
-
-```js
-// models/index.js
-export { default as nav } from './nav'
-```
-
-Ensure your new model in included in your `init`:
-
-```js
-import { select } from '@rematch/select'
-import * as models from './models'
-
-const store = init({
-  models,
-  plugins: [select, reactNavigationPlugin],
-});
-```
-
-Of course, you will also need to install the
-[Rematch Select plugin](https://github.com/rematch/rematch/blob/master/plugins/select/README.md).
-
-Now you will be able to call `select.nav.currentRouteName(state)` from within your app. See  the [Rematch Select plugin documentation](https://github.com/rematch/rematch/blob/master/plugins/select/README.md) for more details on how to configure and use selectors.
 
 ## Immutable JS and other non-{ } Stores
 
@@ -198,13 +161,13 @@ to `createReactNavigationPlugin`.  Here is a minimal example:
 import { init, dispatch } from '@rematch/core'
 import createReactNavigationPlugin from '@rematch/react-navigation'
 import * as ReactNavigation from 'react-navigation'
-import Routes from './Routes'
+import Navigator from './Navigator'
 import { combineReducers } from 'redux-immutable';
 import { Map } from 'immutable';
 
 // add react navigation with redux
-const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin({
-  Routes,
+const { ConnectedNavigator, reactNavigationPlugin } = createReactNavigationPlugin({
+  Navigator,
   sliceState: state => state.get('nav')  // Returns Immutable JS slice
 })
 
@@ -219,7 +182,7 @@ const store = init({
 
 export default () => (
   <Provider store={store}>
-    <Navigator />
+    <ConnectedNavigator />
   </Provider>
 )
 ```
