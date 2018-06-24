@@ -19,6 +19,7 @@
     "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
   ],
   "files": [
+    "scripts",
     "dist",
     "src/typings.d.ts"
   ],
