@@ -25,7 +25,7 @@
     "build": "rimraf lib dist && tsc && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
-    "@rematch/core": "^1.0.0-beta.2",
+    "@rematch/core": "^1.0.0-beta.4",
     "@types/react": "^16.3.14",
     "react": "^16.0.0",
     "react-navigation": "^2.5.1",
@@ -37,7 +37,7 @@
     "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
-    "@rematch/core": ">=1.0.0-beta.2",
+    "@rematch/core": ">=1.0.0-beta.4",
     "react": "*",
     "react-native": "*",
     "react-navigation": "*",
