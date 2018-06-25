@@ -5,5 +5,5 @@ export interface LoadingConfig {
     blacklist?: string[];
     asNumber?: boolean;
 }
-declare const _default: (config?: LoadingConfig) => Plugin<import("../node_modules/@rematch/core/src/typings").Models, Action<any, any>>;
+declare const _default: (config?: LoadingConfig) => Plugin<import("../core/src/typings").Models, Action<any, any>>;
 export default _default;
