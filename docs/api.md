@@ -9,6 +9,7 @@ import { init, dispatch, getState } from '@rematch/core'
     - [state](#state)
     - [reducers](#reducers)
     - [effects](#effects)
+    - [basereducer](#basereducer)
   - [plugins](#plugins)
   - [redux](#redux)
 - [store](#store)
@@ -152,7 +153,7 @@ Effects provide a simple way of handling async actions when used with `async/awa
 }
 ```
 
-### baseReducer
+#### baseReducer
 
 `baseReducer: (state, action) => state`
 
