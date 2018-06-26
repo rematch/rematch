@@ -4,7 +4,7 @@
 
 Most reducers from libraries operate on a private store slice. The easiest way to build functionality on top of these reducers is to create a model for that store slice.
 
-The `baseReducer` option on a store model allows you to introduce a standard redux reducer that will compute the base state of that model. By combining this with `effects`, you can create a public API over the original redux reducer.
+The `baseReducer` option on a store model allows you to introduce a standard redux reducer that will compute the base state of that model. By combining this with `effects`, you can create a public API over the original redux reducer. These effects can be listened for and tracked.
 
 ```js
 import {

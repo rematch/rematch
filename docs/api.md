@@ -158,7 +158,7 @@ Effects provide a simple way of handling async actions when used with `async/awa
 
 A reducer that will run before the model's `reducers`. This function takes the model's previous state and an action, and returns the model state that `reducers` will use.
 
-This is especially useful for adding redux libraries to your store in a structured manner. See the recipe for (redux plugins)[./recipes/redux.md]
+This is especially useful for adding redux libraries to your store in a structured manner. See the recipe for [redux plugins](./recipes/redux.md)
 
 ### plugins
 

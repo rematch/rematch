@@ -2,7 +2,7 @@
 
 > This section is likely not helpful for you unless you are building your own plugin or adding middleware. For a list of common init options, see the [@rematch/core API](./api.md)
 
-> If you just need to include a redux library in your store, see the recipe for (redux plugins)[./recipes/redux.md]
+> If you just need to include a redux library in your store, see the recipe for [redux plugins](./recipes/redux.md)
 
 - init
   - [redux](#redux)
