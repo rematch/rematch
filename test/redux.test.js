@@ -36,7 +36,7 @@ describe('redux:', () => {
 		expect(store.getState()).toBe(42)
 	})
 
-	test('model reduxReducer should run', () => {
+	test('model baseReducer should run', () => {
 		const libAction = 'fromRedux'
 		const libReducer = (state = {}, action) => {
 			switch (action.type) {
@@ -52,7 +52,7 @@ describe('redux:', () => {
 		const store = init({
 			models: {
 				chicken: {
-					reduxReducer: libReducer,
+					baseReducer: libReducer,
 					effects: dispatch => ({
 						dinner() {
 							return dispatch({ type: libAction, payload: 'winner' })

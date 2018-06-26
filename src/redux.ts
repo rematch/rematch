@@ -40,7 +40,7 @@ export default function({
 	}
 
 	this.createModelReducer = (model: R.Model) => {
-		const modelReduxReducer = model.reduxReducer
+		const modelBaseReducer = model.baseReducer
 		const modelReducers = {}
 		for (const modelReducer of Object.keys(model.reducers || {})) {
 			const action = isListener(modelReducer)
@@ -48,16 +48,18 @@ export default function({
 				: `${model.name}/${modelReducer}`
 			modelReducers[action] = model.reducers[modelReducer]
 		}
-		this.reducers[model.name] = (
-			state: any = model.state,
-			action: R.Action
-		) => {
+		const combinedReducer = (state: any = model.state, action: R.Action) => {
 			// handle effects
 			if (typeof modelReducers[action.type] === 'function') {
 				return modelReducers[action.type](state, action.payload, action.meta)
 			}
-			return modelReduxReducer ? modelReduxReducer(state, action) : state
+			return state
 		}
+
+		this.reducers[model.name] = !modelBaseReducer
+			? combinedReducer
+			: (state, action) =>
+					combinedReducer(modelBaseReducer(state, action), action)
 	}
 	// initialize model reducers
 	for (const model of models) {
