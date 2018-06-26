@@ -2,14 +2,22 @@
 
 Selectors plugin for Rematch. Wires your store models with dependencies and collects their selectors. Uses [reselect](https://github.com/reduxjs/reselect) by default.
 
+> This is the documentation for @rematch/select 2.0. For older versions see [the legacy docs](https://github.com/rematch/rematch/blob/v1/plugins/select/README.md)
+
+- [Getting Started](#getting-started)
+- [Building Selectors](#building-selectors)
+- [API Docs](#api-docs)
+- [Recipes](#recipes)
+
+
+
+## Getting Started
 
 ### Install
 
 ```
 npm install @rematch/select
 ```
-
-[This is the documentation for @rematch/select 2.0. For older versions see the legacy docs](https://github.com/rematch/rematch/blob/v1/plugins/select/README.md)
 
 
 
@@ -74,6 +82,11 @@ Models gain access to the `reselect` api through dependency injection:
 Our selector, `total`, depends only on the cart model's state and doesn't need to update when the rest of the store updates. `slice` creates a basic selector
 memoized by the model's slice of state.
 
+
+> `slice` is private to the current model.  
+> To make a part of your model's state public, add a selector
+
+
 ```js
 total () {
   return slice(cart =>
@@ -106,10 +119,9 @@ total () {
 
 `@rematch/select` injects `select` into each selector factory to allow it to depend on other models state.
 
-> It's less redundant to give `select` the descriptive name `models` internally.
+> It might be less redundant to give `select` the descriptive name `models` internally.
 
-> If your factory is a `function`, you can use `this` as a shortcut to the current model's selectors
-
+> If your factory is a `function`, you can use `this` as a shortcut to the current model's selectors.
 
 ```js
 poorSortByHot (models) {
@@ -120,6 +132,26 @@ poorSortByHot (models) {
   )
 }
 ```
+
+#### Deriving state
+
+Selectors are great for deriving state lazily. But, you should only depend on the selectors a model makes public - access to another model's `slice` is not allowed.
+
+Using listeners to eagerly keep track of the changes to another model might fit some applications better:
+```js
+reducers: {
+  'selectedGroup/change' (state, id) {
+    return {
+      ...state,
+      list: id
+        ? state.unfilteredList.filter.(p => p.group === id)
+        : state.unfilteredList
+    }
+  }
+}
+```
+
+
 
 ### Selector arguments
 
@@ -142,7 +174,7 @@ In some situations, configurable selectors may be better off with isolated cache
 expensiveFilter: hasProps(function (models, lowerLimit) {
   return slice(items => items.filter(item => item.price > lowerLimit))
 }),
-  
+
 wouldGetFreeShipping () {
   return this.expensiveFilter(20.00)
 },
@@ -152,10 +184,10 @@ wouldGetFreeShipping () {
 
 ## Using Selectors in your app
 
-Most apps will consume selectors through `connect`. For this use case, the store's `select` can be called as a function to create a selector you can pass directly to connect, or call yourself. As a function, `select` ensures your component re-renders only when its data actually changes. 
+Most apps will consume selectors through `connect`. For this use case, the store's `select` can be called as a function to create a selector you can pass directly to connect, or call yourself. As a function, `select` ensures your component re-renders only when its data actually changes.
 
 
-> Under the hood, `select` creates a [structuredSelector](https://github.com/reduxjs/reselect#createstructuredselectorinputselectors-selectorcreator--createselector). 
+> Under the hood, `select` creates a [structuredSelector](https://github.com/reduxjs/reselect#createstructuredselectorinputselectors-selectorcreator--createselector).
 
 
 ```js
@@ -164,7 +196,7 @@ import { select } = './store'
 
 connect(select(models => {
   total: models.cart.total,
-  eligibleItems: models.cart.wouldGetFreeShipping 
+  eligibleItems: models.cart.wouldGetFreeShipping
 }))(...)
 ```
 
@@ -198,11 +230,34 @@ isHypeBeast (models) {
 
 
 
-## Configuration Options
+## API Docs
 
-The `selectorPlugin()` method will accept a configuration object with the following property.
+```js
+import selectPlugin from '@rematch/select'
+```
 
-#### selectorCreator:
+- [selectPlugin](#selectplugin)
+  - [selectorCreator](#configselectorcreator)
+  - [sliceState](#configslicestate)
+- [store.select](#storeselect)
+
+
+
+### selectPlugin
+
+`selectPlugin(config?: any)`
+
+Create the plugin.
+
+```js
+init({
+  plugins: [ selectPlugin(config) ]
+})
+```
+
+
+
+#### config.selectorCreator:
 
 `selectorCreator: (...deps, resultFunc) => any`
 
@@ -210,17 +265,34 @@ An option that allows the user to specify a different function to be used when c
 
 The default is `createSelector` from `reselect`. See [recipes](#Recipes) for other uses.
 
-#### sliceState:
+
+
+#### config.sliceState:
 
 `sliceState: (rootState, model) => any`
 
 An option that allows the user to specify how the state will be sliced in the `slice` function.
 The function takes the `rootState` as the first parameter and the `model` corresponding to the selector as the
-second parameter.  It should return the desired state slice required by the selector.
+second parameter. It should return the desired state slice required by the selector.
 
-The default is to return the slice of the state that corresponds to the owning model's name,
-but this assumes the store is a Javascript object. Most of the time the default should be used.
-However, there are some cases where one may want to specify the `sliceState` function. See [the immutable.js recipe for an example.](#immutablejs)
+The default is to return the slice of the state that corresponds to the owning model's name, but this assumes the store is a Javascript object.
+
+Most of the time the default should be used, however, there are some cases where one may want to specify the `sliceState` function. See [the immutable.js recipe for an example.](#immutablejs)
+
+
+
+### store.select:
+
+`select( mapSelectToStructure: (select) => object)`
+
+Using `select` as a function lets you bind your view as a selector itself - preventing un-needed re-renders.
+
+Creates a [structuredSelector](https://github.com/reduxjs/reselect#createstructuredselectorinputselectors-selectorcreator--createselector) using the selectors you return in `mapSelectToStructure`.
+
+
+`select: { [modelName]: { [selectorName]: (state) => any } }`
+
+`select` also contains all of the selectors from your store models. Selectors can be called anywhere and do not have to be called inside another selector.
 
 
 

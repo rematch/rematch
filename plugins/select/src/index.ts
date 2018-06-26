@@ -5,17 +5,17 @@ export { createSelector, createStructuredSelector } from 'reselect'
 const makeSelect = () => {
 	/**
 	 * Maps models to structured selector
-	 * @param  mapModelsToSelectors function that gets passed `selectors` and returns an object
+	 * @param  mapSelectToStructure function that gets passed `selectors` and returns an object
 	 * @param  structuredSelectorCreator=createStructuredSelector if you need to provide your own implementation
 	 *
 	 * @return the result of calling `structuredSelectorCreator` with the new selectors
 	 */
 	function select(
-		mapModelsToSelectors: any,
+		mapSelectToStructure: any,
 		structuredSelectorCreator = createStructuredSelector
 	) {
 		let func = (state, props) => {
-			func = structuredSelectorCreator(mapModelsToSelectors(select))
+			func = structuredSelectorCreator(mapSelectToStructure(select))
 			return func(state, props)
 		}
 
