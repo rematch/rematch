@@ -66,6 +66,16 @@ describe('redux:', () => {
 			.then(() => expect(store.getState().chicken.message).toBe('winner'))
 	})
 
+	test('should not accept invalid "model.baseReducer"', () => {
+		expect(() =>
+			init({
+				models: {
+					createStore: { baseReducer: 42 },
+				},
+			})
+		).toThrow()
+	})
+
 	test('should not accept invalid value as "redux.createStore"', () => {
 		expect(() =>
 			init({
