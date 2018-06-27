@@ -42,7 +42,7 @@ import { routerMiddleware } from 'react-router-redux'
 import reactRouterModel from './model'
 
 export default function createReactRouterPlugin() {
-  const history = createBrowserHistory()
+  const browserHistory = createBrowserHistory()
 
   return {
     config: {
@@ -50,12 +50,12 @@ export default function createReactRouterPlugin() {
         [storeKey]: reactRouterModel
       },
       redux: {
-        middlewares: [routerMiddleware(history)]
+        middlewares: [routerMiddleware(browserHistory)]
       }
     },
     onInit () {
       return {
-        history
+        browserHistory
       }
     }
   }
@@ -66,6 +66,6 @@ Later, we can use our `history`
 ```js
 const App = () =>
 <Provider store={store}>
-  <ConnectedRouter history={store.history} children={<Routes />} />
+  <ConnectedRouter history={store.browserHistory} children={<Routes />} />
 </Provider>
 ```
