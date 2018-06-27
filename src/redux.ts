@@ -58,7 +58,7 @@ export default function({
 
 		this.reducers[model.name] = !modelBaseReducer
 			? combinedReducer
-			: (state, action) =>
+			: (state: any, action: R.Action) =>
 					combinedReducer(modelBaseReducer(state, action), action)
 	}
 	// initialize model reducers
