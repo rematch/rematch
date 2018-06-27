@@ -53,7 +53,7 @@ export default function createReactRouterPlugin() {
         middlewares: [routerMiddleware(browserHistory)]
       }
     },
-    onInit () {
+    onStoreCreated(store) {
       return {
         browserHistory
       }
