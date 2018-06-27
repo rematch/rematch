@@ -47,7 +47,9 @@ export default function createReactRouterPlugin() {
       models: {
         [storeKey]: reactRouterModel
       },
-      middlewares: [routerMiddleware(history)]
+      redux: {
+        middlewares: [routerMiddleware(history)]
+      }
     }
   }
 }
