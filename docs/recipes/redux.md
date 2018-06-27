@@ -32,7 +32,10 @@ const reactRouterModel = {
 
 Libraries like `react-router` also need middleware to work. Since we need both the model and the middleware configured with our store, the best place to do so would be a simple plugin.
 
-This is as easy as returning a `config` object that is merged into our store:
+This is as easy as returning a `config` object that is merged into our store.
+
+In our example, `react-router` uses a `history` object that we'll need to be able to pass to a `ConnectedRouter`. We can expose this value for use by attaching it to our store with `onInit()`:
+
 ```js
 import { createBrowserHistory } from 'history'
 import { routerMiddleware } from 'react-router-redux'
@@ -49,7 +52,20 @@ export default function createReactRouterPlugin() {
       redux: {
         middlewares: [routerMiddleware(history)]
       }
+    },
+    onInit () {
+      return {
+        history
+      }
     }
   }
 }
+```
+
+Later, we can use our `history`
+```js
+const App = () =>
+<Provider store={store}>
+  <ConnectedRouter history={store.history} children={<Routes />} />
+</Provider>
 ```
