@@ -2,10 +2,14 @@ import * as Redux from 'redux'
 import * as R from './typings'
 import isListener from './utils/isListener'
 
-const composeEnhancersWithDevtools = (devtoolOptions: R.DevtoolOptions = {}): any => {
+const composeEnhancersWithDevtools = (
+	devtoolOptions: R.DevtoolOptions = {}
+): any => {
 	const { disabled, ...options } = devtoolOptions
 	/* istanbul ignore next */
-	return !disabled && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+	return !disabled &&
+		typeof window === 'object' &&
+		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(options)
 		: Redux.compose
 }
@@ -36,6 +40,7 @@ export default function({
 	}
 
 	this.createModelReducer = (model: R.Model) => {
+		const modelBaseReducer = model.baseReducer
 		const modelReducers = {}
 		for (const modelReducer of Object.keys(model.reducers || {})) {
 			const action = isListener(modelReducer)
@@ -43,16 +48,18 @@ export default function({
 				: `${model.name}/${modelReducer}`
 			modelReducers[action] = model.reducers[modelReducer]
 		}
-		this.reducers[model.name] = (
-			state: any = model.state,
-			action: R.Action
-		) => {
+		const combinedReducer = (state: any = model.state, action: R.Action) => {
 			// handle effects
 			if (typeof modelReducers[action.type] === 'function') {
 				return modelReducers[action.type](state, action.payload, action.meta)
 			}
 			return state
 		}
+
+		this.reducers[model.name] = !modelBaseReducer
+			? combinedReducer
+			: (state: any, action: R.Action) =>
+					combinedReducer(modelBaseReducer(state, action), action)
 	}
 	// initialize model reducers
 	for (const model of models) {

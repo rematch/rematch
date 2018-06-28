@@ -9,6 +9,7 @@ import { init, dispatch, getState } from '@rematch/core'
     - [state](#state)
     - [reducers](#reducers)
     - [effects](#effects)
+    - [basereducer](#basereducer)
   - [plugins](#plugins)
   - [redux](#redux)
 - [store](#store)
@@ -124,7 +125,7 @@ Reducers may also listen to actions from other models by listing the 'model name
 
 `effects: { [string]: (payload, rootState) }`
 
-An object of functions that can handle the world outside of the model. 
+An object of functions that can handle the world outside of the model.
 
 ```js
 {
@@ -152,6 +153,13 @@ Effects provide a simple way of handling async actions when used with `async/awa
 }
 ```
 
+#### baseReducer
+
+`baseReducer: (state, action) => state`
+
+A reducer that will run before the model's `reducers`. This function takes the model's previous state and an action, and returns the model state that `reducers` will use.
+
+This is especially useful for adding redux libraries to your store in a structured manner. See the recipe for [redux plugins](./recipes/redux.md)
 
 ### plugins
 
@@ -260,4 +268,3 @@ Actions are messages sent within Redux as a way for disparate parts of your app 
 In Rematch, an action is always structured with a type of "modelName" and "actionName" - referring to either a reducer or effect name.
 
 Any data attached to an action is added in the payload.
-

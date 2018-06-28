@@ -47,7 +47,8 @@ export default class Rematch {
 		validate([
 			[!model, 'model config is required'],
 			[typeof model.name !== 'string', 'model "name" [string] is required'],
-			[model.state === undefined, 'model "state" is required'],
+			[model.state === undefined && model.baseReducer === undefined, 'model "state" is required'],
+			[model.baseReducer !== undefined && typeof model.baseReducer !== 'function', 'model "baseReducer" must be a function'],
 		])
 		// run plugin model subscriptions
 		this.forEachPlugin('onModel', (onModel) => onModel(model))
