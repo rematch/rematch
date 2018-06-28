@@ -9,24 +9,24 @@ export const getPersistor = () => persistor
 
 // rematch plugin
 const reactNavigationPlugin = (config = {}): Plugin => {
-  // merge config with common config options
-  const mergedConfig = {
-    key: 'root',
-    storage,
-    ...config,
-  }
-  return {
-    config: {
-      // pass in merged config as first param of persistCombineReducers
-      redux: {
-        combineReducers: persistCombineReducers.bind(null, mergedConfig),
-      },
-    },
-    onStoreCreated(store) {
-      // run persist store once store is available
-      persistor = persistStore(store)
-    },
-  }
+	// merge config with common config options
+	const mergedConfig = {
+		key: 'root',
+		storage,
+		...config,
+	}
+	return {
+		config: {
+			// pass in merged config as first param of persistCombineReducers
+			redux: {
+				combineReducers: persistCombineReducers.bind(null, mergedConfig),
+			},
+		},
+		onStoreCreated(store) {
+			// run persist store once store is available
+			persistor = persistStore(store)
+		},
+	}
 }
 
 export default reactNavigationPlugin
