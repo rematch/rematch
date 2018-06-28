@@ -65,8 +65,8 @@ export default {
         )
 
         // Bind exposed dispatch[modelName][actionName] to call actions[actionName]
-        this.dispatch[model.name][actionName] = payload =>
-          actions[actionName].call(this.dispatch[model.name], payload)
+        this.dispatch[model.name][actionName] = (...params) =>
+          actions[actionName].apply(this.dispatch[model.name], params)
       } else if (typeof actions[actionName] === 'object') {
         // Bind exposed actions[modelName/actionName] to dispatch(actions[actionName])
         this.actions[`${model.name}/${actionName}`] = () =>
