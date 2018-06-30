@@ -1,26 +1,49 @@
-import { Store, Model, Plugin } from '@rematch/core'
+import { RematchStore, Model, Plugin } from '@rematch/core'
 import { createSelector, createStructuredSelector } from 'reselect'
 export { createSelector, createStructuredSelector } from 'reselect'
 
-export const selectors = {}
+const makeSelect = () => {
+	/**
+	 * Maps models to structured selector
+	 * @param  mapModelsToSelectors function that gets passed `selectors` and returns an object
+	 * @param  structuredSelectorCreator=createStructuredSelector if you need to provide your own implementation
+	 *
+	 * @return the result of calling `structuredSelectorCreator` with the new selectors
+	 */
+	function select(
+		mapModelsToSelectors: any,
+		structuredSelectorCreator = createStructuredSelector
+	) {
+		let func = (state, props) => {
+			func = structuredSelectorCreator(mapModelsToSelectors(select))
+			return func(state, props)
+		}
 
-/**
- * Maps models to structured selector
- * @param  mapModelsToSelectors function that gets passed `selectors` and returns an object
- * @param  structuredSelectorCreator=createStructuredSelector if you need to provide your own implementation
- *
- * @return the result of calling `structuredSelectorCreator` with the new selectors
- */
-export function select(
-	mapModelsToSelectors: any,
-	structuredSelectorCreator = createStructuredSelector
-) {
-	let func = (state, props) => {
-		func = structuredSelectorCreator(mapModelsToSelectors(selectors))
-		return func(state, props)
+		return (state, props) => func(state, props)
 	}
 
-	return (state, props) => func(state, props)
+	return select
+}
+
+const makeFactoryGroup = () => {
+	let ready = false
+	const factories = new Set()
+	return {
+		add(added) {
+			if (!ready) {
+				added.forEach(factory => factories.add(factory))
+			} else {
+				added.forEach(factory => factory())
+			}
+		},
+		finish(factory) {
+			factories.delete(factory)
+		},
+		startBuilding() {
+			ready = true
+			factories.forEach(factory => factory())
+		},
+	}
 }
 
 export interface SelectConfig {
@@ -58,36 +81,25 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
 			)
 		}
 
-	let ready = false
-	const factories = new Set()
-	const addFactories = added => {
-		if (!ready) {
-			added.forEach(factory => factories.add(factory))
-		} else {
-			added.forEach(factory => factory())
-		}
-	}
-	const startBuilding = () => {
-		ready = true
-		factories.forEach(factory => factory())
-	}
+	const factoryGroup = makeFactoryGroup()
+
+	const select = makeSelect()
 
 	return {
 		exposed: {
 			select,
-			selectors,
 			sliceState,
 			selectorCreator,
 		},
 		onModel(model: Model) {
-			selectors[model.name] = {}
+			select[model.name] = {}
 
 			const selectorFactories =
 				typeof model.selectors === 'function'
 					? model.selectors(slice(model), selectorCreator, hasProps)
 					: model.selectors
 
-			addFactories(
+			factoryGroup.add(
 				Object.keys(selectorFactories || {}).map((selectorName: string) => {
 					this.validate([
 						[
@@ -97,15 +109,15 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
 					])
 
 					const factory = () => {
-						factories.delete(factory)
-						delete selectors[model.name][selectorName]
-						return (selectors[model.name][selectorName] = selectorFactories[
+						factoryGroup.finish(factory)
+						delete select[model.name][selectorName]
+						return (select[model.name][selectorName] = selectorFactories[
 							selectorName
-						].call(selectors[model.name], selectors))
+						].call(select[model.name], select))
 					}
 
 					// Define a getter for early constructing
-					Object.defineProperty(selectors[model.name], selectorName, {
+					Object.defineProperty(select[model.name], selectorName, {
 						configurable: true,
 						get() {
 							return factory()
@@ -116,8 +128,12 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
 				})
 			)
 		},
-		onStoreCreated(store: Store) {
-			startBuilding()
+		onStoreCreated(store: RematchStore) {
+			factoryGroup.startBuilding()
+
+			return {
+				select,
+			}
 		},
 	}
 }

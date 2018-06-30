@@ -104,8 +104,9 @@ total () {
 
 ### Combining selectors
 
-`@rematch/select` injects `models` into each selector factory to allow it to depend on other models state.
+`@rematch/select` injects `select` into each selector factory to allow it to depend on other models state.
 
+> Its less redundant to give `select` the descriptive name `models` internally.
 
 > If your factory is a `function`, you can use `this` as a shortcut to the current model's selectors
 
@@ -151,15 +152,15 @@ wouldGetFreeShipping () {
 
 ## Using Selectors in your app
 
-Most apps will consume selectors through `connect`. For this use case, `@rematch/select` provides the `select` function to create a selector you can pass directly to connect, or call yourself. `select` ensures your component re-renders only when its data actually changes. 
+Most apps will consume selectors through `connect`. For this use case, the store's `select` can be called as a function to create a selector you can pass directly to connect, or call yourself. As a function, `select` ensures your component re-renders only when its data actually changes. 
 
 
-> Under the hood, `select` create a [structuredSelector](https://github.com/reduxjs/reselect#createstructuredselectorinputselectors-selectorcreator--createselector). 
+> Under the hood, `select` creates a [structuredSelector](https://github.com/reduxjs/reselect#createstructuredselectorinputselectors-selectorcreator--createselector). 
 
 
 ```js
 import { connect } from 'react-redux'
-import { select } from '@rematch/select'
+import { select } = './store'
 
 connect(select(models => {
   total: models.cart.total,
@@ -172,11 +173,9 @@ connect(select(models => {
 Selectors can also be called directly anywhere within your app.
 
 ```js
-import { selectors } from '@rematch/select'
-
 const store = init({ ... })
 
-selectors.cart.expensiveFilter(50.00)(store.getState())
+store.select.cart.expensiveFilter(50.00)(store.getState())
 ```
 
 
@@ -258,7 +257,7 @@ If you are using an [Immutable.js](https://facebook.github.io/immutable-js/) Map
 the state using [Map.get()](http://facebook.github.io/immutable-js/docs/#/Map/get):
 
 ```js
-const select = selectorsPlugin({
+selectorsPlugin({
   sliceState: (rootState, model) =>
     rootState.get(model.name)
 })

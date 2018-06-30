@@ -1,5 +1,4 @@
 const selectPlugin = require('../src').default
-const { selectors, select } = require('../src')
 const { init } = require('../../../src')
 
 describe('select:', () => {
@@ -44,11 +43,11 @@ describe('select:', () => {
 					double: () => s => s.a * 2,
 				},
 			}
-			init({
+			const store = init({
 				models: { a },
 				plugins: [selectPlugin()],
 			})
-			expect(typeof selectors.a.double).toBe('function')
+			expect(typeof store.select.a.double).toBe('function')
 		})
 
 		it('should allow access to a function', () => {
@@ -66,7 +65,7 @@ describe('select:', () => {
 				plugins: [selectPlugin()],
 			})
 			const state = store.getState()
-			const doubled = selectors.a.double(state)
+			const doubled = store.select.a.double(state)
 			expect(doubled).toBe(4)
 		})
 
@@ -85,7 +84,9 @@ describe('select:', () => {
 				plugins: [selectPlugin()],
 			})
 			const state = store.getState()
-			const prepended = selectors.a.prependWithLetter(state, { letter: 'P' })
+			const prepended = store.select.a.prependWithLetter(state, {
+				letter: 'P',
+			})
 			expect(prepended).toBe('P2')
 		})
 	})
@@ -104,7 +105,7 @@ describe('select:', () => {
 				plugins: [selectPlugin()],
 			})
 			const state = store.getState()
-			const doubled = selectors.count.double(state)
+			const doubled = store.select.count.double(state)
 			expect(doubled).toBe(4)
 		})
 
@@ -120,7 +121,7 @@ describe('select:', () => {
 				plugins: [selectPlugin()],
 			})
 			const state = store.getState()
-			const doubled = selectors.count.double(state)
+			const doubled = store.select.count.double(state)
 			expect(doubled).toBe(4)
 		})
 
@@ -136,7 +137,7 @@ describe('select:', () => {
 				plugins: [selectPlugin()],
 			})
 			const state = store.getState()
-			const doubled = selectors.count.double(state)
+			const doubled = store.select.count.double(state)
 			expect(doubled).toBe(4)
 		})
 
@@ -161,7 +162,7 @@ describe('select:', () => {
 				plugins: [selectPlugin()],
 			})
 			const state = store.getState()
-			const result = selectors.combined.value(state)
+			const result = store.select.combined.value(state)
 			expect(result).toBe(24)
 		})
 
@@ -180,7 +181,7 @@ describe('select:', () => {
 					plugins: [selectPlugin()],
 				})
 				const state = store.getState()
-				const prepended = selectors.a.prependWithLetter('P')(state)
+				const prepended = store.select.a.prependWithLetter('P')(state)
 				expect(prepended).toBe('P2')
 			})
 		})
@@ -219,7 +220,7 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			const result = selectors.countC.calc(state)
+			const result = store.select.countC.calc(state)
 			expect(result).toBe(27)
 		})
 	})
@@ -244,7 +245,7 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			const selector = select(models => ({
+			const selector = store.select(models => ({
 				a: models.countA.double,
 				b: models.countB.double,
 			}))
@@ -295,7 +296,7 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			const result = selectors.countB.double(state)
+			const result = store.select.countB.double(state)
 			expect(result).toBe(4)
 		})
 	})
