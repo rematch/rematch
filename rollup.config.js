@@ -1,3 +1,5 @@
+import { mkdirSync, writeFileSync } from 'fs'
+import { join } from 'path'
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
 import commonJs from 'rollup-plugin-commonjs'
@@ -10,14 +12,20 @@ import { minify } from 'uglify-es'
 
 const pkg = require('./package.json')
 
-const env = process.env.NODE_ENV
-
 // minified production builds
-const config = {
-	input: 'src/index.ts',
+const production = {
+	input: 'lib/index.js',
+	output: [
+		{
+			file: `${pkg.main}/rematch.min.js`,
+			format: 'cjs',
+			exports: 'named',
+			sourcemap: true,
+		}, // CommonJS Modules
+	],
 	plugins: [
 		replace({
-			'process.env.NODE_ENV': JSON.stringify(env),
+			'process.env.NODE_ENV': '"production"',
 		}),
 		typescript({
 			typescript: require('typescript'),
@@ -27,22 +35,6 @@ const config = {
 			browser: true,
 		}),
 		commonJs(),
-	],
-	output: [
-		{
-			name: 'Rematch',
-			file: pkg.browser,
-			format: 'umd',
-			exports: 'named',
-			sourcemap: true,
-		}, // Universal Modules
-		{ file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
-		{ file: pkg.module, format: 'es', exports: 'named', sourcemap: true }, // ES Modules
-	],
-}
-
-if (env === 'production') {
-	config.plugins.push(
 		uglify(
 			{
 				compress: {
@@ -58,8 +50,57 @@ if (env === 'production') {
 				},
 			},
 			minify
-		)
-	)
+		),
+	],
 }
 
-export default [config]
+// full source development builds
+const development = {
+	input: 'lib/index.js',
+	output: [
+		{
+			name: 'Rematch',
+			file: pkg.browser,
+			format: 'umd',
+			exports: 'named',
+			sourcemap: true,
+		}, // Universal Modules
+		{ file: `${pkg.main}/rematch.js`, format: 'cjs', exports: 'named' }, // CommonJS Modules
+		{ file: pkg.module, format: 'es', exports: 'named', sourcemap: true }, // ES Modules
+	],
+	plugins: [
+		replace({
+			'process.env.NODE_ENV': '"development"',
+		}),
+		typescript({
+			typescript: require('typescript'),
+		}),
+		resolve({
+			jsnext: true,
+			browser: true,
+		}),
+		commonJs(),
+	],
+}
+
+// point user to needed build
+const root = `'use strict'
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./rematch.min.js')
+} else {
+  module.exports = require('./rematch.js')
+}
+`
+
+const rootFile = folder => {
+	mkdirSync(join('dist', folder))
+	writeFileSync(join('dist', folder, 'index.js'), root)
+}
+
+export default (() => {
+	// generate root mapping files
+	mkdirSync('dist')
+	rootFile('cjs')
+
+	return [development, production]
+})()
