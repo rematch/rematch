@@ -26,6 +26,10 @@ const dispatchPlugin: R.Plugin = {
 			return this.storeDispatch(action)
 		},
 
+
+		getState(){
+			return this.storeGetState()
+		},
 		/**
 		 * createDispatcher
 		 *

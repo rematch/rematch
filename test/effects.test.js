@@ -385,5 +385,33 @@ describe('effects:', () => {
 				example: 1,
 			})
 		})
+
+		it('should pass getState in as a function', async () => {
+			const example = {
+				state: 0,
+				reducers: {
+					addOne: state => state + 1,
+				},
+				effects: (dispatch, getState) => ({
+					async asyncAddOneArrow() {
+						console.log(getState)
+						expect(getState()).toEqual({
+							example: 0,
+						})
+						await dispatch.example.addOne()
+						
+						expect(getState()).toEqual({
+							example: 1,
+						})
+					},
+				}),
+			}
+
+			const store = init({
+				models: { example },
+			})
+
+			await store.dispatch.example.asyncAddOneArrow()
+		})
 	})
 })
