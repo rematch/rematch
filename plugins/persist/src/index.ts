@@ -8,7 +8,7 @@ let persistor
 export const getPersistor = () => persistor
 
 // rematch plugin
-const reactNavigationPlugin = (config = {}): Plugin => {
+const persistPlugin = (config = {}, pesistStoreConfig, callback): Plugin => {
 	// merge config with common config options
 	const mergedConfig = {
 		key: 'root',
@@ -24,9 +24,9 @@ const reactNavigationPlugin = (config = {}): Plugin => {
 		},
 		onStoreCreated(store) {
 			// run persist store once store is available
-			persistor = persistStore(store)
+			persistor = persistStore(store, pesistStoreConfig, callback)
 		},
 	}
 }
 
-export default reactNavigationPlugin
+export default persistPlugin
