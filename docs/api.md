@@ -124,6 +124,7 @@ Reducers may also listen to actions from other models by listing the 'model name
 #### effects
 
 `effects: { [string]: (payload, rootState) }`
+or `effects: (dispatch, getState) => ({ [string]: (payload, rootState) })`
 
 An object of functions that can handle the world outside of the model.
 
@@ -148,6 +149,23 @@ Effects provide a simple way of handling async actions when used with `async/awa
       const data = await response.json()
       // pass the result to a local reducer
       dispatch.example.update(data)
+    }
+  }
+}
+```
+
+Effects can be defined as a function that recieve `dispatch` and `getState` as arguments.
+
+```js
+{
+  effects:(dispatch, getState) => {
+    async loadData(payload) {
+      // wait for data to load
+      const response = await fetch('http://example.com/data')
+      const data = await response.json()
+      // pass the result to a local reducer
+      dispatch.example.update(data)
+      const updatedRootState = getState()
     }
   }
 }
