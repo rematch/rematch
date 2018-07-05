@@ -160,7 +160,7 @@ export interface ModelConfig<S = any, SS = S> {
   state: S,
   baseReducer?: (state: SS, action: Action) => SS,
   reducers?: ModelReducers<S>,
-  effects?: ModelEffects<any> | ((dispatch: RematchDispatch) => ModelEffects<any>),
+  effects?: ModelEffects<any> | ((dispatch: RematchDispatch, extraArgs: any) => ModelEffects<any>),
   selectors?: {
     [key: string]: (state: SS, ...args: any[]) => any,
   },
