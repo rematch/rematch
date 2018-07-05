@@ -99,4 +99,18 @@ describe('plugins:', () => {
 
 		expect(store.returned).toEqual(42)
 	})
+
+	test('should register extraArguments on store', async () => {
+		const plugin = {
+			extraArguments: {
+				chicken: 42,
+			},
+		}
+
+		const store = init({
+			plugins: [plugin],
+		})
+
+		expect(store.extraArguments.chicken).toBe(42)
+	})
 })

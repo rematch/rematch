@@ -69,6 +69,8 @@ export default class Rematch {
 		const rematchStore = {
 			name: this.config.name,
 			...redux.store,
+			// extra metadata used by models
+			extraArguments: this.pluginFactory.extraArguments,
 			// dynamic loading of models with `replaceReducer`
 			model: (model: R.Model) => {
 				this.addModel(model)
@@ -83,9 +85,7 @@ export default class Rematch {
 			// if onStoreCreated returns an object value
 			// merge its returned value onto the store
 			if (returned) {
-				Object.keys(returned || {}).forEach((key) => {
-					rematchStore[key] = returned[key]
-				})
+				Object.assign(rematchStore, returned)
 			}
 		})
 

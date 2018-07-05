@@ -14,7 +14,7 @@ export default (config: R.Config) => ({
 	 * bind validate to the store for easy access
 	 */
 	validate,
-
+	extraArguments: {},
 	/**
 	 * create plugin
 	 *
@@ -43,14 +43,33 @@ export default (config: R.Config) => ({
 
 		const result: R.Plugin | any = {}
 
+		const exposed = {}
 		if (plugin.exposed) {
 			for (const key of Object.keys(plugin.exposed)) {
-				this[key] =
+				exposed[key] =
 					typeof plugin.exposed[key] === 'function'
 						? plugin.exposed[key].bind(this) // bind functions to plugin class
 						: Object.create(plugin.exposed[key]) // add exposed to plugin class
 			}
 		}
+
+		const extraArguments = this.extraArguments
+		if (plugin.extraArguments) {
+			for (const key of Object.keys(plugin.extraArguments)) {
+				extraArguments[key] =
+					typeof plugin.extraArguments[key] === 'function'
+						? plugin.extraArguments[key].bind(this) // bind functions to plugin class
+						: plugin.extraArguments[key]
+			}
+		}
+
+		Object.assign(this, {
+			...exposed,
+			config,
+			validate,
+			extraArguments,
+		})
+
 		for (const method of ['onModel', 'middleware', 'onStoreCreated']) {
 			if (plugin[method]) {
 				result[method] = plugin[method].bind(this)
