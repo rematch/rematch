@@ -28,40 +28,10 @@ const reactNavigationPlugin = ({
 		sliceState
 	)
 
-	const effects = dispatch => ({
-		// NavigationActions
-		navigate(action) {
-			return dispatch(NavigationActions.navigate(action))
-		},
-
-		back(action) {
-			return dispatch(NavigationActions.back(action))
-		},
-
-		setParams(action) {
-			return dispatch(NavigationActions.setParams(action))
-		},
-
-		// StackActions
-		reset(action) {
-			return dispatch(StackActions.reset(action))
-		},
-		replace(action) {
-			return dispatch(StackActions.replace(action))
-		},
-
-		push(action) {
-			return dispatch(StackActions.push(action))
-		},
-
-		pop(action) {
-			return dispatch(StackActions.pop(action))
-		},
-
-		popToTop(action) {
-			return dispatch(StackActions.popToTop(action))
-		},
-	})
+	const effects = {
+		...NavigationActions,
+		...StackActions,
+	}
 
 	const selectors = {
 		currentRouteName() {
@@ -75,18 +45,13 @@ const reactNavigationPlugin = ({
 	return {
 		ConnectedNavigator,
 		reactNavigationPlugin: {
+			middleware: navMiddleware,
 			config: {
 				models: {
 					[storeKey]: {
-						state: null,
+						baseReducer: navReducer,
 						effects,
-						selectors
-					},
-				},
-				redux: {
-					middleware: [navMiddleware],
-					reducers: {
-						nav: navReducer,
+						selectors,
 					},
 				},
 			},
