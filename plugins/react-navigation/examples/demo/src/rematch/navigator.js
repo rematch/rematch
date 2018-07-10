@@ -1,7 +1,7 @@
 import createReactNavigationPlugin from '@rematch/react-navigation'
-import Routes from '../Routes'
+import Navigator from '../Navigator'
 
-export const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin({
-  Routes,
-  initialScreen: 'Login',
-})
+export const {
+	ConnectedNavigator,
+	reactNavigationPlugin,
+} = createReactNavigationPlugin({ Navigator })
