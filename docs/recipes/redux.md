@@ -43,14 +43,13 @@ import reactRouterModel from './model'
 
 export default function createReactRouterPlugin() {
   const browserHistory = createBrowserHistory()
+  const middleware = routerMiddleware(browserHistory)
 
   return {
+    middleware,
     config: {
       models: {
         [storeKey]: reactRouterModel
-      },
-      redux: {
-        middlewares: [routerMiddleware(browserHistory)]
       }
     },
     onStoreCreated(store) {
