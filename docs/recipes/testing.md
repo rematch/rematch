@@ -6,7 +6,7 @@
 Testing with store.
 
 ```jsx
-  import { init, dispatch } from "@rematch/core";
+  import { init } from "@rematch/core";
   import myModel from './myModel';
 
   describe("myModel model", () => {
@@ -15,7 +15,7 @@ Testing with store.
         models: { myModel }
       });
 
-      dispatch.myModel.reducerName(payload);
+      store.dispatch.myModel.reducerName(payload);
 
       const myModelData = store.getState().myModel;
       expect(myModelData).toBe("something");
@@ -42,7 +42,7 @@ Testing reducers directly.
 Testing with store.
 
 ```jsx
-  import { init, dispatch } from "@rematch/core";
+  import { init } from "@rematch/core";
   import myModel from './myModel';
 
   describe("myModel model", () => {
@@ -51,7 +51,7 @@ Testing with store.
         models: { myModel }
       });
 
-      await dispatch.myModel.effectName(payload);
+      await store.dispatch.myModel.effectName(payload);
 
       const myModelData = store.getState().myModel;
       expect(myModelData).toBe("something");
