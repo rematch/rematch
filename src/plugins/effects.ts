@@ -20,7 +20,7 @@ const effectsPlugin: R.Plugin = {
 
 		const effects =
 			typeof model.effects === 'function'
-				? model.effects(this.dispatch)
+				? model.effects(this.dispatch, this.getState)
 				: model.effects
 
 		for (const effectName of Object.keys(effects)) {
