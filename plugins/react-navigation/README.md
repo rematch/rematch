@@ -44,7 +44,7 @@ export default StackNavigator(
 
 ```js
 // index.js
-import { init, dispatch } from '@rematch/core'
+import { init } from '@rematch/core'
 import createReactNavigationPlugin from '@rematch/react-navigation'
 import * as ReactNavigation from 'react-navigation'
 import Routes from './Routes'
@@ -79,19 +79,15 @@ dispatch.nav.setParams = (action) => dispatch(NavigationActions.setParams(action
 Just pass the NavigationAction options.
 
 ```js
-// somewhere in your app
-import { dispatch } from '@rematch/core'
-
-dispatch.nav.navigate({ routeName: 'Login' })
+store.dispatch.nav.navigate({ routeName: 'Login' })
 ```
 
 If necessary, import `NavigationActions`.
 
 ```js
-import { dispatch } from '@rematch/core'
 import { NavigationActions } from 'react-navigation'
 
-const resetAction = dispatch.navigate.reset({
+const resetAction = store.dispatch.navigate.reset({
   index: 1,
   actions: [
     NavigationActions.navigate({ routeName: 'Profile'}),
@@ -105,7 +101,7 @@ const resetAction = dispatch.navigate.reset({
 An example for setting up the Android back button handling with react-navigation. 
 
 ```js
-import { dispatch, init } from '@rematch/core'
+import { init } from '@rematch/core'
 import createReactNavigation from '@rematch/react-navigation'
 import React from 'react'
 import { BackHandler } from 'react-native'
@@ -125,7 +121,7 @@ export class App extends React.Component {
     if (store.getState().nav.index === 0) {
       BackHandler.exitApp()
     }
-    dispatch.nav.back()
+    store.dispatch.nav.back()
     return true
   }
 
@@ -190,7 +186,7 @@ to `createReactNavigationPlugin`.  Here is a minimal example:
 
 ```js
 // index.js
-import { init, dispatch } from '@rematch/core'
+import { init } from '@rematch/core'
 import createReactNavigationPlugin from '@rematch/react-navigation'
 import * as ReactNavigation from 'react-navigation'
 import Routes from './Routes'
