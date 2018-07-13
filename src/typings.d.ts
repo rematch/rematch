@@ -24,7 +24,7 @@ export type ExtractRematchDispatchersFromEffectsObject<effects extends ModelEffe
   [effectKey in keyof effects]: ExtractRematchDispatcherAsyncFromEffect<effects[effectKey]>
 }
 
-export type ExtractRematchDispatchersFromEffects<effects extends ModelConfig['effects']> = 
+export type ExtractRematchDispatchersFromEffects<effects extends ModelConfig['effects']> =
   (effects extends ((...args: any[]) => infer R)
     ? R extends ModelEffects<any>
       ? ExtractRematchDispatchersFromEffectsObject<R>
@@ -47,7 +47,7 @@ export type ExtractRematchDispatchersFromReducersObject<reducers extends ModelRe
 export type ExtractRematchDispatchersFromReducers<reducers extends ModelConfig['reducers']> =
   ExtractRematchDispatchersFromReducersObject<reducers & {}>
 
-export type ExtractRematchDispatchersFromModel<M extends ModelConfig> = 
+export type ExtractRematchDispatchersFromModel<M extends ModelConfig> =
   ExtractRematchDispatchersFromReducers<M['reducers']> &
   ExtractRematchDispatchersFromEffects<M['effects']>
 
@@ -110,6 +110,7 @@ export namespace rematch {
 export interface RematchStore<M extends Models = Models, A extends Action = Action>
   extends Redux.Store<RematchRootState<M>, A> {
   name: string,
+  extraArguments: object,
   replaceReducer(nextReducer: Redux.Reducer<RematchRootState<M>, A>): void,
   dispatch: RematchDispatch<M>,
   getState(): RematchRootState<M>,
@@ -159,7 +160,7 @@ export interface ModelConfig<S = any, SS = S> {
   state: S,
   baseReducer?: (state: SS, action: Action) => SS,
   reducers?: ModelReducers<S>,
-  effects?: ModelEffects<any> | ((dispatch: RematchDispatch) => ModelEffects<any>),
+  effects?: ModelEffects<any> | ((dispatch: RematchDispatch, extraArgs: any) => ModelEffects<any>),
   selectors?: {
     [key: string]: (state: SS, ...args: any[]) => any,
   },
@@ -178,9 +179,10 @@ export interface Plugin<M extends Models = Models, A extends Action = Action> {
   onStoreCreated?: (store: RematchStore<M, A>) => void,
   onModel?: ModelHook,
   middleware?: Middleware,
-
-  // exposed
   exposed?: {
+    [key: string]: any,
+  },
+  extraArguments?: {
     [key: string]: any,
   },
   validate?(validations: Validation[]): void,

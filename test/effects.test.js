@@ -385,5 +385,41 @@ describe('effects:', () => {
 				example: 1,
 			})
 		})
+
+		it('should pass store extraArguments', async () => {
+			const example = {
+				state: 0,
+				reducers: {
+					add: (state, value) => state + value,
+				},
+				effects: (dispatch, { chicken }) => {
+					return {
+						async asyncAddArrow() {
+							await this.add(chicken())
+						},
+					}
+				},
+			}
+
+			const plugin = {
+				extraArguments: {
+					chicken() {
+						return 42
+					},
+				},
+			}
+
+			const store = init({
+				models: { example },
+				plugins: [plugin],
+			})
+
+			expect(store.extraArguments.chicken).toBeDefined()
+			await store.dispatch.example.asyncAddArrow()
+
+			expect(store.getState()).toEqual({
+				example: 42,
+			})
+		})
 	})
 })
