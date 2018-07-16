@@ -1,48 +1,24 @@
-import parseType from './types/parser'
-import { dig } from './utils'
+import { Model, Plugin } from '@rematch/core'
+import validate from './validate'
 
-class InvalidValue {
-	public readonly prop: string
-	public readonly expectedType: string
-	public readonly value: any
+const cachedTypings = {}
 
-	constructor(prop: string, expectedType: string, value: any) {
-		this.prop = prop
-		this.expectedType = expectedType
-		this.value = value
-	}
-}
-
-interface ITypings {
-	[key: string]: any,
-}
-
-interface ITypedState {
-	state: any,
-	typings: ITypings,
-}
-
-function traverse(thing: any, typings: ITypings, errors: InvalidValue[], path: string[] = []) {
-	const current = dig(thing, path)
-	if (typeof current === 'object' && !(current instanceof Date)) {
-		for (const key in current) {
-			if (current.hasOwnProperty(key))	{
-				traverse(thing, typings, errors, path.concat(key))
-			}
+const typingsPlugin = (): Plugin => ({
+	exposed: {
+		typings: {},
+	},
+	onModel(model: Model) {
+		cachedTypings[model.name] = model.typings
+	},
+	middleware: store => next => action => {
+		const called = next(action)
+		const [modelName, _] = action.type.split('/')
+		const typings = cachedTypings[modelName]
+		if (typings) {
+			validate(typings, store.getState()[modelName])
 		}
-	} else {
-		const expectedType = dig(typings, path)
-		const typeChecker = parseType(expectedType)
-		if (!typeChecker.isValid(current)) {
-			errors.push(new InvalidValue(path.join('.'), expectedType, current))
-		}
-	}
-}
+		return called
+	},
+})
 
-export default function validate(config: ITypedState) {
-	const errors: InvalidValue[] = []
-	traverse(config.state, config.typings, errors)
-	errors.forEach(error => {
-		console.warn(`Property ${error.prop} is invalid. Expected: ${error.expectedType}, got ${typeof error.value}`)
-	})
-}
+export default typingsPlugin

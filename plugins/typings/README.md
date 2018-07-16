@@ -6,38 +6,19 @@ Rematch plugin for validating state object against provided typings. Every time 
 ## Example
 
 ```js
-const config = {
-  state: {
-    name: 'Konstantin',
-    age: 28,
-    height: undefined,
-    isDeveloper: true,
-    birthDate: new Date(1990, 3, 22),
-    address: {
-      country: 'Czech Republic',
-      city: 'Prague',
-      street: undefined,
-    }
-  },
-  typings: {
-    name: 'string',
-    age: 'number',
-    height: 'number?',
-    isDeveloper: 'boolean',
-    birthDate: 'date',
-    address: {
-      country: 'string?',
-      city: 'string',
-      street: 'string?',
-    }
-  }
+import T from 'prop-types'
+
+const typings = {
+	firstName: T.string,
+	email: T.string.isRequired,
+	age: T.number,
+	address: T.shape({
+		city: T.string.isRequired,
+		street: T.string,
+	}).isRequired
+}
+
+const values = {
+
 }
 ```
-
-## Supported types
-
-|Types      |Examples                                                   |
-|-----------|-----------------------------------------------------------|
-|Primitive  |`string`, `number`, `boolean`, `date`, `undefined`, `null` |
-|Optional   |`string?`, `number`, ...                                   |                  
-|Union      |`string|number`, `number?|date|string`                     |
