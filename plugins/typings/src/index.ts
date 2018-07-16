@@ -15,7 +15,7 @@ const typingsPlugin = (): Plugin => ({
 		const [modelName, _] = action.type.split('/')
 		const typings = cachedTypings[modelName]
 		if (typings) {
-			validate(typings, store.getState()[modelName])
+			validate(typings, store.getState()[modelName], modelName)
 		}
 		return called
 	},
