@@ -16,6 +16,8 @@ const typingsPlugin = (): Plugin => ({
 		const typings = cachedTypings[modelName]
 		if (typings) {
 			validate(typings, store.getState()[modelName], modelName)
+		} else {
+			console.warn(`[rematch]: Missing typings definitions for \`${modelName}\` model`)
 		}
 		return called
 	},
