@@ -1,24 +1,67 @@
 # Typings
 
-Rematch plugin for validating state object against provided typings. Every time state changes, it will be checked against specified `typings` schema. If there are any mismatches, warnings will be logged into console.
+Rematch plugin for type-checking state at runtime. Uses [prop-types](https://github.com/facebook/prop-types) for describing expected type shape.
 
+## Install
 
-## Example
+```
+npm install @rematch/typings
+```
+
+If your project doesn't have `prop-types` package yet, you need to add it as well:
+
+```
+npm install prop-types
+```
+
+## Setup
+
+Use `typings` property to describe the shape of model's state, and add typings plugin when initializing a store:
 
 ```js
 import T from 'prop-types'
+import { init } from '@rematch/core'
+import typingsPlugin from '@rematch/typings'
 
-const typings = {
-	firstName: T.string,
-	email: T.string.isRequired,
-	age: T.number,
-	address: T.shape({
-		city: T.string.isRequired,
-		street: T.string,
-	}).isRequired
+const user = {
+  state: {
+    name: 'Jon',
+		age: 25,
+		isDeveloper: true,
+		address: {
+			country: 'US',
+			city: 'New York',
+		}
+	},
+	typings: {
+  	name: T.string.isRequired,
+		age: T.number.isRequired,
+		isDeveloper: T.bool,
+		address: T.shape({
+			country: T.string.isRequred,
+			city: T.string,
+		})
+	},
+  reducers: {
+    updateName: (state, name) => ({
+      name,
+    }),
+  },
 }
 
-const values = {
-
-}
+const store = init({
+	models: { user },
+	plugins: [typingsPlugin()]
+})
 ```
+
+With that in place, if you try to update the state with invalid value type, you'll get a warning in developer tools:
+
+```js
+store.dispatch.user.updateName(undefined)
+
+// > console.warn
+// > [rematch] Invalid property `name` of type `undefined` supplied to `user`, expected `string`.
+```
+
+Please refer to [prop-types](https://github.com/facebook/prop-types#usage) documentation for a full list of available validations.
