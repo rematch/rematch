@@ -1,6 +1,6 @@
 {
   "name": "@rematch/select",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Selectors plugin for Rematch",
   "keywords": [
     "plugin",
@@ -32,7 +32,7 @@
   },
   "browser": "dist/rematch-select.umd.js",
   "devDependencies": {
-    "@rematch/core": "^1.0.0-alpha.8",
+    "@rematch/core": "^1.0.0-beta.5",
     "rollup": "^0.60.1",
     "rollup-plugin-commonjs": "^9.1.3",
     "rollup-plugin-replace": "^2.0.0",
@@ -42,9 +42,13 @@
     "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
-    "@rematch/core": ">=1.0.0-alpha.8"
+    "@rematch/core": "1.0.0-beta.5"
+  },
+  "dependencies": {
+    "reselect": "^3.0.1"
   },
   "authors": [
+    "Sam Richard <sam.richard@gmail.com> (https://github.com/d3dc)",
     "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
     "Tom Aranda <tga@arandacybersolutions.com> (https://github.com/taranda)"
   ]

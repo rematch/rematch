@@ -1,220 +1,303 @@
-const { createSelector } = require('reselect')
 const selectPlugin = require('../src').default
-const { select } = require('../src')
 const { init } = require('../../../src')
 
 describe('select:', () => {
-  it('should create a valid list of selectors', () => {
-    const a = {
-      state: 0,
-      reducers: {
-        increment: s => s + 1,
-      },
-      selectors: {
-        double: s => s * 2,
-      },
-    }
-    init({
-      models: { a },
-      plugins: [selectPlugin()]
-    })
-    expect(typeof select.a.double).toBe('function')
-  })
+	test('should not throw if no selectors', () => {
+		const a = {
+			state: 2,
+			reducers: {
+				increment: s => s + 1,
+			},
+		}
+		const start = () =>
+			init({
+				models: { a },
+				plugins: [selectPlugin()],
+			})
+		expect(start).not.toThrow()
+	})
 
-  it('should allow access to the selector', () => {
-    const a = {
-      state: 2,
-      reducers: {
-        increment: s => s + 1,
-      },
-      selectors: {
-        double: s => s * 2,
-      },
-    }
-    const store = init({
-      models: { a },
-      plugins: [selectPlugin()]
-    })
-    const state = store.getState()
-    const doubled = select.a.double(state)
-    expect(doubled).toBe(4)
-  })
+	test('should throw if any selector is not a function or descriptor', () => {
+		const store = init({
+			plugins: [selectPlugin()],
+		})
+		expect(() =>
+			store.model({
+				name: 'a',
+				state: 2,
+				selectors: {
+					invalid: 42,
+				},
+			})
+		).toThrow()
+	})
 
-  it('should allow passing in of params toselector', () => {
-    const a = {
-      state: 2,
-      reducers: {
-        increment: s => s + 1,
-      },
-      selectors: {
-        prependWithLetter: (s, letter) => letter + s
-      },
-    }
-    const store = init({
-      models: { a },
-      plugins: [selectPlugin()]
-    })
-    const state = store.getState()
-    const prepended = select.a.prependWithLetter(state, 'P')
-    expect(prepended).toBe('P2')
-  })
+	describe('externally created:', () => {
+		it('should register a function', () => {
+			const a = {
+				state: 0,
+				reducers: {
+					increment: s => s + 1,
+				},
+				selectors: {
+					double: () => s => s.a * 2,
+				},
+			}
+			const store = init({
+				models: { a },
+				plugins: [selectPlugin()],
+			})
+			expect(typeof store.select.a.double).toBe('function')
+		})
 
-  test('should throw if selector is not a function', () => {
-    const store = init({
-      plugins: [selectPlugin()]
-    })
-    expect(() => store.model({
-      name: 'a',
-      state: 2,
-      selectors: {
-        invalid: 42,
-      },
-    })).toThrow()
-  })
+		it('should allow access to a function', () => {
+			const a = {
+				state: 2,
+				reducers: {
+					increment: s => s + 1,
+				},
+				selectors: {
+					double: () => s => s.a * 2,
+				},
+			}
+			const store = init({
+				models: { a },
+				plugins: [selectPlugin()],
+			})
+			const state = store.getState()
+			const doubled = store.select.a.double(state)
+			expect(doubled).toBe(4)
+		})
 
-  test('should not throw if no selectors', () => {
-    const a = {
-      state: 2,
-      reducers: {
-        increment: s => s + 1,
-      },
-    }
-    const start = () => init({
-      models: { a },
-      plugins: [selectPlugin()]
-    })
-    expect(start).not.toThrow()
-  })
+		it('should allow passing in of params to a function', () => {
+			const a = {
+				state: 2,
+				reducers: {
+					increment: s => s + 1,
+				},
+				selectors: {
+					prependWithLetter: () => (s, { letter }) => letter + s.a,
+				},
+			}
+			const store = init({
+				models: { a },
+				plugins: [selectPlugin()],
+			})
+			const state = store.getState()
+			const prepended = store.select.a.prependWithLetter(state, {
+				letter: 'P',
+			})
+			expect(prepended).toBe('P2')
+		})
+	})
 
-  describe('reselect: ', () => {
-    it('should allow for createSelector to be used instead of a normal selector', () => {
-      const count = {
-        state: 2,
-        selectors: {
-          double: createSelector(
-            state => state,
-            c => c * 2
-          )
-        },
-      }
-      const store = init({
-        models: { count },
-        plugins: [selectPlugin()]
-      })
-      const state = store.getState()
-      const doubled = select.count.double(state)
-      expect(doubled).toBe(4)
-    })
+	describe('internally created: ', () => {
+		it('should create a selector', () => {
+			const count = {
+				state: 2,
+				selectors: (slice, createSelector) => ({
+					double: () =>
+						createSelector(state => state, state => state.count * 2),
+				}),
+			}
+			const store = init({
+				models: { count },
+				plugins: [selectPlugin()],
+			})
+			const state = store.getState()
+			const doubled = store.select.count.double(state)
+			expect(doubled).toBe(4)
+		})
 
-    it('should allow createSelector to be used outside of a model', () => {
-      const countA = {
-        state: 2,
-        selectors: {
-          double: state => state * 2
-        }
-      }
-      const countB = {
-        state: 10,
-        selectors: {
-          double: state => state * 2
-        }
-      }
-      const store = init({
-        models: { countA, countB },
-        plugins: [selectPlugin()]
-      })
-      const outsideSelector = createSelector(
-        select.countA.double,
-        select.countB.double,
-        (countADoubled, countBDoubled) => countADoubled + countBDoubled
-      )
+		it('should create a selector for slice', () => {
+			const count = {
+				state: 2,
+				selectors: (slice, createSelector) => ({
+					double: () => createSelector(slice, c => c * 2),
+				}),
+			}
+			const store = init({
+				models: { count },
+				plugins: [selectPlugin()],
+			})
+			const state = store.getState()
+			const doubled = store.select.count.double(state)
+			expect(doubled).toBe(4)
+		})
 
-      const state = store.getState()
-      const result = outsideSelector(state)
-      expect(result).toBe(24)
-    })
+		it('should allow for slice shorthand', () => {
+			const count = {
+				state: 2,
+				selectors: slice => ({
+					double: () => slice(c => c * 2),
+				}),
+			}
+			const store = init({
+				models: { count },
+				plugins: [selectPlugin()],
+			})
+			const state = store.getState()
+			const doubled = store.select.count.double(state)
+			expect(doubled).toBe(4)
+		})
 
-    it('should allow for mixing normal selectors and reselect selectors', () => {
-      const countA = {
-        state: 2,
-        selectors: {
-          double: state => state * 2,
-          plusOne: createSelector(
-            state => state,
-            c => c + 1
-          )
-        }
-      }
-      const countB = {
-        state: 10,
-        selectors: {
-          double: createSelector(
-            state => state,
-            c => c * 2
-          )
-        }
-      }
+		it('create a selector with dependencies', () => {
+			const countA = {
+				state: 2,
+				selectors: {
+					double: () => state => state.countA * 2,
+				},
+			}
+			const combined = {
+				state: 10,
+				selectors: (slice, createSelector) => ({
+					double: () => slice(b => b * 2),
+					value({ countA }) {
+						return createSelector(this.double, countA.double, (b, a) => a + b)
+					},
+				}),
+			}
+			const store = init({
+				models: { countA, combined },
+				plugins: [selectPlugin()],
+			})
+			const state = store.getState()
+			const result = store.select.combined.value(state)
+			expect(result).toBe(24)
+		})
 
-      const store = init({
-        models: { countA, countB },
-        plugins: [selectPlugin()]
-      })
+		describe('creating selectors with hasProps factory: ', () => {
+			it('should create a selector with hasProps factory', () => {
+				const a = {
+					state: 2,
+					selectors: (slice, createSelector, hasProps) => ({
+						prependWithLetter: hasProps((models, letter) =>
+							slice(a => letter + a)
+						),
+					}),
+				}
+				const store = init({
+					models: { a },
+					plugins: [selectPlugin()],
+				})
+				const state = store.getState()
+				const prepended = store.select.a.prependWithLetter('P')(state)
+				expect(prepended).toBe('P2')
+			})
+		})
 
-      const outsideSelector = createSelector(
-        select.countA.double,
-        select.countA.plusOne,
-        select.countB.double,
-        (countADoubled, countAPlusOne, countBDoubled) =>
-          countADoubled + countAPlusOne + countBDoubled
-      )
+		it('should allow for mixing external and internal selectors', () => {
+			const countA = {
+				state: 2,
+				selectors: (slice, createSelector) => ({
+					double: () => state => state.countA * 2,
+					plusOne: () => slice(c => c + 1),
+				}),
+			}
+			const countB = {
+				state: 10,
+				selectors: (slice, createSelector) => ({
+					double: () => createSelector(slice, c => c * 2),
+				}),
+			}
+			const countC = {
+				state: 0,
+				selectors: (slice, createSelector) => ({
+					calc: ({ countA, countB }) =>
+						createSelector(
+							countA.double,
+							countA.plusOne,
+							countB.double,
+							(countADoubled, countAPlusOne, countBDoubled) =>
+								countADoubled + countAPlusOne + countBDoubled
+						),
+				}),
+			}
 
-      const state = store.getState()
-      const result = outsideSelector(state)
-      expect(result).toBe(27)
-    })
+			const store = init({
+				models: { countA, countB, countC },
+				plugins: [selectPlugin()],
+			})
 
+			const state = store.getState()
+			const result = store.select.countC.calc(state)
+			expect(result).toBe(27)
+		})
+	})
 
-  })
+	describe('select function: ', () => {
+		it('should create structural selector', () => {
+			const countA = {
+				state: 2,
+				selectors: {
+					double: () => state => state.countA * 2,
+				},
+			}
+			const countB = {
+				state: 10,
+				selectors: {
+					double: () => state => state.countB * 2,
+				},
+			}
+			const store = init({
+				models: { countA, countB },
+				plugins: [selectPlugin()],
+			})
 
-  describe('sliceState config: ', () => {
-    test('should throw if sliceState config is not a function', () => {
-      const selectPlugin = require('../src').default
-      const { init } = require('../../../src')
+			const state = store.getState()
+			const selector = store.select(models => ({
+				a: models.countA.double,
+				b: models.countB.double,
+			}))
+			const result = selector(state)
+			expect(result).toEqual({ a: 4, b: 20 })
+		})
+	})
 
-      const start = () => {
-        init({ plugins: [ selectPlugin({ sliceState: 'error' }) ] });
-      }
+	describe('selectorCreator config: ', () => {
+		test('should throw if selectorCreator config is not a function', () => {
+			const start = () => {
+				init({ plugins: [selectPlugin({ selectorCreator: 'error' })] })
+			}
 
-      expect(start).toThrow();
-    })
+			expect(start).toThrow()
+		})
+	})
 
-    it('should allow access to the global state with a property configured sliceState method', () => {
-      const selectPlugin = require('../src').default
-      const { select } = require('../src')
-      const { init } = require('../../../src')
+	describe('sliceState config: ', () => {
+		test('should throw if sliceState config is not a function', () => {
+			const selectPlugin = require('../src').default
+			const { init } = require('../../../src')
 
-      const countA = {
-        state: 2,
-        selectors: {
-          double: state => state.countB * 2,
-        }
-      }
-      const countB = {
-        state: 10,
-        selectors: {
-          double: state => state.countA * 2
-        }
-      }
+			const start = () => {
+				init({ plugins: [selectPlugin({ sliceState: 'error' })] })
+			}
 
-      const store = init({
-        models: { countA, countB },
-        plugins: [selectPlugin({ sliceState: (rootState) => rootState })]
-      })
+			expect(start).toThrow()
+		})
 
-      const state = store.getState()
-      const result = select.countB.double(state)
-      expect(result).toBe(4)
-    })
-  })
+		it('should allow access to the global state with a property configured sliceState method', () => {
+			const countA = {
+				state: 2,
+				selectors: slice => ({
+					double: () => slice(state => state.countB * 2),
+				}),
+			}
+			const countB = {
+				state: 10,
+				selectors: slice => ({
+					double: () => slice(state => state.countA * 2),
+				}),
+			}
+
+			const store = init({
+				models: { countA, countB },
+				plugins: [selectPlugin({ sliceState: rootState => rootState })],
+			})
+
+			const state = store.getState()
+			const result = store.select.countB.double(state)
+			expect(result).toBe(4)
+		})
+	})
 })
-
