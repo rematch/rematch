@@ -3,7 +3,7 @@ import validate from './validate'
 
 const cachedTypings = {}
 
-const typingsPlugin = (): Plugin => ({
+const typedStatePlugin = (): Plugin => ({
 	exposed: {
 		typings: {},
 	},
@@ -23,4 +23,4 @@ const typingsPlugin = (): Plugin => ({
 	},
 })
 
-export default typingsPlugin
+export default typedStatePlugin

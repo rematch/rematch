@@ -1,11 +1,11 @@
-# Typings
+# Typed-state
 
 Rematch plugin for type-checking state at runtime. Uses [prop-types](https://github.com/facebook/prop-types) for describing expected type shape.
 
 ## Install
 
 ```
-npm install @rematch/typings
+npm install @rematch/typed-state
 ```
 
 If your project doesn't have `prop-types` package yet, you need to add it as well:
@@ -16,16 +16,16 @@ npm install prop-types
 
 ## Setup
 
-Use `typings` property to describe the shape of model's state, and add typings plugin when initializing a store:
+Use `typings` property to describe the shape of model's state, and add `typed-state` plugin when initializing a store:
 
 ```js
 import T from 'prop-types'
 import { init } from '@rematch/core'
-import typingsPlugin from '@rematch/typings'
+import typedStatePlugin from '@rematch/typed-state'
 
 const user = {
-  state: {
-    name: 'Jon',
+	state: {
+		name: 'Jon',
 		age: 25,
 		isDeveloper: true,
 		address: {
@@ -34,24 +34,24 @@ const user = {
 		}
 	},
 	typings: {
-  	name: T.string.isRequired,
+		name: T.string.isRequired,
 		age: T.number.isRequired,
 		isDeveloper: T.bool,
 		address: T.shape({
-			country: T.string.isRequred,
+			country: T.string.isRequired,
 			city: T.string,
 		})
 	},
-  reducers: {
-    updateName: (state, name) => ({
-      name,
-    }),
-  },
+	reducers: {
+		updateName: (state, name) => ({
+			name,
+		}),
+	},
 }
 
 const store = init({
 	models: { user },
-	plugins: [typingsPlugin()]
+	plugins: [typedStatePlugin()]
 })
 ```
 

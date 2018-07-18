@@ -1,5 +1,5 @@
 const T = require('prop-types')
-const typingsPlugin = require('../src').default
+const typedStatePlugin = require('../src').default
 const { init } = require('../../../src')
 
 const model = {
@@ -21,7 +21,7 @@ const typings = {
 }
 
 describe('typings:', () => {
-  test('triggers one warning when one type is invalid', () => { 
+  test('triggers one warning when one type is invalid', () => {
     global.console = {
       warn: jest.fn(),
     }
@@ -33,14 +33,14 @@ describe('typings:', () => {
 
     const store = init({
       models: { user },
-      plugins: [typingsPlugin()]
+      plugins: [typedStatePlugin()]
     })
 
     store.dispatch.user.update({ name: undefined, age: 26 })
     expect(global.console.warn).toHaveBeenCalledTimes(1)
   })
 
-  test('triggers two warnings when two types are invalid', () => { 
+  test('triggers two warnings when two types are invalid', () => {
     global.console = {
       warn: jest.fn(),
     }
@@ -52,14 +52,14 @@ describe('typings:', () => {
 
     const store = init({
       models: { user },
-      plugins: [typingsPlugin()]
+      plugins: [typedStatePlugin()]
     })
 
     store.dispatch.user.update({ name: undefined, age: '26' })
     expect(global.console.warn).toHaveBeenCalledTimes(2)
   })
 
-  test('does not trigger warning on valid type', () => { 
+  test('does not trigger warning on valid type', () => {
     global.console = {
       warn: jest.fn(),
     }
@@ -71,7 +71,7 @@ describe('typings:', () => {
 
     const store = init({
       models: { user },
-      plugins: [typingsPlugin()]
+      plugins: [typedStatePlugin()]
     })
 
 
@@ -79,7 +79,7 @@ describe('typings:', () => {
     expect(global.console.warn).toHaveBeenCalledTimes(0)
   })
 
-  test('triggers warning when typings config is missing', () => { 
+  test('triggers warning when typings config is missing', () => {
     global.console = {
       warn: jest.fn(),
     }
@@ -90,7 +90,7 @@ describe('typings:', () => {
 
     const store = init({
       models: { user },
-      plugins: [typingsPlugin()]
+      plugins: [typedStatePlugin()]
     })
 
     store.dispatch.user.update({ name: 'Jane', age: 23 })
