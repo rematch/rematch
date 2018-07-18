@@ -1,0 +1,42 @@
+{
+  "name": "@rematch/typings",
+  "version": "0.0.1",
+  "description": "Rematch plugin for typechecking state",
+  "keywords": [
+    "@rematch",
+    "rematch",
+    "plugin",
+    "typings",
+    "typecheck"
+  ],
+  "homepage": "https://github.com/rematch/rematch/plugins/typings#readme",
+  "bugs": {
+    "url": "git+https://github.com/rematch/rematch/issues"
+  },
+  "license": "ISC",
+  "author": "Konstantin Lebedev <koss.lebedev@gmail.com> (https://github.com/koss-lebedev)",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/rematch-typings.cjs.js",
+  "module": "dist/rematch-typings.esm.js",
+  "browser": "dist/rematch-typings.umd.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
+  },
+  "devDependencies": {
+    "@rematch/core": "^1.0.0-beta.4",
+    "@types/prop-types": "^15.5.3",
+    "prop-types": "^15.6.2",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.62.0"
+  },
+  "peerDependencies": {
+    "@rematch/core": "^1.0.0-beta.4",
+    "prop-types": "^15.6.2"
+  }
+}
