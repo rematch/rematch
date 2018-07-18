@@ -13,7 +13,7 @@ const config = {
     commonJs()
   ],
   output: [
-    { name: 'RematchTypings', file: pkg.browser, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
+    { name: 'RematchTypedState', file: pkg.browser, format: 'umd', exports: 'named', sourcemap: true }, // Universal Modules
     { file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
     { file: pkg.module, format: 'es', exports: 'named', sourcemap: true } // ES Modules
   ],

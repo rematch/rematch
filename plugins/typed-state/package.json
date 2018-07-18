@@ -1,5 +1,5 @@
 {
-  "name": "@rematch/typings",
+  "name": "@rematch/typed-state",
   "version": "0.0.1",
   "description": "Rematch plugin for typechecking state",
   "keywords": [
@@ -9,7 +9,7 @@
     "typings",
     "typecheck"
   ],
-  "homepage": "https://github.com/rematch/rematch/plugins/typings#readme",
+  "homepage": "https://github.com/rematch/rematch/plugins/typed-state#readme",
   "bugs": {
     "url": "git+https://github.com/rematch/rematch/issues"
   },
@@ -18,9 +18,9 @@
   "files": [
     "dist"
   ],
-  "main": "dist/rematch-typings.cjs.js",
-  "module": "dist/rematch-typings.esm.js",
-  "browser": "dist/rematch-typings.umd.js",
+  "main": "dist/rematch-typed-state.cjs.js",
+  "module": "dist/rematch-typed-state.esm.js",
+  "browser": "dist/rematch-typed-state.umd.js",
   "directories": {
     "test": "test"
   },
