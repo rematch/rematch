@@ -139,9 +139,9 @@ export type ModelHook = (model: Model) => void
 
 export type Validation = [boolean | undefined, string]
 
-export interface Model<S = any, SS = S> extends ModelConfig {
-  name: string,
-  reducers: ModelReducers<S>,
+export interface Model<S = any, SS = S> extends ModelConfig<S, SS> {
+	name: string,
+	reducers: ModelReducers<S>,
 }
 
 export interface ModelConfig<S = any, SS = S> {
