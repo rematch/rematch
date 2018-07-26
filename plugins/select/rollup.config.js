@@ -13,6 +13,7 @@ const env = process.env.NODE_ENV
 
 const config = {
 	input: 'src/index.ts',
+	external: ['reselect'],
 	plugins: [
 		replace({
 			'process.env.NODE_ENV': JSON.stringify(env),
@@ -29,6 +30,9 @@ const config = {
 			format: 'umd',
 			exports: 'named',
 			sourcemap: true,
+			globals: {
+				reselect: 'reselect',
+			},
 		}, // Universal Modules
 		{ file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
 		{ file: pkg.module, format: 'es', exports: 'named', sourcemap: true }, // ES Modules

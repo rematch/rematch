@@ -15,11 +15,11 @@
   "license": "ISC",
   "files": [
     "dist",
-    "index.d.ts"
+    "src/typings.d.ts"
   ],
   "main": "dist/rematch-select.cjs.js",
   "module": "dist/rematch-select.esm.js",
-  "types": "index.d.ts",
+  "types": "src/typings.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
