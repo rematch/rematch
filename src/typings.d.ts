@@ -150,9 +150,6 @@ export interface ModelConfig<S = any, SS = S> {
   baseReducer?: (state: SS, action: Action) => SS,
   reducers?: ModelReducers<S>,
   effects?: ModelEffects<any> | ((dispatch: RematchDispatch) => ModelEffects<any>),
-  subscriptions?: {
-    [matcher: string]: (action: Action) => void,
-  },
 }
 
 export interface PluginFactory extends Plugin {
