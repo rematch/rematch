@@ -16,17 +16,22 @@
   "license": "ISC",
   "author": "Konstantin Lebedev <koss.lebedev@gmail.com> (https://github.com/koss-lebedev)",
   "files": [
-    "dist"
+    "dist",
+    "src/typings.d.ts"
   ],
   "main": "dist/rematch-typed-state.cjs.js",
   "module": "dist/rematch-typed-state.esm.js",
+  "types": "src/typings.d.ts",
   "browser": "dist/rematch-typed-state.umd.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "jest",
-    "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
+    "build": "NODE_ENV=production npm run clean && rollup -c",
+    "clean": "npm run clean:dist & npm run clean:build",
+    "clean:build": "npx rimraf build",
+    "clean:dist": "npx rimraf dist"
   },
   "devDependencies": {
     "@rematch/core": "^1.0.0-beta.4",
