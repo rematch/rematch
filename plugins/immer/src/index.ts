@@ -10,7 +10,10 @@ function combineReducersWithImmer(reducers: ReducersMapObject) {
 		reducersWithImmer[key] = (state, payload) => {
 			if (typeof state === 'object') {
 				return produce(state, (draft: Models) => {
-					reducerFn(draft, payload)
+					const next = reducerFn(draft, payload)
+					if (typeof next === 'object') {
+						return next
+					}
 				})
 			} else {
 				return reducerFn(state, payload)
