@@ -16,27 +16,37 @@
   "license": "ISC",
   "author": "Konstantin Lebedev <koss.lebedev@gmail.com> (https://github.com/koss-lebedev)",
   "files": [
-    "dist"
+    "dist",
+    "src/typings.d.ts"
   ],
   "main": "dist/rematch-typed-state.cjs.js",
   "module": "dist/rematch-typed-state.esm.js",
+  "types": "src/typings.d.ts",
   "browser": "dist/rematch-typed-state.umd.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "jest",
-    "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
+    "build": "NODE_ENV=production npm run clean && rollup -c",
+    "clean": "npm run clean:dist & npm run clean:build",
+    "clean:build": "npx rimraf build",
+    "clean:dist": "npx rimraf dist"
   },
   "devDependencies": {
-    "@rematch/core": "^1.0.0-beta.4",
+    "@rematch/core": "^1.0.0-beta.5",
     "@types/prop-types": "^15.5.3",
+    "rollup": "^0.62.0",
     "prop-types": "^15.6.2",
-    "rimraf": "^2.6.2",
-    "rollup": "^0.62.0"
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-typescript2": "^0.14.0",
+    "rollup-plugin-uglify": "^3.0.0",
+    "typescript": "^2.9.1",
+    "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
-    "@rematch/core": "^1.0.0-beta.4",
-    "prop-types": "^15.6.2"
+    "prop-types": "^15.6.2",
+    "@rematch/core": "^1.0.0-beta.5"
   }
 }

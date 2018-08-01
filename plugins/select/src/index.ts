@@ -1,4 +1,5 @@
 import { RematchStore, Model, Plugin } from '@rematch/core'
+import { SelectConfig } from './typings'
 import { createSelector, createStructuredSelector } from 'reselect'
 export { createSelector, createStructuredSelector } from 'reselect'
 
@@ -44,11 +45,6 @@ const makeFactoryGroup = () => {
 			factories.forEach(factory => factory())
 		},
 	}
-}
-
-export interface SelectConfig {
-	sliceState?: any;
-	selectorCreator?: any;
 }
 
 const validateConfig = config => {
