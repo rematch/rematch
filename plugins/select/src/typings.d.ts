@@ -15,7 +15,7 @@ export default createSelectPlugin
 
 type Selector<S, P = any, R = any> =
 	Reselect.Selector<S, R>
-	| Reselect.ParametricSelector<S, P, R>
+	& Reselect.ParametricSelector<S, P, R>
 
 interface ModelSelectors<S> {
 	[key: string]: Selector<S>
