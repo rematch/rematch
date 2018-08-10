@@ -17,9 +17,9 @@ export const sharks = createModel({
 			dispatch.sharks.increment(payload || 1)
 		},
 	}),
-	selectors: {
-		total(state: SharksState) {
-			return state
+	selectors: slice => ({
+		total() {
+			return slice
 		},
-	},
+	}),
 })
