@@ -8,8 +8,8 @@ export const cart = {
 		total() {
 			return slice(cart => cart.reduce((t, item) => t + item.value, 0))
 		},
-		count() {
-			return slice(cart => cart.length)
+		items() {
+			return slice
 		},
 	}),
 }

@@ -4,12 +4,14 @@ import { select } from './store'
 
 // Make a presentational component.
 // It knows nothing about redux or rematch.
-const App = ({ count, total, items, add, remove }) => (
+const App = ({ total, items, add, remove }) => (
 	<div>
 		<h2>
 			Cart has{' '}
-			<b style={{ backgroundColor: '#dde', padding: 5 }}>{count} items</b> with
-			a total value of{' '}
+			<b style={{ backgroundColor: '#dde', padding: 5 }}>
+				{items.length} items
+			</b>{' '}
+			with a total value of{' '}
 			<b style={{ backgroundColor: '#aae', padding: 5 }}>{total}</b>
 		</h2>
 
@@ -36,15 +38,10 @@ const App = ({ count, total, items, add, remove }) => (
 	</div>
 )
 
-const selector = select(models => ({
+const mapState = select(models => ({
 	total: models.cart.total,
-	count: models.cart.count,
+	items: models.cart.items,
 }))
-
-const mapState = state => ({
-	...selector(state),
-	items: state.cart,
-})
 
 const mapDispatch = dispatch => ({
 	add: dispatch.cart.add,
