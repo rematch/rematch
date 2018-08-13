@@ -26,13 +26,13 @@ const App = ({ total, items, add, remove }) => (
 
 		<h5>
 			{items.map(item => (
-				<span
+				<button
 					key={item.id}
 					onClick={() => remove(item)}
 					style={{ backgroundColor: 'yellow', marginRight: 10 }}
 				>
 					{item.value}
-				</span>
+				</button>
 			))}
 		</h5>
 	</div>
