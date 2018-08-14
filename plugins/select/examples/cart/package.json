@@ -8,8 +8,8 @@
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
-    "@rematch/core": "../../../../..",
-    "@rematch/select": "../../..",
+    "@rematch/core": "../../../..",
+    "@rematch/select": "../..",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
