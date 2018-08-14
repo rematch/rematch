@@ -250,7 +250,7 @@ store.getState()
 store.model({ name: 'countB', state: 99 })
 
 store.getState()
-// { count: 0, countB: state: 99 }
+// { count: 0, countB: 99 }
 ```
 
 ---
