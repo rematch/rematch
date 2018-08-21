@@ -189,7 +189,6 @@ Most apps will consume selectors through `connect`. For this use case, the store
 
 > Under the hood, `select` creates a [structuredSelector](https://github.com/reduxjs/reselect#createstructuredselectorinputselectors-selectorcreator--createselector).
 
-
 ```js
 import { connect } from 'react-redux'
 import { select } = './store'
@@ -198,6 +197,25 @@ connect(select(models => {
   total: models.cart.total,
   eligibleItems: models.cart.wouldGetFreeShipping
 }))(...)
+```
+
+Here is a full example combining raw, uncomputed state with selected state:
+
+```js
+const mapStateToProps = state => {
+  const selection = select(models => ({
+	  devices: models.devices.selected,
+  }))
+
+  return {
+    contacts: state.contacts.collection,
+    ...selection(state),
+  }
+}
+
+const mapDispatchToProps = models => ({ bar: models.foo.bar })
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyComponent)
 ```
 
 
