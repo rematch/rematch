@@ -1,14 +1,12 @@
-import selectPlugin from '@rematch/select'
 import { init } from '@rematch/core'
-
+import selectPlugin from '@rematch/select'
 import * as models from './models'
 
-export { models }
-export type models = typeof models
-
 export const store = init({
-	plugins: [selectPlugin()],
 	models,
+  plugins: [selectPlugin()]
 })
 
 export const { select } = store
+
+export default store
