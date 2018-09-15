@@ -42,11 +42,6 @@ const dispatchPlugin: R.Plugin = {
 				if (typeof meta !== 'undefined') {
 					action.meta = meta
 				}
-				if (this.dispatch[modelName][reducerName].isEffect) {
-					// ensure that effect state is captured on dispatch
-					// to avoid possible mutations and warnings
-					return this.dispatch(action)
-				}
 				return this.dispatch(action)
 			}
 		},

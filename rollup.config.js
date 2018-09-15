@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import replace from 'rollup-plugin-replace'
-import uglify from 'rollup-plugin-uglify'
+import { uglify } from 'rollup-plugin-uglify'
 import commonJs from 'rollup-plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 import resolve from 'rollup-plugin-node-resolve'
@@ -14,7 +14,7 @@ const pkg = require('./package.json')
 
 // minified production builds
 const production = {
-	input: 'lib/index.js',
+	input: 'src/index.ts',
 	output: [
 		{
 			file: `${pkg.main}/rematch.min.js`,
@@ -24,11 +24,11 @@ const production = {
 		}, // CommonJS Modules
 	],
 	plugins: [
-		replace({
-			'process.env.NODE_ENV': '"production"',
-		}),
 		typescript({
 			typescript: require('typescript'),
+		}),
+		replace({
+			'process.env.NODE_ENV': "'production'",
 		}),
 		resolve({
 			jsnext: true,
@@ -56,7 +56,7 @@ const production = {
 
 // full source development builds
 const development = {
-	input: 'lib/index.js',
+	input: 'src/index.ts',
 	output: [
 		{
 			name: 'Rematch',
@@ -69,11 +69,11 @@ const development = {
 		{ file: pkg.module, format: 'es', exports: 'named', sourcemap: true }, // ES Modules
 	],
 	plugins: [
-		replace({
-			'process.env.NODE_ENV': '"development"',
-		}),
 		typescript({
 			typescript: require('typescript'),
+		}),
+		replace({
+			'process.env.NODE_ENV': '"development"',
 		}),
 		resolve({
 			jsnext: true,
@@ -86,8 +86,10 @@ const development = {
 // point user to needed build
 const root = `'use strict'
 if (process.env.NODE_ENV === 'production') {
+  // use minified production build
   module.exports = require('./rematch.min.js')
 } else {
+  // use unminified development build
   module.exports = require('./rematch.js')
 }
 `

@@ -15,7 +15,6 @@ export const dispatch = () => {
 	For a quick fix, import and use store.dispatch.`)
 }
 
-
 /**
  * global createModel
  *
