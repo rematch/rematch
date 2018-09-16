@@ -1,0 +1,37 @@
+import port from '../port'
+/**
+ * {{pluginName}}
+ * author: {{author}}
+ *
+ * {{desc}}
+ **/
+export default function {{camelCase pluginName}} (config) {
+  return port({
+    {{#if modelName}}
+    modelName: '{{modelName}}',
+    {{/if}}
+    {{#if hasReducer}}
+    reducer: //TODO: add the library's reducer
+    {{/if}}
+    {{#if hasActionCreators}}
+    actionCreators: {
+      //TODO: add the library's action creators
+    },
+    {{/if}}
+    {{#if augmentsModelReducers}}
+    mapReducers: reducers => ({
+      ...reducers
+      // TODO: transform the model reducers
+    })
+    {{/if}}
+    {{#if augmentsRootReducer}}
+    mapRootReducer: // TODO: transform the root reducer
+    {{/if}}
+    {{#if hasReducer}}
+    middleware: //TODO: add the library's middleware
+    {{/if}}
+    {{#if combinesReducers}}
+    combineReducers //TODO: import combineReducers
+    {{/if}}
+  })
+}

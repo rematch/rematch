@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"sourceMap": true,
+		"target": "es5",
+		"lib": ["es2017", "dom"],
+		"moduleResolution": "node"
+	},
+	"exclude": ["node_modules"]
+}
