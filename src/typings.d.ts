@@ -17,7 +17,7 @@ export type RematchRootState<M extends Models> = ExtractRematchStateFromModels<M
 export type ExtractRematchDispatcherAsyncFromEffect<E> =
   E extends () => Promise<void> ? RematchDispatcherAsync<void, void> :
   E extends (payload: infer P) => Promise<void> ? RematchDispatcherAsync<P, void> :
-  E extends (payload: infer P, meta: infer M) => Promise<void> ? RematchDispatcherAsync<P, M> :
+  E extends (payload: infer P, meta: infer M) => Promise<void> ? RematchDispatcherAsync<P, void> :
   RematchDispatcherAsync<any, any>
 
 export type ExtractRematchDispatchersFromEffectsObject<effects extends ModelEffects<any>> = {
