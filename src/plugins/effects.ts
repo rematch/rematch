@@ -59,9 +59,8 @@ const effectsPlugin: R.Plugin = {
 					store.getState(),
 					action.meta
 				)
-			} else {
-				return next(action)
 			}
+			return next(action)
 		}
 	},
 }
