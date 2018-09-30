@@ -1,6 +1,6 @@
 {
   "name": "rematch-typescript-example",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@rematch/core": "1.0.0",
