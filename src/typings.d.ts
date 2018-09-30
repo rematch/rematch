@@ -141,7 +141,7 @@ export type Validation = [boolean | undefined, string]
 
 export interface Model<S = any, SS = S> extends ModelConfig<S, SS> {
 	name: string,
-	reducers: ModelReducers<S>,
+  reducers: ModelReducers<S>,
 }
 
 export interface ModelConfig<S = any, SS = S> {
@@ -150,6 +150,7 @@ export interface ModelConfig<S = any, SS = S> {
   baseReducer?: (state: SS, action: Action) => SS,
   reducers?: ModelReducers<S>,
   effects?: ModelEffects<any> | ((dispatch: RematchDispatch) => ModelEffects<any>),
+  selectors?: any
 }
 
 export interface PluginFactory extends Plugin {

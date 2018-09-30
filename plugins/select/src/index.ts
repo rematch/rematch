@@ -1,6 +1,7 @@
-import { RematchStore, Model, Plugin } from '@rematch/core'
-import { SelectConfig } from './typings'
+import { Model, Plugin, RematchStore } from '@rematch/core'
 import { createSelector, createStructuredSelector } from 'reselect'
+import { SelectConfig } from './typings'
+
 export { createSelector, createStructuredSelector } from 'reselect'
 
 const makeSelect = () => {
