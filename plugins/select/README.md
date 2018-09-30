@@ -194,10 +194,10 @@ Most apps will consume selectors through `connect`. For this use case, the store
 import { connect } from 'react-redux'
 import { select } = './store'
 
-connect(select(models => {
+connect(select(models => ({
   total: models.cart.total,
   eligibleItems: models.cart.wouldGetFreeShipping
-}))(...)
+})))(...)
 ```
 
 
