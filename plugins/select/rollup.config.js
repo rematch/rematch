@@ -15,11 +15,11 @@ const config = {
 	input: 'src/index.ts',
 	external: ['reselect'],
 	plugins: [
-		replace({
-			'process.env.NODE_ENV': JSON.stringify(env),
-		}),
 		typescript({
 			typescript: require('typescript'),
+		}),
+		replace({
+			'process.env.NODE_ENV': JSON.stringify(env),
 		}),
 		commonJs(),
 	],
