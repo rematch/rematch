@@ -36,10 +36,6 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 - [Video: Introducing Rematch](https://www.youtube.com/watch?v=3ezSBYoL5do)
 - [A comparison of Redux & Rematch](./docs/purpose.md)
 
-> See [v0 stable docs](https://github.com/rematch/rematch/tree/v0). Currently only displaying experimental @next documentation.
-
-> WARNING: Breaking changes with 1.0.0-beta.3. Global imports of `dispatch` and `getState` have been removed. See the [Changelog](./CHANGELOG.md) for details.
-
 ## Index
 
 * [Getting Started](#getting-started)
@@ -72,10 +68,8 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 
 ## Getting Started
 
-As we approach v1.0.0, the latest version of rematch and rematch plugins can be installed with the `@next` flag.
-
 ```sh
-npm install @rematch/core@next
+npm install @rematch/core
 ```
 
 ### Step 1: Init
@@ -164,7 +158,7 @@ Rematch can be used with native redux integrations such as "react-redux". See an
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
-import store from './index'
+import store from './store'
 
 const Count = props => (
   <div>
@@ -205,6 +199,12 @@ Moving from Redux to Rematch involves very few steps.
 1. Setup Rematch `init` with Redux [step 1](https://codesandbox.io/s/yw2wy1q929)
 2. Mix reducers & models [step 2](https://codesandbox.io/s/9yk6rjok1r)
 3. Shift to models [step 3](https://codesandbox.io/s/mym2x8m7v9)
+
+## Migration from 0.x to 1.x
+
+For an earlier version, see [v0.x docs](https://github.com/rematch/rematch/tree/v0). Currently only displaying v1.x documentation.
+
+Breaking changes with v1.0.0. Global imports of `dispatch` and `getState` have been removed. Instead, you can export and import your store, capturing `store.dispatch`, `store.getState`. See the [Changelog](./CHANGELOG.md) for details.
 
 
 ## API
