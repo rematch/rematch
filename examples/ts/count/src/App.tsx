@@ -2,11 +2,11 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { RematchDispatch, RematchRootState } from '@rematch/core'
 
-import { models, select } from './store'
+import { models } from './store'
 
 const mapState = (state: RematchRootState<models>) => ({
 	dolphins: state.dolphins,
-	sharks: select.sharks.total(state),
+	sharks: state.sharks,
 })
 
 const mapDispatch = (dispatch: RematchDispatch<models>) => ({
