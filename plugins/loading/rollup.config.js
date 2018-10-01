@@ -14,11 +14,11 @@ const env = process.env.NODE_ENV
 const config = {
 	input: 'src/index.ts',
 	plugins: [
-		replace({
-			'process.env.NODE_ENV': JSON.stringify(env),
-		}),
 		typescript({
 			typescript: require('typescript'),
+		}),
+		replace({
+			'process.env.NODE_ENV': JSON.stringify(env),
 		}),
 		commonJs(),
 	],

@@ -1,10 +1,10 @@
 import { Model, Plugin } from '@rematch/core'
 
 export interface LoadingConfig {
-	name?: string;
-	whitelist?: string[];
-	blacklist?: string[];
-	asNumber?: boolean;
+	name?: string
+	whitelist?: string[]
+	blacklist?: string[]
+	asNumber?: boolean
 }
 
 const cntState = {
