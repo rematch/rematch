@@ -84,15 +84,7 @@ const development = {
 }
 
 // point user to needed build
-const root = `'use strict'
-if (process.env.NODE_ENV === 'production') {
-  // use minified production build
-  module.exports = require('./rematch.min.js')
-} else {
-  // use unminified development build
-  module.exports = require('./rematch.js')
-}
-`
+const root = `'use strict'module.exports=process.env.NODE_ENV==='production'?require('./rematch.min.js'):require('./rematch.js')`
 
 const rootFile = folder => {
 	mkdirSync(join('dist', folder))
