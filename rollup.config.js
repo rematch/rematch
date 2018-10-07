@@ -12,50 +12,35 @@ import { minify } from 'uglify-es'
 
 const pkg = require('./package.json')
 
-// minified production builds
-const production = {
-	input: 'src/index.ts',
-	output: [
+const productionPlugins = [
+	typescript({
+		typescript: require('typescript'),
+	}),
+	replace({
+		'process.env.NODE_ENV': "'production'",
+	}),
+	resolve(),
+	commonJs(),
+	uglify(
 		{
-			file: `${pkg.main}/rematch.min.js`,
-			format: 'cjs',
-			exports: 'named',
-			sourcemap: true,
-		}, // CommonJS Modules
-	],
-	plugins: [
-		typescript({
-			typescript: require('typescript'),
-		}),
-		replace({
-			'process.env.NODE_ENV': "'production'",
-		}),
-		resolve({
-			jsnext: true,
-			browser: true,
-		}),
-		commonJs(),
-		uglify(
-			{
-				compress: {
-					pure_getters: true,
-					unsafe: true,
-				},
-				output: {
-					comments: false,
-					semicolons: false,
-				},
-				mangle: {
-					reserved: ['payload', 'type', 'meta'],
-				},
+			compress: {
+				pure_getters: true,
+				unsafe: true,
 			},
-			minify
-		),
-	],
-}
+			output: {
+				comments: false,
+				semicolons: false,
+			},
+			mangle: {
+				reserved: ['payload', 'type', 'meta'],
+			},
+		},
+		minify
+	),
+]
 
-// full source development builds
-const development = {
+// minified production builds
+const umdProduction = {
 	input: 'src/index.ts',
 	output: [
 		{
@@ -65,6 +50,29 @@ const development = {
 			exports: 'named',
 			sourcemap: true,
 		}, // Universal Modules
+	],
+	plugins: productionPlugins
+}
+
+
+const cjsProduction = {
+	input: 'src/index.ts',
+	output: [
+		{
+			file: `${pkg.main}/rematch.min.js`,
+			format: 'cjs',
+			exports: 'named',
+			sourcemap: true,
+		}, // CommonJS Modules
+	],
+	plugins: productionPlugins
+}
+
+
+// full source development builds
+const development = {
+	input: 'src/index.ts',
+	output: [
 		{ file: `${pkg.main}/rematch.js`, format: 'cjs', exports: 'named' }, // CommonJS Modules
 		{ file: pkg.module, format: 'es', exports: 'named', sourcemap: true }, // ES Modules
 	],
@@ -75,10 +83,7 @@ const development = {
 		replace({
 			'process.env.NODE_ENV': '"development"',
 		}),
-		resolve({
-			jsnext: true,
-			browser: true,
-		}),
+		resolve(),
 		commonJs(),
 	],
 }
@@ -96,5 +101,5 @@ export default (() => {
 	mkdirSync('dist')
 	rootFile('cjs')
 
-	return [development, production]
+	return [development, umdProduction, cjsProduction]
 })()
