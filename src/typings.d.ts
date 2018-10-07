@@ -59,6 +59,7 @@ export type RematchDispatcher<P = void, M = void> =
   ((action: Action<P, M>) => Redux.Dispatch<Action<P, M>>) &
   ((action: Action<P, void>) => Redux.Dispatch<Action<P, void>>) &
   (P extends void ? ((...args: any[]) => Action<any, any>) :
+    P extends boolean ? ((payload: boolean) => Action<boolean, any>) :
     M extends void ? ((payload: P) => Action<P, void>) :
     (payload: P, meta: M) => Action<P, M>)
 
@@ -66,6 +67,7 @@ export type RematchDispatcherAsync<P = void, M = void> =
   ((action: Action<P, M>) => Promise<Redux.Dispatch<Action<P, M>>>) &
   ((action: Action<P, void>) => Promise<Redux.Dispatch<Action<P, void>>>) &
   (P extends void ? ((...args: any[]) => Promise<Action<any, any>>) :
+    P extends boolean ? ((payload: boolean) => Promise<Action<boolean, any>>) :
     M extends void ? ((payload: P) => Promise<Action<P, void>>) :
     (payload: P, meta: M) => Promise<Action<P, M>>)
 
