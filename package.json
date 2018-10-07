@@ -35,7 +35,7 @@
     "clean:dist": "rimraf dist",
     "clean:build": "rimraf build",
     "clean": "npm run clean:dist & npm run clean:build",
-    "build": "npm run clean && rollup -c",
+    "build": "NODE_ENV=production && npm run clean && rollup -c",
     "build:all": "bash ./scripts/build.sh",
     "dev": "tsc --watch src",
     "install:all": "tsc && bash ./scripts/setup_plugins.sh",
