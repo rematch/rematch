@@ -1,6 +1,6 @@
 {
   "name": "@rematch/core",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A Redux Framework",
   "keywords": [
     "@rematch",
@@ -47,8 +47,8 @@
     "redux": "4.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.2",
-    "@types/node": "^10.11.3",
+    "@types/jest": "^23.3.3",
+    "@types/node": "^10.11.4",
     "bundlesize": "^0.17.0",
     "coveralls": "^3.0.1",
     "cross-env": "^5.2.0",
@@ -59,13 +59,13 @@
     "redux-persist": "^5.9.1",
     "reselect": "^3.0.1",
     "rimraf": "^2.6.2",
-    "rollup": "^0.66.2",
+    "rollup": "^0.66.4",
     "rollup-plugin-commonjs": "^9.1.8",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-typescript2": "^0.17.0",
+    "rollup-plugin-typescript2": "^0.17.1",
     "rollup-plugin-uglify": "^6.0.0",
-    "ts-jest": "^23.10.3",
+    "ts-jest": "^23.10.4",
     "tslint": "^5.11.0",
     "typescript": "^3.1.1",
     "uglify-es": "^3.3.9"

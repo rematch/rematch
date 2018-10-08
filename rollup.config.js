@@ -89,7 +89,7 @@ const development = {
 }
 
 // point user to needed build
-const root = `'use strict'module.exports=process.env.NODE_ENV==='production'?require('./rematch.min.js'):require('./rematch.js')`
+const root = `"use strict";module.exports="production"===process.env.NODE_ENV?require("./rematch.min.js"):require("./rematch.js");`
 
 const rootFile = folder => {
 	mkdirSync(join('dist', folder))
