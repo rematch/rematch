@@ -8,12 +8,12 @@ let persistor
 export const getPersistor = () => persistor
 
 // rematch plugin
-const persistPlugin = (config = {}, pesistStoreConfig, callback): Plugin => {
+const persistPlugin = (persistConfig = {}, persistStoreConfig, callback): Plugin => {
 	// merge config with common config options
 	const mergedConfig = {
 		key: 'root',
 		storage,
-		...config,
+		...persistConfig,
 	}
 	return {
 		config: {
@@ -24,7 +24,7 @@ const persistPlugin = (config = {}, pesistStoreConfig, callback): Plugin => {
 		},
 		onStoreCreated(store) {
 			// run persist store once store is available
-			persistor = persistStore(store, pesistStoreConfig, callback)
+			persistor = persistStore(store, persistStoreConfig, callback)
 		},
 	}
 }
