@@ -1,6 +1,6 @@
 {
   "name": "@rematch/select",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Selectors plugin for Rematch",
   "keywords": [
     "plugin",
@@ -32,11 +32,11 @@
   },
   "browser": "dist/rematch-select.umd.js",
   "devDependencies": {
-    "@rematch/core": "^1.0.2",
-    "rollup": "^0.66.2",
+    "@rematch/core": "^1.0.5",
+    "rollup": "^0.66.4",
     "rollup-plugin-commonjs": "^9.1.8",
     "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-typescript2": "^0.17.0",
+    "rollup-plugin-typescript2": "^0.17.1",
     "rollup-plugin-uglify": "^6.0.0",
     "typescript": "^3.1.1",
     "uglify-es": "^3.3.9"
