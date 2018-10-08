@@ -1,6 +1,6 @@
 {
   "name": "@rematch/persist",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "Redux-Persist v5 plugin for Rematch. Provides simple redux state persistence using local storage options.",
   "keywords": [
     "@rematch",
@@ -17,26 +17,29 @@
   "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
   "files": [
     "dist",
-    "index.d.ts"
+    "src/index.d.ts"
   ],
   "main": "dist/rematch-persist.cjs.js",
   "module": "dist/rematch-persist.esm.js",
   "scripts": {
-    "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
+    "build": "npx rimraf dist && tsc && NODE_ENV=production rollup -c"
   },
+  "types": "src/typings.d.ts",
   "browser": "dist/rematch-persist.umd.js",
   "dependencies": {
-    "redux-persist": "^5.9.1"
+    "redux-persist": "^5.10.0",
+    "rollup-plugin-typescript2": "^0.17.1"
   },
   "devDependencies": {
-    "@rematch/core": "^1.0.0-alpha.3",
-    "@types/react": "^16.3.5",
+    "@rematch/core": "^1.0.5",
+    "@types/react": "^16.4.16",
     "@types/redux-persist": "^4.3.1",
-    "react": "^16.3.1",
-    "rollup": "^0.57.1",
-    "rollup-plugin-commonjs": "^9.1.0",
-    "rollup-plugin-replace": "^2.0.0",
+    "react": "^16.5.2",
+    "rollup": "^0.66.4",
+    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-replace": "^2.1.0",
     "rollup-plugin-uglify": "^3.0.0",
+    "typescript": "^3.1.1",
     "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
