@@ -5,8 +5,8 @@ export declare const getPersistor: () => Persistor
 
 declare const persistPlugin: (
     persistConfig: PersistConfig,
-    persistorOptions: PersistorOptions,
-    callback: () => void
+    persistorOptions?: PersistorOptions,
+    callback?: () => void
 ) => Plugin<Models, Action<any, any>>
 
 export default persistPlugin
