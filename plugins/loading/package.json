@@ -1,6 +1,6 @@
 {
   "name": "@rematch/loading",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Loading indicator plugin for Rematch",
   "keywords": [
     "@rematch",
@@ -22,7 +22,7 @@
   "main": "dist/rematch-loading.cjs.js",
   "module": "dist/rematch-loading.esm.js",
   "browser": "dist/rematch-loading.umd.js",
-  "types": "index.d.ts",
+  "types": "src/typings.d.ts",
   "scripts": {
     "clean:dist": "npx rimraf dist",
     "clean:build": "npx rimraf build",
