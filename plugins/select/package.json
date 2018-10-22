@@ -33,8 +33,8 @@
   },
   "browser": "dist/rematch-select.umd.js",
   "devDependencies": {
+    "@rematch/core": "^1.0.6",
     "@types/jest": "^23.3.3",
-    "@rematch/core": "^1.0.5",
     "jest": "^23.6.0",
     "rollup": "^0.66.4",
     "rollup-plugin-commonjs": "^9.1.8",
@@ -45,7 +45,7 @@
     "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
-    "@rematch/core": ">1.0"
+    "@rematch/core": ">=1.0"
   },
   "dependencies": {
     "reselect": "^3.0.1"
