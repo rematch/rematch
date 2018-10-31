@@ -17,6 +17,10 @@ declare const createSelectPlugin: (
 ) => Rematch.Plugin<Rematch.Models, Rematch.Action<any, any>>;
 export default createSelectPlugin;
 
+export type Selector<TState, TReturns, TProps = void> = TProps extends void
+  ? (state: TState) => TReturns
+  : (state: TState, props: TProps) => TReturns;
+
 /****************************************
  *  types for selectors config in model *
  ****************************************/
@@ -49,7 +53,7 @@ export type SelectorFactory<TSliceState, TRootState> = <TReturns>(
   // FIXME: https://github.com/Microsoft/TypeScript/issues/27862
   this: ModelSelectorFactories<TSliceState, TRootState>,
   models: ModelsSelectors<TRootState>
-) => Reselect.Selector<TRootState, TReturns>;
+) => Selector<TRootState, TReturns>;
 
 export type SelectorParametricFactory<
   TSliceState,
@@ -61,7 +65,7 @@ export type SelectorParametricFactory<
   this: ModelSelectorFactories<TSliceState, TRootState>,
   models: ModelsSelectors<TRootState>,
   props: TProps
-) => Reselect.ParametricSelector<TRootState, TProps, TReturns>;
+) => Selector<TRootState, TReturns, TProps>;
 
 export type Parameterizer<TSliceState, TRootState> = <TProps, TReturns>(
   factory: SelectorParametricFactory<TSliceState, TRootState, TProps, TReturns>
@@ -78,12 +82,12 @@ export type ParameterizerSelectorFactory<
   this: ModelSelectorFactories<TSliceState, TRootState>,
   models: ModelsSelectors<TRootState>,
   props: TProps
-) => (props: TProps) => Reselect.Selector<TRootState, TReturns>;
+) => (props: TProps) => Selector<TRootState, TReturns>;
 
 export type Slicer<TSliceState, TRootState> = (<TReturns>(
   resultFn: (slice: TSliceState) => TReturns
-) => Reselect.Selector<TRootState, TReturns>) &
-  Reselect.Selector<TRootState, TSliceState>;
+) => Selector<TRootState, TReturns>) &
+  Selector<TRootState, TSliceState>;
 
 export type ModelsSelectors<TRootState = any> = {
   [key: string]: ModelSelectorFactories<any, TRootState>;
@@ -111,7 +115,7 @@ export type RematchSelect<TModels extends Rematch.Models, TRootState = any> = (<
   TRootState,
   TProps,
   ReturnTypeOfSelectProps<TSelectProps>,
-  Reselect.Selector<TRootState, ReturnTypeOfSelectProps<TSelectProps>>
+  Selector<TRootState, ReturnTypeOfSelectProps<TSelectProps>>
 >) &
   StoreSelectors<TModels, TRootState>;
 
@@ -150,23 +154,23 @@ export type ExtractSelectorsFromModel<
 
 export type ExtractSelectorsSignatureFromSelectorsModel<
   TRootState,
-  TSelectorShape,
-  TKey extends keyof TSelectorShape
-> = TSelectorShape[TKey] extends (...args: any[]) => infer TSelector
+  TSelectorsConfigObject,
+  TKey extends keyof TSelectorsConfigObject
+> = TSelectorsConfigObject[TKey] extends (...args: any[]) => infer TSelector
   ? // hasProps case
     TSelector extends (
       props: infer TProps
-    ) => Reselect.Selector<any, infer TReturns>
-    ? (props: TProps) => Reselect.Selector<any, TReturns>
+    ) => Selector<any, infer TReturns>
+    ? (props: TProps) => Selector<TRootState, TReturns>
     : // selector without props case
-      TSelector extends Reselect.Selector<any, infer TReturns>
-      ? Reselect.Selector<TRootState, TReturns>
+      TSelector extends Selector<any, infer TReturns>
+      ? Selector<TRootState, TReturns>
       : // selector with props case
-        (TSelector extends Reselect.ParametricSelector<
+        (TSelector extends Selector<
           any,
-          infer TProps,
-          infer TReturns
+          infer TReturns,
+          infer TProps
         >
-          ? Reselect.ParametricSelector<TRootState, TProps, TReturns>
+          ? Selector<TRootState, TReturns, TProps>
           : never)
   : never;
