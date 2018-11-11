@@ -63,6 +63,9 @@ const main = makeConfig('RematchPort', {
 			format: 'umd',
 			exports: 'named',
 			sourcemap: true,
+			global: {
+				redux: 'redux',
+			},
 		}, // Universal Modules
 		{ file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
 		{ file: pkg.module, format: 'es', exports: 'named', sourcemap: true }, // ES Modules
