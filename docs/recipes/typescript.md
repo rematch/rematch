@@ -100,7 +100,8 @@ class Count extends React.Component<Props> {
 	}
 }
 
-export default connect(mapState, mapDispatch)(Count)
+// NOTE: the "mapDispatch as any" is needed until https://github.com/rematch/rematch/issues/365 is fixed, as long as you run with TypeScript Strict Mode
+export default connect(mapState, mapDispatch as any)(Count)
 
 ```
 
