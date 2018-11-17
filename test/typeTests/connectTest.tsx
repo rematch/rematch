@@ -6,19 +6,17 @@ export interface ModelState {
     readonly elements: string;
 };
 
-const r: ModelReducers<ModelState> = {
-	init(state: ModelState, urlToLoadDataFrom: string): ModelState {
-		return {
-			...state,
-		};
-	}
-};
-
 const model1 = createModel({
     state: {
 		elements: ""
     },
-    reducers: r
+    reducers: {
+		init(state: ModelState, urlToLoadDataFrom: string): ModelState {
+			return {
+				...state,
+			};
+		}
+	}
 });
 
 
