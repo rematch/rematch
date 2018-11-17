@@ -1,0 +1,16 @@
+{
+    "extends": "dtslint/dtslint.json",
+    "rules": {
+		"semicolon": false,
+		"whitespace": false,
+		"no-consecutive-blank-lines": false,
+		"no-var-keyword": false,
+		"object-literal-shorthand": false,
+		"no-sparse-arrays": false,
+		"no-duplicate-variable": false,
+		"no-useless-files": false,
+		"member-access": false,
+		"no-arg": false,
+		"no-unnecessary-class": false
+    }
+}

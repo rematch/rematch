@@ -5,6 +5,7 @@
 // Bruno Lemos https://github.com/brunolemos
 
 import * as Redux from 'redux'
+import { ModelState } from 'test/typeTests/connectTest';
 
 export as namespace rematch
 
@@ -24,7 +25,7 @@ export type ExtractRematchDispatchersFromEffectsObject<effects extends ModelEffe
   [effectKey in keyof effects]: ExtractRematchDispatcherAsyncFromEffect<effects[effectKey]>
 }
 
-export type ExtractRematchDispatchersFromEffects<effects extends ModelConfig['effects']> = 
+export type ExtractRematchDispatchersFromEffects<effects extends ModelConfig['effects']> =
   (effects extends ((...args: any[]) => infer R)
     ? R extends ModelEffects<any>
       ? ExtractRematchDispatchersFromEffectsObject<R>
@@ -47,7 +48,7 @@ export type ExtractRematchDispatchersFromReducersObject<reducers extends ModelRe
 export type ExtractRematchDispatchersFromReducers<reducers extends ModelConfig['reducers']> =
   ExtractRematchDispatchersFromReducersObject<reducers & {}>
 
-export type ExtractRematchDispatchersFromModel<M extends ModelConfig> = 
+export type ExtractRematchDispatchersFromModel<M extends ModelConfig> =
   ExtractRematchDispatchersFromReducers<M['reducers']> &
   ExtractRematchDispatchersFromEffects<M['effects']>
 
@@ -237,3 +238,4 @@ declare global {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: any,
   }
 }
+
