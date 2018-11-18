@@ -37,7 +37,7 @@ interface FooProps {
 	x: string
 }
 
-class FooComponent extends React.PureComponent<ReturnType<FooProps & typeof mapDispatchToProps>> {
+class FooComponent extends React.PureComponent<FooProps & ReturnType<typeof mapDispatchToProps>> {
     public render(): JSX.Element {
         return <div></div>
     }
