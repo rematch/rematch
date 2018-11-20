@@ -13,7 +13,7 @@
   "bugs": {
     "url": "https://github.com/rematch/rematch/issues"
   },
-  "license": "ISC",
+  "license": "MIT",
   "authors": [
     "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
     "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
