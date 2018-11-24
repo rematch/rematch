@@ -7,6 +7,7 @@ Most reducers from libraries operate on a private store slice. The easiest way t
 The `baseReducer` option on a store model allows you to introduce a standard redux reducer that will compute the base state of that model. By combining this with `effects`, you can create a public API over the original redux reducer. These effects can be listened for and tracked.
 
 ```js
+import { bindActionCreators } from 'redux'
 import {
   routerReducer,
   push,
@@ -18,13 +19,13 @@ import {
 
 const reactRouterModel = {
   baseReducer: routerReducer,
-  effects: {
+  effects: dispatch => bindActionCreators({
     push,
     replace,
     go,
     goBack,
     goForward
-  }
+  }, dispatch)
 }
 ```
 
