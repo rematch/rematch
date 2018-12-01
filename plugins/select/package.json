@@ -12,7 +12,7 @@
   "bugs": {
     "url": "git+https://github.com/rematch/rematch/issues"
   },
-  "license": "ISC",
+  "license": "MIT",
   "files": [
     "dist",
     "src/typings.d.ts"

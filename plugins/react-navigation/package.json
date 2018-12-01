@@ -13,7 +13,7 @@
   "bugs": {
     "url": "git+https://github.com/rematch/rematch/issues"
   },
-  "license": "ISC",
+  "license": "MIT",
   "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
   "files": [
     "dist",
