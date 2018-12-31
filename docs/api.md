@@ -9,10 +9,10 @@
   - [plugins](#plugins)
   - [redux](#redux)
 - [store](#store)
-  - [dispatch](#store.dispatch)
-  - [getState](#store.getstate)
-  - [name](#store.name)
-  - [model](#store.model)
+  - [dispatch](#storedispatch)
+  - [getState](#storegetstate)
+  - [name](#storename)
+  - [model](#storemodel)
 - [action](#action)
 
 ---
