@@ -3,11 +3,10 @@
   "version": "1.0.2",
   "private": true,
   "dependencies": {
-    "@rematch/core": "^1.0.4",
-    "react": "^16.3.1",
-    "react-dom": "^16.3.1",
-    "react-redux": "^5.0.7",
-    "react-scripts-ts": "^3.1.0"
+    "@rematch/core": "^1.0.6",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -16,11 +15,12 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.3",
-    "@types/node": "^10.11.4",
-    "@types/react": "^16.3.12",
-    "@types/react-dom": "^16.0.5",
-    "@types/react-redux": "^6.0.2",
-    "typescript": "^3.1.1"
+    "@types/jest": "^23.3.11",
+    "@types/node": "^10.12.18",
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
+    "@types/react-redux": "^6.0.12",
+    "react-scripts-ts": "^3.1.0",
+    "typescript": "^3.2.2"
   }
 }
