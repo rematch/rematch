@@ -143,9 +143,30 @@ Effects provide a simple way of handling async actions when used with `async/awa
       const response = await fetch('http://example.com/data')
       const data = await response.json()
       // pass the result to a local reducer
-      dispatch.example.update(data)
+      this.update(data)
+    }
+  },
+  reducers: {
+    update(prev, data) {
+      return {...prev, ...data}
     }
   }
+}
+```
+
+`effects` may also be declared as a factory. This way provides the ability to dispatch external model actions.
+
+```js
+{
+  effects: (dispatch) => ({
+    async loadData(payload, rootState) {
+      // wait for data to load
+      const response = await fetch('http://example.com/data')
+      const data = await response.json()
+      // pass the result to a external model reducer
+      dispatch.other.update(data)
+    }
+  })
 }
 ```
 
