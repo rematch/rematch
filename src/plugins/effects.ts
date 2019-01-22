@@ -56,7 +56,7 @@ const effectsPlugin: R.Plugin = {
 				await next(action)
 				return this.effects[action.type](
 					action.payload,
-					store.getState(),
+					{...store.getState()},
 					action.meta
 				)
 			}
