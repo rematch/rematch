@@ -54,9 +54,13 @@ const effectsPlugin: R.Plugin = {
 			// async/await acts as promise middleware
 			if (action.type in this.effects) {
 				await next(action)
+
+				const deepClone = (targetObject: any): any =>
+					JSON.parse(JSON.stringify(targetObject))
+
 				return this.effects[action.type](
 					action.payload,
-					{...store.getState()},
+					deepClone(store.getState()),
 					action.meta
 				)
 			}
