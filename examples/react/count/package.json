@@ -2,6 +2,7 @@
   "name": "rematch-example-react-count",
   "version": "1.0.0",
   "scripts": {
+    "clean": "rm package-lock.json && rm -rf node_modules && npm i",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
@@ -11,7 +12,7 @@
     "@rematch/core": "../../..",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-redux": "^5.0.7"
+    "react-redux": "^6.0.1"
   },
   "devDependencies": {
     "react-scripts": "^2.0.4"
