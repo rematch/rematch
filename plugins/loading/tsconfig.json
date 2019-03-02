@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+      "outDir": "./dist",
       "sourceMap": true,
       "target": "es5",
       "lib": ["es2017", "dom"],
