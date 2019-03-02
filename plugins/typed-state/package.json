@@ -1,6 +1,6 @@
 {
   "name": "@rematch/typed-state",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Rematch plugin for typechecking state",
   "keywords": [
     "@rematch",
