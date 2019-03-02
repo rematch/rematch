@@ -21,12 +21,12 @@
   "files": [
     "scripts",
     "dist",
-    "src/typings.d.ts"
+    "src/typings"
   ],
   "main": "dist/cjs",
   "module": "dist/esm/rematch.js",
   "browser": "dist/umd/rematch.js",
-  "types": "src/typings.d.ts",
+  "types": "src/typings/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
@@ -40,9 +40,9 @@
     "dev": "tsc --watch src",
     "install:all": "tsc && bash ./scripts/setup_plugins.sh",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "test": "jest --testPathIgnorePatterns=[\"/test/typescript.test.js\"]",
+    "test": "jest",
     "test:ts:setup": "npm run build && npm run clean --prefix examples/ts/count",
-    "test:ts": "jest --testPathPattern=\"/test/typescript.test.js\"",
+    "test:ts": "jest --testPathPattern=\"/test/typescript.test.js\" --testPathIgnorePatterns=[]",
     "size": "bundlesize"
   },
   "dependencies": {
@@ -96,7 +96,8 @@
       "/plugins/react-navigation/",
       "/dist",
       ".mock.js",
-      "/test/utils.js"
+      "/test/utils.js",
+      "test/typescript.test"
     ],
     "testPathIgnorePatterns": [
       "/_book/",
@@ -105,7 +106,8 @@
       "/plugins/react-navigation/examples",
       "/plugins/subscriptions",
       "/plugins/loading-immutable",
-      "/examples/ts"
+      "/examples/ts",
+      "test/typescript.test"
     ],
     "moduleFileExtensions": [
       "ts",

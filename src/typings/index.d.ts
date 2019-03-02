@@ -1,8 +1,10 @@
-// Type definitions for Rematch v0.4.0
-// Project: Rematch
-// Definitions by:
-// Shawn McKay https://github.com/shmck
-// Bruno Lemos https://github.com/brunolemos
+/*
+ * Type definitions for Rematch v1.1.0
+ * Project: Rematch
+ * Definitions by:
+ * Shawn McKay https://github.com/shmck
+ * Bruno Lemos https://github.com/brunolemos
+*/
 
 import * as Redux from 'redux'
 
