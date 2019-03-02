@@ -9,7 +9,7 @@
     "react-redux": "^6.0.1"
   },
   "scripts": {
-    "cleanup": "rm package-lock.json && rm -rf node_modules && npm i",
+    "clean": "rm package-lock.json || true && rm -rf node_modules || true && npm i",
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",

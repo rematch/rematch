@@ -40,7 +40,9 @@
     "dev": "tsc --watch src",
     "install:all": "tsc && bash ./scripts/setup_plugins.sh",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns=[\"/test/typescript.test.js\"]",
+    "test:ts:setup": "npm run build && npm run clean --prefix examples/ts/count",
+    "test:ts": "jest --testPathPattern=\"/test/typescript.test.js\"",
     "size": "bundlesize"
   },
   "dependencies": {

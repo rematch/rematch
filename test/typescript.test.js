@@ -1,11 +1,11 @@
-const { check, checkDirectory } = require('typings-tester')
+const { check } = require('typings-tester')
 
 const tsDirectory = 'examples/ts'
 const examples = ['count']
 
 describe('typings', () => {
 	for (const example of examples) {
-		test('should run example', () => {
+		test(`should compile and run "${tsDirectory}/${example}" without error`, async () => {
 			expect(
 				check(
 					[`./${tsDirectory}/${example}/src/index.tsx`],
