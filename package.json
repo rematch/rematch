@@ -68,6 +68,7 @@
     "ts-jest": "^24.0.0",
     "tslint": "^5.13.1",
     "typescript": "^3.3.3333",
+    "typings-tester": "^0.3.2",
     "uglify-es": "^3.3.9"
   },
   "jest": {
