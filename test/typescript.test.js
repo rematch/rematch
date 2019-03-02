@@ -6,7 +6,7 @@ const examples = ['count']
 describe('typings', () => {
 	for (const example of examples) {
 		test(`should compile and run "${tsDirectory}/${example}" without error`, async () => {
-			expect(
+			expect(() =>
 				check(
 					[`./${tsDirectory}/${example}/src/index.tsx`],
 					`./${tsDirectory}/${example}/tsconfig.json`

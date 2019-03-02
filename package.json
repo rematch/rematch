@@ -21,7 +21,7 @@
   "files": [
     "scripts",
     "dist",
-    "src/typings"
+    "src/typings/index.d.ts"
   ],
   "main": "dist/cjs",
   "module": "dist/esm/rematch.js",
