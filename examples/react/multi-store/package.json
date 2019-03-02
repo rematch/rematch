@@ -4,12 +4,15 @@
   "private": true,
   "dependencies": {
     "@rematch/core": "../../..",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "react-redux": "^5.0.7",
-    "react-scripts": "^2.0.3"
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0"
+  },
+  "devDependencies": {
+    "react-scripts": "^2.1.5"
   },
   "scripts": {
+    "clean": "rm package-lock.json && rm -rf node_modules && npm i",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"

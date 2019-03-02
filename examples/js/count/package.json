@@ -4,6 +4,8 @@
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
+    "clean": "rm package-lock.json && rm -rf node_modules && npm i",
+    "start": "npm run build && open public/index.html",
     "build": "webpack"
   },
   "dependencies": {

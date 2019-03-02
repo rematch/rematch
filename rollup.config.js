@@ -3,7 +3,7 @@ import { join } from 'path'
 import replace from 'rollup-plugin-replace'
 import { uglify } from 'rollup-plugin-uglify'
 import commonJs from 'rollup-plugin-commonjs'
-import typescript from 'rollup-plugin-typescript2'
+import typescript from 'rollup-plugin-typescript'
 import resolve from 'rollup-plugin-node-resolve'
 
 import { minify } from 'uglify-es'
@@ -20,7 +20,6 @@ const productionPlugins = [
 		'process.env.NODE_ENV': "'production'",
 	}),
 	resolve(),
-	commonJs(),
 	uglify(
 		{
 			compress: {
@@ -65,7 +64,7 @@ const cjsProduction = {
 			sourcemap: true,
 		}, // CommonJS Modules
 	],
-	plugins: productionPlugins
+	plugins: productionPlugins.concat(commonJs())
 }
 
 
@@ -84,7 +83,6 @@ const development = {
 			'process.env.NODE_ENV': '"development"',
 		}),
 		resolve(),
-		commonJs(),
 	],
 }
 

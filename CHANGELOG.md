@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] - 2019-03-02
+### Added
+- Set plugins to use MIT license
+- Update dependencies & examples
+
 ## [1.0.0] - 2018-09-27
 ### Added
 - 6 mint leaves, 3/4oz simple syrup, 3/4oz lime juice, 1oz rum, 2oz club soda. Happy 1.0!
