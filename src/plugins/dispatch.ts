@@ -1,4 +1,4 @@
-import * as R from '../typings.d'
+import * as R from '../typings'
 
 /**
  * Dispatch Plugin

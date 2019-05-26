@@ -1,15 +1,23 @@
 language: node_js
 node_js:
   - "stable"
-before_install:
-  - npm install typescript && npm run install:all
-  - npm run build
-after_script:
-  - npm run size
-  - npm install coveralls
-  - coveralls < coverage/lcov.info
 git:
   depth: 5
 cache:
   directories:
     - node_modules
+jobs:
+  include:
+    - stage: rematch
+      before_install:
+        - npm install typescript
+        - npm run install:all
+        - npm run build
+      script: npm run test
+      after_script:
+        - npm run size
+        - npm install coveralls
+        - coveralls < coverage/lcov.info          
+    - stage: typings
+      before_install: npm run clean --prefix examples/ts/count
+      script: npm run test:ts

@@ -345,7 +345,7 @@ When working on a dashboard or doing calculations with a lot of external values,
 Selectors have a cache size of 1. Passing a different set of props will invalidate the cache. [re-reselect exists to solve this by caching your selectors by props as well](https://github.com/toomuchdesign/re-reselect)
 
 ```js
-import { createCachedSelector } from 're-reselect'
+import createCachedSelector from 're-reselect'
 
 selectorPlugin({
   selectorCreator: createCachedSelector

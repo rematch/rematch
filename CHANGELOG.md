@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] - 2019-03-02
+### Added
+- set plugins to use MIT license
+- update dependencies & examples
+- fix issue on IE11
+- setup TypeScript tests & Travis CI builds
+
 ## [1.0.0] - 2018-09-27
 ### Added
 - 6 mint leaves, 3/4oz simple syrup, 3/4oz lime juice, 1oz rum, 2oz club soda. Happy 1.0!
@@ -11,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.0-beta.5] - 2018-06-27
 ### Added
-- Added `model.baseReducer` for using normal redux reducers within a model [#450](https://github.com/rematch/rematch/pull/446). Additional `model.reducers` run after the baseReducer to produce the final state. See [model.baseReducer](https://github.com/rematch/rematch/blob/master/docs/api.md#basereducer) for details.
+- added `model.baseReducer` for using normal redux reducers within a model [#450](https://github.com/rematch/rematch/pull/446). Additional `model.reducers` run after the baseReducer to produce the final state. See [model.baseReducer](https://github.com/rematch/rematch/blob/master/docs/api.md#basereducer) for details.
 
 ## [1.0.0-beta.3] - 2018-06-23
 ### Breaking Change

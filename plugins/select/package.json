@@ -1,6 +1,6 @@
 {
   "name": "@rematch/select",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Selectors plugin for Rematch",
   "keywords": [
     "plugin",
@@ -36,12 +36,12 @@
     "@rematch/core": "^1.0.6",
     "@types/jest": "^23.3.3",
     "jest": "^23.6.0",
-    "rollup": "^0.66.4",
-    "rollup-plugin-commonjs": "^9.1.8",
-    "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-typescript2": "^0.17.1",
+    "rollup": "^1.0.2",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-typescript": "^1.0.0",
     "rollup-plugin-uglify": "^6.0.0",
-    "typescript": "^3.1.1",
+    "typescript": "^3.2.2",
     "uglify-es": "^3.3.9"
   },
   "peerDependencies": {

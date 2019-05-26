@@ -15,7 +15,7 @@
       "noUnusedLocals": true
   },
   "files": [
-    "src/typings.d.ts",
+    "src/typings/index.d.ts",
     "src/index.ts"
   ]
 }

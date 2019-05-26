@@ -2,7 +2,7 @@
 
 ### Examples
 
-- [Counter](../../examples/ts/count)
+- [Counter](https://github.com/rematch/rematch/tree/master/examples/ts/count/)
 
 ### Changes
 
