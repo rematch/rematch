@@ -28,7 +28,7 @@
   "browser": "dist/rematch-persist.umd.js",
   "dependencies": {
     "redux-persist": "^5.10.0",
-    "rollup-plugin-typescript2": "^0.17.1"
+    "rollup-plugin-typescript2": "^0.21.1"
   },
   "devDependencies": {
     "@rematch/core": "^1.0.5",
