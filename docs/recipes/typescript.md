@@ -108,18 +108,16 @@ export default connect(mapState, mapDispatch)(Count)
 
 > There remain some TS compatability issues with the select plugin. Help is always welcome
 
-To enable autocomplete of select, use `getSelect` with the select plugin. See example below:
+You can see a real example of this code in `examples/cart`
 
 ```ts
-import selectPlugin, { getSelect } from '@rematch/select';
 import { init } from '@rematch/core';
+import selectPlugin from '@rematch/select';
 import * as models from './models';
 
-export const select = getSelect<models>();
-
 export const store = init({
-  plugins: [selectPlugin()],
   models,
+  plugins: [selectPlugin()],
 });
 ```
 
