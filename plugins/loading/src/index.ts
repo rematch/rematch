@@ -141,6 +141,8 @@ export default (config: LoadingConfig = {}): Plugin => {
 					}
 				}
 
+				effectWrapper.isEffect = true
+
 				// replace existing effect with new wrapper
 				this.dispatch[name][action] = effectWrapper
 			})
