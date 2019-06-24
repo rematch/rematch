@@ -54,6 +54,22 @@ const mapDispatchToProps = (dispatch) => ({
 connect(mapStateToProps, mapDispatchToProps)(Component)
 ```
 
+Or using hooks
+
+```js
+import { useSelector, useDispatch } from 'react-redux'
+
+// Component
+
+const ConnectedComponent = () => {
+	const count = useSelector(state => state.count)
+	const dispatch = useDispatch()
+
+	return <Component count={count} countUpBy={dispatch.count.upBy} />
+}
+
+```
+
 ### Redux \(best practices\)
 
 #### 1. Store
