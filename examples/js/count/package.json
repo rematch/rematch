@@ -4,12 +4,12 @@
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
-    "clean": "rm package-lock.json && rm -rf node_modules && npm i",
+    "clean": "rimraf package-lock.json && rimraf node_modules",
     "start": "npm run build && open public/index.html",
     "build": "webpack"
   },
   "dependencies": {
-    "@rematch/core": "file:../../.."
+    "@rematch/core": "^1.1.0"
   },
   "devDependencies": {
     "babel-loader": "^7.1.2",

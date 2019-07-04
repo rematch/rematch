@@ -1,0 +1,93 @@
+{
+  "name": "@rematch/core",
+  "version": "1.1.0",
+  "description": "A Redux Framework",
+  "keywords": [
+    "@rematch",
+    "rematch",
+    "redux",
+    "state management",
+    "javascript"
+  ],
+  "homepage": "https://github.com/rematch/rematch#readme",
+  "bugs": {
+    "url": "https://github.com/rematch/rematch/issues"
+  },
+  "license": "MIT",
+  "authors": [
+    "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+    "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
+  ],
+  "files": [
+    "scripts",
+    "dist",
+    "src/typings/index.d.ts"
+  ],
+  "main": "dist/cjs",
+  "module": "dist/esm/rematch.js",
+  "browser": "dist/umd/rematch.js",
+  "types": "src/typings/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  },
+  "scripts": {
+    "clean:dist": "rimraf dist",
+    "clean:build": "rimraf build",
+    "clean": "npm run clean:dist & npm run clean:build",
+    "build": "NODE_ENV=production && npm run clean && rollup -c",
+    "dev": "tsc --watch src",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "test": "jest",
+    "test:ts:setup": "npm run build && npm run clean",
+    "test:ts": "jest --testPathPattern=\"/test/typescript.test.js\" --testPathIgnorePatterns=[]",
+    "size": "bundlesize"
+  },
+  "dependencies": {
+    "redux": "^4.0.1"
+  },
+  "devDependencies": {
+    "rematch-rollup-config": "^1.0.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "collectCoverage": true,
+    "coverageDirectory": "coverage/",
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      }
+    },
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "dist",
+      ".mock.js",
+      "test/utils.js",
+      "test/typescript.test"
+    ],
+    "testPathIgnorePatterns": [
+      "test/typescript.test"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ]
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/umd/rematch.prod.min.js",
+      "maxSize": "6 kB"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@rematch/persist",
+  "version": "1.1.6",
+  "description": "Redux-Persist v5 plugin for Rematch. Provides simple redux state persistence using local storage options.",
+  "keywords": [
+    "@rematch",
+    "plugin",
+    "redux",
+    "redux-persist",
+    "rematch"
+  ],
+  "homepage": "https://github.com/rematch/rematch/tree/master/plugins/persist#readme",
+  "bugs": {
+    "url": "git+https://github.com/rematch/rematch/issues"
+  },
+  "license": "MIT",
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
+  "files": [
+    "dist",
+    "src/typings.d.ts"
+  ],
+  "main": "dist/rematch-persist.cjs.js",
+  "module": "dist/rematch-persist.esm.js",
+  "scripts": {
+    "build": "npx rimraf dist && tsc && NODE_ENV=production rollup -c"
+  },
+  "types": "src/typings.d.ts",
+  "browser": "dist/rematch-persist.umd.js",
+  "dependencies": {
+    "redux-persist": "^5.10.0"
+  },
+  "devDependencies": {
+    "@rematch/core": "^1.1.0",
+    "@types/react": "^16.4.16",
+    "@types/redux-persist": "^4.3.1",
+    "react": "^16.5.2"
+  },
+  "peerDependencies": {
+    "@rematch/core": ">=1.0.0"
+  }
+}

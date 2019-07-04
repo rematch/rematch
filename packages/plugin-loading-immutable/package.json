@@ -1,0 +1,37 @@
+{
+  "name": "@rematch/loading",
+  "version": "0.5.1",
+  "description": "Loading indicator plugin for Rematch",
+  "keywords": [
+    "@rematch",
+    "loading",
+    "plugin",
+    "redux",
+    "rematch"
+  ],
+  "homepage": "https://github.com/rematch/rematch/tree/master/plugins/loading#readme",
+  "bugs": {
+    "url": "git+https://github.com/rematch/rematch/issues"
+  },
+  "license": "MIT",
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "main": "dist/rematch-loading.cjs.js",
+  "module": "dist/rematch-loading.esm.js",
+  "browser": "dist/rematch-loading.umd.js",
+  "scripts": {
+    "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
+  },
+  "devDependencies": {
+    "@rematch/core": "^1.1.0",
+    "@rematch/select": "^2.0.4",
+    "immutable": "^4.0.0-rc.12",
+    "redux-immutable": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@rematch/core": ">=1.0.0"
+  }
+}

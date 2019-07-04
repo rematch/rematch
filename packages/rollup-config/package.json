@@ -1,0 +1,19 @@
+{
+  "name": "rematch-rollup-config",
+  "private": true,
+  "version": "1.0.0",
+  "description": "The base config used to bundle every @rematch package",
+  "homepage": "https://github.com/rematch/rematch#readme",
+  "bugs": {
+    "url": "https://github.com/rematch/rematch/issues"
+  },
+  "license": "MIT",
+  "author": "Sam Richard <sam.richard@gmail.com (https://github.com/d3dc)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  },
+  "files": [
+    "rollup.config.js"
+  ]
+}

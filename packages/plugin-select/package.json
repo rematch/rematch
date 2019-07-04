@@ -1,0 +1,78 @@
+{
+  "name": "@rematch/select",
+  "version": "2.0.4",
+  "description": "Selectors plugin for Rematch",
+  "keywords": [
+    "plugin",
+    "rematch",
+    "select",
+    "selectors"
+  ],
+  "homepage": "https://github.com/rematch/rematch/plugins/select#readme",
+  "bugs": {
+    "url": "git+https://github.com/rematch/rematch/issues"
+  },
+  "author": "Sam Richard <sam.richard@gmail.com> (https://github.com/d3dc)",
+  "contributors": [
+    "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+    "Tom Aranda <tga@arandacybersolutions.com> (https://github.com/taranda)"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src/typings.d.ts"
+  ],
+  "main": "dist/rematch-select.cjs.js",
+  "module": "dist/rematch-select.esm.js",
+  "types": "src/typings.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production npm run clean && rollup -c",
+    "clean": "npm run clean:dist & npm run clean:build",
+    "clean:build": "rimraf build",
+    "clean:dist": "rimraf dist",
+    "test": "jest"
+  },
+  "browser": "dist/rematch-select.umd.js",
+  "devDependencies": {
+    "@rematch/core": "^1.1.0"
+  },
+  "peerDependencies": {
+    "@rematch/core": ">=1.0"
+  },
+  "dependencies": {
+    "reselect": "^3.0.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "collectCoverage": true,
+    "coverageDirectory": "coverage/",
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      }
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/examples/"
+    ],
+    "testPathIgnorePatterns": [
+      "/examples/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
+  }
+}

@@ -1,7 +1,8 @@
 {
-  "name": "@rematch/core",
-  "version": "1.1.0",
-  "description": "A Redux Framework",
+  "private": true,
+  "name": "rematch",
+  "version": "1.0.0",
+  "description": "The root package for rematch",
   "keywords": [
     "@rematch",
     "rematch",
@@ -9,46 +10,25 @@
     "state management",
     "javascript"
   ],
-  "homepage": "https://github.com/rematch/rematch#readme",
   "bugs": {
     "url": "https://github.com/rematch/rematch/issues"
   },
-  "license": "MIT",
-  "authors": [
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
+  "contributors": [
     "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
-    "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
+    "Sam Richard <sam.richard@gmail.com (https://github.com/d3dc)"
   ],
-  "files": [
-    "scripts",
-    "dist",
-    "src/typings/index.d.ts"
-  ],
-  "main": "dist/cjs",
-  "module": "dist/esm/rematch.js",
-  "browser": "dist/umd/rematch.js",
-  "types": "src/typings/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
   },
-  "scripts": {
-    "clean:dist": "rimraf dist",
-    "clean:build": "rimraf build",
-    "clean": "npm run clean:dist & npm run clean:build",
-    "build": "NODE_ENV=production && npm run clean && rollup -c",
-    "build:all": "bash ./scripts/build.sh",
-    "dev": "tsc --watch src",
-    "install:all": "tsc && bash ./scripts/setup_plugins.sh",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "test": "jest",
-    "test:ts:setup": "npm run build && npm run clean --prefix examples/ts/count",
-    "test:ts": "jest --testPathPattern=\"/test/typescript.test.js\" --testPathIgnorePatterns=[]",
-    "size": "bundlesize"
+  "homepage": "https://github.com/rematch/rematch#readme",
+  "license": "MIT",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
   },
   "dependencies": {
-    "redux": "^4.0.1"
-  },
-  "devDependencies": {
     "@types/jest": "^24.0.13",
     "@types/node": "^12.0.7",
     "bundlesize": "^0.17.2",
@@ -58,69 +38,20 @@
     "gitbook-plugin-github": "^3.0.0",
     "gitbook-plugin-prism": "^2.4.0",
     "jest": "^24.8.0",
-    "redux-persist": "^5.10.0",
-    "reselect": "^4.0.0",
+    "lerna": "^3.15.0",
     "rimraf": "^2.6.3",
     "rollup": "^1.14.5",
-    "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-node-resolve": "^5.0.1",
-    "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-typescript": "^1.0.1",
-    "rollup-plugin-uglify": "^6.0.2",
     "ts-jest": "^24.0.2",
     "tslint": "^5.17.0",
     "typescript": "^3.5.1",
     "typings-tester": "^0.3.2",
     "uglify-es": "^3.3.9"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "globals": {
-      "NODE_ENV": "test"
-    },
-    "collectCoverage": true,
-    "coverageDirectory": "coverage/",
-    "coverageThreshold": {
-      "global": {
-        "branches": 50,
-        "functions": 50,
-        "lines": 50,
-        "statements": 50
-      }
-    },
-    "coveragePathIgnorePatterns": [
-      "/_book/",
-      "/node_modules/",
-      "/plugins/react-navigation/",
-      "/dist",
-      ".mock.js",
-      "/test/utils.js",
-      "test/typescript.test"
-    ],
-    "testPathIgnorePatterns": [
-      "/_book/",
-      "/lib/",
-      "/plugins",
-      "/plugins/react-navigation/examples",
-      "/plugins/subscriptions",
-      "/plugins/loading-immutable",
-      "/examples/ts",
-      "test/typescript.test"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ]
-  },
-  "bundlesize": [
-    {
-      "path": "./dist/umd/rematch.prod.min.js",
-      "maxSize": "6 kB"
-    }
-  ]
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "build": "lerna run prepare",
+    "format": "lerna run format",
+    "clean": "lerna clean",
+    "lerna": "lerna"
+  }
 }

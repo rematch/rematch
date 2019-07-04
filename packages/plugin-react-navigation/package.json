@@ -1,0 +1,44 @@
+{
+  "name": "@rematch/react-navigation",
+  "version": "2.0.2",
+  "description": "React Navigation plugin for Rematch",
+  "keywords": [
+    "@rematch",
+    "plugin",
+    "react-navigation",
+    "redux",
+    "rematch"
+  ],
+  "homepage": "https://github.com/rematch/rematch/tree/master/plugins/react-navigation#readme",
+  "bugs": {
+    "url": "git+https://github.com/rematch/rematch/issues"
+  },
+  "license": "MIT",
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "main": "dist/rematch-react-navigation.cjs.js",
+  "module": "dist/rematch-react-navigation.esm.js",
+  "scripts": {
+    "build": "rimraf lib dist && tsc && NODE_ENV=production rollup -c"
+  },
+  "devDependencies": {
+    "@rematch/core": "^1.0.0-alpha.4",
+    "@types/react": "^16.3.14",
+    "react": "^16.0.0",
+    "react-navigation": "^1.5.11",
+    "react-redux": "^5.0.7"
+  },
+  "peerDependencies": {
+    "@rematch/core": ">=1.0.0",
+    "react": "*",
+    "react-native": "*",
+    "react-navigation": "*",
+    "react-redux": "*"
+  },
+  "dependencies": {
+    "react-navigation-redux-helpers": "^1.0.6"
+  }
+}

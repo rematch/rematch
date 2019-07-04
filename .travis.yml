@@ -11,7 +11,7 @@ jobs:
     - stage: rematch
       before_install:
         - npm install typescript
-        - npm run install:all
+        - npm run install
         - npm run build
       script: npm run test
       after_script:
@@ -19,5 +19,5 @@ jobs:
         - npm install coveralls
         - coveralls < coverage/lcov.info          
     - stage: typings
-      before_install: npm run clean --prefix examples/ts/count
+      before_install: npm run clean
       script: npm run test:ts
