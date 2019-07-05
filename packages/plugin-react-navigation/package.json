@@ -32,7 +32,8 @@
     "@types/react": "^16.8.23",
     "react": "^16.8.6",
     "react-navigation": "^1.5.11",
-    "react-redux": "^7.1.0"
+    "react-redux": "^7.1.0",
+    "rematch-rollup-config": "^1.0.0"
   },
   "peerDependencies": {
     "@rematch/core": ">=1.0.0",

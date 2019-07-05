@@ -37,7 +37,8 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@rematch/core": "^1.1.0"
+    "@rematch/core": "^1.1.0",
+    "rematch-rollup-config": "^1.0.0"
   },
   "peerDependencies": {
     "@rematch/core": ">=1.0"

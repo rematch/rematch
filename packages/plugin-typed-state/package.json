@@ -35,7 +35,8 @@
   "devDependencies": {
     "@rematch/core": "^1.1.0",
     "@types/prop-types": "^15.7.0",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "rematch-rollup-config": "^1.0.0"
   },
   "peerDependencies": {
     "prop-types": "^15.6.2",
