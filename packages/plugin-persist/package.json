@@ -24,7 +24,8 @@
   "browser": "dist/rematch-persist.browser.js",
   "types": "src/typings.d.ts",
   "scripts": {
-    "build": "npx rimraf dist && tsc && NODE_ENV=production rollup -c"
+    "clean": "rimraf dist",
+    "build": "npm run clean && NODE_ENV=production rollup -c"
   },
   "dependencies": {
     "redux-persist": "^5.10.0"

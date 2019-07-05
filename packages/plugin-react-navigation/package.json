@@ -23,7 +23,8 @@
   "module": "dist/rematch-react-navigation.esm.js",
   "browser": "dist/index.browser.js",
   "scripts": {
-    "build": "rimraf lib dist && tsc && NODE_ENV=production rollup -c"
+    "clean": "rimraf lib dist",
+    "build": "npm run clean && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
     "@rematch/core": "^1.1.0",
