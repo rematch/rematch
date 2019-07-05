@@ -41,5 +41,34 @@
   "peerDependencies": {
     "prop-types": "^15.6.2",
     "@rematch/core": ">=1.0.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "collectCoverage": true,
+    "coverageDirectory": "coverage/",
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      }
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/examples/"
+    ],
+    "testPathIgnorePatterns": [
+      "/examples/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
   }
 }
