@@ -16,6 +16,7 @@ dist
 coverage
 
 # release
+lerna-debug.log
 .release-it.json
 
 # gitbook
