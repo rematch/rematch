@@ -14,7 +14,7 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "files": [
-    "rollup.config.js"
+    "lib"
   ],
   "dependencies": {
     "rollup-plugin-replace": "^2.2.0",
