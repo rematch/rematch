@@ -49,9 +49,9 @@
   },
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "build": "lerna run prepare",
-    "format": "lerna run format",
-    "clean": "lerna clean",
+    "build": "lerna run build",
+    "lint": "lerna run lint",
+    "clean": "lerna clean --yes",
     "lerna": "lerna"
   }
 }

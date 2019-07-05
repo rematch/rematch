@@ -21,8 +21,8 @@
   ],
   "main": "dist/rematch-typed-state.cjs.js",
   "module": "dist/rematch-typed-state.esm.js",
+  "browser": "dist/rematch-typed-state.browser.js",
   "types": "src/typings.d.ts",
-  "browser": "dist/rematch-typed-state.umd.js",
   "directories": {
     "test": "test"
   },

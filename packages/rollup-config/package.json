@@ -15,5 +15,10 @@
   },
   "files": [
     "rollup.config.js"
-  ]
+  ],
+  "dependencies": {
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "rollup-plugin-uglify": "^6.0.2"
+  }
 }

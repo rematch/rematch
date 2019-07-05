@@ -21,15 +21,16 @@
   ],
   "main": "dist/rematch-react-navigation.cjs.js",
   "module": "dist/rematch-react-navigation.esm.js",
+  "browser": "dist/index.browser.js",
   "scripts": {
     "build": "rimraf lib dist && tsc && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
-    "@rematch/core": "^1.0.0-alpha.4",
-    "@types/react": "^16.3.14",
-    "react": "^16.0.0",
+    "@rematch/core": "^1.1.0",
+    "@types/react": "^16.8.23",
+    "react": "^16.8.6",
     "react-navigation": "^1.5.11",
-    "react-redux": "^5.0.7"
+    "react-redux": "^7.1.0"
   },
   "peerDependencies": {
     "@rematch/core": ">=1.0.0",

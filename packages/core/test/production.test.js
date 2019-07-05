@@ -1,6 +1,6 @@
 describe('production:', () => {
 	test('should create a valid common js build', () => {
-		const { init } = require('../dist/cjs/rematch')
+		const { init } = require('../dist/rematch.cjs.js')
 		expect(init).toBeDefined()
 	})
 	// test('should create a valid es module build', () => {
@@ -8,8 +8,8 @@ describe('production:', () => {
 	// 	// fails due to export not found
 	// 	expect(init).toBeDefined()
 	// })
-	test('should create a valid universal module build', () => {
-		const rematch = require('../dist/umd/rematch').default
+	test('should create a valid iife build', () => {
+		const rematch = require('../dist/rematch.browser.js').default
 		expect(rematch.init).toBeDefined()
 	})
 })

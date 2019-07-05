@@ -20,7 +20,7 @@
   ],
   "main": "dist/rematch-updated.cjs.js",
   "module": "dist/rematch-updated.esm.js",
-  "browser": "dist/rematch-updated.umd.js",
+  "browser": "dist/rematch-updated.browser.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
@@ -29,7 +29,7 @@
     "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
-    "@rematch/core": "^1.0.0",
+    "@rematch/core": "^1.0.0"
   },
   "peerDependencies": {
     "@rematch/core": ">=1.0.0"

@@ -21,9 +21,10 @@
   ],
   "main": "dist/rematch-immer.cjs.js",
   "module": "dist/rematch-immer.esm.js",
-  "browser": "dist/rematch-immer.umd.js",
+  "browser": "dist/rematch-immer.browser.js",
   "scripts": {
-    "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
+    "clean": "rimraf build dist",
+    "build": "npm run clean && NODE_ENV=production rollup -c"
   },
   "dependencies": {
     "immer": "^1.5.0"

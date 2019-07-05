@@ -19,23 +19,23 @@
     "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
   ],
   "files": [
-    "scripts",
     "dist",
     "src/typings/index.d.ts"
   ],
-  "main": "dist/cjs",
-  "module": "dist/esm/rematch.js",
-  "browser": "dist/umd/rematch.js",
-  "types": "src/typings/index.d.ts",
+  "main": "dist/rematch.cjs.js",
+  "module": "dist/rematch.esm.js",
+  "browser": "dist/rematch.browser.js",
+  "types": "src/typings/rematch.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
+    "prepare": "npm run test && npm run build",
     "clean:dist": "rimraf dist",
     "clean:build": "rimraf build",
     "clean": "npm run clean:dist & npm run clean:build",
-    "build": "NODE_ENV=production && npm run clean && rollup -c",
+    "build": "npm run clean && NODE_ENV=production rollup -c",
     "dev": "tsc --watch src",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "jest",
@@ -86,7 +86,7 @@
   },
   "bundlesize": [
     {
-      "path": "./dist/umd/rematch.prod.min.js",
+      "path": "./dist/rematch.cjs.js",
       "maxSize": "6 kB"
     }
   ]

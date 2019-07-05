@@ -21,13 +21,13 @@
   ],
   "main": "dist/rematch-loading.cjs.js",
   "module": "dist/rematch-loading.esm.js",
-  "browser": "dist/rematch-loading.umd.js",
+  "browser": "dist/rematch-loading.browser.js",
   "types": "src/typings.d.ts",
   "scripts": {
     "clean:dist": "rimraf dist",
     "clean:build": "rimraf build",
     "clean": "npm run clean:dist & npm run clean:build",
-    "build": "NODE_ENV=production npm run clean && rollup -c"
+    "build": "npm run clean && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
     "@rematch/core": "^1.1.0",

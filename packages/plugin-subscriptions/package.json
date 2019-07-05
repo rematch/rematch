@@ -22,7 +22,7 @@
   ],
   "main": "dist/rematch-subscriptions.cjs.js",
   "module": "dist/rematch-subscriptions.esm.js",
-  "browser": "dist/rematch-subscriptions.umd.js",
+  "browser": "dist/rematch-subscriptions.browser.js",
   "directories": {
     "test": "test"
   },
@@ -34,7 +34,7 @@
     "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
   },
   "devDependencies": {
-    "@rematch/core": "^0.3.0",
+    "@rematch/core": "^0.3.0"
   },
   "peerDependencies": {
     "@rematch/core": ">0.1.3"

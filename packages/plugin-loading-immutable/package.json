@@ -1,5 +1,5 @@
 {
-  "name": "@rematch/loading",
+  "name": "@rematch/loading-immutable",
   "version": "0.5.1",
   "description": "Loading indicator plugin for Rematch",
   "keywords": [
@@ -19,9 +19,9 @@
     "dist",
     "index.d.ts"
   ],
-  "main": "dist/rematch-loading.cjs.js",
-  "module": "dist/rematch-loading.esm.js",
-  "browser": "dist/rematch-loading.umd.js",
+  "main": "dist/rematch-loading-immutable.cjs.js",
+  "module": "dist/rematch-loading-immutable.esm.js",
+  "browser": "dist/rematch-loading-immutable.browser.js",
   "scripts": {
     "build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
   },
