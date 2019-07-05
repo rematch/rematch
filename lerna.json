@@ -1,5 +1,5 @@
 {
-    "packages": ["packages/*", "examples/*/*"],
+    "packages": ["packages/*", "examples/*/*", "packages/*/examples/*"],
     "version": "independent",
     "hoist": true
   }

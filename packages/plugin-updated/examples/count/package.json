@@ -8,8 +8,8 @@
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
-    "@rematch/core": "file:../../../..",
-    "@rematch/updated": "file:../..",
+    "@rematch/core": "^1.0.0",
+    "@rematch/updated": "^0.1.0",
     "moment": "^2.19.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
