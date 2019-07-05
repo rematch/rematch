@@ -29,28 +29,29 @@
     "example": "examples"
   },
   "dependencies": {
-    "@types/jest": "^24.0.13",
-    "@types/node": "^12.0.7",
-    "bundlesize": "^0.17.2",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.12",
+    "bundlesize": "^0.18.0",
     "coveralls": "^3.0.4",
     "cross-env": "^5.2.0",
     "gitbook-plugin-edit-link": "^2.0.2",
     "gitbook-plugin-github": "^3.0.0",
     "gitbook-plugin-prism": "^2.4.0",
     "jest": "^24.8.0",
+    "jest-cli": "^24.8.0",
     "lerna": "^3.15.0",
     "rimraf": "^2.6.3",
     "rollup": "^1.14.5",
     "ts-jest": "^24.0.2",
     "tslint": "^5.17.0",
     "typescript": "^3.5.1",
-    "typings-tester": "^0.3.2",
-    "uglify-es": "^3.3.9"
+    "typings-tester": "^0.3.2"
   },
   "scripts": {
     "postinstall": "lerna bootstrap",
     "build": "lerna run build",
     "lint": "lerna run lint",
+    "size": "lerna run size",
     "clean": "lerna clean --yes",
     "lerna": "lerna"
   }

@@ -23,8 +23,9 @@
   "module": "dist/rematch-immer.esm.js",
   "browser": "dist/rematch-immer.browser.js",
   "scripts": {
+    "prepare": "npm run clean && npm run build",
     "clean": "rimraf build dist",
-    "build": "npm run clean && NODE_ENV=production rollup -c"
+    "build": "NODE_ENV=production rollup -c"
   },
   "dependencies": {
     "immer": "^1.5.0"

@@ -23,8 +23,9 @@
   "module": "dist/rematch-loading-immutable.esm.js",
   "browser": "dist/rematch-loading-immutable.browser.js",
   "scripts": {
+    "prepare": "npm run clean && npm run build",
     "clean": "rimraf build dist",
-    "build": "npm run clean && NODE_ENV=production rollup -c"
+    "build": "NODE_ENV=production rollup -c"
   },
   "devDependencies": {
     "@rematch/core": "^1.1.0",

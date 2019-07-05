@@ -24,10 +24,9 @@
   "browser": "dist/rematch-loading.browser.js",
   "types": "src/typings.d.ts",
   "scripts": {
-    "clean:dist": "rimraf dist",
-    "clean:build": "rimraf build",
-    "clean": "npm run clean:dist & npm run clean:build",
-    "build": "npm run clean && NODE_ENV=production rollup -c"
+    "prepare": "npm run clean && npm run build",
+    "clean": "rimraf dist build",
+    "build": "NODE_ENV=production rollup -c"
   },
   "devDependencies": {
     "@rematch/core": "^1.1.0",

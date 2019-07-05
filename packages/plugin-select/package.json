@@ -31,10 +31,9 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "build": "NODE_ENV=production npm run clean && rollup -c",
-    "clean": "npm run clean:dist & npm run clean:build",
-    "clean:build": "rimraf build",
-    "clean:dist": "rimraf dist",
+    "prepare": "npm run clean && npm run test && npm run build",
+    "build": "NODE_ENV=production rollup -c",
+    "clean": "rimraf dist build",
     "test": "jest"
   },
   "devDependencies": {

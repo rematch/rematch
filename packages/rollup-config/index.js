@@ -1,98 +1,73 @@
-import { resolve } from 'path'
-import replace from 'rollup-plugin-replace'
-import typescript from 'rollup-plugin-typescript'
-import uglify from 'rollup-plugin-uglify'
+const { resolve } = require("path")
+const { terser } = require("rollup-plugin-terser")
 
-import { minify } from 'uglify-es'
-// experimental minifier for ES modules
-// https://github.com/TrySound/rollup-plugin-uglify#warning
+const replace = require("rollup-plugin-replace")
+const typescript = require("rollup-plugin-typescript")
 
-import camelize from './lib/camelize'
+const camelize = require("./lib/camelize")
 
 const env = process.env.NODE_ENV
-const pkg = require(resolve('package.json'))
-const pkgNamespace = camelize(pkg.name.split('/')[1])
-const node_modules = [
-	...Object.keys(pkg.dependencies || {}),
-	...Object.keys(pkg.peerDependencies || {}),
+const pkg = require(resolve("package.json"))
+const pkgNamespace = camelize(pkg.name.split("/")[1])
+const pkgDependencies = [
+  ...Object.keys(pkg.dependencies || {}),
+  ...Object.keys(pkg.peerDependencies || {})
 ]
 
-const input = 'src/index.ts'
+const input = "src/index.ts"
 
 const plugins = [
-	typescript({
-		typescript: require('typescript'),
-	}),
-	replace({
-		'process.env.NODE_ENV': JSON.stringify(env),
-	}),
+  replace({
+    "process.env.NODE_ENV": JSON.stringify(env)
+  }),
+  typescript()
 ]
 
-const productionPlugins = [
-	...plugins,
-	uglify(
-		{
-			compress: {
-				pure_getters: true,
-				unsafe: true,
-				unsafe_comps: true,
-				warnings: false,
-			},
-			output: {
-				comments: false,
-				semicolons: false,
-			},
-			mangle: {
-				reserved: ['payload', 'type', 'meta'],
-			},
-		},
-		minify
-	),
-]
+const productionPlugins = [...plugins, terser()]
 
-export default ({
-	namespace,
-	cjs = true,
-	esm = true,
-	iife = !!pkg.browser,
-	sourcemap = true,
+module.exports = ({
+  namespace,
+  cjs = true,
+  esm = true,
+  iife = !!pkg.browser,
+  sourcemap = true
 } = {}) => {
-	const name = 'rematch.' + namespace || pkgNamespace
+  const name = "rematch." + namespace || pkgNamespace
 
-	const rollupBuild = {
-		input,
-		plugins: env === 'production' ? productionPlugins : plugins,
-		external: node_modules,
-		output: [],
-	}
+  const rollupBuild = {
+    input,
+    plugins: env === "production" ? productionPlugins : plugins,
+    external: pkgDependencies,
+    output: []
+  }
 
-	if (iife) {
-		rollupBuild.output.push({
-			name,
-			sourcemap,
-			file: pkg.browser,
-			format: 'iife',
-			exports: 'named',
-		})
-	}
+  if (iife) {
+    rollupBuild.output.push({
+      name,
+      sourcemap,
+      file: pkg.browser,
+      format: "iife",
+      exports: "named"
+    })
+  }
 
-	if (esm) {
-		rollupBuild.output.push({
-			sourcemap,
-			file: pkg.module,
-			format: 'es',
-			exports: 'named',
-		})
-	}
+  if (esm) {
+    rollupBuild.output.push({
+      sourcemap,
+      file: pkg.module,
+      format: "es",
+      exports: "named"
+    })
+  }
 
-	if (cjs) {
-		rollupBuild.output.push({
-			sourcemap,
-			file: pkg.main,
-			format: 'cjs',
-			exports: 'named',
-		})
-	}
+  if (cjs) {
+    rollupBuild.output.push({
+      sourcemap,
+      file: pkg.main,
+      format: "cjs",
+      exports: "named"
+    })
+  }
 
-	return rollupBuild
+  return rollupBuild
 }
