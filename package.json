@@ -52,7 +52,7 @@
     "build": "lerna run build",
     "lint": "lerna run lint",
     "size": "lerna run size",
-    "clean": "lerna clean --yes",
+    "clean": "lerna run clean && lerna clean --yes",
     "lerna": "lerna"
   }
 }

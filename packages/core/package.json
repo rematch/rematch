@@ -31,11 +31,9 @@
     "url": "git+https://github.com/rematch/rematch.git"
   },
   "scripts": {
-    "prepare": "npm run test && npm run build",
-    "clean:dist": "rimraf dist",
-    "clean:build": "rimraf build",
-    "clean": "npm run clean:dist & npm run clean:build",
-    "build": "npm run clean && NODE_ENV=production rollup -c",
+    "prepare": "npm run test && npm run clean && npm run build",
+    "clean": "rimraf dist",
+    "build": "NODE_ENV=production rollup -c",
     "dev": "tsc --watch src",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "test": "jest",
