@@ -7,7 +7,7 @@ import { minify } from 'uglify-es'
 // experimental minifier for ES modules
 // https://github.com/TrySound/rollup-plugin-uglify#warning
 
-import camelize from './camelize'
+import camelize from './lib/camelize'
 
 const env = process.env.NODE_ENV
 const pkg = require(resolve('package.json'))
@@ -59,16 +59,15 @@ export default ({
 } = {}) => {
 	const name = 'rematch.' + namespace || pkgNamespace
 
-	// minified production builds
-	const productionBuilds = {
+	const rollupBuild = {
 		input,
-		plugins: [...productionPlugins],
-		output: [],
+		plugins: env === 'production' ? productionPlugins : plugins,
 		external: node_modules,
+		output: [],
 	}
 
 	if (iife) {
-		productionBuilds.output.push({
+		rollupBuild.output.push({
 			name,
 			sourcemap,
 			file: pkg.browser,
@@ -78,7 +77,7 @@ export default ({
 	}
 
 	if (esm) {
-		productionBuilds.output.push({
+		rollupBuild.output.push({
 			sourcemap,
 			file: pkg.module,
 			format: 'es',
@@ -87,7 +86,7 @@ export default ({
 	}
 
 	if (cjs) {
-		productionBuilds.output.push({
+		rollupBuild.output.push({
 			sourcemap,
 			file: pkg.main,
 			format: 'cjs',
@@ -95,5 +94,5 @@ export default ({
 		})
 	}
 
-	return productionBuilds
+	return rollupBuild
 }
