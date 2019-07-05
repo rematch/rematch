@@ -1,15 +1,7 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./lib",
-    "sourceMap": true,
-    "target": "es5",
-    "lib": ["es2017"],
-    "moduleResolution": "node",
     "declaration": true,
     "declarationDir": "./dist",
-    "esModuleInterop": true
-  },
-  "files": [
-    "src/index.ts"
-  ]
+  }
 }

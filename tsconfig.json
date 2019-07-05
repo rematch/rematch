@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-      "outDir": "./lib",
       "allowJs": true,
       "sourceMap": true,
       "target": "es5",
@@ -14,8 +13,4 @@
       "suppressImplicitAnyIndexErrors": true,
       "noUnusedLocals": true
   },
-  "files": [
-    "src/typings/index.d.ts",
-    "src/index.ts"
-  ]
 }

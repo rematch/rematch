@@ -1,13 +1,7 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-      "outDir": "./dist",
-      "sourceMap": true,
-      "target": "es5",
-      "lib": ["es2017", "dom"],
-      "moduleResolution": "node",
-  },
-  "files": [
-    "src/index.ts",
-    "src/typings.d.ts"
-  ]
+    "declaration": true,
+    "declarationDir": "./dist",
+  }
 }
