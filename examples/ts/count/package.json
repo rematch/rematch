@@ -6,7 +6,7 @@
     "@rematch/core": "../../..",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-redux": "^6.0.1"
+    "react-redux": "^7.1.0"
   },
   "scripts": {
     "clean": "rm package-lock.json || true && rm -rf node_modules || true && npm i",
@@ -20,7 +20,7 @@
     "@types/node": "^11.10.4",
     "@types/react": "^16.8.6",
     "@types/react-dom": "^16.8.2",
-    "@types/react-redux": "^7.0.1",
+    "@types/react-redux": "^7.1.1",
     "react-scripts-ts": "^3.1.0",
     "typescript": "^3.3.3333"
   }
