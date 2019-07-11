@@ -10,7 +10,7 @@ jobs:
   include:
     - stage: rematch
       before_install:
-        - npm install typescript
+        - npm install typescript@3.5
         - npm run install:all
         - npm run build
       script: npm run test
