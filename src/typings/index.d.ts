@@ -109,7 +109,6 @@ export interface RematchStore<M extends Models = Models, A extends Action = Acti
   getState(): RematchRootState<M>,
   model(model: Model): void,
   subscribe(listener: () => void): Redux.Unsubscribe,
-  [Symbol.observable](): Redux.Observable<RematchRootState<M>>
 }
 
 export type Action<P = any, M = any> = {
