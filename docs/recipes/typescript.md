@@ -40,10 +40,9 @@ export const sharks = createModel({
     increment: (state: SharksState, payload: number): SharksState => state + payload,
   },
   effects: {
-    // TODO: Optional args breaks TypeScript autocomplete (e.g. payload: number = 1)
-    async incrementAsync(payload: number) {
+    async incrementAsync(payload:number = 1) {
       await delay(500);
-      this.increment(payload || 1);
+      this.increment(payload);
     },
   },
 });
@@ -65,8 +64,8 @@ const mapState = (state: iRootState) => ({
 })
 
 const mapDispatch = (dispatch: Dispatch) => ({
-	incrementDolphins: dispatch.dolphins.increment,
-	incrementDolphinsAsync: dispatch.dolphins.incrementAsync,
+	incrementDolphins: dispatch.dolphins.increment.bind(null,1),
+	incrementDolphinsAsync: dispatch.dolphins.incrementAsync.bind(null,1),
 	incrementSharks: () => dispatch.sharks.increment(1),
 	incrementSharksAsync: () => dispatch.sharks.incrementAsync(1),
 	incrementSharksAsync2: () => dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
