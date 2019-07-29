@@ -1,20 +1,21 @@
 import { createModel } from '@rematch/core'
-
+import { Dispatch } from '../store'
 import { delay } from '../helpers'
 
 export type SharksState = number
 
-export const sharks = createModel({
+const model = {
 	state: 0,
 	reducers: {
 		increment: (state: SharksState, payload: number): SharksState =>
 			state + payload,
 	},
-	effects: dispatch => ({
-		// TODO: Optional args breaks TypeScript autocomplete (e.g. payload: number = 1)
-		async incrementAsync(payload: number) {
+	effects: (dispatch: Dispatch) => ({
+		async incrementAsync(payload: number = 1) {
 			await delay(500)
-			dispatch.sharks.increment(payload || 1)
+			dispatch.sharks.increment(payload)
 		},
 	}),
-})
+}
+
+export const sharks: typeof model = createModel(model)
