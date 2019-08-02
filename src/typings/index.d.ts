@@ -153,7 +153,7 @@ export interface ModelConfig<S = any, SS = S> {
   state: S,
   baseReducer?: (state: SS, action: Action) => SS,
   reducers?: ModelReducers<S>,
-  effects?: ModelEffects<any> | ((dispatch: RematchDispatch) => ModelEffects<any>),
+  effects?: ModelEffects<S> | ((dispatch: RematchDispatch) => ModelEffects<S>),
 }
 
 export interface PluginFactory extends Plugin {
