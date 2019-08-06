@@ -173,7 +173,7 @@ Effects provide a simple way of handling async actions when used with `async/awa
 ```js
 {
   effects: {
-    // this will run after update reducer finished
+    // this will run after "update" reducer finished
     update(payload, rootState) {
       console.log('update reducer was called with payload: ', payload);
     }
