@@ -168,6 +168,24 @@ Effects provide a simple way of handling async actions when used with `async/awa
 }
 ```
 
+`effects` that share a name with a reducer are called **after** their reducer counterpart
+
+```js
+{
+  effects: {
+    // this will run after update reducer finished
+    update(payload, rootState) {
+      console.log('update reducer was called with payload: ', payload);
+    }
+  },
+  reducers: {
+    update(prev, data) {
+      return {...prev, ...data}
+    }
+  }
+}
+```
+
 #### baseReducer
 
 `baseReducer: (state, action) => state`
