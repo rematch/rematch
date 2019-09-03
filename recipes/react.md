@@ -4,7 +4,7 @@ Moving from plain old Redux with React to Rematch is easy. It really involves no
 
 However, you may choose to simplify your `connect` statements. See an example below:
 
-```js
+```javascript
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -28,13 +28,11 @@ const mapDispatchWithDestructure = ({count: {increment}}) => ({increment})
 export default connect(mapState, mapDispatch)(Counter)
 ```
 
-Note that it's recommended you keep your `dispatch` statements within mapDispatch. This keeps your components pure for testing. 
-
----
+Note that it's recommended you keep your `dispatch` statements within mapDispatch. This keeps your components pure for testing.
 
 Use `store` to setup your React-Redux Provider.
 
-```js
+```javascript
 import React from 'react'
 import { Provider } from 'react-redux'
 import { init } from '@rematch/core'
@@ -48,3 +46,4 @@ export default () => (
   </Provider>
 )
 ```
+

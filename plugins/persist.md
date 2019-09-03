@@ -1,4 +1,4 @@
-# Rematch Persist
+# Persist
 
 Redux-Persist v5 plugin for Rematch.
 
@@ -8,7 +8,7 @@ Provides simple redux state persistence using local storage options.
 
 ## Install
 
-```
+```text
 npm install @rematch/persist
 ```
 
@@ -16,7 +16,7 @@ npm install @rematch/persist
 
 ## Setup
 
-```js
+```javascript
 import createRematchPersist from '@rematch/persist'
 
 const persistPlugin = createRematchPersist({
@@ -34,7 +34,7 @@ init({
 
 With React, display a loading indicator while waiting for data to async load from storage.
 
-```js
+```javascript
 import { getPersistor } from '@rematch/persist'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 
@@ -50,3 +50,4 @@ const Root = () => {
 ### Config Options
 
 See [redux-persist config docs](https://github.com/rt2zz/redux-persist/blob/master/docs/api.md#type-persistconfig)
+

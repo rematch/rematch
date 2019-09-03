@@ -1,16 +1,17 @@
 # Purpose
 
-Redux is an amazing state management tool, supported by a healthy middleware ecosystem and excellent devtools. 
+Redux is an amazing state management tool, supported by a healthy middleware ecosystem and excellent devtools.
 
-Rematch builds upon Redux by reducing boilerplate and enforcing best practices. 
+Rematch builds upon Redux by reducing boilerplate and enforcing best practices.
 
 To clarify, Rematch removes the need for:
-- declared action types
-- action creators
-- thunks
-- store configuration
-- mapDispatchToProps
-- sagas
+
+* declared action types
+* action creators
+* thunks
+* store configuration
+* mapDispatchToProps
+* sagas
 
 ## Comparing Redux & Rematch
 
@@ -18,8 +19,9 @@ A comparison of Rematch & Redux may help clear things up.
 
 ### Rematch
 
-##### 1. model
-```js
+#### 1. model
+
+```javascript
 import { init } from '@rematch/core'
 
 const count = {
@@ -32,11 +34,11 @@ const count = {
 init({
   models: { count }
 })
-
 ```
 
-##### 2. View
-```js
+#### 2. View
+
+```javascript
 import { connect } from 'react-redux'
 
 // Component
@@ -52,22 +54,25 @@ const mapDispatchToProps = (dispatch) => ({
 connect(mapStateToProps, mapDispatchToProps)(Component)
 ```
 
-### Redux (best practices)
+### Redux \(best practices\)
 
-##### 1. Store
-```js
+#### 1. Store
+
+```javascript
 import { createStore, combineReducers } from 'redux'
 // devtools, reducers, middleware, etc.
 export default createStore(reducers, initialState, enhancers)
 ```
 
-##### 2. Action Type
-```js
+#### 2. Action Type
+
+```javascript
 export const COUNT_UP_BY = 'COUNT_UP_BY'
 ```
 
-##### 3. Action Creator
-```js
+#### 3. Action Creator
+
+```javascript
 import { COUNT_UP_BY } from '../types/counter'
 
 export const countUpBy = (value) => ({
@@ -76,8 +81,9 @@ export const countUpBy = (value) => ({
 })
 ```
 
-##### 4. Reducer
-```js
+#### 4. Reducer
+
+```javascript
 import { COUNT_UP_BY } from '../types/counter'
 
 const initialState = 0
@@ -91,8 +97,9 @@ export default (state = initialState, action) => {
 }
 ```
 
-##### 5. View
-```js
+#### 5. View
+
+```javascript
 import { countUpBy } from '../actions/count'
 import { connect } from 'react-redux'
 
@@ -107,12 +114,13 @@ connect(mapStateToProps, { countUpBy })(Component)
 
 ### Scoreboard
 
-|   | Redux  | Rematch  |
-|---|---|---|
-| simple setup ‎ |   |  ‎✔	 |
-| less boilerplate |   | ‎✔	 |
-| readability  |   | ‎✔	|
-| configurable | ‎✔  |  ‎✔	 |
-| redux devtools  | ‎✔  |  ‎✔	 |
-| generated action creators | ‎  |  ‎✔	 |
-| async | thunks | ‎async/await  |
+|  | Redux | Rematch |
+| :--- | :--- | :--- |
+| simple setup ‎ |  | ‎✔ |
+| less boilerplate |  | ‎✔ |
+| readability |  | ‎✔ |
+| configurable | ‎✔ | ‎✔ |
+| redux devtools | ‎✔ | ‎✔ |
+| generated action creators | ‎ | ‎✔ |
+| async | thunks | ‎async/await |
+

@@ -1,18 +1,18 @@
-# Rematch Immer
+# Immer
 
 Immer plugin for Rematch. Provides immutable ability on immer library.
 
-### Install
+## Install
 
-```
+```text
 npm install @rematch/immer
 ```
 
 > For @rematch/core@0.x use @rematch/immer@0.1.0
 
-### Setup
+## Setup
 
-```js
+```javascript
 import immerPlugin from '@rematch/immer'
 import { init } from '@rematch/core'
 
@@ -23,11 +23,11 @@ init({
 })
 ```
 
-### Usage
+## Usage
 
 Use Immer plugin, reducer could be use mutable method to achieve immutable state. Like the example:
 
-```js
+```javascript
 const todo = {
   state: [{
     todo: "Learn typescript",
@@ -48,7 +48,7 @@ const todo = {
 
 In Immer, reducers perform mutations to achieve the next immutable state. Keep in mind, Immer only supports change detection on plain objects and arrays, so primitive values like strings or numbers will always return a change. Like the example:
 
-```js
+```javascript
 const count = {
   state: 0,
   reducers: {
@@ -61,3 +61,4 @@ const count = {
 ```
 
 I suggest to developers that reducers could return changed value all the time.
+

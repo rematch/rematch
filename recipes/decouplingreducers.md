@@ -1,12 +1,10 @@
 # Decoupling reducers
 
-Rematch and more generally Redux, encourage you to keep a flat state to solve several [issues](https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape).
-Each model should be considered as a separate entity and should only be updated by its reducer, this is why Rematch doesn't allow nested reducers.
+Rematch and more generally Redux, encourage you to keep a flat state to solve several [issues](https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape). Each model should be considered as a separate entity and should only be updated by its reducer, this is why Rematch doesn't allow nested reducers.
 
-This being said, there is some case where nested reducers can be a good thing.
-In this recipe, we will see how to use reusable reducer functions.
+This being said, there is some case where nested reducers can be a good thing. In this recipe, we will see how to use reusable reducer functions.
 
-Let's start with an example. A common pattern in Redux, when we want to store an ordered list, is "allIds, byId". Storing the entities as an array requires an additional cost of iterating over the array to find our target. On the other hand, storing the entities as an object doesn't preserve the order of items. So let's use both: 
+Let's start with an example. A common pattern in Redux, when we want to store an ordered list, is "allIds, byId". Storing the entities as an array requires an additional cost of iterating over the array to find our target. On the other hand, storing the entities as an object doesn't preserve the order of items. So let's use both:
 
 ```javascript
 const todoList = {
@@ -25,16 +23,17 @@ const todoList = {
   }
 }
 ```
+
 `byId` key stores the entity while `allIds` keeps track of the order of our entities.
 
-This creates another issue: 
-  - `byId` and `allIds` refers to the same entity, they definitely need to live into the same model
-  - `byId` and `allIds` don't depend on each other, they definitely need to be handled separately
- 
+This creates another issue:
+
+* `byId` and `allIds` refers to the same entity, they definitely need to live into the same model
+* `byId` and `allIds` don't depend on each other, they definitely need to be handled separately
 
 Let's try to see what we get without decoupling our reducers:
- 
- ```javascript
+
+```javascript
 const todoList = {
   state: {...},
   reducers: {
@@ -64,12 +63,11 @@ const todoList = {
     }
   }
 };
-
 ```
+
 [React example](https://codesandbox.io/s/lry6024mkl)
 
-We see that our reducers start to be big and pretty unreadable.
-Hopefully, we can separate our update functions.
+We see that our reducers start to be big and pretty unreadable. Hopefully, we can separate our update functions.
 
 We can start to isolate our pure reusable function
 
@@ -79,7 +77,6 @@ function filterObjectByKey(obj, f) {
     .filter(([key, value]) => f(key))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 }
-
 ```
 
 Now we can separate our `reducer functions`, the functions that update a part of the state.
@@ -99,7 +96,6 @@ function toggleById(state, payload) {
   const { idToToggle } = payload;
   return {
    ...state,
-   [idToToggle]: {
      ...state[idToToggle],
      isDone: !state[idToToggle].isDone
    }
@@ -131,12 +127,8 @@ const todoList = {
     }
   }
 };
-
 ```
 
 [React example](https://codesandbox.io/s/x2r7nryn24)  
 Reducer functions make our model simpler and more readable.
 
-
-
- 

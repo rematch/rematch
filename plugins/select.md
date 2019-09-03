@@ -1,29 +1,25 @@
-# Rematch Select
+# Selectors
 
-A plugin to add memoized state selection to Rematch. Selectors are created using [reselect](https://github.com/reduxjs/reselect) by default and are automatically wired with selector dependencies from other models. 
+A plugin to add memoized state selection to Rematch. Selectors are created using [reselect](https://github.com/reduxjs/reselect) by default and are automatically wired with selector dependencies from other models.
 
 > This is the documentation for @rematch/select 2.0. For older versions see [the legacy docs](https://github.com/rematch/rematch/blob/f59cfeebaf1d3022b308e32d3a3f24440906478c/plugins/select/README.md)
 
-- [Getting Started](#getting-started)
-- [Building Selectors](#building-selectors)
-- [API Docs](#api-docs)
-- [Recipes](#recipes)
-
-
+* [Getting Started](select.md#getting-started)
+* [Building Selectors](select.md#building-selectors)
+* [API Docs](select.md#api-docs)
+* [Recipes](select.md#recipes)
 
 ## Getting Started
 
 ### Install
 
-```
+```text
 npm install @rematch/select
 ```
 
-
-
 ### Setup
 
-```js
+```javascript
 import selectPlugin from '@rematch/select'
 import { init } from '@rematch/core'
 
@@ -32,29 +28,25 @@ init({
 })
 ```
 
-
-
 ## Building Selectors
 
 ### Basics
 
 A "selector" is just a function that uses the current state to derive a value:
 
-```js
+```javascript
 (state, payload?) => any
 ```
 
 You've probably already written one for a connected component's `mapStateToProps`
 
-```js
+```javascript
 const mapStateToProps = (state, props) => ({
   total: state.cart.items.reduce((a, b) => a + (b.price * b.amount), 0),
 })
 
 connect(mapStateToProps)(MyComponent)
 ```
-
-
 
 ### Model Selectors
 
@@ -75,10 +67,9 @@ const model = {
 
 **To wire together models, `@rematch/select` requires factory functions to delay creating selectors until their dependencies are ready.** During the `createStore()` call, each factory will only be evaluated once.
 
-
 Our basic selector from the last section is a good example of a computed value:
 
-```js
+```javascript
 const model = {
   ...
   selectors: {
@@ -90,26 +81,20 @@ const model = {
 }
 ```
 
-
-
 The `mapStateToProps` function from the previous example is now easy to re-use; _but_ it will still be recomputed every time it gets called. To make this app perform better, we can use [redux's reselect ](https://github.com/reduxjs/reselect) api in our model :
 
-```js
+```javascript
 const model = {
   ...
   selectors: (slice, createSelector, hasProps) => ({ ... })
 }
 ```
 
-
-
 The first function - `slice` - re-runs a function only when the current model has actually updated. Our example model doesn't use any other models to compute the total - when any other models do update, its total will stay the same. By using `slice`, we can keep our app from repeating work by caching the result of total.
-
 
 > Named selectors create a public interface for other models to use.
 
-
-```js
+```javascript
 total () {
   return slice(cart =>
     cart.reduce((a, b) => a + (b.price * b.amount), 0)
@@ -117,13 +102,11 @@ total () {
 }
 ```
 
-
-
 Some models might need to use other selectors to derive their result. The `createSelector` function uses all of its arguments except the last one to _select_ values to watch for changes before calling its final argument with those selected values. By default, this function is just reselect's `createSelector`.
 
 > `slice` can also be used as a dependency that returns the current model's slice of state.
 
-```js
+```javascript
 total () {
   return createSelector(
     slice,
@@ -133,19 +116,15 @@ total () {
 }
 ```
 
-
-
 ### Combining selectors
 
 Selector factories also get passed the store's `select` object. During the initial `createStore`, all store models are visited before building their selectors.
 
 > Inside `selectors`, it can be less redundant to use the descriptive name `models`.
 
-&nbsp;
-
 > If a factory is declared using `function`, `this` is bound to the current model's selectors.
 
-```js
+```javascript
 poorSortByHot (models) {
   return createSelector(
     this.rankableItems,
@@ -161,7 +140,7 @@ The reason we use selectors is because they are lazy. The biggest drawback is th
 
 The actions fired by our store are another public interface that can eagerly track the changes to other models. Using a listener reducer might fit some applications better:
 
-```js
+```javascript
 reducers: {
   'selectedGroup/change' (state, id) {
     return {
@@ -174,13 +153,11 @@ reducers: {
 }
 ```
 
-
-
 ### Selector arguments
 
 Previous examples have shown selectors with dependencies that can receive `props`:
 
-```js
+```javascript
 (state, props) => props.shipping
 ```
 
@@ -188,11 +165,9 @@ Previous examples have shown selectors with dependencies that can receive `props
 
 If a selector uses `props`, the third function passed in a model's config -`hasProps` - creates a new selector cache for each new set of `props`.
 
-`hasProps` wraps an entire selector factory and creates a higher-order selector. [For complex calculations or dashboards a recipe may be better](#re-reselect)
+`hasProps` wraps an entire selector factory and creates a higher-order selector. [For complex calculations or dashboards a recipe may be better](select.md#re-reselect)
 
-
-
-```js
+```javascript
 expensiveFilter: hasProps(function (models, lowerLimit) {
   return slice(items => items.filter(item => item.price > lowerLimit))
 }),
@@ -202,17 +177,13 @@ wouldGetFreeShipping () {
 },
 ```
 
-
-
 ## Using Selectors in your app
 
 `@rematch/select` adds a `select` property to the store.
 
----
-
 When accessed like an object, all of our models' selectors are callable:
 
-```js
+```javascript
 const moreThan50 = store.select.cart.expensiveFilter(50.00)
 
 console.log( moreThan50(store.getState()) )
@@ -222,13 +193,11 @@ const mapStateToProps = state => ({
 })
 ```
 
----
-
 When called as a function, `select` uses a passed function to map the store's models as part of a new selector function.
 
 > Under the hood, `select` lazily creates a [structuredSelector](https://github.com/reduxjs/reselect#createstructuredselectorinputselectors-selectorcreator--createselector).
 
-```js
+```javascript
 const selection = store.select(models => ({
   total: models.cart.total,
   eligibleItems: models.cart.wouldGetFreeShipping
@@ -237,23 +206,18 @@ const selection = store.select(models => ({
 
 This "selection" will run each mapped selector and return an object - which works great for component bindings, since `connect` expects `mapStateToProps` to return an object:
 
-
-```js
+```javascript
 export default connect(selection)(MyComponent)
 ```
 
-
-
 _Note_, this "selection" is just another selector function and could be called any number of ways. For example, a component might need to "step around" the public interface:
 
-```js
+```javascript
 connect(state => ({
   contacts: state.contacts.collection,
   ...selection(state),
 }))(MyComponent)
 ```
-
-
 
 ## Other Selector Creators
 
@@ -261,7 +225,7 @@ connect(state => ({
 
 > Changing `config.selectorCreator` store-wide can make testing easier.
 
-```js
+```javascript
 isHypeBeast (models) {
   return customCreateSelector(
     slice,
@@ -271,80 +235,66 @@ isHypeBeast (models) {
 }
 ```
 
-
-
 ## API Docs
 
-```js
+```javascript
 import selectPlugin from '@rematch/select'
 ```
 
-- [selectPlugin](#selectplugin)
-  - [selectorCreator](#configselectorcreator)
-  - [sliceState](#configslicestate)
-- [store.select](#storeselect)
-
-
+* [selectPlugin](select.md#selectplugin)
+  * [selectorCreator](select.md#configselectorcreator)
+  * [sliceState](select.md#configslicestate)
+* [store.select](select.md#storeselect)
 
 ### selectPlugin
 
-- `selectPlugin(config?: any)`
+* `selectPlugin(config?: any)`
 
 Create the plugin.
 
-```js
+```javascript
 init({
   plugins: [ selectPlugin(config) ]
 })
 ```
 
-
-
 #### config.selectorCreator:
 
-- `selectorCreator: (...deps, resultFunc) => any`
+* `selectorCreator: (...deps, resultFunc) => any`
 
 This option allows the user to specify a different function to be used when creating selectors.
 
-The default is `createSelector` from `reselect`. See [recipes](#Recipes) for other uses.
-
-
+The default is `createSelector` from `reselect`. See [recipes](select.md#Recipes) for other uses.
 
 #### config.sliceState:
 
-- `sliceState: (rootState, model) => any`
+* `sliceState: (rootState, model) => any`
 
-This option allows the user to specify how the state will be sliced in the `slice` function.
-The function takes the `rootState` as the first parameter and the `model` corresponding to the selector as the
-second parameter. It should return the desired state slice required by the selector.
+This option allows the user to specify how the state will be sliced in the `slice` function. The function takes the `rootState` as the first parameter and the `model` corresponding to the selector as the second parameter. It should return the desired state slice required by the selector.
 
 The default is to return the slice of the state that corresponds to the owning model's name, but this assumes the store is a Javascript object.
 
-Most of the time the default should be used, however, there are some cases where one may want to specify the `sliceState` function. See [the immutable.js recipe for an example.](#immutablejs)
-
-
+Most of the time the default should be used, however, there are some cases where one may want to specify the `sliceState` function. See [the immutable.js recipe for an example.](select.md#immutablejs)
 
 ### store.select:
 
-- `select( mapSelectToStructure: (select) => object)`
+* `select( mapSelectToStructure: (select) => object)`
 
 When called as a function, `select` lazily creates a [structuredSelector](https://github.com/reduxjs/reselect#createstructuredselectorinputselectors-selectorcreator--createselector) using the selectors you return in `mapSelectToStructure`.
 
-
-- `select: { [modelName]: { [selectorName]: (state) => any } }`
+* `select: { [modelName]: { [selectorName]: (state) => any } }`
 
 `select` is also an object with a group of selectors for each of your store models. Selectors are regular functions that can be called anywhere within your application.
-
-
 
 ## Recipes
 
 ### Re-reselect
-When working on a dashboard or doing calculations with a lot of external values, you may find your selectors always re-run. This happens when your selector has props (such as a `hasProps` factory) and then is shared between multiple components.
+
+When working on a dashboard or doing calculations with a lot of external values, you may find your selectors always re-run. This happens when your selector has props \(such as a `hasProps` factory\) and then is shared between multiple components.
 
 Selectors have a cache size of 1. Passing a different set of props will invalidate the cache. [re-reselect exists to solve this by caching your selectors by props as well](https://github.com/toomuchdesign/re-reselect)
 
-```js
+```javascript
 import createCachedSelector from 're-reselect'
 
 selectorPlugin({
@@ -352,7 +302,7 @@ selectorPlugin({
 })
 ```
 
-```js
+```javascript
 total () {
   const mapProps = (state, props) => props.id
   return createSelector(
@@ -365,17 +315,16 @@ total () {
 
 ### Immutable.js
 
-##### Use an Immutable JS object as the store
+**Use an Immutable JS object as the store**
 
-If you are using an [Immutable.js](https://facebook.github.io/immutable-js/) Map as your store, you will need to slice
-the state using [Map.get()](http://facebook.github.io/immutable-js/docs/#/Map/get):
+If you are using an [Immutable.js](https://facebook.github.io/immutable-js/) Map as your store, you will need to slice the state using [Map.get\(\)](http://facebook.github.io/immutable-js/docs/#/Map/get):
 
-```js
+```javascript
 selectorsPlugin({
   sliceState: (rootState, model) =>
     rootState.get(model.name)
 })
 ```
 
-Now you can use an [Immutable.js Map](http://facebook.github.io/immutable-js/docs/#/Map) as your store and access the
-appropriate slice of the state in each of your selectors.
+Now you can use an [Immutable.js Map](http://facebook.github.io/immutable-js/docs/#/Map) as your store and access the appropriate slice of the state in each of your selectors.
+

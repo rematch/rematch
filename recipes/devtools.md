@@ -1,16 +1,16 @@
 # Devtools
 
-### Redux-Devtools
+## Redux-Devtools
 
 Rematch works with [Redux Devtools](https://github.com/zalmoxisus/redux-devtools-extension) out of the box. No configuration required.
 
-```js
+```javascript
 init() // devtools up and running
 ```
 
 Its also possible to add redux devtools [configuration options](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md).
 
-```js
+```javascript
 init({
   redux: {
     devtoolOptions: options,
@@ -20,7 +20,7 @@ init({
 
 To disable redux devtools, set `disabled` property to `true`:
 
-```js
+```javascript
 init({
   redux: {
     devtoolOptions: {
@@ -30,25 +30,25 @@ init({
 })
 ```
 
-### Remote-Redux-Devtools
+## Remote-Redux-Devtools
 
 To use Redux Devtools in React Native, simply use [Remote Redux Devtools](https://github.com/zalmoxisus/remote-redux-devtools).
 
 1.
 
-```js
+```javascript
 npm install --save-dev remote-redux-devtools
 ```
 
 or
 
-```js
+```javascript
 yarn add -D remote-redux-devtools
 ```
 
 2.
 
-```js
+```javascript
 import { composeWithDevTools } from 'remote-redux-devtools'
 
 init({
@@ -58,16 +58,14 @@ init({
 })
 ```
 
-3. Run the app, open debug menu, and select `Debug JS Remotely`.
+1. Run the app, open debug menu, and select `Debug JS Remotely`.
+2. Run Redux Devtools in Chrome, and select `remote` at the bottom of the devtools window
 
-4. Run Redux Devtools in Chrome, and select `remote` at the bottom of the devtools window
-
-
-### Reactotron
+## Reactotron
 
 Setup Rematch to also work with [Reactotron devtools](https://github.com/infinitered/reactotron).
 
-```js
+```javascript
 // Reactotron.config.js
 import Reactotron from 'reactotron-react-native'
 import { reactotronRedux } from 'reactotron-redux'
@@ -83,7 +81,7 @@ export default Reactotron
 
 Overwrite `createStore` to complete the config.
 
-```js
+```javascript
 // index.js
 import Reactotron from './Reactotron.config.js'
 
@@ -93,3 +91,4 @@ init({
   }
 })
 ```
+

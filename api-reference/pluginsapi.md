@@ -1,25 +1,27 @@
-# Plugin Examples
+# Plugins API
+
+## Plugin Examples
 
 There are plenty of examples to base your next plugin on. After all, in Rematch, everything is a plugin: `dispatch`, `effects`, `selectors`, `subscriptions` - all plugins. Optional plugins can be provided as packages, such as "loading" & "persist".
 
-- [core plugins](https://github.com/rematch/rematch/tree/master/src/plugins)
-- [plugin packages](https://github.com/rematch/rematch/tree/master/plugins)
+* [core plugins](https://github.com/rematch/rematch/tree/master/src/plugins)
+* [plugin packages](https://github.com/rematch/rematch/tree/master/plugins)
 
-# Plugin API Reference
+## Plugin API Reference
 
-- [config](#config)
-- [exposed](#exposed)
-- [onModel](#onmodel)
-- [middleware](#middleware)
-- [onStoreCreated](#onstorecreated)
+* [config](pluginsapi.md#config)
+* [exposed](pluginsapi.md#exposed)
+* [onModel](pluginsapi.md#onmodel)
+* [middleware](pluginsapi.md#middleware)
+* [onStoreCreated](pluginsapi.md#onstorecreated)
 
 ### config
 
 `{ config: initOptions }`
 
-An init options overwrite object. See [init](./api.md#init) for a full list of options.
+An init options overwrite object. See [init](api.md#init) for a full list of options.
 
-```js
+```javascript
 // example from persist plugin
 const plugin = {
   config: {
@@ -38,7 +40,7 @@ See "persist" as an example.
 
 A shared object for plugins to communicate with each other.
 
-```js
+```javascript
 // example from select plugin
 const selectors = {
   expose: { select: {} },
@@ -47,12 +49,11 @@ const selectors = {
 
 See "dispatch", "select" as an example.
 
-
 ### onModel
 
 `{ onModel(model: Model): void }`
 
-```js
+```javascript
 const plugin = {
   onModel(model) {
     // do something
@@ -70,7 +71,7 @@ As an example, see "dispatch", "effects", "subscriptions", etc.
 
 `{ middleware: (store: Model) => (next: Dispatch) => (action: Action): nextState }`
 
-```js
+```javascript
 const plugin = {
   middleware: store => next => action => {
     // do something here
@@ -87,7 +88,7 @@ See examples with "effects", "loading", & "subscriptions".
 
 `{ onStoreCreated(store: Store): void }`
 
-```js
+```javascript
 const plugin = {
   onStoreCreated(store) {
     // do something
@@ -99,9 +100,9 @@ Run last, as it is after the store is created. This provides access to the `stor
 
 See examples with "dispatch" & "persist".
 
-Returning an object from `onStoreCreated` will result in the keys being merged onto the `store` object. 
+Returning an object from `onStoreCreated` will result in the keys being merged onto the `store` object.
 
-```
+```text
 const plugin = {
   onStoreCreated(store) {
     return { count: 42 } 

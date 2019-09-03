@@ -4,7 +4,7 @@
 
 See an example below:
 
-```js
+```javascript
 import produce from 'immer';
 
 export default {
@@ -39,3 +39,4 @@ export default {
 ```
 
 If you would like to wrap all reducers with Immer produce, checkout the [Rematch Immer plugin](https://github.com/rematch/rematch/tree/master/plugins/immer).
+

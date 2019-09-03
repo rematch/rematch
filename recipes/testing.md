@@ -1,7 +1,8 @@
 # Testing
-- Todo Example: [React](https://codesandbox.io/s/yvpy2zr8mj)
 
-### Reducers
+* Todo Example: [React](https://codesandbox.io/s/yvpy2zr8mj)
+
+## Reducers
 
 Testing with store.
 
@@ -36,8 +37,7 @@ Testing reducers directly.
   });
 ```
 
-
-### Effects
+## Effects
 
 Testing with store.
 
@@ -60,6 +60,7 @@ Testing with store.
 ```
 
 Testing effects directly.
+
 ```jsx
   import myModel from './myModel';
 
@@ -78,3 +79,4 @@ Testing effects directly.
     });
   });
 ```
+

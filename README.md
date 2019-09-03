@@ -1,84 +1,63 @@
-<img src="./logo/rematch-logo.svg" height='250' width='250' alt="Rematch Logo">
+# Getting Started
 
-<p>
-<a href='https://travis-ci.org/rematch/rematch' style='margin: 0 0.5rem;'>
-<img src='https://travis-ci.org/rematch/rematch.svg?branch=master' alt='Build Status' height='18'/>
-</a>
+![](.gitbook/assets/rematch-logo.svg)
 
-<a href='https://coveralls.io/github/rematch/rematch?branch=master' style='margin: 0 0.5rem;'>
-<img src='https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master' alt='Coverage Status' height='18'/>
-</a>
+ [![Build Status](https://travis-ci.org/rematch/rematch.svg?branch=master)](https://travis-ci.org/rematch/rematch) [![Coverage Status](https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master)](https://coveralls.io/github/rematch/rematch?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/04039822aa23402bb985d9b374ac4a39)](https://www.codacy.com/app/ShMcK/rematch?utm_source=github.com&utm_medium=referral&utm_content=rematch/rematch&utm_campaign=Badge_Grade) [![npm version](https://badge.fury.io/js/%40rematch%2Fcore.svg)](https://badge.fury.io/js/%40rematch%2Fcore) [![bundle size](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat) [![file size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)
 
-<a href='https://www.codacy.com/app/ShMcK/rematch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rematch/rematch&amp;utm_campaign=Badge_Grade' style='margin: 0 0.5rem;'>
-  <img src='https://api.codacy.com/project/badge/Grade/04039822aa23402bb985d9b374ac4a39' alt='Codacy Badge' height='18'>
-</a>
+## Rematch
 
-<a href='https://badge.fury.io/js/%40rematch%2Fcore' style='margin: 0 0.5rem;'>
-<img src='https://badge.fury.io/js/%40rematch%2Fcore.svg' alt='npm version' height='18'>
-</a>
-
-<a href='https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat' style='margin: 0 0.5rem;'>
-<img src='https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat' alt='bundle size' height='18'>
-</a>
-
-<a href='https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat' style='margin: 0 0.5rem;'>
-<img src='https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat' alt='file size' height='18'>
-</a>
-</p>
-
-# Rematch
-
-## Rethink Redux.
+### Rethink Redux.
 
 Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
 
-- [Why we created Rematch](https://hackernoon.com/redesigning-redux-b2baee8b8a38)
-- [Video: Introducing Rematch](https://www.youtube.com/watch?v=3ezSBYoL5do)
-- [A comparison of Redux & Rematch](./docs/purpose.md)
+* [Why we created Rematch](https://hackernoon.com/redesigning-redux-b2baee8b8a38)
+* [Video: Introducing Rematch](https://www.youtube.com/watch?v=3ezSBYoL5do)
+* [A comparison of Redux & Rematch](purpose.md)
 
-## Index
+### Index
 
-* [Getting Started](#getting-started)
-* [Purpose](./docs/purpose.md)
-* [Examples](#examples)
-* [Migration Guide](#migrating-from-redux)
+* [Getting Started](./#getting-started)
+* [Purpose](purpose.md)
+* [Examples](./#examples)
+* [Migration Guide](./#migrating-from-redux)
 * API Reference
-  * [Core API](./docs/api.md)
-  * [Init Redux API](./docs/reduxApi.md)
-  * [Plugins API](./docs/pluginsApi.md)
+  * [Core API](api-reference/api.md)
+  * [Init Redux API](api-reference/reduxapi.md)
+  * [Plugins API](api-reference/pluginsapi.md)
 * Recipes
-  * [Devtools](./docs/recipes/devtools.md)
-  * [React](./docs/recipes/react.md)
-  * [Vue](./docs/recipes/vue.md)
-  * [Testing](./docs/recipes/testing.md)
-  * [TypeScript](./docs/recipes/typescript.md)
-  * [Immer](./docs/recipes/immer.md)
-  * [Decoupling reducers](./docs/recipes/decouplingReducers.md)
+  * [Devtools](recipes/devtools.md)
+  * [React](recipes/react.md)
+  * [Vue](recipes/vue.md)
+  * [Testing](recipes/testing.md)
+  * [TypeScript](recipes/typescript.md)
+  * [Immer](recipes/immer.md)
+  * [Decoupling reducers](recipes/decouplingreducers.md)
 * Plugins
-  * [Selectors](./plugins/select/README.md)
-  * [Loading](./plugins/loading/README.md)
-  * [Persist](./plugins/persist/README.md)
-  * [Updated](./plugins/updated/README.md)
-  * [React Navigation](./plugins/react-navigation/README.md)
-  * [Immer](./plugins/immer/README.md)
-* [Inspiration](./docs/inspiration.md)
+  * [Selectors](plugins/select.md)
+  * [Loading](plugins/loading.md)
+  * [Persist](plugins/persist.md)
+  * [Updated](plugins/updated.md)
+  * [React Navigation](plugins/react-navigation.md)
+  * [Immer](plugins/immer.md)
+* [Inspiration](inspiration.md)
 
-##### Translations
+**Translations**
+
 * [中文手册](https://rematch.gitbook.io/handbook)
 
-## Getting Started
+### Getting Started
 
-```sh
+```bash
 npm install @rematch/core
 ```
 
-### Step 1: Init
+#### Step 1: Init
 
 **init** configures your reducers, devtools & store.
 
-#### index.js
+**index.js**
 
-```js
+```javascript
 import { init } from '@rematch/core'
 import * as models from './models'
 
@@ -89,14 +68,15 @@ const store = init({
 export default store
 ```
 
-*For a more advanced setup, see [plugins](./docs/plugins.md) and [Redux config options](./docs/reduxApi.md).*
+_For a more advanced setup, see_ [_plugins_](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/docs/plugins.md) _and_ [_Redux config options_](api-reference/reduxapi.md)_._
 
-### Step 2: Models
+#### Step 2: Models
 
 The **model** brings together state, reducers, async actions & action creators in one place.
 
-#### models.js
-```js
+**models.js**
+
+```javascript
 export const count = {
   state: 0, // initial state
   reducers: {
@@ -116,7 +96,7 @@ export const count = {
 }
 ```
 
-*See the [reducers docs](https://github.com/rematch/rematch/blob/master/docs/api.md#reducers) to learn more, including how to trigger actions from other models.*
+_See the_ [_reducers docs_](https://github.com/rematch/rematch/blob/master/docs/api.md#reducers) _to learn more, including how to trigger actions from other models._
 
 Understanding models is as simple as answering a few questions:
 
@@ -124,11 +104,11 @@ Understanding models is as simple as answering a few questions:
 2. How do I change the state? **reducers**
 3. How do I handle async actions? **effects** with async/await
 
-### Step 3: Dispatch
+#### Step 3: Dispatch
 
 **dispatch** is how we trigger reducers & effects in your models. Dispatch standardizes your actions without the need for writing action types or action creators.
 
-```js
+```javascript
 import { init } from '@rematch/core'
 import * as models from './models'
 
@@ -149,8 +129,7 @@ dispatch.count.incrementAsync(1)                       // state = { count: 4 } a
 
 Dispatch can be called directly, or with the `dispatch[model][action](payload)` shorthand.
 
-
-### Step 4: View
+#### Step 4: View
 
 Rematch can be used with native redux integrations such as "react-redux". See an example below.
 
@@ -187,12 +166,12 @@ ReactDOM.render(
 )
 ```
 
-## Examples
+### Examples
 
-- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) | [React](https://codesandbox.io/s/3kpyz2nnz6) | [Vue](https://codesandbox.io/s/n3373olqo0) | [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
-- Todos: [React](https://codesandbox.io/s/92mk9n6vww)
+* Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) \| [React](https://codesandbox.io/s/3kpyz2nnz6) \| [Vue](https://codesandbox.io/s/n3373olqo0) \| [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
+* Todos: [React](https://codesandbox.io/s/92mk9n6vww)
 
-## Migrating From Redux
+### Migrating From Redux
 
 Moving from Redux to Rematch involves very few steps.
 
@@ -200,21 +179,19 @@ Moving from Redux to Rematch involves very few steps.
 2. Mix reducers & models [step 2](https://codesandbox.io/s/9yk6rjok1r)
 3. Shift to models [step 3](https://codesandbox.io/s/mym2x8m7v9)
 
-## Migration from 0.x to 1.x
+### Migration from 0.x to 1.x
 
 For an earlier version, see [v0.x docs](https://github.com/rematch/rematch/tree/v0). Currently only displaying v1.x documentation.
 
-Breaking changes with v1.0.0. Global imports of `dispatch` and `getState` have been removed. Instead, you can export and import your store, capturing `store.dispatch`, `store.getState`. See the [Changelog](./CHANGELOG.md) for details.
+Breaking changes with v1.0.0. Global imports of `dispatch` and `getState` have been removed. Instead, you can export and import your store, capturing `store.dispatch`, `store.getState`. See the [Changelog](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/CHANGELOG.md) for details.
 
+### API
 
-## API
+See the [@rematch/core API](api-reference/api.md)
 
-See the [@rematch/core API](./docs/api.md)
+### Changelog
 
-## Changelog
+See the [CHANGELOG](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/CHANGELOG.md) to see what's new.
 
-See the [CHANGELOG](./CHANGELOG.md) to see what's new.
+Like this project? ★ us on GitHub :\)
 
----
-
-Like this project? ★ us on GitHub :)

@@ -1,21 +1,19 @@
 # @rematch/core API
 
-- [init](#init)
-  - [models](#models)
-    - [state](#state)
-    - [reducers](#reducers)
-    - [effects](#effects)
-    - [basereducer](#basereducer)
-  - [plugins](#plugins)
-  - [redux](#redux)
-- [store](#store)
-  - [dispatch](#storedispatch)
-  - [getState](#storegetstate)
-  - [name](#storename)
-  - [model](#storemodel)
-- [action](#action)
-
----
+* [init](api.md#init)
+  * [models](api.md#models)
+    * [state](api.md#state)
+    * [reducers](api.md#reducers)
+    * [effects](api.md#effects)
+    * [basereducer](api.md#basereducer)
+  * [plugins](api.md#plugins)
+  * [redux](api.md#redux)
+* [store](api.md#store)
+  * [dispatch](api.md#storedispatch)
+  * [getState](api.md#storegetstate)
+  * [name](api.md#storename)
+  * [model](api.md#storemodel)
+* [action](api.md#action)
 
 ## init
 
@@ -23,7 +21,7 @@
 
 The function called to setup Rematch. Returns `store`.
 
-```js
+```javascript
 import { init } from '@rematch/core'
 
 const store = init()
@@ -35,7 +33,7 @@ Init may also be called with the following configuration option below.
 
 `init({ models: { [string]: model } })`
 
-```js
+```javascript
 import { init } from '@rematch/core'
 
 const count = {
@@ -51,7 +49,7 @@ init({
 
 For smaller projects, its recommend you keep your models in a "models.js" file and named export them.
 
-```js
+```javascript
 export const count = {
   state: 0,
 }
@@ -59,14 +57,14 @@ export const count = {
 
 For larger projects, its recommended you keep your models in a "models" folder and export them.
 
-```js
+```javascript
 // models/count.js
 export default {
   state: 0,
 }
 ```
 
-```js
+```javascript
 // models/index.js
 export { default as count } from './count'
 export { default as settings } from './settings'
@@ -74,7 +72,7 @@ export { default as settings } from './settings'
 
 These can then be imported using `* as alias` syntax.
 
-```js
+```javascript
 import { init } from '@rematch/core'
 import * as models from './models'
 
@@ -87,7 +85,7 @@ init({ models })
 
 The initial state of the model.
 
-```js
+```javascript
 const example = {
   state: { loading: false }
 }
@@ -97,9 +95,9 @@ const example = {
 
 `reducers: { [string]: (state, payload) => any }`
 
-An object of functions that change the model's state. These functions take the model's previous state and a payload, and return the model's next state. These should be pure functions relying only on the state and payload args to compute the next state. For code that relies on the "outside world" (impure functions like api calls, etc.), use [effects](#effects).
+An object of functions that change the model's state. These functions take the model's previous state and a payload, and return the model's next state. These should be pure functions relying only on the state and payload args to compute the next state. For code that relies on the "outside world" \(impure functions like api calls, etc.\), use [effects](api.md#effects).
 
-```js
+```javascript
 {
   reducers: {
     add: (state, payload) => state + payload,
@@ -109,7 +107,7 @@ An object of functions that change the model's state. These functions take the m
 
 Reducers may also listen to actions from other models by listing the 'model name' + 'action name' as the key.
 
-```js
+```javascript
 {
   reducers: {
     'otherModel/actionName': (state, payload) => state + payload,
@@ -123,7 +121,7 @@ Reducers may also listen to actions from other models by listing the 'model name
 
 An object of functions that can handle the world outside of the model.
 
-```js
+```javascript
 {
   effects: {
     logState(payload, rootState) {
@@ -135,7 +133,7 @@ An object of functions that can handle the world outside of the model.
 
 Effects provide a simple way of handling async actions when used with `async/await`.
 
-```js
+```javascript
 {
   effects: {
     async loadData(payload, rootState) {
@@ -156,7 +154,7 @@ Effects provide a simple way of handling async actions when used with `async/awa
 
 `effects` may also be declared as a factory. This way provides the ability to dispatch external model actions.
 
-```js
+```javascript
 {
   effects: (dispatch) => ({
     async loadData(payload, rootState) {
@@ -176,11 +174,11 @@ Effects provide a simple way of handling async actions when used with `async/awa
 
 A reducer that will run before the model's `reducers`. This function takes the model's previous state and an action, and returns the model state that `reducers` will use.
 
-This is especially useful for adding redux libraries to your store in a structured manner. See the recipe for [redux plugins](./recipes/redux.md)
+This is especially useful for adding redux libraries to your store in a structured manner. See the recipe for [redux plugins](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/docs/recipes/redux.md)
 
 ### plugins
 
-```js
+```javascript
 init({
   plugins: [loadingPlugin, persistPlugin],
 })
@@ -188,11 +186,11 @@ init({
 
 Plugins are custom sets of init configurations or internal hooks that can add features to your Rematch setup.
 
-Read more about existing [plugins](./plugins.md) or about how to create your own plugins using the [plugins API](./pluginsApi.md).
+Read more about existing [plugins](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/docs/plugins.md) or about how to create your own plugins using the [plugins API](pluginsapi.md).
 
 ### redux
 
-```js
+```javascript
 init({
   redux: {
     middlewares: [reduxLogger],
@@ -205,23 +203,21 @@ init({
 
 There are situations where you might want to access Redux directly. You may want to:
 
-- migrate an existing Redux project
-- add middleware
-- create a custom plugin
+* migrate an existing Redux project
+* add middleware
+* create a custom plugin
 
-For a complete summary of all redux options, see the [init Redux API](./reduxApi.md).
-
----
+For a complete summary of all redux options, see the [init Redux API](reduxapi.md).
 
 ## store
 
 ### store.dispatch
 
-As in Redux, a function that dispatches an [action](#action).
+As in Redux, a function that dispatches an [action](api.md#action).
 
 In Rematch, `store.dispatch` can be called directly or as an object.
 
-```js
+```javascript
 import store from './index'
 
 const { dispatch } = store
@@ -253,8 +249,7 @@ Use this when using multiple stores. The name will become the key when global `g
 
 It's possible to lazy-load models and merge them into Rematch after `init` has been called. Use `store.model`.
 
-
-```js
+```javascript
 import { init } from '@rematch/core'
 
 const store = init({
@@ -274,8 +269,6 @@ store.getState()
 // { count: 0, countB: 99 }
 ```
 
----
-
 ## action
 
 `{ type: 'modelName/actionName', payload: any }`
@@ -285,3 +278,4 @@ Actions are messages sent within Redux as a way for disparate parts of your app 
 In Rematch, an action is always structured with a type of "modelName" and "actionName" - referring to either a reducer or effect name.
 
 Any data attached to an action is added in the payload.
+

@@ -1,20 +1,19 @@
-# Init Redux API Reference
+# Init Redux API
 
-> This section is likely not helpful for you unless you are building your own plugin or adding middleware. For a list of common init options, see the [@rematch/core API](./api.md)
+> This section is likely not helpful for you unless you are building your own plugin or adding middleware. For a list of common init options, see the [@rematch/core API](api.md)
+>
+> If you just need to include a redux library in your store, see the recipe for [redux plugins](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/docs/recipes/redux.md)
 
-> If you just need to include a redux library in your store, see the recipe for [redux plugins](./recipes/redux.md)
-
-- init
-  - [redux](#redux)
-    - [initialState](#initialstate)
-    - [reducers](#reducers)
-    - [middlewares](#middlewares)
-    - [enhancers](#enhancers)
-    - [rootReducers](#rootreducers)
-    - [combineReducers](#combinereducers)
-    - [createStore](#createstore)
-    - [devtoolOptions](#devtooloptions)
-
+* init
+  * [redux](reduxapi.md#redux)
+    * [initialState](reduxapi.md#initialstate)
+    * [reducers](reduxapi.md#reducers)
+    * [middlewares](reduxapi.md#middlewares)
+    * [enhancers](reduxapi.md#enhancers)
+    * [rootReducers](reduxapi.md#rootreducers)
+    * [combineReducers](reduxapi.md#combinereducers)
+    * [createStore](reduxapi.md#createstore)
+    * [devtoolOptions](reduxapi.md#devtooloptions)
 
 ## Redux
 
@@ -22,7 +21,7 @@ This section provides access to your Redux setup, along with options to overwrit
 
 ### initialState
 
-```js
+```javascript
 init({
   redux: {
     initialState: any
@@ -34,7 +33,7 @@ The initialState of your app. This is likely not necessary, as the state of your
 
 ### reducers
 
-```js
+```javascript
 const someReducer = (state, action) => {
   switch(action.type) {
     default:
@@ -55,7 +54,7 @@ Allows passing in of reducer functions, rather than models. While not recommende
 
 ### middlewares
 
-```js
+```javascript
 init({
   redux: {
     middlewares: [customMiddleware()]
@@ -67,7 +66,7 @@ Add middleware to your store.
 
 ### enhancers
 
-```js
+```javascript
 init({
   redux: {
     enhancers: [customEnhancer()]
@@ -79,7 +78,7 @@ Add enhancers to your store.
 
 ### rootReducers
 
-```js
+```javascript
 init({
   redux: {
     rootReducers: {
@@ -93,7 +92,7 @@ A way to setup middleware hooks at the base of your root reducer. Unlike middlew
 
 ### combineReducers
 
-```js
+```javascript
 init({
   redux: {
     combineReducers: customCombineReducers
@@ -103,10 +102,9 @@ init({
 
 Allows access to overwrite Redux's `combineReducers` method. Currently necessary for setting up Redux persist v5.
 
-
 ### createStore
 
-```js
+```javascript
 init({
   redux: {
     createStore: customCreateStore
@@ -118,7 +116,7 @@ Allows access to overwrite Redux's `createStore` method. Currently necessary for
 
 ### devtoolOptions
 
-```js
+```javascript
 init({
   redux: {
     devtoolOptions: customDevtoolOptions
@@ -126,4 +124,5 @@ init({
 })
 ```
 
-Provides access to [redux devtool options](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md). Read more about configuring devtools under [devtool recipes](./recipes/devtools).
+Provides access to [redux devtool options](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md). Read more about configuring devtools under [devtool recipes](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/docs/recipes/devtools/README.md).
+
