@@ -6,7 +6,7 @@ See an example below:
 
 CounterContainer.vue
 
-```text
+```vue
 <template>
   <Provider
     :store="store" 
@@ -53,7 +53,7 @@ CounterContainer.vue
 
 Counter.vue
 
-```text
+```vue
 <template>
   <div>
     <h2>Count: {{ count }}</h2>
