@@ -4,9 +4,9 @@
   "private": true,
   "dependencies": {
     "@rematch/core": "../../..",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
-    "react-redux": "^6.0.1"
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.1"
   },
   "scripts": {
     "clean": "rm package-lock.json || true && rm -rf node_modules || true && npm i",
@@ -16,12 +16,12 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.9",
-    "@types/node": "^11.10.4",
-    "@types/react": "^16.8.6",
-    "@types/react-dom": "^16.8.2",
-    "@types/react-redux": "^7.0.1",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.4",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.2",
     "react-scripts-ts": "^3.1.0",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.6.2"
   }
 }
