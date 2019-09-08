@@ -1,14 +1,12 @@
-# Table of contents
-
-* [Getting Started](README.md)
-* [Purpose](purpose.md)
-* [Examples](examples.md)
-* [Migration Guide](migration-guide.md)
-* [API Reference](api-reference/README.md)
+- [Getting Started](./../README.md)
+- [Purpose](purpose.md)
+- [Examples](examples.md)
+- [Migration Guide](migration-guide.md)
+- API Reference
   * [@rematch/core API](api-reference/api.md)
   * [Init Redux API](api-reference/reduxapi.md)
   * [Plugins API](api-reference/pluginsapi.md)
-* [Recipes](recipes/README.md)
+- Recipes
   * [Devtools](recipes/devtools.md)
   * [React](recipes/react.md)
   * [Vue](recipes/vue.md)
@@ -16,12 +14,11 @@
   * [TypeScript](recipes/typescript.md)
   * [Immer](recipes/immer.md)
   * [Decoupling reducers](recipes/decouplingreducers.md)
-* [Plugins](plugins/README.md)
+- Plugins
   * [Selectors](plugins/select.md)
   * [Loading](plugins/loading.md)
   * [Persist](plugins/persist.md)
   * [Updated](plugins/updated.md)
   * [React Navigation](plugins/react-navigation.md)
   * [Immer](plugins/immer.md)
-* [Inspiration](inspiration.md)
-
+- [Inspiration](inspiration.md)

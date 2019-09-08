@@ -43,6 +43,7 @@
     "test": "jest",
     "test:ts:setup": "npm run build && npm run clean --prefix examples/ts/count",
     "test:ts": "jest --testPathPattern=\"/test/typescript.test.js\" --testPathIgnorePatterns=[]",
+    "docs:serve": "docsify serve docs",
     "size": "bundlesize"
   },
   "dependencies": {
@@ -54,9 +55,7 @@
     "bundlesize": "^0.18.0",
     "coveralls": "^3.0.6",
     "cross-env": "^5.2.1",
-    "gitbook-plugin-edit-link": "^2.0.2",
-    "gitbook-plugin-github": "^3.0.0",
-    "gitbook-plugin-prism": "^2.4.0",
+    "docsify-cli": "^4.3.0",
     "jest": "^24.9.0",
     "redux-persist": "^5.10.0",
     "reselect": "^4.0.0",

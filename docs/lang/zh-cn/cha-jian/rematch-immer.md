@@ -1,16 +1,18 @@
-# Immer
+---
+description: 给 Rematch 使用的 Immer 插件。在 immer 库上提供不可变能力。
+---
 
-Immer plugin for Rematch. Provides immutable ability on immer library.
+# Rematch Immer
 
-## Install
+### 安装
 
-```text
+```bash
 npm install @rematch/immer
 ```
 
-> For @rematch/core@0.x use @rematch/immer@0.1.0
+?> 针对 `@rematch/core@0.x` 使用 `@rematch/immer@0.1.0`
 
-## Setup
+### 设置
 
 ```javascript
 import immerPlugin from '@rematch/immer'
@@ -23,9 +25,9 @@ init({
 })
 ```
 
-## Usage
+### 用法
 
-Use Immer plugin, reducer could be use mutable method to achieve immutable state. Like the example:
+使用Immer插件，reducer可以使用mutable方法来实现不可变状态。 例如：
 
 ```javascript
 const todo = {
@@ -46,7 +48,7 @@ const todo = {
 };
 ```
 
-In Immer, reducers perform mutations to achieve the next immutable state. Keep in mind, Immer only supports change detection on plain objects and arrays, so primitive values like strings or numbers will always return a change. Like the example:
+在 Immer 中，reducer 执行突变以实现下一个不可变状态。 请记住，Immer 只支持对普通对象和数组的变化检测，所以像字符串或数字这样的原始值总是会返回一个变化。 例如：
 
 ```javascript
 const count = {
@@ -60,5 +62,9 @@ const count = {
 };
 ```
 
-I suggest to developers that reducers could return changed value all the time.
+我向开发人员建议，reducer 可以随时返回变值。
+
+
+
+
 
