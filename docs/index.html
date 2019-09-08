@@ -21,11 +21,13 @@
       repo: 'https://github.com/rematch/rematch',
       logo: '_media/icon.svg',
       auto2top: true,
-      coverpage: true,
+      coverpage: ['/lang/zh-cn/', '/'],
       mergeNavbar: true,
+      loadNavbar: true,
       loadSidebar: true,
       maxLevel: 2,
       subMaxLevel: 2,
+      themeColor: '#764abc',
       plugins: [
         EditOnGithubPlugin.create(
           "https://github.com/rematch/rematch/blob/master/docs/"
@@ -33,13 +35,17 @@
       ],
       search: {
         maxAge: 86400000,
-        placeholder: 'Type to search',
         hideOtherSidebarContent: false,
         noData: {
+          '/lang/zh-cn/': '没有结果!',
           '/': 'No results!'
         },
-        paths: 'auto',
+        paths: [
+          '/lang/zh-cn/',
+          '/'
+        ],
         placeholder: {
+          '/lang/zh-cn/': '搜索',
           '/': 'Search'
         }
       },
