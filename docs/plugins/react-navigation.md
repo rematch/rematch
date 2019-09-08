@@ -8,7 +8,7 @@ React-Navigation
 npm install react-navigation @rematch/react-navigation
 ```
 
-> For @rematch/core@0.x use @rematch/react-navigation@1.1.0
+?> For `@rematch/core@0.x` use `@rematch/react-navigation@1.1.0`
 
 ## Example
 

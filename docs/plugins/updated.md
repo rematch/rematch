@@ -13,7 +13,7 @@ Updated is primarily used for optimizing effects. It can be used to:
 npm install @rematch/updated
 ```
 
-> For @rematch/core@0.x use @rematch/updated@0.1.5
+?> For `@rematch/core@0.x` use `@rematch/updated@0.1.5`
 
 ## Setup
 

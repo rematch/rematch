@@ -183,7 +183,7 @@ Moving from Redux to Rematch involves very few steps.
 
 For an earlier version, see [v0.x docs](https://github.com/rematch/rematch/tree/v0). Currently only displaying v1.x documentation.
 
-Breaking changes with v1.0.0. Global imports of `dispatch` and `getState` have been removed. Instead, you can export and import your store, capturing `store.dispatch`, `store.getState`. See the [Changelog](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/CHANGELOG.md) for details.
+Breaking changes with v1.0.0. Global imports of `dispatch` and `getState` have been removed. Instead, you can export and import your store, capturing `store.dispatch`, `store.getState`. See the [Changelog](https://github.com/rematch/rematch/blob/master/CHANGELOG.md) for details.
 
 ### API
 
@@ -191,7 +191,7 @@ See the [@rematch/core API](api-reference/api.md)
 
 ### Changelog
 
-See the [CHANGELOG](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/CHANGELOG.md) to see what's new.
+See the [CHANGELOG](https://github.com/rematch/rematch/blob/master/CHANGELOG.md) to see what's new.
 
 Like this project? ★ us on GitHub :\)
 

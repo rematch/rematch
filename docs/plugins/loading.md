@@ -8,7 +8,7 @@ Adds automated loading indicators for effects to [Rematch](https://github.com/re
 npm install @rematch/loading
 ```
 
-> For @rematch/core@0.x use @rematch/loading@0.5.0
+?> For `@rematch/core@0.x` use `@rematch/loading@0.5.0`
 
 ## Example
 
