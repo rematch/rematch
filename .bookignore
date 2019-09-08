@@ -1,9 +1,0 @@
-flow-typed
-lib
-test
-plugins/**/*.js
-plugins/**/*.json
-scripts
-examples
-.*
-*.js
