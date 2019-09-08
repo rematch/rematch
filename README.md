@@ -2,7 +2,7 @@
 
 ![](./docs/_media/icon.svg)
 
- [![Build Status](https://travis-ci.org/rematch/rematch.svg?branch=master)](https://travis-ci.org/rematch/rematch) [![Coverage Status](https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master)](https://coveralls.io/github/rematch/rematch?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/04039822aa23402bb985d9b374ac4a39)](https://www.codacy.com/app/ShMcK/rematch?utm_source=github.com&utm_medium=referral&utm_content=rematch/rematch&utm_campaign=Badge_Grade) [![npm version](https://badge.fury.io/js/%40rematch%2Fcore.svg)](https://badge.fury.io/js/%40rematch%2Fcore) [![bundle size](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat) [![file size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)
+ [![Build Status](https://travis-ci.org/rematch/rematch.svg?branch=master)](https://travis-ci.org/rematch/rematch) [![Coverage Status](https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master)](https://coveralls.io/github/rematch/rematch?branch=master) [![npm version](https://badge.fury.io/js/%40rematch%2Fcore.svg)](https://badge.fury.io/js/%40rematch%2Fcore) [![bundle size](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat) [![file size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)
 
 ## Rematch
 
@@ -43,7 +43,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 
 **Translations**
 
-* [中文手册](https://rematch.gitbook.io/handbook)
+* [中文手册](https://rematch.github.io/rematch/#/lang/zh-cn/)
 
 ### Getting Started
 
