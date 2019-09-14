@@ -2,7 +2,12 @@
 
 ![](./docs/_media/icon.svg)
 
- [![Build Status](https://travis-ci.org/rematch/rematch.svg?branch=master)](https://travis-ci.org/rematch/rematch) [![Coverage Status](https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master)](https://coveralls.io/github/rematch/rematch?branch=master) [![npm version](https://badge.fury.io/js/%40rematch%2Fcore.svg)](https://badge.fury.io/js/%40rematch%2Fcore) [![bundle size](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat) [![file size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)
+ [![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat)](https://rematchjs.slack.com)
+ [![Build Status](https://travis-ci.org/rematch/rematch.svg?branch=master)](https://travis-ci.org/rematch/rematch)
+ [![Coverage Status](https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master)](https://coveralls.io/github/rematch/rematch?branch=master)
+ [![Npm version](https://img.shields.io/npm/v/@rematch/core?color=bright-green&style=flat)](https://badge.fury.io/js/%40rematch%2Fcore)
+ [![Bundle size](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)
+ [![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)
 
 ## Rematch
 
@@ -12,34 +17,34 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 
 * [Why we created Rematch](https://hackernoon.com/redesigning-redux-b2baee8b8a38)
 * [Video: Introducing Rematch](https://www.youtube.com/watch?v=3ezSBYoL5do)
-* [A comparison of Redux & Rematch](purpose.md)
+* [A comparison of Redux & Rematch](https://rematch.github.io/rematch/#/purpose.md)
 
 ### Index
 
 * [Getting Started](./#getting-started)
-* [Purpose](purpose.md)
-* [Examples](./#examples)
-* [Migration Guide](./#migrating-from-redux)
+* [Purpose](https://rematch.github.io/rematch/#/purpose.md)
+* [Examples](https://rematch.github.io/rematch/#/examples)
+* [Migration Guide](https://rematch.github.io/rematch/#/migrating-from-redux)
 * API Reference
-  * [Core API](api-reference/api.md)
-  * [Init Redux API](api-reference/reduxapi.md)
-  * [Plugins API](api-reference/pluginsapi.md)
+  * [Core API](https://rematch.github.io/rematch/#/api-reference/api.md)
+  * [Init Redux API](https://rematch.github.io/rematch/#/api-reference/reduxapi.md)
+  * [Plugins API](https://rematch.github.io/rematch/#/api-reference/pluginsapi.md)
 * Recipes
-  * [Devtools](recipes/devtools.md)
-  * [React](recipes/react.md)
-  * [Vue](recipes/vue.md)
-  * [Testing](recipes/testing.md)
-  * [TypeScript](recipes/typescript.md)
-  * [Immer](recipes/immer.md)
-  * [Decoupling reducers](recipes/decouplingreducers.md)
+  * [Devtools](https://rematch.github.io/rematch/#/recipes/devtools.md)
+  * [React](https://rematch.github.io/rematch/#/recipes/react.md)
+  * [Vue](https://rematch.github.io/rematch/#/recipes/vue.md)
+  * [Testing](https://rematch.github.io/rematch/#/recipes/testing.md)
+  * [TypeScript](https://rematch.github.io/rematch/#/recipes/typescript.md)
+  * [Immer](https://rematch.github.io/rematch/#/recipes/immer.md)
+  * [Decoupling reducers](https://rematch.github.io/rematch/#/recipes/decouplingreducers.md)
 * Plugins
-  * [Selectors](plugins/select.md)
-  * [Loading](plugins/loading.md)
-  * [Persist](plugins/persist.md)
-  * [Updated](plugins/updated.md)
-  * [React Navigation](plugins/react-navigation.md)
-  * [Immer](plugins/immer.md)
-* [Inspiration](inspiration.md)
+  * [Selectors](https://rematch.github.io/rematch/#/plugins/select.md)
+  * [Loading](https://rematch.github.io/rematch/#/plugins/loading.md)
+  * [Persist](https://rematch.github.io/rematch/#/plugins/persist.md)
+  * [Updated](https://rematch.github.io/rematch/#/plugins/updated.md)
+  * [React Navigation](https://rematch.github.io/rematch/#/plugins/react-navigation.md)
+  * [Immer](https://rematch.github.io/rematch/#/plugins/immer.md)
+* [Inspiration](https://rematch.github.io/rematch/#/inspiration.md)
 
 **Translations**
 
@@ -187,7 +192,7 @@ Breaking changes with v1.0.0. Global imports of `dispatch` and `getState` have b
 
 ### API
 
-See the [@rematch/core API](api-reference/api.md)
+See the [@rematch/core API](https://rematch.github.io/rematch/#/api-reference/api.md)
 
 ### Changelog
 
