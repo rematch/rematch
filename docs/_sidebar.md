@@ -1,4 +1,4 @@
-- [Getting Started](./../README.md)
+- [Getting Started](README.md)
 - [Purpose](purpose.md)
 - [Examples](examples.md)
 - [Migration Guide](migration-guide.md)
