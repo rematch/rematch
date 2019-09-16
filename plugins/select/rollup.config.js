@@ -31,7 +31,7 @@ const config = {
 			exports: 'named',
 			sourcemap: true,
 			globals: {
-				reselect: 'reselect',
+				reselect: 'Reselect',
 			},
 		}, // Universal Modules
 		{ file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
