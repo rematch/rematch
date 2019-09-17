@@ -19,7 +19,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 * [Getting Started](./#getting-started)
 * [Purpose](https://rematch.github.io/rematch/#/purpose.md)
 * [Examples](https://rematch.github.io/rematch/#/examples)
-* [Migration Guide](https://rematch.github.io/rematch/#/migrating-from-redux)
+* [Migration Guide](https://rematch.github.io/rematch/#/migration-guide)
 * API Reference
   * [Core API](https://rematch.github.io/rematch/#/api-reference/api.md)
   * [Init Redux API](https://rematch.github.io/rematch/#/api-reference/reduxapi.md)
