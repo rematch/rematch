@@ -35,7 +35,7 @@
   "devDependencies": {
     "@rematch/core": "^1.2.0",
     "@types/jest": "^24.0.18",
-    "jest": "^24.9.0",
+    "jest": "24.8.0",
     "rollup": "^1.21.4",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-replace": "^2.2.0",
