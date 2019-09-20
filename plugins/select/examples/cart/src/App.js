@@ -4,39 +4,42 @@ import { select } from './store'
 
 // Make a presentational component.
 // It knows nothing about redux or rematch.
-const App = ({ total, items, add, remove }) => (
-	<div>
-		<h2>
-			Cart has{' '}
-			<b style={{ backgroundColor: '#dde', padding: 5 }}>
-				{items.length} items
-			</b>{' '}
-			with a total value of{' '}
-			<b style={{ backgroundColor: '#aae', padding: 5 }}>{total}</b>
-		</h2>
+const App = ({ total, items, add, remove }) => {
+	const [value, setValue]= React.useState(1)
+	return (
+		<div>
+			<h2>
+				Cart has{' '}
+				<b style={{ backgroundColor: '#dde', padding: 5 }}>
+					{items.length} items
+				</b>{' '}
+				with a total value of{' '}
+				<b style={{ backgroundColor: '#aae', padding: 5 }}>{total}</b>
+			</h2>
 
-		<h2>
-			<input type="number" ref={ref => (this.input = ref)} defaultValue={1} />
-			<button
-				onClick={() => add({ id: Date.now(), value: Number(this.input.value) })}
-			>
-				Add Item
-			</button>{' '}
-		</h2>
-
-		<h5>
-			{items.map(item => (
+			<h2>
+				<input value={value} onChange={(event) => setValue(Number(event.target.value))} />
 				<button
-					key={item.id}
-					onClick={() => remove(item)}
-					style={{ backgroundColor: 'yellow', marginRight: 10 }}
+					onClick={() => add({ id: Date.now(), value })}
 				>
-					{item.value}
-				</button>
-			))}
-		</h5>
-	</div>
-)
+					Add Item
+				</button>{' '}
+			</h2>
+
+			<h5>
+				{items.map(item => (
+					<button
+						key={item.id}
+						onClick={() => remove(item)}
+						style={{ backgroundColor: 'yellow', marginRight: 10 }}
+					>
+						{item.value}
+					</button>
+				))}
+			</h5>
+		</div>
+	)
+}
 
 const mapState = select(models => ({
 	total: models.cart.total,
