@@ -4,9 +4,9 @@ import { combineReducers, ReducersMapObject } from 'redux'
 
 function combineReducersWithImmer(reducers: ReducersMapObject) {
 	const reducersWithImmer = {}
-
 	// reducer must return value because literal don't support immer
-	for (const [key, reducerFn] of Object.entries(reducers)) {
+	for (const key of Object.keys(reducers)) {
+		const reducerFn = reducers[key]
 		reducersWithImmer[key] = (state, payload) => {
 			if (typeof state === 'object') {
 				return produce(state, (draft: Models) => {
