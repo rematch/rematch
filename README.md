@@ -16,7 +16,7 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 
 ### Index
 
-* [Getting Started](./#getting-started)
+* [Getting Started](https://rematch.github.io/rematch/#/README?id=getting-started-1)
 * [Purpose](https://rematch.github.io/rematch/#/purpose.md)
 * [Examples](https://rematch.github.io/rematch/#/examples)
 * [Migration Guide](https://rematch.github.io/rematch/#/migration-guide)
