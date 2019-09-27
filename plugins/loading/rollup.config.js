@@ -16,9 +16,6 @@ const config = {
 	plugins: [
 		commonjs(),
 		typescript(),
-		// typescript({
-		// 	// module: 'CommonJS'
-		// }),
 		replace({
 			'process.env.NODE_ENV': JSON.stringify(env),
 		}),
