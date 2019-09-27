@@ -1,6 +1,6 @@
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
-import commonJs from 'rollup-plugin-commonjs'
+import commonjs from 'rollup-plugin-commonjs'
 import typescript from 'rollup-plugin-typescript'
 
 import { minify } from 'uglify-es'
@@ -14,9 +14,11 @@ const env = process.env.NODE_ENV
 const config = {
 	input: 'src/index.ts',
 	plugins: [
-		typescript({
-			typescript: require('typescript'),
-		}),
+		commonjs(),
+		typescript(),
+		// typescript({
+		// 	// module: 'CommonJS'
+		// }),
 		replace({
 			'process.env.NODE_ENV': JSON.stringify(env),
 		}),
@@ -31,7 +33,7 @@ const config = {
 		}, // Universal Modules
 		{ file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
 		{ file: pkg.module, format: 'es', exports: 'named', sourcemap: true }, // ES Modules
-		{ file: pkg.types, format: 'es' },
+		// { file: pkg.types, format: 'es' },
 	],
 }
 
