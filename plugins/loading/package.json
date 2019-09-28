@@ -22,12 +22,12 @@
   "main": "dist/rematch-loading.cjs.js",
   "module": "dist/rematch-loading.esm.js",
   "browser": "dist/rematch-loading.umd.js",
-  "types": "src/typings.d.ts",
   "scripts": {
     "clean:dist": "npx rimraf dist",
     "clean:build": "npx rimraf build",
     "clean": "npm run clean:dist & npm run clean:build",
-    "build": "NODE_ENV=production npm run clean && rollup -c"
+    "type": "tsc --emitDeclarationOnly",
+    "build": "npm run clean && NODE_ENV=production rollup -c && npm run type"
   },
   "devDependencies": {
     "@rematch/core": "^1.0.6",
@@ -35,13 +35,13 @@
     "immutable": "^3.8.2",
     "redux-immutable": "^4.0.0",
     "rimraf": "^2.6.3",
-    "rollup": "^1.0.2",
-    "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-replace": "^2.1.0",
-    "rollup-plugin-typescript": "^1.0.0",
-    "rollup-plugin-uglify": "^6.0.0",
-    "typescript": "^3.2.2",
-    "uglify-es": "^3.3.9"
+    "rollup": "^1.21.4",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "rollup-plugin-uglify": "^6.0.3",
+    "typescript": "^3.2.2"
   },
   "peerDependencies": {
     "@rematch/core": ">=1.0.0"
