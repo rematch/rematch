@@ -26,6 +26,8 @@ const config = {
 			file: pkg.browser,
 			format: 'umd',
 			exports: 'named',
+			context: 'window',
+			moduleContext: { 'this': 'window' },
 			sourcemap: true,
 		}, // Universal Modules
 		{ file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
@@ -48,6 +50,7 @@ if (env === 'production') {
 		plugins: [
 			uglify()
 		],
+		context: 'window',
 		output: {
 			name: 'RematchLoading',
 			file: pkg.browser,
