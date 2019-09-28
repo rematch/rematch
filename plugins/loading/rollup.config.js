@@ -3,10 +3,6 @@ import { uglify } from 'rollup-plugin-uglify'
 import commonjs from 'rollup-plugin-commonjs'
 import typescript from 'rollup-plugin-typescript'
 
-// import { minify } from 'uglify-es'
-// experimental minifier for ES modules
-// https://github.com/TrySound/rollup-plugin-uglify#warning
-
 const pkg = require('./package.json')
 
 const env = process.env.NODE_ENV
