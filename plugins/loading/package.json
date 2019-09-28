@@ -27,7 +27,7 @@
     "clean:build": "npx rimraf build",
     "clean": "npm run clean:dist & npm run clean:build",
     "type": "tsc --emitDeclarationOnly",
-    "build": "NODE_ENV=production npm run clean && NODE_ENV=production rollup -c && npm run type"
+    "build": "npm run clean && NODE_ENV=production rollup -c && npm run type"
   },
   "devDependencies": {
     "@rematch/core": "^1.0.6",
