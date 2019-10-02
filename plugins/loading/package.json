@@ -17,7 +17,7 @@
   "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
   "files": [
     "dist",
-    "src/typings.d.ts"
+    "index.d.ts"
   ],
   "main": "dist/rematch-loading.cjs.js",
   "module": "dist/rematch-loading.esm.js",
