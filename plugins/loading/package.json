@@ -1,6 +1,6 @@
 {
   "name": "@rematch/loading",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Loading indicator plugin for Rematch",
   "keywords": [
     "@rematch",
