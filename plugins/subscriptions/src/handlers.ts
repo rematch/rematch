@@ -7,7 +7,7 @@ const actionRegex = /^[A-Z0-9-_]+\/[A-Z0-9-_]+$/i
 // note: cannot match * or creates infinite loop`
 const patternRegex = /^[A-Z0-9-_*]+\/[A-Z0-9-_*]+$/i
 
-const escapeRegex = str => str.replace('*', '.*')
+const escapeRegex = str => str.replace(/\*/g, '.*')
 
 const isAction = (matcher, regex) => !!matcher.match(regex)
 
