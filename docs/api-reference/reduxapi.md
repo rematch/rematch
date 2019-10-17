@@ -5,15 +5,15 @@
 > If you just need to include a redux library in your store, see the recipe for [redux plugins](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/docs/recipes/redux.md)
 
 * init
-  * [redux](reduxapi.md#redux)
-    * [initialState](reduxapi.md#initialstate)
-    * [reducers](reduxapi.md#reducers)
-    * [middlewares](reduxapi.md#middlewares)
-    * [enhancers](reduxapi.md#enhancers)
-    * [rootReducers](reduxapi.md#rootreducers)
-    * [combineReducers](reduxapi.md#combinereducers)
-    * [createStore](reduxapi.md#createstore)
-    * [devtoolOptions](reduxapi.md#devtooloptions)
+  * [redux](api-reference/reduxapi#redux)
+    * [initialState](api-reference/reduxapi#initialstate)
+    * [reducers](api-reference/reduxapi#reducers)
+    * [middlewares](api-reference/reduxapi#middlewares)
+    * [enhancers](api-reference/reduxapi#enhancers)
+    * [rootReducers](api-reference/reduxapi#rootreducers)
+    * [combineReducers](api-reference/reduxapi#combinereducers)
+    * [createStore](api-reference/reduxapi#createstore)
+    * [devtoolOptions](api-reference/reduxapi#devtooloptions)
 
 ## Redux
 

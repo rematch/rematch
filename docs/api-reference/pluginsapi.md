@@ -9,11 +9,11 @@ There are plenty of examples to base your next plugin on. After all, in Rematch,
 
 ## Plugin API Reference
 
-* [config](pluginsapi.md#config)
-* [exposed](pluginsapi.md#exposed)
-* [onModel](pluginsapi.md#onmodel)
-* [middleware](pluginsapi.md#middleware)
-* [onStoreCreated](pluginsapi.md#onstorecreated)
+* [config](api-reference/pluginsapi#config)
+* [exposed](api-reference/pluginsapi#exposed)
+* [onModel](api-reference/pluginsapi#onmodel)
+* [middleware](api-reference/pluginsapi#middleware)
+* [onStoreCreated](api-reference/pluginsapi#onstorecreated)
 
 ### config
 
