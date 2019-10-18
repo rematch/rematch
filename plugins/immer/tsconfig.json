@@ -1,13 +1,11 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "allowJs": false,
-    "outDir": "./lib",
-    "declaration": true,
-    "declarationDir": "./dist",
-    "esModuleInterop": true
-  },
-  "files": [
-    "src/index.ts"
-  ]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"allowJs": false,
+		"outDir": "./lib",
+		"declaration": true,
+		"declarationDir": "./dist",
+		"esModuleInterop": true
+	},
+	"files": ["src/index.ts"]
 }

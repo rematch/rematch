@@ -1,13 +1,10 @@
 {
-  "compilerOptions": {
-      "outDir": "./dist",
-      "sourceMap": true,
-      "target": "es5",
-      "lib": ["es2017"],
-      "moduleResolution": "node",
-  },
-  "files": [
-    "src/index.ts",
-    "src/typings.d.ts"
-  ]
+	"compilerOptions": {
+		"outDir": "./dist",
+		"sourceMap": true,
+		"target": "es5",
+		"lib": ["es2017"],
+		"moduleResolution": "node"
+	},
+	"files": ["src/index.ts", "src/typings.d.ts"]
 }

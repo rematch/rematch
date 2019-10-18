@@ -1,31 +1,31 @@
 {
-  "name": "rematch-example-select-cart",
-  "version": "1.1.0",
-  "scripts": {
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
-    "start": "react-scripts start",
-    "test": "react-scripts test --env=jsdom"
-  },
-  "dependencies": {
-    "@rematch/core": "../../../..",
-    "@rematch/select": "../..",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-redux": "^7.1.1",
-    "react-scripts": "^3.1.1"
-  },
-  "private": true,
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "rematch-example-select-cart",
+	"version": "1.1.0",
+	"scripts": {
+		"build": "react-scripts build",
+		"eject": "react-scripts eject",
+		"start": "react-scripts start",
+		"test": "react-scripts test --env=jsdom"
+	},
+	"dependencies": {
+		"@rematch/core": "../../../..",
+		"@rematch/select": "../..",
+		"react": "^16.9.0",
+		"react-dom": "^16.9.0",
+		"react-redux": "^7.1.1",
+		"react-scripts": "^3.1.1"
+	},
+	"private": true,
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }
