@@ -57,6 +57,7 @@
     "cross-env": "^5.2.1",
     "docsify-cli": "^4.3.0",
     "jest": "^24.8.0",
+    "prettier": "^1.18.2",
     "redux-persist": "^5.10.0",
     "reselect": "^4.0.0",
     "rimraf": "^2.6.3",
