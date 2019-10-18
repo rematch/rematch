@@ -12,9 +12,9 @@ Its also possible to add redux devtools [configuration options](https://github.c
 
 ```javascript
 init({
-  redux: {
-    devtoolOptions: options,
-  },
+	redux: {
+		devtoolOptions: options,
+	},
 })
 ```
 
@@ -22,11 +22,11 @@ To disable redux devtools, set `disabled` property to `true`:
 
 ```javascript
 init({
-  redux: {
-    devtoolOptions: {
-      disabled: true,
-    },
-  },
+	redux: {
+		devtoolOptions: {
+			disabled: true,
+		},
+	},
 })
 ```
 
@@ -52,9 +52,9 @@ yarn add -D remote-redux-devtools
 import { composeWithDevTools } from 'remote-redux-devtools'
 
 init({
-  redux: {
-    enhancers: [composeWithDevTools()],
-  },
+	redux: {
+		enhancers: [composeWithDevTools()],
+	},
 })
 ```
 
@@ -70,13 +70,12 @@ Setup Rematch to also work with [Reactotron devtools](https://github.com/infinit
 import Reactotron from 'reactotron-react-native'
 import { reactotronRedux } from 'reactotron-redux'
 
-export default Reactotron
-  .configure({
-    name: 'MyAwesomeApp'
-  })
-  .use(reactotronRedux())
-  // add other devtools here
-  .connect()
+export default Reactotron.configure({
+	name: 'MyAwesomeApp',
+})
+	.use(reactotronRedux())
+	// add other devtools here
+	.connect()
 ```
 
 Overwrite `createStore` to complete the config.
@@ -86,9 +85,8 @@ Overwrite `createStore` to complete the config.
 import Reactotron from './Reactotron.config.js'
 
 init({
-  redux: {
-    createStore: Reactotron.createStore,
-  }
+	redux: {
+		createStore: Reactotron.createStore,
+	},
 })
 ```
-

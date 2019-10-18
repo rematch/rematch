@@ -23,24 +23,24 @@ Setting up React-Navigation with Redux is a multistep process. Hopefully this pl
 ```javascript
 // Routes.js
 export default StackNavigator(
-  {
-    Landing: {
-      screen: Screen.Landing,
-    },
-    Login: {
-      screen: Screen.Login,
-    },
-    App: {
-      screen: App,
-    },
-  },
-  {
-    initialRouteName: 'Landing',
-  }
+	{
+		Landing: {
+			screen: Screen.Landing,
+		},
+		Login: {
+			screen: Screen.Login,
+		},
+		App: {
+			screen: App,
+		},
+	},
+	{
+		initialRouteName: 'Landing',
+	}
 )
 ```
 
-1. Pass `Routes` and `initialRouteName` into `createReactNavigationPlugin`. 
+1. Pass `Routes` and `initialRouteName` into `createReactNavigationPlugin`.
 
 ```javascript
 // index.js
@@ -51,18 +51,18 @@ import Routes from './Routes'
 
 // add react navigation with redux
 const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin({
-  Routes,
-  initialScreen: 'Landing'
+	Routes,
+	initialScreen: 'Landing',
 })
 
 const store = init({
-  plugins: [reactNavigationPlugin],
+	plugins: [reactNavigationPlugin],
 })
 
 export default () => (
-  <Provider store={store}>
-    <Navigator />
-  </Provider>
+	<Provider store={store}>
+		<Navigator />
+	</Provider>
 )
 ```
 
@@ -70,10 +70,10 @@ export default () => (
 
 ```javascript
 // included in plugin
-dispatch.nav.navigate = (action) => dispatch(NavigationActions.navigate(action))
-dispatch.nav.reset = (action) => dispatch(NavigationActions.reset(action))
-dispatch.nav.back = (action) => dispatch(NavigationActions.back(action))
-dispatch.nav.setParams = (action) => dispatch(NavigationActions.setParams(action))
+dispatch.nav.navigate = action => dispatch(NavigationActions.navigate(action))
+dispatch.nav.reset = action => dispatch(NavigationActions.reset(action))
+dispatch.nav.back = action => dispatch(NavigationActions.back(action))
+dispatch.nav.setParams = action => dispatch(NavigationActions.setParams(action))
 ```
 
 Just pass the NavigationAction options.
@@ -88,11 +88,11 @@ If necessary, import `NavigationActions`.
 import { NavigationActions } from 'react-navigation'
 
 const resetAction = store.dispatch.navigate.reset({
-  index: 1,
-  actions: [
-    NavigationActions.navigate({ routeName: 'Profile'}),
-    NavigationActions.navigate({ routeName: 'Settings'})
-  ]
+	index: 1,
+	actions: [
+		NavigationActions.navigate({ routeName: 'Profile' }),
+		NavigationActions.navigate({ routeName: 'Settings' }),
+	],
 })
 ```
 
@@ -109,29 +109,29 @@ import { Provider } from 'react-redux'
 import { Routes } from './Routes'
 
 export class App extends React.Component {
-  componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBack)
-  }
+	componentDidMount() {
+		BackHandler.addEventListener('hardwareBackPress', this.handleBack)
+	}
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
-  }
+	componentWillUnmount() {
+		BackHandler.removeEventListener('hardwareBackPress', this.handleBack)
+	}
 
-  handleBack = () => {
-    if (store.getState().nav.index === 0) {
-      BackHandler.exitApp()
-    }
-    store.dispatch.nav.back()
-    return true
-  }
+	handleBack = () => {
+		if (store.getState().nav.index === 0) {
+			BackHandler.exitApp()
+		}
+		store.dispatch.nav.back()
+		return true
+	}
 
-  render() {
-    return (
-      <Provider store={store}>
-        <Navigator />
-      </Provider>
-    );
-  }
+	render() {
+		return (
+			<Provider store={store}>
+				<Navigator />
+			</Provider>
+		)
+	}
 }
 ```
 
@@ -142,9 +142,11 @@ You may find it helpful to add some custom selectors to your `nav` model. You ca
 ```javascript
 // models/nav.js
 export default {
-  selectors: {
-    currentRouteName(state) { return state.routes[state.index].routeName; },
-  },
+	selectors: {
+		currentRouteName(state) {
+			return state.routes[state.index].routeName
+		},
+	},
 }
 ```
 
@@ -162,9 +164,9 @@ import { select } from '@rematch/select'
 import * as models from './models'
 
 const store = init({
-  models,
-  plugins: [select, reactNavigationPlugin],
-});
+	models,
+	plugins: [select, reactNavigationPlugin],
+})
 ```
 
 Of course, you will also need to install the [Rematch Select plugin](https://github.com/rematch/rematch/blob/master/plugins/select/README.md).
@@ -183,31 +185,30 @@ import { init } from '@rematch/core'
 import createReactNavigationPlugin from '@rematch/react-navigation'
 import * as ReactNavigation from 'react-navigation'
 import Routes from './Routes'
-import { combineReducers } from 'redux-immutable';
-import { Map } from 'immutable';
+import { combineReducers } from 'redux-immutable'
+import { Map } from 'immutable'
 
 // add react navigation with redux
 const { Navigator, reactNavigationPlugin } = createReactNavigationPlugin({
-  Routes,
-  initialScreen: 'Landing',
-  sliceState: state => state.get('nav')  // Returns Immutable JS slice
+	Routes,
+	initialScreen: 'Landing',
+	sliceState: state => state.get('nav'), // Returns Immutable JS slice
 })
 
 const store = init({
-  initialState: fromJS({}),
-  plugins: [reactNavigationPlugin],
-  redux: {
-    initialState: Map(),              // Initializes a blank Immutable JS Map
-    combineReducers: combineReducers, // Combines reducers into Immutable JS collection
-  },
+	initialState: fromJS({}),
+	plugins: [reactNavigationPlugin],
+	redux: {
+		initialState: Map(), // Initializes a blank Immutable JS Map
+		combineReducers: combineReducers, // Combines reducers into Immutable JS collection
+	},
 })
 
 export default () => (
-  <Provider store={store}>
-    <Navigator />
-  </Provider>
+	<Provider store={store}>
+		<Navigator />
+	</Provider>
 )
 ```
 
 In the above example, your store is an Immutable JS object. However, the `nav` slice of your store is a standard JS object. I recommend this approach since the React Navigation navigators and Redux middleware expects the navigation state to be a standard JS object. This is the most performant approach. The alternative is to store the navigation state as an Immutable JS Map, which would require calls `fromJS()` and `toJS()` every time the navigator or the middleware needs to access the Rematch state, which would cause a degradation in performance.
-

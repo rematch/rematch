@@ -31,7 +31,7 @@ const user = {
 		address: {
 			country: 'US',
 			city: 'New York',
-		}
+		},
 	},
 	typings: {
 		name: T.string.isRequired,
@@ -40,7 +40,7 @@ const user = {
 		address: T.shape({
 			country: T.string.isRequired,
 			city: T.string,
-		})
+		}),
 	},
 	reducers: {
 		updateName: (state, name) => ({
@@ -51,7 +51,7 @@ const user = {
 
 const store = init({
 	models: { user },
-	plugins: [typedStatePlugin()]
+	plugins: [typedStatePlugin()],
 })
 ```
 

@@ -8,19 +8,19 @@ Let's start with an example. A common pattern in Redux, when we want to store an
 
 ```javascript
 const todoList = {
-  state: {
-    byId: {
-      0: {
-        task: 'Learn Rematch',
-        isDone: true
-      },
-      1: {
-        task: 'Learn functional programming',
-        isDone: false
-      }
-    },
-    allIds: [1, 0]
-  }
+	state: {
+		byId: {
+			0: {
+				task: 'Learn Rematch',
+				isDone: true,
+			},
+			1: {
+				task: 'Learn functional programming',
+				isDone: false,
+			},
+		},
+		allIds: [1, 0],
+	},
 }
 ```
 
@@ -28,8 +28,8 @@ const todoList = {
 
 This creates another issue:
 
-* `byId` and `allIds` refers to the same entity, they definitely need to live into the same model
-* `byId` and `allIds` don't depend on each other, they definitely need to be handled separately
+- `byId` and `allIds` refers to the same entity, they definitely need to live into the same model
+- `byId` and `allIds` don't depend on each other, they definitely need to be handled separately
 
 Let's try to see what we get without decoupling our reducers:
 
@@ -58,7 +58,7 @@ const todoList = {
             ...state.byId[idToToggle],
             isDone: !state.byId[idToToggle].isDone
           }
-        }       
+        }
       };
     }
   }
@@ -73,9 +73,9 @@ We can start to isolate our pure reusable function
 
 ```javascript
 function filterObjectByKey(obj, f) {
-  return Object.entries(obj)
-    .filter(([key, value]) => f(key))
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+	return Object.entries(obj)
+		.filter(([key, value]) => f(key))
+		.reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 }
 ```
 
@@ -131,4 +131,3 @@ const todoList = {
 
 [React example](https://codesandbox.io/s/x2r7nryn24)  
 Reducer functions make our model simpler and more readable.
-

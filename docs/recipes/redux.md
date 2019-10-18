@@ -9,23 +9,27 @@ The `baseReducer` option on a store model allows you to introduce a standard red
 ```js
 import { bindActionCreators } from 'redux'
 import {
-  routerReducer,
-  push,
-  replace,
-  go,
-  goBack,
-  goForward
+	routerReducer,
+	push,
+	replace,
+	go,
+	goBack,
+	goForward,
 } from 'react-router-redux'
 
 const reactRouterModel = {
-  baseReducer: routerReducer,
-  effects: dispatch => bindActionCreators({
-    push,
-    replace,
-    go,
-    goBack,
-    goForward
-  }, dispatch)
+	baseReducer: routerReducer,
+	effects: dispatch =>
+		bindActionCreators(
+			{
+				push,
+				replace,
+				go,
+				goBack,
+				goForward,
+			},
+			dispatch
+		),
 }
 ```
 
@@ -43,29 +47,31 @@ import { routerMiddleware } from 'react-router-redux'
 import reactRouterModel from './model'
 
 export default function createReactRouterPlugin() {
-  const browserHistory = createBrowserHistory()
-  const middleware = routerMiddleware(browserHistory)
+	const browserHistory = createBrowserHistory()
+	const middleware = routerMiddleware(browserHistory)
 
-  return {
-    middleware,
-    config: {
-      models: {
-        [storeKey]: reactRouterModel
-      }
-    },
-    onStoreCreated(store) {
-      return {
-        browserHistory
-      }
-    }
-  }
+	return {
+		middleware,
+		config: {
+			models: {
+				[storeKey]: reactRouterModel,
+			},
+		},
+		onStoreCreated(store) {
+			return {
+				browserHistory,
+			}
+		},
+	}
 }
 ```
 
 Later, we can use our `history`
+
 ```js
-const App = () =>
-<Provider store={store}>
-  <ConnectedRouter history={store.browserHistory} children={<Routes />} />
-</Provider>
+const App = () => (
+	<Provider store={store}>
+		<ConnectedRouter history={store.browserHistory} children={<Routes />} />
+	</Provider>
+)
 ```

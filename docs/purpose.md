@@ -6,12 +6,12 @@ Rematch builds upon Redux by reducing boilerplate and enforcing best practices.
 
 To clarify, Rematch removes the need for:
 
-* declared action types
-* action creators
-* thunks
-* store configuration
-* mapDispatchToProps
-* sagas
+- declared action types
+- action creators
+- thunks
+- store configuration
+- mapDispatchToProps
+- sagas
 
 ## Comparing Redux & Rematch
 
@@ -25,14 +25,14 @@ A comparison of Rematch & Redux may help clear things up.
 import { init } from '@rematch/core'
 
 const count = {
-  state: 0,
-  reducers: {
-    upBy: (state, payload) => state + payload
-  }
+	state: 0,
+	reducers: {
+		upBy: (state, payload) => state + payload,
+	},
 }
 
 init({
-  models: { count }
+	models: { count },
 })
 ```
 
@@ -43,15 +43,18 @@ import { connect } from 'react-redux'
 
 // Component
 
-const mapStateToProps = (state) => ({
-  count: state.count
+const mapStateToProps = state => ({
+	count: state.count,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  countUpBy: dispatch.count.upBy
+const mapDispatchToProps = dispatch => ({
+	countUpBy: dispatch.count.upBy,
 })
 
-connect(mapStateToProps, mapDispatchToProps)(Component)
+connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Component)
 ```
 
 Or using hooks
@@ -67,7 +70,6 @@ const ConnectedComponent = () => {
 
 	return <Component count={count} countUpBy={dispatch.count.upBy} />
 }
-
 ```
 
 ### Redux \(best practices\)
@@ -91,9 +93,9 @@ export const COUNT_UP_BY = 'COUNT_UP_BY'
 ```javascript
 import { COUNT_UP_BY } from '../types/counter'
 
-export const countUpBy = (value) => ({
-  type: COUNT_UP_BY,
-  payload: value,
+export const countUpBy = value => ({
+	type: COUNT_UP_BY,
+	payload: value,
 })
 ```
 
@@ -105,11 +107,12 @@ import { COUNT_UP_BY } from '../types/counter'
 const initialState = 0
 
 export default (state = initialState, action) => {
-  switch (action.type) {
-    case COUNT_UP_BY:
-      return state + action.payload
-    default: return state
-  }
+	switch (action.type) {
+		case COUNT_UP_BY:
+			return state + action.payload
+		default:
+			return state
+	}
 }
 ```
 
@@ -121,22 +124,24 @@ import { connect } from 'react-redux'
 
 // Component
 
-const mapStateToProps = (state) => ({
-  count: state.count,
+const mapStateToProps = state => ({
+	count: state.count,
 })
 
-connect(mapStateToProps, { countUpBy })(Component)
+connect(
+	mapStateToProps,
+	{ countUpBy }
+)(Component)
 ```
 
 ### Scoreboard
 
-|  | Redux | Rematch |
-| :--- | :--- | :--- |
-| simple setup ‎ |  | ‎✔ |
-| less boilerplate |  | ‎✔ |
-| readability |  | ‎✔ |
-| configurable | ‎✔ | ‎✔ |
-| redux devtools | ‎✔ | ‎✔ |
-| generated action creators | ‎ | ‎✔ |
-| async | thunks | ‎async/await |
-
+|                           | Redux  | Rematch      |
+| :------------------------ | :----- | :----------- |
+| simple setup ‎            |        | ‎✔           |
+| less boilerplate          |        | ‎✔           |
+| readability               |        | ‎✔           |
+| configurable              | ‎✔     | ‎✔           |
+| redux devtools            | ‎✔     | ‎✔           |
+| generated action creators | ‎      | ‎✔           |
+| async                     | thunks | ‎async/await |

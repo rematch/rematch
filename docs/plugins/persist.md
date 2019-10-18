@@ -20,13 +20,13 @@ npm install @rematch/persist
 import createRematchPersist from '@rematch/persist'
 
 const persistPlugin = createRematchPersist({
-  whitelist: ['modelName1'],
-  throttle: 5000,
-  version: 1,
+	whitelist: ['modelName1'],
+	throttle: 5000,
+	version: 1,
 })
 
 init({
-  plugins: [persistPlugin]
+	plugins: [persistPlugin],
 })
 ```
 
@@ -41,13 +41,12 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 const persistor = getPersistor()
 
 const Root = () => {
-  <PersistGate persistor={persistor}>
-    <App />
-  </PersistGate>
+	;<PersistGate persistor={persistor}>
+		<App />
+	</PersistGate>
 }
 ```
 
 ### Config Options
 
 See [redux-persist config docs](https://github.com/rt2zz/redux-persist/blob/master/docs/api.md#type-persistconfig)
-

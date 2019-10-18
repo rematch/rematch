@@ -1,3 +1,3 @@
-* Translations
-  * [🇺🇸 English](/)
-  * [🇨🇳 Chinese](lang/zh-cn/)
+- Translations
+  - [🇺🇸 English](/)
+  - [🇨🇳 Chinese](lang/zh-cn/)

@@ -33,7 +33,7 @@ import { init } from '@rematch/core'
 const subscriptions = subscriptionsPlugin()
 
 init({
-  plugins: [subscriptions]
+	plugins: [subscriptions],
 })
 ```
 
@@ -41,7 +41,7 @@ init({
 
 `subscriptions: { [string]: (action, state, unsubscribe) => any }`
 
-Subscriptions are way for models to listen to changes in the app. 
+Subscriptions are way for models to listen to changes in the app.
 
 ```js
 {
@@ -101,4 +101,3 @@ a/b-*
 ```
 
 If possible, pattern matching should be avoided as it can effect performance.
-

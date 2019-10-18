@@ -10,40 +10,40 @@
 
 Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
 
-* [Why we created Rematch](https://hackernoon.com/redesigning-redux-b2baee8b8a38)
-* [Video: Introducing Rematch](https://www.youtube.com/watch?v=3ezSBYoL5do)
-* [A comparison of Redux & Rematch](purpose.md)
+- [Why we created Rematch](https://hackernoon.com/redesigning-redux-b2baee8b8a38)
+- [Video: Introducing Rematch](https://www.youtube.com/watch?v=3ezSBYoL5do)
+- [A comparison of Redux & Rematch](purpose.md)
 
 ### Index
 
-* [Getting Started](./#getting-started)
-* [Purpose](purpose.md)
-* [Examples](./#examples)
-* [Migration Guide](./#migrating-from-redux)
-* API Reference
-  * [Core API](api-reference/api.md)
-  * [Init Redux API](api-reference/reduxapi.md)
-  * [Plugins API](api-reference/pluginsapi.md)
-* Recipes
-  * [Devtools](recipes/devtools.md)
-  * [React](recipes/react.md)
-  * [Vue](recipes/vue.md)
-  * [Testing](recipes/testing.md)
-  * [TypeScript](recipes/typescript.md)
-  * [Immer](recipes/immer.md)
-  * [Decoupling reducers](recipes/decouplingreducers.md)
-* Plugins
-  * [Selectors](plugins/select.md)
-  * [Loading](plugins/loading.md)
-  * [Persist](plugins/persist.md)
-  * [Updated](plugins/updated.md)
-  * [React Navigation](plugins/react-navigation.md)
-  * [Immer](plugins/immer.md)
-* [Inspiration](inspiration.md)
+- [Getting Started](./#getting-started)
+- [Purpose](purpose.md)
+- [Examples](./#examples)
+- [Migration Guide](./#migrating-from-redux)
+- API Reference
+  - [Core API](api-reference/api.md)
+  - [Init Redux API](api-reference/reduxapi.md)
+  - [Plugins API](api-reference/pluginsapi.md)
+- Recipes
+  - [Devtools](recipes/devtools.md)
+  - [React](recipes/react.md)
+  - [Vue](recipes/vue.md)
+  - [Testing](recipes/testing.md)
+  - [TypeScript](recipes/typescript.md)
+  - [Immer](recipes/immer.md)
+  - [Decoupling reducers](recipes/decouplingreducers.md)
+- Plugins
+  - [Selectors](plugins/select.md)
+  - [Loading](plugins/loading.md)
+  - [Persist](plugins/persist.md)
+  - [Updated](plugins/updated.md)
+  - [React Navigation](plugins/react-navigation.md)
+  - [Immer](plugins/immer.md)
+- [Inspiration](inspiration.md)
 
 **Translations**
 
-* [中文手册](https://rematch.gitbook.io/handbook)
+- [中文手册](https://rematch.gitbook.io/handbook)
 
 ### Getting Started
 
@@ -62,7 +62,7 @@ import { init } from '@rematch/core'
 import * as models from './models'
 
 const store = init({
-  models,
+	models,
 })
 
 export default store
@@ -78,21 +78,21 @@ The **model** brings together state, reducers, async actions & action creators i
 
 ```javascript
 export const count = {
-  state: 0, // initial state
-  reducers: {
-    // handle state changes with pure functions
-    increment(state, payload) {
-      return state + payload
-    }
-  },
-  effects: (dispatch) => ({
-    // handle state changes with impure functions.
-    // use async/await for async actions
-    async incrementAsync(payload, rootState) {
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      dispatch.count.increment(payload)
-    }
-  })
+	state: 0, // initial state
+	reducers: {
+		// handle state changes with pure functions
+		increment(state, payload) {
+			return state + payload
+		},
+	},
+	effects: dispatch => ({
+		// handle state changes with impure functions.
+		// use async/await for async actions
+		async incrementAsync(payload, rootState) {
+			await new Promise(resolve => setTimeout(resolve, 1000))
+			dispatch.count.increment(payload)
+		},
+	}),
 }
 ```
 
@@ -113,18 +113,18 @@ import { init } from '@rematch/core'
 import * as models from './models'
 
 const store = init({
-  models,
+	models,
 })
 
 export const { dispatch } = store
-                                                  // state = { count: 0 }
+// state = { count: 0 }
 // reducers
 dispatch({ type: 'count/increment', payload: 1 }) // state = { count: 1 }
-dispatch.count.increment(1)                       // state = { count: 2 }
+dispatch.count.increment(1) // state = { count: 2 }
 
 // effects
 dispatch({ type: 'count/incrementAsync', payload: 1 }) // state = { count: 3 } after delay
-dispatch.count.incrementAsync(1)                       // state = { count: 4 } after delay
+dispatch.count.incrementAsync(1) // state = { count: 4 } after delay
 ```
 
 Dispatch can be called directly, or with the `dispatch[model][action](payload)` shorthand.
@@ -140,36 +140,39 @@ import { Provider, connect } from 'react-redux'
 import store from './store'
 
 const Count = props => (
-  <div>
-    The count is {props.count}
-    <button onClick={props.increment}>increment</button>
-    <button onClick={props.incrementAsync}>incrementAsync</button>
-  </div>
+	<div>
+		The count is {props.count}
+		<button onClick={props.increment}>increment</button>
+		<button onClick={props.incrementAsync}>incrementAsync</button>
+	</div>
 )
 
 const mapState = state => ({
-  count: state.count
+	count: state.count,
 })
 
-const mapDispatch = ({ count: { increment, incrementAsync }}) => ({
-  increment: () => increment(1),
-  incrementAsync: () => incrementAsync(1)
+const mapDispatch = ({ count: { increment, incrementAsync } }) => ({
+	increment: () => increment(1),
+	incrementAsync: () => incrementAsync(1),
 })
 
-const CountContainer = connect(mapState, mapDispatch)(Count)
+const CountContainer = connect(
+	mapState,
+	mapDispatch
+)(Count)
 
 ReactDOM.render(
-  <Provider store={store}>
-    <CountContainer />
-  </Provider>,
-  document.getElementById('root')
+	<Provider store={store}>
+		<CountContainer />
+	</Provider>,
+	document.getElementById('root')
 )
 ```
 
 ### Examples
 
-* Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) \| [React](https://codesandbox.io/s/3kpyz2nnz6) \| [Vue](https://codesandbox.io/s/n3373olqo0) \| [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
-* Todos: [React](https://codesandbox.io/s/92mk9n6vww)
+- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) \| [React](https://codesandbox.io/s/3kpyz2nnz6) \| [Vue](https://codesandbox.io/s/n3373olqo0) \| [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
+- Todos: [React](https://codesandbox.io/s/92mk9n6vww)
 
 ### Migrating From Redux
 
@@ -194,4 +197,3 @@ See the [@rematch/core API](api-reference/api.md)
 See the [CHANGELOG](https://github.com/rematch/rematch/blob/master/CHANGELOG.md) to see what's new.
 
 Like this project? ★ us on GitHub :\)
-

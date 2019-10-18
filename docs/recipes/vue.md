@@ -8,46 +8,43 @@ CounterContainer.vue
 
 ```vue
 <template>
-  <Provider
-    :store="store" 
-    :mapDispatch="mapDispatch" 
-    :mapState="mapState">
-    <template slot-scope="{ count, increment }">
-      <Counter :count="count" :increment="increment"/>
-    </template>
-  </Provider>
+	<Provider :store="store" :mapDispatch="mapDispatch" :mapState="mapState">
+		<template slot-scope="{ count, increment }">
+			<Counter :count="count" :increment="increment" />
+		</template>
+	</Provider>
 </template>
 
 <script>
-  import Provider from 'vuejs-redux';
-  import { init } from '@rematch/core';
-  import Counter from './Counter.vue';
+import Provider from 'vuejs-redux'
+import { init } from '@rematch/core'
+import Counter from './Counter.vue'
 
-  // Every provider components need the store. To connect the components to the same instance of
-  // the store, it's recommended to export the instance of the store in another file and import it
-  // in the container components.
-  const store = init();
+// Every provider components need the store. To connect the components to the same instance of
+// the store, it's recommended to export the instance of the store in another file and import it
+// in the container components.
+const store = init()
 
-  // It's recommended to declare mapState and mapDispatch outside the component (as pure function)
-  // for easier tests.
-  const mapState = state => ({
-    count: state.count,
-  });
+// It's recommended to declare mapState and mapDispatch outside the component (as pure function)
+// for easier tests.
+const mapState = state => ({
+	count: state.count,
+})
 
-  const mapDispatch = dispatch => ({
-    increment: () => dispatch.count.increment(),
-  })
+const mapDispatch = dispatch => ({
+	increment: () => dispatch.count.increment(),
+})
 
-  export default {
-    data: () => ({
-      store // make it accessible in the template
-    }),
+export default {
+	data: () => ({
+		store, // make it accessible in the template
+	}),
 
-    methods: {
-      mapDispatch,
-      mapState
-    }
-  }
+	methods: {
+		mapDispatch,
+		mapState,
+	},
+}
 </script>
 ```
 
@@ -55,16 +52,15 @@ Counter.vue
 
 ```vue
 <template>
-  <div>
-    <h2>Count: {{ count }}</h2>
-    <button @click="increment" />
-  </div>
+	<div>
+		<h2>Count: {{ count }}</h2>
+		<button @click="increment" />
+	</div>
 </template>
 
 <script>
 export default {
-  props: ['count', 'increment']
-};
+	props: ['count', 'increment'],
+}
 </script>
 ```
-
