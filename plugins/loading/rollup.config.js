@@ -23,29 +23,30 @@ const config = {
 			format: 'umd',
 			exports: 'named',
 			context: 'window',
-			moduleContext: { 'this': 'window' },
+			moduleContext: { this: 'window' },
 			sourcemap: true,
 		}, // Universal Modules
 		{ file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true }, // CommonJS Modules
-		{ file: pkg.module, format: 'es',  exports: 'named', sourcemap: true }, // ES Modules
+		{ file: pkg.module, format: 'es', exports: 'named', sourcemap: true }, // ES Modules
 	],
 }
 
-const rollupConf = [config];
+const rollupConf = [config]
 
 if (env === 'production') {
 	rollupConf.push({
 		input: pkg.main,
-		plugins: [
-			uglify()
-		],
-		output: { file: pkg.main, format: 'cjs', exports: 'named', sourcemap: true },
-	});
+		plugins: [uglify()],
+		output: {
+			file: pkg.main,
+			format: 'cjs',
+			exports: 'named',
+			sourcemap: true,
+		},
+	})
 	rollupConf.push({
 		input: pkg.browser,
-		plugins: [
-			uglify()
-		],
+		plugins: [uglify()],
 		context: 'window',
 		output: {
 			name: 'RematchLoading',
@@ -54,7 +55,7 @@ if (env === 'production') {
 			exports: 'named',
 			sourcemap: true,
 		},
-	});
+	})
 }
 
 export default rollupConf

@@ -50,9 +50,8 @@ const umdProduction = {
 			sourcemap: true,
 		}, // Universal Modules
 	],
-	plugins: productionPlugins
+	plugins: productionPlugins,
 }
-
 
 const cjsProduction = {
 	input: 'src/index.ts',
@@ -64,9 +63,8 @@ const cjsProduction = {
 			sourcemap: true,
 		}, // CommonJS Modules
 	],
-	plugins: productionPlugins.concat(commonJs())
+	plugins: productionPlugins.concat(commonJs()),
 }
-
 
 // full source development builds
 const development = {

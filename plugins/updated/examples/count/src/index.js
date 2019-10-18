@@ -10,13 +10,13 @@ import * as models from './models'
 const updated = createUpdatedPlugin()
 
 const store = init({
-  models,
-  plugins: [updated] // add to plugin list
+	models,
+	plugins: [updated], // add to plugin list
 })
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.getElementById('root')
 )

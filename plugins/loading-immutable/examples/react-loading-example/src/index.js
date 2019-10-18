@@ -9,13 +9,13 @@ import example from './example'
 const loadingPlugin = createLoadingPlugin({ asNumber: true })
 
 const store = init({
-  plugins: [loadingPlugin],
-  models: { example }
+	plugins: [loadingPlugin],
+	models: { example },
 })
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.getElementById('root')
 )
