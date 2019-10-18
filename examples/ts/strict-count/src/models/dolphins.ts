@@ -1,5 +1,5 @@
 import { delay } from '../helpers'
-import { RootDispatch } from '../store';
+import { RootDispatch } from '../store'
 
 export type DolphinsState = number
 

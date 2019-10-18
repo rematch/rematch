@@ -34,9 +34,7 @@ const subscriptionsPlugin = (): Plugin => ({
 				],
 				[
 					typeof model.subscriptions[matcher] !== 'function',
-					`Subscription matcher in ${
-						model.name
-					} (${matcher}) must be a function`,
+					`Subscription matcher in ${model.name} (${matcher}) must be a function`,
 				],
 			])
 			const onAction = model.subscriptions[matcher]

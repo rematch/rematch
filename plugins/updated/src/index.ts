@@ -1,7 +1,7 @@
 import { Action, Model, Plugin } from '@rematch/core'
 
 export interface UpdatedConfig {
-	name?: string;
+	name?: string
 }
 
 const updatedPlugin = (config: UpdatedConfig = {}): Plugin => {

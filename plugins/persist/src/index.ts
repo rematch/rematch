@@ -8,7 +8,11 @@ let persistor
 export const getPersistor = () => persistor
 
 // rematch plugin
-const persistPlugin = (persistConfig = {}, persistStoreConfig, callback): Plugin => {
+const persistPlugin = (
+	persistConfig = {},
+	persistStoreConfig,
+	callback
+): Plugin => {
 	// merge config with common config options
 	const mergedConfig = {
 		key: 'root',

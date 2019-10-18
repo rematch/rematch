@@ -17,7 +17,9 @@ const typedStatePlugin = (): Plugin => ({
 		if (typings) {
 			validate(typings, store.getState()[modelName], modelName)
 		} else {
-			console.warn(`[rematch]: Missing typings definitions for \`${modelName}\` model`)
+			console.warn(
+				`[rematch]: Missing typings definitions for \`${modelName}\` model`
+			)
 		}
 		return called
 	},

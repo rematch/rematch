@@ -6,7 +6,7 @@ export default typedStatePlugin
 declare module '@rematch/core' {
 	export interface ModelConfig<S = any, SS = S> {
 		typings?: {
-			[key: string]: any,
+			[key: string]: any
 		}
 	}
 }

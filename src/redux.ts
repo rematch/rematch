@@ -18,8 +18,8 @@ export default function({
 	redux,
 	models,
 }: {
-	redux: R.ConfigRedux,
-	models: R.Model[],
+	redux: R.ConfigRedux
+	models: R.Model[]
 }) {
 	const combineReducers = redux.combineReducers || Redux.combineReducers
 	const createStore: Redux.StoreCreator = redux.createStore || Redux.createStore
