@@ -1,6 +1,7 @@
-# Getting Started
-
 ![](./docs/_media/icon.svg)
+
+
+# Getting Started
 
 [![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat)](https://rematchjs.slack.com)[![Build Status](https://travis-ci.org/rematch/rematch.svg?branch=master)](https://travis-ci.org/rematch/rematch)[![Coverage Status](https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master)](https://coveralls.io/github/rematch/rematch?branch=master)[![Npm version](https://img.shields.io/npm/v/@rematch/core?color=bright-green&style=flat)](https://badge.fury.io/js/%40rematch%2Fcore)[![Bundle size](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)[![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)
 
@@ -50,6 +51,11 @@ Rematch is Redux best practices without the boilerplate. No more action types, a
 ```bash
 npm install @rematch/core
 ```
+or
+```bash
+yarn add @rematch/core
+```
+
 
 #### Step 1: Init
 
