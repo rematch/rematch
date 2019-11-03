@@ -2,12 +2,12 @@
 
 # rematch <small>1.2.0</small>
 
-> Rematch是没有样板的Redux最佳实践
+> Rematch 是没有样板的 Redux 最佳实践
 
 - 没有更多的动作类型
 - 没有更多动作创作者
-- 没有更多的switch语句
-- 没有更多的thunk
+- 没有更多的 switch 语句
+- 没有更多的 thunk
 
 [GitHub](https://github.com/rematch/rematch/)
 [入门](/lang/zh-cn/README.md#Rematch)

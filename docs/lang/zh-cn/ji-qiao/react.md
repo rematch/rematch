@@ -9,29 +9,32 @@ description: >-
 import React from 'react'
 import { connect } from 'react-redux'
 
-const Counter = (props) => (
-  <div>
-    <h2>Count: {props.count}</h2>
-    <button onClick={props.increment} />
-  </div>
+const Counter = props => (
+	<div>
+		<h2>Count: {props.count}</h2>
+		<button onClick={props.increment} />
+	</div>
 )
 
 const mapState = (state, ownProps) => ({
-  count: state.count,
+	count: state.count,
 })
 
 const mapDispatch = dispatch => ({
-  increment: () => dispatch.count.increment(),
+	increment: () => dispatch.count.increment(),
 })
 // You can also use destructuring
-const mapDispatchWithDestructure = ({count: {increment}}) => ({increment})
+const mapDispatchWithDestructure = ({ count: { increment } }) => ({ increment })
 
-export default connect(mapState, mapDispatch)(Counter)
+export default connect(
+	mapState,
+	mapDispatch
+)(Counter)
 ```
 
-请注意，建议您将您的 `dispatch`语句保留在mapDispatch中。 这使您的组件保持纯粹，易于测试。
+请注意，建议您将您的 `dispatch`语句保留在 mapDispatch 中。 这使您的组件保持纯粹，易于测试。
 
-  使用`store来设置你的React-Redux Provider。`
+使用`store来设置你的React-Redux Provider。`
 
 ```javascript
 import React from 'react'
@@ -42,11 +45,8 @@ import App from './App'
 const store = init()
 
 export default () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
+	<Provider store={store}>
+		<App />
+	</Provider>
 )
 ```
-
-
-

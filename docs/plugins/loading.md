@@ -19,23 +19,26 @@ import React from 'react'
 import { connect } from 'react-redux'
 import AwesomeLoadingButton from './components/KindaCoolLoadingButton'
 
-const LoginButton = (props) => (
-  <AwesomeLoadingButton onClick={props.submit} loading={props.loading}>
-    Login
-  </AwesomeLoadingButton>
+const LoginButton = props => (
+	<AwesomeLoadingButton onClick={props.submit} loading={props.loading}>
+		Login
+	</AwesomeLoadingButton>
 )
 
-const mapState = (state) => ({
-  loading: state.loading.effects.login.submit, // true when the `login/submit` effect is running
-  // or
-  loading: state.loading.models.login, // true when ANY effect on the `login` model is running
+const mapState = state => ({
+	loading: state.loading.effects.login.submit, // true when the `login/submit` effect is running
+	// or
+	loading: state.loading.models.login, // true when ANY effect on the `login` model is running
 })
 
-const mapDispatch = (dispatch) => ({
-  submit: () => dispatch.login.submit()
+const mapDispatch = dispatch => ({
+	submit: () => dispatch.login.submit(),
 })
 
-export default connect(mapState, mapDispatch)(LoginButton)
+export default connect(
+	mapState,
+	mapDispatch
+)(LoginButton)
 ```
 
 ## Demo
@@ -58,7 +61,7 @@ const options = {}
 const loading = createLoadingPlugin(options)
 
 init({
-  plugins: [loading]
+	plugins: [loading],
 })
 ```
 
@@ -67,7 +70,9 @@ init({
 ### asNumber
 
 ```javascript
-{ asNumber: true }
+{
+	asNumber: true
+}
 ```
 
 The loading state values are a "counter", returns a number \(eg. `store.getState().loading.global === 5`\).
@@ -77,7 +82,9 @@ Defaults to `false`, returns a boolean \(eg. `store.getState().loading.global ==
 ### name
 
 ```javascript
-{ name: 'load' }
+{
+	name: 'load'
+}
 ```
 
 In which case, loading can be accessed from `state.load.global`.
@@ -113,11 +120,13 @@ import createLoadingPlugin from '@rematch/loading'
 
 // @rematch/selector plugin API
 const options = {
-  model: {
-    selectors: {
-      loggingIn(state) { return state.effects.login.submit }
-    }
-  }
+	model: {
+		selectors: {
+			loggingIn(state) {
+				return state.effects.login.submit
+			},
+		},
+	},
 }
 
 const loading = createLoadingPlugin(options)
@@ -125,15 +134,15 @@ const loading = createLoadingPlugin(options)
 
 A few notes on the model configuration option:
 
-* The `name` config will take precedence and override the `model.name` config.
-* The effects config \(`model.effects`\) has not been tested.
-* The reducers config \(`model.reducers`\) has been tested and can be used to add addition reducers.
+- The `name` config will take precedence and override the `model.name` config.
+- The effects config \(`model.effects`\) has not been tested.
+- The reducers config \(`model.reducers`\) has been tested and can be used to add addition reducers.
 
   Although, the une case for this config is unclear. Any `show` and `hide`
 
   reducers will be overriden by the plugin.
 
-* Unless you know what you are doing, it is not recommended to provide a `model.state` config. Providing the wrong
+- Unless you know what you are doing, it is not recommended to provide a `model.state` config. Providing the wrong
 
   config can break the plugin in unexpected ways.
 
@@ -159,31 +168,39 @@ The user may use an [Immutable.js](https://facebook.github.io/immutable-js/) Map
 
 ```javascript
 import createLoadingPlugin from '@rematch/loading'
-import { fromJS } from 'immutable';
+import { fromJS } from 'immutable'
 
 // Immutably returns the new state
-const immutableLoadingActionCreator = (state, name, action, converter, cntState) => (
-  state.asImmutable().withMutations( map => map.set('global', converter(cntState.global))
-    .setIn(['models', name], converter(cntState.models[name]))
-    .setIn(['effects',name, action], converter(cntState.effects[name][action]))
-  )
-)
+const immutableLoadingActionCreator = (
+	state,
+	name,
+	action,
+	converter,
+	cntState
+) =>
+	state.asImmutable().withMutations(map =>
+		map
+			.set('global', converter(cntState.global))
+			.setIn(['models', name], converter(cntState.models[name]))
+			.setIn(
+				['effects', name, action],
+				converter(cntState.effects[name][action])
+			)
+	)
 
 // Mutates the current state with a deep merge
-const immutableMergeInitialState = (state, newObj) => (
-  state.asMutable().mergeDeep(fromJS(newObj))
-)
+const immutableMergeInitialState = (state, newObj) =>
+	state.asMutable().mergeDeep(fromJS(newObj))
 
 const options = {
-  loadingActionCreator: immutableLoadingActionCreator,
-  mergeInitialState: immutableMergeInitialState,
-  model: {
-    state: fromJS({}),
-  }
+	loadingActionCreator: immutableLoadingActionCreator,
+	mergeInitialState: immutableMergeInitialState,
+	model: {
+		state: fromJS({}),
+	},
 }
 
-const loading = createLoadingPlugin(options);
+const loading = createLoadingPlugin(options)
 ```
 
 The above example has been tested and is included in the test suite of this package.
-

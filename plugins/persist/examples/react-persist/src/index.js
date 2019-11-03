@@ -9,20 +9,20 @@ import * as models from './models'
 import App from './App'
 
 const persistPlugin = createPersistPlugin({
-  version: 2,
-  whitelist: ['persisted'],
+	version: 2,
+	whitelist: ['persisted'],
 })
 
 const store = init({
-  models,
-  plugins: [persistPlugin],
+	models,
+	plugins: [persistPlugin],
 })
 
 ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate persistor={getPersistor()}>
-      <App />
-    </PersistGate>
-  </Provider>,
-  document.getElementById('root')
+	<Provider store={store}>
+		<PersistGate persistor={getPersistor()}>
+			<App />
+		</PersistGate>
+	</Provider>,
+	document.getElementById('root')
 )

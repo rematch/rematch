@@ -4,18 +4,16 @@ description: 除非您正在构建自己的插件或添加中间件，否则本�
 
 # Init Redux API
 
-
-
-* init
-  * redux
-    * initialState
-    * reducers
-    * middlewares
-    * enhancers
-    * rootReducers
-    * combineReducers
-    * createStore
-    * devtoolOptions
+- init
+  - redux
+    - initialState
+    - reducers
+    - middlewares
+    - enhancers
+    - rootReducers
+    - combineReducers
+    - createStore
+    - devtoolOptions
 
 ### Redux
 
@@ -25,10 +23,10 @@ description: 除非您正在构建自己的插件或添加中间件，否则本�
 
 ```javascript
 init({
-  redux: {
-    initialState: any
-  }
- })
+	redux: {
+		initialState: any,
+	},
+})
 ```
 
 你的 app 的 initialState. 这可能不是必需的，因为 model 的状态会覆盖 init state 。
@@ -37,18 +35,18 @@ init({
 
 ```javascript
 const someReducer = (state, action) => {
-  switch(action.type) {
-    default:
-      return state
-  }
+	switch (action.type) {
+		default:
+			return state
+	}
 }
 
 init({
-  redux: {
-    reducers: {
-      someReducer,
-    }
-  }
+	redux: {
+		reducers: {
+			someReducer,
+		},
+	},
 })
 ```
 
@@ -58,9 +56,9 @@ init({
 
 ```javascript
 init({
-  redux: {
-    middlewares: [customMiddleware()]
-  }
+	redux: {
+		middlewares: [customMiddleware()],
+	},
 })
 ```
 
@@ -70,23 +68,23 @@ init({
 
 ```javascript
 init({
-  redux: {
-    enhancers: [customEnhancer()]
-  }
+	redux: {
+		enhancers: [customEnhancer()],
+	},
 })
 ```
 
-添加 enhancers 到你的store.
+添加 enhancers 到你的 store.
 
 #### rootReducers
 
 ```javascript
 init({
-  redux: {
-    rootReducers: {
-      'RESET': (state, action) => undefined,
-    }
-  }
+	redux: {
+		rootReducers: {
+			RESET: (state, action) => undefined,
+		},
+	},
 })
 ```
 
@@ -96,37 +94,34 @@ init({
 
 ```javascript
 init({
-  redux: {
-    combineReducers: customCombineReducers
-  }
+	redux: {
+		combineReducers: customCombineReducers,
+	},
 })
 ```
 
-允许访问覆写 Redux 的 `combineReducers` ****方法。对于当前设置 Redux persist v5 来说是必须的。
+允许访问覆写 Redux 的 `combineReducers` \*\*\*\*方法。对于当前设置 Redux persist v5 来说是必须的。
 
 #### createStore
 
 ```javascript
 init({
-  redux: {
-    createStore: customCreateStore
-  }
+	redux: {
+		createStore: customCreateStore,
+	},
 })
 ```
 
-允许访问覆写 Redux 的 `createStore` ****方法。对于基于 Redux 设置 Reactotron 来说是必须的。
+允许访问覆写 Redux 的 `createStore` \*\*\*\*方法。对于基于 Redux 设置 Reactotron 来说是必须的。
 
 #### devtoolOptions
 
 ```javascript
 init({
-  redux: {
-    devtoolOptions: customDevtoolOptions
-  }
+	redux: {
+		devtoolOptions: customDevtoolOptions,
+	},
 })
 ```
 
 访问 [redux devtool options](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md) .在 [devtool recipes](https://rematch.gitbooks.io/rematch/docs/recipes/devtools) 之上了解更多配置 devtools 的信息。
-
-
-

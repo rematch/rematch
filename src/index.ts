@@ -22,7 +22,9 @@ export const dispatch = () => {
  * this is for autocomplete purposes only
  * returns the same object that was received as argument
  */
-export function createModel<S = any, M extends R.ModelConfig<S> = any>(model: M) {
+export function createModel<S = any, M extends R.ModelConfig<S> = any>(
+	model: M
+) {
 	return model
 }
 

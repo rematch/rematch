@@ -97,7 +97,10 @@ describe('select:', () => {
 				state: 2,
 				selectors: (slice, createSelector) => ({
 					double: () =>
-						createSelector(state => state, state => state.count * 2),
+						createSelector(
+							state => state,
+							state => state.count * 2
+						),
 				}),
 			}
 			const store = init({
@@ -113,7 +116,11 @@ describe('select:', () => {
 			const count = {
 				state: 2,
 				selectors: (slice, createSelector) => ({
-					double: () => createSelector(slice, c => c * 2),
+					double: () =>
+						createSelector(
+							slice,
+							c => c * 2
+						),
 				}),
 			}
 			const store = init({
@@ -153,7 +160,11 @@ describe('select:', () => {
 				selectors: (slice, createSelector) => ({
 					double: () => slice(b => b * 2),
 					value({ countA }) {
-						return createSelector(this.double, countA.double, (b, a) => a + b)
+						return createSelector(
+							this.double,
+							countA.double,
+							(b, a) => a + b
+						)
 					},
 				}),
 			}
@@ -197,7 +208,11 @@ describe('select:', () => {
 			const countB = {
 				state: 10,
 				selectors: (slice, createSelector) => ({
-					double: () => createSelector(slice, c => c * 2),
+					double: () =>
+						createSelector(
+							slice,
+							c => c * 2
+						),
 				}),
 			}
 			const countC = {

@@ -1,8 +1,6 @@
 # Vue
 
-你可以在 Vue 里使用 rematch，就像在 Vue 上使用 Redux 和 [vuejs-redux](https://github.com/titouancreach/vuejs-redux). 在 Vue 中使用 rematch，与在React中使用 connect 高阶组件不同，我们创造了一个容器组件，用来负责连接子组件。
-
-
+你可以在 Vue 里使用 rematch，就像在 Vue 上使用 Redux 和 [vuejs-redux](https://github.com/titouancreach/vuejs-redux). 在 Vue 中使用 rematch，与在 React 中使用 connect 高阶组件不同，我们创造了一个容器组件，用来负责连接子组件。
 
 看下面的例子：
 
@@ -11,8 +9,8 @@ CounterContainer.vue
 ```javascript
 <template>
   <Provider
-    :store="store" 
-    :mapDispatch="mapDispatch" 
+    :store="store"
+    :mapDispatch="mapDispatch"
     :mapState="mapState">
     <template slot-scope="{ count, increment }">
       <Counter :count="count" :increment="increment"/>
@@ -53,7 +51,7 @@ CounterContainer.vue
 </script>
 ```
 
- Counter.vue
+Counter.vue
 
 ```javascript
 <template>
@@ -69,4 +67,3 @@ export default {
 };
 </script>
 ```
-

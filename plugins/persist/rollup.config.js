@@ -38,14 +38,19 @@ const config = {
 }
 
 if (env === 'production') {
-  config.plugins.push(uglify({
-    compress: {
-      pure_getters: true,
-      unsafe: true,
-      unsafe_comps: true,
-      warnings: false,
-    },
-  }, minify))
+	config.plugins.push(
+		uglify(
+			{
+				compress: {
+					pure_getters: true,
+					unsafe: true,
+					unsafe_comps: true,
+					warnings: false,
+				},
+			},
+			minify
+		)
+	)
 }
 
 export default [config]

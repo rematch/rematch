@@ -19,8 +19,16 @@ const Count = () => {
 				<h3>Sharks</h3>
 				<h1>{sharks}</h1>
 				<button onClick={() => dispatch.sharks.increment(1)}>+1</button>
-				<button onClick={() => dispatch.sharks.incrementAsync(1)}>Async +1</button>
-				<button onClick={() => dispatch({ type: 'sharks/incrementAsync', payload: 2 })}>Async +2</button>
+				<button onClick={() => dispatch.sharks.incrementAsync(1)}>
+					Async +1
+				</button>
+				<button
+					onClick={() =>
+						dispatch({ type: 'sharks/incrementAsync', payload: 2 })
+					}
+				>
+					Async +2
+				</button>
 			</div>
 			<p>Using Rematch Models</p>
 		</div>

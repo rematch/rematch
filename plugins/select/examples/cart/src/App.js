@@ -5,7 +5,7 @@ import { select } from './store'
 // Make a presentational component.
 // It knows nothing about redux or rematch.
 const App = ({ total, items, add, remove }) => {
-	const [value, setValue]= React.useState(1)
+	const [value, setValue] = React.useState(1)
 	return (
 		<div>
 			<h2>
@@ -18,12 +18,11 @@ const App = ({ total, items, add, remove }) => {
 			</h2>
 
 			<h2>
-				<input value={value} onChange={(event) => setValue(Number(event.target.value))} />
-				<button
-					onClick={() => add({ id: Date.now(), value })}
-				>
-					Add Item
-				</button>{' '}
+				<input
+					value={value}
+					onChange={event => setValue(Number(event.target.value))}
+				/>
+				<button onClick={() => add({ id: Date.now(), value })}>Add Item</button>{' '}
 			</h2>
 
 			<h5>

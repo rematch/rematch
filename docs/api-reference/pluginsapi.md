@@ -4,16 +4,16 @@
 
 There are plenty of examples to base your next plugin on. After all, in Rematch, everything is a plugin: `dispatch`, `effects`, `selectors`, `subscriptions` - all plugins. Optional plugins can be provided as packages, such as "loading" & "persist".
 
-* [core plugins](https://github.com/rematch/rematch/tree/master/src/plugins)
-* [plugin packages](https://github.com/rematch/rematch/tree/master/plugins)
+- [core plugins](https://github.com/rematch/rematch/tree/master/src/plugins)
+- [plugin packages](https://github.com/rematch/rematch/tree/master/plugins)
 
 ## Plugin API Reference
 
-* [config](api-reference/pluginsapi#config)
-* [exposed](api-reference/pluginsapi#exposed)
-* [onModel](api-reference/pluginsapi#onmodel)
-* [middleware](api-reference/pluginsapi#middleware)
-* [onStoreCreated](api-reference/pluginsapi#onstorecreated)
+- [config](api-reference/pluginsapi#config)
+- [exposed](api-reference/pluginsapi#exposed)
+- [onModel](api-reference/pluginsapi#onmodel)
+- [middleware](api-reference/pluginsapi#middleware)
+- [onStoreCreated](api-reference/pluginsapi#onstorecreated)
 
 ### config
 
@@ -24,11 +24,11 @@ An init options overwrite object. See [init](api.md#init) for a full list of opt
 ```javascript
 // example from persist plugin
 const plugin = {
-  config: {
-    redux: {
-      combineReducers: customCombineReducers,
-    }
-  },
+	config: {
+		redux: {
+			combineReducers: customCombineReducers,
+		},
+	},
 }
 ```
 
@@ -43,7 +43,7 @@ A shared object for plugins to communicate with each other.
 ```javascript
 // example from select plugin
 const selectors = {
-  expose: { select: {} },
+	expose: { select: {} },
 }
 ```
 
@@ -55,9 +55,9 @@ See "dispatch", "select" as an example.
 
 ```javascript
 const plugin = {
-  onModel(model) {
-    // do something
-  }
+	onModel(model) {
+		// do something
+	},
 }
 ```
 
@@ -73,10 +73,10 @@ As an example, see "dispatch", "effects", "subscriptions", etc.
 
 ```javascript
 const plugin = {
-  middleware: store => next => action => {
-    // do something here
-    return next(action)
-  }
+	middleware: store => next => action => {
+		// do something here
+		return next(action)
+	},
 }
 ```
 
@@ -90,9 +90,9 @@ See examples with "effects", "loading", & "subscriptions".
 
 ```javascript
 const plugin = {
-  onStoreCreated(store) {
-    // do something
-  }
+	onStoreCreated(store) {
+		// do something
+	},
 }
 ```
 
@@ -105,7 +105,7 @@ Returning an object from `onStoreCreated` will result in the keys being merged o
 ```text
 const plugin = {
   onStoreCreated(store) {
-    return { count: 42 } 
+    return { count: 42 }
   }
 }
 
@@ -114,4 +114,3 @@ store.count // 42
 ```
 
 If you choose to do this with a plugin with TypeScript, be sure to update your stores typings.
-

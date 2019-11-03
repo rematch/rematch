@@ -2,19 +2,19 @@
 
 ### Redux-Devtools
 
-Rematch具有开箱即用的[Redux Devtools](https://github.com/zalmoxisus/redux-devtools-extension)。不需要配置。
+Rematch 具有开箱即用的[Redux Devtools](https://github.com/zalmoxisus/redux-devtools-extension)。不需要配置。
 
 ```javascript
 init() // devtools up and running
 ```
 
-还可以添加redux devtools[配置选项](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md)。
+还可以添加 redux devtools[配置选项](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md)。
 
 ```javascript
 init({
-  redux: {
-    devtoolOptions: options,
-  },
+	redux: {
+		devtoolOptions: options,
+	},
 })
 ```
 
@@ -27,13 +27,12 @@ init({
 import Reactotron from 'reactotron-react-native'
 import { reactotronRedux } from 'reactotron-redux'
 
-export default Reactotron
-  .configure({
-    name: 'MyAwesomeApp'
-  })
-  .use(reactotronRedux())
-  // add other devtools here
-  .connect()
+export default Reactotron.configure({
+	name: 'MyAwesomeApp',
+})
+	.use(reactotronRedux())
+	// add other devtools here
+	.connect()
 ```
 
 覆写`createStore`来完成配置。
@@ -43,17 +42,8 @@ export default Reactotron
 import Reactotron from './Reactotron.config.js'
 
 init({
-  redux: {
-    createStore: Reactotron.createStore,
-  }
+	redux: {
+		createStore: Reactotron.createStore,
+	},
 })
 ```
-
-
-
-
-
-
-
-
-

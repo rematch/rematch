@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "stable"
+  - 'stable'
 git:
   depth: 5
 cache:
@@ -17,7 +17,7 @@ jobs:
       after_script:
         - npm run size
         - npm install coveralls
-        - coveralls < coverage/lcov.info          
+        - coveralls < coverage/lcov.info
     - stage: typings
       before_install: npm run clean --prefix examples/ts/count
       script: npm run test:ts

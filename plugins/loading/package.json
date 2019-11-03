@@ -1,49 +1,49 @@
 {
-  "name": "@rematch/loading",
-  "version": "1.2.1",
-  "description": "Loading indicator plugin for Rematch",
-  "keywords": [
-    "@rematch",
-    "loading",
-    "plugin",
-    "redux",
-    "rematch"
-  ],
-  "homepage": "https://github.com/rematch/rematch/tree/master/plugins/loading#readme",
-  "bugs": {
-    "url": "git+https://github.com/rematch/rematch/issues"
-  },
-  "license": "MIT",
-  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
-  "files": [
-    "dist",
-    "index.d.ts"
-  ],
-  "main": "dist/rematch-loading.cjs.js",
-  "module": "dist/rematch-loading.esm.js",
-  "browser": "dist/rematch-loading.umd.js",
-  "scripts": {
-    "clean:dist": "npx rimraf dist",
-    "clean:build": "npx rimraf build",
-    "clean": "npm run clean:dist & npm run clean:build",
-    "type": "tsc --emitDeclarationOnly",
-    "build": "npm run clean && NODE_ENV=production rollup -c && npm run type"
-  },
-  "devDependencies": {
-    "@rematch/core": "^1.0.6",
-    "@rematch/select": "^0.3.0",
-    "immutable": "^3.8.2",
-    "redux-immutable": "^4.0.0",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.21.4",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-typescript": "^1.0.1",
-    "rollup-plugin-uglify": "^6.0.3",
-    "typescript": "^3.2.2"
-  },
-  "peerDependencies": {
-    "@rematch/core": ">=1.0.0"
-  }
+	"name": "@rematch/loading",
+	"version": "1.2.1",
+	"description": "Loading indicator plugin for Rematch",
+	"keywords": [
+		"@rematch",
+		"loading",
+		"plugin",
+		"redux",
+		"rematch"
+	],
+	"homepage": "https://github.com/rematch/rematch/tree/master/plugins/loading#readme",
+	"bugs": {
+		"url": "git+https://github.com/rematch/rematch/issues"
+	},
+	"license": "MIT",
+	"author": "Shawn McKay <shawn.j.mckay@gmail.com>",
+	"files": [
+		"dist",
+		"index.d.ts"
+	],
+	"main": "dist/rematch-loading.cjs.js",
+	"module": "dist/rematch-loading.esm.js",
+	"browser": "dist/rematch-loading.umd.js",
+	"scripts": {
+		"clean:dist": "npx rimraf dist",
+		"clean:build": "npx rimraf build",
+		"clean": "npm run clean:dist & npm run clean:build",
+		"type": "tsc --emitDeclarationOnly",
+		"build": "npm run clean && NODE_ENV=production rollup -c && npm run type"
+	},
+	"devDependencies": {
+		"@rematch/core": "^1.0.6",
+		"@rematch/select": "^0.3.0",
+		"immutable": "^3.8.2",
+		"redux-immutable": "^4.0.0",
+		"rimraf": "^2.6.3",
+		"rollup": "^1.21.4",
+		"rollup-plugin-commonjs": "^10.1.0",
+		"rollup-plugin-node-resolve": "^5.2.0",
+		"rollup-plugin-replace": "^2.2.0",
+		"rollup-plugin-typescript": "^1.0.1",
+		"rollup-plugin-uglify": "^6.0.3",
+		"typescript": "^3.2.2"
+	},
+	"peerDependencies": {
+		"@rematch/core": ">=1.0.0"
+	}
 }

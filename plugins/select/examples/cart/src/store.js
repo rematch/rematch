@@ -4,7 +4,7 @@ import * as models from './models'
 
 export const store = init({
 	models,
-  plugins: [selectPlugin()]
+	plugins: [selectPlugin()],
 })
 
 export const { select } = store

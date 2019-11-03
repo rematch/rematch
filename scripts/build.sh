@@ -1,13 +1,13 @@
 #!/bin/sh
 # Build script to be used locally for now
 
-build_production () {
+build_production() {
   npm install
   mkdir -p lib
   npm run build
 }
 
-build_plugin () {
+build_plugin() {
   echo 'Building ' $1
   cd $1
   build_production
@@ -26,8 +26,7 @@ echo 'Building libs...'
 build_production
 
 # build all plugins
-for plugin in 'plugins'/*
-do
+for plugin in 'plugins'/*; do
   build_plugin $plugin
 done
 

@@ -1,19 +1,19 @@
 # @rematch/core API
 
-* [init](api-reference/api#init)
-  * [models](api-reference/api#models)
-    * [state](api-reference/api#state)
-    * [reducers](api-reference/api#reducers)
-    * [effects](api-reference/api#effects)
-    * [basereducer](api-reference/api#basereducer)
-  * [plugins](api-reference/api#plugins)
-  * [redux](api-reference/api#redux)
-* [store](api-reference/api#store)
-  * [dispatch](api-reference/api#storedispatch)
-  * [getState](api-reference/api#storegetstate)
-  * [name](api-reference/api#storename)
-  * [model](api-reference/api#storemodel)
-* [action](api-reference/api#action)
+- [init](api-reference/api#init)
+  - [models](api-reference/api#models)
+    - [state](api-reference/api#state)
+    - [reducers](api-reference/api#reducers)
+    - [effects](api-reference/api#effects)
+    - [basereducer](api-reference/api#basereducer)
+  - [plugins](api-reference/api#plugins)
+  - [redux](api-reference/api#redux)
+- [store](api-reference/api#store)
+  - [dispatch](api-reference/api#storedispatch)
+  - [getState](api-reference/api#storegetstate)
+  - [name](api-reference/api#storename)
+  - [model](api-reference/api#storemodel)
+- [action](api-reference/api#action)
 
 ## init
 
@@ -37,13 +37,13 @@ Init may also be called with the following configuration option below.
 import { init } from '@rematch/core'
 
 const count = {
-  state: 0,
+	state: 0,
 }
 
 init({
-  models: {
-    count
-  }
+	models: {
+		count,
+	},
 })
 ```
 
@@ -51,7 +51,7 @@ For smaller projects, its recommend you keep your models in a "models.js" file a
 
 ```javascript
 export const count = {
-  state: 0,
+	state: 0,
 }
 ```
 
@@ -60,7 +60,7 @@ For larger projects, its recommended you keep your models in a "models" folder a
 ```javascript
 // models/count.js
 export default {
-  state: 0,
+	state: 0,
 }
 ```
 
@@ -87,7 +87,7 @@ The initial state of the model.
 
 ```javascript
 const example = {
-  state: { loading: false }
+	state: { loading: false },
 }
 ```
 
@@ -156,15 +156,15 @@ Effects provide a simple way of handling async actions when used with `async/awa
 
 ```javascript
 {
-  effects: (dispatch) => ({
-    async loadData(payload, rootState) {
-      // wait for data to load
-      const response = await fetch('http://example.com/data')
-      const data = await response.json()
-      // pass the result to a external model reducer
-      dispatch.other.update(data)
-    }
-  })
+	effects: dispatch => ({
+		async loadData(payload, rootState) {
+			// wait for data to load
+			const response = await fetch('http://example.com/data')
+			const data = await response.json()
+			// pass the result to a external model reducer
+			dispatch.other.update(data)
+		},
+	})
 }
 ```
 
@@ -198,7 +198,7 @@ This is especially useful for adding redux libraries to your store in a structur
 
 ```javascript
 init({
-  plugins: [loadingPlugin, persistPlugin],
+	plugins: [loadingPlugin, persistPlugin],
 })
 ```
 
@@ -221,9 +221,9 @@ init({
 
 There are situations where you might want to access Redux directly. You may want to:
 
-* migrate an existing Redux project
-* add middleware
-* create a custom plugin
+- migrate an existing Redux project
+- add middleware
+- create a custom plugin
 
 For a complete summary of all redux options, see the [init Redux API](reduxapi.md).
 
@@ -239,14 +239,14 @@ In Rematch, `store.dispatch` can be called directly or as an object.
 import store from './index'
 
 const { dispatch } = store
-                                                  // state = { count: 0 }
+// state = { count: 0 }
 // reducers
 dispatch({ type: 'count/increment', payload: 1 }) // state = { count: 1 }
-dispatch.count.increment(1)                       // state = { count: 2 }
+dispatch.count.increment(1) // state = { count: 2 }
 
 // effects
 dispatch({ type: 'count/incrementAsync', payload: 1 }) // state = { count: 3 } after delay
-dispatch.count.incrementAsync(1)                       // state = { count: 4 } after delay
+dispatch.count.incrementAsync(1) // state = { count: 4 } after delay
 ```
 
 Dispatch has an optional second property, "meta", which can be used in subscriptions or middleware. This is for advanced use cases only.
@@ -271,14 +271,13 @@ It's possible to lazy-load models and merge them into Rematch after `init` has b
 import { init } from '@rematch/core'
 
 const store = init({
-  models: {
-    count: { state: 0 }
-  }
+	models: {
+		count: { state: 0 },
+	},
 })
 
 store.getState()
 // { count: 0 }
-
 
 // later on
 store.model({ name: 'countB', state: 99 })
@@ -296,4 +295,3 @@ Actions are messages sent within Redux as a way for disparate parts of your app 
 In Rematch, an action is always structured with a type of "modelName" and "actionName" - referring to either a reducer or effect name.
 
 Any data attached to an action is added in the payload.
-

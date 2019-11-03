@@ -25,7 +25,7 @@ export default class Rematch {
 			this.plugins.push(this.pluginFactory.create(plugin))
 		}
 		// preStore: middleware, model hooks
-		this.forEachPlugin('middleware', (middleware) => {
+		this.forEachPlugin('middleware', middleware => {
 			this.config.redux.middlewares.push(middleware)
 		})
 	}
@@ -47,11 +47,18 @@ export default class Rematch {
 		validate([
 			[!model, 'model config is required'],
 			[typeof model.name !== 'string', 'model "name" [string] is required'],
-			[model.state === undefined && model.baseReducer === undefined, 'model "state" is required'],
-			[model.baseReducer !== undefined && typeof model.baseReducer !== 'function', 'model "baseReducer" must be a function'],
+			[
+				model.state === undefined && model.baseReducer === undefined,
+				'model "state" is required',
+			],
+			[
+				model.baseReducer !== undefined &&
+					typeof model.baseReducer !== 'function',
+				'model "baseReducer" must be a function',
+			],
 		])
 		// run plugin model subscriptions
-		this.forEachPlugin('onModel', (onModel) => onModel(model))
+		this.forEachPlugin('onModel', onModel => onModel(model))
 	}
 	public init() {
 		// collect all models
@@ -73,17 +80,19 @@ export default class Rematch {
 			model: (model: R.Model) => {
 				this.addModel(model)
 				redux.mergeReducers(redux.createModelReducer(model))
-				redux.store.replaceReducer(redux.createRootReducer(this.config.redux.rootReducers))
-				redux.store.dispatch({ type: '@@redux/REPLACE '})
+				redux.store.replaceReducer(
+					redux.createRootReducer(this.config.redux.rootReducers)
+				)
+				redux.store.dispatch({ type: '@@redux/REPLACE ' })
 			},
 		}
 
-		this.forEachPlugin('onStoreCreated', (onStoreCreated) => {
+		this.forEachPlugin('onStoreCreated', onStoreCreated => {
 			const returned = onStoreCreated(rematchStore)
 			// if onStoreCreated returns an object value
 			// merge its returned value onto the store
 			if (returned) {
-				Object.keys(returned || {}).forEach((key) => {
+				Object.keys(returned || {}).forEach(key => {
 					rematchStore[key] = returned[key]
 				})
 			}

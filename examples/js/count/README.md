@@ -1,4 +1,4 @@
-# Vanilla JS Rematch Count 
+# Vanilla JS Rematch Count
 
 An example
 

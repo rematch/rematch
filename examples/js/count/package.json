@@ -1,19 +1,19 @@
 {
-  "name": "rematch-vanilla-js-count-example",
-  "version": "1.0.0",
-  "license": "MIT",
-  "main": "src/index.js",
-  "scripts": {
-    "clean": "rm package-lock.json && rm -rf node_modules && npm i",
-    "start": "npm run build && open public/index.html",
-    "build": "webpack"
-  },
-  "dependencies": {
-    "@rematch/core": "file:../../.."
-  },
-  "devDependencies": {
-    "babel-loader": "^7.1.2",
-    "webpack": "^3.8.1"
-  },
-  "private": true
+	"name": "rematch-vanilla-js-count-example",
+	"version": "1.0.0",
+	"license": "MIT",
+	"main": "src/index.js",
+	"scripts": {
+		"clean": "rm package-lock.json && rm -rf node_modules && npm i",
+		"start": "npm run build && open public/index.html",
+		"build": "webpack"
+	},
+	"dependencies": {
+		"@rematch/core": "file:../../.."
+	},
+	"devDependencies": {
+		"babel-loader": "^7.1.2",
+		"webpack": "^3.8.1"
+	},
+	"private": true
 }

@@ -4,10 +4,10 @@ A plugin to add memoized state selection to Rematch. Selectors are created using
 
 > This is the documentation for @rematch/select 2.0. For older versions see [the legacy docs](https://github.com/rematch/rematch/blob/f59cfeebaf1d3022b308e32d3a3f24440906478c/plugins/select/README.md)
 
-* [Getting Started](select.md#getting-started)
-* [Building Selectors](select.md#building-selectors)
-* [API Docs](select.md#api-docs)
-* [Recipes](select.md#recipes)
+- [Getting Started](select.md#getting-started)
+- [Building Selectors](select.md#building-selectors)
+- [API Docs](select.md#api-docs)
+- [Recipes](select.md#recipes)
 
 ## Getting Started
 
@@ -24,7 +24,7 @@ import selectPlugin from '@rematch/select'
 import { init } from '@rematch/core'
 
 init({
-  plugins: [selectPlugin()]
+	plugins: [selectPlugin()],
 })
 ```
 
@@ -35,14 +35,14 @@ init({
 A "selector" is just a function that uses the current state to derive a value:
 
 ```javascript
-(state, payload?) => any
+;(state, payload?) => any
 ```
 
 You've probably already written one for a connected component's `mapStateToProps`
 
 ```javascript
 const mapStateToProps = (state, props) => ({
-  total: state.cart.items.reduce((a, b) => a + (b.price * b.amount), 0),
+	total: state.cart.items.reduce((a, b) => a + b.price * b.amount, 0),
 })
 
 connect(mapStateToProps)(MyComponent)
@@ -158,7 +158,7 @@ reducers: {
 Previous examples have shown selectors with dependencies that can receive `props`:
 
 ```javascript
-(state, props) => props.shipping
+;(state, props) => props.shipping
 ```
 
 [You need to be careful when passing `props` to a selector because of how reselect caches results. ](https://github.com/reduxjs/reselect/blob/master/README.md#sharing-selectors-with-props-across-multiple-component-instances)
@@ -184,12 +184,12 @@ wouldGetFreeShipping () {
 When accessed like an object, all of our models' selectors are callable:
 
 ```javascript
-const moreThan50 = store.select.cart.expensiveFilter(50.00)
+const moreThan50 = store.select.cart.expensiveFilter(50.0)
 
-console.log( moreThan50(store.getState()) )
+console.log(moreThan50(store.getState()))
 
 const mapStateToProps = state => ({
-  items: moreThan50(state)
+	items: moreThan50(state),
 })
 ```
 
@@ -199,8 +199,8 @@ When called as a function, `select` uses a passed function to map the store's mo
 
 ```javascript
 const selection = store.select(models => ({
-  total: models.cart.total,
-  eligibleItems: models.cart.wouldGetFreeShipping
+	total: models.cart.total,
+	eligibleItems: models.cart.wouldGetFreeShipping,
 }))
 ```
 
@@ -214,8 +214,8 @@ _Note_, this "selection" is just another selector function and could be called a
 
 ```javascript
 connect(state => ({
-  contacts: state.contacts.collection,
-  ...selection(state),
+	contacts: state.contacts.collection,
+	...selection(state),
 }))(MyComponent)
 ```
 
@@ -241,26 +241,26 @@ isHypeBeast (models) {
 import selectPlugin from '@rematch/select'
 ```
 
-* [selectPlugin](select.md#selectplugin)
-  * [selectorCreator](select.md#configselectorcreator)
-  * [sliceState](select.md#configslicestate)
-* [store.select](select.md#storeselect)
+- [selectPlugin](select.md#selectplugin)
+  - [selectorCreator](select.md#configselectorcreator)
+  - [sliceState](select.md#configslicestate)
+- [store.select](select.md#storeselect)
 
 ### selectPlugin
 
-* `selectPlugin(config?: any)`
+- `selectPlugin(config?: any)`
 
 Create the plugin.
 
 ```javascript
 init({
-  plugins: [ selectPlugin(config) ]
+	plugins: [selectPlugin(config)],
 })
 ```
 
 #### config.selectorCreator:
 
-* `selectorCreator: (...deps, resultFunc) => any`
+- `selectorCreator: (...deps, resultFunc) => any`
 
 This option allows the user to specify a different function to be used when creating selectors.
 
@@ -268,7 +268,7 @@ The default is `createSelector` from `reselect`. See [recipes](select.md#Recipes
 
 #### config.sliceState:
 
-* `sliceState: (rootState, model) => any`
+- `sliceState: (rootState, model) => any`
 
 This option allows the user to specify how the state will be sliced in the `slice` function. The function takes the `rootState` as the first parameter and the `model` corresponding to the selector as the second parameter. It should return the desired state slice required by the selector.
 
@@ -278,11 +278,11 @@ Most of the time the default should be used, however, there are some cases where
 
 ### store.select:
 
-* `select( mapSelectToStructure: (select) => object)`
+- `select( mapSelectToStructure: (select) => object)`
 
 When called as a function, `select` lazily creates a [structuredSelector](https://github.com/reduxjs/reselect#createstructuredselectorinputselectors-selectorcreator--createselector) using the selectors you return in `mapSelectToStructure`.
 
-* `select: { [modelName]: { [selectorName]: (state) => any } }`
+- `select: { [modelName]: { [selectorName]: (state) => any } }`
 
 `select` is also an object with a group of selectors for each of your store models. Selectors are regular functions that can be called anywhere within your application.
 
@@ -298,7 +298,7 @@ Selectors have a cache size of 1. Passing a different set of props will invalida
 import createCachedSelector from 're-reselect'
 
 selectorPlugin({
-  selectorCreator: createCachedSelector
+	selectorCreator: createCachedSelector,
 })
 ```
 
@@ -321,10 +321,8 @@ If you are using an [Immutable.js](https://facebook.github.io/immutable-js/) Map
 
 ```javascript
 selectorsPlugin({
-  sliceState: (rootState, model) =>
-    rootState.get(model.name)
+	sliceState: (rootState, model) => rootState.get(model.name),
 })
 ```
 
 Now you can use an [Immutable.js Map](http://facebook.github.io/immutable-js/docs/#/Map) as your store and access the appropriate slice of the state in each of your selectors.
-

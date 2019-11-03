@@ -1,4 +1,4 @@
-import index from './dist';
+import index from './dist'
 
-export * from './dist';
-export default index;
+export * from './dist'
+export default index
