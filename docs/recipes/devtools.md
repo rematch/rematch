@@ -32,34 +32,8 @@ init({
 
 ## Remote-Redux-Devtools
 
-To use Redux Devtools in React Native, simply use [Remote Redux Devtools](https://github.com/zalmoxisus/remote-redux-devtools).
-
-1.
-
-```javascript
-npm install --save-dev remote-redux-devtools
-```
-
-or
-
-```javascript
-yarn add -D remote-redux-devtools
-```
-
-2.
-
-```javascript
-import { composeWithDevTools } from 'remote-redux-devtools'
-
-init({
-	redux: {
-		enhancers: [composeWithDevTools()],
-	},
-})
-```
-
-1. Run the app, open debug menu, and select `Debug JS Remotely`.
-2. Run Redux Devtools in Chrome, and select `remote` at the bottom of the devtools window
+Remote-redux-devtools is not supported in rematch see this [issue](https://github.com/rematch/rematch/issues/419)
+You can use [react-native-debugger](https://github.com/jhen0409/react-native-debugger) which works out of the box with rematch.
 
 ## Reactotron
 
