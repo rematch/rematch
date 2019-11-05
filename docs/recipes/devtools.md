@@ -32,7 +32,7 @@ init({
 
 ## Remote-Redux-Devtools
 
-Remote-redux-devtools is not supported in rematch see this [issue](https://github.com/rematch/rematch/issues/419)
+Remote-redux-devtools is not supported in rematch see this [issue](https://github.com/rematch/rematch/issues/419).
 You can use [react-native-debugger](https://github.com/jhen0409/react-native-debugger) which works out of the box with rematch.
 
 ## Reactotron
