@@ -77,17 +77,17 @@ export type ExtractRematchDispatchersFromModels<M extends Models> = {
 	[modelKey in keyof M]: ExtractRematchDispatchersFromModel<M[modelKey]>
 }
 
-export type RematchDispatcher<P = void, M = void> = (P extends void
+export type RematchDispatcher<P = void, M = void> = ([P] extends [void]
 	? ((...args: any[]) => Action<any, any>)
-	: M extends void
+	: [M] extends [void]
 	? ((payload: P) => Action<P, void>)
 	: (payload: P, meta: M) => Action<P, M>) &
 	((action: Action<P, M>) => Redux.Dispatch<Action<P, M>>) &
 	((action: Action<P, void>) => Redux.Dispatch<Action<P, void>>)
 
-export type RematchDispatcherAsync<P = void, M = void> = (P extends void
+export type RematchDispatcherAsync<P = void, M = void> = ([P] extends [void]
 	? ((...args: any[]) => Promise<Action<any, any>>)
-	: M extends void
+	: [M] extends [void]
 	? ((payload: P) => Promise<Action<P, void>>)
 	: (payload: P, meta: M) => Promise<Action<P, M>>) &
 	((action: Action<P, M>) => Promise<Redux.Dispatch<Action<P, M>>>) &
