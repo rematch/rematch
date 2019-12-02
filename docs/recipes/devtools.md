@@ -60,7 +60,8 @@ import Reactotron from './Reactotron.config.js'
 
 init({
 	redux: {
-		createStore: Reactotron.createStore,
+		enhancers: [Reactotron.createEnhancer()],
+		// If using typescript/flow, enhancers: [Reactotron.createEnhancer!()]
 	},
 })
 ```
