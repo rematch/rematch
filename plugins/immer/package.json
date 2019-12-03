@@ -21,7 +21,8 @@
 	],
 	"main": "dist/rematch-immer.cjs.js",
 	"module": "dist/rematch-immer.esm.js",
-	"browser": "dist/rematch-immer.umd.js",
+	"browser": "dist/rematch-immer.esm.js",
+	"unpkg": "dist/rematch-immer.umd.js",
 	"scripts": {
 		"build": "rimraf build dist && tsc && NODE_ENV=production rollup -c"
 	},

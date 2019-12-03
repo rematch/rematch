@@ -19,6 +19,8 @@
 	],
 	"main": "dist/rematch-select.cjs.js",
 	"module": "dist/rematch-select.esm.js",
+	"browser": "dist/rematch-select.esm.js",
+	"unpkg": "dist/rematch-select.umd.js",
 	"types": "src/typings.d.ts",
 	"repository": {
 		"type": "git",
@@ -31,7 +33,6 @@
 		"clean:dist": "npx rimraf dist",
 		"test": "jest"
 	},
-	"browser": "dist/rematch-select.umd.js",
 	"devDependencies": {
 		"@rematch/core": "^1.2.0",
 		"@types/jest": "^24.0.18",

@@ -21,11 +21,12 @@
 	],
 	"main": "dist/rematch-persist.cjs.js",
 	"module": "dist/rematch-persist.esm.js",
+	"browser": "dist/rematch-persist.esm.js",
+	"unpkg": "dist/rematch-persist.umd.js",
 	"scripts": {
 		"build": "npx rimraf dist && tsc && NODE_ENV=production rollup -c"
 	},
 	"types": "src/typings.d.ts",
-	"browser": "dist/rematch-persist.umd.js",
 	"dependencies": {
 		"redux-persist": "^5.10.0"
 	},

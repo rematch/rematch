@@ -24,8 +24,9 @@
 		"src/typings/index.d.ts"
 	],
 	"main": "dist/cjs",
+	"unpkg": "dist/umd/rematch.js",
 	"module": "dist/esm/rematch.js",
-	"browser": "dist/umd/rematch.js",
+	"browser": "dist/esm/rematch.js",
 	"types": "src/typings/index.d.ts",
 	"repository": {
 		"type": "git",

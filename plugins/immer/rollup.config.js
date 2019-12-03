@@ -26,7 +26,7 @@ const config = {
 	output: [
 		{
 			name: 'RematchImmer',
-			file: pkg.browser,
+			file: pkg.unpkg,
 			format: 'umd',
 			exports: 'named',
 			sourcemap: true,

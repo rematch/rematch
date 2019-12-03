@@ -19,7 +19,7 @@ const config = {
 	output: [
 		{
 			name: 'RematchLoading',
-			file: pkg.browser,
+			file: pkg.unpkg,
 			format: 'umd',
 			exports: 'named',
 			context: 'window',

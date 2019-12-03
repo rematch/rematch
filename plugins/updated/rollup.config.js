@@ -21,7 +21,7 @@ const config = {
 	output: [
 		{
 			name: 'RematchUpdated',
-			file: pkg.browser,
+			file: pkg.unpkg,
 			format: 'umd',
 			exports: 'named',
 			sourcemap: true,

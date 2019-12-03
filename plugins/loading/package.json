@@ -21,7 +21,8 @@
 	],
 	"main": "dist/rematch-loading.cjs.js",
 	"module": "dist/rematch-loading.esm.js",
-	"browser": "dist/rematch-loading.umd.js",
+	"browser": "dist/rematch-loading.esm.js",
+	"unpkg": "dist/rematch-loading.umd.js",
 	"scripts": {
 		"clean:dist": "npx rimraf dist",
 		"clean:build": "npx rimraf build",

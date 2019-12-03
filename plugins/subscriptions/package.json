@@ -22,7 +22,8 @@
 	],
 	"main": "dist/rematch-subscriptions.cjs.js",
 	"module": "dist/rematch-subscriptions.esm.js",
-	"browser": "dist/rematch-subscriptions.umd.js",
+	"browser": "dist/rematch-subscriptions.esm.js",
+	"unpkg": "dist/rematch-subscriptions.umd.js",
 	"directories": {
 		"test": "test"
 	},

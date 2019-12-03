@@ -25,7 +25,7 @@ const config = {
 	output: [
 		{
 			name: 'RematchTypedState',
-			file: pkg.browser,
+			file: pkg.unpkg,
 			format: 'umd',
 			exports: 'named',
 			sourcemap: true,
