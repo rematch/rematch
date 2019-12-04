@@ -9,7 +9,7 @@
 		"build": "webpack"
 	},
 	"dependencies": {
-		"@rematch/core": "file:../../.."
+		"@rematch/core": "file:../../../packages/core"
 	},
 	"devDependencies": {
 		"babel-loader": "^7.1.2",

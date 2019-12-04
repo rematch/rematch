@@ -1,0 +1,51 @@
+{
+	"name": "@rematch/select",
+	"version": "3.0.0",
+	"description": "Selectors plugin for Rematch",
+	"homepage": "https://rematch.github.io/rematch",
+	"main": "dist/index.js",
+	"module": "dist/select.esm.js",
+	"typings": "src/typings.d.ts",
+	"scripts": {
+		"start": "tsdx watch",
+		"build": "tsdx build --format cjs,esm,umd",
+		"test": "tsdx test",
+		"lint": "eslint . --ext .js,.ts,.json",
+		"clean": "rimraf dist"
+	},
+	"files": [
+		"dist",
+		"src/typings.d.ts"
+	],
+	"dependencies": {
+		"reselect": "^4.0.0"
+	},
+	"devDependencies": {
+		"@rematch/core": "^2.0.0",
+		"husky": "^3.1.0"
+	},
+	"peerDependencies": {
+		"@rematch/core": ">=2.0.0"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run lint"
+		}
+	},
+	"authors": [
+		"Sam Richard <sam.richard@gmail.com> (https://github.com/d3dc)",
+		"Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+		"Tom Aranda <tga@arandacybersolutions.com> (https://github.com/taranda)"
+	],
+	"keywords": [
+		"plugin",
+		"rematch",
+		"select",
+		"selectors"
+	],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rematch/rematch.git"
+	}
+}

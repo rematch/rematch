@@ -1,6 +1,6 @@
 ![logo](_media/icon.svg)
 
-# rematch <small>1.2.0</small>
+# rematch <small>2.0.0</small>
 
 > Rematch is Redux best practices without the boilerplate
 

@@ -9,7 +9,7 @@
 		"test": "react-scripts test --env=jsdom"
 	},
 	"dependencies": {
-		"@rematch/core": "../../..",
+		"@rematch/core": "file:../../../packages/core",
 		"react": "^16.9.0",
 		"react-dom": "^16.9.0",
 		"react-redux": "^7.1.1"
