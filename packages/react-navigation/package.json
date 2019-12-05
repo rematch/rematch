@@ -5,6 +5,8 @@
 	"homepage": "https://rematch.github.io/rematch",
 	"main": "dist/index.js",
 	"module": "dist/react-navigation.esm.js",
+    "browser": "dist/react-navigation.esm.js",
+    "unpkg": "dist/react-navigation.umd.production.min.js",
 	"typings": "dist/index.d.ts",
 	"scripts": {
 		"start": "tsdx watch",

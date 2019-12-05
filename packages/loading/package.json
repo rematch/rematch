@@ -5,6 +5,8 @@
 	"homepage": "https://rematch.github.io/rematch",
 	"main": "dist/index.js",
 	"module": "dist/loading.esm.js",
+	"browser": "dist/loading.esm.js",
+	"unpkg": "dist/loading.umd.production.min.js",
 	"typings": "dist/index.d.ts",
 	"scripts": {
 		"start": "tsdx watch",
@@ -15,7 +17,7 @@
 	},
 	"files": [
 		"dist",
-	  	"src"
+		"src"
 	],
 	"dependencies": {},
 	"devDependencies": {

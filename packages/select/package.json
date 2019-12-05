@@ -5,6 +5,8 @@
 	"homepage": "https://rematch.github.io/rematch",
 	"main": "dist/index.js",
 	"module": "dist/select.esm.js",
+    "browser": "dist/select.esm.js",
+    "unpkg": "dist/select.umd.production.min.js",
 	"typings": "src/typings.d.ts",
 	"scripts": {
 		"start": "tsdx watch",

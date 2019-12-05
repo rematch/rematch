@@ -14,6 +14,12 @@ const cntState = {
 	effects: {},
 }
 
+const loadingInitialState = {
+	global: 0,
+	models: {},
+	effects: {},
+}
+
 const createLoadingAction = (converter, i) => (
 	state,
 	{ name, action }: any
@@ -77,13 +83,13 @@ export default (config: LoadingConfig = {}): Plugin => {
 			hide: createLoadingAction(converter, -1),
 			show: createLoadingAction(converter, 1),
 		},
-		state: {
-			...cntState,
-		},
+		state: loadingInitialState,
 	}
 
-	cntState.global = 0
-	loading.state.global = converter(cntState.global)
+	const initialLoadingValue = converter(0)
+
+	// @ts-ignore
+	loadingInitialState.global = initialLoadingValue
 
 	return {
 		config: {
@@ -98,8 +104,11 @@ export default (config: LoadingConfig = {}): Plugin => {
 			}
 
 			cntState.models[name] = 0
-			loading.state.models[name] = converter(cntState.models[name])
-			loading.state.effects[name] = {}
+			cntState.effects[name] = {}
+
+			loadingInitialState.models[name] = initialLoadingValue
+			loadingInitialState.effects[name] = {}
+
 			const modelActions = rematch.dispatch![name]
 
 			// map over effects within models
@@ -110,9 +119,7 @@ export default (config: LoadingConfig = {}): Plugin => {
 				}
 
 				cntState.effects[name][action] = 0
-				loading.state.effects[name][action] = converter(
-					cntState.effects[name][action]
-				)
+				loadingInitialState.effects[name][action] = initialLoadingValue
 
 				const actionType = `${name}/${action}`
 
