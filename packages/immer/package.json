@@ -14,7 +14,8 @@
 		"clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
 	},
   	"files": [
-		"dist"
+		"dist",
+	  	"src"
   	],
   	"dependencies": {
 		"immer": "^5.0.0"

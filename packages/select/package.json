@@ -15,7 +15,7 @@
 	},
 	"files": [
 		"dist",
-		"src/typings.d.ts"
+		"src"
 	],
 	"dependencies": {
 		"reselect": "^4.0.0"

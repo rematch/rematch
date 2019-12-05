@@ -15,7 +15,7 @@
 	},
 	"files": [
 		"dist",
-		"src/typings/index.d.ts"
+		"src"
 	],
 	"dependencies": {
 		"redux": "^4.0.4"
