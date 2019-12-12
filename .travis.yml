@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 'stable'
+  - "stable"
 git:
   depth: 5
 cache:
@@ -11,7 +11,7 @@ jobs:
     - stage: rematch
       before_install:
         - npm install typescript@3.5
-        - npm run install:all
+        - npm run bootstrap
         - npm run build
       script: npm run test
       after_script:
