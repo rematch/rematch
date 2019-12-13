@@ -1,17 +1,14 @@
----
-description: >-
-  Rematch是没有boilerplate的Redux最佳实践。没有多余的action types，action creators，switch
-  语句或者thunks。
----
+# 快速开始
 
-[![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat)](https://rematchjs.slack.com)
-[![Build Status](https://travis-ci.org/rematch/rematch.svg?branch=master)](https://travis-ci.org/rematch/rematch)
-[![Coverage Status](https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master)](https://coveralls.io/github/rematch/rematch?branch=master)
-[![Npm version](https://img.shields.io/npm/v/@rematch/core?color=bright-green&style=flat)](https://badge.fury.io/js/%40rematch%2Fcore)
-[![Bundle size](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)
-[![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)
+![](_media/icon.svg)
 
-# 重新思考 Redux
+[![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat)](https://rematchjs.slack.com)[![Build Status](https://travis-ci.org/rematch/rematch.svg?branch=master)](https://travis-ci.org/rematch/rematch)[![Coverage Status](https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master)](https://coveralls.io/github/rematch/rematch?branch=master)[![Npm version](https://img.shields.io/npm/v/@rematch/core?color=bright-green&style=flat)](https://badge.fury.io/js/%40rematch%2Fcore)[![Bundle size](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat)[![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+
+## Rematch
+
+### Rethink Redux.
+
+Rematch 是没有样板文件的 Redux 最佳实践。没有 action tyoes 、action creators、switch 或 thunks
 
 - [为什么我们创建 Rematch](https://hackernoon.com/redesigning-redux-b2baee8b8a38)
 - [Video: Rematch 介绍](https://www.youtube.com/watch?v=3ezSBYoL5do)
@@ -71,7 +68,7 @@ _对于更高级的设置，查看_[_插件_](https://rematch.gitbooks.io/rematc
 
 #### 第二步：Models
 
-该 model 促使 state， reducers， async actions 和 action creators 放在同一个地方。
+model 使 state， reducers， async actions 和 action creators 集中在一起。
 
 models.js
 
@@ -97,15 +94,15 @@ export const count = {
 
 _查看_[_reducer 文档_](https://github.com/rematch/rematch/blob/master/docs/api.md#reducers)_以了解更多信息，包括如何从其他 modal 触发 actions。_
 
-理解模型与回答几个问题一样简单：
+理解 models 就像回答几个问题一样简单：
 
-1. 我的初始 state 是什么? **state**
-2. 我如何改变 state？ **reducers**
-3. 我如何处理异步 action？ **effects** with async/await
+1. 我初始 state 是什么? **state**
+2. 我应该如何改变 state？ **reducers**
+3. 我应该如何处理异步 action？ **effects** 和 async/await
 
 #### Step 3: Dispatch
 
-**dispatch** 是我们如何在你的 model 中触发 reducers 和 effects。 Dispatch 标准化了你的 action，而无需编写 action types 或者 action creators。
+**dispatch** 是我们触发您 model 中 reducers 和 effects 的方法。 Dispatch 标准化了你的 action，而无需编写 action types 或者 action creators。
 
 ```javascript
 import { dispatch } from '@rematch/core'
@@ -120,12 +117,12 @@ dispatch({ type: 'count/incrementAsync', payload: 1 }) // state = { count: 3 } a
 dispatch.count.incrementAsync(1) // state = { count: 4 } after delay
 ```
 
-Dispatch 能被直接调用，或者用 dispatch\[model\]\[action\]\(payload\)简写。
+Dispatch 能被直接调用，或者使用 `dispatch\[model\]\[action\]\(payload\)`简化调用。
 
 #### Step 4: View
 
-- Count:[ JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) \| [React ](https://codesandbox.io/s/3kpyz2nnz6)\| [Vue](https://codesandbox.io/s/n3373olqo0) \| [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
-- Todos[: React](https://codesandbox.io/s/92mk9n6vww)
+- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) \| [React](https://codesandbox.io/s/3kpyz2nnz6)\| [Vue](https://codesandbox.io/s/n3373olqo0) \| [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
+- Todos: [React](https://codesandbox.io/s/92mk9n6vww)
 
 ```jsx
 import React from 'react'
@@ -165,20 +162,18 @@ ReactDOM.render(
 
 ### 从 Redux 迁移
 
-从 Redux 转到 Rematch 只需很少的几步。
+从 Redux 转到 Rematch 几步。
 
-1. 基于 Redux 启动 Rematch init [step 1](https://codesandbox.io/s/yw2wy1q929)
+1. 设置 Rematch init 初始化 Redux  [step 1](https://codesandbox.io/s/yw2wy1q929)
 2. 合并 reducers 和 models [step 2](https://codesandbox.io/s/9yk6rjok1r)
-3. 转移到模型 [step 3](https://codesandbox.io/s/mym2x8m7v9)
+3. 迁移到 models [step 3](https://codesandbox.io/s/mym2x8m7v9)
 
 ### API
 
-See the [@rematch/core API](https://rematch.gitbooks.io/rematch/docs/api.html)
+详见 [@rematch/core API](https://rematch.gitbooks.io/rematch/docs/api.html)
 
-### Experiment with v1.0.0-alpha
+### 更新日志
 
-使用@next 标志安装 rematch 和所有插件。
+查看 [CHANGELOG](https://github.com/rematch/rematch/blob/master/CHANGELOG.md) 获取更新详情.
 
-参阅[CHANGELOG](https://github.com/rematch/rematch/blob/master/CHANGELOG.md)以查看最新消息。
-
-Like this project? ★ us on Github :\)+
+喜欢这个项目? 请在 GitHub 为我们点亮 ★  :\)

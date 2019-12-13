@@ -1,4 +1,4 @@
-- [重新思考 Redux](/lang/zh-cn/README.md)
+- [快速开始](/lang/zh-cn/README.md)
 - [目的](/lang/zh-cn/mu-de.md)
 - API 文档
   - [@rematch/core API](/lang/zh-cn/api-wen-dang/rematch-core-api.md)
