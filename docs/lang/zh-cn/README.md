@@ -12,34 +12,35 @@ Rematch 是没有样板文件的 Redux 最佳实践。没有 action tyoes 、act
 
 - [为什么我们创建 Rematch](https://hackernoon.com/redesigning-redux-b2baee8b8a38)
 - [Video: Rematch 介绍](https://www.youtube.com/watch?v=3ezSBYoL5do)
-- [Redux 与 Rematch 的比较](https://rematch.gitbook.io/handbook/mu-de)
+- [Redux 与 Rematch 的比较](https://rematch.gitbook.io/handbook/purpose)
 
 ### 索引
 
-- 快速开始
-- 目的
-- 例子
-- 迁移指南
+- [快速开始](/lang/zh-cn/README#getting-started)
+- [目的](/lang/zh-cn/purpose.md)
+- [例子](/lang/zh-cn/README#实例应用)
+- [迁移指南](/lang/zh-cn/README#从-Redux-迁移)
 - API 参考
-  - 核心 API
-  - 初始 Redux API
-  - 插件 API
-- 技巧
-  - Devtools
-  - React
-  - Vue
-  - Testing
-  - TypeScript
-  - Immer
-  - Decoupling reducers
+  - [核心 API](/lang/zh-cn/api-reference/api.md)
+  - [Init Redux API](/lang/zh-cn/api-reference/reduxapi.md)
+  - [插件 API](/lang/zh-cn/api-reference/pluginsapi.md)
+- 配方
+  - [Devtools](/lang/zh-cn/recipes/devtools.md)
+  - [React](/lang/zh-cn/recipes/react.md)
+  - [Vue](/lang/zh-cn/recipes/vue.md)
+  - [Testing](/lang/zh-cn/recipes/testing.md)
+  - [TypeScript](/lang/zh-cn/recipes/typescript.md)
+  - [Immer](/lang/zh-cn/recipes/immer.md)
+  - [Decoupling reducers](/lang/zh-cn/recipes/decouplingreducers.md)
 - 插件
-  - Selectors
-  - Loading
-  - Persist
-  - Updated
-  - React Navigation
-  - Immer
-- 灵感
+  - [Selectors](/lang/zh-cn/plugins/select.md)
+  - [Loading](/lang/zh-cn/plugins/loading.md)
+  - [Persist](/lang/zh-cn/plugins/persist.md)
+  - [Updated](/lang/zh-cn/plugins/updated.md)
+  - [React Navigation](/lang/zh-cn/plugins/react-navigation.md)
+  - [Immer](/lang/zh-cn/plugins/immer.md)
+- [灵感](inspiration.md)
+
 
 ### 快速开始
 
@@ -64,7 +65,7 @@ const store = init({
 export default store
 ```
 
-_对于更高级的设置，查看_[_插件_](https://rematch.gitbooks.io/rematch/docs/plugins.md)_和_[_Redux 配置选项_](https://rematch.gitbook.io/handbook/~/edit/primary/api-wen-dang/init-redux-api)_。_
+_对于更高级的设置，查看_[_插件_](https://rematch.gitbooks.io/rematch/docs/plugins.md)_和_[_Redux 配置选项_](https://rematch.gitbook.io/handbook/~/edit/primary/api-reference/reduxapi)_。_
 
 #### 第二步：Models
 
@@ -121,9 +122,6 @@ Dispatch 能被直接调用，或者使用 `dispatch\[model\]\[action\]\(payload
 
 #### Step 4: View
 
-- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) \| [React](https://codesandbox.io/s/3kpyz2nnz6)\| [Vue](https://codesandbox.io/s/n3373olqo0) \| [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
-- Todos: [React](https://codesandbox.io/s/92mk9n6vww)
-
 ```jsx
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -147,10 +145,7 @@ const mapDispatch = ({ count: { increment, incrementAsync } }) => ({
 	incrementAsync: () => incrementAsync(1),
 })
 
-const CountContainer = connect(
-	mapState,
-	mapDispatch
-)(Count)
+const CountContainer = connect(mapState, mapDispatch)(Count)
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -160,11 +155,16 @@ ReactDOM.render(
 )
 ```
 
+### 实例应用
+
+- Count: [JS](https://codepen.io/Sh_McK/pen/BJMmXx?editors=1010) \| [React](https://codesandbox.io/s/3kpyz2nnz6) \| [Vue](https://codesandbox.io/s/n3373olqo0) \| [Angular](https://stackblitz.com/edit/rematch-angular-5-count)
+- Todos: [React](https://codesandbox.io/s/92mk9n6vww)
+
 ### 从 Redux 迁移
 
 从 Redux 转到 Rematch 几步。
 
-1. 设置 Rematch init 初始化 Redux  [step 1](https://codesandbox.io/s/yw2wy1q929)
+1. 设置 Rematch init 初始化 Redux [step 1](https://codesandbox.io/s/yw2wy1q929)
 2. 合并 reducers 和 models [step 2](https://codesandbox.io/s/9yk6rjok1r)
 3. 迁移到 models [step 3](https://codesandbox.io/s/mym2x8m7v9)
 
@@ -176,4 +176,4 @@ ReactDOM.render(
 
 查看 [CHANGELOG](https://github.com/rematch/rematch/blob/master/CHANGELOG.md) 获取更新详情.
 
-喜欢这个项目? 请在 GitHub 为我们点亮 ★  :\)
+喜欢这个项目? 请在 GitHub 为我们点亮 ★ :\)

@@ -1,18 +1,16 @@
----
-description: 给 Rematch 使用的 Immer 插件。在 immer 库上提供不可变能力。
----
-
 # Rematch Immer
 
-### 安装
+Rematch 的 immer 插件，使用 immer 提供了 immutable 的能力
 
-```bash
+## 安装
+
+```text
 npm install @rematch/immer
 ```
 
-?> 针对 `@rematch/core@0.x` 使用 `@rematch/immer@0.1.0`
+?>  `@rematch/core@0.x` 请使用 `@rematch/immer@0.1.0`
 
-### 设置
+## 设置
 
 ```javascript
 import immerPlugin from '@rematch/immer'
@@ -65,4 +63,4 @@ const count = {
 }
 ```
 
-我向开发人员建议，reducer 可以随时返回变值。
+我向开发者减一， reducrs 可以始终返回改变后的 state。

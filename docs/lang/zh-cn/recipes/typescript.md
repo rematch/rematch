@@ -6,7 +6,7 @@
 
 ## Changes
 
-Rematch can work with TypeScript with the following changes:
+Rematch 能与 Typescript 一起工作，使用如下更改：
 
 ### Setup Store
 
@@ -21,12 +21,11 @@ export const store = init({
 export type Store = typeof store
 export type Dispatch = RematchDispatch<typeof models>
 export type iRootState = RematchRootState<typeof models>
-
 ```
 
 ### Autocomplete Dispatch/Models
 
-To ensure autocomplete works, with TS wrap models with `Model`. See example below:
+为了确保类型自动推导生效, 需要使用 `Model` . 请看下面的例子:
 
 ```typescript
 import { Model } from '@rematch/core'
@@ -52,7 +51,7 @@ export const sharks: Model<SharksState> = {
 
 ### Connect
 
-import your store typings and use them to infer connectedProps.
+导入您的 store 类型并使用他们来自动推导推断 connectedProps.
 
 ```typescript
 import * as React from 'react'
@@ -78,6 +77,7 @@ type connectedProps = ReturnType<typeof mapState> &
 	ReturnType<typeof mapDispatch>
 // to include additional typings
 // use `type Props = connectedProps & { ...additionalTypings }
+
 type Props = connectedProps
 
 class Count extends React.Component<Props> {
@@ -103,16 +103,12 @@ class Count extends React.Component<Props> {
 	}
 }
 
-export default connect(
-	mapState,
-	mapDispatch
-)(Count)
+export default connect(mapState, mapDispatch)(Count)
 ```
 
 ### Select Plugin
 
-> There remain some TS compatability issues with the select plugin. Help is always welcome
-
+> select 插件仍然存在一些问题. 随时欢迎您的帮助
 
 ```typescript
 import { init } from '@rematch/core'
@@ -127,8 +123,8 @@ export const store = init({
 
 ## Dependencies
 
-### Ensure `Redux@3.x` is not a dependency.
+### 确保 `Redux@3.x` 不是一个依赖项.
 
-Rematch relies on `Redux@4.x`, a branch of Redux with cleaned up a lot of complex typings relying on generics.
+Rematch 依赖于`Redux@4.x`, 是一个 Redux 的分支，它依靠泛型清理了大量复杂的类型.
 
-As Redux is a dependency of Rematch, you may just need to remove any references to Redux in your `package.json` and reinstall modules.
+由于 Redux 是 Rematch 的一个依赖项， 您可能需要删除 `package.json` 中对 Redux 的任何引用，然后重新安装模块.

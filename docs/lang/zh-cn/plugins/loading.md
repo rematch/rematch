@@ -2,15 +2,15 @@
 
 添加自动 loading 指示器 effects 到 [Rematch ](https://github.com/rematch/rematch)。灵感来自于 [dva-loading](https://github.com/dvajs/dva-loading)。
 
-### 安装
+## 安装
 
-```bash
+```text
 npm install @rematch/loading
 ```
 
-> 对于 @rematch/core@0.x 使用 @rematch/loading@0.5.0
+?>  `@rematch/core@0.x` 请使用 `@rematch/loading@0.5.0`
 
-### 示例
+## 示例
 
 请参见下面的示例，使用一个按钮中的 loading 指示器。
 
@@ -41,13 +41,13 @@ export default connect(
 )(LoginButton)
 ```
 
-### Demo
+## Demo
 
-查看一个 [demo](https://github.com/rematch/rematch/tree/master/plugins/loading/examples/react-loading-example)
+See a [demo](https://github.com/rematch/rematch/tree/master/plugins/loading/examples/react-loading-example)
 
-![](../../../media/icon.svg)
+![rematch-loading](https://user-images.githubusercontent.com/4660659/33303781-00c786b2-d3ba-11e7-8216-1b2b8eebbf85.gif)
 
-### 设置
+## 设置
 
 配置 loading。
 
@@ -65,7 +65,7 @@ init({
 })
 ```
 
-### Options
+## Options
 
 #### asNumber
 
@@ -84,12 +84,12 @@ init({
 ```javascript
 {
 	name: 'load'
-}
+}©
 ```
 
 在这种情况下，可以从`state.load.global`访问 loading 。
 
-默认名称是`loading`（例：`state.loading.global`）
+默认名称是`loading`（例：`state.load©∫ing.global`）
 
 #### whitelist
 
@@ -155,7 +155,7 @@ const loading = createLoadingPlugin(options)
 
 这是一个复杂的函数，最好接受默认值。 如果你想定制这个函数，看看 loading 插件源代码，以了解这个函数应该如何工作。 这个配置是公开的，所以用户可以使用不是 JavaScript 对象的 store（例如 Immutable JS）。
 
-### Immutable JS 示例
+##∂ Immutable JS 示例
 
 用户可以通过插件使用 [`Immutable.js`](https://facebook.github.io/immutable-js/) Map。为此，需要设置 `mergeInitialState`，`loadingActionCreator`和`model.state`配置。这是一个简单的例子：
 

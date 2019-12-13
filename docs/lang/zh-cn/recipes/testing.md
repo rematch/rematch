@@ -2,11 +2,11 @@
 
 Todo 示例：[React](https://codesandbox.io/s/yvpy2zr8mj)
 
-### Reducers
+## Reducers
 
 用 store 测试。
 
-```javascript
+```jsx
 import { init, dispatch } from '@rematch/core'
 import myModel from './myModel'
 
@@ -26,7 +26,7 @@ describe('myModel model', () => {
 
 直接测试 reducer。
 
-```javascript
+```jsx
 import myModel from './myModel'
 
 describe('myModel model', () => {
@@ -37,11 +37,11 @@ describe('myModel model', () => {
 })
 ```
 
-### Effects
+## Effects
 
 用 store 测试。
 
-```javascript
+```jsx
 import { init, dispatch } from '@rematch/core'
 import myModel from './myModel'
 
@@ -61,7 +61,7 @@ describe('myModel model', () => {
 
 直接测试 effects。
 
-```javascript
+```jsx
 import myModel from './myModel'
 
 describe('myModel model', () => {

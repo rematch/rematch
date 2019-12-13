@@ -1,8 +1,7 @@
----
-description: Immer提供了开发人员友好的方式来使用Rematch创建不可变reducer。
----
 
 # Immer
+
+[Immer](https://github.com/mweststrate/immer) 在 Rematch 中为提供了开发人员友好的方式来创建不可变数据的 reducers.
 
 请参见下面的一个例子:
 

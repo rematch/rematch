@@ -6,7 +6,7 @@
 
 CounterContainer.vue
 
-```javascript
+```vue
 <template>
   <Provider
     :store="store"
@@ -53,7 +53,7 @@ CounterContainer.vue
 
 Counter.vue
 
-```javascript
+```vue
 <template>
   <div>
     <h2>Count: {{ count }}</h2>
