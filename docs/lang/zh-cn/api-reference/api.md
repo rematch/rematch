@@ -1,14 +1,25 @@
 # @rematch/core API
 
-```javascript
-import { init, dispatch, getState } from '@rematch/core'
-```
+- [init](#init)
+  - [models](#models)
+    - [state](#state)
+    - [reducers](#reducers)
+    - [effects](#effects)
+    - [basereducer](#basereducer)
+  - [plugins](#plugins)
+  - [redux](#redux)
+- [store](#store)
+  - [dispatch](#storedispatch)
+  - [getState](#storegetstate)
+  - [name](#storename)
+  - [model](#storemodel)
+- [action](#action)
 
-### init
+## init
 
 `init(config)`
 
-该函数被调用去设置 Rematch。返回`store`。
+调用此函数初始化 rematch ,函数返回 `store`.
 
 ```javascript
 import { init } from '@rematch/core'
@@ -16,7 +27,7 @@ import { init } from '@rematch/core'
 const store = init()
 ```
 
-Init 也可以通过下面的配置选项来调用。
+init 函数也可以通过下面的方法传入参数进行调用。
 
 #### models
 
@@ -70,9 +81,9 @@ init({ models })
 
 **state**
 
-`state: any` Required
+`state: any` 必须
 
-该 model 的初始 state
+model 的初始 state
 
 ```javascript
 const example = {
@@ -84,7 +95,7 @@ const example = {
 
 `reducers: { [string]: (state, payload) => any }`
 
-一个改变该 model state 的所有函数的对象。这些函数采用 model 的上一次 state 和一个 payload 作为形参，并且返回 model 的下一个装态。这些应该是仅依赖于 state 和 payload 参数来计算下一个 state 的纯函数。对于依赖“outside world”的代码（不纯的函数，如 API 调用等）的代码，请使用 effects。
+一个改变该 model state 的函数的对象。这些函数接收 model 的上一次 state 和一个 payload 作为参数，并且返回 model 的新的 state。这些函数应该是仅依赖于 state 和 payload 参数来计算新的 state 的纯函数。对于依赖“outside world”的代码（不纯的函数，如 API 调用等）的代码，请使用 effects](#effects)
 
 ```javascript
 {
@@ -94,7 +105,7 @@ const example = {
 }
 ```
 
-通过列出'model 名字' + 'action 名字'来作为 key，Reducers 也可以监听来自于其它 model 的 action。
+通过'model 名称' + 'action 名称'来作为 key，Reducers 也可以监听来自于其它 model 的 action。
 
 ```javascript
 {
@@ -108,7 +119,7 @@ const example = {
 
 `effects: { [string]: (payload, rootState) }`
 
-一个可以处理该 model world outside 功能（所有函数）的对象。
+一个可以处理这个 model world outside(有副作用的函数例如 API 调用)的对象。
 
 ```javascript
 {
@@ -130,23 +141,71 @@ const example = {
       const response = await fetch('http://example.com/data')
       const data = await response.json()
       // pass the result to a local reducer
-      dispatch.example.update(data)
+      this.update(data)
+    }
+  },
+  reducers: {
+    update(prev, data) {
+      return {...prev, ...data}
     }
   }
 }
 ```
 
-#### plugins {#plugins}
+`effects` 也可以被当做一个工厂函数. 这种方法提供了 Dispatch 其他 model actions 的能力.
 
-```text
+```javascript
+{
+	effects: dispatch => ({
+		async loadData(payload, rootState) {
+			// wait for data to load
+			const response = await fetch('http://example.com/data')
+			const data = await response.json()
+			// pass the result to a external model reducer
+			dispatch.other.update(data)
+		},
+	})
+}
+```
+
+`effects` 如果与 reducer 拥有同名函数将在 reducer 之后被调用
+
+```js
+{
+  effects: {
+    // 这将运行在 reducer "update" 函数执行完毕之后
+    update(payload, rootState) {
+      console.log('update reducer was called with payload: ', payload);
+    }
+  },
+  reducers: {
+    update(prev, data) {
+      return {...prev, ...data}
+    }
+  }
+}
+```
+
+#### baseReducer
+
+`baseReducer: (state, action) => state`
+
+一个运行在 `reducers` 之前运行的 reducer。这个函数将获得上一个 state 和 actions, 然后返回值将会被 `reducers` 所使用.
+
+这对于结构化的方式将 redux 库添加到您的 store 中非常有用详见 [redux plugins](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/docs/recipes/redux.md)
+
+
+### plugins
+
+```javascript
 init({
-  plugins: [loadingPlugin, persistPlugin],
+	plugins: [loadingPlugin, persistPlugin],
 })
 ```
 
-Plugins 用来自定义 init 配置或内部 hooks，它能添加功能到你的 Rematch 设置当中来。
+Plugins 用来自定义 init 配置或内部 hooks，它能添加功能到你的 Rematch 设置中。
 
-阅读更多关于现有的插件或关于如何使用 plugins API 创建你自己的插件。
+阅读现有 [plugins](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/docs/plugins.md) 或如何创建自己的插件的更多信息 [plugins API](pluginsapi.md).
 
 #### redux
 
@@ -167,15 +226,15 @@ init({
 - 添加中间件
 - 创建一个自定义插件
 
-有关所有 redux 选项的完整摘要，请参阅[init Redux API](https://rematch.gitbooks.io/rematch/docs/reduxApi.html)。
+有关所有 redux 选项的完整摘要，请参阅[init Redux API](./lang/zh-cn/api-reference/reduxapi.md).。
 
 ### store
 
 #### store.dispatch
 
-在 Redux 中，一个分派 action 的函数。
+在 Redux 中，一个 dispatch [action](#action) 的函数。
 
-在 Rematch 中，`store.dispatch`能被直接调用或者作为一个对象。
+在 Rematch 中，`store.dispatch` 能被直接调用或者作为一个对象。
 
 ```javascript
 import store from './index'
@@ -190,6 +249,11 @@ dispatch.count.increment(1) // state = { count: 2 }
 dispatch({ type: 'count/incrementAsync', payload: 1 }) // state = { count: 3 } after delay
 dispatch.count.incrementAsync(1) // state = { count: 4 } after delay
 ```
+
+Dispatch 有第二个可选参数 "meta", 可以用于订阅或者中间件. 这仅适用于高级用例.
+
+`dispatch.count.increment(2, { syncWithServer: true })`
+
 
 #### store.getState
 
@@ -224,56 +288,13 @@ store.getState()
 // { count: 0, countB: state: 99 }
 ```
 
-### dispatch
-
-`dispatch(action, meta)`
-
-在**所有 store 中**，Dispatch 发送并触发 action。
-
-`dispatch.modelName.actionName(any)`
-
-在 Rematch 中，使用上面的简写更常见，它将为您创建和构造一个 action。
-
-Dispatch 可以在应用程序中的任何地方被调用，但建议使用`store.dispatch`代替。
-
-```javascript
-import { dispatch } from '@rematch/core'
-
-dispatch.cart.addToCart(item)
-```
-
-Dispatch 具有可选的第二个属性“meta”，它可以用于 subscriptions 或 middleware。 这仅适用于高级用例。
-
-`dispatch.cart.addToCart(item, { syncWithServer: true })`
-
 #### action
 
 `{ type: 'modelName/actionName', payload: any }`
 
-Action 是在 Redux 中发送的消息，作为应用程序的不同部分传递状态更新的一种方式。
+Action 是在 Redux 中发送的消息是应用程序的不同部分传递状态更新的一种方式。
 
 在 Rematch 中，一个 action 始终是一个“model 名称”和“action 名称”类型的结构 - 指的是一个 reducer 或 effect 名称。
 
 任何附加到 action 的数据都会添加到 payload 中。
 
-### getState
-
-`getState(): { [storeName]: state }`
-
-返回一个包含所有 store state 的对象。
-
-```javascript
-import { init, getState } from '@rematch/core'
-
-const firstStore = init({
-	name: 'first',
-	models: { count: { state: 0 } },
-})
-
-const secondStore = init({
-	name: 'second',
-	models: { count: { state: 5 } },
-})
-
-getState() // { first: { count: 1 }, second: { count: 5 } }
-```

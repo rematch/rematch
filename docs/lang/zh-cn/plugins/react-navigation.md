@@ -1,18 +1,20 @@
 # React Navigation
 
-### 安装
+React-Navigation
 
-```bash
+## 安装
+
+```text
 npm install react-navigation @rematch/react-navigation
 ```
 
-> 对于 @rematch/core@0.x 使用 @rematch/react-navigation@1.1.0
+?>  `@rematch/core@0.x` 请使用 `@rematch/react-navigation@1.1.0`
 
 ### 示例
 
-参看一个例子
+[一个例子](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/plugins/react-navigation/examples/demo/README.md)
 
-### 设置
+## 设置
 
 使用 Redux 设置 React-Navigation 是一个多步骤过程。 希望这个插件简化了这个过程。
 

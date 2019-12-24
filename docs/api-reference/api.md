@@ -225,7 +225,7 @@ There are situations where you might want to access Redux directly. You may want
 - add middleware
 - create a custom plugin
 
-For a complete summary of all redux options, see the [init Redux API](reduxapi.md).
+For a complete summary of all redux options, see the [init Redux API](./api-reference/reduxapi.md).
 
 ## store
 

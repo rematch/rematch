@@ -1,9 +1,8 @@
----
-description: >-
-  从普通的旧版Redux与React转换到Rematch很容易。它实际上不会涉及对组件进行必要的更改。但是，您可以选择简化connect语句。请参见下面的一个例子:
----
-
 # React
+
+从普通的 Redux 和 React 迁移到 Rematch 是非常简单的，实际上不需要对任何组件做必要的更改
+
+无论如何， 你都可以选择简化 `connect` ，查看下面的例子。
 
 ```javascript
 import React from 'react'
@@ -34,7 +33,7 @@ export default connect(
 
 请注意，建议您将您的 `dispatch`语句保留在 mapDispatch 中。 这使您的组件保持纯粹，易于测试。
 
-使用`store来设置你的React-Redux Provider。`
+使用 `store` 来设置你的 React-Redux Provider。
 
 ```javascript
 import React from 'react'

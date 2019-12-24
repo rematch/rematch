@@ -9,17 +9,17 @@
 
 ### Plugin API Reference
 
-- config
-- exposed
-- onModel
-- middleware
-- onStoreCreated
+- [config](#config)
+- [exposed](#exposed)
+- [onModel](#onmodel)
+- [middleware](#middleware)
+- [onStoreCreated](#onstorecreated)
 
 #### config
 
 `{ config: initOptions }`
 
-一个 init options 覆盖对象。参阅[ init](https://rematch.gitbooks.io/rematch/docs/api.html#init) 以获取全部的 options。
+一个 init options 覆盖对象。参阅 [init](https://rematch.gitbooks.io/rematch/docs/api.html#init) 以获取全部的 options。
 
 ```javascript
 // example from persist plugin
@@ -97,4 +97,17 @@ const plugin = {
 
 参见 “dispatch” 和 “persist” 的例子。
 
-###
+从 `onStoreCreated` 返回的对象将会被合并到 `store` 对象中.
+
+```text
+const plugin = {
+  onStoreCreated(store) {
+    return { count: 42 }
+  }
+}
+
+const store = init({ plugins: [plugin] })
+store.count // 42
+```
+
+如果你使用 TypeScript 编写的插件，一定要更新你的 sotres 的类型。
