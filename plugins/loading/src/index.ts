@@ -7,6 +7,18 @@ export interface LoadingConfig {
 	asNumber?: boolean
 }
 
+export interface LoadingState<M extends Models> {
+	loading: {
+		global: boolean,
+		models: { [modelName in keyof M]: boolean },
+		effects: {
+			[modelName in keyof M]: {
+				[effectName in keyof ExtractRematchDispatchersFromEffects<M[modelName]['effects']>]: boolean
+			}
+		},
+	}
+}
+
 const cntState = {
 	global: 0,
 	models: {},
