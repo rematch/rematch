@@ -1,4 +1,4 @@
-import { Model, Plugin } from '@rematch/core'
+import { ExtractRematchDispatchersFromEffects, Model, Models, Plugin } from '@rematch/core'
 
 export interface LoadingConfig {
 	name?: string
