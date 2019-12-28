@@ -1,10 +1,22 @@
-import { Model, Plugin } from '@rematch/core'
+import { ExtractRematchDispatchersFromEffects, Model, Models, Plugin } from '@rematch/core'
 
 export interface LoadingConfig {
 	name?: string
 	whitelist?: string[]
 	blacklist?: string[]
 	asNumber?: boolean
+}
+
+export interface LoadingState<M extends Models> {
+	loading: {
+		global: boolean,
+		models: { [modelName in keyof M]: boolean },
+		effects: {
+			[modelName in keyof M]: {
+				[effectName in keyof ExtractRematchDispatchersFromEffects<M[modelName]['effects']>]: boolean
+			}
+		},
+	}
 }
 
 const cntState = {
