@@ -39,7 +39,7 @@ interface PluginPersistConfig {
 }
 
 declare const persistPlugin: (
-	persistConfig: PluginPersistConfig,
+	persistConfig?: PluginPersistConfig,
 	persistorOptions?: PersistorOptions,
 	callback?: () => void
 ) => Plugin<Models, Action<any, any>>
