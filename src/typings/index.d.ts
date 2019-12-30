@@ -20,13 +20,13 @@ export type RematchRootState<M extends Models> = ExtractRematchStateFromModels<
 
 export type ExtractRematchDispatcherAsyncFromEffect<
 	E
-> = E extends () => Promise<any>
-	? RematchDispatcherAsync<void, void>
-	: E extends (payload: infer P) => Promise<any>
-	? RematchDispatcherAsync<P, void>
-	: E extends (payload: infer P, meta: infer M) => Promise<any>
-	? RematchDispatcherAsync<P, M>
-	: RematchDispatcherAsync<any, any>
+> = E extends () => Promise<infer R>
+	? RematchDispatcherAsync<void, void, R>
+	: E extends (payload: infer P) => Promise<infer R>
+	? RematchDispatcherAsync<P, void, R>
+	: E extends (payload: infer P, meta: infer M) => Promise<infer R>
+	? RematchDispatcherAsync<P, M, R>
+	: RematchDispatcherAsync<any, any, any>
 
 export type ExtractRematchDispatchersFromEffectsObject<
 	effects extends ModelEffects<any>
@@ -85,13 +85,13 @@ export type RematchDispatcher<P = void, M = void> = ([P] extends [void]
 	((action: Action<P, M>) => Redux.Dispatch<Action<P, M>>) &
 	((action: Action<P, void>) => Redux.Dispatch<Action<P, void>>)
 
-export type RematchDispatcherAsync<P = void, M = void> = ([P] extends [void]
-	? ((...args: any[]) => Promise<Action<any, any>>)
+export type RematchDispatcherAsync<P = void, M = void, R = void> = ([P] extends [void]
+	? ((...args: any[]) => Promise<R>)
 	: [M] extends [void]
-	? ((payload: P) => Promise<Action<P, void>>)
-	: (payload: P, meta: M) => Promise<Action<P, M>>) &
-	((action: Action<P, M>) => Promise<Redux.Dispatch<Action<P, M>>>) &
-	((action: Action<P, void>) => Promise<Redux.Dispatch<Action<P, void>>>)
+	? ((payload: P) => Promise<R>)
+	: (payload: P, meta: M) => Promise<R>) &
+	((action: Action<P, M>) => Promise<R>) &
+	((action: Action<P, void>) => Promise<R>)
 
 export type RematchDispatch<M extends Models | void = void> = (M extends Models
 	? ExtractRematchDispatchersFromModels<M>
