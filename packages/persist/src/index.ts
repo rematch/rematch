@@ -7,17 +7,11 @@ import {
 	Persistor,
 	PersistorOptions,
 } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 
 let persistor
 // persistor is used for PersistGate
 // see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
 export const getPersistor = (): Persistor => persistor
-
-const defaultConfig = {
-	key: 'root',
-	storage,
-}
 
 export type NestedPersist<M extends Models> = {
 	[modelKey in keyof M]?: PersistConfig<M[modelKey]['state']>
@@ -25,11 +19,15 @@ export type NestedPersist<M extends Models> = {
 
 // rematch plugin
 const persistPlugin = <S, M extends Models = Models>(
-	persistConfig: PersistConfig<S> = defaultConfig,
+	persistConfig: PersistConfig<S>,
 	nestedPersistConfig: NestedPersist<M> = {},
 	persistStoreConfig?: PersistorOptions,
 	callback?: () => void
 ): Plugin => {
+	if (!persistConfig) {
+		throw new Error('persist plugin is missing config object')
+	}
+
 	return {
 		onReducer(reducer: ReduxReducer, modelName: string): void | ReduxReducer {
 			const reducerConfig = nestedPersistConfig[modelName]
