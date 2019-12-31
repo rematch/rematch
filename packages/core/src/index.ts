@@ -10,7 +10,7 @@ import mergeConfig from './utils/mergeConfig'
  * returns the same object that was received as argument
  */
 export function createModel<S = any, M extends R.Model<S> = any>(model: M): M {
-	return model
+  return model
 }
 
 // incrementer used to provide a store name if none exists
@@ -24,12 +24,12 @@ let count = 0
  * @param initConfig
  */
 export const init = (initConfig: R.InitConfig = {}): R.RematchStore => {
-	const name = initConfig.name || count.toString()
-	count += 1
-	const config: R.Config = mergeConfig({ ...initConfig, name })
-	return new Rematch(config).createStore()
+  const name = initConfig.name || count.toString()
+  count += 1
+  const config: R.Config = mergeConfig({ ...initConfig, name })
+  return new Rematch(config).createStore()
 }
 
 export default {
-	init,
+  init,
 }

@@ -6,80 +6,80 @@ import * as Reselect from 'reselect'
 export { createSelector, createStructuredSelector } from 'reselect'
 
 export interface SelectConfig {
-	sliceState?: any
-	selectorCreator?: any
+  sliceState?: any
+  selectorCreator?: any
 }
 
 declare const createSelectPlugin: (config?: SelectConfig) => R.Plugin
 export default createSelectPlugin
 
 export type Selector<S, P = any, R = any> = Reselect.Selector<S, R> &
-	Reselect.ParametricSelector<S, P, R>
+  Reselect.ParametricSelector<S, P, R>
 
 export interface ModelSelectors<S> {
-	[key: string]: Selector<S>
+  [key: string]: Selector<S>
 }
 
 export interface StoreSelectors<S> {
-	[key: string]: ModelSelectors<S>
+  [key: string]: ModelSelectors<S>
 }
 
 export type SelectorFactory<S, P = any, R = any> = (
-	this: ModelSelectors<S>,
-	models: StoreSelectors<S>
+  this: ModelSelectors<S>,
+  models: StoreSelectors<S>
 ) => Selector<S, P, R>
 
 export type SelectorParametricFactory<S, P = any> = (
-	this: ModelSelectors<S>,
-	models: StoreSelectors<S>,
-	props: P
+  this: ModelSelectors<S>,
+  models: StoreSelectors<S>,
+  props: P
 ) => Selector<S>
 
 export type Slicer<S, M = any, R = any> = Selector<S, void, M> &
-	((resultFn: (slice: M) => R) => Selector<S, void, R>)
+  ((resultFn: (slice: M) => R) => Selector<S, void, R>)
 
 export type SelectorCreator = typeof Reselect.createSelector
 
 export type Parameterizer<S, P = any> = (
-	factory: SelectorParametricFactory<S, P>
+  factory: SelectorParametricFactory<S, P>
 ) => SelectorFactory<P, void, Selector<S>>
 
 export interface ModelSelectorFactories<S> {
-	[key: string]: SelectorFactory<S> | SelectorParametricFactory<S>
+  [key: string]: SelectorFactory<S> | SelectorParametricFactory<S>
 }
 
 export type ModelSelectorsFactory<S> = (
-	slice: Slicer<S>,
-	createSelector: SelectorCreator,
-	hasProps: Parameterizer<S>
+  slice: Slicer<S>,
+  createSelector: SelectorCreator,
+  hasProps: Parameterizer<S>
 ) => ModelSelectorFactories<S>
 
 export type ModelSelectorsConfig<S> =
-	| ModelSelectorsFactory<S>
-	| ModelSelectorFactories<S>
+  | ModelSelectorsFactory<S>
+  | ModelSelectorFactories<S>
 
 export type RematchSelect<
-	M extends R.Models | void = void,
-	RootState = any
+  M extends R.Models | void = void,
+  RootState = any
 > = ((
-	mapSelectToProps: (select: RematchSelect<M, RootState>) => object
+  mapSelectToProps: (select: RematchSelect<M, RootState>) => object
 ) => Reselect.OutputParametricSelector<
-	RootState,
-	any,
-	object,
-	Reselect.Selector<RootState, object>
+  RootState,
+  any,
+  object,
+  Reselect.Selector<RootState, object>
 >) &
-	StoreSelectors<RootState>
+  StoreSelectors<RootState>
 
 declare module '@rematch/core' {
-	export interface Model<S = any, SS = S> {
-		selectors?: ModelSelectorsConfig<S>
-	}
+  export interface Model<S = any, SS = S> {
+    selectors?: ModelSelectorsConfig<S>
+  }
 
-	export interface RematchStore<
-		M extends R.Models = R.Models,
-		A extends R.Action = R.Action
-	> {
-		select: RematchSelect<M, R.RematchRootState<R.Models>>
-	}
+  export interface RematchStore<
+    M extends R.Models = R.Models,
+    A extends R.Action = R.Action
+  > {
+    select: RematchSelect<M, R.RematchRootState<R.Models>>
+  }
 }

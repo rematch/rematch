@@ -1,52 +1,52 @@
 {
-	"name": "@rematch/core",
-	"version": "2.0.0",
-	"description": "A Redux Framework",
-	"homepage": "https://rematch.github.io/rematch",
-	"main": "dist/index.js",
-	"module": "dist/core.esm.js",
-	"browser": "dist/core.esm.js",
-	"unpkg": "dist/core.umd.production.min.js",
-	"typings": "src/typings/index.d.ts",
-	"scripts": {
-		"start": "tsdx watch",
-		"build": "tsdx build --format cjs,esm,umd",
-		"test": "tsdx test",
-		"lint": "eslint . --ext .js,.ts,.json",
-		"clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
-	},
-	"files": [
-		"dist",
-		"src"
-	],
-	"dependencies": {
-		"redux": "^4.0.4"
-	},
-	"devDependencies": {
-		"husky": "^3.1.0"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "npm run lint"
-		}
-	},
-	"authors": [
-		"Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
-		"Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
-	],
-	"bugs": {
-		"url": "https://github.com/rematch/rematch/issues"
-	},
-	"keywords": [
-		"@rematch",
-		"rematch",
-		"redux",
-		"state management",
-		"javascript"
-	],
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/rematch/rematch.git"
-	}
+  "name": "@rematch/core",
+  "version": "2.0.0",
+  "description": "A Redux Framework",
+  "homepage": "https://rematch.github.io/rematch",
+  "main": "dist/index.js",
+  "module": "dist/core.esm.js",
+  "browser": "dist/core.esm.js",
+  "unpkg": "dist/core.umd.production.min.js",
+  "typings": "src/typings/index.d.ts",
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build --format cjs,esm,umd",
+    "test": "tsdx test",
+    "lint": "eslint . --ext .js,.ts,.json",
+    "clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "redux": "^4.0.4"
+  },
+  "devDependencies": {
+    "husky": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "authors": [
+    "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+    "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
+  ],
+  "bugs": {
+    "url": "https://github.com/rematch/rematch/issues"
+  },
+  "keywords": [
+    "@rematch",
+    "rematch",
+    "redux",
+    "state management",
+    "javascript"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  }
 }

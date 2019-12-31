@@ -1,53 +1,53 @@
 {
-  	"name": "@rematch/immer",
-  	"version": "2.0.0",
-  	"description": "Redux-Immer plugin for Rematch. Provides immutable ability for rematch.",
-  	"homepage": "https://rematch.github.io/rematch",
-  	"main": "dist/index.js",
-  	"module": "dist/immer.esm.js",
-    "browser": "dist/immer.esm.js",
-    "unpkg": "dist/immer.umd.production.min.js",
-  	"typings": "dist/index.d.ts",
-	"scripts": {
-		"start": "tsdx watch",
-		"build": "tsdx build --format cjs,esm,umd",
-		"test": "tsdx test",
-		"lint": "eslint . --ext .js,.ts,.json",
-		"clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
-	},
-  	"files": [
-		"dist",
-	  	"src"
-  	],
-  	"dependencies": {
-		"immer": "^5.0.0"
-	},
-	"devDependencies": {
-		"@rematch/core": "^2.0.0",
-		"husky": "^3.1.0"
-	},
-	"peerDependencies": {
-		"@rematch/core": ">=2.0.0"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "npm run lint"
-		}
-	},
-	"authors": [
-		"arcthur <arthurtemptation@gmail.com>",
-		"Przemyslaw Jamrozowicz <pjamrozowicz@gmail.com> (https://github.com/pjamrozowicz)"
-	],
-	"keywords": [
-		"@rematch",
-		"rematch",
-		"redux",
-		"state management",
-		"javascript"
-	],
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/rematch/rematch.git"
-	}
+  "name": "@rematch/immer",
+  "version": "2.0.0",
+  "description": "Redux-Immer plugin for Rematch. Provides immutable ability for rematch.",
+  "homepage": "https://rematch.github.io/rematch",
+  "main": "dist/index.js",
+  "module": "dist/immer.esm.js",
+  "browser": "dist/immer.esm.js",
+  "unpkg": "dist/immer.umd.production.min.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build --format cjs,esm,umd",
+    "test": "tsdx test",
+    "lint": "eslint . --ext .js,.ts,.json",
+    "clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "immer": "^5.0.0"
+  },
+  "devDependencies": {
+    "@rematch/core": "^2.0.0",
+    "husky": "^3.1.0"
+  },
+  "peerDependencies": {
+    "@rematch/core": ">=2.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "authors": [
+    "arcthur <arthurtemptation@gmail.com>",
+    "Przemyslaw Jamrozowicz <pjamrozowicz@gmail.com> (https://github.com/pjamrozowicz)"
+  ],
+  "keywords": [
+    "@rematch",
+    "rematch",
+    "redux",
+    "state management",
+    "javascript"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  }
 }

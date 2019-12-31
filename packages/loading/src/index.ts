@@ -2,160 +2,160 @@
 import { NamedModel, Plugin, Rematch } from '@rematch/core'
 
 export interface LoadingConfig {
-	name?: string
-	whitelist?: string[]
-	blacklist?: string[]
-	asNumber?: boolean
+  name?: string
+  whitelist?: string[]
+  blacklist?: string[]
+  asNumber?: boolean
 }
 
-const cntState = {
-	global: 0,
-	models: {},
-	effects: {},
-}
-
-const loadingInitialState = {
-	global: 0,
-	models: {},
-	effects: {},
-}
-
-const createLoadingAction = (converter, i) => (
-	state,
-	{ name, action }: any
+const createLoadingAction = (converter, i, cntState) => (
+  state,
+  { name, action }: any
 ) => {
-	cntState.global += i
-	cntState.models[name] += i
-	cntState.effects[name][action] += i
+  cntState.global += i
+  cntState.models[name] += i
+  cntState.effects[name][action] += i
 
-	return {
-		...state,
-		global: converter(cntState.global),
-		models: {
-			...state.models,
-			[name]: converter(cntState.models[name]),
-		},
-		effects: {
-			...state.effects,
-			[name]: {
-				...state.effects[name],
-				[action]: converter(cntState.effects[name][action]),
-			},
-		},
-	}
+  return {
+    ...state,
+    global: converter(cntState.global),
+    models: {
+      ...state.models,
+      [name]: converter(cntState.models[name]),
+    },
+    effects: {
+      ...state.effects,
+      [name]: {
+        ...state.effects[name],
+        [action]: converter(cntState.effects[name][action]),
+      },
+    },
+  }
 }
 
 const validateConfig = config => {
-	if (config.name && typeof config.name !== 'string') {
-		throw new Error('loading plugin config name must be a string')
-	}
-	if (config.asNumber && typeof config.asNumber !== 'boolean') {
-		throw new Error('loading plugin config asNumber must be a boolean')
-	}
-	if (config.whitelist && !Array.isArray(config.whitelist)) {
-		throw new Error(
-			'loading plugin config whitelist must be an array of strings'
-		)
-	}
-	if (config.blacklist && !Array.isArray(config.blacklist)) {
-		throw new Error(
-			'loading plugin config blacklist must be an array of strings'
-		)
-	}
-	if (config.whitelist && config.blacklist) {
-		throw new Error(
-			'loading plugin config cannot have both a whitelist & a blacklist'
-		)
-	}
+  if (config.name && typeof config.name !== 'string') {
+    throw new Error('loading plugin config name must be a string')
+  }
+  if (config.asNumber && typeof config.asNumber !== 'boolean') {
+    throw new Error('loading plugin config asNumber must be a boolean')
+  }
+  if (config.whitelist && !Array.isArray(config.whitelist)) {
+    throw new Error(
+      'loading plugin config whitelist must be an array of strings'
+    )
+  }
+  if (config.blacklist && !Array.isArray(config.blacklist)) {
+    throw new Error(
+      'loading plugin config blacklist must be an array of strings'
+    )
+  }
+  if (config.whitelist && config.blacklist) {
+    throw new Error(
+      'loading plugin config cannot have both a whitelist & a blacklist'
+    )
+  }
 }
 
 export default (config: LoadingConfig = {}): Plugin => {
-	validateConfig(config)
+  validateConfig(config)
 
-	const loadingModelName = config.name || 'loading'
+  const cntState = {
+    global: 0,
+    models: {},
+    effects: {},
+  }
 
-	const converter =
-		config.asNumber === true ? (cnt: number) => cnt : (cnt: number) => cnt > 0
+  const loadingInitialState = {
+    global: 0,
+    models: {},
+    effects: {},
+  }
 
-	const loading: NamedModel = {
-		name: loadingModelName,
-		reducers: {
-			hide: createLoadingAction(converter, -1),
-			show: createLoadingAction(converter, 1),
-		},
-		state: loadingInitialState,
-	}
+  const loadingModelName = config.name || 'loading'
 
-	const initialLoadingValue = converter(0)
+  const converter =
+    config.asNumber === true ? (cnt: number) => cnt : (cnt: number) => cnt > 0
 
-	// @ts-ignore
-	loadingInitialState.global = initialLoadingValue
+  const loading: NamedModel = {
+    name: loadingModelName,
+    reducers: {
+      hide: createLoadingAction(converter, -1, cntState),
+      show: createLoadingAction(converter, 1, cntState),
+    },
+    state: loadingInitialState,
+  }
 
-	return {
-		config: {
-			models: {
-				loading,
-			},
-		},
-		onModel({ name }: NamedModel, rematch: Rematch) {
-			// do not run dispatch on "loading" model
-			if (name === loadingModelName) {
-				return
-			}
+  const initialLoadingValue = converter(0)
 
-			cntState.models[name] = 0
-			cntState.effects[name] = {}
+  // @ts-ignore
+  loadingInitialState.global = initialLoadingValue
 
-			loadingInitialState.models[name] = initialLoadingValue
-			loadingInitialState.effects[name] = {}
+  return {
+    config: {
+      models: {
+        loading,
+      },
+    },
+    onModel({ name }: NamedModel, rematch: Rematch) {
+      // do not run dispatch on "loading" model
+      if (name === loadingModelName) {
+        return
+      }
 
-			const modelActions = rematch.dispatch![name]
+      cntState.models[name] = 0
+      cntState.effects[name] = {}
 
-			// map over effects within models
-			Object.keys(modelActions).forEach((action: string) => {
-				// @ts-ignore
-				if (rematch.dispatch![name][action].isEffect !== true) {
-					return
-				}
+      loadingInitialState.models[name] = initialLoadingValue
+      loadingInitialState.effects[name] = {}
 
-				cntState.effects[name][action] = 0
-				loadingInitialState.effects[name][action] = initialLoadingValue
+      const modelActions = rematch.dispatch![name]
 
-				const actionType = `${name}/${action}`
+      // map over effects within models
+      Object.keys(modelActions).forEach((action: string) => {
+        // @ts-ignore
+        if (rematch.dispatch![name][action].isEffect !== true) {
+          return
+        }
 
-				// ignore items not in whitelist
-				if (config.whitelist && !config.whitelist.includes(actionType)) {
-					return
-				}
+        cntState.effects[name][action] = 0
+        loadingInitialState.effects[name][action] = initialLoadingValue
 
-				// ignore items in blacklist
-				if (config.blacklist && config.blacklist.includes(actionType)) {
-					return
-				}
+        const actionType = `${name}/${action}`
 
-				// copy orig effect pointer
-				const origEffect = rematch.dispatch![name][action]
+        // ignore items not in whitelist
+        if (config.whitelist && !config.whitelist.includes(actionType)) {
+          return
+        }
 
-				// create function with pre & post loading calls
-				const effectWrapper = async (...props) => {
-					try {
-						rematch.dispatch!.loading.show({ name, action })
-						// waits for dispatch function to finish before calling "hide"
-						const effectResult = await origEffect(...props)
-						rematch.dispatch!.loading.hide({ name, action })
-						return effectResult
-					} catch (error) {
-						rematch.dispatch!.loading.hide({ name, action })
-						throw error
-					}
-				}
+        // ignore items in blacklist
+        if (config.blacklist && config.blacklist.includes(actionType)) {
+          return
+        }
 
-				effectWrapper.isEffect = true
+        // copy orig effect pointer
+        const origEffect = rematch.dispatch![name][action]
 
-				// replace existing effect with new wrapper
-				// @ts-ignore
-				rematch.dispatch[name][action] = effectWrapper
-			})
-		},
-	}
+        // create function with pre & post loading calls
+        const effectWrapper = async (...props) => {
+          try {
+            rematch.dispatch!.loading.show({ name, action })
+            // waits for dispatch function to finish before calling "hide"
+            const effectResult = await origEffect(...props)
+            rematch.dispatch!.loading.hide({ name, action })
+            return effectResult
+          } catch (error) {
+            rematch.dispatch!.loading.hide({ name, action })
+            throw error
+          }
+        }
+
+        effectWrapper.isEffect = true
+
+        // replace existing effect with new wrapper
+        // @ts-ignore
+        rematch.dispatch[name][action] = effectWrapper
+      })
+    },
+  }
 }

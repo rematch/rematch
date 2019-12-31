@@ -7,35 +7,35 @@ import effectsPlugin from '../plugins/effects'
 const corePlugins: R.Plugin[] = [dispatchPlugin, effectsPlugin]
 
 export function initializePlugin(rematch: R.Rematch, plugin: R.Plugin): void {
-	validatePlugin(plugin)
+  validatePlugin(plugin)
 
-	if (plugin.onInit) {
-		plugin.onInit(rematch)
-	}
+  if (plugin.onInit) {
+    plugin.onInit(rematch)
+  }
 
-	// add exposed to rematch class
-	if (plugin.exposed) {
-		for (const key of Object.keys(plugin.exposed)) {
-			rematch[key] =
-				typeof plugin.exposed[key] === 'function'
-					? (...params: any[]): any =>
-							// insert rematch as the first argument of exposed function
-							(plugin.exposed![key] as R.ExposedFunction)(rematch, ...params)
-					: Object.create(plugin.exposed[key])
-		}
-	}
+  // add exposed to rematch class
+  if (plugin.exposed) {
+    for (const key of Object.keys(plugin.exposed)) {
+      rematch[key] =
+        typeof plugin.exposed[key] === 'function'
+          ? (...params: any[]): any =>
+              // insert rematch as the first argument of exposed function
+              (plugin.exposed![key] as R.ExposedFunction)(rematch, ...params)
+          : Object.create(plugin.exposed[key])
+    }
+  }
 }
 
 export default function(
-	rematch: R.Rematch,
-	userPlugins: R.Plugin[]
+  rematch: R.Rematch,
+  userPlugins: R.Plugin[]
 ): R.Plugin[] {
-	const plugins: R.PluginHooks[] = []
+  const plugins: R.PluginHooks[] = []
 
-	for (const plugin of corePlugins.concat(userPlugins)) {
-		initializePlugin(rematch, plugin)
-		plugins.push(plugin)
-	}
+  for (const plugin of corePlugins.concat(userPlugins)) {
+    initializePlugin(rematch, plugin)
+    plugins.push(plugin)
+  }
 
-	return plugins
+  return plugins
 }

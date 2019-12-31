@@ -1,55 +1,55 @@
 {
-	"name": "@rematch/react-navigation",
-	"version": "3.0.0",
-	"description": "React Navigation plugin for Rematch",
-	"homepage": "https://rematch.github.io/rematch",
-	"main": "dist/index.js",
-	"module": "dist/react-navigation.esm.js",
-    "browser": "dist/react-navigation.esm.js",
-    "unpkg": "dist/react-navigation.umd.production.min.js",
-	"typings": "dist/index.d.ts",
-	"scripts": {
-		"start": "tsdx watch",
-		"build": "tsdx build --format cjs,esm,umd",
-		"test": "tsdx test --passWithNoTests",
-		"lint": "eslint . --ext .js,.ts,.json",
-		"clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
-	},
-	"files": [
-		"dist",
-	  	"src"
-	],
-	"dependencies": {
-		"react-navigation-redux-helpers": "^1.0.6"
-	},
-	"devDependencies": {
-		"@rematch/core": "^2.0.0",
-		"husky": "^3.1.0",
-		"react-navigation": "^1.5.11"
-	},
-	"peerDependencies": {
-		"@rematch/core": ">=2.0.0",
-		"react": "*",
-		"react-native": "*",
-		"react-navigation": "*",
-		"react-redux": "*"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "npm run lint"
-		}
-	},
-	"author": "Shawn McKay <shawn.j.mckay@gmail.com>",
-	"keywords": [
-		"@rematch",
-		"plugin",
-		"react-navigation",
-		"redux",
-		"rematch"
-	],
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/rematch/rematch.git"
-	}
+  "name": "@rematch/react-navigation",
+  "version": "3.0.0",
+  "description": "React Navigation plugin for Rematch",
+  "homepage": "https://rematch.github.io/rematch",
+  "main": "dist/index.js",
+  "module": "dist/react-navigation.esm.js",
+  "browser": "dist/react-navigation.esm.js",
+  "unpkg": "dist/react-navigation.umd.production.min.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build --format cjs,esm,umd",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "eslint . --ext .js,.ts,.json",
+    "clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "react-navigation-redux-helpers": "^1.0.6"
+  },
+  "devDependencies": {
+    "@rematch/core": "^2.0.0",
+    "husky": "^3.1.0",
+    "react-navigation": "^1.5.11"
+  },
+  "peerDependencies": {
+    "@rematch/core": ">=2.0.0",
+    "react": "*",
+    "react-native": "*",
+    "react-navigation": "*",
+    "react-redux": "*"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
+  "keywords": [
+    "@rematch",
+    "plugin",
+    "react-navigation",
+    "redux",
+    "rematch"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  }
 }

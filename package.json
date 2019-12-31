@@ -1,55 +1,63 @@
 {
-	"name": "rematch",
-	"private": true,
-	"description": "The root package for rematch",
-	"homepage": "https://rematch.github.io/rematch",
-	"bugs": {
-		"url": "https://github.com/rematch/rematch/issues"
-	},
-	"keywords": [
-		"@rematch",
-		"rematch",
-		"redux",
-		"state management",
-		"javascript"
-	],
-	"license": "MIT",
-	"authors": [
-		"Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
-		"Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
-	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/rematch/rematch.git"
-	},
-	"scripts": {
-		"bootstrap": "lerna bootstrap",
-		"start": "lerna run start",
-		"clean": "lerna run clean",
-		"build": "lerna run build",
-		"test": "lerna run test",
-		"lint": "eslint . --ext .js,.ts,.json",
-		"lint:fix": "eslint . --ext .js,.ts,.json --fix",
-		"docs:serve": "docsify serve docs"
-	},
-	"devDependencies": {
-		"@types/jest": "^24.0.23",
-		"@typescript-eslint/eslint-plugin": "^2.9.0",
-		"@typescript-eslint/parser": "^2.9.0",
-		"coveralls": "^3.0.6",
-		"docsify-cli": "^4.3.0",
-		"eslint": "^6.7.1",
-		"eslint-config-airbnb-base": "^14.0.0",
-		"eslint-config-prettier": "^6.7.0",
-		"eslint-plugin-import": "^2.18.2",
-		"eslint-plugin-prettier": "^3.1.1",
-		"lerna": "^3.18.3",
-		"prettier": "1.19.1",
-		"rimraf": "^2.6.3",
-		"tsdx": "^0.11.0",
-		"tslib": "^1.10.0",
-		"typescript": "^3.7.2",
-		"typings-tester": "^0.3.2"
-	},
-	"dependencies": {}
+  "name": "rematch",
+  "private": true,
+  "description": "The root package for rematch",
+  "homepage": "https://rematch.github.io/rematch",
+  "bugs": {
+    "url": "https://github.com/rematch/rematch/issues"
+  },
+  "keywords": [
+    "@rematch",
+    "rematch",
+    "redux",
+    "state management",
+    "javascript"
+  ],
+  "license": "MIT",
+  "authors": [
+    "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+    "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "start": "lerna run start",
+    "clean": "lerna run clean",
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "lint": "eslint . --ext .js,.ts",
+    "lint:fix": "eslint . --ext .js,.ts --fix",
+    "docs:serve": "docsify serve docs",
+    "size": "bundlesize"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@typescript-eslint/eslint-plugin": "^2.9.0",
+    "@typescript-eslint/parser": "^2.9.0",
+    "bundlesize": "^0.18.0",
+    "coveralls": "^3.0.6",
+    "docsify-cli": "^4.3.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "lerna": "^3.18.3",
+    "prettier": "1.19.1",
+    "rimraf": "^2.6.3",
+    "tsdx": "^0.11.0",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.2",
+    "typings-tester": "^0.3.2"
+  },
+  "dependencies": {},
+  "bundlesize": [
+    {
+      "path": "./packages/core/dist/umd/rematch.prod.min.js",
+      "maxSize": "6 kB"
+    }
+  ]
 }

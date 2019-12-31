@@ -5,117 +5,117 @@ import updatedPlugin from '../src'
 const mockDate = new Date()
 
 beforeEach(() => {
-	jest.resetModules()
-	// @ts-ignore
-	global.Date = jest.fn(() => mockDate)
+  jest.resetModules()
+  // @ts-ignore
+  global.Date = jest.fn(() => mockDate)
 })
 
 describe('updated', () => {
-	test('should setup with a config name', async () => {
-		const count = {
-			name: 'count',
-			state: 0,
-			reducers: {
-				addOne: s => s + 1,
-			},
-			effects: {
-				async timeout() {
-					// @ts-ignore
-					this.addOne()
-				},
-			},
-		}
+  test('should setup with a config name', async () => {
+    const count = {
+      name: 'count',
+      state: 0,
+      reducers: {
+        addOne: s => s + 1,
+      },
+      effects: {
+        async timeout() {
+          // @ts-ignore
+          this.addOne()
+        },
+      },
+    }
 
-		const store = init({
-			models: { count },
-			plugins: [
-				updatedPlugin({
-					name: 'chicken',
-				}),
-			],
-		})
+    const store = init({
+      models: { count },
+      plugins: [
+        updatedPlugin({
+          name: 'chicken',
+        }),
+      ],
+    })
 
-		await store.dispatch.count.timeout()
+    await store.dispatch.count.timeout()
 
-		const state = store.getState()
-		expect(state).toEqual({
-			count: 1,
-			chicken: {
-				count: {
-					timeout: mockDate,
-				},
-			},
-		})
-	})
-	test('should record the timestamp of the last time an effect was updated', async () => {
-		const count = {
-			name: 'count',
-			state: 0,
-			reducers: {
-				addOne: s => s + 1,
-			},
-			effects: {
-				async timeout() {
-					// @ts-ignore
-					this.addOne()
-				},
-			},
-		}
+    const state = store.getState()
+    expect(state).toEqual({
+      count: 1,
+      chicken: {
+        count: {
+          timeout: mockDate,
+        },
+      },
+    })
+  })
+  test('should record the timestamp of the last time an effect was updated', async () => {
+    const count = {
+      name: 'count',
+      state: 0,
+      reducers: {
+        addOne: s => s + 1,
+      },
+      effects: {
+        async timeout() {
+          // @ts-ignore
+          this.addOne()
+        },
+      },
+    }
 
-		const store = init({
-			models: { count },
-			plugins: [updatedPlugin()],
-		})
+    const store = init({
+      models: { count },
+      plugins: [updatedPlugin()],
+    })
 
-		await store.dispatch.count.timeout()
+    await store.dispatch.count.timeout()
 
-		const state = store.getState()
-		expect(state).toEqual({
-			count: 1,
-			updated: {
-				count: {
-					timeout: mockDate,
-				},
-			},
-		})
-	})
+    const state = store.getState()
+    expect(state).toEqual({
+      count: 1,
+      updated: {
+        count: {
+          timeout: mockDate,
+        },
+      },
+    })
+  })
 
-	test('should work with multiple effects', async () => {
-		const count = {
-			name: 'count',
-			state: 0,
-			reducers: {
-				addOne: s => s + 1,
-			},
-			effects: {
-				async timeout() {
-					// @ts-ignore
-					this.addOne()
-				},
-				async timeout2() {
-					// @ts-ignore
-					this.addOne()
-				},
-			},
-		}
+  test('should work with multiple effects', async () => {
+    const count = {
+      name: 'count',
+      state: 0,
+      reducers: {
+        addOne: s => s + 1,
+      },
+      effects: {
+        async timeout() {
+          // @ts-ignore
+          this.addOne()
+        },
+        async timeout2() {
+          // @ts-ignore
+          this.addOne()
+        },
+      },
+    }
 
-		const store = init({
-			models: { count },
-			plugins: [updatedPlugin()],
-		})
+    const store = init({
+      models: { count },
+      plugins: [updatedPlugin()],
+    })
 
-		await store.dispatch.count.timeout()
-		await store.dispatch.count.timeout2()
+    await store.dispatch.count.timeout()
+    await store.dispatch.count.timeout2()
 
-		const state = store.getState()
-		expect(state).toEqual({
-			count: 2,
-			updated: {
-				count: {
-					timeout: mockDate,
-					timeout2: mockDate,
-				},
-			},
-		})
-	})
+    const state = store.getState()
+    expect(state).toEqual({
+      count: 2,
+      updated: {
+        count: {
+          timeout: mockDate,
+          timeout2: mockDate,
+        },
+      },
+    })
+  })
 })

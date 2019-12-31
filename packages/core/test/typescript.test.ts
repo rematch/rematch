@@ -7,14 +7,14 @@ const tsDirectory = path.resolve(__dirname, '../../../examples/ts')
 const examples = ['count', 'hooks']
 
 describe('typings', () => {
-	for (const example of examples) {
-		test(`should compile and run "${tsDirectory}/${example}" without error`, () => {
-			expect(() =>
-				check(
-					[`${tsDirectory}/${example}/src/index.tsx`],
-					`${tsDirectory}/${example}/tsconfig.json`
-				)
-			).not.toThrow()
-		})
-	}
+  for (const example of examples) {
+    test(`should compile and run "${tsDirectory}/${example}" without error`, () => {
+      expect(() =>
+        check(
+          [`${tsDirectory}/${example}/src/index.tsx`],
+          `${tsDirectory}/${example}/tsconfig.json`
+        )
+      ).not.toThrow()
+    })
+  }
 })

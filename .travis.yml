@@ -9,15 +9,10 @@ cache:
 jobs:
   include:
     - stage: rematch
-      before_install:
-        - npm install typescript@3.5
+      before_script:
         - npm run bootstrap
         - npm run build
       script: npm run test
       after_script:
         - npm run size
-        - npm install coveralls
         - coveralls < coverage/lcov.info
-    - stage: typings
-      before_install: npm run clean --prefix examples/ts/count
-      script: npm run test:ts
