@@ -1,11 +1,31 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion,@typescript-eslint/ban-ts-ignore */
-import { NamedModel, Plugin, Rematch } from '@rematch/core'
+import {
+  ExtractRematchDispatchersFromEffects,
+  NamedModel,
+  Plugin,
+  Models,
+  Rematch,
+} from '@rematch/core'
 
 export interface LoadingConfig {
   name?: string
   whitelist?: string[]
   blacklist?: string[]
   asNumber?: boolean
+}
+
+export interface LoadingState<M extends Models> {
+  loading: {
+    global: boolean
+    models: { [modelName in keyof M]: boolean }
+    effects: {
+      [modelName in keyof M]: {
+        [effectName in keyof ExtractRematchDispatchersFromEffects<
+          M[modelName]['effects']
+        >]: boolean
+      }
+    }
+  }
 }
 
 const createLoadingAction = (converter, i, cntState) => (

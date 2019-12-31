@@ -74,7 +74,7 @@ const store = init({
 export default store
 ```
 
-_For a more advanced setup, see_ [_plugins_](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/docs/plugins.md) _and_ [_Redux config options_](api-reference/reduxapi.md)_._
+_For a more advanced setup, see_ [_plugins_](https://github.com/rematch/rematch/tree/e4fe17537a947bbe8a9faf1e0e77099beb7fef91/docs/plugins.md) _and_ [_Redux config options_](docs/api-reference/reduxapi.md)_._
 
 #### Step 2: Models
 
