@@ -56,7 +56,7 @@
   "dependencies": {},
   "bundlesize": [
     {
-      "path": "./packages/core/dist/umd/rematch.prod.min.js",
+      "path": "./packages/core/dist/core.umd.production.min.js",
       "maxSize": "6 kB"
     }
   ]
