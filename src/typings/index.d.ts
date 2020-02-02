@@ -24,8 +24,6 @@ export type ExtractRematchDispatcherAsyncFromEffect<
 	? RematchDispatcherAsync<void, void, R>
 	: E extends (payload: infer P) => Promise<infer R>
 	? RematchDispatcherAsync<P, void, R>
-	: E extends (payload: infer P, meta: infer M) => Promise<infer R>
-	? RematchDispatcherAsync<P, M, R>
 	: RematchDispatcherAsync<any, any, any>
 
 export type ExtractRematchDispatchersFromEffectsObject<
@@ -160,8 +158,8 @@ type ModelEffects<S> = {
 	) => void
 }
 
-export type Models = {
-	[key: string]: ModelConfig
+export type Models<K extends string = string> = {
+	[key: K]: ModelConfig
 }
 
 export type ModelHook = (model: Model) => void
@@ -180,7 +178,7 @@ export interface ModelConfig<S = any, SS = S> {
 	reducers?: ModelReducers<S>
 	effects?:
 		| ModelEffects<any>
-		| ((dispatch: RematchDispatch) => ModelEffects<any>)
+		| (<M extends Models | void = void>(dispatch: RematchDispatch<M>) => ModelEffects<any>)
 }
 
 export interface PluginFactory extends Plugin {
