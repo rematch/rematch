@@ -1,4 +1,12 @@
 import { dolphins } from './dolphins'
 import { sharks } from './sharks'
 
-export { dolphins, sharks }
+export interface RootModel {
+	dolphins: typeof dolphins
+	sharks: typeof sharks
+}
+
+export const models: RootModel = {
+	dolphins,
+	sharks,
+}
