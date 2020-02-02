@@ -158,8 +158,8 @@ type ModelEffects<S> = {
 	) => void
 }
 
-export type Models<K extends string = string> = {
-	[key: K]: ModelConfig
+export type Models = {
+	[key: string]: ModelConfig
 }
 
 export type ModelHook = (model: Model) => void

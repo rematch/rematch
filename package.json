@@ -69,7 +69,7 @@
 		"rollup-plugin-uglify": "^6.0.3",
 		"ts-jest": "^24.0.2",
 		"tslint": "^5.19.0",
-		"typescript": "^3.6.2",
+		"typescript": "^3.7.5",
 		"typings-tester": "^0.3.2",
 		"uglify-es": "^3.3.9"
 	},
