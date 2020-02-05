@@ -1,19 +1,19 @@
 # @rematch/core API
 
-- [init](api-reference/api#init)
-  - [models](api-reference/api#models)
-    - [state](api-reference/api#state)
-    - [reducers](api-reference/api#reducers)
-    - [effects](api-reference/api#effects)
-    - [basereducer](api-reference/api#basereducer)
-  - [plugins](api-reference/api#plugins)
-  - [redux](api-reference/api#redux)
-- [store](api-reference/api#store)
-  - [dispatch](api-reference/api#storedispatch)
-  - [getState](api-reference/api#storegetstate)
-  - [name](api-reference/api#storename)
-  - [model](api-reference/api#storemodel)
-- [action](api-reference/api#action)
+- [init](#init)
+  - [models](#models)
+    - [state](#state)
+    - [reducers](#reducers)
+    - [effects](#effects)
+    - [basereducer](#basereducer)
+  - [plugins](#plugins)
+  - [redux](#redux)
+- [store](#store)
+  - [dispatch](#storedispatch)
+  - [getState](#storegetstate)
+  - [name](#storename)
+  - [model](#storemodel)
+- [action](#action)
 
 ## init
 
