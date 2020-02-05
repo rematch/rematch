@@ -109,7 +109,6 @@ export function init<M extends Models>(
 
 export function getDispatch<M extends Models>(): RematchDispatch<M>
 
-export function createModel<S = any>(model: ModelConfig<S>): ModelConfig<S>
 export function createModel<S = any, M extends ModelConfig<S> = ModelConfig>(
 	model: M
 ): M
