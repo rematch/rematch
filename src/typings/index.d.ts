@@ -10,30 +10,22 @@ import * as Redux from 'redux'
 
 export as namespace rematch
 
-export type ExtractRematchStateFromModels<M extends Models> = {
-	[modelKey in keyof M]: M[modelKey]['state']
+export type ExtractRematchStateFromModels<M> = {
+	[modelKey in keyof M]: M[modelKey] extends ModelConfig ? M[modelKey]['state'] : never
 }
 
-export type RematchRootState<M extends Models> = ExtractRematchStateFromModels<
-	M
->
+export type RematchRootState<M> = ExtractRematchStateFromModels<M>
 
 export type ExtractRematchDispatcherAsyncFromEffect<
 	E
 > = E extends () => Promise<infer R>
 	? RematchDispatcherAsync<void, void, R>
 	: E extends (payload: infer P) => Promise<infer R>
-	? RematchDispatcherAsync<P, void, R>
-	: E extends (payload: infer P, meta: infer M) => Promise<infer R>
-	? RematchDispatcherAsync<P, M, R>
-	: RematchDispatcherAsync<any, any, any>
+		? RematchDispatcherAsync<P, void, R>
+		: RematchDispatcherAsync<any, any, any>
 
-export type ExtractRematchDispatchersFromEffectsObject<
-	effects extends ModelEffects<any>
-> = {
-	[effectKey in keyof effects]: ExtractRematchDispatcherAsyncFromEffect<
-		effects[effectKey]
-	>
+export type ExtractRematchDispatchersFromEffectsObject<effects extends ModelEffects<any>> = {
+	[effectKey in keyof effects]: ExtractRematchDispatcherAsyncFromEffect<effects[effectKey]>
 }
 
 export type ExtractRematchDispatchersFromEffects<
@@ -43,18 +35,18 @@ export type ExtractRematchDispatchersFromEffects<
 		? ExtractRematchDispatchersFromEffectsObject<R>
 		: {}
 	: effects extends ModelEffects<any>
-	? ExtractRematchDispatchersFromEffectsObject<effects>
-	: {}
+		? ExtractRematchDispatchersFromEffectsObject<effects>
+		: {}
 
 export type ExtractRematchDispatcherFromReducer<R> = R extends () => any
 	? RematchDispatcher<void, void>
 	: R extends (state: infer S) => infer S
-	? RematchDispatcher<void, void>
-	: R extends (state: infer S, payload: infer P) => infer S
-	? RematchDispatcher<P, void>
-	: R extends (state: infer S, payload: infer P, meta: infer M) => infer S
-	? RematchDispatcher<P, M>
-	: RematchDispatcher<any, any>
+		? RematchDispatcher<void, void>
+		: R extends (state: infer S, payload: infer P) => infer S
+			? RematchDispatcher<P, void>
+			: R extends (state: infer S, payload: infer P, meta: infer M) => infer S
+				? RematchDispatcher<P, M>
+				: RematchDispatcher<any, any>
 
 export type ExtractRematchDispatchersFromReducersObject<
 	reducers extends ModelReducers<any>
@@ -73,37 +65,31 @@ export type ExtractRematchDispatchersFromModel<
 > = ExtractRematchDispatchersFromReducers<M['reducers']> &
 	ExtractRematchDispatchersFromEffects<M['effects']>
 
-export type ExtractRematchDispatchersFromModels<M extends Models> = {
-	[modelKey in keyof M]: ExtractRematchDispatchersFromModel<M[modelKey]>
+export type ExtractRematchDispatchersFromModels<M> = {
+	[modelKey in keyof M]: M[modelKey] extends ModelConfig ? ExtractRematchDispatchersFromModel<M[modelKey]> : never
 }
 
 export type RematchDispatcher<P = void, M = void> = ([P] extends [void]
 	? ((...args: any[]) => Action<any, any>)
 	: [M] extends [void]
-	? ((payload: P) => Action<P, void>)
-	: (payload: P, meta: M) => Action<P, M>) &
+		? ((payload: P) => Action<P, void>)
+		: (payload: P, meta: M) => Action<P, M>) &
 	((action: Action<P, M>) => Redux.Dispatch<Action<P, M>>) &
 	((action: Action<P, void>) => Redux.Dispatch<Action<P, void>>)
 
 export type RematchDispatcherAsync<P = void, M = void, R = void> = ([P] extends [void]
 	? ((...args: any[]) => Promise<R>)
 	: [M] extends [void]
-	? ((payload: P) => Promise<R>)
-	: (payload: P, meta: M) => Promise<R>) &
+		? ((payload: P) => Promise<R>)
+		: (payload: P, meta: M) => Promise<R>) &
 	((action: Action<P, M>) => Promise<R>) &
 	((action: Action<P, void>) => Promise<R>)
 
-export type RematchDispatch<M extends Models | void = void> = (M extends Models
-	? ExtractRematchDispatchersFromModels<M>
-	: {
-			[key: string]: {
-				[key: string]: RematchDispatcher | RematchDispatcherAsync
-			}
-	  }) &
+export type RematchDispatch<M = void> = ExtractRematchDispatchersFromModels<M> &
 	(RematchDispatcher | RematchDispatcherAsync) &
 	(Redux.Dispatch<any>) // for library compatability
 
-export function init<M extends Models>(
+export function init<M extends object>(
 	config: InitConfig<M> | undefined
 ): RematchStore<M>
 
@@ -120,7 +106,7 @@ export namespace rematch {
 }
 
 export interface RematchStore<
-	M extends Models = Models,
+	M extends object = Models,
 	A extends Action = Action
 > extends Redux.Store<RematchRootState<M>, A> {
 	name: string
@@ -132,9 +118,9 @@ export interface RematchStore<
 }
 
 export type Action<P = any, M = any> = {
-	type: string
-	payload?: P
-	meta?: M
+	type: string,
+	payload?: P,
+	meta?: M,
 }
 
 export type EnhancedReducer<S, P = object, M = object> = (
@@ -159,8 +145,8 @@ type ModelEffects<S> = {
 	) => void
 }
 
-export type Models = {
-	[key: string]: ModelConfig
+export type Models<K extends string = string> = {
+	[key in K]: ModelConfig
 }
 
 export type ModelHook = (model: Model) => void
@@ -172,14 +158,14 @@ export interface Model<S = any, SS = S> extends ModelConfig<S, SS> {
 	reducers: ModelReducers<S>
 }
 
-export interface ModelConfig<S = any, SS = S> {
+export interface ModelConfig<S = any, SS = S, K extends string = string> {
 	name?: string
 	state: S
 	baseReducer?: (state: SS, action: Action) => SS
 	reducers?: ModelReducers<S>
 	effects?:
 		| ModelEffects<any>
-		| ((dispatch: RematchDispatch) => ModelEffects<any>)
+		| (<M extends Models<K> | void = void>(dispatch: RematchDispatch<M>) => ModelEffects<any>)
 }
 
 export interface PluginFactory extends Plugin {
@@ -227,7 +213,7 @@ export interface InitConfigRedux<S = any> {
 	devtoolOptions?: DevtoolOptions
 }
 
-export interface InitConfig<M extends Models = Models> {
+export interface InitConfig<M extends object = Models> {
 	name?: string
 	models?: M
 	plugins?: Plugin[]

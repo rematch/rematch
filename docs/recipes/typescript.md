@@ -11,50 +11,49 @@ Rematch can work with TypeScript with the following changes:
 ### Setup Store
 
 ```typescript
-import { init, RematchRootState } from '@rematch/core'
-import * as models from './models'
+import { init, RematchRootState, RematchDispatch } from '@rematch/core'
+import { models, RootModel } from './models'
 
 export const store = init({
 	models,
 })
 
 export type Store = typeof store
-export type Dispatch = typeof store.dispatch
-export type iRootState = RematchRootState<typeof models>
+export type Dispatch = RematchDispatch<RootModel>
+export type iRootState = RematchRootState<RootModel>
 ```
 
 ### Autocomplete Dispatch/Models
 
-To ensure autocomplete works, with TS wrap models with `createModel`. See example below:
+Autocomplete works without any special changes. See example below:
 
 ```typescript
-import { createModel } from '@rematch/core'
-
+import { Dispatch } from '../store'
 import { delay } from '../helpers'
 
 export type SharksState = number
 
-export const sharks = createModel({
+export const sharks = {
 	state: 0,
 	reducers: {
 		increment: (state: SharksState, payload: number): SharksState =>
 			state + payload,
 	},
-	effects: {
-		// TODO: Optional args breaks TypeScript autocomplete (e.g. payload: number = 1)
-		async incrementAsync(payload: number) {
+	effects: (dispatch: Dispatch) => ({
+		async incrementAsync(payload: number = 1) {
 			await delay(500)
-			this.increment(payload || 1)
+			dispatch.sharks.increment(payload)
+            // `dispatch.s` will suggest `sharks`
 		},
-	},
-})
+	}),
+}
 ```
 
 ### Connect
 
 import your store typings and use them to infer connectedProps.
 
-```typescript
+```typescript jsx
 import * as React from 'react'
 import { connect } from 'react-redux'
 
@@ -76,8 +75,6 @@ const mapDispatch = (dispatch: Dispatch) => ({
 
 type connectedProps = ReturnType<typeof mapState> &
 	ReturnType<typeof mapDispatch>
-// to include additional typings
-// use `type Props = connectedProps & { ...additionalTypings }
 type Props = connectedProps
 
 class Count extends React.Component<Props> {
