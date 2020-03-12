@@ -23,6 +23,10 @@ const dispatchPlugin: R.Plugin = {
 		 * @param action R.Action
 		 */
 		dispatch(action: R.Action) {
+			if (action.type && this.effects[action.type]) {
+				const [modelName, actionName] = action.type.split('/')
+				return this.dispatch[modelName][actionName](action.payload, action.meta)
+			}
 			return this.storeDispatch(action)
 		},
 
@@ -42,7 +46,7 @@ const dispatchPlugin: R.Plugin = {
 				if (typeof meta !== 'undefined') {
 					action.meta = meta
 				}
-				return this.dispatch(action)
+				return this.storeDispatch(action)
 			}
 		},
 	},
