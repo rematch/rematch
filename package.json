@@ -45,7 +45,7 @@
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
-    "lerna": "^3.18.3",
+    "lerna": "^3.19.0",
     "prettier": "1.19.1",
     "rimraf": "^2.6.3",
     "tsdx": "^0.11.0",
@@ -53,7 +53,6 @@
     "typescript": "^3.7.2",
     "typings-tester": "^0.3.2"
   },
-  "dependencies": {},
   "bundlesize": [
     {
       "path": "./packages/core/dist/core.umd.production.min.js",

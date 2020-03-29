@@ -1,10 +1,9 @@
-import { Model } from '@rematch/core'
 import { Dispatch } from '../store'
 import { delay } from '../helpers'
 
 export type DolphinsState = number
 
-const model: Model<DolphinsState> = {
+export const dolphins = {
 	state: 0,
 	reducers: {
 		increment: (state: DolphinsState) => state + 1,
@@ -16,5 +15,3 @@ const model: Model<DolphinsState> = {
 		},
 	}),
 }
-
-export const dolphins: typeof model = model
