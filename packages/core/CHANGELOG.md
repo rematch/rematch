@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2020-03-29
+
+### Changes
+
+- reorganized directories and files
+- changed input of validate method - it now accepts a function returning a list of validations instead of accepting directly a list, to avoid doing computation in production since it's not needed as errors won't be thrown
+- changed behaviour of validation method - it now collects and throws all errors, not just the first one
+- changed the default name assigned to stores from a number to `Rematch Store ${number}` for clarity
+- removed possibility for plugins to include any plugins in their configuration as it might introduce duplication etc. It should be easy enough to describe in a plugin's readme that some other plugin is required
+- removed `meta` parameter from action
+- removed onInit hook as there is really no use case for it, anything needed to be run could be also run in onStoreCreated
+- removed createMiddleware hook, everything that was possible with this hook can be done with `plugin.config.middlewares` option since the store that is passed to that middleware is the actual Rematch Store
+- improved typings
+- changed dispatch and effects to be internal part of core instead of plugins
+- added new hooks for plugins - onReducer and onRootReducer
+
 ## [1.4.0] - 2020-02-22
 
 ### Changes

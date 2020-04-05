@@ -1,19 +1,19 @@
 {
   "name": "@rematch/loading",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "description": "Loading indicator plugin for Rematch",
   "homepage": "https://rematch.github.io/rematch",
   "main": "dist/index.js",
   "module": "dist/loading.esm.js",
   "browser": "dist/loading.esm.js",
   "unpkg": "dist/loading.umd.production.min.js",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build --format cjs,esm,umd",
     "test": "tsdx test",
     "lint": "eslint . --ext .js,.ts,.json",
-    "clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
+    "clean": "rimraf dist"
   },
   "files": [
     "dist",
@@ -22,7 +22,7 @@
   "dependencies": {},
   "devDependencies": {
     "@rematch/core": "^2.0.0",
-    "husky": "^3.1.0",
+    "@types/redux-immutable": "^4.0.1",
     "immutable": "^3.8.2",
     "redux-immutable": "^4.0.0"
   },

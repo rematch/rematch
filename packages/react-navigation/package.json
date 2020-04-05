@@ -7,25 +7,24 @@
   "module": "dist/react-navigation.esm.js",
   "browser": "dist/react-navigation.esm.js",
   "unpkg": "dist/react-navigation.umd.production.min.js",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build --format cjs,esm,umd",
     "test": "tsdx test --passWithNoTests",
     "lint": "eslint . --ext .js,.ts,.json",
-    "clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
+    "clean": "rimraf dist"
   },
   "files": [
     "dist",
     "src"
   ],
   "dependencies": {
-    "react-navigation-redux-helpers": "^1.0.6"
+    "react-navigation-redux-helpers": "^4.0.1"
   },
   "devDependencies": {
     "@rematch/core": "^2.0.0",
-    "husky": "^3.1.0",
-    "react-navigation": "^1.5.11"
+    "react-navigation": "^4.3.7"
   },
   "peerDependencies": {
     "@rematch/core": ">=2.0.0",

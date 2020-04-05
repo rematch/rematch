@@ -1,403 +1,458 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-import { init } from '../src'
-import * as R from '../src/typings'
+import { Middleware } from 'redux'
+import { init, ExtractRematchDispatchersFromModel } from '../src'
 
 describe('effects:', () => {
-  test('should create an action', () => {
-    const count: R.Model = {
-      state: 0,
-      effects: {
-        add: () => 1,
-      },
-      reducers: {},
-    }
+	test('should create an action', () => {
+		const count = {
+			state: 0,
+			effects: {
+				add: (): number => 1,
+			},
+			reducers: {},
+		}
 
-    const store = init({
-      models: { count },
-    })
+		const store = init({
+			models: { count },
+		})
 
-    expect(typeof store.dispatch.count.add).toBe('function')
-  })
-  test('first param should be payload', async () => {
-    let value = 1
+		expect(typeof store.dispatch.count.add).toBe('function')
+	})
 
-    const count = {
-      state: 0,
-      effects: {
-        add(payload) {
-          value += payload
-        },
-      },
-      reducers: {},
-    }
+	test('first param should be payload', async () => {
+		let value = 1
 
-    const store = init({
-      models: { count },
-    })
+		const count = {
+			state: 0,
+			effects: {
+				add(payload: number): void {
+					value += payload
+				},
+			},
+			reducers: {},
+		}
 
-    await store.dispatch({ type: 'count/add', payload: 4 })
+		const store = init({
+			models: { count },
+		})
 
-    expect(value).toBe(5)
-  })
+		store.dispatch({ type: 'count/add', payload: 4 })
 
-  test('second param should contain state', async () => {
-    let secondParam
+		expect(value).toBe(5)
+	})
 
-    const count = {
-      state: 7,
-      reducers: {
-        add: (s, p) => s + p,
-      },
-      effects: {
-        async makeCall(_payload, state) {
-          secondParam = state
-        },
-      },
-    }
+	test('second param should contain state', async () => {
+		let secondParam = 0
 
-    const store = init({
-      models: { count },
-    })
+		const count = {
+			state: 7,
+			reducers: {
+				add: (s: number, p: number): number => s + p,
+			},
+			effects: {
+				makeCall(_payload: number, state: number): void {
+					secondParam = state
+				},
+			},
+		}
 
-    await store.dispatch.count.makeCall(2)
+		const store = init({
+			models: { count },
+		})
 
-    expect(secondParam).toEqual({ count: 7 })
-  })
+		store.dispatch.count.makeCall(2)
 
-  // test('should create an effect', () => {
-  //   const store = init()
+		expect(secondParam).toEqual({ count: 7 })
+	})
 
-  //   store.model({
-  //     name: 'example',
-  //     state: 0,
-  //     effects: {
-  //       add: () => 1
-  //     },
-  //   })
+	test('should create an effect dynamically', () => {
+		const store = init()
 
-  //   expect(effects['example/add']()).toBe(1)
-  // })
+		store.addModel({
+			name: 'example',
+			state: 0,
+			effects: {
+				add(this: any): void {
+					this.addOne()
+				},
+			},
+			reducers: {
+				addOne: (): number => 1,
+			},
+		})
 
-  test('should be able to trigger another action', async () => {
-    const example = {
-      state: 0,
-      reducers: {
-        addOne: state => state + 1,
-      },
-      effects: {
-        async asyncAddOneArrow() {
-          // @ts-ignore
-          await this.addOne()
-        },
-      },
-    }
+		store.dispatch({ type: 'example/add' })
+		expect(store.getState().example).toBe(1)
+	})
 
-    const store = init({
-      models: { example },
-    })
+	test('should be able to trigger another action', async () => {
+		type CountState = number
+		type CountModel = {
+			state: number
+			reducers: {
+				addOne(state: CountState): CountState
+			}
+			effects: {
+				asyncAddOneArrow(): Promise<void>
+			}
+		}
 
-    await store.dispatch.example.asyncAddOneArrow()
+		const example: CountModel = {
+			state: 0,
+			reducers: {
+				addOne: (state: CountState): CountState => state + 1,
+			},
+			effects: {
+				async asyncAddOneArrow(
+					this: ExtractRematchDispatchersFromModel<CountModel>
+				): Promise<void> {
+					await this.addOne()
+				},
+			},
+		}
 
-    expect(store.getState()).toEqual({
-      example: 1,
-    })
-  })
+		const store = init({
+			models: { example },
+		})
 
-  // currently no solution for arrow functions as they are often transpiled by Babel or Typescript
-  // there is no clear way to detect arrow functions
-  // xtest('should be able trigger a local reducer using arrow functions and `this`', async () => {
-  //   const { model, init, dispatch } = require('../src')
-  //   const store = init()
-  //
-  //   model({
-  //     name: 'example',
-  //     state: 0,
-  //     reducers: {
-  //       addOne: (state) => state + 1,
-  //     },
-  //     effects: {
-  //       asyncAddOneArrow: async () => {
-  //         await this.addOne()
-  //       }
-  //     }
-  //   })
-  //
-  //   await dispatch.example.asyncAddOneArrow()
-  //
-  //   expect(store.getState()).toEqual({
-  //     example: 1,
-  //   })
-  // })
+		await store.dispatch.example.asyncAddOneArrow().result
 
-  test('should be able trigger a local reducer using functions and `this`', async () => {
-    const example = {
-      state: 0,
-      reducers: {
-        addOne: state => state + 1,
-      },
-      effects: {
-        async asyncAddOne() {
-          // @ts-ignore
-          await this.addOne()
-        },
-      },
-    }
+		expect(store.getState()).toEqual({
+			example: 1,
+		})
+	})
 
-    const store = init({
-      models: { example },
-    })
+	test('should be able trigger a local reducer using functions and `this`', async () => {
+		type CountState = number
+		type CountModel = {
+			state: number
+			reducers: {
+				addOne(state: CountState): CountState
+			}
+			effects: {
+				asyncAddOne(): Promise<void>
+			}
+		}
 
-    await store.dispatch.example.asyncAddOne()
+		const example: CountModel = {
+			state: 0,
+			reducers: {
+				addOne: (state: CountState): CountState => state + 1,
+			},
+			effects: {
+				async asyncAddOne(
+					this: ExtractRematchDispatchersFromModel<CountModel>
+				): Promise<void> {
+					await this.addOne()
+				},
+			},
+		}
 
-    expect(store.getState()).toEqual({
-      example: 1,
-    })
-  })
+		const store = init({
+			models: { example },
+		})
 
-  test('should be able trigger a local reducer using object function shorthand and `this`', async () => {
-    const example = {
-      state: 0,
-      reducers: {
-        addOne: state => state + 1,
-      },
-      effects: {
-        async asyncAddOne() {
-          // @ts-ignore
-          await this.addOne()
-        },
-      },
-    }
+		await store.dispatch.example.asyncAddOne().result
 
-    const store = init({
-      models: { example },
-    })
+		expect(store.getState()).toEqual({
+			example: 1,
+		})
+	})
 
-    await store.dispatch.example.asyncAddOne()
+	test('should be able to trigger another action with a value', async () => {
+		type CountState = number
+		type CountModel = {
+			state: number
+			reducers: {
+				addBy(state: CountState, payload: number): CountState
+			}
+			effects: {
+				asyncAddBy(value: number, rootState: number): Promise<void>
+			}
+		}
 
-    expect(store.getState()).toEqual({
-      example: 1,
-    })
-  })
+		const example: CountModel = {
+			state: 2,
+			reducers: {
+				addBy: (state: CountState, payload: number): CountState =>
+					state + payload,
+			},
+			effects: {
+				async asyncAddBy(
+					this: ExtractRematchDispatchersFromModel<CountModel>,
+					value: number
+				): Promise<void> {
+					await this.addBy(value)
+				},
+			},
+		}
 
-  test('should be able to trigger another action with a value', async () => {
-    const example = {
-      state: 2,
-      reducers: {
-        addBy: (state, payload) => state + payload,
-      },
-      effects: {
-        async asyncAddBy(value) {
-          // @ts-ignore
-          await this.addBy(value)
-        },
-      },
-    }
+		const store = init({
+			models: { example },
+		})
 
-    const store = init({
-      models: { example },
-    })
+		await store.dispatch.example.asyncAddBy(5).result
 
-    await store.dispatch.example.asyncAddBy(5)
+		expect(store.getState()).toEqual({
+			example: 7,
+		})
+	})
 
-    expect(store.getState()).toEqual({
-      example: 7,
-    })
-  })
+	test('should be able to trigger another action w/ an object value', async () => {
+		type CountState = number
+		type CountModel = {
+			state: number
+			reducers: {
+				addBy(state: CountState, payload: { value: number }): CountState
+			}
+			effects: {
+				asyncAddBy(payload: { value: number }, rootState: number): Promise<void>
+			}
+		}
 
-  test('should be able to trigger another action w/ an object value', async () => {
-    const example = {
-      state: 3,
-      reducers: {
-        addBy: (state, payload) => state + payload.value,
-      },
-      effects: {
-        async asyncAddBy(value) {
-          // @ts-ignore
-          await this.addBy(value)
-        },
-      },
-    }
+		const example: CountModel = {
+			state: 3,
+			reducers: {
+				addBy: (state: CountState, payload: { value: number }): CountState =>
+					state + payload.value,
+			},
+			effects: {
+				async asyncAddBy(
+					this: ExtractRematchDispatchersFromModel<CountModel>,
+					payload: { value: number }
+				): Promise<void> {
+					await this.addBy(payload)
+				},
+			},
+		}
 
-    const store = init({
-      models: { example },
-    })
+		const store = init({
+			models: { example },
+		})
 
-    await store.dispatch.example.asyncAddBy({ value: 6 })
+		await store.dispatch.example.asyncAddBy({ value: 6 }).result
 
-    expect(store.getState()).toEqual({
-      example: 9,
-    })
-  })
+		expect(store.getState()).toEqual({
+			example: 9,
+		})
+	})
 
-  test('should be able to trigger another action w/ another action', async () => {
-    const example = {
-      name: 'example',
-      state: 0,
-      reducers: {
-        addOne: state => state + 1,
-      },
-      effects: {
-        async asyncAddOne() {
-          // @ts-ignore
-          await this.addOne()
-        },
-        async asyncCallAddOne() {
-          await this.asyncAddOne()
-        },
-      },
-    }
+	test('should be able to trigger another action w/ another action', async () => {
+		type CountState = number
+		type CountModel = {
+			state: number
+			reducers: {
+				addOne(state: CountState): CountState
+			}
+			effects: {
+				asyncAddOne(): Promise<void>
+				asyncCallAddOne(): Promise<void>
+			}
+		}
+		type EffectThis = ExtractRematchDispatchersFromModel<CountModel>
 
-    const store = init({
-      models: { example },
-    })
+		const example: CountModel = {
+			state: 0,
+			reducers: {
+				addOne: (state: CountState): CountState => state + 1,
+			},
+			effects: {
+				async asyncAddOne(this: EffectThis): Promise<void> {
+					await this.addOne()
+				},
+				async asyncCallAddOne(this: EffectThis): Promise<void> {
+					await this.asyncAddOne()
+				},
+			},
+		}
 
-    await store.dispatch.example.asyncCallAddOne()
+		const store = init({
+			models: { example },
+		})
 
-    expect(store.getState()).toEqual({
-      example: 1,
-    })
-  })
+		await store.dispatch.example.asyncCallAddOne().result
 
-  test('should be able to trigger another action w/ multiple actions', async () => {
-    const example = {
-      state: 0,
-      reducers: {
-        addBy: (state, payload) => state + payload,
-      },
-      effects: {
-        async asyncAddOne() {
-          // @ts-ignore
-          await this.addBy(1)
-        },
-        async asyncAddThree() {
-          // @ts-ignore
-          await this.addBy(3)
-        },
-        async asyncAddSome() {
-          await this.asyncAddThree()
-          await this.asyncAddOne()
-          await this.asyncAddOne()
-        },
-      },
-    }
+		expect(store.getState()).toEqual({
+			example: 1,
+		})
+	})
 
-    const store = init({
-      models: { example },
-    })
+	test('should be able to trigger another action w/ multiple actions', async () => {
+		type CountState = number
+		type CountModel = {
+			state: number
+			reducers: {
+				addBy(state: CountState, payload: number): CountState
+			}
+			effects: {
+				asyncAddOne(): Promise<void>
+				asyncAddThree(): Promise<void>
+				asyncAddSome(): Promise<void>
+			}
+		}
+		type EffectThis = ExtractRematchDispatchersFromModel<CountModel>
 
-    await store.dispatch.example.asyncAddSome()
+		const example: CountModel = {
+			state: 0,
+			reducers: {
+				addBy: (state: CountState, payload: number): CountState =>
+					state + payload,
+			},
+			effects: {
+				async asyncAddOne(this: EffectThis): Promise<void> {
+					await this.addBy(1)
+				},
+				async asyncAddThree(this: EffectThis): Promise<void> {
+					await this.addBy(3)
+				},
+				async asyncAddSome(this: EffectThis): Promise<void> {
+					await this.asyncAddThree()
+					await this.asyncAddOne()
+					await this.asyncAddOne()
+				},
+			},
+		}
 
-    await setTimeout(() => {
-      expect(store.getState()).toEqual({
-        example: 5,
-      })
-    })
-  })
+		const store = init({
+			models: { example },
+		})
 
-  test('should throw if the effect name is invalid', () => {
-    const store = init()
+		await store.dispatch.example.asyncAddSome().result
 
-    expect(() =>
-      store.model({
-        name: 'a',
-        state: 42,
-        effects: {
-          'invalid/effect': () => 43,
-        },
-        reducers: {},
-      })
-    ).toThrow()
-  })
+		expect(store.getState()).toEqual({
+			example: 5,
+		})
+	})
 
-  test('should throw if the effect is not a function', () => {
-    const store = init()
+	test('should throw if the effect name is invalid', () => {
+		const store = init()
 
-    expect(() =>
-      store.model({
-        name: 'a',
-        state: 42,
-        // @ts-ignore
-        effects: {
-          is43: 43,
-        },
-      })
-    ).toThrow()
-  })
+		expect(() =>
+			store.addModel({
+				name: 'a',
+				state: 42,
+				effects: {
+					'invalid/effect': (): number => 43,
+				},
+				reducers: {},
+			})
+		).toThrow()
+	})
 
-  test('should appear as an action for devtools', async () => {
-    const actions: string[] = []
+	test('should throw if the effect is not a function', () => {
+		const store = init()
 
-    const store = init({
-      models: {
-        count: {
-          state: 0,
-          reducers: {
-            addOne(state) {
-              return state + 1
-            },
-          },
-          effects: dispatch => ({
-            addOneAsync() {
-              dispatch.count.addOne()
-            },
-          }),
-        },
-      },
-      redux: {
-        middlewares: [
-          () => next => action => {
-            actions.push(action.type)
-            return next(action)
-          },
-        ],
-      },
-    })
+		expect(() =>
+			store.addModel({
+				name: 'a',
+				state: 42,
+				effects: {
+					is43: 43,
+				},
+			} as any)
+		).toThrow()
+	})
 
-    await store.dispatch.count.addOneAsync()
-    expect(actions).toEqual(['count/addOneAsync', 'count/addOne'])
-  })
+	test('should appear as an action for devtools', async () => {
+		const actions: string[] = []
+		const middleware: Middleware = () => (next) => (action): any => {
+			actions.push(action.type)
+			return next(action)
+		}
 
-  test('should not validate effect if production', () => {
-    process.env.NODE_ENV = 'production'
+		type CountState = number
+		type CountModel = {
+			state: CountState
+			reducers: {
+				addOne(state: CountState): CountState
+			}
+			effects(
+				dispatch: any
+			): {
+				addOneAsync(): void
+			}
+		}
 
-    const count = {
-      state: 0,
-      effects: {
-        'add/invalid': state => state + 1,
-      },
-      reducers: {},
-    }
+		const count: CountModel = {
+			state: 0,
+			reducers: {
+				addOne(state: CountState): CountState {
+					return state + 1
+				},
+			},
+			effects: (dispatch) => ({
+				addOneAsync(): void {
+					dispatch.count.addOne()
+				},
+			}),
+		}
 
-    expect(() =>
-      init({
-        models: { count },
-      })
-    ).not.toThrow()
-  })
+		const store = init({
+			models: {
+				count,
+			},
+			redux: {
+				middlewares: [middleware],
+			},
+		})
 
-  describe('effects as a function', () => {
-    it('should pass dispatch in as a function', async () => {
-      const example = {
-        state: 0,
-        reducers: {
-          addOne: state => state + 1,
-        },
-        effects: dispatch => ({
-          async asyncAddOneArrow() {
-            await dispatch.example.addOne()
-          },
-        }),
-      }
+		store.dispatch.count.addOneAsync()
+		expect(actions).toEqual(['count/addOneAsync', 'count/addOne'])
+	})
 
-      const store = init({
-        models: { example },
-      })
+	test('should not validate effect if production', () => {
+		process.env.NODE_ENV = 'production'
 
-      await store.dispatch.example.asyncAddOneArrow()
+		const count = {
+			state: 0,
+			effects: {
+				'add/invalid': (state: number): number => state + 1,
+			},
+			reducers: {},
+		}
 
-      expect(store.getState()).toEqual({
-        example: 1,
-      })
-    })
-  })
+		expect(() =>
+			init({
+				models: { count },
+			})
+		).not.toThrow()
+	})
+
+	describe('effects as a function', () => {
+		it('should pass dispatch in as a function', async () => {
+			type CountState = number
+			type CountModel = {
+				state: CountState
+				reducers: {
+					addOne(state: CountState): CountState
+				}
+				effects(
+					dispatch: any
+				): {
+					asyncAddOneArrow(): Promise<void>
+				}
+			}
+
+			const example: CountModel = {
+				state: 0,
+				reducers: {
+					addOne: (state: CountState): CountState => state + 1,
+				},
+				effects: (dispatch) => ({
+					async asyncAddOneArrow(): Promise<void> {
+						await dispatch.example.addOne()
+					},
+				}),
+			}
+
+			const store = init({
+				models: { example },
+			})
+
+			await store.dispatch.example.asyncAddOneArrow().result
+
+			expect(store.getState()).toEqual({
+				example: 1,
+			})
+		})
+	})
 })

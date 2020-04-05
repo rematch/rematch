@@ -1,33 +1,33 @@
 {
   "name": "@rematch/immer",
   "version": "2.0.0",
-  "description": "Redux-Immer plugin for Rematch. Provides immutable ability for rematch.",
+  "description": "Redux-Immer v6 plugin for Rematch. Provides immutable ability for rematch.",
   "homepage": "https://rematch.github.io/rematch",
   "main": "dist/index.js",
   "module": "dist/immer.esm.js",
   "browser": "dist/immer.esm.js",
   "unpkg": "dist/immer.umd.production.min.js",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build --format cjs,esm,umd",
     "test": "tsdx test",
     "lint": "eslint . --ext .js,.ts,.json",
-    "clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
+    "clean": "rimraf dist"
   },
   "files": [
     "dist",
     "src"
   ],
   "dependencies": {
-    "immer": "^5.0.0"
+    "immer": "^6.0.3"
   },
   "devDependencies": {
-    "@rematch/core": "^2.0.0",
-    "husky": "^3.1.0"
+    "@rematch/core": "^2.0.0"
   },
   "peerDependencies": {
-    "@rematch/core": ">=2.0.0"
+    "@rematch/core": ">=2.0.0",
+	"redux": "*"
   },
   "husky": {
     "hooks": {

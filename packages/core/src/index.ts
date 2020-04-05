@@ -1,35 +1,19 @@
-import Rematch from './rematch'
-import * as R from './typings'
-import mergeConfig from './utils/mergeConfig'
+import createRematchStore from './rematchStore'
+import { InitConfig, Models, RematchStore } from './types'
+import createConfig from './config'
 
 /**
- * global createModel
- *
- * creates a model for the given object
- * this is for autocomplete purposes only
- * returns the same object that was received as argument
+ * Prepares a complete configuration and creates a Rematch store.
  */
-export function createModel<S = any, M extends R.Model<S> = any>(model: M): M {
-  return model
-}
-
-// incrementer used to provide a store name if none exists
-let count = 0
-
-/**
- * init
- *
- * generates a Rematch store
- * with a set configuration
- * @param initConfig
- */
-export const init = (initConfig: R.InitConfig = {}): R.RematchStore => {
-  const name = initConfig.name || count.toString()
-  count += 1
-  const config: R.Config = mergeConfig({ ...initConfig, name })
-  return new Rematch(config).createStore()
+export const init = <M extends Models>(
+	initConfig?: InitConfig<M>
+): RematchStore<M> => {
+	const config = createConfig(initConfig || {})
+	return createRematchStore(config)
 }
 
 export default {
-  init,
+	init,
 }
+
+export * from './types'

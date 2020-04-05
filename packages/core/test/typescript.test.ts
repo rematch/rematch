@@ -1,20 +1,20 @@
-/* eslint-disable no-loop-func */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { check } from 'typings-tester'
-import path from 'path'
+import { resolve } from 'path'
 
-const tsDirectory = path.resolve(__dirname, '../../../examples/ts')
-const examples = ['count', 'hooks']
+const tsDirectory = resolve(__dirname, '../../../examples')
+const examples = ['count-react-ts', 'hooks-react-ts']
 
 describe('typings', () => {
-  for (const example of examples) {
-    test(`should compile and run "${tsDirectory}/${example}" without error`, () => {
-      expect(() =>
-        check(
-          [`${tsDirectory}/${example}/src/index.tsx`],
-          `${tsDirectory}/${example}/tsconfig.json`
-        )
-      ).not.toThrow()
-    })
-  }
+	for (const example of examples) {
+		// eslint-disable-next-line no-loop-func
+		test(`should compile and run "${tsDirectory}/${example}" without error`, () => {
+			expect(() =>
+				check(
+					[`${tsDirectory}/${example}/src/index.tsx`],
+					`${tsDirectory}/${example}/tsconfig.json`
+				)
+			).not.toThrow()
+		})
+	}
 })

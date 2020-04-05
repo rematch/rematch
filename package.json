@@ -30,33 +30,38 @@
     "test": "lerna run test",
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "eslint . --ext .js,.ts --fix",
-    "docs:serve": "docsify serve docs",
+    "docs": "docsify serve docs",
     "size": "bundlesize"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.23",
-    "@typescript-eslint/eslint-plugin": "^2.9.0",
-    "@typescript-eslint/parser": "^2.9.0",
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.25.0",
+    "@typescript-eslint/parser": "^2.25.0",
     "bundlesize": "^0.18.0",
-    "coveralls": "^3.0.6",
-    "docsify-cli": "^4.3.0",
-    "eslint": "^6.7.2",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-config-prettier": "^6.7.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-prettier": "^3.1.1",
-    "lerna": "^3.19.0",
-    "prettier": "1.19.1",
-    "rimraf": "^2.6.3",
-    "tsdx": "^0.11.0",
-    "tslib": "^1.10.0",
-    "typescript": "^3.7.2",
-    "typings-tester": "^0.3.2"
+    "coveralls": "^3.0.11",
+    "docsify-cli": "^4.4.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "lerna": "^3.20.2",
+    "prettier": "^2.0.2",
+    "rimraf": "^3.0.2",
+    "tsdx": "^0.13.1",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
   },
   "bundlesize": [
     {
       "path": "./packages/core/dist/core.umd.production.min.js",
       "maxSize": "6 kB"
     }
-  ]
+  ],
+  "husky": {
+	"hooks": {
+	  "pre-commit": "npm run lint"
+	}
+  }
 }

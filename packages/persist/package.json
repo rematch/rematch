@@ -1,19 +1,19 @@
 {
   "name": "@rematch/persist",
   "version": "2.0.0",
-  "description": "Redux-Persist v5 plugin for Rematch. Provides simple redux state persistence using local storage options.",
+  "description": "Redux-Persist v6 plugin for Rematch. Provides simple redux state persistence using local storage options.",
   "homepage": "https://rematch.github.io/rematch",
   "main": "dist/index.js",
   "module": "dist/persist.esm.js",
   "browser": "dist/persist.esm.js",
   "unpkg": "dist/persist.umd.production.min.js",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build --format cjs,esm,umd",
     "test": "tsdx test",
     "lint": "eslint . --ext .js,.ts,.json",
-    "clean": "rimraf dist .rts2_cache_cjs .rts2_cache_esm .rts2_cache_umd"
+    "clean": "rimraf dist"
   },
   "files": [
     "dist",
@@ -23,11 +23,11 @@
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
-    "@rematch/core": "^2.0.0",
-    "husky": "^3.1.0"
+    "@rematch/core": "^2.0.0"
   },
   "peerDependencies": {
-    "@rematch/core": ">=2.0.0"
+    "@rematch/core": ">=2.0.0",
+	"redux": "*"
   },
   "husky": {
     "hooks": {
