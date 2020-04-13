@@ -1,13 +1,5 @@
-import { InitConfig, Config } from './types'
+import { InitConfig, Config, Models } from './types'
 import { validateConfig, validatePlugin } from './validate'
-
-/**
- * Shallow merges original object with the extra object, giving the precedence
- * to the original object.
- */
-const merge = <T extends object>(original: T, extra: T | undefined): T => {
-	return extra ? { ...extra, ...original } : original
-}
 
 let count = 0
 
@@ -16,9 +8,9 @@ let count = 0
  * supplied by the user. Additionally, applies changes to the config made by
  * the plugins selected by the user.
  */
-const createConfig = <M extends object>(
-	initConfig: InitConfig<M>
-): Config<M> => {
+export default function createConfig<TModels extends Models>(
+	initConfig: InitConfig<TModels>
+): Config<TModels> {
 	const storeName = initConfig.name ?? `Rematch Store ${count}`
 
 	count += 1
@@ -38,7 +30,7 @@ const createConfig = <M extends object>(
 				...(initConfig.redux?.devtoolOptions ?? {}),
 			},
 		},
-	} as Config
+	} as Config<TModels>
 
 	validateConfig(config)
 
@@ -86,7 +78,13 @@ const createConfig = <M extends object>(
 		validatePlugin(plugin)
 	}
 
-	return config as Config<M>
+	return config
 }
 
-export default createConfig
+/**
+ * Shallow merges original object with the extra object, giving the precedence
+ * to the original object.
+ */
+function merge<T extends object>(original: T, extra: T | undefined): T {
+	return extra ? { ...extra, ...original } : original
+}

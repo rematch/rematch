@@ -6,7 +6,6 @@ import {
 	Models,
 	RematchStore,
 	Reducer,
-	EffectAction,
 } from '@rematch/core'
 
 export interface LoadingConfig {
@@ -16,13 +15,15 @@ export interface LoadingConfig {
 	asNumber?: boolean
 }
 
-export interface LoadingState<M extends Models, AsNumber extends boolean> {
+export interface LoadingState<
+	M extends Models,
+	AsNumber extends boolean = false
+> {
 	global: AsNumber extends true ? number : boolean
 	models: { [modelName in keyof M]: AsNumber extends true ? number : boolean }
 	effects: {
 		[modelName in keyof M]: {
 			[effectName in keyof ExtractRematchDispatchersFromEffects<
-				M[modelName]['state'],
 				M[modelName]['effects']
 			>]: AsNumber extends true ? number : boolean
 		}
@@ -170,12 +171,12 @@ export default <M extends Models>(config: LoadingConfig = {}): Plugin => {
 						// show loading
 						rematch.dispatch[loadingModelName].show({ name, action })
 						// dispatch the original action
-						const effectResult = origEffect(...props) as EffectAction
+						const effectResult = origEffect(...props)
 
 						// check if result is a promise
-						if (effectResult?.result?.then) {
+						if (effectResult?.then) {
 							// hide loading when promise finishes either with success or error
-							effectResult.result
+							effectResult
 								.then((r) => {
 									rematch.dispatch[loadingModelName].hide({ name, action })
 									return r

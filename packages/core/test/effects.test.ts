@@ -1,5 +1,5 @@
 import { Middleware } from 'redux'
-import { init, ExtractRematchDispatchersFromModel } from '../src'
+import { init, ModelDispatcher } from '../src'
 
 describe('effects:', () => {
 	test('should create an action', () => {
@@ -49,7 +49,7 @@ describe('effects:', () => {
 				add: (s: number, p: number): number => s + p,
 			},
 			effects: {
-				makeCall(_payload: number, state: number): void {
+				makeCall(_: number, state: any): void {
 					secondParam = state
 				},
 			},
@@ -103,7 +103,7 @@ describe('effects:', () => {
 			},
 			effects: {
 				async asyncAddOneArrow(
-					this: ExtractRematchDispatchersFromModel<CountModel>
+					this: ModelDispatcher<CountModel>
 				): Promise<void> {
 					await this.addOne()
 				},
@@ -114,7 +114,7 @@ describe('effects:', () => {
 			models: { example },
 		})
 
-		await store.dispatch.example.asyncAddOneArrow().result
+		await store.dispatch.example.asyncAddOneArrow()
 
 		expect(store.getState()).toEqual({
 			example: 1,
@@ -139,9 +139,7 @@ describe('effects:', () => {
 				addOne: (state: CountState): CountState => state + 1,
 			},
 			effects: {
-				async asyncAddOne(
-					this: ExtractRematchDispatchersFromModel<CountModel>
-				): Promise<void> {
+				async asyncAddOne(this: ModelDispatcher<CountModel>): Promise<void> {
 					await this.addOne()
 				},
 			},
@@ -151,7 +149,7 @@ describe('effects:', () => {
 			models: { example },
 		})
 
-		await store.dispatch.example.asyncAddOne().result
+		await store.dispatch.example.asyncAddOne()
 
 		expect(store.getState()).toEqual({
 			example: 1,
@@ -166,7 +164,7 @@ describe('effects:', () => {
 				addBy(state: CountState, payload: number): CountState
 			}
 			effects: {
-				asyncAddBy(value: number, rootState: number): Promise<void>
+				asyncAddBy(value: number): Promise<void>
 			}
 		}
 
@@ -178,7 +176,7 @@ describe('effects:', () => {
 			},
 			effects: {
 				async asyncAddBy(
-					this: ExtractRematchDispatchersFromModel<CountModel>,
+					this: ModelDispatcher<CountModel>,
 					value: number
 				): Promise<void> {
 					await this.addBy(value)
@@ -190,7 +188,7 @@ describe('effects:', () => {
 			models: { example },
 		})
 
-		await store.dispatch.example.asyncAddBy(5).result
+		await store.dispatch.example.asyncAddBy(5)
 
 		expect(store.getState()).toEqual({
 			example: 7,
@@ -205,7 +203,7 @@ describe('effects:', () => {
 				addBy(state: CountState, payload: { value: number }): CountState
 			}
 			effects: {
-				asyncAddBy(payload: { value: number }, rootState: number): Promise<void>
+				asyncAddBy(payload: { value: number }): Promise<void>
 			}
 		}
 
@@ -217,7 +215,7 @@ describe('effects:', () => {
 			},
 			effects: {
 				async asyncAddBy(
-					this: ExtractRematchDispatchersFromModel<CountModel>,
+					this: ModelDispatcher<CountModel>,
 					payload: { value: number }
 				): Promise<void> {
 					await this.addBy(payload)
@@ -229,7 +227,7 @@ describe('effects:', () => {
 			models: { example },
 		})
 
-		await store.dispatch.example.asyncAddBy({ value: 6 }).result
+		await store.dispatch.example.asyncAddBy({ value: 6 })
 
 		expect(store.getState()).toEqual({
 			example: 9,
@@ -248,7 +246,7 @@ describe('effects:', () => {
 				asyncCallAddOne(): Promise<void>
 			}
 		}
-		type EffectThis = ExtractRematchDispatchersFromModel<CountModel>
+		type EffectThis = ModelDispatcher<CountModel>
 
 		const example: CountModel = {
 			state: 0,
@@ -269,7 +267,7 @@ describe('effects:', () => {
 			models: { example },
 		})
 
-		await store.dispatch.example.asyncCallAddOne().result
+		await store.dispatch.example.asyncCallAddOne()
 
 		expect(store.getState()).toEqual({
 			example: 1,
@@ -289,7 +287,7 @@ describe('effects:', () => {
 				asyncAddSome(): Promise<void>
 			}
 		}
-		type EffectThis = ExtractRematchDispatchersFromModel<CountModel>
+		type EffectThis = ModelDispatcher<CountModel>
 
 		const example: CountModel = {
 			state: 0,
@@ -316,7 +314,7 @@ describe('effects:', () => {
 			models: { example },
 		})
 
-		await store.dispatch.example.asyncAddSome().result
+		await store.dispatch.example.asyncAddSome()
 
 		expect(store.getState()).toEqual({
 			example: 5,
@@ -448,7 +446,7 @@ describe('effects:', () => {
 				models: { example },
 			})
 
-			await store.dispatch.example.asyncAddOneArrow().result
+			await store.dispatch.example.asyncAddOneArrow()
 
 			expect(store.getState()).toEqual({
 				example: 1,

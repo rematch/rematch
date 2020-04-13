@@ -1,4 +1,5 @@
-import { EffectAction, init } from '@rematch/core'
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import { init } from '@rematch/core'
 import loadingPlugin from '../src'
 import { delay, count } from './utils'
 
@@ -112,9 +113,9 @@ describe('loading asNumbers', () => {
 			plugins: [loadingPlugin({ asNumber: true })],
 		})
 
-		const effect1 = store.dispatch.count.timeout1() as EffectAction
+		const effect1 = store.dispatch.count.timeout1()
 		await delay(100)
-		const effect2 = store.dispatch.count.timeout2() as EffectAction
+		const effect2 = store.dispatch.count.timeout2()
 
 		const ld = () => store.getState().loading
 		expect(ld().effects.count.timeout1).toBe(1)
@@ -122,13 +123,13 @@ describe('loading asNumbers', () => {
 		expect(ld().models.count).toBe(2)
 		expect(ld().global).toBe(2)
 
-		await effect1.result
+		await effect1
 		expect(ld().effects.count.timeout1).toBe(0)
 		expect(ld().effects.count.timeout2).toBe(1)
 		expect(ld().models.count).toBe(1)
 		expect(ld().global).toBe(1)
 
-		await effect2.result
+		await effect2
 		expect(ld().effects.count.timeout1).toBe(0)
 		expect(ld().effects.count.timeout2).toBe(0)
 		expect(ld().models.count).toBe(0)
@@ -295,7 +296,7 @@ describe('loading asNumbers', () => {
 			},
 		})
 
-		await (store.dispatch.count.timeout() as EffectAction).result
+		await store.dispatch.count.timeout()
 		expect(actions).toEqual([
 			'loading/show',
 			'count/timeout',
@@ -342,8 +343,7 @@ describe('loading asNumbers', () => {
 			plugins: [loadingPlugin({ asNumber: true })],
 		})
 
-		const effectResult = await (store.dispatch.count.doSomething() as EffectAction)
-			.result
+		const effectResult = await store.dispatch.count.doSomething()
 
 		expect(effectResult).toEqual('foo')
 	})
@@ -364,7 +364,7 @@ describe('loading asNumbers', () => {
 			plugins: [loadingPlugin({ asNumber: true })],
 		})
 
-		const promise = (store.dispatch.count.doSomething() as EffectAction).result
+		const promise = store.dispatch.count.doSomething()
 		await expect(promise).rejects.toBe('foo')
 	})
 })

@@ -152,8 +152,8 @@ describe('multiple stores:', () => {
 		const store1 = init({ models: { count: count1 } })
 		const store2 = init({ models: { count: count2 } })
 
-		await store1.dispatch.count.asyncIncrement().result
-		await store2.dispatch.count.asyncIncrement().result
+		await store1.dispatch.count.asyncIncrement()
+		await store2.dispatch.count.asyncIncrement()
 
 		expect(calls).toEqual(['count1', 'count2'])
 	})

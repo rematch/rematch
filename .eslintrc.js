@@ -43,5 +43,6 @@ module.exports = {
 		],
 		'no-underscore-dangle': ['error', { 'allow': ['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] }],
 		'@typescript-eslint/no-explicit-any': 0,
+		'@typescript-eslint/no-use-before-define': ["error", { "functions": false }],
 	},
 }

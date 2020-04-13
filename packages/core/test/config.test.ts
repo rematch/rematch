@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { Middleware } from 'redux'
-import { init, InitConfig } from '../src'
+import { init } from '../src'
 
 describe('init config:', () => {
 	test('should not throw with an empty config', () => {
@@ -9,8 +10,10 @@ describe('init config:', () => {
 	test('should not accept invalid plugins', () => {
 		expect(() =>
 			init({
+				models: {},
+				// @ts-ignore
 				plugins: {},
-			} as InitConfig)
+			})
 		).toThrow()
 	})
 
@@ -54,9 +57,10 @@ describe('init config:', () => {
 		expect(() =>
 			init({
 				redux: {
+					// @ts-ignore
 					middlewares: {},
 				},
-			} as InitConfig)
+			})
 		).toThrow()
 	})
 
@@ -64,9 +68,10 @@ describe('init config:', () => {
 		expect(() =>
 			init({
 				redux: {
+					// @ts-ignore
 					enhancers: {},
 				},
-			} as InitConfig)
+			})
 		).toThrow()
 	})
 

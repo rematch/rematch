@@ -7,118 +7,154 @@
  * Przemyslaw Jamrozowicz https://github.com/pjamrozowicz
  */
 
-import * as Redux from 'redux'
+import {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+	// @ts-ignore
+	AnyAction,
+	Action as ReduxAction,
+	Dispatch as ReduxDispatch,
+	Reducer as ReduxReducer,
+	ReducersMapObject,
+	Middleware,
+	StoreEnhancer,
+	StoreCreator,
+	Store as ReduxStore,
+} from 'redux'
 
-export interface Action<P = any> extends Redux.Action<string> {
-	payload?: P
+/**
+ * Custom action interface adds an additional field - `payload`.
+ *
+ * Strings are used as the type for `type` field inherited from Redux, because
+ * strings are serializable.
+ *
+ * @template P The type of the action's payload.
+ */
+export interface Action<TPayload = any> extends ReduxAction<string> {
+	payload?: TPayload
 }
 
-export interface EffectAction<P = any, R = undefined> extends Action<P> {
-	result: R
-}
-
-export type Reducer<S = any, A extends Action = Action> = (
-	state: S,
-	payload?: A['payload']
-) => S
+/**
+ * Custom reducer which instead of an action (like in Redux), accepts payload as
+ * as a second argument. `payload` is extracted from action and passed to the
+ * reducer, therefore it has the same type.
+ *
+ * @template S The type of state consumed and produced by this reducer.
+ * @template A The type of actions the reducer can potentially respond to.
+ */
+export type Reducer<TState = any> = (
+	state: TState,
+	payload?: Action['payload']
+) => TState
 
 /** ************************** Model *************************** */
 
 /**
  * Mapping from a model key to model object.
  */
-export type Models<K extends string = string> = {
-	[key in K]: Model<any, any, K>
+export type Models<AllModelsKeys extends string = string> = {
+	[key in AllModelsKeys]: Model<any, any, AllModelsKeys>
 }
 
-export interface NamedModel<S = any, SS = S, K extends string = string>
-	extends Model<S, SS, K> {
+export interface NamedModel<
+	TState = any,
+	TBaseState = TState,
+	AllModelsKeys extends string = string
+> extends Model<TState, TBaseState, AllModelsKeys> {
 	name: string
+	reducers: ModelReducers<TState>
 }
 
-export interface Model<S = any, SS = S, K extends string = string> {
+export interface Model<
+	TState = any,
+	TBaseState = TState,
+	AllModelsKeys extends string = string
+> {
 	name?: string
-	state: S
-	reducers: ModelReducers<S>
-	baseReducer?: Redux.Reducer<SS>
-	effects?: ModelEffects<any> | ModelEffectsCreator<K>
+	state: TState
+	reducers?: ModelReducers<TState>
+	baseReducer?: ReduxReducer<TBaseState>
+	effects?:
+		| ModelEffects<AllModelsKeys, TState>
+		| ModelEffectsCreator<AllModelsKeys, TState>
 }
 
-export type ModelReducers<S = any> = {
-	[key: string]: Reducer<S>
+export type ModelReducers<TState = any> = {
+	[key: string]: Reducer<TState>
 }
 
-export type ModelEffects<RootState extends object> = {
-	[key: string]: ModelEffect<RootState>
+export type ModelEffects<AllModelsKeys extends string, TState> = {
+	[key: string]: ModelEffect<AllModelsKeys, TState>
 }
 
-export type ModelEffect<
-	RootState extends object,
-	R = any,
-	A extends Action = Action
-> = (payload: A['payload'], rootState: RootState) => R
-
-export type ModelEffectsCreator<K extends string> = <
-	M extends object = Models<K>
+export type ModelEffect<AllModelsKeys extends string, TState> = <
+	TModel extends Model<TState>,
+	TModels extends object = Models<AllModelsKeys>
 >(
-	dispatch: RematchDispatch<M>
-) => ModelEffects<RematchRootState<M>>
+	this: ModelDispatcher<TModel>,
+	payload: Action['payload'],
+	rootState: RematchRootState<TModels>
+) => any
+
+export type ModelEffectsCreator<AllModelsKeys extends string, TState> = <
+	TModels extends object = Models<AllModelsKeys>
+>(
+	dispatch: RematchDispatch<TModels>
+) => ModelEffects<AllModelsKeys, TState>
 
 /** ************************** Plugin *************************** */
 
-export interface Plugin<M extends object = Models> extends PluginHooks<M> {
-	config?: InitConfig<M>
-	exposed?: PluginExposed<M>
+export interface PluginConfig<TExposedModels extends Models> {
+	models?: TExposedModels
+	redux?: InitConfigRedux
 }
 
-export interface PluginHooks<M extends object = Models<any>> {
-	onStoreCreated?: StoreCreatedHook<M>
-	onModel?: ModelHook<M>
-	onReducer?: ReducerHook<M>
-	onRootReducer?: RootReducerHook<M>
+export interface Plugin<TExposedModels extends Models = any>
+	extends PluginHooks {
+	config?: PluginConfig<TExposedModels>
+	exposed?: PluginExposed
+}
+
+export interface PluginHooks {
+	onStoreCreated?: StoreCreatedHook
+	onModel?: ModelHook
+	onReducer?: ReducerHook
+	onRootReducer?: RootReducerHook
 	createMiddleware?: MiddlewareCreator
 }
 
-export type ModelHook<M extends object = Models<any>> = (
+export type ModelHook = (
 	model: NamedModel<any, any, any>,
-	rematch: RematchStore<M>
+	rematch: RematchStore<any>
 ) => void
 
-export type ReducerHook<M extends object = Models<any>> = (
-	reducer: Redux.Reducer,
+export type ReducerHook = (
+	reducer: ReduxReducer,
 	modelName: string,
-	rematch: RematchBag<M>
-) => Redux.Reducer | void
+	rematch: RematchBag<any>
+) => ReduxReducer | void
 
-export type RootReducerHook<M extends object = Models<any>> = (
-	reducer: Redux.Reducer,
-	rematch: RematchBag<M>
-) => Redux.Reducer | void
+export type RootReducerHook = (
+	reducer: ReduxReducer,
+	rematch: RematchBag<any>
+) => ReduxReducer | void
 
-export type StoreCreatedHook<M extends object = Models<any>> = (
-	store: RematchStore<M>,
-	rematch: RematchBag<M>
-) => RematchStore<M> | void
+export type StoreCreatedHook<TModels extends Models = any> = (
+	store: RematchStore<TModels>,
+	rematch: RematchBag<TModels>
+) => RematchStore<TModels> | void
 
-export type MiddlewareCreator = <M extends Models<any>>(
-	rematch: RematchBag<M>
-) => Redux.Middleware
+export type MiddlewareCreator = (rematch: RematchBag<any>) => Middleware
 
 export type ObjectNotAFunction = { [k: string]: any } & (
 	| { bind?: never }
 	| { call?: never }
 )
 
-export type PluginExposed<M extends object = Models> = M extends Models<any>
-	? {
-			[key: string]: ExposedFunction<M> | ObjectNotAFunction
-	  }
-	: never
+export type PluginExposed = {
+	[key: string]: ExposedFunction | ObjectNotAFunction
+}
 
-export type ExposedFunction<M extends Models<any>> = (
-	rematch: RematchStore<M>,
-	...args: any
-) => any
+export type ExposedFunction = (rematch: RematchStore<any>, ...args: any) => any
 
 /** ************************** Rematch *************************** */
 
@@ -126,24 +162,29 @@ export type ExposedFunction<M extends Models<any>> = (
  * Object for storing information needed for the Rematch store to run.
  * Purposefully hidden from the end user.
  */
-export interface RematchBag<M extends object = Models> {
+export interface RematchBag<TModels extends object = Models> {
 	models: NamedModel[]
 	reduxConfig: ConfigRedux
-	forEachPlugin: <Key extends keyof PluginHooks<M>>(
-		method: Key,
-		fn: (content: NonNullable<PluginHooks<M>[Key]>) => void
+	forEachPlugin: <Hook extends keyof PluginHooks>(
+		method: Hook,
+		fn: (content: NonNullable<PluginHooks[Hook]>) => void
 	) => void
-	effects: ModelEffects<RematchRootState<M>>
+	effects: TModels extends Models<infer AllModelsKeys>
+		? ModelEffects<AllModelsKeys, any>
+		: never
 }
 
 /**
  * Initial, optional configuration provided by the user which describes how
  * Rematch store should be configured. Also used by Plugins.
+ *
+ * Plugins are not passed M models since M generic might actually be based
+ * on a model created by plugins, which would cause type issues.
  */
-export interface InitConfig<M extends object = Models> {
+export interface InitConfig<TModels extends Models> {
 	name?: string
-	models?: M
-	plugins?: Plugin<M>[]
+	models?: TModels
+	plugins?: Plugin[]
 	redux?: InitConfigRedux
 }
 
@@ -151,11 +192,14 @@ export interface InitConfig<M extends object = Models> {
  * Config created out of the InitConfig by filling in missing properties with
  * default values and merging in modifications required by plugins
  * (new models, etc.).
+ *
+ * Plugins are not passed M models since M generic might actually be based
+ * on a model created by plugins, which would cause type issues.
  */
-export interface Config<M extends object = Models> extends InitConfig<M> {
+export interface Config<TModels extends Models> extends InitConfig<TModels> {
 	name: string
-	models: M
-	plugins: Plugin<M>[]
+	models: TModels
+	plugins: Plugin[]
 	redux: ConfigRedux
 }
 
@@ -166,16 +210,16 @@ export interface Config<M extends object = Models> extends InitConfig<M> {
  * to gain full control over the way Redux is configured by Rematch and
  * override any defaults.
  */
-export interface InitConfigRedux<S = any> {
-	initialState?: S
-	reducers?: ModelReducers<S>
-	enhancers?: Redux.StoreEnhancer[]
-	middlewares?: Redux.Middleware[]
-	rootReducers?: Redux.ReducersMapObject<S, Action>
+export interface InitConfigRedux<TRootState = any> {
+	initialState?: TRootState
+	reducers?: ModelReducers<TRootState>
+	enhancers?: StoreEnhancer[]
+	middlewares?: Middleware[]
+	rootReducers?: ReducersMapObject<TRootState, Action>
 	combineReducers?: (
-		reducers: Redux.ReducersMapObject<S, Action>
-	) => Redux.Reducer<S>
-	createStore?: Redux.StoreCreator
+		reducers: ReducersMapObject<TRootState, Action>
+	) => ReduxReducer<TRootState>
+	createStore?: StoreCreator
 	devtoolOptions?: DevtoolOptions
 }
 
@@ -183,21 +227,24 @@ export interface InitConfigRedux<S = any> {
  * Config created out of InitConfigRedux by supplying default values in place
  * of missing properties.
  */
-export interface ConfigRedux<S = any> extends InitConfigRedux<S> {
-	reducers: ModelReducers<S>
-	enhancers: Redux.StoreEnhancer[]
-	middlewares: Redux.Middleware[]
-	rootReducers: Redux.ReducersMapObject<S, Action>
+export interface ConfigRedux<TRootState = any>
+	extends InitConfigRedux<TRootState> {
+	reducers: ModelReducers<TRootState>
+	enhancers: StoreEnhancer[]
+	middlewares: Middleware[]
+	rootReducers: ReducersMapObject<TRootState, Action>
 }
 
-export interface RematchStore<M extends object = Models>
-	extends Redux.Store<RematchRootState<M>, Action> {
+export interface RematchStore<TModels extends object = Models>
+	extends ReduxStore<RematchRootState<TModels>, Action> {
 	name: string
 	replaceReducer: (
-		nextReducer: Redux.Reducer<RematchRootState<M>, Action>
+		nextReducer: ReduxReducer<RematchRootState<TModels>, Action>
 	) => void
-	dispatch: RematchDispatch<M>
-	addModel: (model: NamedModel<any, any, Extract<keyof M, string>>) => void
+	dispatch: RematchDispatch<TModels>
+	addModel: (
+		model: NamedModel<any, any, Extract<keyof TModels, string>>
+	) => void
 }
 
 /** ************************** Root State *************************** */
@@ -206,15 +253,15 @@ export interface RematchStore<M extends object = Models>
  * The type of state held by a store.
  */
 export type RematchRootState<
-	M extends object = Models
-> = ExtractRematchStateFromModels<M>
+	TModels extends object = Models
+> = ExtractRematchStateFromModels<TModels>
 
 /**
  * A mapping from each model's name to a type of state it holds.
  */
-export type ExtractRematchStateFromModels<M> = {
-	[modelKey in keyof M]: M[modelKey] extends Model
-		? M[modelKey]['state']
+export type ExtractRematchStateFromModels<TModels> = {
+	[modelKey in keyof TModels]: TModels[modelKey] extends Model
+		? TModels[modelKey]['state']
 		: never
 }
 
@@ -225,28 +272,28 @@ export type ExtractRematchStateFromModels<M> = {
  * an object allowing to dispatch specific actions by calling it the form of
  * dispatch[modelName][reducerName | effectName](payload).
  */
-export type RematchDispatch<M extends object = Models> = Redux.Dispatch<
+export type RematchDispatch<TModels extends object = Models> = ReduxDispatch<
 	Action
 > &
-	ExtractRematchDispatchersFromModels<M>
+	ExtractRematchDispatchersFromModels<TModels>
 
 /**
  * Goes over all models and extracts from each a type for dispatcher object
  * created by Rematch.
  */
-export type ExtractRematchDispatchersFromModels<M> = {
-	[modelKey in keyof M]: M[modelKey] extends Model
-		? ExtractRematchDispatchersFromModel<M[modelKey]>
+export type ExtractRematchDispatchersFromModels<TModels> = {
+	[modelKey in keyof TModels]: TModels[modelKey] extends Model
+		? ModelDispatcher<TModels[modelKey]>
 		: never
 }
 
 /**
  * Combines together types extracted from reducers and effects for a model.
  */
-export type ExtractRematchDispatchersFromModel<
-	M extends Model
-> = ExtractRematchDispatchersFromReducers<M['state'], M['reducers']> &
-	ExtractRematchDispatchersFromEffects<M['state'], M['effects']>
+export type ModelDispatcher<
+	TModel extends Model
+> = ExtractRematchDispatchersFromReducers<TModel['state'], TModel['reducers']> &
+	ExtractRematchDispatchersFromEffects<TModel['effects']>
 
 /** ************************ Reducers Dispatcher ************************* */
 
@@ -254,12 +301,12 @@ export type ExtractRematchDispatchersFromModel<
  * Extracts a dispatcher for each reducer that is defined for a model.
  */
 export type ExtractRematchDispatchersFromReducers<
-	S,
-	reducers extends Model<S>['reducers']
+	TState,
+	TReducers extends Model<TState>['reducers']
 > = {
-	[reducerKey in keyof reducers]: ExtractRematchDispatcherFromReducer<
-		S,
-		reducers[reducerKey]
+	[reducerKey in keyof TReducers]: ExtractRematchDispatcherFromReducer<
+		TState,
+		TReducers[reducerKey]
 	>
 }
 
@@ -272,14 +319,14 @@ export type ExtractRematchDispatchersFromReducers<
  *   argument
  */
 export type ExtractRematchDispatcherFromReducer<
-	S,
-	reducer
-> = reducer extends () => any
+	TState,
+	TReducer
+> = TReducer extends () => any
 	? RematchDispatcher
-	: reducer extends (state: S) => S
+	: TReducer extends (state: TState) => TState
 	? RematchDispatcher
-	: reducer extends (state: S, payload: infer P) => S
-	? RematchDispatcher<P>
+	: TReducer extends (state: TState, payload: infer TPayload) => TState
+	? RematchDispatcher<TPayload>
 	: never
 
 /**
@@ -288,9 +335,9 @@ export type ExtractRematchDispatcherFromReducer<
  * Otherwise, it describes dispatcher which accepts one argument - payload
  * and also returns an action.
  */
-export type RematchDispatcher<P = void> = [P] extends [void]
-	? () => Action<P>
-	: (payload: P) => Action<P>
+export type RematchDispatcher<TPayload = void> = [TPayload] extends [void]
+	? (() => Action<void>) & { isEffect: false }
+	: ((payload: TPayload) => Action<TPayload>) & { isEffect: false }
 
 /** ************************ Effects Dispatcher ************************* */
 
@@ -303,24 +350,23 @@ export type RematchDispatcher<P = void> = [P] extends [void]
  * If it's a function it infers its return type which must define effects.
  */
 export type ExtractRematchDispatchersFromEffects<
-	S,
-	effects extends Model<S>['effects']
-> = effects extends (...args: any[]) => infer R
-	? R extends ModelEffects<any>
+	TEffects extends Model['effects']
+> = TEffects extends (...args: any[]) => infer R
+	? R extends ModelEffects<any, any>
 		? ExtractRematchDispatchersFromEffectsObject<R>
 		: never
-	: effects extends ModelEffects<any>
-	? ExtractRematchDispatchersFromEffectsObject<effects>
-	: {}
+	: TEffects extends ModelEffects<any, any>
+	? ExtractRematchDispatchersFromEffectsObject<TEffects>
+	: void
 
 /**
  * Extracts a dispatcher for each effect that is defined for a model.
  */
 export type ExtractRematchDispatchersFromEffectsObject<
-	effects extends ModelEffects<any>
+	TEffects extends ModelEffects<any, any>
 > = {
-	[effectKey in keyof effects]: ExtractRematchDispatcherFromEffect<
-		effects[effectKey]
+	[effectKey in keyof TEffects]: ExtractRematchDispatcherFromEffect<
+		TEffects[effectKey]
 	>
 }
 
@@ -333,13 +379,13 @@ export type ExtractRematchDispatchersFromEffectsObject<
  *   as an argument
  */
 export type ExtractRematchDispatcherFromEffect<
-	effect extends ModelEffect<any>
-> = effect extends () => infer R
-	? EffectRematchDispatcher<R>
-	: effect extends (payload: infer P) => infer R
-	? EffectRematchDispatcher<R, P>
-	: effect extends (payload: infer P, state: any) => infer R
-	? EffectRematchDispatcher<R, P>
+	TEffect extends ModelEffect<any, any>
+> = TEffect extends () => infer TReturn
+	? EffectRematchDispatcher<TReturn>
+	: TEffect extends (payload: infer TPayload) => infer TReturn
+	? EffectRematchDispatcher<TReturn, TPayload>
+	: TEffect extends (payload: infer TPayload, state: any) => infer TReturn
+	? EffectRematchDispatcher<TReturn, TPayload>
 	: never
 
 /**
@@ -354,13 +400,24 @@ export type ExtractRematchDispatcherFromEffect<
  *   can await. It doesn't return a promise directly to make it compatible with
  *   Redux library, which is expecting an action object.
  */
-export type EffectRematchDispatcher<R = any, P = void> = [P] extends [void]
-	? (() => EffectAction<void, R>) & { isEffect: true }
-	: ((payload: P) => EffectAction<P, R>) & { isEffect: true }
+export type EffectRematchDispatcher<TReturn = any, TPayload = void> = [
+	TPayload
+] extends [void]
+	? (() => TReturn) & { isEffect: true }
+	: ((payload: TPayload) => TReturn) & { isEffect: true }
 
 export interface DevtoolOptions {
 	disabled?: boolean
 	[key: string]: any
+}
+
+/**
+ * Overload Redux types
+ */
+declare module 'redux' {
+	export interface Dispatch<A extends Action = AnyAction> {
+		<TReturnType = any, TPayload = any>(action: Action<TPayload>): TReturnType
+	}
 }
 
 declare global {

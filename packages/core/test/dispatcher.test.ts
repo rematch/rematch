@@ -1,4 +1,4 @@
-import { init, EffectAction, ExtractRematchDispatchersFromModel } from '../src'
+import { init, ModelDispatcher } from '../src'
 
 describe('dispatch:', () => {
 	describe('action:', () => {
@@ -223,7 +223,7 @@ describe('dispatch:', () => {
 		test('should return a promise from an effect', () => {
 			type CountState = number
 			type CountModel = {
-				state: number
+				state: CountState
 				reducers: {
 					addOne(state: CountState): CountState
 				}
@@ -238,9 +238,7 @@ describe('dispatch:', () => {
 					addOne: (state: CountState): CountState => state + 1,
 				},
 				effects: {
-					async callAddOne(
-						this: ExtractRematchDispatchersFromModel<CountModel>
-					): Promise<void> {
+					async callAddOne(this: ModelDispatcher<CountModel>): Promise<void> {
 						this.addOne()
 					},
 				},
@@ -252,7 +250,7 @@ describe('dispatch:', () => {
 
 			const dispatched = store.dispatch.count.callAddOne()
 
-			expect(typeof dispatched.result.then).toBe('function')
+			expect(typeof dispatched.then).toBe('function')
 		})
 
 		test('should return a promise that resolves to a value from an effect', async () => {
@@ -273,9 +271,7 @@ describe('dispatch:', () => {
 					addOne: (state: CountState): CountState => state + 1,
 				},
 				effects: {
-					async callAddOne(
-						this: ExtractRematchDispatchersFromModel<CountModel>
-					): Promise<object> {
+					async callAddOne(this: ModelDispatcher<CountModel>): Promise<object> {
 						this.addOne()
 						return {
 							added: true,
@@ -288,14 +284,11 @@ describe('dispatch:', () => {
 				models: { count },
 			})
 
-			const dispatched: EffectAction<
-				void,
-				Promise<object>
-			> = store.dispatch.count.callAddOne()
+			const dispatched = store.dispatch.count.callAddOne()
 
-			expect(typeof dispatched.result.then).toBe('function')
+			expect(typeof dispatched.then).toBe('function')
 
-			const value = await dispatched.result
+			const value = await dispatched
 			expect(value).toEqual({ added: true })
 		})
 	})

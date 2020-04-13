@@ -1,10 +1,14 @@
-import { EffectAction, init } from '@rematch/core'
-import loadingPlugin from '../src'
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import { init, Model } from '@rematch/core'
+import loadingPlugin, { LoadingState } from '../src'
 import { delay, count } from './utils'
 
 describe('loading asBoolean', () => {
 	test('loading.global should be 0 for normal dispatched action', () => {
-		const store = init({
+		type Models = { count: typeof count }
+		type ExtraModels = { loading: Model<LoadingState<Models>> }
+
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
 		})
@@ -122,13 +126,13 @@ describe('loading asBoolean', () => {
 		expect(ld().models.count).toBe(true)
 		expect(ld().global).toBe(true)
 
-		await (effect1 as EffectAction).result
+		await effect1
 		expect(ld().effects.count.timeout1).toBe(false)
 		expect(ld().effects.count.timeout2).toBe(true)
 		expect(ld().models.count).toBe(true)
 		expect(ld().global).toBe(true)
 
-		await (effect2 as EffectAction).result
+		await effect2
 		expect(ld().effects.count.timeout1).toBe(false)
 		expect(ld().effects.count.timeout2).toBe(false)
 		expect(ld().models.count).toBe(false)
@@ -269,7 +273,7 @@ describe('loading asBoolean', () => {
 			},
 		})
 
-		await (store.dispatch.count.timeout() as EffectAction).result
+		await store.dispatch.count.timeout()
 		expect(actions).toEqual([
 			'loading/show',
 			'count/timeout',
@@ -295,7 +299,7 @@ describe('loading asBoolean', () => {
 		})
 
 		try {
-			await (store.dispatch.count.throwError() as EffectAction).result
+			await store.dispatch.count.throwError()
 		} catch (err) {
 			expect(err.message).toBe('effect error')
 		}
@@ -317,8 +321,7 @@ describe('loading asBoolean', () => {
 			plugins: [loadingPlugin()],
 		})
 
-		const effectResult = await (store.dispatch.count.doSomething() as EffectAction)
-			.result
+		const effectResult = await store.dispatch.count.doSomething()
 
 		expect(effectResult).toEqual('foo')
 	})
@@ -340,7 +343,7 @@ describe('loading asBoolean', () => {
 			plugins: [loadingPlugin()],
 		})
 
-		const promise = (store.dispatch.count.doSomething() as EffectAction).result
+		const promise = store.dispatch.count.doSomething()
 		await expect(promise).rejects.toBe('foo')
 	})
 })

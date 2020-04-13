@@ -28,7 +28,7 @@
     "clean": "lerna run clean",
     "build": "lerna run build",
     "test": "lerna run test",
-    "lint": "eslint . --ext .js,.ts",
+    "lint": "eslint --ext .js,.ts .",
     "lint:fix": "eslint . --ext .js,.ts --fix",
     "docs": "docsify serve docs",
     "size": "bundlesize"

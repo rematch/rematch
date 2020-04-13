@@ -1,61 +1,99 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion,@typescript-eslint/ban-ts-ignore */
-import { NamedModel, Plugin, Rematch } from '@rematch/core'
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import {
+	ExtractRematchDispatchersFromEffects,
+	Models,
+	NamedModel,
+	Plugin,
+	RematchStore,
+} from '@rematch/core'
 
-export interface UpdatedConfig {
+export interface UpdatedConfig<T = Date> {
 	name?: string
+	blacklist?: string[]
+	dateCreator?(): T
 }
 
-const updatedPlugin = (config: UpdatedConfig = {}): Plugin => {
-	// model
+export type UpdatedState<M extends Models, T> = {
+	[modelName in keyof M]: {
+		[effectName in keyof ExtractRematchDispatchersFromEffects<
+			M[modelName]['effects']
+		>]: T
+	}
+}
+
+const updatedPlugin = <M extends Models = Models, T = Date>(
+	config: UpdatedConfig<T> = {}
+): Plugin => {
 	const updatedModelName = config.name || 'updated'
 	const updated = {
 		name: updatedModelName,
+		state: {} as UpdatedState<M, T>,
 		reducers: {
-			onUpdate: (state, payload) => ({
+			onUpdate: (
+				state: UpdatedState<M, T>,
+				payload: { name: string; action: string }
+			): UpdatedState<M, T> => ({
 				...state,
 				[payload.name]: {
+					// @ts-ignore
 					...state[payload.name],
-					[payload.action]: new Date(),
+					[payload.action]: config.dateCreator
+						? config.dateCreator()
+						: new Date(),
 				},
 			}),
 		},
-		state: {},
 	}
+
+	const avoidModels = [...(config.blacklist || []), updatedModelName]
+
 	return {
 		config: {
 			models: {
 				updated,
 			},
 		},
-		onModel({ name }: NamedModel, rematch: Rematch): void {
-			// do not run dispatch on loading, updated models
-			const avoidModels = [updatedModelName, 'loading']
+		onModel({ name }: NamedModel, rematch: RematchStore): void {
+			// do not run dispatch on updated model and blacklisted models
 			if (avoidModels.includes(name)) {
 				return
 			}
 
-			const modelActions = rematch.dispatch![name]
+			const modelActions = rematch.dispatch[name]
 
 			// add empty object for effects
+			// @ts-ignore
 			updated.state[name] = {}
 
 			// map over effects within models
 			for (const action of Object.keys(modelActions)) {
 				// @ts-ignore
-				if (rematch.dispatch![name][action].isEffect) {
+				if (rematch.dispatch[name][action].isEffect) {
 					// copy function
-					const fn = rematch.dispatch![name][action]
+					// @ts-ignore
+					const originalDispatcher = rematch.dispatch[name][action]
 
-					// create function with pre & post loading calls
-					const dispatchWithUpdateHook = async (props) => {
-						await fn(props)
-
-						// waits for dispatch function to finish before calling "hide"
-						rematch.dispatch![updatedModelName].onUpdate({ name, action })
-					}
 					// replace existing effect with new dispatch
 					// @ts-ignore
-					rematch.dispatch![name][action] = dispatchWithUpdateHook
+					rematch.dispatch[name][action] = (...props: any): any => {
+						// @ts-ignore
+						const effectResult = originalDispatcher(...props)
+						// check if result is a promise
+						if (effectResult?.then) {
+							effectResult.then((result: any) => {
+								// set updated when promise finishes
+								// @ts-ignore
+								rematch.dispatch[updatedModelName].onUpdate({ name, action })
+								return result
+							})
+						} else {
+							// no need to wait for the result, as it's not a promise
+							// @ts-ignore
+							rematch.dispatch[updatedModelName].onUpdate({ name, action })
+						}
+
+						return effectResult
+					}
 				}
 			}
 		},

@@ -49,7 +49,7 @@ const validate = (runValidations: () => Validation[]): void => {
 	}
 }
 
-export const validateConfig = (config: Config): void => {
+export const validateConfig = (config: Config<any>): void => {
 	validate(() => [
 		[!Array.isArray(config.plugins), 'init config.plugins must be an array'],
 		[!isObject(config.models), 'init config.models must be an object'],
@@ -132,7 +132,7 @@ export const validateModelReducer = (
 
 export const validateModelEffect = (
 	modelName: string,
-	effects: ModelEffects<any>,
+	effects: ModelEffects<any, any>,
 	effectName: string
 ): void => {
 	validate(() => [

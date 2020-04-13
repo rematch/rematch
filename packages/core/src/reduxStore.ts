@@ -7,29 +7,38 @@ import {
 	RematchBag,
 	DevtoolOptions,
 	Models,
+	RematchRootState,
 } from './types'
 
 /**
- * Determines if a reducer key is already an action name, for example -
- * a listener on another model.
+ * Creates 'combined' reducer for each model and then merges those reducers
+ * together into 'root' reducer.
+ * Then, it creates middlewares and enhancers.
  */
-const isAlreadyActionName = (reducerKey: string): boolean =>
-	reducerKey.indexOf('/') > -1
+export default function createReduxStore<TModels extends Models>(
+	bag: RematchBag<TModels>
+): Redux.Store<RematchRootState<TModels>> {
+	for (const model of bag.models) {
+		createModelReducer(bag, model)
+	}
 
-/**
- * Returns Redux Devtools compose method unless it's disabled, in which case it
- * returns default Redux.compose.
- */
-const composeEnhancersWithDevtools = (
-	devtoolOptions: DevtoolOptions = {}
-): ((...args: any[]) => Redux.StoreEnhancer) => {
-	const { disabled, ...options } = devtoolOptions
+	const rootReducer = createRootReducer<TModels, RematchRootState<TModels>>(bag)
 
-	return !disabled &&
-		typeof window === 'object' &&
-		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(options)
-		: Redux.compose
+	const middlewares = Redux.applyMiddleware(...bag.reduxConfig.middlewares)
+	const enhancers = composeEnhancersWithDevtools(
+		bag.reduxConfig.devtoolOptions
+	)(...bag.reduxConfig.enhancers, middlewares)
+
+	const createStore = bag.reduxConfig.createStore || Redux.createStore
+	const bagInitialState = bag.reduxConfig.initialState
+	const initialState = bagInitialState === undefined ? {} : bagInitialState
+
+	return createStore<
+		RematchRootState<TModels>,
+		Action,
+		any,
+		typeof initialState
+	>(rootReducer, initialState, enhancers)
 }
 
 /**
@@ -44,15 +53,12 @@ const composeEnhancersWithDevtools = (
  *
  * The final result - a function, is returned.
  */
-export const createModelReducer = <
-	M extends Models,
-	T extends NamedModel,
-	S extends T['state']
->(
-	bag: RematchBag<M>,
-	model: T
-): void => {
-	const modelReducers: ModelReducers<S> = {}
+export function createModelReducer<
+	TModels extends Models,
+	TModel extends NamedModel,
+	TState extends TModel['state']
+>(bag: RematchBag<TModels>, model: TModel): void {
+	const modelReducers: ModelReducers<TState> = {}
 
 	// build action name for each reducer and create mapping from name to reducer
 	for (const reducerKey of Object.keys(model.reducers)) {
@@ -64,7 +70,10 @@ export const createModelReducer = <
 	}
 
 	// select and run a reducer based on the incoming action
-	const combinedReducer = (state: S = model.state, action: Action): S => {
+	const combinedReducer = (
+		state: TState = model.state,
+		action: Action
+	): TState => {
 		if (action.type in modelReducers) {
 			return modelReducers[action.type](state, action.payload)
 		}
@@ -77,7 +86,7 @@ export const createModelReducer = <
 	// when baseReducer is defined, run the action first through it
 	let reducer = !modelBaseReducer
 		? combinedReducer
-		: (state: S = model.state, action: Action): S =>
+		: (state: TState = model.state, action: Action): TState =>
 				combinedReducer(modelBaseReducer(state, action), action)
 
 	bag.forEachPlugin('onReducer', (onReducer) => {
@@ -88,38 +97,23 @@ export const createModelReducer = <
 }
 
 /**
- * Merges all reducers defined in config into one function using user supplied
- * or default combineReducers function.
- * If there are no reducers defined, it returns a function that just returns
- * the state for all incoming actions.
- */
-const mergeReducers = <S>(
-	reduxConfig: ConfigRedux<S>
-): Redux.Reducer<S, Action> => {
-	const combineReducers = reduxConfig.combineReducers || Redux.combineReducers
-
-	if (!Object.keys(reduxConfig.reducers).length) {
-		return (state: any): S => state
-	}
-
-	return combineReducers(reduxConfig.reducers as Redux.ReducersMapObject)
-}
-
-/**
  * It merges all reducers in config using mergeReducers function. Additionally,
  * if user supplied any rootReducers, a wrapper function around merged reducers
  * is created. It first feeds each into its corresponding 'root' reducer (if
  * it's available), and then passes on the resulting state to the merged reducer.
  */
-export const createRootReducer = <M extends Models, S>(
-	bag: RematchBag<M>
-): Redux.Reducer<S, Action> => {
+export function createRootReducer<TModels extends Models, TRootState>(
+	bag: RematchBag<TModels>
+): Redux.Reducer<TRootState, Action> {
 	const { rootReducers } = bag.reduxConfig
-	const mergedReducers = mergeReducers<S>(bag.reduxConfig)
+	const mergedReducers = mergeReducers<TRootState>(bag.reduxConfig)
 	let rootReducer = mergedReducers
 
 	if (rootReducers && Object.keys(rootReducers).length) {
-		rootReducer = (state: S | undefined, action: Action): S => {
+		rootReducer = (
+			state: TRootState | undefined,
+			action: Action
+		): TRootState => {
 			const actionRootReducer = rootReducers[action.type]
 
 			if (actionRootReducer) {
@@ -138,29 +132,43 @@ export const createRootReducer = <M extends Models, S>(
 }
 
 /**
- * Creates 'combined' reducer for each model and then merges those reducers
- * together into 'root' reducer.
- * Then, it creates middlewares and enhancers.
+ * Merges all reducers defined in config into one function using user supplied
+ * or default combineReducers function.
+ * If there are no reducers defined, it returns a function that just returns
+ * the state for all incoming actions.
  */
-const createReduxStore = <M extends Models>(
-	bag: RematchBag<M>
-): Redux.Store => {
-	for (const model of bag.models) {
-		createModelReducer(bag, model)
+function mergeReducers<TRootState>(
+	reduxConfig: ConfigRedux<TRootState>
+): Redux.Reducer<TRootState, Action> {
+	const combineReducers = reduxConfig.combineReducers || Redux.combineReducers
+
+	if (!Object.keys(reduxConfig.reducers).length) {
+		return (state: any): TRootState => state
 	}
 
-	const rootReducer = createRootReducer(bag)
-
-	const middlewares = Redux.applyMiddleware(...bag.reduxConfig.middlewares)
-	const enhancers = composeEnhancersWithDevtools(
-		bag.reduxConfig.devtoolOptions
-	)(...bag.reduxConfig.enhancers, middlewares)
-
-	const createStore = bag.reduxConfig.createStore || Redux.createStore
-	const bagInitialState = bag.reduxConfig.initialState
-	const initialState = bagInitialState === undefined ? {} : bagInitialState
-
-	return createStore(rootReducer, initialState, enhancers)
+	return combineReducers(reduxConfig.reducers as Redux.ReducersMapObject)
 }
 
-export default createReduxStore
+/**
+ * Returns Redux Devtools compose method unless it's disabled, in which case it
+ * returns default Redux.compose.
+ */
+function composeEnhancersWithDevtools(
+	devtoolOptions: DevtoolOptions = {}
+): (...args: any[]) => Redux.StoreEnhancer {
+	const { disabled, ...options } = devtoolOptions
+
+	return !disabled &&
+		typeof window === 'object' &&
+		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(options)
+		: Redux.compose
+}
+
+/**
+ * Determines if a reducer key is already an action name, for example -
+ * a listener on another model.
+ */
+function isAlreadyActionName(reducerKey: string): boolean {
+	return reducerKey.indexOf('/') > -1
+}

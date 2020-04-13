@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import {
 	Action,
-	EffectAction,
-	ExtractRematchDispatchersFromModel,
+	ModelDispatcher,
 	ModelEffects,
 	ModelEffectsCreator,
 	Models,
@@ -10,46 +9,26 @@ import {
 	RematchBag,
 	RematchDispatcher,
 	EffectRematchDispatcher,
-	RematchRootState,
 	RematchStore,
 } from './types'
 import { validateModelEffect, validateModelReducer } from './validate'
 
 /**
  * Returns a function which dispatches action based on the model and actionName.
- */
-const createActionDispatcher = <M extends Models>(
-	rematch: RematchStore<M>,
-	modelName: string,
-	actionName: string
-): RematchDispatcher => {
-	return (payload?: any): Action => {
-		const action: Action = { type: `${modelName}/${actionName}` }
-
-		if (typeof payload !== 'undefined') {
-			action.payload = payload
-		}
-
-		return rematch.dispatch(action)
-	}
-}
-
-/**
+ *
  * Returns the intersection of action dispatcher and isEffect property.
  * isEffect is a tag on effects so they can be differentiated from regular
  * dispatchers.
  */
-const createEffectActionDispatcher = <M extends Models>(
-	rematch: RematchStore<M>,
+const createActionDispatcher = <TModels extends Models>(
+	rematch: RematchStore<TModels>,
 	modelName: string,
-	actionName: string
-): EffectRematchDispatcher => {
+	actionName: string,
+	isEffect: boolean
+): RematchDispatcher | EffectRematchDispatcher => {
 	return Object.assign(
-		(payload?: any): EffectAction => {
-			const action: EffectAction = {
-				type: `${modelName}/${actionName}`,
-				result: undefined,
-			}
+		(payload?: any): Action => {
+			const action: Action = { type: `${modelName}/${actionName}` }
 
 			if (typeof payload !== 'undefined') {
 				action.payload = payload
@@ -58,7 +37,7 @@ const createEffectActionDispatcher = <M extends Models>(
 			return rematch.dispatch(action)
 		},
 		{
-			isEffect: true as true,
+			isEffect,
 		}
 	)
 }
@@ -68,32 +47,35 @@ const createEffectActionDispatcher = <M extends Models>(
  * reducers and effects *names* to functions which dispatch their corresponding
  * actions.
  */
-const createDispatcher = <AllModels extends Models, M extends NamedModel>(
-	rematch: RematchStore<AllModels>,
-	bag: RematchBag<AllModels>,
-	model: M
-): ExtractRematchDispatchersFromModel<M> => {
-	const dispatcher = {} as ExtractRematchDispatchersFromModel<M>
+const createDispatcher = <TModels extends Models, TModel extends NamedModel>(
+	rematch: RematchStore<TModels>,
+	bag: RematchBag<TModels>,
+	model: TModel
+): ModelDispatcher<TModel> => {
+	const modelDispatcher = {} as ModelDispatcher<TModel>
 
 	// map reducer names to dispatch actions
 	for (const reducerName of Object.keys(model.reducers)) {
 		validateModelReducer(model.name, model.reducers, reducerName)
 
 		// @ts-ignore
-		dispatcher[reducerName] = createActionDispatcher(
+		modelDispatcher[reducerName] = createActionDispatcher(
 			rematch,
 			model.name,
-			reducerName
+			reducerName,
+			false
 		)
 	}
 
-	let effects: ModelEffects<RematchRootState<AllModels>> = {}
+	let effects: ModelEffects<any, TModel['state']> = {}
 
 	// 'effects' might be actually a function creating effects
 	if (model.effects) {
 		effects =
 			typeof model.effects === 'function'
-				? (model.effects as ModelEffectsCreator<any>)(rematch.dispatch)
+				? (model.effects as ModelEffectsCreator<any, TModel['state']>)(
+						rematch.dispatch
+				  )
 				: model.effects
 	}
 
@@ -101,19 +83,22 @@ const createDispatcher = <AllModels extends Models, M extends NamedModel>(
 	for (const effectName of Object.keys(effects)) {
 		validateModelEffect(model.name, effects, effectName)
 
+		// @ts-ignore
 		bag.effects[`${model.name}/${effectName}`] = effects[effectName].bind(
-			dispatcher
+			// @ts-ignore
+			modelDispatcher
 		)
 
 		// @ts-ignore
-		dispatcher[effectName] = createEffectActionDispatcher(
+		modelDispatcher[effectName] = createActionDispatcher(
 			rematch,
 			model.name,
-			effectName
+			effectName,
+			true
 		)
 	}
 
-	return dispatcher
+	return modelDispatcher
 }
 
 export default createDispatcher

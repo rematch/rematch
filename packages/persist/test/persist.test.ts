@@ -71,16 +71,17 @@ describe('persist', () => {
 		}
 
 		const store = init({
+			models: { a },
 			plugins: [
 				persistPlugin({ key: 'root', storage: createAsyncStorageMock() }),
 			],
-			models: { a },
 		})
 
 		store.dispatch.a.addOne()
 
 		const persistor = getPersistor()
 		expect(persistor.purge).toBeDefined()
+		// @ts-ignore
 		expect(store.getState()._persist).toEqual(defaultPersist)
 		expect(store.getState().a).toEqual({ b: 2 })
 	})

@@ -5,11 +5,11 @@ import createConfig from './config'
 /**
  * Prepares a complete configuration and creates a Rematch store.
  */
-export const init = <M extends Models>(
-	initConfig?: InitConfig<M>
-): RematchStore<M> => {
+export const init = <TModels extends Models, TExtraModels extends Models>(
+	initConfig?: InitConfig<TModels>
+): RematchStore<TModels & TExtraModels> => {
 	const config = createConfig(initConfig || {})
-	return createRematchStore(config)
+	return createRematchStore<TModels, TExtraModels>(config)
 }
 
 export default {
