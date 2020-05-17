@@ -12,7 +12,6 @@ import {
 	// @ts-ignore
 	AnyAction,
 	Action as ReduxAction,
-	Dispatch as ReduxDispatch,
 	Reducer as ReduxReducer,
 	ReducersMapObject,
 	Middleware,
@@ -260,13 +259,18 @@ export type ExtractRematchStateFromModels<TModels> = {
 /** ************************** Dispatch *************************** */
 
 /**
+ * Redux compatible action dispatcher.
+ */
+interface ReduxDispatch {
+	<TPayload = any, TReturnType = any>(action: Action<TPayload>): TReturnType
+}
+
+/**
  * Rematch dispatch is a combination of regular redux dispatch method and
  * an object allowing to dispatch specific actions by calling it the form of
  * dispatch[modelName][reducerName | effectName](payload).
  */
-export type RematchDispatch<TModels extends object = Models> = ReduxDispatch<
-	Action
-> &
+export type RematchDispatch<TModels extends object = Models> = ReduxDispatch &
 	ExtractRematchDispatchersFromModels<TModels>
 
 /**
@@ -402,9 +406,11 @@ export interface DevtoolOptions {
  */
 declare module 'redux' {
 	export interface Dispatch<A extends Action = AnyAction> {
-		<TReturnType = any, TPayload = any>(
-			action: Action<TPayload>
-		): TReturnType & { [key: string]: any }
+		<TAction extends A, TReturnType = any, TPayload = any>(
+			action: TAction
+		): TReturnType & {
+			[key: string]: any
+		}
 	}
 }
 
