@@ -14,11 +14,10 @@ import {
 import { validateModelEffect, validateModelReducer } from './validate'
 
 /**
- * Returns a function which dispatches action based on the model and actionName.
- *
- * Returns the intersection of action dispatcher and isEffect property.
- * isEffect is a tag on effects so they can be differentiated from regular
- * dispatchers.
+ * Builds a dispatcher for given model name and action name. The dispatched
+ * action will have a type `modelName/actionName`.
+ * Additionally, adds the isEffect property to the created dispatcher.
+ * isEffect helps to differentiate effects dispatchers from reducer dispatchers.
  */
 const createActionDispatcher = <TModels extends Models>(
 	rematch: RematchStore<TModels>,

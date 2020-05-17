@@ -12,8 +12,8 @@ import {
 
 /**
  * Creates 'combined' reducer for each model and then merges those reducers
- * together into 'root' reducer.
- * Then, it creates middlewares and enhancers.
+ * together into a 'root' reducer. It then creates a Redux store with
+ * middlewares and enhancers.
  */
 export default function createReduxStore<TModels extends Models>(
 	bag: RematchBag<TModels>

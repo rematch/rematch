@@ -22,12 +22,12 @@ import {
 } from 'redux'
 
 /**
- * Custom action interface adds an additional field - `payload`.
+ * Custom Action interface, adds an additional field - `payload`.
  *
- * Strings are used as the type for `type` field inherited from Redux, because
- * strings are serializable.
+ * Strings (instead of Symbols) are used as the type for `type` field inherited
+ * from Redux, because strings are serializable.
  *
- * @template P The type of the action's payload.
+ * @template TPayload The type of the action's payload.
  */
 export interface Action<TPayload = any> extends ReduxAction<string> {
 	payload?: TPayload
@@ -38,8 +38,7 @@ export interface Action<TPayload = any> extends ReduxAction<string> {
  * as a second argument. `payload` is extracted from action and passed to the
  * reducer, therefore it has the same type.
  *
- * @template S The type of state consumed and produced by this reducer.
- * @template A The type of actions the reducer can potentially respond to.
+ * @template TState The type of state consumed and produced by this reducer.
  */
 export type Reducer<TState = any> = (
 	state: TState,
@@ -50,6 +49,8 @@ export type Reducer<TState = any> = (
 
 /**
  * Mapping from a model key to model object.
+ *
+ * @template AllModelsKeys List of all models' names
  */
 export type Models<AllModelsKeys extends string = string> = {
 	[key in AllModelsKeys]: Model<any, any, AllModelsKeys>
@@ -176,10 +177,7 @@ export interface RematchBag<TModels extends object = Models> {
 
 /**
  * Initial, optional configuration provided by the user which describes how
- * Rematch store should be configured. Also used by Plugins.
- *
- * Plugins are not passed M models since M generic might actually be based
- * on a model created by plugins, which would cause type issues.
+ * Rematch store should be configured.
  */
 export interface InitConfig<TModels extends Models> {
 	name?: string
@@ -192,9 +190,6 @@ export interface InitConfig<TModels extends Models> {
  * Config created out of the InitConfig by filling in missing properties with
  * default values and merging in modifications required by plugins
  * (new models, etc.).
- *
- * Plugins are not passed M models since M generic might actually be based
- * on a model created by plugins, which would cause type issues.
  */
 export interface Config<TModels extends Models> extends InitConfig<TModels> {
 	name: string
@@ -327,10 +322,10 @@ export type ExtractRematchDispatcherFromReducer<
 	: never
 
 /**
- * When (P)ayload is of type void, it describes 'empty' dispatcher - meaning
+ * When payload is of type void, it describes 'empty' dispatcher - meaning
  * it's a function not taking any arguments and returning an action.
- * Otherwise, it describes dispatcher which accepts one argument - payload
- * and also returns an action.
+ * Otherwise, it describes dispatcher which accepts one argument (payload)
+ * and returns an action.
  */
 export type RematchDispatcher<TPayload = void> = [TPayload] extends [void]
 	? (() => Action<void>) & { isEffect: false }
@@ -341,7 +336,7 @@ export type RematchDispatcher<TPayload = void> = [TPayload] extends [void]
 /**
  * Based on the shape of 'effects' property it extracts dispatchers from it.
  * 'effects' can be:
- * - empty - in this case the type is just empty object
+ * - empty - in this case the type is just void
  * - an object defining effects
  * - a function returning effects
  * If it's a function it infers its return type which must define effects.
@@ -386,16 +381,10 @@ export type ExtractRematchDispatcherFromEffect<
 	: never
 
 /**
- * When (P)ayload is of type void, it describes 'empty' dispatcher - meaning
+ * When payload is of type void, it describes 'empty' dispatcher - meaning
  * it's a function not taking any arguments and returning an action.
- * Otherwise, it describes dispatcher which accepts one argument - payload
- * and also returns an action.
- *
- * The returned action differs from this in reducers, it contains extra fields:
- * - isEffect, which indicates that this action is coming from an effect
- * - result, which is the result of the effect, possibly a promise that user
- *   can await. It doesn't return a promise directly to make it compatible with
- *   Redux library, which is expecting an action object.
+ * Otherwise, it describes dispatcher which accepts one argument (payload)
+ * and returns an action.
  */
 export type EffectRematchDispatcher<TReturn = any, TPayload = void> = [
 	TPayload
@@ -413,7 +402,9 @@ export interface DevtoolOptions {
  */
 declare module 'redux' {
 	export interface Dispatch<A extends Action = AnyAction> {
-		<TReturnType = any, TPayload = any>(action: Action<TPayload>): TReturnType
+		<TReturnType = any, TPayload = any>(
+			action: Action<TPayload>
+		): TReturnType & { [key: string]: any }
 	}
 }
 
