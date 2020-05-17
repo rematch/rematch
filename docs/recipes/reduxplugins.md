@@ -1,6 +1,6 @@
-## Adding existing Redux Libraries to your Store
+# Adding existing Redux Libraries to your Store
 
-### Create a derived store model from a Redux reducer
+## Create a derived store model from a Redux reducer {docsify-ignore}
 
 Most reducers from libraries operate on a private store slice. The easiest way to build functionality on top of these reducers is to create a model for that store slice.
 
@@ -33,7 +33,7 @@ const reactRouterModel = {
 }
 ```
 
-### Including middleware
+## Including middleware {docsify-ignore}
 
 Libraries like `react-router` also need middleware to work. Since we need both the model and the middleware configured with our store, the best place to do so would be a simple plugin.
 
@@ -68,7 +68,7 @@ export default function createReactRouterPlugin() {
 
 Later, we can use our `history`
 
-```js
+```jsx
 const App = () => (
 	<Provider store={store}>
 		<ConnectedRouter history={store.browserHistory} children={<Routes />} />

@@ -9,5 +9,5 @@
 - No more switch statements
 - No more thunks
 
+[Getting Started](introduction)
 [GitHub](https://github.com/rematch/rematch/)
-[Getting Started](README.md#Rematch)

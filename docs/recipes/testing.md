@@ -2,7 +2,7 @@
 
 - Todo Example: [React](https://codesandbox.io/s/yvpy2zr8mj)
 
-## Reducers
+## Reducers {docsify-ignore}
 
 Testing with store.
 
@@ -37,7 +37,7 @@ describe('myModel model', () => {
 })
 ```
 
-## Effects
+## Effects {docsify-ignore}
 
 Testing with store.
 

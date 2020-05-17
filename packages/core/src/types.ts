@@ -238,9 +238,6 @@ export interface ConfigRedux<TRootState = any>
 export interface RematchStore<TModels extends object = Models>
 	extends ReduxStore<RematchRootState<TModels>, Action> {
 	name: string
-	replaceReducer: (
-		nextReducer: ReduxReducer<RematchRootState<TModels>, Action>
-	) => void
 	dispatch: RematchDispatch<TModels>
 	addModel: (
 		model: NamedModel<any, any, Extract<keyof TModels, string>>

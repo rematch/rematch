@@ -9,17 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changes
 
-- reorganized directories and files
-- changed input of validate method - it now accepts a function returning a list of validations instead of accepting directly a list, to avoid doing computation in production since it's not needed as errors won't be thrown
-- changed behaviour of validation method - it now collects and throws all errors, not just the first one
+- reorganized directories and files to support monorepo structure
+- changed building scripts to use tsdx and one common tsconfig as a base
+- changed input of validate method - it now accepts a **function** returning a list of validations instead of accepting directly a list, to avoid doing computation in production since it's not needed as errors won't be thrown anyway
+- changed behaviour of the validation method - it now collects and throws all errors, not just the first one
 - changed the default name assigned to stores from a number to `Rematch Store ${number}` for clarity
-- removed possibility for plugins to include any plugins in their configuration as it might introduce duplication etc. It should be easy enough to describe in a plugin's readme that some other plugin is required
-- removed `meta` parameter from action
-- removed onInit hook as there is really no use case for it, anything needed to be run could be also run in onStoreCreated
-- removed createMiddleware hook, everything that was possible with this hook can be done with `plugin.config.middlewares` option since the store that is passed to that middleware is the actual Rematch Store
+- removed possibility for plugins to include any plugins in their configuration as it might introduce duplication etc. It is easy enough to describe in a plugin's readme that some other plugin is required first.
+- removed `meta` parameter from action - it was described as *"...for advanced use cases only"* but it seems that anything handled with meta could be also handled without it so for the ease of use and clarity to users, it was removed.
+- removed `onInit` hook as there is really no use case for it
+- added new hooks for plugins - `onReducer` and `onRootReducer`
 - improved typings
-- changed dispatch and effects to be internal part of core instead of plugins
-- added new hooks for plugins - onReducer and onRootReducer
+- changed dispatch and effects to be internal part of the core code instead of plugins - it makes it easier to reason about the code, to write plugins and to declare types, both for the core and plugins
 
 ## [1.4.0] - 2020-02-22
 

@@ -1,38 +1,121 @@
-# Loading
+# Loading Plugin
 
-Adds automated loading indicators for effects to [Rematch](https://github.com/rematch/rematch). Inspired by [dva-loading](https://github.com/dvajs/dva-loading).
+The loading plugin for Rematch. Adds automated loading indicators for effects, so you don't need to manage state like `loading: true` by yourself. Inspired by [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading).
 
-## Install
+## Compatibility {docsify-ignore}
 
-```text
+Install the correct version of loading plugin based on the version of the core Rematch library in your project.
+
+|         @rematch/core  | @rematch/immer  |
+| :--------------------: | :----: |
+| 0.x ‎                   |   0.5.0  |
+| 1.x                    |    1.x   |
+| 2.x                    |    2.x   |
+
+## Install {docsify-ignore}
+
+```bash
 npm install @rematch/loading
 ```
 
-?> For `@rematch/core@0.x` use `@rematch/loading@0.5.0`
+## loadingPlugin([config]) {docsify-ignore}
 
-## Example
+The loading plugin accepts one optional argument - **config**, which is an object with the following properties:
 
-See an example below using a loading indicator within a button.
+- [`name`] (*string?*): key for the loading model in your store. If you name it "custom", loading state can be accessed from _state.custom_. **Defaults to _loading_**.
+- [`asNumber`] (*boolean?*): loading plugin by default keeps track of running effects using booleans, so for example: _state.loading.global === true_. You can change that behaviour and use numbers instead - plugin will keep track of the number of times an effect was executed, for example: _state.loading.global === 5_. Defaults to _false_.
+- [`whitelist`] (*string[]?*): an array of effects names that you want to use loading plugin for. If defined, plugin will work only for the whitelisted effects.
+- [`blacklist`] (*string[]?*): an array of effects names that you **don't want** to use loading plugin for. If defined, plugin will work for all effects except those blacklisted.
+
+Both `blacklist` and `whitelist` accept the "full" effect name, in a format `modelName/effectFunctionName`, for example _'count/addOne'_.
+
+If both `blacklist` and `whitelist` aren't provided, plugin works for all effects.
+
+## Usage {docsify-ignore}
+
+Let's say we have a model 'count' in our store. Loading plugin's state will have the following format:
+
+```javascript
+{
+	global, // true when any effect in any model is loading
+    models: {
+      count // true when any effect in 'count' model is loading
+    },
+    effects: {
+      count: {
+        addOne, // true when effect 'addOne' in model 'count' is loading
+      },
+    },
+}
+```
+
+Check out below an example of how to use loading plugin in React:
+
+**store.js**
+
+Set up your store with default or custom settings.
+
+```javascript
+import loadingPlugin from '@rematch/loading'
+import { init } from '@rematch/core'
+import * as models from './models'
+
+init({
+    models,
+    // add loadingPlugin to your store
+	plugins: [loadingPlugin()],
+})
+```
+
+**models.js**
+
+Define a model which uses effects.
+
+```javascript
+export const auth = {
+	state: {
+	  user: null,
+    },
+    reducers: {
+      setUser(state, user) {
+        return {
+          ...state,
+           user,
+        };
+      },
+    },
+    effects: {
+      async login() {
+        const user = await api.login();
+        this.setUser(user);
+      }
+    }
+}
+```
+
+**view.js**
+
+Use state created by the loading plugin in your view.
 
 ```javascript
 import React from 'react'
 import { connect } from 'react-redux'
-import AwesomeLoadingButton from './components/KindaCoolLoadingButton'
+import AwesomeLoadingButton from './AwesomeLoadingButton'
 
 const LoginButton = props => (
-	<AwesomeLoadingButton onClick={props.submit} loading={props.loading}>
+	<AwesomeLoadingButton onClick={props.login} loading={props.isLoading}>
 		Login
 	</AwesomeLoadingButton>
 )
 
 const mapState = state => ({
-	loading: state.loading.effects.login.submit, // true when the `login/submit` effect is running
+	isLoading: state.loading.effects.auth.login, // true when the `auth/login` effect is running
 	// or
-	loading: state.loading.models.login, // true when ANY effect on the `login` model is running
+	isLoading: state.loading.models.auth, // true when ANY effect on the `auth` model is running
 })
 
 const mapDispatch = dispatch => ({
-	submit: () => dispatch.login.submit(),
+	login: () => dispatch.auth.login(),
 })
 
 export default connect(
@@ -40,167 +123,3 @@ export default connect(
 	mapDispatch
 )(LoginButton)
 ```
-
-## Demo
-
-See a [demo](https://github.com/rematch/rematch/tree/master/plugins/loading/examples/react-loading-example)
-
-![rematch-loading](https://user-images.githubusercontent.com/4660659/33303781-00c786b2-d3ba-11e7-8216-1b2b8eebbf85.gif)
-
-## Setup
-
-Configure loading.
-
-```javascript
-import { init } from '@rematch/core'
-import createLoadingPlugin from '@rematch/loading'
-
-// see options API below
-const options = {}
-
-const loading = createLoadingPlugin(options)
-
-init({
-	plugins: [loading],
-})
-```
-
-## Options
-
-### asNumber
-
-```javascript
-{
-	asNumber: true
-}
-```
-
-The loading state values are a "counter", returns a number \(eg. `store.getState().loading.global === 5`\).
-
-Defaults to `false`, returns a boolean \(eg. `store.getState().loading.global === true`\)
-
-### name
-
-```javascript
-{
-	name: 'load'
-}
-```
-
-In which case, loading can be accessed from `state.load.global`.
-
-Defaults to the name of `loading` \(eg. `state.loading.global`\).
-
-### whitelist
-
-A shortlist of actions. Named with "modelName" / "actionName".
-
-```javascript
-{ whitelist: ['count/addOne'] })
-```
-
-### blacklist
-
-A shortlist of actions to exclude from loading indicators.
-
-```javascript
-{ blacklist: ['count/addOne'] })
-```
-
-### model
-
-`{ model: {...} }`
-
-A [model](https://github.com/rematch/rematch/blob/master/docs/api.md#model) configuration object which is included in the loading model. The user can add a custom `name`, `reducers` and `state` config along with `selectors` and other valid configs provided by other plugins.
-
-One advantage of this config is that it provides the ability to take advantage of the [@rematch/select](https://github.com/rematch/rematch/blob/master/plugins/select/README.md) plugin and add custom `selectors` to your loading model. For example:
-
-```javascript
-import createLoadingPlugin from '@rematch/loading'
-
-// @rematch/selector plugin API
-const options = {
-	model: {
-		selectors: {
-			loggingIn(state) {
-				return state.effects.login.submit
-			},
-		},
-	},
-}
-
-const loading = createLoadingPlugin(options)
-```
-
-A few notes on the model configuration option:
-
-- The `name` config will take precedence and override the `model.name` config.
-- The effects config \(`model.effects`\) has not been tested.
-- The reducers config \(`model.reducers`\) has been tested and can be used to add addition reducers.
-
-  Although, the une case for this config is unclear. Any `show` and `hide`
-
-  reducers will be overriden by the plugin.
-
-- Unless you know what you are doing, it is not recommended to provide a `model.state` config. Providing the wrong
-
-  config can break the plugin in unexpected ways.
-
-### mergeInitialState
-
-`{ mergeInitialState: (state, newObject ) => any }`
-
-A function that **mutates** the initial state of the loading model by merging it with the provided object. It accepts the current `state` as the first parameter and the `newObject` to be merged as the second parameter. It is important that this function mutate the provided `state` and not return a new state.
-
-Ordinarily, the user should not set this config. However, this config is required if the user is not using a JavaScript Object as the store. It will be needed when using Immutable JS for example.
-
-### loadingActionCreator
-
-`{ loadingActionCreator: (state, name, action, converter, countState) => any }`
-
-A reducer function that returns the new state when a loading effect is dispatched. It accepts the current `state`, the `name` \(string\) of the model that was dispatched, the `action` \(string\) that was dispatched, a `converter` function and the current `countState` object.
-
-This is a complex function and it is best to accept the default. If you want to customize this function, look at the loading plugin source code to gain an idea of how this function should work. This config is exposed so a user can make use of a store that is not a JavaScript object \(Immutable JS for example\).
-
-## Immutable JS Example
-
-The user may use an [Immutable.js](https://facebook.github.io/immutable-js/) Map with this plug in. To do so, the `mergeInitialState`, `loadingActionCreator` and `model.state` configs will need to be set. Here is a minimal example:
-
-```javascript
-import createLoadingPlugin from '@rematch/loading'
-import { fromJS } from 'immutable'
-
-// Immutably returns the new state
-const immutableLoadingActionCreator = (
-	state,
-	name,
-	action,
-	converter,
-	cntState
-) =>
-	state.asImmutable().withMutations(map =>
-		map
-			.set('global', converter(cntState.global))
-			.setIn(['models', name], converter(cntState.models[name]))
-			.setIn(
-				['effects', name, action],
-				converter(cntState.effects[name][action])
-			)
-	)
-
-// Mutates the current state with a deep merge
-const immutableMergeInitialState = (state, newObj) =>
-	state.asMutable().mergeDeep(fromJS(newObj))
-
-const options = {
-	loadingActionCreator: immutableLoadingActionCreator,
-	mergeInitialState: immutableMergeInitialState,
-	model: {
-		state: fromJS({}),
-	},
-}
-
-const loading = createLoadingPlugin(options)
-```
-
-The above example has been tested and is included in the test suite of this package.
