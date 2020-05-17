@@ -8,7 +8,7 @@
     - [Store](api/store.md#store)
     - [Plugins API](api/plugins.md#plugins-api)
 - [Plugins](plugins/summary.md)
-    - [Summary](plugins/summary.md#store)
+    - [Summary](plugins/summary.md#plugins-summary)
     - [Immer](plugins/immer.md#immer-plugin)
     - [Loading](plugins/loading.md#loading-plugin)
     - [Persist](plugins/persist.md#persist-plugin)

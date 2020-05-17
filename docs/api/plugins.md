@@ -1,6 +1,6 @@
 ## Plugins API {docsify-ignore}
 
-Plugins provide the possibility to extend Rematch functionality. They can overwrite configuration, add new models or even replace the whole store. To get the idea how to build plugins, you can visit [plugins](plugins.md) section and refer to the source code of each plugin built by the Rematch team.
+Plugins provide the possibility to extend Rematch functionality. They can overwrite configuration, add new models or even replace the whole store. To get the idea how to build plugins, you can visit [plugins](plugins/summary.md#plugins-summary) section and refer to the source code of each plugin built by the Rematch team.
 
 ---
 

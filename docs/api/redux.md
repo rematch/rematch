@@ -4,7 +4,7 @@ It is possible to customize Redux configuration provided by Rematch. To do that,
 
 ?> This section is likely not helpful for you unless you are migrating from plain Redux, building your own plugin or adding middleware.
 
-?> If you just need to include a redux library in your store, see the recipe for [redux plugins](recipies/redux-plugins.md).
+?> If you just need to include a redux library in your store, see the recipe for [redux plugins](recipes/reduxplugins.md#adding-existing-redux-libraries-to-your-store).
 
 ---
 

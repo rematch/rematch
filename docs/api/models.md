@@ -6,7 +6,7 @@ Models are crucial parts of your store. They allow you to define your initial st
 
 Configuration for a model is build using the following properties:
 
-- [`name`] (*string*): the name will become a key in the store's state and in the [dispatch](api/store.md#dispatch) created by Rematch. It means that you will be able to access state of a model named 'count' using `store.getState().count` and dispatch actions using `store.dispatch.count`. If you don't provide a name for the model, Rematch will use a key from the `models` object provided to [init](api/reference.md#init) function.
+- [`name`] (*string*): the name will become a key in the store's state and in the dispatch created by Rematch. It means that you will be able to access state of a model named 'count' using `store.getState().count` and dispatch actions using `store.dispatch.count`. If you don't provide a name for the model, Rematch will use a key from the `models` object provided to [init](api/reference.md#init) function.
 
 
 - `state` (*any*): initial state for a model.
@@ -18,14 +18,14 @@ Configuration for a model is build using the following properties:
 
 - [`baseReducer`] (*(state, action) => state*): a reducer that will run before the model's `reducers`. This function takes the model's previous state and an action, and returns the model state that `reducers` will use.
 
-    In general, you don't need to use baseReducer. However, it is especially useful for adding redux libraries to your store in a structured manner. See the recipe for [redux plugins](recipies/redux-plugins.md).
+    In general, you don't need to use baseReducer. However, it is especially useful for adding redux libraries to your store in a structured manner. See the recipe for [redux plugins](recipes/reduxplugins.md#adding-existing-redux-libraries-to-your-store).
 
 
 - [`effects`] (*{ [string]: (payload, rootState) } | (dispatch => { [string]: (payload, rootState) })*): effects have  access to model's state and reducers, and they allow to handle the world outside of the model. Therefore, they are often used to manage asynchronous actions.
 
     Effect is a function which takes a payload and store's **root state** and returns anything. `effects` property is an object with effect functions. `this` reference of each effect is bind to the model's dispatcher, which means it's possible to dispatch model's actions from effects.
 
-    There might a need to access dispatchers for different models - not only the one being defined. In this case, it is possible to define `effects` as a factory taking store's [dispatch](api/store.md#dispatch) and returning object with effect functions.
+    There might a need to access dispatchers for different models - not only the one being defined. In this case, it is possible to define `effects` as a factory taking store's dispatch and returning object with effect functions.
 
     Effects functions that share a name with a reducer are called **after** their reducer counterpart.
 

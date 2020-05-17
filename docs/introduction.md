@@ -39,11 +39,11 @@ Rematch builds upon Redux by reducing boilerplate and enforcing best practices. 
 
 ## Migrate From Redux
 
-Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](recipes/redux-migration.md) for the details.
+Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](migration-guide.md) for the details.
 
 ## Composable Plugins
 
-Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](plugins/overview.md) developed by the Rematch team or the [API for creating plugins](api/plugin.md#plugin).
+Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](plugins/summary.md) developed by the Rematch team or the [API for creating plugins](api/plugins.md#plugins-api).
 
 
 ## Contact & Support
