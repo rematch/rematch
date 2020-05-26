@@ -22,11 +22,11 @@
   "engines": {
     "node": ">=10"
   },
-  "dependencies": {
+  "peerDependencies": {
     "redux": "^4.0.5"
   },
   "devDependencies": {
-	"typings-tester": "^0.3.2"
+    "typings-tester": "^0.3.2"
   },
   "husky": {
     "hooks": {

@@ -44,6 +44,5 @@ class Count extends React.Component<Props> {
 
 export default connect(
 	mapState,
-	// @ts-ignore
 	mapDispatch
 )(Count)

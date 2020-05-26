@@ -74,7 +74,7 @@ declare module '@rematch/core' {
 		selectors?: ModelSelectorsConfig<TState>
 	}
 
-	interface RematchStore<TModels extends object = Models> {
+	interface RematchStore<TModels extends Models> {
 		select: RematchSelect<TModels, RematchRootState<TModels>>
 	}
 }

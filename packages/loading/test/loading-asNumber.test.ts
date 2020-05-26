@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { init } from '@rematch/core'
 import loadingPlugin from '../src'
 import { delay, count } from './utils'
@@ -151,10 +150,9 @@ describe('loading asNumbers', () => {
 			init({
 				models: { count },
 				plugins: [
-					// @ts-ignore
 					loadingPlugin({
 						asNumber: true,
-						// @ts-ignore
+						// @ts-expect-error
 						name: 42,
 					}),
 				],
@@ -168,9 +166,8 @@ describe('loading asNumbers', () => {
 			init({
 				models: { count },
 				plugins: [
-					// @ts-ignore
 					loadingPlugin({
-						// @ts-ignore
+						// @ts-expect-error
 						asNumber: 'should throw',
 					}),
 				],
@@ -214,10 +211,9 @@ describe('loading asNumbers', () => {
 			init({
 				models: { count },
 				plugins: [
-					// @ts-ignore
 					loadingPlugin({
 						asNumber: true,
-						// @ts-ignore
+						// @ts-expect-error
 						whitelist: 'some/action',
 					}),
 				],
@@ -231,10 +227,9 @@ describe('loading asNumbers', () => {
 			init({
 				models: { count },
 				plugins: [
-					// @ts-ignore
 					loadingPlugin({
 						asNumber: true,
-						// @ts-ignore
+						// @ts-expect-error
 						blacklist: 'some/action',
 					}),
 				],

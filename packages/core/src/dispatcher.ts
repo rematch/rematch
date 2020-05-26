@@ -48,7 +48,7 @@ const createActionDispatcher = <TModels extends Models>(
  */
 const createDispatcher = <TModels extends Models, TModel extends NamedModel>(
 	rematch: RematchStore<TModels>,
-	bag: RematchBag<TModels>,
+	bag: RematchBag,
 	model: TModel
 ): ModelDispatcher<TModel> => {
 	const modelDispatcher = {} as ModelDispatcher<TModel>
@@ -66,15 +66,13 @@ const createDispatcher = <TModels extends Models, TModel extends NamedModel>(
 		)
 	}
 
-	let effects: ModelEffects<any, TModel['state']> = {}
+	let effects: ModelEffects = {}
 
 	// 'effects' might be actually a function creating effects
 	if (model.effects) {
 		effects =
 			typeof model.effects === 'function'
-				? (model.effects as ModelEffectsCreator<any, TModel['state']>)(
-						rematch.dispatch
-				  )
+				? (model.effects as ModelEffectsCreator)(rematch.dispatch)
 				: model.effects
 	}
 

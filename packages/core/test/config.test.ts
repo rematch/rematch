@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { Middleware } from 'redux'
 import { init } from '../src'
 
@@ -11,7 +10,7 @@ describe('init config:', () => {
 		expect(() =>
 			init({
 				models: {},
-				// @ts-ignore
+				// @ts-expect-error
 				plugins: {},
 			})
 		).toThrow()
@@ -57,7 +56,7 @@ describe('init config:', () => {
 		expect(() =>
 			init({
 				redux: {
-					// @ts-ignore
+					// @ts-expect-error
 					middlewares: {},
 				},
 			})
@@ -68,7 +67,7 @@ describe('init config:', () => {
 		expect(() =>
 			init({
 				redux: {
-					// @ts-ignore
+					// @ts-expect-error
 					enhancers: {},
 				},
 			})

@@ -8,11 +8,9 @@
  */
 
 import {
-	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-	// @ts-ignore
-	AnyAction,
 	Action as ReduxAction,
 	Reducer as ReduxReducer,
+	Dispatch as ReduxDispatch,
 	ReducersMapObject,
 	Middleware,
 	StoreEnhancer,
@@ -34,8 +32,7 @@ export interface Action<TPayload = any> extends ReduxAction<string> {
 
 /**
  * Custom reducer which instead of an action (like in Redux), accepts payload as
- * as a second argument. `payload` is extracted from action and passed to the
- * reducer, therefore it has the same type.
+ * as a second argument.
  *
  * @template TState The type of state consumed and produced by this reducer.
  */
@@ -51,55 +48,40 @@ export type Reducer<TState = any> = (
  *
  * @template AllModelsKeys List of all models' names
  */
-export type Models<AllModelsKeys extends string = string> = {
-	[key in AllModelsKeys]: Model<any, any, AllModelsKeys>
+export interface Models {
+	[key: string]: Model
 }
 
-export interface NamedModel<
-	TState = any,
-	TBaseState = TState,
-	AllModelsKeys extends string = string
-> extends Model<TState, TBaseState, AllModelsKeys> {
+export interface NamedModel<TState = any, TBaseState = TState>
+	extends Model<TState, TBaseState> {
 	name: string
 	reducers: ModelReducers<TState>
 }
 
-export interface Model<
-	TState = any,
-	TBaseState = TState,
-	AllModelsKeys extends string = string
-> {
+export interface Model<TState = any, TBaseState = TState> {
 	name?: string
 	state: TState
 	reducers?: ModelReducers<TState>
 	baseReducer?: ReduxReducer<TBaseState>
-	effects?:
-		| ModelEffects<AllModelsKeys, TState>
-		| ModelEffectsCreator<AllModelsKeys, TState>
+	effects?: ModelEffects | ModelEffectsCreator
 }
 
 export type ModelReducers<TState = any> = {
 	[key: string]: Reducer<TState>
 }
 
-export type ModelEffects<AllModelsKeys extends string, TState> = {
-	[key: string]: ModelEffect<AllModelsKeys, TState>
+export interface ModelEffects {
+	[key: string]: ModelEffect
 }
 
-export type ModelEffect<AllModelsKeys extends string, TState> = <
-	TModel extends Model<TState>,
-	TModels extends object = Models<AllModelsKeys>
->(
-	this: ModelDispatcher<TModel>,
+export type ModelEffect = <TModels extends Models>(
 	payload: Action['payload'],
 	rootState: RematchRootState<TModels>
 ) => any
 
-export type ModelEffectsCreator<AllModelsKeys extends string, TState> = <
-	TModels extends object = Models<AllModelsKeys>
->(
+export type ModelEffectsCreator = <TModels extends Models>(
 	dispatch: RematchDispatch<TModels>
-) => ModelEffects<AllModelsKeys, TState>
+) => ModelEffects
 
 /** ************************** Plugin *************************** */
 
@@ -122,28 +104,25 @@ export interface PluginHooks {
 	createMiddleware?: MiddlewareCreator
 }
 
-export type ModelHook = (
-	model: NamedModel<any, any, any>,
-	rematch: RematchStore<any>
-) => void
+export type ModelHook = (model: NamedModel, rematch: RematchStore<any>) => void
 
 export type ReducerHook = (
 	reducer: ReduxReducer,
 	modelName: string,
-	rematch: RematchBag<any>
+	rematch: RematchBag
 ) => ReduxReducer | void
 
 export type RootReducerHook = (
 	reducer: ReduxReducer,
-	rematch: RematchBag<any>
+	rematch: RematchBag
 ) => ReduxReducer | void
 
 export type StoreCreatedHook<TModels extends Models = any> = (
 	store: RematchStore<TModels>,
-	rematch: RematchBag<TModels>
+	rematch: RematchBag
 ) => RematchStore<TModels> | void
 
-export type MiddlewareCreator = (rematch: RematchBag<any>) => Middleware
+export type MiddlewareCreator = (rematch: RematchBag) => Middleware
 
 export type ObjectNotAFunction = { [k: string]: any } & (
 	| { bind?: never }
@@ -162,16 +141,14 @@ export type ExposedFunction = (rematch: RematchStore<any>, ...args: any) => any
  * Object for storing information needed for the Rematch store to run.
  * Purposefully hidden from the end user.
  */
-export interface RematchBag<TModels extends object = Models> {
+export interface RematchBag {
 	models: NamedModel[]
 	reduxConfig: ConfigRedux
 	forEachPlugin: <Hook extends keyof PluginHooks>(
 		method: Hook,
 		fn: (content: NonNullable<PluginHooks[Hook]>) => void
 	) => void
-	effects: TModels extends Models<infer AllModelsKeys>
-		? ModelEffects<AllModelsKeys, any>
-		: never
+	effects: ModelEffects
 }
 
 /**
@@ -229,13 +206,11 @@ export interface ConfigRedux<TRootState = any>
 	rootReducers: ReducersMapObject<TRootState, Action>
 }
 
-export interface RematchStore<TModels extends object = Models>
+export interface RematchStore<TModels extends Models>
 	extends ReduxStore<RematchRootState<TModels>, Action> {
 	name: string
 	dispatch: RematchDispatch<TModels>
-	addModel: (
-		model: NamedModel<any, any, Extract<keyof TModels, string>>
-	) => void
+	addModel: (model: NamedModel) => void
 }
 
 /** ************************** Root State *************************** */
@@ -244,43 +219,32 @@ export interface RematchStore<TModels extends object = Models>
  * The type of state held by a store.
  */
 export type RematchRootState<
-	TModels extends object = Models
+	TModels extends Models
 > = ExtractRematchStateFromModels<TModels>
 
 /**
  * A mapping from each model's name to a type of state it holds.
  */
-export type ExtractRematchStateFromModels<TModels> = {
-	[modelKey in keyof TModels]: TModels[modelKey] extends Model
-		? TModels[modelKey]['state']
-		: never
+export type ExtractRematchStateFromModels<TModels extends Models> = {
+	[modelKey in keyof TModels]: TModels[modelKey]['state']
 }
 
 /** ************************** Dispatch *************************** */
-
-/**
- * Redux compatible action dispatcher.
- */
-interface ReduxDispatch {
-	<TPayload = any, TReturnType = any>(action: Action<TPayload>): TReturnType
-}
 
 /**
  * Rematch dispatch is a combination of regular redux dispatch method and
  * an object allowing to dispatch specific actions by calling it the form of
  * dispatch[modelName][reducerName | effectName](payload).
  */
-export type RematchDispatch<TModels extends object = Models> = ReduxDispatch &
+export type RematchDispatch<TModels extends Models> = ReduxDispatch &
 	ExtractRematchDispatchersFromModels<TModels>
 
 /**
  * Goes over all models and extracts from each a type for dispatcher object
  * created by Rematch.
  */
-export type ExtractRematchDispatchersFromModels<TModels> = {
-	[modelKey in keyof TModels]: TModels[modelKey] extends Model
-		? ModelDispatcher<TModels[modelKey]>
-		: never
+export type ExtractRematchDispatchersFromModels<TModels extends Models> = {
+	[modelKey in keyof TModels]: ModelDispatcher<TModels[modelKey]>
 }
 
 /**
@@ -348,10 +312,10 @@ export type RematchDispatcher<TPayload = void> = [TPayload] extends [void]
 export type ExtractRematchDispatchersFromEffects<
 	TEffects extends Model['effects']
 > = TEffects extends (...args: any[]) => infer R
-	? R extends ModelEffects<any, any>
+	? R extends ModelEffects
 		? ExtractRematchDispatchersFromEffectsObject<R>
 		: never
-	: TEffects extends ModelEffects<any, any>
+	: TEffects extends ModelEffects
 	? ExtractRematchDispatchersFromEffectsObject<TEffects>
 	: void
 
@@ -359,7 +323,7 @@ export type ExtractRematchDispatchersFromEffects<
  * Extracts a dispatcher for each effect that is defined for a model.
  */
 export type ExtractRematchDispatchersFromEffectsObject<
-	TEffects extends ModelEffects<any, any>
+	TEffects extends ModelEffects
 > = {
 	[effectKey in keyof TEffects]: ExtractRematchDispatcherFromEffect<
 		TEffects[effectKey]
@@ -375,7 +339,7 @@ export type ExtractRematchDispatchersFromEffectsObject<
  *   as an argument
  */
 export type ExtractRematchDispatcherFromEffect<
-	TEffect extends ModelEffect<any, any>
+	TEffect extends ModelEffect
 > = TEffect extends () => infer TReturn
 	? EffectRematchDispatcher<TReturn>
 	: TEffect extends (payload: infer TPayload) => infer TReturn
@@ -401,16 +365,9 @@ export interface DevtoolOptions {
 	[key: string]: any
 }
 
-/**
- * Overload Redux types
- */
 declare module 'redux' {
 	export interface Dispatch<A extends Action = AnyAction> {
-		<TAction extends A, TReturnType = any, TPayload = any>(
-			action: TAction
-		): TReturnType & {
-			[key: string]: any
-		}
+		[modelName: string]: any
 	}
 }
 

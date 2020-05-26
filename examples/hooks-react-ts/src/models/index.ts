@@ -1,8 +1,8 @@
 import { dolphins } from './dolphins'
 import { sharks } from './sharks'
+import { Models } from '@rematch/core'
 
-// no need to extend from Models
-export type RootModel = {
+export interface RootModel extends Models {
 	dolphins: typeof dolphins
 	sharks: typeof sharks
 }

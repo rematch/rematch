@@ -64,9 +64,7 @@ export default function createRematchStore<
 	return rematchStore
 }
 
-function createEffectsMiddleware<TModels extends Models>(
-	bag: RematchBag<TModels>
-): Middleware {
+function createEffectsMiddleware(bag: RematchBag): Middleware {
 	return (store) => (next) => (action: Action): any => {
 		if (action.type in bag.effects) {
 			// first run reducer action if exists
@@ -83,7 +81,7 @@ function createEffectsMiddleware<TModels extends Models>(
 
 function prepareModel<TModels extends Models, TModel extends NamedModel>(
 	rematchStore: RematchStore<TModels>,
-	bag: RematchBag<TModels>,
+	bag: RematchBag,
 	model: TModel
 ): void {
 	// @ts-ignore
@@ -103,7 +101,7 @@ function prepareModel<TModels extends Models, TModel extends NamedModel>(
  * If you're implementing a plugin in TypeScript, extend Rematch namespace by
  * adding the properties that you exposed from your plugin.
  */
-function addExposed(store: RematchStore<any>, plugins: Plugin<any>[]): void {
+function addExposed(store: RematchStore<any>, plugins: Plugin[]): void {
 	for (const plugin of plugins) {
 		if (plugin.exposed) {
 			for (const key of Object.keys(plugin.exposed)) {

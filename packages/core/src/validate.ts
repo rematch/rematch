@@ -91,7 +91,7 @@ export const validateModel = (model: NamedModel): void => {
 	])
 }
 
-export const validatePlugin = (plugin: Plugin<any>): void => {
+export const validatePlugin = (plugin: Plugin): void => {
 	validate(() => [
 		[
 			!ifDefinedIsFunction(plugin.onStoreCreated),
@@ -132,7 +132,7 @@ export const validateModelReducer = (
 
 export const validateModelEffect = (
 	modelName: string,
-	effects: ModelEffects<any, any>,
+	effects: ModelEffects,
 	effectName: string
 ): void => {
 	validate(() => [

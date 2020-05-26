@@ -10,8 +10,6 @@ npm install @rematch/core
 
 ## Basic usage
 
-
-
 ### Step 1: Define models
 
 **Model** brings together state, reducers, async actions in one place. It describes a slice of your redux store and how it changes.
@@ -54,36 +52,45 @@ export const count = {
 
 **count.ts**
 
+Use helper method `createModel` to create a model.
+Unfortunately, creating the effects is not as 'clean' as we would like it to be. Due to some TypeScript limitations, you need to cast the `dispatch` method and `rootState` to get their correct types. See the example below on how to do that.
+
 ```typescript
+import { createModel } from '@rematch/core'
 import { Dispatch, RootState } from './store'
 
 type CountState = number
 
-export const count = {
+export const count = createModel<CountState>()({
 	state: 0, // initial state
 	reducers: {
 		// handle state changes with pure functions
-		increment(state: CountState, payload: number): CountState {
+		increment(state, payload: number) {
 			return state + payload
 		},
 	},
-	effects: (dispatch: Dispatch) => ({
+	effects: (dispatch) => ({
 		// handle state changes with impure functions.
 		// use async/await for async actions
-		async incrementAsync(payload: number, rootState: RootState) {
+		async incrementAsync(payload: number, rootState) {
+            const typedDispatch = dispatch as Dispatch
+            const typedState = rootState as RootState
+
+            console.log('This is current root state', typedState);
 			await new Promise(resolve => setTimeout(resolve, 1000))
-			dispatch.count.increment(payload)
+			typedDispatch.count.increment(payload)
 		},
 	}),
-}
+});
 ```
 
 **models.ts**
 
 ```typescript
+import { Models } from '@rematch/core'
 import { count } from './count'
 
-export type RootModel = {
+export interface RootModel extends Models {
 	count: typeof count
 }
 
@@ -233,7 +240,20 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('root')
 )
-
 ```
 
+You might need to 'patch' Redux types to avoid having issues with libraries such as `react-redux`. If Rematch doesn't work out of the box with your library of choice, add a file **redux.d.ts** to your project, with the following content:
+
+```typescript
+import { Action, AnyAction } from 'redux'
+
+declare module 'redux' {
+	export interface Dispatch<A extends Action = AnyAction> {
+        // list all your models names here
+		count: any // we have one model - count, so we added it
+	}
+}
+```
+
+Don't forget to include this file in your TypeScript config in ```compilerOptions.types``` array. Check out the [example](https://github.com/rematch/rematch/examples/count-react-ts) in Rematch repository.
 <!-- tabs:end -->

@@ -1,17 +1,19 @@
-import { Dispatch } from '../store'
+import { createModel } from '@rematch/core'
 import { delay } from './utils'
+import { Dispatch } from '../store'
 
-export type DolphinsState = number
+type DolphinsState = number
 
-export const dolphins = {
+export const dolphins = createModel<DolphinsState>()({
 	state: 0,
 	reducers: {
-		increment: (state: DolphinsState): DolphinsState => state + 1,
+		increment: (state) => state + 1,
 	},
-	effects: (dispatch: Dispatch) => ({
+	effects: (dispatch) => ({
 		async incrementAsync(): Promise<void> {
+			const typedDispatch = dispatch as Dispatch
 			await delay(500)
-			dispatch.dolphins.increment()
+			typedDispatch.dolphins.increment()
 		},
 	}),
-}
+});

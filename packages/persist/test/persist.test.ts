@@ -81,7 +81,7 @@ describe('persist', () => {
 
 		const persistor = getPersistor()
 		expect(persistor.purge).toBeDefined()
-		// @ts-ignore
+
 		expect(store.getState()._persist).toEqual(defaultPersist)
 		expect(store.getState().a).toEqual({ b: 2 })
 	})

@@ -1,5 +1,5 @@
 import createRematchStore from './rematchStore'
-import { InitConfig, Models, RematchStore } from './types'
+import { InitConfig, Models, Model, RematchStore } from './types'
 import createConfig from './config'
 
 /**
@@ -12,8 +12,15 @@ export const init = <TModels extends Models, TExtraModels extends Models>(
 	return createRematchStore<TModels, TExtraModels>(config)
 }
 
+export const createModel = <TState, TBaseState = TState>() => <
+	TModel extends Model<TState, TBaseState>
+>(
+	model: TModel
+): TModel => model
+
 export default {
 	init,
+	createModel,
 }
 
 export * from './types'

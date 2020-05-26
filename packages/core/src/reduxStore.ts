@@ -16,13 +16,13 @@ import {
  * middlewares and enhancers.
  */
 export default function createReduxStore<TModels extends Models>(
-	bag: RematchBag<TModels>
+	bag: RematchBag
 ): Redux.Store<RematchRootState<TModels>> {
 	for (const model of bag.models) {
 		createModelReducer(bag, model)
 	}
 
-	const rootReducer = createRootReducer<TModels, RematchRootState<TModels>>(bag)
+	const rootReducer = createRootReducer<RematchRootState<TModels>>(bag)
 
 	const middlewares = Redux.applyMiddleware(...bag.reduxConfig.middlewares)
 	const enhancers = composeEnhancersWithDevtools(
@@ -54,10 +54,9 @@ export default function createReduxStore<TModels extends Models>(
  * The final result - a function, is returned.
  */
 export function createModelReducer<
-	TModels extends Models,
 	TModel extends NamedModel,
 	TState extends TModel['state']
->(bag: RematchBag<TModels>, model: TModel): void {
+>(bag: RematchBag, model: TModel): void {
 	const modelReducers: ModelReducers<TState> = {}
 
 	// build action name for each reducer and create mapping from name to reducer
@@ -102,8 +101,8 @@ export function createModelReducer<
  * is created. It first feeds each into its corresponding 'root' reducer (if
  * it's available), and then passes on the resulting state to the merged reducer.
  */
-export function createRootReducer<TModels extends Models, TRootState>(
-	bag: RematchBag<TModels>
+export function createRootReducer<TRootState>(
+	bag: RematchBag
 ): Redux.Reducer<TRootState, Action> {
 	const { rootReducers } = bag.reduxConfig
 	const mergedReducers = mergeReducers<TRootState>(bag.reduxConfig)

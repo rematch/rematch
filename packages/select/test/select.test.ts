@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore,no-shadow */
-// /* eslint-disable @typescript-eslint/ban-ts-ignore,no-shadow */
+/* eslint-disable no-shadow,@typescript-eslint/ban-ts-ignore */
 import { init } from '@rematch/core'
 import selectPlugin from '../src'
 
@@ -31,8 +30,8 @@ describe('select:', () => {
 			store.addModel({
 				name: 'a',
 				state: 2,
-				// @ts-ignore
 				selectors: {
+					// @ts-expect-error
 					invalid: 42,
 				},
 			})
@@ -56,7 +55,6 @@ describe('select:', () => {
 				plugins: [selectPlugin()],
 			})
 
-			// @ts-ignore
 			expect(typeof store.select.a.double).toBe('function')
 		})
 
@@ -77,7 +75,6 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			// @ts-ignore
 			const doubled = store.select.a.double(state)
 			expect(doubled).toBe(4)
 		})
@@ -95,12 +92,13 @@ describe('select:', () => {
 			}
 
 			const store = init({
+				// @ts-ignore
 				models: { a },
 				plugins: [selectPlugin()],
 			})
 
 			const state = store.getState()
-			// @ts-ignore
+
 			const prepended = store.select.a.prependWithLetter(state, {
 				letter: 'P',
 			})
@@ -128,7 +126,6 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			// @ts-ignore
 			const doubled = store.select.count.double(state)
 			expect(doubled).toBe(4)
 		})
@@ -149,7 +146,7 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			// @ts-ignore
+
 			const doubled = store.select.count.double(state)
 			expect(doubled).toBe(4)
 		})
@@ -169,7 +166,7 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			// @ts-ignore
+
 			const doubled = store.select.count.double(state)
 			expect(doubled).toBe(4)
 		})
@@ -204,7 +201,7 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			// @ts-ignore
+
 			const result = store.select.combined.value(state)
 			expect(result).toBe(24)
 		})
@@ -231,6 +228,7 @@ describe('select:', () => {
 				})
 
 				const state = store.getState()
+
 				// @ts-ignore
 				const prepended = store.select.a.prependWithLetter('P')(state)
 				expect(prepended).toBe('P2')
@@ -279,7 +277,7 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			// @ts-ignore
+
 			const result = store.select.countC.calc(state)
 			expect(result).toBe(27)
 		})
@@ -309,12 +307,13 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			// @ts-ignore
+
 			const selector = store.select((models) => ({
 				a: models.countA.double,
 				b: models.countB.double,
 			}))
 
+			// @ts-ignore
 			const result = selector(state)
 			expect(result).toEqual({ a: 4, b: 20 })
 		})
@@ -364,7 +363,7 @@ describe('select:', () => {
 			})
 
 			const state = store.getState()
-			// @ts-ignore
+
 			const result = store.select.countB.double(state)
 			expect(result).toBe(4)
 		})

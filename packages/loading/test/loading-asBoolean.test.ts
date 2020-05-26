@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { init, Model } from '@rematch/core'
 import loadingPlugin, { LoadingState } from '../src'
 import { delay, count } from './utils'
@@ -153,8 +152,7 @@ describe('loading asBoolean', () => {
 		const createStore = () =>
 			init({
 				models: { count },
-				// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-				// @ts-ignore
+				// @ts-expect-error
 				plugins: [loadingPlugin({ name: 42 })],
 			})
 
@@ -194,9 +192,8 @@ describe('loading asBoolean', () => {
 			init({
 				models: { count },
 				plugins: [
-					// @ts-ignore
 					loadingPlugin({
-						// @ts-ignore
+						// @ts-expect-error
 						whitelist: 'some/action',
 					}),
 				],
@@ -210,9 +207,8 @@ describe('loading asBoolean', () => {
 			init({
 				models: { count },
 				plugins: [
-					// @ts-ignore
 					loadingPlugin({
-						// @ts-ignore
+						// @ts-expect-error
 						blacklist: 'some/action',
 					}),
 				],

@@ -12,7 +12,9 @@ import { validateModel } from './validate'
  * Creates and returns a 'Rematch Bag', which is a set of configuration options
  * used by the Rematch library in various functions.
  */
-export default function createRematchBag(config: Config<any>): RematchBag {
+export default function createRematchBag<TModels extends Models>(
+	config: Config<TModels>
+): RematchBag {
 	return {
 		models: createNamedModels(config.models),
 		reduxConfig: config.redux,
@@ -47,10 +49,10 @@ function createNamedModels<M extends Models>(models: M): NamedModel[] {
  * Transforms a model into 'named' model - model which contains 'name' and
  * 'reducers' properties if user didn't provide any.
  */
-function createNamedModel<S, SS, K extends string, M extends Model<S, SS, K>>(
+function createNamedModel<S, SS>(
 	name: string,
-	model: M
-): NamedModel<S, SS, K> {
+	model: Model<S, SS>
+): NamedModel<S, SS> {
 	return {
 		name,
 		reducers: {},

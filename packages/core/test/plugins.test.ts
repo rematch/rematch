@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { init, MiddlewareCreator, Plugin } from '../src'
 
 describe('plugins:', () => {
@@ -97,7 +96,7 @@ describe('plugins:', () => {
 	test('plugins should be able to set a value in store', () => {
 		const pluginWithReturn: Plugin = {
 			onStoreCreated: (store): void => {
-				// @ts-ignore
+				// @ts-expect-error
 				store.returned = 42 // when creating plugin, we would need to expand type for the rematch store to include 'returned'
 			},
 		}
@@ -106,7 +105,7 @@ describe('plugins:', () => {
 			plugins: [pluginWithReturn],
 		})
 
-		// @ts-ignore
+		// @ts-expect-error
 		expect(store.returned).toEqual(42)
 	})
 })

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { init } from '../src'
 
 describe('multiple stores:', () => {
@@ -83,11 +82,9 @@ describe('multiple stores:', () => {
 		const store2 = init({ models: { count: count2 } })
 
 		expect(store1.dispatch.count.increment).toBeDefined()
-		// we need to ignore to test that it doesn't exist
-		// @ts-ignore
+		// @ts-expect-error
 		expect(store2.dispatch.count.increment).not.toBeDefined()
-		// we need to ignore to test that it doesn't exist
-		// @ts-ignore
+		// @ts-expect-error
 		expect(store1.dispatch.count.add).not.toBeDefined()
 		expect(store2.dispatch.count.add).toBeDefined()
 	})
@@ -117,11 +114,7 @@ describe('multiple stores:', () => {
 		const store2 = init({ models: { speak } })
 
 		expect(store1.dispatch.say.hi).toBeDefined()
-		// we need to ignore to test that it doesn't exist
-		// @ts-ignore
 		expect(store2.dispatch.say).not.toBeDefined()
-		// we need to ignore to test that it doesn't exist
-		// @ts-ignore
 		expect(store1.dispatch.speak).not.toBeDefined()
 		expect(store2.dispatch.speak.hi).toBeDefined()
 	})
