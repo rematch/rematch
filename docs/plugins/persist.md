@@ -41,7 +41,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 const persistor = getPersistor()
 
 const Root = () => {
-	;<PersistGate persistor={persistor}>
+	<PersistGate persistor={persistor}>
 		<App />
 	</PersistGate>
 }
