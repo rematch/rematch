@@ -11,7 +11,7 @@ import * as Redux from 'redux'
 export as namespace rematch
 
 export type ExtractRematchStateFromModels<M> = {
-	[modelKey in keyof M]: M[modelKey] extends ModelConfig ? M[modelKey]['state'] : never
+	[modelKey in keyof M]: M[modelKey] extends ModelConfig<any, any, M> ? M[modelKey]['state'] : never
 }
 
 export type RematchRootState<M> = ExtractRematchStateFromModels<M>
@@ -29,7 +29,7 @@ export type ExtractRematchDispatchersFromEffectsObject<effects extends ModelEffe
 }
 
 export type ExtractRematchDispatchersFromEffects<
-	effects extends ModelConfig['effects']
+	effects extends ModelConfig<any, any, M>['effects'], M
 > = effects extends ((...args: any[]) => infer R)
 	? R extends ModelEffects<any>
 		? ExtractRematchDispatchersFromEffectsObject<R>
@@ -61,12 +61,12 @@ export type ExtractRematchDispatchersFromReducers<
 > = ExtractRematchDispatchersFromReducersObject<reducers & {}>
 
 export type ExtractRematchDispatchersFromModel<
-	M extends ModelConfig
+	M extends ModelConfig<any, any, RM>, RM
 > = ExtractRematchDispatchersFromReducers<M['reducers']> &
-	ExtractRematchDispatchersFromEffects<M['effects']>
+	ExtractRematchDispatchersFromEffects<M['effects'], RM>
 
 export type ExtractRematchDispatchersFromModels<M> = {
-	[modelKey in keyof M]: M[modelKey] extends ModelConfig ? ExtractRematchDispatchersFromModel<M[modelKey]> : never
+	[modelKey in keyof M]: M[modelKey] extends ModelConfig<any, any, M> ? ExtractRematchDispatchersFromModel<M[modelKey], M> : never
 }
 
 export type RematchDispatcher<P = void, M = void> = ([P] extends [void]
@@ -158,14 +158,14 @@ export interface Model<S = any, SS = S> extends ModelConfig<S, SS> {
 	reducers: ModelReducers<S>
 }
 
-export interface ModelConfig<S = any, SS = S, K extends string = string> {
+export interface ModelConfig<S = any, SS = S, M = void> {
 	name?: string
 	state: S
 	baseReducer?: (state: SS, action: Action) => SS
 	reducers?: ModelReducers<S>
 	effects?:
 		| ModelEffects<any>
-		| (<M extends Models<K> | void = void>(dispatch: RematchDispatch<M>) => ModelEffects<any>)
+		| ((dispatch: RematchDispatch<M>) => ModelEffects<any>)
 }
 
 export interface PluginFactory extends Plugin {
