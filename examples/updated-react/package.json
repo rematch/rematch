@@ -1,11 +1,11 @@
 {
 	"name": "rematch-example-updated-react",
-	"version": "0.1.0",
+	"version": "0.1.1-alpha.0",
 	"private": true,
 	"dependencies": {
-		"@rematch/core": "^2.0.0-next.0",
-		"@rematch/updated": "^2.0.0-next.0",
-	  	"moment": "^2.24.0",
+		"@rematch/core": "^2.0.0-next.1",
+		"@rematch/updated": "^2.0.0-next.1",
+		"moment": "^2.24.0",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-redux": "^7.2.0",
