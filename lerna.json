@@ -7,7 +7,7 @@
   "hoist": true,
   "command": {
     "version": {
-      "ignoreChanges": "examples/*"
+      "ignoreChanges": ["examples/*"]
     },
     "publish": {
       "npmClient": "npm",
@@ -16,7 +16,7 @@
         "next"
       ],
       "registry": "https://registry.npmjs.org/",
-      "ignoreChanges": "examples/*"
+      "ignoreChanges": ["examples/*"]
     }
   }
 }
