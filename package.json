@@ -36,8 +36,10 @@
     "lint:fix": "lerna run lint:fix",
     "docs": "docsify serve docs",
     "size": "bundlesize",
-    "release": "lerna publish from-package --dist-tag latest --yes",
-    "release-next": "lerna publish from-package --canary --preid next --dist-tag next --yes"
+    "version:latest": "lerna version --create-release github --conventional-commits -m 'chore(release): publish %v [ci skip]' --yes --no-private",
+    "version:next": "lerna version --create-release github --conventional-prerelease -m 'chore(release): publish %v [ci skip]' --yes --no-private",
+    "publish:latest": "lerna publish from-package --dist-tag latest --yes",
+    "publish:next": "lerna publish from-package --canary --preid next --pre-dist-tag next --yes"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.0",
