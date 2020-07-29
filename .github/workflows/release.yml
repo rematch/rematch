@@ -1,4 +1,4 @@
-name: Rematch - Release
+name: Rematch Release
 
 on:
   workflow_dispatch:
