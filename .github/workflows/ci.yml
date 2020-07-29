@@ -48,6 +48,8 @@ jobs:
       - name: Release
         if: ${{ github.event.inputs.distTag == 'latest' || github.event.inputs.distTag == 'next' }}
         run: |
+          git config --global user.email "sergiomorenoalbert@gmail.com"
+          git config --global user.name "Rematch CI"
           npm run version:${{ github.event.inputs.distTag }}
           npm run publish:${{ github.event.inputs.distTag }}
     env:
