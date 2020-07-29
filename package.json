@@ -18,6 +18,10 @@
     "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
     "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
   ],
+  "contributors": [
+    "Sergio Moreno <sergiomorenoalbert@gmail.com> (https://github.com/semoal)",
+    "Przemyslaw Jamrozowicz <> (https://github.com/pjamrozowicz)"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rematch/rematch.git"
@@ -28,12 +32,16 @@
     "clean": "lerna run clean",
     "build": "lerna run build",
     "test": "lerna run test",
-    "lint": "eslint --ext .js,.ts .",
-    "lint:fix": "eslint . --ext .js,.ts --fix",
+    "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix",
     "docs": "docsify serve docs",
-    "size": "bundlesize"
+    "size": "bundlesize",
+    "release": "lerna publish from-package --dist-tag latest --yes",
+    "release-next": "lerna publish from-package --canary --preid next --dist-tag next --yes"
   },
   "devDependencies": {
+    "@commitlint/cli": "^9.1.0",
+    "@commitlint/config-conventional": "^9.1.0",
     "@types/jest": "^25.2.1",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
@@ -49,7 +57,7 @@
     "lerna": "^3.20.2",
     "prettier": "^2.0.2",
     "rimraf": "^3.0.2",
-    "tsdx": "^0.13.1",
+    "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.3"
   },
@@ -59,8 +67,14 @@
       "maxSize": "5 kB"
     }
   ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "npm run lint"
     }
   }

@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
-	"module": "esnext",
-	"lib": ["dom", "esnext"],
-	"importHelpers": true,
-	"declaration": true,
-	"declarationMap": true,
-	"sourceMap": true,
-	"strict": true,
-	"noUnusedLocals": true,
-	"noUnusedParameters": true,
-	"noImplicitReturns": true,
-	"noFallthroughCasesInSwitch": true,
-	"moduleResolution": "node",
-	"esModuleInterop": true,
-	"removeComments": true,
-	"noEmit": true
+		"module": "esnext",
+		"lib": ["dom", "esnext"],
+		"importHelpers": true,
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"removeComments": true,
+		"noEmit": true
   }
 }

@@ -1,8 +1,13 @@
 {
   "packages": [
     "packages/*",
-	"examples/*"
+	  "examples/*"
   ],
   "version": "independent",
-  "hoist": true
+  "hoist": true,
+  "command": {
+    "publish": {
+      "conventionalCommits": true
+    }
+  }
 }
