@@ -1,6 +1,12 @@
 name: Rematch CI
 
 on:
+  workflow_dispatch:
+    inputs:
+        distTag:
+          description: 'Dist tag to publish'
+          required: true
+          default: 'next'
   pull_request:
   push:
     branches:
@@ -39,5 +45,12 @@ jobs:
           npm run test
           npm run lint
           npm run size
+      - name: Release
+        if: ${{ github.event.inputs.distTag == 'latest' || github.event.inputs.distTag == 'next' }}
+        run: |
+          npm run version:${{ github.event.inputs.distTag }}
+          npm run publish:${{ github.event.inputs.distTag }}
     env:
       CI: true
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
