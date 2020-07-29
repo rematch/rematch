@@ -1,38 +1,58 @@
-# Persist
+# Persist Plugin
 
-Redux-Persist v5 plugin for Rematch.
+Redux-Persist v6 plugin for Rematch. Provides automatic Redux state persistence.
 
-Provides simple redux state persistence using local storage options.
+## Compatibility {docsify-ignore}
 
-![persist](https://user-images.githubusercontent.com/4660659/33304219-67bd1dc6-d3bc-11e7-8159-a05d65c170bf.gif)
+Install the correct version of persist plugin based on the version of the core Rematch library in your project.
 
-## Install
+|         @rematch/core  | @rematch/persist  |
+| :--------------------: | :----: |
+| 0.x ‎                   |   0.2.1  |
+| 1.x                    |    1.x   |
+| 2.x                    |    2.x   |
 
-```text
+## Install {docsify-ignore}
+
+```bash
 npm install @rematch/persist
 ```
 
-?> For `@rematch/core@0.x` use `@rematch/persist@0.2.1`
+## persistPlugin(persistConfig, [nestedPersistConfig, persistStoreConfig, callback]) {docsify-ignore}
 
-## Setup
+The persist plugin accepts four arguments - **persistConfig**, **nestedPersistConfig**, **persistStoreConfig**, **callback**.
+
+- `persistConfig` (_PersistConfig_): object compatible with _config_ argument accepted by redux-persist's _persistReducer_ method - for details refer to their [documentation](https://github.com/rt2zz/redux-persist#persistreducerconfig-reducer). It is used when creating a persisted root reducer in your store.
+
+- [`nestedPersistConfig`] (_{ [modelName]: PersistConfig }_): whenever you need to use a [Nested Persist](https://github.com/rt2zz/redux-persist#nested-persists) configuration for some models, provide an object with a mapping from the model name to the redux-persist config for this model.
+
+- [`persistStoreConfig`] (_PersistorOptions_): object compatible with _config_ argument accepted by redux-persist's _persistStore_ method - for details refer to their [documentation](https://github.com/rt2zz/redux-persist#persiststorestore-config-callback).
+
+- [`callback`] (_() => void_): a function called after rehydration is finished.
+
+## Usage {docsify-ignore}
+
+**store.js**
 
 ```javascript
-import createRematchPersist from '@rematch/persist'
+import persistPlugin from '@rematch/persist'
+import { init } from '@rematch/core'
+import storage from 'redux-persist/lib/storage'
 
-const persistPlugin = createRematchPersist({
-	whitelist: ['modelName1'],
-	throttle: 5000,
-	version: 1,
-})
+const persistConfig = {
+  key: 'root',
+  storage,
+}
 
 init({
-	plugins: [persistPlugin],
+    // add persistPlugin to your store
+	plugins: [persistPlugin(persistConfig)],
 })
 ```
 
 ### Persist Gate
 
-With React, display a loading indicator while waiting for data to async load from storage.
+In React you can use a special component provided by redux-persist to display a loading indicator while waiting for data to async load from the storage.
 
 ```javascript
 import { getPersistor } from '@rematch/persist'
@@ -41,12 +61,8 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 const persistor = getPersistor()
 
 const Root = () => {
-	;<PersistGate persistor={persistor}>
+	<PersistGate persistor={persistor}>
 		<App />
 	</PersistGate>
 }
 ```
-
-### Config Options
-
-See [redux-persist config docs](https://github.com/rt2zz/redux-persist/blob/master/docs/api.md#type-persistconfig)

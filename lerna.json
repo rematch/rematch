@@ -1,0 +1,22 @@
+{
+  "version": "independent",
+  "packages": [
+    "packages/*",
+	  "examples/*"
+  ],
+  "hoist": true,
+  "command": {
+    "version": {
+      "ignoreChanges": ["examples/*"]
+    },
+    "publish": {
+      "npmClient": "npm",
+      "allowBranch": [
+        "master",
+        "next"
+      ],
+      "registry": "https://registry.npmjs.org/",
+      "ignoreChanges": ["examples/*"]
+    }
+  }
+}

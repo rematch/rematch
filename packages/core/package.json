@@ -1,0 +1,56 @@
+{
+  "name": "@rematch/core",
+  "version": "2.0.0-next.0",
+  "description": "A Redux Framework",
+  "homepage": "https://rematch.github.io/rematch",
+  "main": "dist/index.js",
+  "module": "dist/core.esm.js",
+  "browser": "dist/core.esm.js",
+  "unpkg": "dist/core.umd.production.min.js",
+  "types": "dist/index",
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build --format cjs,esm,umd",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "clean": "rimraf dist"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "peerDependencies": {
+    "redux": "^4.0.5"
+  },
+  "devDependencies": {
+    "redux": "4.0.5",
+    "typings-tester": "^0.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "authors": [
+    "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+    "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
+  ],
+  "bugs": {
+    "url": "https://github.com/rematch/rematch/issues"
+  },
+  "keywords": [
+    "@rematch",
+    "rematch",
+    "redux",
+    "state management",
+    "javascript"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  }
+}

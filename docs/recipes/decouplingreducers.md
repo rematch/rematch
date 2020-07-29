@@ -107,7 +107,7 @@ function toggleAllIds(state, payload) {
 }
 ```
 
-And we finally mix everything all together by distibuting a part of the state to our reducers functions:
+And we finally mix everything all together by distributing a part of the state to our reducers functions:
 
 ```javascript
 const todoList = {
@@ -129,5 +129,5 @@ const todoList = {
 };
 ```
 
-[React example](https://codesandbox.io/s/x2r7nryn24)  
+[React example](https://codesandbox.io/s/x2r7nryn24)
 Reducer functions make our model simpler and more readable.

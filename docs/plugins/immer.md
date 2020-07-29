@@ -1,34 +1,56 @@
-# Immer
+# Immer Plugin
 
-Immer plugin for Rematch. Provides immutable ability on immer library.
+Immer plugin for Rematch. Wraps your reducers with immer, providing ability to safely do mutable changes resulting in immutable state.
 
-## Install
+## Compatibility {docsify-ignore}
 
-```text
+Install the correct version of immer plugin based on the version of the core Rematch library in your project.
+
+|         @rematch/core  | @rematch/immer  |
+| :--------------------: | :----: |
+| 0.x ‎                   |   0.1.0  |
+| 1.x                    |    1.x   |
+| 2.x                    |    2.x   |
+
+## Install {docsify-ignore}
+
+```bash
 npm install @rematch/immer
 ```
 
-?> For `@rematch/core@0.x` use `@rematch/immer@0.1.0`
+## immerPlugin([config]) {docsify-ignore}
 
-## Setup
+Immer plugin accepts one optional argument - **config**, which is an object with the following properties:
+
+- [`whitelist`] (*string[]*): an array of models' names. Allows defining on a model level, which reducers should be wrapped with immer.
+- [`blacklist`] (*string[]*): an array of models' names. Allows defining on a model level, which reducers should **not** be wrapped with immer.
+
+If config isn't provided, reducers from all models will be wrapped with immer.
+
+## Usage {docsify-ignore}
+
+In Immer, reducers can perform mutations to achieve the next immutable state. **Immer doesn't require that you return the next state from a reducer, but @rematch/immer plugin expects you to do it!** Your reducers must always return the next state. Otherwise, you will reset your model's state. See the example below for details.
+
+If your state is a primitive value like a number of a string, plugin automatically avoids using immer to execute the reducer, because immer can only recognize changes to the plain objects or arrays.
+
+**store.js**
 
 ```javascript
 import immerPlugin from '@rematch/immer'
 import { init } from '@rematch/core'
-
-const immer = immerPlugin()
+import * as models from './models'
 
 init({
-	plugins: [immer],
+    models,
+    // add immerPlugin to your store
+	plugins: [immerPlugin()],
 })
 ```
 
-## Usage
-
-Use Immer plugin, reducer could be use mutable method to achieve immutable state. Like the example:
+**models.js**
 
 ```javascript
-const todo = {
+export const todo = {
 	state: [
 		{
 			todo: 'Learn typescript',
@@ -41,26 +63,16 @@ const todo = {
 	],
 	reducers: {
 		done(state) {
+            // mutable changes to the state
 			state.push({ todo: 'Tweet about it' })
 			state[1].done = true
 			return state
 		},
+        // when 'reset' reducer is executed, the state will be set
+        // to 'undefined' because reducer doesn't return the next state
+        reset(state) {
+           state[0].done = false
+        },
 	},
 }
 ```
-
-In Immer, reducers perform mutations to achieve the next immutable state. Keep in mind, Immer only supports change detection on plain objects and arrays, so primitive values like strings or numbers will always return a change. Like the example:
-
-```javascript
-const count = {
-	state: 0,
-	reducers: {
-		add(state) {
-			state += 1
-			return state
-		},
-	},
-}
-```
-
-I suggest to developers that reducers could return changed value all the time.

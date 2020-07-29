@@ -1,11 +1,18 @@
 # node
 node_modules
 npm-debug.*
+.DS_Store
 
 # build
 lib
 dist
 .rpt2_cache
+.rts2_cache_cjs
+.rts2_cache_esm
+.rts2_cache_umd
+.rts2_cache_system
+lerna-debug.log
+*.log
 
 # editor
 .vscode

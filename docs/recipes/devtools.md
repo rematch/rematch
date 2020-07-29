@@ -1,6 +1,6 @@
-# Devtools
+# Devtools {docsify-ignore}
 
-## Redux-Devtools
+## Redux-Devtools {docsify-ignore}
 
 Rematch works with [Redux Devtools](https://github.com/zalmoxisus/redux-devtools-extension) out of the box. No configuration required.
 
@@ -30,12 +30,12 @@ init({
 })
 ```
 
-## Remote-Redux-Devtools
+## Remote-Redux-Devtools {docsify-ignore}
 
 Remote-redux-devtools is not supported in rematch see this [issue](https://github.com/rematch/rematch/issues/419).
 You can use [react-native-debugger](https://github.com/jhen0409/react-native-debugger) which works out of the box with rematch.
 
-## Reactotron
+## Reactotron {docsify-ignore}
 
 Setup Rematch to also work with [Reactotron devtools](https://github.com/infinitered/reactotron).
 

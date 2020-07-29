@@ -1,126 +1,83 @@
 {
-	"name": "@rematch/core",
-	"version": "1.4.0",
-	"description": "A Redux Framework",
-	"keywords": [
-		"@rematch",
-		"rematch",
-		"redux",
-		"state management",
-		"javascript"
-	],
-	"homepage": "https://github.com/rematch/rematch#readme",
-	"bugs": {
-		"url": "https://github.com/rematch/rematch/issues"
-	},
-	"license": "MIT",
-	"authors": [
-		"Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
-		"Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
-	],
-	"files": [
-		"scripts",
-		"dist",
-		"src/typings/index.d.ts"
-	],
-	"main": "dist/cjs",
-	"module": "dist/esm/rematch.js",
-	"browser": "dist/umd/rematch.js",
-	"types": "src/typings/index.d.ts",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/rematch/rematch.git"
-	},
-	"scripts": {
-		"clean:dist": "rimraf dist",
-		"clean:build": "rimraf build",
-		"clean": "npm run clean:dist & npm run clean:build",
-		"build": "NODE_ENV=production && npm run clean && rollup -c",
-		"build:all": "bash ./scripts/build.sh",
-		"dev": "tsc --watch src",
-		"install:all": "tsc && bash ./scripts/setup_plugins.sh",
-		"lint": "tslint -c tslint.json 'src/**/*.ts'",
-		"test": "jest",
-		"test:ts:setup": "npm run build && npm run clean --prefix examples/ts/count",
-		"test:ts": "jest --testPathPattern=\"/test/typescript.test.js\" --testPathIgnorePatterns=[]",
-		"docs:serve": "docsify serve docs",
-		"size": "bundlesize"
-	},
-	"dependencies": {
-		"redux": "^4.0.5"
-	},
-	"devDependencies": {
-		"@types/jest": "^25.1.3",
-		"@types/node": "^13.7.4",
-		"bundlesize": "^0.18.0",
-		"coveralls": "^3.0.9",
-		"cross-env": "^7.0.0",
-		"docsify-cli": "^4.4.0",
-		"jest": "^25.1.0",
-		"prettier": "^1.19.1",
-		"redux-persist": "^5.10.0",
-		"reselect": "^4.0.0",
-		"rimraf": "^3.0.2",
-		"rollup": "^1.31.1",
-		"rollup-plugin-commonjs": "^10.1.0",
-		"rollup-plugin-node-resolve": "^5.2.0",
-		"rollup-plugin-replace": "^2.2.0",
-		"rollup-plugin-typescript": "^1.0.1",
-		"rollup-plugin-uglify": "^6.0.4",
-		"ts-jest": "^25.2.1",
-		"tslint": "^6.0.0",
-		"typescript": "^3.8.2",
-		"typings-tester": "^0.3.2",
-		"uglify-es": "^3.3.9"
-	},
-	"jest": {
-		"transform": {
-			"^.+\\.tsx?$": "ts-jest"
-		},
-		"globals": {
-			"NODE_ENV": "test"
-		},
-		"collectCoverage": true,
-		"coverageDirectory": "coverage/",
-		"coverageThreshold": {
-			"global": {
-				"branches": 50,
-				"functions": 50,
-				"lines": 50,
-				"statements": 50
-			}
-		},
-		"coveragePathIgnorePatterns": [
-			"/_book/",
-			"/node_modules/",
-			"/plugins/react-navigation/",
-			"/dist",
-			".mock.js",
-			"/test/utils.js",
-			"test/typescript.test"
-		],
-		"testPathIgnorePatterns": [
-			"/_book/",
-			"/lib/",
-			"/plugins",
-			"/plugins/react-navigation/examples",
-			"/plugins/subscriptions",
-			"/plugins/loading-immutable",
-			"/examples/ts",
-			"test/typescript.test"
-		],
-		"moduleFileExtensions": [
-			"ts",
-			"tsx",
-			"js",
-			"jsx",
-			"json"
-		]
-	},
-	"bundlesize": [
-		{
-			"path": "./dist/umd/rematch.prod.min.js",
-			"maxSize": "6 kB"
-		}
-	]
+  "name": "rematch",
+  "private": true,
+  "description": "The root package for rematch",
+  "homepage": "https://rematch.github.io/rematch",
+  "bugs": {
+    "url": "https://github.com/rematch/rematch/issues"
+  },
+  "keywords": [
+    "@rematch",
+    "rematch",
+    "redux",
+    "state management",
+    "javascript"
+  ],
+  "license": "MIT",
+  "authors": [
+    "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
+    "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
+  ],
+  "contributors": [
+    "Sergio Moreno <sergiomorenoalbert@gmail.com> (https://github.com/semoal)",
+    "Przemyslaw Jamrozowicz <> (https://github.com/pjamrozowicz)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "start": "lerna run start",
+    "clean": "lerna run clean",
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix",
+    "docs": "docsify serve docs",
+    "size": "bundlesize",
+    "version:latest": "lerna version --no-private --create-release github --conventional-commits -m 'chore(release): publish %v [ci skip]' --yes",
+    "version:next": "lerna version --no-private --preid next --create-release github --conventional-commits --conventional-prerelease -m 'chore(release): publish %v [ci skip]' --yes",
+    "publish:latest": "lerna publish from-package --dist-tag latest --yes",
+    "publish:next": "lerna publish from-package --canary --preid next --pre-dist-tag next --yes"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^9.1.0",
+    "@commitlint/config-conventional": "^9.1.0",
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.25.0",
+    "@typescript-eslint/parser": "^2.25.0",
+    "bundlesize": "^0.18.0",
+    "coveralls": "^3.0.11",
+    "docsify-cli": "^4.4.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "lerna": "^3.22.1",
+    "prettier": "^2.0.2",
+    "rimraf": "^3.0.2",
+    "tsdx": "^0.13.2",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.3"
+  },
+  "bundlesize": [
+    {
+      "path": "./packages/core/dist/core.umd.production.min.js",
+      "maxSize": "5 kB"
+    }
+  ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run lint"
+    }
+  }
 }
