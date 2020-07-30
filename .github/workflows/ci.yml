@@ -15,6 +15,11 @@ on:
 jobs:
   build_and_testing:
     runs-on: ubuntu-latest
+    env:
+      CI: true
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -53,8 +58,3 @@ jobs:
           git config --global user.name "Rematch CI"
           npm run version:${{ github.event.inputs.distTag }}
           npm run publish:${{ github.event.inputs.distTag }}
-    env:
-      CI: true
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
