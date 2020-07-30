@@ -29,6 +29,7 @@ jobs:
         with:
             node-version: 12
             registry-url: 'https://registry.npmjs.org'
+            scope: '@rematch'
       - uses: actions/cache@v2
         name: Cache node modules
         env:
