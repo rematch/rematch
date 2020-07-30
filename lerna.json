@@ -7,7 +7,13 @@
   "hoist": true,
   "command": {
     "version": {
-      "ignoreChanges": ["examples/*"]
+      "ignoreChanges": [
+        "**/CHANGELOG.md",
+        "**/examples/*",
+        "**/node_modules/**",
+        "**/package.json",
+        "**/*.md"
+      ]
     },
     "publish": {
       "npmClient": "npm",
@@ -16,7 +22,13 @@
         "next"
       ],
       "registry": "https://registry.npmjs.org/",
-      "ignoreChanges": ["examples/*"]
+      "ignoreChanges": [
+        "**/CHANGELOG.md",
+        "**/examples/*",
+        "**/node_modules/**",
+        "**/package.json",
+        "**/*.md"
+      ]
     }
   }
 }
