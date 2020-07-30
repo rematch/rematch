@@ -1,6 +1,6 @@
 {
   "name": "@rematch/loading",
-  "version": "2.0.0-next.0",
+  "version": "2.0.0-next.1",
   "description": "Loading indicator plugin for Rematch",
   "homepage": "https://rematch.github.io/rematch",
   "main": "dist/index.js",
@@ -19,9 +19,8 @@
     "dist",
     "src"
   ],
-  "dependencies": {},
   "devDependencies": {
-    "@rematch/core": "^2.0.0-next.0",
+    "@rematch/core": "^2.0.0-next.1",
     "@types/redux-immutable": "^4.0.1",
     "immutable": "^3.8.2",
     "redux-immutable": "^4.0.0"
