@@ -32,6 +32,8 @@ jobs:
             scope: '@rematch'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: |
+          npm whoami
       - uses: actions/cache@v2
         name: Cache node modules
         env:
