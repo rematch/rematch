@@ -29,10 +29,6 @@ jobs:
         with:
             node-version: 12
             registry-url: 'https://registry.npmjs.org'
-      - name: Authenticate with a local ~.npmrc
-        run: |
-          echo -e "@rematch:registry=https://registry.npmjs.org \n //registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
-          npm whoami
       - uses: actions/cache@v2
         name: Cache node modules
         env:
