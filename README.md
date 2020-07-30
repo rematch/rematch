@@ -5,7 +5,7 @@
 > Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
 
 > We're actively looking for a documentation deployment solution, for now you can look @next documentation here:
-https://practical-beaver-9df3e9.netlify.app/#/
+https://rematch.netlify.app/#/
 
 ## Features
 
@@ -42,11 +42,11 @@ Rematch builds upon Redux by reducing boilerplate and enforcing best practices. 
 
 ## Migrate From Redux
 
-Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](https://practical-beaver-9df3e9.netlify.app/#/migration-guide.md) for the details.
+Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](https://rematch.netlify.app/#/migration-guide.md) for the details.
 
 ## Composable Plugins
 
-Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](https://practical-beaver-9df3e9.netlify.app/#/plugins/summary?id=plugins-summary) developed by the Rematch team or the [API for creating plugins](https://practical-beaver-9df3e9.netlify.app/#/api/plugins?id=plugins-api).
+Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](https://rematch.netlify.app/#/plugins/summary?id=plugins-summary) developed by the Rematch team or the [API for creating plugins](https://rematch.netlify.app/#/api/plugins?id=plugins-api).
 
 
 ## Contact & Support
