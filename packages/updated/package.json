@@ -1,6 +1,6 @@
 {
   "name": "@rematch/updated",
-  "version": "2.0.0-next.1",
+  "version": "2.0.0-next.0",
   "description": "Rematch plugin for maintaining timestamps when effects are called",
   "homepage": "https://rematch.github.io/rematch",
   "main": "dist/index.js",
@@ -19,8 +19,9 @@
     "dist",
     "src"
   ],
+  "dependencies": {},
   "devDependencies": {
-    "@rematch/core": "^2.0.0-next.1"
+    "@rematch/core": "^2.0.0-next.0"
   },
   "peerDependencies": {
     "@rematch/core": ">=2.0.0-next.0"
