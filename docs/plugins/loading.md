@@ -15,7 +15,12 @@ Install the correct version of loading plugin based on the version of the core R
 ## Install {docsify-ignore}
 
 ```bash
-npm install @rematch/loading
+npm install @rematch/loading@next
+```
+or
+
+```bash
+yarn add @rematch/loading@next
 ```
 
 ## loadingPlugin([config]) {docsify-ignore}

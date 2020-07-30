@@ -15,7 +15,12 @@ Install the correct version of persist plugin based on the version of the core R
 ## Install {docsify-ignore}
 
 ```bash
-npm install @rematch/persist
+npm install @rematch/persist@next
+```
+or
+
+```bash
+yarn add @rematch/persist@next
 ```
 
 ## persistPlugin(persistConfig, [nestedPersistConfig, persistStoreConfig, callback]) {docsify-ignore}
