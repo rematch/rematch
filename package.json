@@ -39,8 +39,8 @@
     "size": "bundlesize",
     "version:latest": "lerna version --no-private --create-release github --conventional-commits --yes",
     "version:next": "lerna version --no-private --preid next --create-release github --conventional-commits --conventional-prerelease --yes",
-    "publish:latest": "lerna publish from-package --dist-tag latest --yes",
-    "publish:next": "lerna publish from-package --canary --preid next --pre-dist-tag next --yes"
+    "release:latest": "lerna publish from-package --dist-tag latest --yes",
+    "release:next": "lerna publish from-package --canary --preid next --pre-dist-tag next --yes"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.0",

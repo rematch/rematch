@@ -25,11 +25,13 @@ jobs:
         with:
           # pulls all commits (needed for lerna to correctly version)
           fetch-depth: "0"
-      - uses: actions/setup-node@v2-beta
+      - uses: actions/setup-node@v1
         with:
             node-version: 12
             registry-url: 'https://registry.npmjs.org'
             scope: '@rematch'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       - uses: actions/cache@v2
         name: Cache node modules
         env:
@@ -58,4 +60,6 @@ jobs:
           git config --global user.email "sergiomorenoalbert@gmail.com"
           git config --global user.name "Rematch CI"
           npm run version:${{ github.event.inputs.distTag }}
-          npm run publish:${{ github.event.inputs.distTag }}
+          npm run release:${{ github.event.inputs.distTag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
