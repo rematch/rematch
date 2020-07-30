@@ -33,6 +33,8 @@ jobs:
             scope: '@rematch'
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Npmrc locally
+        run: echo -e "@rematch:registry=https://registry.npmjs.org\n//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
       - name: Install
         run: |
           npm whoami
