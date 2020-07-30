@@ -10,7 +10,7 @@ Moving from Redux to Rematch involves very few steps.
 
 ### Migration from 1.x to 2.x <a id="migration-from-1x-to-2x"></a>
 
-For an earlier version, see [v1.x docs](https://github.com/rematch/rematch/tree/v1). Currently only displaying v2.x documentation.
+For an earlier version, see [v1.x docs](https://github.com/rematch/rematch/tree/master/docs). Currently only displaying v2.x documentation.
 
 Breaking changes for the core functionality:
 - changed the default name assigned to stores from a number to `Rematch Store ${number}` for clarity
