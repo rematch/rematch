@@ -23,6 +23,7 @@ jobs:
       - uses: actions/setup-node@v2-beta
         with:
             node-version: 12
+            registry-url: 'https://registry.npmjs.org'
       - uses: actions/cache@v2
         name: Cache node modules
         env:
@@ -36,7 +37,6 @@ jobs:
             ${{ runner.os }}-
       - name: Install
         run: |
-          npm whoami
           git fetch --depth=1 origin +refs/tags/*:refs/tags/*
           npm ci
           npm run bootstrap
@@ -57,3 +57,4 @@ jobs:
       CI: true
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

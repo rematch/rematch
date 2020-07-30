@@ -9,6 +9,7 @@
   "unpkg": "dist/core.umd.production.min.js",
   "types": "dist/index.d.ts",
   "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "scripts": {
