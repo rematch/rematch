@@ -5,7 +5,12 @@
 Installation is as simple as running the npm command:
 
 ```bash
-npm install @rematch/core
+npm install npm i @rematch/core@next
+```
+or
+
+```bash
+yarn add @rematch/core@next
 ```
 
 ## Basic usage

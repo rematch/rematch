@@ -20,7 +20,13 @@ Install the correct version of the updated plugin based on the version of the co
 ## Install {docsify-ignore}
 
 ```bash
-npm install @rematch/updated
+npm install @rematch/updated@next
+```
+
+or
+
+```bash
+yarn add @rematch/updated@next
 ```
 
 ## updatedPlugin([config]) {docsify-ignore}

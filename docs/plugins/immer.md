@@ -15,7 +15,12 @@ Install the correct version of immer plugin based on the version of the core Rem
 ## Install {docsify-ignore}
 
 ```bash
-npm install @rematch/immer
+npm install @rematch/immer@next
+```
+or
+
+```bash
+yarn add @rematch/immer@next
 ```
 
 ## immerPlugin([config]) {docsify-ignore}

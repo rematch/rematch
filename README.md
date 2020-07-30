@@ -1,11 +1,11 @@
 # Rematch
 
-[![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat)](https://rematchjs.slack.com) ![Rematch CI](https://github.com/rematch/rematch/workflows/Rematch%20CI/badge.svg?branch=next) [![Coverage Status](https://coveralls.io/repos/github/rematch/rematch/badge.svg?branch=master)](https://coveralls.io/github/rematch/rematch?branch=master) [![Npm version](https://img.shields.io/npm/v/@rematch/core?color=bright-green&style=flat)](https://badge.fury.io/js/%40rematch%2Fcore) [![Bundle size](https://img.shields.io/badge/bundlesize-~2.2kb-brightgreen.svg?style=flat)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat) [![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+[![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat-square)](https://rematchjs.slack.com) ![Rematch CI](https://github.com/rematch/rematch/workflows/Rematch%20CI/badge.svg?branch=next) ![npm (tag)](https://img.shields.io/npm/v/@rematch/core/next?style=flat-square) [![Bundle size](https://img.shields.io/badge/bundlesize-~2.2kb-brightgreen.svg?style=flat-square)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat-square) [![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=flat-square)](https://lerna.js.org/)
 
 > Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
 
 > We're actively looking for a documentation deployment solution, for now you can look @next documentation here:
-https://practical-beaver-9df3e9.netlify.app/#/
+https://rematch.netlify.app/#/
 
 ## Features
 
@@ -42,11 +42,11 @@ Rematch builds upon Redux by reducing boilerplate and enforcing best practices. 
 
 ## Migrate From Redux
 
-Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](https://rematch.github.io/rematch/#/migration-guide.md) for the details.
+Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](https://rematch.netlify.app/#/migration-guide.md) for the details.
 
 ## Composable Plugins
 
-Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](https://rematch.github.io/rematch/#/plugins/summary?id=plugins-summary) developed by the Rematch team or the [API for creating plugins](https://rematch.github.io/rematch/#/api/plugins?id=plugins-api).
+Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](https://rematch.netlify.app/#/plugins/summary?id=plugins-summary) developed by the Rematch team or the [API for creating plugins](https://rematch.netlify.app/#/api/plugins?id=plugins-api).
 
 
 ## Contact & Support

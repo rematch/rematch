@@ -15,7 +15,13 @@ Install the correct version of select plugin based on the version of the core Re
 ## Install {docsify-ignore}
 
 ```bash
-npm install @rematch/select
+npm install @rematch/select@next
+```
+
+or
+
+```bash
+yarn add @rematch/select@next
 ```
 
 ## selectPlugin([config]) {docsify-ignore}
