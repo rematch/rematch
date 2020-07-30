@@ -7,7 +7,10 @@
   "module": "dist/persist.esm.js",
   "browser": "dist/persist.esm.js",
   "unpkg": "dist/persist.umd.production.min.js",
-  "types": "dist/index",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build --format cjs,esm,umd",

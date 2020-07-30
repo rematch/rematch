@@ -7,7 +7,10 @@
   "module": "dist/updated.esm.js",
   "browser": "dist/updated.esm.js",
   "unpkg": "dist/updated.umd.production.min.js",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build --format cjs,esm,umd",

@@ -7,7 +7,10 @@
   "module": "dist/immer.esm.js",
   "browser": "dist/immer.esm.js",
   "unpkg": "dist/immer.umd.production.min.js",
-  "types": "dist/index",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build --format cjs,esm,umd",
