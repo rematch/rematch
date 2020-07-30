@@ -37,8 +37,8 @@
     "lint:fix": "lerna run lint:fix",
     "docs": "docsify serve docs",
     "size": "bundlesize",
-    "version:latest": "lerna version --no-private --create-release github --conventional-commits -m 'chore(release): publish %v [ci skip]' --yes",
-    "version:next": "lerna version --no-private --preid next --create-release github --conventional-commits --conventional-prerelease -m 'chore(release): publish %v [ci skip]' --yes",
+    "version:latest": "lerna version --no-private --create-release github --conventional-commits --yes",
+    "version:next": "lerna version --no-private --preid next --create-release github --conventional-commits --conventional-prerelease --yes",
     "publish:latest": "lerna publish from-package --dist-tag latest --yes",
     "publish:next": "lerna publish from-package --canary --preid next --pre-dist-tag next --yes"
   },
