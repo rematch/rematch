@@ -5,12 +5,18 @@
 Installation is as simple as running the npm command:
 
 ```bash
-npm install npm i @rematch/core@next
+npm install @rematch/core@next
 ```
 or
 
 ```bash
 yarn add @rematch/core@next
+```
+
+If you want to update all your @rematch packages to next features you can try:
+
+```bash
+npx update-by-scope -t next @rematch
 ```
 
 ## Basic usage
