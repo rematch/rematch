@@ -72,10 +72,14 @@ import { Dispatch, RootState } from './store'
 
 type CountState = number
 
+// Explicit typing of the initial state is required. Note that it can be ommitted in this case because \
+// 0 is inferred as number which is the exact state type. But for complex states, this won't work.
+const initialState : CountState = 0
 export const count = createModel<CountState>()({
 	state: 0, // initial state
 	reducers: {
 		// handle state changes with pure functions
+		// Don't forget to type your payload to get types in other places of your code.
 		increment(state, payload: number) {
 			return state + payload
 		},
