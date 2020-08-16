@@ -197,13 +197,21 @@ describe('dispatch:', () => {
 		})
 
 		test('should pass payload as the second param', () => {
-			type CountState = number
+			type CountState = {
+				countIds: number[]
+			}
 
 			const count = {
-				state: 1,
+				state: {
+					countIds: [],
+				},
 				reducers: {
-					incrementBy: (state: CountState, payload: number): CountState =>
-						state + payload,
+					incrementBy: (state: CountState, payload: number): CountState => {
+						return {
+							...state,
+							countIds: [...state.countIds, payload],
+						}
+					},
 				},
 			}
 
@@ -214,7 +222,7 @@ describe('dispatch:', () => {
 			store.dispatch.count.incrementBy(5)
 
 			expect(store.getState()).toEqual({
-				count: 6,
+				countIds: [6],
 			})
 		})
 	})

@@ -12,11 +12,9 @@ export const init = <TModels extends Models, TExtraModels extends Models>(
 	return createRematchStore<TModels, TExtraModels>(config)
 }
 
-export const createModel = <TState, TBaseState = TState>() => <
-	TModel extends Model<TState, TBaseState>
->(
-	model: TModel
-): TModel => model
+export const createModel: <State, BaseState = State>() => (
+	mo: Model<State, BaseState>
+) => Model<State, BaseState> = () => (mo: Model): Model => mo
 
 export default {
 	init,
