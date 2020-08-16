@@ -17,8 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
-	"types": ["./src/redux"]
+    "jsx": "react"
   },
   "include": [
     "src"

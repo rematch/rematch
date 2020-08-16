@@ -13,10 +13,12 @@ const mapDispatch = (dispatch: Dispatch) => ({
 	incrementDolphinsAsync: dispatch.dolphins.incrementAsync,
 	incrementSharks: () => dispatch.sharks.increment(1),
 	incrementSharksAsync: () => dispatch.sharks.incrementAsync(1),
-	incrementSharksAsync2: () => dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
+	incrementSharksAsync2: () =>
+		dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
 })
 
-type connectedProps = ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
+type connectedProps = ReturnType<typeof mapState> &
+	ReturnType<typeof mapDispatch>
 type Props = connectedProps
 
 class Count extends React.Component<Props> {
@@ -42,7 +44,4 @@ class Count extends React.Component<Props> {
 	}
 }
 
-export default connect(
-	mapState,
-	mapDispatch
-)(Count)
+export default connect(mapState, mapDispatch)(Count)
