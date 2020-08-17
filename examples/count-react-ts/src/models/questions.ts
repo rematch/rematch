@@ -8,18 +8,15 @@ type QuestionsState = {
 	type: QuestionType
 }
 
-const questions = createModel<QuestionsState, QuestionsState>()({
+const questions = createModel()({
 	state: {
-		questions: [],
+		questions: [] as number[],
 		amount: 2,
-		type: 'boolean',
+		type: 'boolean' as QuestionType,
 	},
 	reducers: {
 		// handle state changes with pure functions
-		setQuestions(
-			state: QuestionsState,
-			payload: Array<number>
-		) {
+		setQuestions(state, payload: Array<number>) {
 			console.log('p', payload)
 
 			return { ...state, amount: 1 }
@@ -31,7 +28,7 @@ const questions = createModel<QuestionsState, QuestionsState>()({
 		async loadQuestions({ categoryId }: { categoryId: string }) {
 			const typedDispatch = dispatch as Dispatch
 			// const questions = result.data.results;
-			typedDispatch.questions.setQuestions([1, 2]);
+			typedDispatch.questions.setQuestions([1, 2])
 			// console.log("result", result);
 			// console.log("rs", rootState);
 
@@ -39,8 +36,8 @@ const questions = createModel<QuestionsState, QuestionsState>()({
 		},
 		async otherLoadQuestion() {
 			const typedDispatch = dispatch as Dispatch
-			typedDispatch.questions.loadQuestions();
-		}
+			typedDispatch.questions.loadQuestions()
+		},
 	}),
 })
 
