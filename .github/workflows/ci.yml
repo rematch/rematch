@@ -47,7 +47,6 @@ jobs:
 
       - name: Install
         run: |
-          npm whoami
           git fetch --depth=1 origin +refs/tags/*:refs/tags/*
           npm ci
           npm run bootstrap
