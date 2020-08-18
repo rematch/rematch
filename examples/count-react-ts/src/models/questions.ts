@@ -23,7 +23,7 @@ const questions = createModel<RootModel>()({
 			return { ...state, amount: 1 }
 		},
 	},
-	effects: (dispatch: Dispatch) => ({
+	effects: (dispatch) => ({
 		// handle state changes with impure functions.
 		// use async/await for async actions
 		async loadQuestions({ categoryId }: { categoryId: string }) {
