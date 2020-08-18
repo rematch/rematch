@@ -17,13 +17,13 @@ const questions = createModel<RootModel, QuestionsState>()({
 	},
 	reducers: {
 		// handle state changes with pure functions
-		setQuestions(state, payload: Array<number>) {
+		setQuestions(state: QuestionsState, payload: Array<number>) {
 			console.log('p', payload)
 
 			return { ...state, amount: 1 }
 		},
 	},
-	effects: (dispatch) => ({
+	effects: (dispatch: Dispatch) => ({
 		// handle state changes with impure functions.
 		// use async/await for async actions
 		async loadQuestions({ categoryId }: { categoryId: string }) {
