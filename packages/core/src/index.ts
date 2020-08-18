@@ -1,5 +1,13 @@
+import { Reducer as ReduxReducer } from 'redux'
 import createRematchStore from './rematchStore'
-import { InitConfig, Models, Model, RematchStore } from './types'
+import {
+	InitConfig,
+	Models,
+	RematchStore,
+	ModelReducers,
+	ModelEffects,
+	ModelEffectsCreator,
+} from './types'
 import createConfig from './config'
 
 /**
@@ -12,9 +20,25 @@ export const init = <TModels extends Models, TExtraModels extends Models>(
 	return createRematchStore<TModels, TExtraModels>(config)
 }
 
-export const createModel: <State, BaseState = State>() => (
-	mo: Model<State, BaseState>
-) => Model<State, BaseState> = () => (mo: Model): Model => mo
+export const createModel: <RM extends Models<RM>>() => <
+	R extends ModelReducers<S>,
+	BR extends ReduxReducer<BS>,
+	E extends ModelEffects | ModelEffectsCreator<RM>,
+	S,
+	BS = S
+>(mo: {
+	name?: string
+	state: S
+	reducers?: R
+	baseReducer?: BR
+	effects?: E
+}) => {
+	name?: string
+	state: S
+	reducers: R
+	baseReducer: BR
+	effects: E
+} = () => (mo): any => mo
 
 export default {
 	init,
