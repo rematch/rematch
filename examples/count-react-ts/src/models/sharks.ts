@@ -1,6 +1,5 @@
 import { createModel } from '@rematch/core'
 import { delay } from './utils'
-import { Dispatch } from '../store'
 import { RootModel } from '.'
 
 export type SharksState = number

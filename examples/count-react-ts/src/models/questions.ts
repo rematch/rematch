@@ -1,5 +1,4 @@
 import { createModel } from '@rematch/core'
-import { Dispatch } from '../store'
 import { RootModel } from '.'
 
 type QuestionType = 'boolean' | 'multiple' | 'mixed'
@@ -11,28 +10,18 @@ type QuestionType = 'boolean' | 'multiple' | 'mixed'
 
 const questions = createModel<RootModel>()({
 	state: {
-		questions: [] as number[],
+		questions: [],
 		amount: 2,
-		type: 'boolean' as QuestionType,
+		type: 'boolean',
 	},
 	reducers: {
-		// handle state changes with pure functions
 		setQuestions(state, payload: Array<number>) {
-			console.log('p', payload)
-
-			return { ...state, amount: 1 }
+			return { ...state, questions: payload }
 		},
 	},
 	effects: (dispatch) => ({
-		// handle state changes with impure functions.
-		// use async/await for async actions
 		async loadQuestions({ categoryId }: { categoryId: string }) {
-			// const questions = result.data.results;
 			dispatch.questions.setQuestions([1, 2])
-			// console.log("result", result);
-			// console.log("rs", rootState);
-
-			// dispatch.questions.setQuestions(result)
 		},
 		async otherLoadQuestion() {
 			dispatch.questions.loadQuestions({ categoryId: '1' })
