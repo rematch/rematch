@@ -11,9 +11,9 @@ type QuestionsState = {
 
 const questions = createModel<RootModel, QuestionsState>()({
 	state: {
-		questions: [] as number[],
+		questions: [],
 		amount: 2,
-		type: 'boolean' as QuestionType,
+		type: 'boolean',
 	},
 	reducers: {
 		// handle state changes with pure functions

@@ -19,7 +19,7 @@ export const createModel: <TModels, State, BaseState = State>() => <
 	M extends Model<State, BaseState, TModels>
 >(
 	mo: M
-) => M = () => (mo): any => mo
+) => Omit<M, 'state'> & { state: State } = () => (mo): any => mo
 
 export default {
 	init,
