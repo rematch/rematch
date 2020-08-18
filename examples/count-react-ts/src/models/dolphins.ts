@@ -1,6 +1,7 @@
 import { createModel } from '@rematch/core'
 import { Dispatch } from '../store'
 import { delay } from './utils'
+import { RootModel } from '.'
 
 export type DolphinsState = number
 

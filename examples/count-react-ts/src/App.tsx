@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-
 import { RootState, Dispatch } from './store'
 
 const mapState = (state: RootState) => ({
@@ -17,9 +16,9 @@ const mapDispatch = (dispatch: Dispatch) => ({
 		dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
 })
 
-type connectedProps = ReturnType<typeof mapState> &
-	ReturnType<typeof mapDispatch>
-type Props = connectedProps
+type StateProps = ReturnType<typeof mapState>
+type DispatchProps = ReturnType<typeof mapDispatch>
+type Props = StateProps & DispatchProps
 
 class Count extends React.Component<Props> {
 	render() {

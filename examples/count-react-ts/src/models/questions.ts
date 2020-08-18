@@ -1,4 +1,4 @@
-import { createModel, ModelReducers } from '@rematch/core'
+import { createModel } from '@rematch/core'
 import { Dispatch } from '../store'
 import { RootModel } from '.'
 
@@ -23,7 +23,7 @@ const questions = createModel<RootModel>()({
 			return { ...state, amount: 1 }
 		},
 	},
-	effects: (dispatch) => ({
+	effects: (dispatch: Dispatch) => ({
 		// handle state changes with impure functions.
 		// use async/await for async actions
 		async loadQuestions({ categoryId }: { categoryId: string }) {

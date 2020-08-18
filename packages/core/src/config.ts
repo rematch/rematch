@@ -1,4 +1,4 @@
-import { InitConfig, Config, Models } from './types'
+import { InitConfig, Config } from './types'
 import { validateConfig, validatePlugin } from './validate'
 
 let count = 0
@@ -8,7 +8,7 @@ let count = 0
  * supplied by the user. Additionally, applies changes to the config made by
  * the plugins selected by the user.
  */
-export default function createConfig<TModels extends Models>(
+export default function createConfig<TModels>(
 	initConfig: InitConfig<TModels>
 ): Config<TModels> {
 	const storeName = initConfig.name ?? `Rematch Store ${count}`
@@ -17,7 +17,7 @@ export default function createConfig<TModels extends Models>(
 
 	const config = {
 		name: storeName,
-		models: initConfig.models || {},
+		models: initConfig.models || ({} as TModels),
 		plugins: initConfig.plugins || [],
 		redux: {
 			reducers: {},

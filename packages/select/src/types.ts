@@ -69,6 +69,7 @@ declare module '@rematch/core' {
 	interface Model<
 		TState = any,
 		TBaseState = TState,
+		TModels = Models,
 		AllModelsKeys extends string = string
 	> {
 		selectors?: ModelSelectorsConfig<TState>
