@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { ModelDispatcher } from '@rematch/core'
+import { ModelDispatcher, Models } from '@rematch/core'
 
 export const delay = (ms: number): Promise<void> =>
 	new Promise((r) => setTimeout(r, ms))
@@ -14,13 +14,17 @@ type CountModel = {
 	}
 }
 
+interface RootModel extends Models<RootModel> {
+	count: CountModel
+}
+
 export const count: CountModel = {
 	state: 0,
 	reducers: {
 		addOne: (s: number): number => s + 1,
 	},
 	effects: {
-		async timeout(this: ModelDispatcher<CountModel>): Promise<void> {
+		async timeout(this: ModelDispatcher<CountModel, RootModel>): Promise<void> {
 			await delay(200)
 			await this.addOne()
 		},

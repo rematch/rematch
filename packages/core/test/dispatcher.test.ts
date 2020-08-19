@@ -1,4 +1,4 @@
-import { init, ModelDispatcher } from '../src'
+import { init, ModelDispatcher, Models } from '../src'
 
 describe('dispatch:', () => {
 	describe('action:', () => {
@@ -204,7 +204,7 @@ describe('dispatch:', () => {
 			const count = {
 				state: {
 					countIds: [],
-				},
+				} as CountState,
 				reducers: {
 					incrementBy: (state: CountState, payload: number): CountState => {
 						return {
@@ -221,9 +221,7 @@ describe('dispatch:', () => {
 
 			store.dispatch.count.incrementBy(5)
 
-			expect(store.getState()).toEqual({
-				countIds: [6],
-			})
+			expect(store.getState().count.countIds).toEqual([5])
 		})
 	})
 
@@ -240,13 +238,19 @@ describe('dispatch:', () => {
 				}
 			}
 
+			interface RootModel extends Models<RootModel> {
+				example: CountModel
+			}
+
 			const count: CountModel = {
 				state: 0,
 				reducers: {
 					addOne: (state: CountState): CountState => state + 1,
 				},
 				effects: {
-					async callAddOne(this: ModelDispatcher<CountModel>): Promise<void> {
+					async callAddOne(
+						this: ModelDispatcher<CountModel, RootModel>
+					): Promise<void> {
 						this.addOne()
 					},
 				},
@@ -273,13 +277,19 @@ describe('dispatch:', () => {
 				}
 			}
 
+			interface RootModel extends Models<RootModel> {
+				example: CountModel
+			}
+
 			const count: CountModel = {
 				state: 0,
 				reducers: {
 					addOne: (state: CountState): CountState => state + 1,
 				},
 				effects: {
-					async callAddOne(this: ModelDispatcher<CountModel>): Promise<object> {
+					async callAddOne(
+						this: ModelDispatcher<CountModel, RootModel>
+					): Promise<object> {
 						this.addOne()
 						return {
 							added: true,

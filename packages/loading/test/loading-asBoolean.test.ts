@@ -5,7 +5,7 @@ import { delay, count } from './utils'
 describe('loading asBoolean', () => {
 	test('loading.global should be 0 for normal dispatched action', () => {
 		type Models = { count: typeof count }
-		type ExtraModels = { loading: Model<LoadingState<Models>> }
+		type ExtraModels = { loading: Model<Models, LoadingState<Models>> }
 
 		const store = init<Models, ExtraModels>({
 			models: { count },

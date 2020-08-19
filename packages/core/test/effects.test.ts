@@ -1,5 +1,5 @@
 import { Middleware } from 'redux'
-import { init, ModelDispatcher } from '../src'
+import { init, ModelDispatcher, Models } from '../src'
 
 describe('effects:', () => {
 	test('should create an action', () => {
@@ -96,6 +96,10 @@ describe('effects:', () => {
 			}
 		}
 
+		interface RootModel extends Models<RootModel> {
+			example: CountModel
+		}
+
 		const example: CountModel = {
 			state: 0,
 			reducers: {
@@ -103,7 +107,7 @@ describe('effects:', () => {
 			},
 			effects: {
 				async asyncAddOneArrow(
-					this: ModelDispatcher<CountModel>
+					this: ModelDispatcher<CountModel, RootModel>
 				): Promise<void> {
 					await this.addOne()
 				},
@@ -133,13 +137,19 @@ describe('effects:', () => {
 			}
 		}
 
+		interface RootModel extends Models<RootModel> {
+			example: CountModel
+		}
+
 		const example: CountModel = {
 			state: 0,
 			reducers: {
 				addOne: (state: CountState): CountState => state + 1,
 			},
 			effects: {
-				async asyncAddOne(this: ModelDispatcher<CountModel>): Promise<void> {
+				async asyncAddOne(
+					this: ModelDispatcher<CountModel, RootModel>
+				): Promise<void> {
 					await this.addOne()
 				},
 			},
@@ -168,6 +178,10 @@ describe('effects:', () => {
 			}
 		}
 
+		interface RootModel extends Models<RootModel> {
+			example: CountModel
+		}
+
 		const example: CountModel = {
 			state: 2,
 			reducers: {
@@ -176,7 +190,7 @@ describe('effects:', () => {
 			},
 			effects: {
 				async asyncAddBy(
-					this: ModelDispatcher<CountModel>,
+					this: ModelDispatcher<CountModel, RootModel>,
 					value: number
 				): Promise<void> {
 					await this.addBy(value)
@@ -207,6 +221,10 @@ describe('effects:', () => {
 			}
 		}
 
+		interface RootModel extends Models<RootModel> {
+			example: CountModel
+		}
+
 		const example: CountModel = {
 			state: 3,
 			reducers: {
@@ -215,7 +233,7 @@ describe('effects:', () => {
 			},
 			effects: {
 				async asyncAddBy(
-					this: ModelDispatcher<CountModel>,
+					this: ModelDispatcher<CountModel, RootModel>,
 					payload: { value: number }
 				): Promise<void> {
 					await this.addBy(payload)
@@ -246,7 +264,12 @@ describe('effects:', () => {
 				asyncCallAddOne(): Promise<void>
 			}
 		}
-		type EffectThis = ModelDispatcher<CountModel>
+
+		interface RootModel extends Models<RootModel> {
+			example: CountModel
+		}
+
+		type EffectThis = ModelDispatcher<CountModel, RootModel>
 
 		const example: CountModel = {
 			state: 0,
@@ -287,7 +310,10 @@ describe('effects:', () => {
 				asyncAddSome(): Promise<void>
 			}
 		}
-		type EffectThis = ModelDispatcher<CountModel>
+		interface RootModel extends Models<RootModel> {
+			example: CountModel
+		}
+		type EffectThis = ModelDispatcher<CountModel, RootModel>
 
 		const example: CountModel = {
 			state: 0,
