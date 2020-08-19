@@ -2,18 +2,18 @@ import { createModel } from '@rematch/core'
 import { RootModel } from '.'
 
 type QuestionType = 'boolean' | 'multiple' | 'mixed'
-// type QuestionsState = {
-// 	questions: number[]
-// 	amount: number
-// 	type: QuestionType
-// }
+type QuestionsState = {
+	questions: number[]
+	amount: number
+	type: QuestionType
+}
 
 const questions = createModel<RootModel>()({
 	state: {
 		questions: [],
 		amount: 2,
 		type: 'boolean',
-	},
+	} as QuestionsState,
 	reducers: {
 		setQuestions(state, payload: Array<number>) {
 			return { ...state, questions: payload }
