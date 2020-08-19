@@ -7,8 +7,57 @@ import {
 	ModelReducers,
 	ModelEffects,
 	ModelEffectsCreator,
+	RematchDispatch,
 } from './types'
 import createConfig from './config'
+
+/**
+ * Patch for the incompatibility between Redux.Dispatch and RematchDispatch
+ */
+declare module 'react-redux' {
+	interface Connect {
+		<
+			RM extends Models<RM> = Models,
+			State = DefaultRootState,
+			TStateProps = {},
+			TDispatchProps = {},
+			TOwnProps = {}
+		>(
+			mapStateToProps: MapStateToPropsParam<TStateProps, TOwnProps, State>,
+			mapDispatchToProps: MapRematchDispatchToPropsNonObject<
+				TDispatchProps,
+				TOwnProps,
+				RM
+			>
+		): InferableComponentEnhancerWithProps<
+			TStateProps & TDispatchProps,
+			TOwnProps
+		>
+	}
+
+	type MapRematchDispatchToPropsNonObject<
+		TDispatchProps,
+		TOwnProps,
+		RM extends Models<RM> = Models
+	> =
+		| MapRematchDispatchToPropsFactory<TDispatchProps, TOwnProps, RM>
+		| MapRematchDispatchToPropsFunction<TDispatchProps, TOwnProps, RM>
+
+	type MapRematchDispatchToPropsFactory<
+		TDispatchProps,
+		TOwnProps,
+		RM extends Models<RM> = Models
+	> = (
+		dispatch: RematchDispatch<RM>,
+		ownProps: TOwnProps
+	) => MapRematchDispatchToPropsFunction<TDispatchProps, TOwnProps, RM>
+
+	type MapRematchDispatchToPropsFunction<
+		TDispatchProps,
+		TOwnProps,
+		RM extends Models<RM> = Models
+	> = (dispatch: RematchDispatch<RM>, ownProps: TOwnProps) => TDispatchProps
+}
 
 /**
  * Prepares a complete configuration and creates a Rematch store.
