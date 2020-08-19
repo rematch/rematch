@@ -210,7 +210,7 @@ Rematch can be used with native redux integrations such as "react-redux". See an
 
 #### ** JavaScript **
 
-```jsx
+```javascript
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
@@ -248,7 +248,7 @@ ReactDOM.render(
 
 #### ** TypeScript **
 
-```tsx
+```typescript
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { RootState, Dispatch } from './store'
@@ -259,7 +259,7 @@ const mapState = (state: RootState) => ({
 
 const mapDispatch = (dispatch: Dispatch) => ({
 	increment: () => dispatch.count.increment(1),
-    incrementAsync: () => dispatch.count.incrementAsync(1),
+	incrementAsync: () => dispatch.count.incrementAsync(1),
 })
 
 type StateProps = ReturnType<typeof mapState>
@@ -286,3 +286,5 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('root')
 )
+```
+<!-- tabs:end -->
