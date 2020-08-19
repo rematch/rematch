@@ -50,8 +50,8 @@ const createDispatcher = <TModels extends Models, TModel extends NamedModel>(
 	rematch: RematchStore<TModels>,
 	bag: RematchBag,
 	model: TModel
-): ModelDispatcher<TModel> => {
-	const modelDispatcher = {} as ModelDispatcher<TModel>
+): ModelDispatcher<TModel, TModels> => {
+	const modelDispatcher = {} as ModelDispatcher<TModel, TModels>
 
 	// map reducer names to dispatch actions
 	for (const reducerName of Object.keys(model.reducers)) {
@@ -72,7 +72,7 @@ const createDispatcher = <TModels extends Models, TModel extends NamedModel>(
 	if (model.effects) {
 		effects =
 			typeof model.effects === 'function'
-				? (model.effects as ModelEffectsCreator)(rematch.dispatch)
+				? (model.effects as ModelEffectsCreator<TModels>)(rematch.dispatch)
 				: model.effects
 	}
 

@@ -49,10 +49,7 @@ function createNamedModels<M extends Models>(models: M): NamedModel[] {
  * Transforms a model into 'named' model - model which contains 'name' and
  * 'reducers' properties if user didn't provide any.
  */
-function createNamedModel<S, SS>(
-	name: string,
-	model: Model<S, SS>
-): NamedModel<S, SS> {
+function createNamedModel(name: string, model: Model): NamedModel {
 	return {
 		name,
 		reducers: {},

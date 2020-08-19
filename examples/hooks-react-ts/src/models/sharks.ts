@@ -1,20 +1,17 @@
 import { createModel } from '@rematch/core'
 import { delay } from './utils'
-import { Dispatch } from '../store'
+import { RootModel } from '.'
 
-export type SharksState = number
-
-export const sharks = createModel<SharksState>()({
+export const sharks = createModel<RootModel>()({
 	state: 0,
 	reducers: {
 		increment: (state, payload: number) =>
 			state + payload,
 	},
 	effects: (dispatch) => ({
-		async incrementAsync(payload: number): Promise<void> {
-			const typedDispatch = dispatch as Dispatch
+		async incrementAsync(payload: number) {
 			await delay(500)
-			typedDispatch.sharks.increment(payload)
+			dispatch.sharks.increment(payload)
 		},
 	}),
 });

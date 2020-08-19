@@ -16,7 +16,8 @@ export interface UpdatedConfig<T = Date> {
 export type UpdatedState<M extends Models, T> = {
 	[modelName in keyof M]: {
 		[effectName in keyof ExtractRematchDispatchersFromEffects<
-			M[modelName]['effects']
+			M[modelName]['effects'],
+			M
 		>]: T
 	}
 }

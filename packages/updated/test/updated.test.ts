@@ -1,4 +1,5 @@
 import { init, ModelDispatcher } from '@rematch/core'
+import { Models } from '@rematch/core/src'
 import updatedPlugin, { UpdatedState } from '../src'
 
 const mockDate = new Date()
@@ -13,6 +14,10 @@ type CountModel = {
 	}
 }
 
+interface RootModel extends Models<RootModel> {
+	[key: string]: CountModel
+}
+
 describe('updated', () => {
 	test('should setup with a config name', async () => {
 		const count: CountModel = {
@@ -21,7 +26,7 @@ describe('updated', () => {
 				addOne: (s: number): number => s + 1,
 			},
 			effects: {
-				timeout(this: ModelDispatcher<CountModel>): void {
+				timeout(this: ModelDispatcher<CountModel, RootModel>): void {
 					this.addOne()
 				},
 			},
@@ -57,7 +62,7 @@ describe('updated', () => {
 				addOne: (s: number): number => s + 1,
 			},
 			effects: {
-				timeout(this: ModelDispatcher<CountModel>): void {
+				timeout(this: ModelDispatcher<CountModel, RootModel>): void {
 					this.addOne()
 				},
 			},
@@ -103,10 +108,14 @@ describe('updated', () => {
 				addOne: (s: number): number => s + 1,
 			},
 			effects: {
-				async timeout(this: ModelDispatcher<AsyncCountModel>): Promise<void> {
+				async timeout(
+					this: ModelDispatcher<AsyncCountModel, RootModel>
+				): Promise<void> {
 					this.addOne()
 				},
-				async timeout2(this: ModelDispatcher<AsyncCountModel>): Promise<void> {
+				async timeout2(
+					this: ModelDispatcher<AsyncCountModel, RootModel>
+				): Promise<void> {
 					this.addOne()
 				},
 			},

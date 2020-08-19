@@ -63,16 +63,17 @@ export const count = {
 
 **count.ts**
 
-Use helper method `createModel` to create a model.
-Unfortunately, creating the effects is not as 'clean' as we would like it to be. Due to some TypeScript limitations, you need to cast the `dispatch` method and `rootState` to get their correct types. See the example below on how to do that.
+- Use helper method `createModel` to create a model.
+- You must pass the `RootModel` type that is exported on your index.ts of your models.
+- State is automatically infered, if your state contains complex types you only need to use an `as` [Look at count-react-ts example on questions.ts](https://github.com/rematch/rematch/blob/next-types/examples/count-react-ts/src/models/questions.ts)
+
+> All the examples of Rematch with Typescript are fully tested in our testing suite, so feel free to look at the /examples folder for an easier integration with your codebase.
 
 ```typescript
 import { createModel } from '@rematch/core'
-import { Dispatch, RootState } from './store'
+import { RootModel } from './models'
 
-type CountState = number
-
-export const count = createModel<CountState>()({
+export const count = createModel<RootModel>()({
 	state: 0, // initial state
 	reducers: {
 		// handle state changes with pure functions
@@ -83,13 +84,48 @@ export const count = createModel<CountState>()({
 	effects: (dispatch) => ({
 		// handle state changes with impure functions.
 		// use async/await for async actions
-		async incrementAsync(payload: number, rootState) {
-            const typedDispatch = dispatch as Dispatch
-            const typedState = rootState as RootState
-
-            console.log('This is current root state', typedState);
+		async incrementAsync(payload: number, state) {
+			console.log('This is current root state', state);
 			await new Promise(resolve => setTimeout(resolve, 1000))
-			typedDispatch.count.increment(payload)
+			dispatch.count.increment(payload)
+		},
+	}),
+});
+```
+
+**Example with a more complex state**
+```typescript
+import { createModel } from '@rematch/core'
+import { RootModel } from './models'
+
+type QuestionType = "true-false" | "other-value"
+type Question = {
+	title: string
+}
+
+interface CountState {
+	questions: Array<Question>
+	questionType: QuestionType
+}
+
+export const count = createModel<RootModel>()({
+	state: {
+		questions: [],
+		questionType: "true-false"
+	} as CountState, // typed complex state
+	reducers: {
+		// handle state changes with pure functions
+		increment(state, payload: number) {
+			return state
+		},
+	},
+	effects: (dispatch) => ({
+		// handle state changes with impure functions.
+		// use async/await for async actions
+		async incrementAsync(payload: number, state) {
+			console.log('This is current root state', state);
+			await new Promise(resolve => setTimeout(resolve, 1000))
+			dispatch.count.increment(payload)
 		},
 	}),
 });
@@ -101,7 +137,7 @@ export const count = createModel<CountState>()({
 import { Models } from '@rematch/core'
 import { count } from './count'
 
-export interface RootModel extends Models {
+export interface RootModel extends Models<RootModel> {
 	count: typeof count
 }
 
@@ -174,7 +210,7 @@ Rematch can be used with native redux integrations such as "react-redux". See an
 
 #### ** JavaScript **
 
-```jsx
+```javascript
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
@@ -212,7 +248,7 @@ ReactDOM.render(
 
 #### ** TypeScript **
 
-```tsx
+```typescript
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { RootState, Dispatch } from './store'
@@ -223,27 +259,26 @@ const mapState = (state: RootState) => ({
 
 const mapDispatch = (dispatch: Dispatch) => ({
 	increment: () => dispatch.count.increment(1),
-    incrementAsync: () => dispatch.count.incrementAsync(1),
+	incrementAsync: () => dispatch.count.incrementAsync(1),
 })
 
-type Props = ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
+type StateProps = ReturnType<typeof mapState>
+type DispatchProps = ReturnType<typeof mapDispatch>
+type Props = StateProps & DispatchProps
 
 class Count extends React.Component<Props> {
 	render() {
 		return (
 			<div>
-                The count is {props.count}
-                <button onClick={props.increment}>increment</button>
-                <button onClick={props.incrementAsync}>incrementAsync</button>
-            </div>
+				The count is {props.count}
+				<button onClick={() => props.increment()}>increment</button>
+				<button onClick={() => props.incrementAsync()}>incrementAsync</button>
+			</div>
 		)
 	}
 }
 
-const CountContainer = connect(
-	mapState,
-	mapDispatch
-)(Count)
+const CountContainer = connect(mapState,mapDispatch)(Count)
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -252,19 +287,4 @@ ReactDOM.render(
 	document.getElementById('root')
 )
 ```
-
-You might need to 'patch' Redux types to avoid having issues with libraries such as `react-redux`. If Rematch doesn't work out of the box with your library of choice, add a file **redux.d.ts** to your project, with the following content:
-
-```typescript
-import { Action, AnyAction } from 'redux'
-
-declare module 'redux' {
-	export interface Dispatch<A extends Action = AnyAction> {
-        // list all your models names here
-		count: any // we have one model - count, so we added it
-	}
-}
-```
-
-Don't forget to include this file in your TypeScript config in ```compilerOptions.types``` array. Check out the [example](https://github.com/rematch/rematch/examples/count-react-ts) in Rematch repository.
 <!-- tabs:end -->

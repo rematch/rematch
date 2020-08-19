@@ -17,7 +17,7 @@ export default function createConfig<TModels extends Models>(
 
 	const config = {
 		name: storeName,
-		models: initConfig.models || {},
+		models: initConfig.models || ({} as TModels),
 		plugins: initConfig.plugins || [],
 		redux: {
 			reducers: {},

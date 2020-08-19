@@ -37,6 +37,9 @@ Rematch builds upon Redux by reducing boilerplate and enforcing best practices. 
 | generated action creators | ‎      |       ‎✔     |
 | async                     | thunks | ‎async/await |
 
+## How to start
+[Learn how to integrate easily on Javascript or Typescript (React, Vue...)](quick-start.md)
+
 ## Migrate From Redux
 
 Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](migration-guide.md) for the details.
@@ -45,6 +48,24 @@ Migrating from Redux to Rematch may only involve minor changes to your state man
 
 Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](plugins/summary.md) developed by the Rematch team or the [API for creating plugins](api/plugins.md#plugins-api).
 
+
+## All plugins
+
+
+|           name            |   next version  | stable version |
+| :------------------------ | :----: | :-----: |
+|  ‎         core                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/core/next?style=flat-square)    |      ![npm_tag](https://img.shields.io/npm/v/@rematch/core?style=flat-square)    |
+|  ‎         loading                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/loading/next?style=flat-square)    |    ![npm_tag](https://img.shields.io/npm/v/@rematch/loading?style=flat-square)    |
+|  ‎         persist                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/persist/next?style=flat-square)    |    ![npm_tag](https://img.shields.io/npm/v/@rematch/persist?style=flat-square)    |
+|  ‎         select                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/select/next?style=flat-square)    |    ![npm_tag](https://img.shields.io/npm/v/@rematch/select?style=flat-square)    |
+|  ‎         updated                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/updated/next?style=flat-square)    |    ![npm_tag](https://img.shields.io/npm/v/@rematch/updated?style=flat-square)    |
+|  ‎         immer                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/immer/next?style=flat-square)    |    ![npm_tag](https://img.shields.io/npm/v/@rematch/immer?style=flat-square)    |
+
+### Deprecated
+|           name            |   version  |
+| :------------------------ | :----: |
+|  ‎         typed-state                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/typed-state?style=flat-square)    |
+|  ‎         react-navigation                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/react-navigation?style=flat-square)    |
 
 ## Contact & Support
 

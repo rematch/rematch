@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
-
 import { RootState, Dispatch } from './store'
+import { connect } from 'react-redux'
 
 const mapState = (state: RootState) => ({
 	dolphins: state.dolphins,
@@ -9,15 +8,17 @@ const mapState = (state: RootState) => ({
 })
 
 const mapDispatch = (dispatch: Dispatch) => ({
-	incrementDolphins: dispatch.dolphins.increment,
+	incrementDolphins: () => dispatch.dolphins.increment(1),
 	incrementDolphinsAsync: dispatch.dolphins.incrementAsync,
 	incrementSharks: () => dispatch.sharks.increment(1),
 	incrementSharksAsync: () => dispatch.sharks.incrementAsync(1),
-	incrementSharksAsync2: () => dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
+	incrementSharksAsync2: () =>
+		dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
 })
 
-type connectedProps = ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>
-type Props = connectedProps
+type StateProps = ReturnType<typeof mapState>
+type DispatchProps = ReturnType<typeof mapDispatch>
+type Props = StateProps & DispatchProps
 
 class Count extends React.Component<Props> {
 	render() {
@@ -42,7 +43,4 @@ class Count extends React.Component<Props> {
 	}
 }
 
-export default connect(
-	mapState,
-	mapDispatch
-)(Count)
+export default connect(mapState, mapDispatch)(Count)

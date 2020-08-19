@@ -1,4 +1,4 @@
-import { init, ModelDispatcher } from '../src'
+import { init, ModelDispatcher, Models } from '../src'
 
 describe('dispatch:', () => {
 	describe('action:', () => {
@@ -197,13 +197,21 @@ describe('dispatch:', () => {
 		})
 
 		test('should pass payload as the second param', () => {
-			type CountState = number
+			type CountState = {
+				countIds: number[]
+			}
 
 			const count = {
-				state: 1,
+				state: {
+					countIds: [],
+				} as CountState,
 				reducers: {
-					incrementBy: (state: CountState, payload: number): CountState =>
-						state + payload,
+					incrementBy: (state: CountState, payload: number): CountState => {
+						return {
+							...state,
+							countIds: [...state.countIds, payload],
+						}
+					},
 				},
 			}
 
@@ -213,9 +221,7 @@ describe('dispatch:', () => {
 
 			store.dispatch.count.incrementBy(5)
 
-			expect(store.getState()).toEqual({
-				count: 6,
-			})
+			expect(store.getState().count.countIds).toEqual([5])
 		})
 	})
 
@@ -232,13 +238,19 @@ describe('dispatch:', () => {
 				}
 			}
 
+			interface RootModel extends Models<RootModel> {
+				example: CountModel
+			}
+
 			const count: CountModel = {
 				state: 0,
 				reducers: {
 					addOne: (state: CountState): CountState => state + 1,
 				},
 				effects: {
-					async callAddOne(this: ModelDispatcher<CountModel>): Promise<void> {
+					async callAddOne(
+						this: ModelDispatcher<CountModel, RootModel>
+					): Promise<void> {
 						this.addOne()
 					},
 				},
@@ -265,13 +277,19 @@ describe('dispatch:', () => {
 				}
 			}
 
+			interface RootModel extends Models<RootModel> {
+				example: CountModel
+			}
+
 			const count: CountModel = {
 				state: 0,
 				reducers: {
 					addOne: (state: CountState): CountState => state + 1,
 				},
 				effects: {
-					async callAddOne(this: ModelDispatcher<CountModel>): Promise<object> {
+					async callAddOne(
+						this: ModelDispatcher<CountModel, RootModel>
+					): Promise<object> {
 						this.addOne()
 						return {
 							added: true,
