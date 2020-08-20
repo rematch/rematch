@@ -4,6 +4,7 @@ import {
 	ModelReducers,
 	NamedModel,
 	Plugin,
+	Models,
 } from './types'
 
 /**
@@ -130,9 +131,9 @@ export const validateModelReducer = (
 	])
 }
 
-export const validateModelEffect = (
+export const validateModelEffect = <TModels extends Models<TModels>>(
 	modelName: string,
-	effects: ModelEffects,
+	effects: ModelEffects<TModels>,
 	effectName: string
 ): void => {
 	validate(() => [

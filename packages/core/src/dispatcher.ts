@@ -46,7 +46,10 @@ const createActionDispatcher = <TModels extends Models>(
  * reducers and effects *names* to functions which dispatch their corresponding
  * actions.
  */
-const createDispatcher = <TModels extends Models, TModel extends NamedModel>(
+const createDispatcher = <
+	TModels extends Models<TModels>,
+	TModel extends NamedModel<TModels>
+>(
 	rematch: RematchStore<TModels>,
 	bag: RematchBag,
 	model: TModel
@@ -66,7 +69,7 @@ const createDispatcher = <TModels extends Models, TModel extends NamedModel>(
 		)
 	}
 
-	let effects: ModelEffects = {}
+	let effects: ModelEffects<TModels> = {}
 
 	// 'effects' might be actually a function creating effects
 	if (model.effects) {

@@ -70,25 +70,25 @@ export interface Model<
 	state: TState
 	reducers?: ModelReducers<TState>
 	baseReducer?: ReduxReducer<TBaseState>
-	effects?: ModelEffects | ModelEffectsCreator<TModels>
+	effects?: ModelEffects<TModels> | ModelEffectsCreator<TModels>
 }
 
 export type ModelReducers<TState = any> = {
 	[key: string]: Reducer<TState>
 }
 
-export interface ModelEffects {
-	[key: string]: ModelEffect
+export interface ModelEffects<TModels extends Models<TModels> = Models> {
+	[key: string]: ModelEffect<TModels>
 }
 
-export type ModelEffect = <TModels extends Models<TModels>>(
+export type ModelEffect<TModels extends Models<TModels>> = (
 	payload: Action['payload'],
 	rootState: RematchRootState<TModels>
 ) => any
 
 export type ModelEffectsCreator<TModels extends Models<TModels>> = (
 	dispatch: RematchDispatch<TModels>
-) => ModelEffects
+) => ModelEffects<TModels>
 
 /** ************************** Plugin *************************** */
 
@@ -327,20 +327,22 @@ export type ExtractRematchDispatchersFromEffects<
 	TModels extends Models<TModels>
 > = TEffects extends (...args: any[]) => infer R
 	? R extends ModelEffects
-		? ExtractRematchDispatchersFromEffectsObject<R>
+		? ExtractRematchDispatchersFromEffectsObject<R, TModels>
 		: never
 	: TEffects extends ModelEffects
-	? ExtractRematchDispatchersFromEffectsObject<TEffects>
+	? ExtractRematchDispatchersFromEffectsObject<TEffects, TModels>
 	: void
 
 /**
  * Extracts a dispatcher for each effect that is defined for a model.
  */
 export type ExtractRematchDispatchersFromEffectsObject<
-	TEffects extends ModelEffects
+	TEffects extends ModelEffects,
+	TModels extends Models<TModels>
 > = {
 	[effectKey in keyof TEffects]: ExtractRematchDispatcherFromEffect<
-		TEffects[effectKey]
+		TEffects[effectKey],
+		TModels
 	>
 }
 
@@ -353,7 +355,8 @@ export type ExtractRematchDispatchersFromEffectsObject<
  *   as an argument
  */
 export type ExtractRematchDispatcherFromEffect<
-	TEffect extends ModelEffect
+	TEffect extends ModelEffect<TModels>,
+	TModels extends Models<TModels>
 > = TEffect extends () => infer TReturn
 	? EffectRematchDispatcher<TReturn>
 	: TEffect extends (payload: infer TPayload) => infer TReturn
