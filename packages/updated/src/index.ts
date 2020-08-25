@@ -54,6 +54,7 @@ const updatedPlugin = <M extends Models = Models, T = Date>(
 				updated,
 			},
 		},
+		// @ts-ignore
 		onModel({ name }: NamedModel, rematch: RematchStore<any>): void {
 			// do not run dispatch on updated model and blacklisted models
 			if (avoidModels.includes(name)) {
