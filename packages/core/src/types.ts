@@ -92,28 +92,40 @@ export type ModelEffectsCreator<TModels extends Models<TModels>> = (
 
 /** ************************** Plugin *************************** */
 
-export interface PluginConfig<TExposedModels extends Models> {
+export interface PluginConfig<
+	TExposedModels extends Models<TModels> = {},
+	TModels extends Models<TModels> = {}
+> {
 	models?: TExposedModels
 	redux?: InitConfigRedux
 }
 
 export interface Plugin<
 	TModels extends Models<TModels> = {},
-	TExposedModels extends Models = {}
-> extends PluginHooks {
-	config?: PluginConfig<TExposedModels>
+	TExposedModels extends Models<TModels> = {}
+> extends PluginHooks<TModels, TExposedModels> {
+	config?: PluginConfig<TExposedModels, TModels>
 	exposed?: PluginExposed
 }
 
-export interface PluginHooks {
+export interface PluginHooks<
+	TModels extends Models = {},
+	TExposedModels extends Models<TModels> = {}
+> {
 	onStoreCreated?: StoreCreatedHook
-	onModel?: ModelHook
+	onModel?: ModelHook<TModels, TExposedModels>
 	onReducer?: ReducerHook
 	onRootReducer?: RootReducerHook
 	createMiddleware?: MiddlewareCreator
 }
 
-export type ModelHook = (model: NamedModel, rematch: RematchStore<any>) => void
+export type ModelHook<
+	TModels extends Models = {},
+	TExposedModels extends Models<TModels> = {}
+> = (
+	model: NamedModel<TModels & TExposedModels>,
+	rematch: RematchStore<TModels & TExposedModels>
+) => void
 
 export type ReducerHook = (
 	reducer: ReduxReducer,
@@ -180,7 +192,7 @@ export interface Config<TModels extends Models<TModels>>
 	extends InitConfig<TModels> {
 	name: string
 	models: TModels
-	plugins: Plugin[]
+	plugins: Plugin<TModels>[]
 	redux: ConfigRedux
 }
 

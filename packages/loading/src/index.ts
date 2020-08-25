@@ -1,9 +1,7 @@
 import {
 	ExtractRematchDispatchersFromEffects,
-	NamedModel,
 	Plugin,
 	Models,
-	RematchStore,
 	Reducer,
 	Model,
 	Action,
@@ -167,10 +165,7 @@ export default <TModels extends Models<TModels>>(
 				loading,
 			},
 		},
-		onModel(
-			{ name }: NamedModel<TModels & LoadingModel<TModels>>,
-			rematch: RematchStore<TModels & LoadingModel<TModels>>
-		): void {
+		onModel({ name }, rematch): void {
 			// do not run dispatch on "loading" model
 			if (name === loadingModelName) {
 				return

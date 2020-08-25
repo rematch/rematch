@@ -8,7 +8,7 @@ let count = 0
  * supplied by the user. Additionally, applies changes to the config made by
  * the plugins selected by the user.
  */
-export default function createConfig<TModels extends Models>(
+export default function createConfig<TModels extends Models<TModels>>(
 	initConfig: InitConfig<TModels>
 ): Config<TModels> {
 	const storeName = initConfig.name ?? `Rematch Store ${count}`
@@ -17,7 +17,7 @@ export default function createConfig<TModels extends Models>(
 
 	const config = {
 		name: storeName,
-		models: initConfig.models || ({} as TModels),
+		models: initConfig.models || ({} as Models),
 		plugins: initConfig.plugins || [],
 		redux: {
 			reducers: {},
@@ -30,7 +30,7 @@ export default function createConfig<TModels extends Models>(
 				...(initConfig.redux?.devtoolOptions ?? {}),
 			},
 		},
-	} as Config<TModels>
+	} as Config<Models>
 
 	validateConfig(config)
 
@@ -78,7 +78,7 @@ export default function createConfig<TModels extends Models>(
 		validatePlugin(plugin)
 	}
 
-	return config
+	return config as Config<TModels>
 }
 
 /**

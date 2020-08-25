@@ -92,7 +92,12 @@ export const validateModel = (model: NamedModel): void => {
 	])
 }
 
-export const validatePlugin = (plugin: Plugin): void => {
+export const validatePlugin = <
+	TModels extends Models<TModels>,
+	TExposedModels extends Models<TModels>
+>(
+	plugin: Plugin<TModels, TExposedModels>
+): void => {
 	validate(() => [
 		[
 			!ifDefinedIsFunction(plugin.onStoreCreated),
