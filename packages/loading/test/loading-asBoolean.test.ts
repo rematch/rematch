@@ -1,13 +1,13 @@
-import { init, Model } from '@rematch/core'
-import loadingPlugin, { LoadingState } from '../src'
+import { init } from '@rematch/core'
+import loadingPlugin, { ExtraModelsFromLoading } from '../src'
 import { delay, count } from './utils'
 
 describe('loading asBoolean', () => {
 	test('loading.global should be 0 for normal dispatched action', () => {
 		type Models = { count: typeof count }
-		type ExtraModels = { loading: Model<Models, LoadingState<Models>> }
+		type ExtraModels = ExtraModelsFromLoading<Models>
 
-		const store = init<Models, ExtraModels>({
+		const store = init<ExtraModels, Models>({
 			models: { count },
 			plugins: [loadingPlugin()],
 		})
