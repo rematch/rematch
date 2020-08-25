@@ -66,7 +66,7 @@ export const init = <
 	TExtraModels extends Models = {},
 	TModels extends Models<TModels> = Models
 >(
-	initConfig?: InitConfig<TModels>
+	initConfig?: InitConfig<TModels, TExtraModels>
 ): RematchStore<TModels & TExtraModels> => {
 	const config = createConfig(initConfig || {})
 	return createRematchStore<TModels, TExtraModels>(config)

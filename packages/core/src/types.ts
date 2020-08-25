@@ -176,10 +176,15 @@ export interface RematchBag {
  * Initial, optional configuration provided by the user which describes how
  * Rematch store should be configured.
  */
-export interface InitConfig<TModels extends Models<TModels>> {
+export interface InitConfig<
+	TModels extends Models<TModels>,
+	TExtraModels extends Models = {}
+> {
 	name?: string
 	models?: TModels
-	plugins?: Plugin<TModels>[]
+	plugins?: Partial<TExtraModels> extends Models<TModels>
+		? Plugin<TModels, Partial<TExtraModels>>[]
+		: Plugin<TModels>[]
 	redux?: InitConfigRedux
 }
 
