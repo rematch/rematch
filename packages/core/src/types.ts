@@ -97,8 +97,10 @@ export interface PluginConfig<TExposedModels extends Models> {
 	redux?: InitConfigRedux
 }
 
-export interface Plugin<TExposedModels extends Models = any>
-	extends PluginHooks {
+export interface Plugin<
+	TModels extends Models<TModels> = {},
+	TExposedModels extends Models = {}
+> extends PluginHooks {
 	config?: PluginConfig<TExposedModels>
 	exposed?: PluginExposed
 }
@@ -165,7 +167,7 @@ export interface RematchBag {
 export interface InitConfig<TModels extends Models<TModels>> {
 	name?: string
 	models?: TModels
-	plugins?: Plugin[]
+	plugins?: Plugin<TModels>[]
 	redux?: InitConfigRedux
 }
 
