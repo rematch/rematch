@@ -42,6 +42,7 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ hashFiles('package-lock.json') }}
           restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('package-lock.json') }}
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
