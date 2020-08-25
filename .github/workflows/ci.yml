@@ -48,7 +48,7 @@ jobs:
       - name: Install
         run: |
           git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-          npm ci
+          npm install
           npm run bootstrap
 
       - name: Build & Testing

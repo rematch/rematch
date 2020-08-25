@@ -3,7 +3,7 @@ import {
 	Plugin,
 	Models,
 	Reducer,
-	Model,
+	NamedModel,
 	Action,
 } from '@rematch/core'
 
@@ -49,7 +49,7 @@ type Converter = ((cnt: number) => number) | ((cnt: number) => boolean)
 interface LoadingModel<
 	TModels extends Models<TModels>,
 	AsNumber extends boolean = false
-> extends Model<TModels, LoadingState<TModels, AsNumber>> {
+> extends NamedModel<TModels, LoadingState<TModels, AsNumber>> {
 	reducers: {
 		hide: Reducer<LoadingState<TModels, AsNumber>>
 		show: Reducer<LoadingState<TModels, AsNumber>>
