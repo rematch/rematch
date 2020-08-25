@@ -94,14 +94,14 @@ export type ModelEffectsCreator<TModels extends Models<TModels>> = (
 
 export interface PluginConfig<
 	TExposedModels extends Models<TModels> = {},
-	TModels extends Models<TModels> = {}
+	TModels extends Models<TModels> = Models
 > {
 	models?: TExposedModels
 	redux?: InitConfigRedux
 }
 
 export interface Plugin<
-	TModels extends Models<TModels> = {},
+	TModels extends Models<TModels> = Models,
 	TExposedModels extends Models<TModels> = {}
 > extends PluginHooks<TModels, TExposedModels> {
 	config?: PluginConfig<TExposedModels, TModels>
@@ -109,7 +109,7 @@ export interface Plugin<
 }
 
 export interface PluginHooks<
-	TModels extends Models = {},
+	TModels extends Models<TModels> = Models,
 	TExposedModels extends Models<TModels> = {}
 > {
 	onStoreCreated?: StoreCreatedHook
@@ -120,7 +120,7 @@ export interface PluginHooks<
 }
 
 export type ModelHook<
-	TModels extends Models = {},
+	TModels extends Models<TModels> = Models,
 	TExposedModels extends Models<TModels> = {}
 > = (
 	model: NamedModel<TModels & TExposedModels>,
