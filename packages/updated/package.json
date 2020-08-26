@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build --format cjs,esm,umd",
+    "build": "tsdx build --format cjs,esm,umd --tsconfig ./tsconfig.build.json",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "clean": "rimraf dist"
