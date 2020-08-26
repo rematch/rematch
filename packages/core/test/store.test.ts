@@ -97,7 +97,7 @@ describe('createStore:', () => {
 			models: { count },
 			redux: {
 				rootReducers: {
-					'@@RESET': function (): undefined {
+					'@@RESET': (): undefined => {
 						return undefined
 					},
 				},
@@ -119,7 +119,7 @@ describe('createStore:', () => {
 			},
 			redux: {
 				rootReducers: {
-					'@@RESET': function (): undefined {
+					'@@RESET': (): undefined => {
 						return undefined
 					},
 				},

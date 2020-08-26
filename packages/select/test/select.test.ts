@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow,@typescript-eslint/ban-ts-ignore */
 import { init } from '@rematch/core'
 import selectPlugin from '../src'
 

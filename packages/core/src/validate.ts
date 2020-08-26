@@ -16,14 +16,14 @@ export type Validation = [boolean | undefined, string]
 /**
  * Checks if a parameter is a valid object.
  */
-export const isObject = (obj: any): boolean =>
+export const isObject = <T>(obj: T): boolean =>
 	typeof obj === 'object' && obj !== null && !Array.isArray(obj)
 
 /**
  * Checks if a parameter is a valid function but only when it's defined.
  * Otherwise, always returns true.
  */
-export const ifDefinedIsFunction = (func: any): boolean =>
+export const ifDefinedIsFunction = <T>(func: T): boolean =>
 	!func || typeof func === 'function'
 
 /**
@@ -53,9 +53,12 @@ const validate = (runValidations: () => Validation[]): void => {
 export const validateConfig = (config: Config<any>): void => {
 	validate(() => [
 		[!Array.isArray(config.plugins), 'init config.plugins must be an array'],
-		[!isObject(config.models), 'init config.models must be an object'],
 		[
-			!isObject(config.redux.reducers),
+			!isObject<Config<any>>(config.models),
+			'init config.models must be an object',
+		],
+		[
+			!isObject<ModelReducers<any>>(config.redux.reducers),
 			'init config.redux.reducers must be an object',
 		],
 		[
