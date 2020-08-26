@@ -341,10 +341,10 @@ export type ExtractRematchDispatchersFromEffects<
 	TEffects extends Model<TModels>['effects'],
 	TModels extends Models<TModels>
 > = TEffects extends (...args: any[]) => infer R
-	? R extends ModelEffects
+	? R extends ModelEffects<TModels>
 		? ExtractRematchDispatchersFromEffectsObject<R, TModels>
 		: never
-	: TEffects extends ModelEffects
+	: TEffects extends ModelEffects<TModels>
 	? ExtractRematchDispatchersFromEffectsObject<TEffects, TModels>
 	: void
 
@@ -352,7 +352,7 @@ export type ExtractRematchDispatchersFromEffects<
  * Extracts a dispatcher for each effect that is defined for a model.
  */
 export type ExtractRematchDispatchersFromEffectsObject<
-	TEffects extends ModelEffects,
+	TEffects extends ModelEffects<TModels>,
 	TModels extends Models<TModels>
 > = {
 	[effectKey in keyof TEffects]: ExtractRematchDispatcherFromEffect<
