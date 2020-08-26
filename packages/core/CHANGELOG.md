@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.3](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.2...@rematch/core@2.0.0-next.3) (2020-08-26)
+
+
+### Bug Fixes
+
+* complete typings ([cba1072](https://github.com/rematch/rematch/commit/cba10728d8624fd7da60db276d3edd62fc2fab32))
+* createModel refactored ([e024deb](https://github.com/rematch/rematch/commit/e024debc0013a724957673cea9044e30201df857))
+* improved typings ([9c23d76](https://github.com/rematch/rematch/commit/9c23d766f230f1947f2e45f7bc173d6b00a6d5d5))
+* incompability of redux dispatch with rematch ([9b68614](https://github.com/rematch/rematch/commit/9b68614f646aa565059100b892a40087c713a304))
+* model state type inference ([0d29531](https://github.com/rematch/rematch/commit/0d29531ae9539b1ad93f2b3e49905ed3169d113b))
+* removed dispatch and fixed some comments ([3e153ae](https://github.com/rematch/rematch/commit/3e153ae2527e6375946e839fdeb64fab7952c34c))
+* rootState type inference on effects ([a8b8484](https://github.com/rematch/rematch/commit/a8b84842078d37477fdd8f492d799529170d43cb))
+* testing of the new types ([b457478](https://github.com/rematch/rematch/commit/b45747869268d93aa6a2a0c4ed6819eb92257e87))
+* using Models as default option ([4e7c29c](https://github.com/rematch/rematch/commit/4e7c29ca649d15b744477db0d3c6f6a753766069))
+* **loading:** complete typings ([dfa8688](https://github.com/rematch/rematch/commit/dfa86880b6896b2c0fa645ad888e1693e8019c05))
+* **loading:** removed ts-ignore and fixed typings ([0ab397d](https://github.com/rematch/rematch/commit/0ab397d6fbb115da23db011dbb3dd57b9fcee3e1))
+* type inference for state and dispatch ([541863b](https://github.com/rematch/rematch/commit/541863b187e5c285dfcd3db70027e94279a183ff))
+* type inference of dispatchers ([a129852](https://github.com/rematch/rematch/commit/a129852480fb8468ebdc25ad0883aeb473a0bafb))
+
+
+
+
+
 # [2.0.0-next.2](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.1...@rematch/core@2.0.0-next.2) (2020-08-19)
 
 

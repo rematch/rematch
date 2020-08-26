@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.3](https://github.com/rematch/rematch/compare/@rematch/loading@2.0.0-next.2...@rematch/loading@2.0.0-next.3) (2020-08-26)
+
+
+### Bug Fixes
+
+* improved typings ([9c23d76](https://github.com/rematch/rematch/commit/9c23d766f230f1947f2e45f7bc173d6b00a6d5d5))
+* **loading:** complete typings ([dfa8688](https://github.com/rematch/rematch/commit/dfa86880b6896b2c0fa645ad888e1693e8019c05))
+* **loading:** removed ts-ignore and fixed typings ([0ab397d](https://github.com/rematch/rematch/commit/0ab397d6fbb115da23db011dbb3dd57b9fcee3e1))
+
+
+
+
+
 # [2.0.0-next.2](https://github.com/rematch/rematch/compare/@rematch/loading@2.0.0-next.1...@rematch/loading@2.0.0-next.2) (2020-08-19)
 
 

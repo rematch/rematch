@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.3](https://github.com/rematch/rematch/compare/@rematch/updated@2.0.0-next.2...@rematch/updated@2.0.0-next.3) (2020-08-26)
+
+
+### Bug Fixes
+
+* **updated:** removed ts-ignore and fixed typings ([359a65e](https://github.com/rematch/rematch/commit/359a65efe104886f975f0ff3bb92bb044c8c0e46))
+
+
+
+
+
 # [2.0.0-next.2](https://github.com/rematch/rematch/compare/@rematch/updated@2.0.0-next.1...@rematch/updated@2.0.0-next.2) (2020-08-19)
 
 
