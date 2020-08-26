@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import {
 	ExtractRematchDispatchersFromEffects,
 	Models,
-	NamedModel,
 	Plugin,
-	RematchStore,
+	Model,
 } from '@rematch/core'
 
 export interface UpdatedConfig<T = Date> {
@@ -13,30 +11,50 @@ export interface UpdatedConfig<T = Date> {
 	dateCreator?(): T
 }
 
-export type UpdatedState<M extends Models, T> = {
-	[modelName in keyof M]: {
+type UpdatedState<TModels extends Models<TModels> = Models, T = Date> = {
+	[modelName in keyof TModels]: {
 		[effectName in keyof ExtractRematchDispatchersFromEffects<
-			M[modelName]['effects'],
-			M
+			TModels[modelName]['effects'],
+			TModels
 		>]: T
 	}
 }
 
-const updatedPlugin = <M extends Models = Models, T = Date>(
+interface UpdatedModel<TModels extends Models<TModels> = Models, T = Date>
+	extends Model<TModels, UpdatedState<TModels, T>> {
+	reducers: {
+		onUpdate(
+			state: UpdatedState<TModels, T>,
+			payload: { name: string; action: string }
+		): UpdatedState<TModels, T>
+	}
+}
+
+export interface ExtraModelsFromUpdated<
+	TModels extends Models<TModels> = Models,
+	T = Date
+> extends Models<TModels> {
+	updated: UpdatedModel<TModels, T>
+}
+
+const updatedPlugin = <
+	TModels extends Models = Models,
+	TExtraModels extends Models = {},
+	T = Date
+>(
 	config: UpdatedConfig<T> = {}
-): Plugin => {
+): Plugin<TModels, TExtraModels, ExtraModelsFromUpdated<TModels, T>> => {
 	const updatedModelName = config.name || 'updated'
 	const updated = {
 		name: updatedModelName,
-		state: {} as UpdatedState<M, T>,
+		state: {} as Record<string, any>,
 		reducers: {
 			onUpdate: (
-				state: UpdatedState<M, T>,
+				state: UpdatedState<TModels, T>,
 				payload: { name: string; action: string }
-			): UpdatedState<M, T> => ({
+			): UpdatedState<TModels, T> => ({
 				...state,
 				[payload.name]: {
-					// @ts-ignore
 					...state[payload.name],
 					[payload.action]: config.dateCreator
 						? config.dateCreator()
@@ -51,10 +69,10 @@ const updatedPlugin = <M extends Models = Models, T = Date>(
 	return {
 		config: {
 			models: {
-				updated,
+				updated: updated as UpdatedModel<TModels, T>,
 			},
 		},
-		onModel({ name }: NamedModel, rematch: RematchStore<any>): void {
+		onModel({ name }, rematch): void {
 			// do not run dispatch on updated model and blacklisted models
 			if (avoidModels.includes(name)) {
 				return
@@ -63,33 +81,26 @@ const updatedPlugin = <M extends Models = Models, T = Date>(
 			const modelActions = rematch.dispatch[name]
 
 			// add empty object for effects
-			// @ts-ignore
 			updated.state[name] = {}
 
 			// map over effects within models
 			for (const action of Object.keys(modelActions)) {
-				// @ts-ignore
 				if (rematch.dispatch[name][action].isEffect) {
 					// copy function
-					// @ts-ignore
 					const originalDispatcher = rematch.dispatch[name][action]
 
 					// replace existing effect with new dispatch
-					// @ts-ignore
 					rematch.dispatch[name][action] = (...props: any): any => {
-						// @ts-ignore
 						const effectResult = originalDispatcher(...props)
 						// check if result is a promise
 						if (effectResult?.then) {
 							effectResult.then((result: any) => {
 								// set updated when promise finishes
-								// @ts-ignore
 								rematch.dispatch[updatedModelName].onUpdate({ name, action })
 								return result
 							})
 						} else {
 							// no need to wait for the result, as it's not a promise
-							// @ts-ignore
 							rematch.dispatch[updatedModelName].onUpdate({ name, action })
 						}
 

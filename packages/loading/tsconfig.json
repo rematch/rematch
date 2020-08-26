@@ -1,7 +1,7 @@
 {
-  "extends": "../../tsconfig.base",
-  "include": ["src"],
-  "compilerOptions": {
-	"rootDir": "./src"
-  }
+	"extends": "../../tsconfig.base",
+	"include": ["src", "test"],
+	"compilerOptions": {
+		"rootDir": "."
+	}
 }

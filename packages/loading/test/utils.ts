@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { ModelDispatcher, Models } from '@rematch/core'
+import { ModelDispatcher, Models as RematchModels } from '@rematch/core'
+import { ExtraModelsFromLoading } from '../src'
 
 export const delay = (ms: number): Promise<void> =>
 	new Promise((r) => setTimeout(r, ms))
@@ -14,7 +15,7 @@ type CountModel = {
 	}
 }
 
-interface RootModel extends Models<RootModel> {
+interface RootModel extends RematchModels<RootModel> {
 	count: CountModel
 }
 
@@ -30,3 +31,7 @@ export const count: CountModel = {
 		},
 	},
 }
+
+export type Models = { count: typeof count }
+
+export type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>

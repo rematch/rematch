@@ -8,16 +8,17 @@ let count = 0
  * supplied by the user. Additionally, applies changes to the config made by
  * the plugins selected by the user.
  */
-export default function createConfig<TModels extends Models>(
-	initConfig: InitConfig<TModels>
-): Config<TModels> {
+export default function createConfig<
+	TModels extends Models<TModels>,
+	TExtraModels extends Models = {}
+>(initConfig: InitConfig<TModels, TExtraModels>): Config<TModels> {
 	const storeName = initConfig.name ?? `Rematch Store ${count}`
 
 	count += 1
 
 	const config = {
 		name: storeName,
-		models: initConfig.models || ({} as TModels),
+		models: initConfig.models || ({} as Models),
 		plugins: initConfig.plugins || [],
 		redux: {
 			reducers: {},
@@ -30,7 +31,7 @@ export default function createConfig<TModels extends Models>(
 				...(initConfig.redux?.devtoolOptions ?? {}),
 			},
 		},
-	} as Config<TModels>
+	} as Config<Models>
 
 	validateConfig(config)
 
@@ -78,7 +79,7 @@ export default function createConfig<TModels extends Models>(
 		validatePlugin(plugin)
 	}
 
-	return config
+	return config as Config<TModels>
 }
 
 /**

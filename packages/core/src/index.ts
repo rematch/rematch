@@ -63,10 +63,10 @@ declare module 'react-redux' {
  * Prepares a complete configuration and creates a Rematch store.
  */
 export const init = <
-	TModels extends Models<TModels>,
-	TExtraModels extends Models
+	TModels extends Models<TModels> = Models,
+	TExtraModels extends Models = {}
 >(
-	initConfig?: InitConfig<TModels>
+	initConfig?: InitConfig<TModels, TExtraModels>
 ): RematchStore<TModels & TExtraModels> => {
 	const config = createConfig(initConfig || {})
 	return createRematchStore<TModels, TExtraModels>(config)

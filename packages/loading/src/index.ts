@@ -1,11 +1,10 @@
-// @ts-nocheck
 import {
 	ExtractRematchDispatchersFromEffects,
-	NamedModel,
 	Plugin,
 	Models,
-	RematchStore,
 	Reducer,
+	NamedModel,
+	Action,
 } from '@rematch/core'
 
 export interface LoadingConfig {
@@ -15,29 +14,66 @@ export interface LoadingConfig {
 	asNumber?: boolean
 }
 
-export interface LoadingState<
-	M extends Models,
+interface LoadingState<
+	TModels extends Models<TModels>,
 	AsNumber extends boolean = false
 > {
 	global: AsNumber extends true ? number : boolean
-	models: { [modelName in keyof M]: AsNumber extends true ? number : boolean }
+	models: {
+		[modelName in keyof TModels]: AsNumber extends true ? number : boolean
+	}
 	effects: {
-		[modelName in keyof M]: {
+		[modelName in keyof TModels]: {
 			[effectName in keyof ExtractRematchDispatchersFromEffects<
-				M[modelName]['effects']
+				TModels[modelName]['effects'],
+				TModels
 			>]: AsNumber extends true ? number : boolean
 		}
 	}
 }
 
-const createLoadingAction = (
-	converter: any,
-	i: any,
-	cntState: any
-): Reducer => (
-	state: LoadingState<any, any>,
-	{ name, action }: any
-): LoadingState<any, any> => {
+interface InitialState<AsNumber extends boolean = false> {
+	global: AsNumber extends true ? number : boolean
+	models: {
+		[modelName: string]: AsNumber extends true ? number : boolean
+	}
+	effects: {
+		[modelName: string]: {
+			[effectName: string]: AsNumber extends true ? number : boolean
+		}
+	}
+}
+
+type Converter = ((cnt: number) => number) | ((cnt: number) => boolean)
+
+interface LoadingModel<
+	TModels extends Models<TModels>,
+	AsNumber extends boolean = false
+> extends NamedModel<TModels, LoadingState<TModels, AsNumber>> {
+	reducers: {
+		hide: Reducer<LoadingState<TModels, AsNumber>>
+		show: Reducer<LoadingState<TModels, AsNumber>>
+	}
+}
+
+export interface ExtraModelsFromLoading<TModels extends Models<TModels>>
+	extends Models<TModels> {
+	loading: LoadingModel<TModels>
+}
+
+const createLoadingAction = <
+	TModels extends Models<TModels>,
+	AsNumber extends boolean = false
+>(
+	converter: Converter,
+	i: number,
+	cntState: InitialState<true>
+): Reducer<LoadingState<TModels, AsNumber>> => (
+	state,
+	payload: Action<{ name: string; action: string }>['payload']
+): LoadingState<TModels, boolean> => {
+	const { name, action } = payload || { name: '', action: '' }
+
 	cntState.global += i
 	cntState.models[name] += i
 	cntState.effects[name][action] += i
@@ -85,36 +121,48 @@ const validateConfig = (config: LoadingConfig): void => {
 	}
 }
 
-export default <M extends Models>(config: LoadingConfig = {}): Plugin => {
+export default <
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels & TExtraModels> = {}
+>(
+	config: LoadingConfig = {}
+): Plugin<
+	TModels,
+	TExtraModels,
+	ExtraModelsFromLoading<TModels & TExtraModels>
+> => {
 	validateConfig(config)
 
 	const loadingModelName = config.name || 'loading'
 
-	const cntState = {
+	const cntState: InitialState<true> = {
 		global: 0,
-		models: {} as any,
-		effects: {} as any,
+		models: {},
+		effects: {},
 	}
 
 	const isAsNumber = config.asNumber === true
 
-	const loadingInitialState = {
+	const loadingInitialState: InitialState<typeof isAsNumber> = {
 		global: 0,
 		models: {},
 		effects: {},
-	} as LoadingState<M, typeof isAsNumber>
+	}
 
 	const converter = isAsNumber
 		? (cnt: number): number => cnt
 		: (cnt: number): boolean => cnt > 0
 
-	const loading = {
+	const loading: LoadingModel<TModels & TExtraModels, typeof isAsNumber> = {
 		name: loadingModelName,
 		reducers: {
 			hide: createLoadingAction(converter, -1, cntState),
 			show: createLoadingAction(converter, 1, cntState),
 		},
-		state: loadingInitialState,
+		state: loadingInitialState as LoadingState<
+			TModels & TExtraModels,
+			typeof isAsNumber
+		>,
 	}
 
 	const initialLoadingValue = converter(0)
@@ -127,7 +175,7 @@ export default <M extends Models>(config: LoadingConfig = {}): Plugin => {
 				loading,
 			},
 		},
-		onModel({ name }: NamedModel, rematch: RematchStore): void {
+		onModel({ name }, rematch): void {
 			// do not run dispatch on "loading" model
 			if (name === loadingModelName) {
 				return
@@ -177,11 +225,11 @@ export default <M extends Models>(config: LoadingConfig = {}): Plugin => {
 						if (effectResult?.then) {
 							// hide loading when promise finishes either with success or error
 							effectResult
-								.then((r) => {
+								.then((r: any) => {
 									rematch.dispatch[loadingModelName].hide({ name, action })
 									return r
 								})
-								.catch((err) => {
+								.catch((err: any) => {
 									rematch.dispatch[loadingModelName].hide({ name, action })
 									throw err
 								})

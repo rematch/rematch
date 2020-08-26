@@ -1,12 +1,9 @@
-import { init, Model } from '@rematch/core'
-import loadingPlugin, { LoadingState } from '../src'
-import { delay, count } from './utils'
+import { init } from '@rematch/core'
+import loadingPlugin, { ExtraModelsFromLoading } from '../src'
+import { delay, count, Models, ExtraModels } from './utils'
 
 describe('loading asBoolean', () => {
 	test('loading.global should be 0 for normal dispatched action', () => {
-		type Models = { count: typeof count }
-		type ExtraModels = { loading: Model<Models, LoadingState<Models>> }
-
 		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
@@ -17,7 +14,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('loading.global should be 1 for a dispatched effect', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
 		})
@@ -27,7 +24,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('loading.global should be 2 for two dispatched effects', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
 		})
@@ -38,7 +35,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('should set loading.models[name] to false', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
 		})
@@ -47,7 +44,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('should change the loading.models to true', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
 		})
@@ -57,7 +54,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('should change the loading.models to true (double dispatch)', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
 		})
@@ -68,7 +65,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('should set loading.effects[name] to object of effects', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
 		})
@@ -76,7 +73,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('should change the loading.effects to true', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
 		})
@@ -86,7 +83,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('should change the loading.effects to true (double dispatch)', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
 		})
@@ -110,7 +107,9 @@ describe('loading asBoolean', () => {
 			reducers: {},
 		}
 
-		const store = init({
+		type Models = { count: typeof count2 }
+		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
 			plugins: [loadingPlugin()],
 		})
@@ -139,7 +138,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('should configure the loading name to "foobar"', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin({ name: 'foobar' })],
 		})
@@ -150,7 +149,7 @@ describe('loading asBoolean', () => {
 
 	test('should throw if loading name is not a string', () => {
 		const createStore = () =>
-			init({
+			init<Models, ExtraModels>({
 				models: { count },
 				// @ts-expect-error
 				plugins: [loadingPlugin({ name: 42 })],
@@ -160,7 +159,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('should block items if not in whitelist', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [
 				loadingPlugin({
@@ -174,7 +173,7 @@ describe('loading asBoolean', () => {
 	})
 
 	test('should block items if in blacklist', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [
 				loadingPlugin({
@@ -189,7 +188,7 @@ describe('loading asBoolean', () => {
 
 	test('should throw if whitelist is not an array', () => {
 		const createStore = () =>
-			init({
+			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
 					loadingPlugin({
@@ -204,7 +203,7 @@ describe('loading asBoolean', () => {
 
 	test('should throw if blacklist is not an array', () => {
 		const createStore = () =>
-			init({
+			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
 					loadingPlugin({
@@ -219,7 +218,7 @@ describe('loading asBoolean', () => {
 
 	test('should throw if contains both a whitelist & blacklist', () => {
 		const createStore = () =>
-			init({
+			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
 					loadingPlugin({
@@ -242,7 +241,11 @@ describe('loading asBoolean', () => {
 			},
 			reducers: {},
 		}
-		const store = init({
+
+		type Models = { count: typeof count2 }
+		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+
+		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
 			plugins: [loadingPlugin()],
 		})
@@ -256,7 +259,7 @@ describe('loading asBoolean', () => {
 
 	test('should trigger four actions', async () => {
 		const actions: any[] = []
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin()],
 			redux: {
@@ -289,7 +292,10 @@ describe('loading asBoolean', () => {
 			reducers: {},
 		}
 
-		const store = init({
+		type Models = { count: typeof count2 }
+		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+
+		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
 			plugins: [loadingPlugin()],
 		})
@@ -312,7 +318,10 @@ describe('loading asBoolean', () => {
 			reducers: {},
 		}
 
-		const store = init({
+		type Models = { count: typeof count2 }
+		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+
+		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
 			plugins: [loadingPlugin()],
 		})
@@ -334,7 +343,10 @@ describe('loading asBoolean', () => {
 			reducers: {},
 		}
 
-		const store = init({
+		type Models = { count: typeof count2 }
+		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+
+		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
 			plugins: [loadingPlugin()],
 		})

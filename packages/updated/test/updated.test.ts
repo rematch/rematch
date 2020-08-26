@@ -1,6 +1,6 @@
 import { init, ModelDispatcher } from '@rematch/core'
 import { Models } from '@rematch/core/src'
-import updatedPlugin, { UpdatedState } from '../src'
+import updatedPlugin, { ExtraModelsFromUpdated } from '../src'
 
 const mockDate = new Date()
 
@@ -125,17 +125,11 @@ describe('updated', () => {
 			count: AsyncCountModel
 		}
 
-		type ExtraModels = {
-			updated: {
-				name: 'updated'
-				state: UpdatedState<RootModel, Date>
-				reducers: {}
-			}
-		}
+		type ExtraModels = ExtraModelsFromUpdated<ExtraModels & RootModel>
 
-		const store = init({
-			models: { count } as RootModel & ExtraModels,
-			plugins: [updatedPlugin<RootModel>({ dateCreator: () => mockDate })],
+		const store = init<RootModel, ExtraModels>({
+			models: { count },
+			plugins: [updatedPlugin({ dateCreator: () => mockDate })],
 		})
 
 		await store.dispatch.count.timeout()

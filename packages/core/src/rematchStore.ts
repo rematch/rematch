@@ -101,7 +101,10 @@ function prepareModel<TModels extends Models, TModel extends NamedModel>(
  * If you're implementing a plugin in TypeScript, extend Rematch namespace by
  * adding the properties that you exposed from your plugin.
  */
-function addExposed(store: RematchStore<any>, plugins: Plugin[]): void {
+function addExposed<
+	TModels extends Models<TModels>,
+	TExposedModels extends Models<TModels>
+>(store: RematchStore<any>, plugins: Plugin<TModels, TExposedModels>[]): void {
 	for (const plugin of plugins) {
 		if (plugin.exposed) {
 			for (const key of Object.keys(plugin.exposed)) {
