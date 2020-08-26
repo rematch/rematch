@@ -36,6 +36,7 @@ module.exports = {
 		'no-use-before-define': 1,
 		'@typescript-eslint/ban-types': 1,
 		'@typescript-eslint/ban-ts-comment': 0,
+		'@typescript-eslint/ban-ts-ignore': 0,
 		'no-shadow': 1,
 		'import/extensions': [
 			'error',
