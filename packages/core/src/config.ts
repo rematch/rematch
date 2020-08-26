@@ -8,9 +8,10 @@ let count = 0
  * supplied by the user. Additionally, applies changes to the config made by
  * the plugins selected by the user.
  */
-export default function createConfig<TModels extends Models<TModels>>(
-	initConfig: InitConfig<TModels>
-): Config<TModels> {
+export default function createConfig<
+	TModels extends Models<TModels>,
+	TExtraModels extends Models = {}
+>(initConfig: InitConfig<TModels, TExtraModels>): Config<TModels> {
 	const storeName = initConfig.name ?? `Rematch Store ${count}`
 
 	count += 1

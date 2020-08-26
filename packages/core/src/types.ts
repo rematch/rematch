@@ -93,8 +93,9 @@ export type ModelEffectsCreator<TModels extends Models<TModels>> = (
 /** ************************** Plugin *************************** */
 
 export interface PluginConfig<
-	TExposedModels extends Models<TModels> = {},
-	TModels extends Models<TModels> = Models
+	TModels extends Models<TModels> = Models,
+	TExtraModels extends Models = {},
+	TExposedModels = Partial<TExtraModels>
 > {
 	models?: TExposedModels
 	redux?: InitConfigRedux
@@ -102,29 +103,24 @@ export interface PluginConfig<
 
 export interface Plugin<
 	TModels extends Models<TModels> = Models,
-	TExposedModels extends Models<TModels> = {}
-> extends PluginHooks<TModels, TExposedModels> {
-	config?: PluginConfig<TExposedModels, TModels>
+	TExtraModels extends Models = {},
+	TExposedModels = Partial<TExtraModels>
+> extends PluginHooks<TModels & TExtraModels> {
+	config?: PluginConfig<TModels, TExtraModels, TExposedModels>
 	exposed?: PluginExposed
 }
 
-export interface PluginHooks<
-	TModels extends Models<TModels> = Models,
-	TExposedModels extends Models<TModels> = {}
-> {
+export interface PluginHooks<TModels extends Models<TModels> = Models> {
 	onStoreCreated?: StoreCreatedHook
-	onModel?: ModelHook<TModels, TExposedModels>
+	onModel?: ModelHook<TModels>
 	onReducer?: ReducerHook
 	onRootReducer?: RootReducerHook
 	createMiddleware?: MiddlewareCreator
 }
 
-export type ModelHook<
-	TModels extends Models<TModels> = Models,
-	TExposedModels extends Models<TModels> = {}
-> = (
-	model: NamedModel<TModels & TExposedModels>,
-	rematch: RematchStore<TModels & TExposedModels>
+export type ModelHook<TModels extends Models<TModels> = Models> = (
+	model: NamedModel<TModels>,
+	rematch: RematchStore<TModels>
 ) => void
 
 export type ReducerHook = (
@@ -182,9 +178,7 @@ export interface InitConfig<
 > {
 	name?: string
 	models?: TModels
-	plugins?: Partial<TExtraModels> extends Models<TModels>
-		? Plugin<TModels, Partial<TExtraModels>>[]
-		: Plugin<TModels>[]
+	plugins?: Plugin<TModels, TExtraModels>[]
 	redux?: InitConfigRedux
 }
 
@@ -193,11 +187,13 @@ export interface InitConfig<
  * default values and merging in modifications required by plugins
  * (new models, etc.).
  */
-export interface Config<TModels extends Models<TModels>>
-	extends InitConfig<TModels> {
+export interface Config<
+	TModels extends Models<TModels>,
+	TExtraModels extends Models = {}
+> extends InitConfig<TModels, TExtraModels> {
 	name: string
 	models: TModels
-	plugins: Plugin<TModels>[]
+	plugins: Plugin<TModels, TExtraModels>[]
 	redux: ConfigRedux
 }
 
