@@ -1,8 +1,7 @@
 // If you don't want to use TypeScript you can delete this file!
 import React from "react"
 import { PageProps } from "gatsby"
-import { Provider } from "react-redux";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux"
 
 
 import Layout from "../components/layout"
@@ -14,15 +13,13 @@ const UsingTypescript: React.FC<PageProps> = () => {
   const dispatch = useDispatch<Dispatch>()
 
   return (
-    <Provider store={store}>
-      <Layout isDark={settings.isDarkModeEnabled}>
-          <SEO title="Using TypeScript" />
-          <h1>Dark mode: {settings.isDarkModeEnabled.toString()}</h1>
-          <button onClick={() => dispatch.settings.toggleDarkThemeEffect()}>
-            Toggle dark theme
-          </button>
-      </Layout>
-    </Provider>
+    <Layout isDark={settings.isDarkModeEnabled}>
+        <SEO title="Using TypeScript" />
+        <h1>Dark mode: {settings.isDarkModeEnabled.toString()}</h1>
+        <button onClick={() => dispatch.settings.toggleDarkThemeEffect()}>
+          Toggle dark theme
+        </button>
+    </Layout>
   )
 }
 
