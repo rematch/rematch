@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { store, Dispatch, RootState } from "../store";
+import { Dispatch, RootState } from "../store"
 
 const UsingTypescript: React.FC<PageProps> = () => {
   const settings = useSelector((state: RootState) => state.settings)
