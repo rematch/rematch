@@ -9,10 +9,13 @@ export const dolphins = createModel<RootModel>()({
 	reducers: {
 		increment: (state: DolphinsState, payload: number) => state + payload,
 	},
-	effects: (dispatch) => ({
-		async incrementAsync(): Promise<void> {
-			await delay(500)
-			dispatch.dolphins.increment(1)
-		},
-	}),
+	effects: (dispatch) => {
+		const { dolphins } = dispatch
+		return {
+			async incrementAsync(): Promise<void> {
+				await delay(500)
+				dolphins.increment(1)
+			},
+		}
+	},
 })
