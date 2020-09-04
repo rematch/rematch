@@ -55,6 +55,10 @@ const createDispatcher = <
 ): ModelDispatcher<TModel, TModels> => {
 	const modelDispatcher = {} as ModelDispatcher<TModel, TModels>
 
+	// inject model so effects creator can access it without undefined thrown
+	// @ts-ignore
+	rematch.dispatch[`${model.name}`] = modelDispatcher
+
 	// map reducer names to dispatch actions
 	for (const reducerName of Object.keys(model.reducers)) {
 		validateModelReducer(model.name, model.reducers, reducerName)
