@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.5](https://github.com/rematch/rematch/compare/@rematch/updated@2.0.0-next.4...@rematch/updated@2.0.0-next.5) (2020-09-07)
+
+**Note:** Version bump only for package @rematch/updated
+
+
+
+
+
 # [2.0.0-next.4](https://github.com/rematch/rematch/compare/@rematch/updated@2.0.0-next.3...@rematch/updated@2.0.0-next.4) (2020-08-26)
 
 **Note:** Version bump only for package @rematch/updated

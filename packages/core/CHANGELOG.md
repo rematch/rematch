@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.5](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.4...@rematch/core@2.0.0-next.5) (2020-09-07)
+
+
+### Bug Fixes
+
+* regression in destructuring dispatch ([f50c6e4](https://github.com/rematch/rematch/commit/f50c6e4a99e90c5c34662138440e8b5c7139cb36))
+
+
+
+
+
 # [2.0.0-next.4](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.3...@rematch/core@2.0.0-next.4) (2020-08-26)
 
 
