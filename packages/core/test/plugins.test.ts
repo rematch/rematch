@@ -30,7 +30,9 @@ describe('plugins:', () => {
 			models: {
 				a: {
 					state: 0,
-					reducers: { set: (_state, payload: number): number => payload },
+					reducers: {
+						set: (_state: number, payload: number): number => payload,
+					},
 				},
 			},
 			plugins: [{ createMiddleware: payloadIsAlways100Middleware }],
@@ -105,7 +107,6 @@ describe('plugins:', () => {
 			plugins: [pluginWithReturn],
 		})
 
-		// @ts-expect-error
 		expect(store.returned).toEqual(42)
 	})
 })
