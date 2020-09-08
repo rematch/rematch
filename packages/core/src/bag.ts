@@ -1,30 +1,23 @@
-import {
-	Config,
-	Model,
-	Models,
-	NamedModel,
-	PluginHooks,
-	RematchBag,
-} from './types'
+import { Config, Model, Models, NamedModel, RematchBag } from './types'
 import { validateModel } from './validate'
 
 /**
  * Creates and returns a 'Rematch Bag', which is a set of configuration options
  * used by the Rematch library in various functions.
  */
-export default function createRematchBag<TModels extends Models>(
-	config: Config<TModels>
-): RematchBag {
+export default function createRematchBag<
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = Record<string, any>
+>(config: Config<TModels, TExtraModels>): RematchBag<TModels, TExtraModels> {
 	return {
 		models: createNamedModels(config.models),
 		reduxConfig: config.redux,
-		forEachPlugin<Hook extends keyof PluginHooks>(
-			method: Hook,
-			fn: (content: NonNullable<PluginHooks[Hook]>) => void
-		): void {
+		forEachPlugin(method, fn): void {
 			for (const plugin of config.plugins) {
 				if (plugin[method]) {
-					fn(plugin[method] as NonNullable<PluginHooks[Hook]>)
+					// @ts-ignore
+					// temporary ignore, see: https://github.com/microsoft/TypeScript/issues/40429
+					fn(plugin[method])
 				}
 			}
 		},
@@ -37,7 +30,9 @@ export default function createRematchBag<TModels extends Models>(
  * 'named' models - models with embedded name and default value for reducers
  * if user didn't provide any.
  */
-function createNamedModels<M extends Models>(models: M): NamedModel[] {
+function createNamedModels<
+	TModels extends Models<TModels> = Record<string, any>
+>(models: TModels): NamedModel<TModels>[] {
 	return Object.keys(models).map((modelName: string) => {
 		const model = createNamedModel(modelName, models[modelName])
 		validateModel(model)
@@ -49,7 +44,9 @@ function createNamedModels<M extends Models>(models: M): NamedModel[] {
  * Transforms a model into 'named' model - model which contains 'name' and
  * 'reducers' properties if user didn't provide any.
  */
-function createNamedModel(name: string, model: Model): NamedModel {
+function createNamedModel<
+	TModels extends Models<TModels> = Record<string, any>
+>(name: string, model: Model<TModels>): NamedModel<TModels> {
 	return {
 		name,
 		reducers: {},

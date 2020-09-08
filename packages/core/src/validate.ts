@@ -50,15 +50,17 @@ const validate = (runValidations: () => Validation[]): void => {
 	}
 }
 
-export const validateConfig = (config: Config<any>): void => {
+export const validateConfig = <
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = Record<string, any>
+>(
+	config: Config<TModels, TExtraModels>
+): void => {
 	validate(() => [
 		[!Array.isArray(config.plugins), 'init config.plugins must be an array'],
+		[!isObject(config.models), 'init config.models must be an object'],
 		[
-			!isObject<Config<any>>(config.models),
-			'init config.models must be an object',
-		],
-		[
-			!isObject<ModelReducers<any>>(config.redux.reducers),
+			!isObject(config.redux.reducers),
 			'init config.redux.reducers must be an object',
 		],
 		[
@@ -80,7 +82,11 @@ export const validateConfig = (config: Config<any>): void => {
 	])
 }
 
-export const validateModel = (model: NamedModel): void => {
+export const validateModel = <
+	TModels extends Models<TModels> = Record<string, any>
+>(
+	model: NamedModel<TModels>
+): void => {
 	validate(() => [
 		[!model, 'model config is required'],
 		[typeof model.name !== 'string', 'model "name" [string] is required'],
@@ -96,10 +102,10 @@ export const validateModel = (model: NamedModel): void => {
 }
 
 export const validatePlugin = <
-	TModels extends Models<TModels>,
-	TExposedModels extends Models<TModels>
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = Record<string, any>
 >(
-	plugin: Plugin<TModels, TExposedModels>
+	plugin: Plugin<TModels, TExtraModels>
 ): void => {
 	validate(() => [
 		[
