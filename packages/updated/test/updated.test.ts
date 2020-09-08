@@ -125,7 +125,7 @@ describe('updated', () => {
 			count: AsyncCountModel
 		}
 
-		type ExtraModels = ExtraModelsFromUpdated<ExtraModels & RootModel>
+		type ExtraModels = ExtraModelsFromUpdated<RootModel>
 
 		const store = init<RootModel, ExtraModels>({
 			models: { count },

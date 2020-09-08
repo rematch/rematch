@@ -11,7 +11,7 @@ export interface UpdatedConfig<T = Date> {
 	dateCreator?(): T
 }
 
-type UpdatedState<TModels extends Models<TModels> = Models, T = Date> = {
+type UpdatedState<TModels extends Models<TModels>, T = Date> = {
 	[modelName in keyof TModels]: {
 		[effectName in keyof ExtractRematchDispatchersFromEffects<
 			TModels[modelName]['effects'],
@@ -20,7 +20,7 @@ type UpdatedState<TModels extends Models<TModels> = Models, T = Date> = {
 	}
 }
 
-interface UpdatedModel<TModels extends Models<TModels> = Models, T = Date>
+interface UpdatedModel<TModels extends Models<TModels>, T = Date>
 	extends Model<TModels, UpdatedState<TModels, T>> {
 	reducers: {
 		onUpdate(
@@ -31,15 +31,15 @@ interface UpdatedModel<TModels extends Models<TModels> = Models, T = Date>
 }
 
 export interface ExtraModelsFromUpdated<
-	TModels extends Models<TModels> = Models,
+	TModels extends Models<TModels>,
 	T = Date
 > extends Models<TModels> {
 	updated: UpdatedModel<TModels, T>
 }
 
 const updatedPlugin = <
-	TModels extends Models = Models,
-	TExtraModels extends Models = {},
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
 	T = Date
 >(
 	config: UpdatedConfig<T> = {}
