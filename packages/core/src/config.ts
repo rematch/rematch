@@ -10,7 +10,7 @@ let count = 0
  */
 export default function createConfig<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = Record<string, any>
+	TExtraModels extends Models<TModels> = {}
 >(
 	initConfig: InitConfig<TModels, TExtraModels>
 ): Config<TModels, TExtraModels> {

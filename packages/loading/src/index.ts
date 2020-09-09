@@ -123,7 +123,7 @@ const validateConfig = (config: LoadingConfig): void => {
 
 export default <
 	TModels extends Models<TModels>,
-	TExtraModels extends Models<TModels> = Record<string, any>
+	TExtraModels extends Models<TModels> = {}
 >(
 	config: LoadingConfig = {}
 ): Plugin<TModels, TExtraModels, ExtraModelsFromLoading<TModels>> => {

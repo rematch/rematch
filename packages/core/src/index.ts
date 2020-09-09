@@ -15,7 +15,7 @@ import createConfig from './config'
  */
 export const init = <
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = Record<string, any>
+	TExtraModels extends Models<TModels> = {}
 >(
 	initConfig?: InitConfig<TModels, TExtraModels>
 ): RematchStore<TModels & TExtraModels> => {
