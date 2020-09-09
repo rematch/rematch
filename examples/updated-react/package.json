@@ -1,23 +1,23 @@
 {
-	"name": "rematch-example-updated-react",
-	"version": "0.1.0",
-	"private": true,
-	"dependencies": {
-		"@rematch/core": "^2.0.0-next.4",
-		"@rematch/updated": "^2.0.0-next.0",
-	  	"moment": "^2.24.0",
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1",
-		"react-redux": "^7.2.0",
-		"react-scripts": "3.4.1"
-	},
-	"scripts": {
-		"start": "react-scripts start"
-	},
-	"browserslist": [
-		">0.2%",
-		"not dead",
-		"not ie <= 11",
-		"not op_mini all"
-	]
+  "name": "rematch-example-updated-react",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@rematch/core": ">=2.0.0-next.0",
+    "@rematch/updated": "^2.0.0-next.0",
+    "moment": "^2.24.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.1",
+    "react-scripts": "3.4.1"
+  },
+  "scripts": {
+    "start": "react-scripts start"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

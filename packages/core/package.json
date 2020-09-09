@@ -27,10 +27,10 @@
     "node": ">=10"
   },
   "peerDependencies": {
-    "redux": "^4.0.5"
+    "redux": "*"
   },
   "devDependencies": {
-    "redux": "4.0.5",
+    "redux": "*",
     "typings-tester": "^0.3.2"
   },
   "husky": {
