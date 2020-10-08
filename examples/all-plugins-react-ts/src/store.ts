@@ -18,7 +18,6 @@ export const store = init<RootModel, FullModel>({
 			storage,
 			whitelist: ['settings']
 		}),
-		// @ts-ignore
 		immerPlugin({
 			whitelist: ['settings']
 		})
