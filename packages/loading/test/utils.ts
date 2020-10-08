@@ -34,4 +34,4 @@ export const count: CountModel = {
 
 export type Models = { count: typeof count }
 
-export type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+export type ExtraModels = ExtraModelsFromLoading<Models>

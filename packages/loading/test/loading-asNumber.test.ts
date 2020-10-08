@@ -4,9 +4,9 @@ import { delay, count, Models, ExtraModels } from './utils'
 
 describe('loading asNumbers', () => {
 	test('loading.global should be 0 for normal dispatched action', () => {
-		const store = init<Models, ExtraModels>({
-			models: { count },
-			plugins: [loadingPlugin({ asNumber: true })],
+		const store = init({
+			models: { count } as Models,
+			plugins: [loadingPlugin<Models, ExtraModels>({ asNumber: true })],
 		})
 
 		store.dispatch.count.addOne()
@@ -108,7 +108,7 @@ describe('loading asNumbers', () => {
 			reducers: {},
 		}
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		type ExtraModels = ExtraModelsFromLoading<Models>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -268,7 +268,7 @@ describe('loading asNumbers', () => {
 			reducers: {},
 		}
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		type ExtraModels = ExtraModelsFromLoading<Models>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -317,7 +317,7 @@ describe('loading asNumbers', () => {
 			reducers: {},
 		}
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		type ExtraModels = ExtraModelsFromLoading<Models>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -343,7 +343,7 @@ describe('loading asNumbers', () => {
 		}
 
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		type ExtraModels = ExtraModelsFromLoading<Models>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -367,7 +367,7 @@ describe('loading asNumbers', () => {
 			reducers: {},
 		}
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		type ExtraModels = ExtraModelsFromLoading<Models>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },

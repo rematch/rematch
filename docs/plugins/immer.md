@@ -40,6 +40,10 @@ If your state is a primitive value like a number of a string, plugin automatical
 
 **store.js**
 
+<!-- tabs:start -->
+
+#### ** JavaScript **
+
 ```javascript
 import immerPlugin from '@rematch/immer'
 import { init } from '@rematch/core'
@@ -51,6 +55,21 @@ init({
 	plugins: [immerPlugin()],
 })
 ```
+
+#### ** Typescript **
+
+```typescript
+import immerPlugin from '@rematch/immer'
+import { init } from '@rematch/core'
+import * as models from './models'
+
+init({
+    models,
+    // add immerPlugin to your store
+	plugins: [immerPlugin()],
+})
+```
+<!-- tabs:end -->
 
 **models.js**
 
@@ -68,16 +87,16 @@ export const todo = {
 	],
 	reducers: {
 		done(state) {
-            // mutable changes to the state
+      // mutable changes to the state
 			state.push({ todo: 'Tweet about it' })
 			state[1].done = true
 			return state
 		},
-        // when 'reset' reducer is executed, the state will be set
-        // to 'undefined' because reducer doesn't return the next state
-        reset(state) {
-           state[0].done = false
-        },
+		// when 'reset' reducer is executed, the state will be set
+		// to 'undefined' because reducer doesn't return the next state
+		reset(state) {
+				state[0].done = false
+		},
 	},
 }
 ```

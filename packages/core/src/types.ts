@@ -5,6 +5,7 @@
  * Shawn McKay https://github.com/shmck
  * Bruno Lemos https://github.com/brunolemos
  * Przemyslaw Jamrozowicz https://github.com/pjamrozowicz
+ * Tian Zhi https://github.com/tianzhich
  */
 
 import {
@@ -46,14 +47,14 @@ export type Reducer<TState = any> = (
 /**
  * Mapping from a model key to model object.
  *
- * @template AllModelsKeys List of all models' names
+ * @template TModels List of all models
  */
-export interface Models<TModels extends Models<TModels> = any> {
+export interface Models<TModels extends Models<TModels> = Record<string, any>> {
 	[key: string]: Model<TModels>
 }
 
 export interface NamedModel<
-	TModels extends Models<TModels> = Models,
+	TModels extends Models<TModels> = Record<string, any>,
 	TState = any,
 	TBaseState = TState
 > extends Model<TModels, TState, TBaseState> {
@@ -62,7 +63,7 @@ export interface NamedModel<
 }
 
 export interface Model<
-	TModels extends Models<TModels> = Models,
+	TModels extends Models<TModels> = Record<string, any>,
 	TState = any,
 	TBaseState = TState
 > {
@@ -77,24 +78,25 @@ export type ModelReducers<TState = any> = {
 	[key: string]: Reducer<TState>
 }
 
-export interface ModelEffects<TModels extends Models<TModels> = Models> {
+export interface ModelEffects<
+	TModels extends Models<TModels> = Record<string, any>
+> {
 	[key: string]: ModelEffect<TModels>
 }
 
-export type ModelEffect<TModels extends Models<TModels>> = (
-	payload: Action['payload'],
-	rootState: RematchRootState<TModels>
-) => any
+export type ModelEffect<
+	TModels extends Models<TModels> = Record<string, any>
+> = (payload: Action['payload'], rootState: RematchRootState<TModels>) => any
 
-export type ModelEffectsCreator<TModels extends Models<TModels>> = (
-	dispatch: RematchDispatch<TModels>
-) => ModelEffects<TModels>
+export type ModelEffectsCreator<
+	TModels extends Models<TModels> = Record<string, any>
+> = (dispatch: RematchDispatch<TModels>) => ModelEffects<TModels>
 
 /** ************************** Plugin *************************** */
 
 export interface PluginConfig<
-	TModels extends Models<TModels> = Models,
-	TExtraModels extends Models = {},
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {},
 	TExposedModels = Partial<TExtraModels>
 > {
 	models?: TExposedModels
@@ -102,44 +104,59 @@ export interface PluginConfig<
 }
 
 export interface Plugin<
-	TModels extends Models<TModels> = Models,
-	TExtraModels extends Models = {},
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {},
 	TExposedModels = Partial<TExtraModels>
-> extends PluginHooks<TModels & TExtraModels> {
+> extends PluginHooks<TModels, TExtraModels> {
 	config?: PluginConfig<TModels, TExtraModels, TExposedModels>
 	exposed?: PluginExposed
 }
 
-export interface PluginHooks<TModels extends Models<TModels> = Models> {
-	onStoreCreated?: StoreCreatedHook
-	onModel?: ModelHook<TModels>
-	onReducer?: ReducerHook
-	onRootReducer?: RootReducerHook
-	createMiddleware?: MiddlewareCreator
+export interface PluginHooks<
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> {
+	onStoreCreated?: StoreCreatedHook<TModels, TExtraModels>
+	onModel?: ModelHook<TModels & TExtraModels>
+	onReducer?: ReducerHook<TModels, TExtraModels>
+	onRootReducer?: RootReducerHook<TModels, TExtraModels>
+	createMiddleware?: MiddlewareCreator<TModels>
 }
 
-export type ModelHook<TModels extends Models<TModels> = Models> = (
+export type ModelHook<TModels extends Models<TModels> = Record<string, any>> = (
 	model: NamedModel<TModels>,
 	rematch: RematchStore<TModels>
 ) => void
 
-export type ReducerHook = (
+export type ReducerHook<
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> = (
 	reducer: ReduxReducer,
 	modelName: string,
-	rematch: RematchBag
+	rematch: RematchBag<TModels, TExtraModels>
 ) => ReduxReducer | void
 
-export type RootReducerHook = (
+export type RootReducerHook<
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> = (
 	reducer: ReduxReducer,
-	rematch: RematchBag
+	rematch: RematchBag<TModels, TExtraModels>
 ) => ReduxReducer | void
 
-export type StoreCreatedHook<TModels extends Models<TModels> = any> = (
-	store: RematchStore<TModels>,
-	rematch: RematchBag
-) => RematchStore<TModels> | void
+export type StoreCreatedHook<
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> = (
+	store: RematchStore<TModels & TExtraModels>,
+	rematch: RematchBag<TModels, TExtraModels>
+) => RematchStore<TModels & TExtraModels> | void
 
-export type MiddlewareCreator = (rematch: RematchBag) => Middleware
+export type MiddlewareCreator<
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> = (rematch: RematchBag<TModels, TExtraModels>) => Middleware
 
 export type ObjectNotAFunction = { [k: string]: any } & (
 	| { bind?: never }
@@ -158,14 +175,17 @@ export type ExposedFunction = (rematch: RematchStore<any>, ...args: any) => any
  * Object for storing information needed for the Rematch store to run.
  * Purposefully hidden from the end user.
  */
-export interface RematchBag {
-	models: NamedModel[]
+export interface RematchBag<
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> {
+	models: NamedModel<TModels>[]
 	reduxConfig: ConfigRedux
-	forEachPlugin: <Hook extends keyof PluginHooks>(
+	forEachPlugin: <Hook extends keyof PluginHooks<TModels, TExtraModels>>(
 		method: Hook,
-		fn: (content: NonNullable<PluginHooks[Hook]>) => void
+		fn: (content: NonNullable<PluginHooks<TModels, TExtraModels>[Hook]>) => void
 	) => void
-	effects: ModelEffects
+	effects: ModelEffects<TModels>
 }
 
 /**
@@ -173,8 +193,8 @@ export interface RematchBag {
  * Rematch store should be configured.
  */
 export interface InitConfig<
-	TModels extends Models<TModels>,
-	TExtraModels extends Models = {}
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
 > {
 	name?: string
 	models?: TModels
@@ -188,8 +208,8 @@ export interface InitConfig<
  * (new models, etc.).
  */
 export interface Config<
-	TModels extends Models<TModels>,
-	TExtraModels extends Models = {}
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
 > extends InitConfig<TModels, TExtraModels> {
 	name: string
 	models: TModels
@@ -229,11 +249,13 @@ export interface ConfigRedux<TRootState = any>
 	rootReducers: ReducersMapObject<TRootState, Action>
 }
 
-export interface RematchStore<TModels extends Models<TModels>>
-	extends ReduxStore<RematchRootState<TModels>, Action> {
+export interface RematchStore<
+	TModels extends Models<TModels> = Record<string, any>
+> extends ReduxStore<RematchRootState<TModels>, Action> {
+	[index: string]: ExposedFunction | Record<string, any> | string
 	name: string
 	dispatch: RematchDispatch<TModels>
-	addModel: (model: NamedModel) => void
+	addModel: (model: NamedModel<TModels>) => void
 }
 
 /** ************************** Root State *************************** */
@@ -242,13 +264,15 @@ export interface RematchStore<TModels extends Models<TModels>>
  * The type of state held by a store.
  */
 export type RematchRootState<
-	TModels extends Models<TModels>
+	TModels extends Models<TModels> = Record<string, any>
 > = ExtractRematchStateFromModels<TModels>
 
 /**
  * A mapping from each model's name to a type of state it holds.
  */
-export type ExtractRematchStateFromModels<TModels extends Models<TModels>> = {
+export type ExtractRematchStateFromModels<
+	TModels extends Models<TModels> = Record<string, any>
+> = {
 	[modelKey in keyof TModels]: TModels[modelKey]['state']
 }
 
@@ -259,15 +283,16 @@ export type ExtractRematchStateFromModels<TModels extends Models<TModels>> = {
  * an object allowing to dispatch specific actions by calling it the form of
  * dispatch[modelName][reducerName | effectName](payload).
  */
-export type RematchDispatch<TModels extends Models<TModels>> = ReduxDispatch &
-	ExtractRematchDispatchersFromModels<TModels>
+export type RematchDispatch<
+	TModels extends Models<TModels> = Record<string, any>
+> = ReduxDispatch & ExtractRematchDispatchersFromModels<TModels>
 
 /**
  * Goes over all models and extracts from each a type for dispatcher object
  * created by Rematch.
  */
 export type ExtractRematchDispatchersFromModels<
-	TModels extends Models<TModels>
+	TModels extends Models<TModels> = Record<string, any>
 > = {
 	[modelKey in keyof TModels]: TModels[modelKey] extends Model<TModels>
 		? ModelDispatcher<TModels[modelKey], TModels>
@@ -278,8 +303,8 @@ export type ExtractRematchDispatchersFromModels<
  * Combines together types extracted from reducers and effects for a model.
  */
 export type ModelDispatcher<
-	TModel extends Model<TModels>,
-	TModels extends Models<TModels>
+	TModel extends Model<TModels> = Model,
+	TModels extends Models<TModels> = Record<string, any>
 > = ExtractRematchDispatchersFromReducers<TModel['state'], TModel['reducers']> &
 	ExtractRematchDispatchersFromEffects<TModel['effects'], TModels>
 
@@ -339,7 +364,7 @@ export type RematchDispatcher<TPayload = void> = [TPayload] extends [void]
  */
 export type ExtractRematchDispatchersFromEffects<
 	TEffects extends Model<TModels>['effects'],
-	TModels extends Models<TModels>
+	TModels extends Models<TModels> = Record<string, any>
 > = TEffects extends (...args: any[]) => infer R
 	? R extends ModelEffects<TModels>
 		? ExtractRematchDispatchersFromEffectsObject<R, TModels>
@@ -353,7 +378,7 @@ export type ExtractRematchDispatchersFromEffects<
  */
 export type ExtractRematchDispatchersFromEffectsObject<
 	TEffects extends ModelEffects<TModels>,
-	TModels extends Models<TModels>
+	TModels extends Models<TModels> = Record<string, any>
 > = {
 	[effectKey in keyof TEffects]: ExtractRematchDispatcherFromEffect<
 		TEffects[effectKey],
@@ -371,7 +396,7 @@ export type ExtractRematchDispatchersFromEffectsObject<
  */
 export type ExtractRematchDispatcherFromEffect<
 	TEffect extends ModelEffect<TModels>,
-	TModels extends Models<TModels>
+	TModels extends Models<TModels> = Record<string, any>
 > = TEffect extends () => infer TReturn
 	? EffectRematchDispatcher<TReturn>
 	: TEffect extends (payload: infer TPayload) => infer TReturn
@@ -401,6 +426,54 @@ declare module 'redux' {
 	export interface Dispatch<A extends Action = AnyAction> {
 		[modelName: string]: any
 	}
+}
+
+/**
+ * Patch for the incompatibility between Redux.Dispatch and RematchDispatch
+ */
+declare module 'react-redux' {
+	interface Connect {
+		<
+			RM extends Models<RM> = Models,
+			State = DefaultRootState,
+			TStateProps = {},
+			TDispatchProps = {},
+			TOwnProps = {}
+		>(
+			mapStateToProps: MapStateToPropsParam<TStateProps, TOwnProps, State>,
+			mapDispatchToProps: MapRematchDispatchToPropsNonObject<
+				TDispatchProps,
+				TOwnProps,
+				RM
+			>
+		): InferableComponentEnhancerWithProps<
+			TStateProps & TDispatchProps,
+			TOwnProps
+		>
+	}
+
+	type MapRematchDispatchToPropsNonObject<
+		TDispatchProps,
+		TOwnProps,
+		RM extends Models<RM> = Models
+	> =
+		| MapRematchDispatchToPropsFactory<TDispatchProps, TOwnProps, RM>
+		| MapRematchDispatchToPropsFunction<TDispatchProps, TOwnProps, RM>
+
+	type MapRematchDispatchToPropsFactory<
+		TDispatchProps,
+		TOwnProps,
+		RM extends Models<RM> = Models
+	> = (
+		dispatch: RematchDispatch<RM>,
+		ownProps: TOwnProps
+	) => MapRematchDispatchToPropsFunction<TDispatchProps, TOwnProps, RM>
+
+	type MapRematchDispatchToPropsFunction<
+		TDispatchProps,
+		TOwnProps,
+		RM extends Models<RM> = Models
+	> = (dispatch: RematchDispatch<RM>, ownProps: TOwnProps) => TDispatchProps
 }
 
 declare global {

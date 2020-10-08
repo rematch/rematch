@@ -13,17 +13,21 @@ let persistor: Persistor
 // see https://github.com/rt2zz/redux-persist/blob/master/docs/PersistGate.md
 export const getPersistor = (): Persistor => persistor
 
-export type NestedPersist<M extends Models> = {
+export type NestedPersist<M extends Models<M>> = {
 	[modelKey in keyof M]?: PersistConfig<M[modelKey]['state']>
 }
 
 // rematch plugin
-const persistPlugin = <S, M extends Models = Models>(
+const persistPlugin = <
+	S,
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels> = {}
+>(
 	persistConfig: PersistConfig<S>,
-	nestedPersistConfig: NestedPersist<M> = {},
+	nestedPersistConfig: NestedPersist<TModels> = {},
 	persistStoreConfig?: PersistorOptions,
 	callback?: () => void
-): Plugin => {
+): Plugin<TModels, TExtraModels> => {
 	if (!persistConfig) {
 		throw new Error('persist plugin is missing config object')
 	}

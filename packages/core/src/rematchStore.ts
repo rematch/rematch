@@ -9,6 +9,8 @@ import {
 	Plugin,
 	RematchBag,
 	RematchStore,
+	ModelDispatcher,
+	RematchDispatch,
 } from './types'
 import createReduxStore, {
 	createModelReducer,
@@ -19,9 +21,9 @@ import { validateModel } from './validate'
 import createRematchBag from './bag'
 
 export default function createRematchStore<
-	TModels extends Models,
-	TExtraModels extends Models
->(config: Config<TModels>): RematchStore<TModels & TExtraModels> {
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+>(config: Config<TModels, TExtraModels>): RematchStore<TModels & TExtraModels> {
 	// setup rematch 'bag' for storing useful values and functions
 	const bag = createRematchBag(config)
 
@@ -38,10 +40,10 @@ export default function createRematchStore<
 	let rematchStore = {
 		...reduxStore,
 		name: config.name,
-		addModel(model: NamedModel) {
+		addModel(model: NamedModel<TModels>) {
 			validateModel(model)
 			createModelReducer(bag, model)
-			prepareModel<TModels & TExtraModels, typeof model>(this, bag, model)
+			prepareModel(this, bag, model)
 			this.replaceReducer(createRootReducer(bag))
 			reduxStore.dispatch({ type: '@@redux/REPLACE' })
 		},
@@ -53,7 +55,7 @@ export default function createRematchStore<
 
 	// generate dispatch[modelName][actionName] for all reducers and effects
 	for (const model of bag.models) {
-		prepareModel<TModels & TExtraModels, typeof model>(rematchStore, bag, model)
+		prepareModel(rematchStore, bag, model)
 	}
 
 	bag.forEachPlugin('onStoreCreated', (onStoreCreated) => {
@@ -63,14 +65,15 @@ export default function createRematchStore<
 	return rematchStore
 }
 
-function createEffectsMiddleware(bag: RematchBag): Middleware {
+function createEffectsMiddleware<
+	TModels extends Models<TModels> = Record<string, any>
+>(bag: RematchBag<TModels>): Middleware {
 	return (store) => (next) => (action: Action): any => {
 		if (action.type in bag.effects) {
 			// first run reducer action if exists
 			next(action)
 
 			// then run the effect and return its result
-			// @ts-ignore
 			return bag.effects[action.type](action.payload, store.getState())
 		}
 
@@ -78,19 +81,26 @@ function createEffectsMiddleware(bag: RematchBag): Middleware {
 	}
 }
 
-function prepareModel<TModels extends Models, TModel extends NamedModel>(
+function prepareModel<
+	TModels extends Models<TModels> = Record<string, any>,
+	TModel extends NamedModel<TModels> = NamedModel
+>(
 	rematchStore: RematchStore<TModels>,
-	bag: RematchBag,
+	bag: RematchBag<TModels>,
 	model: TModel
 ): void {
-	// @ts-ignore
-	rematchStore.dispatch[model.name] = createDispatcher<TModels, TModel>(
-		rematchStore,
-		bag,
-		model
-	)
+	const modelDispatcher = {} as ModelDispatcher<TModel, TModels>
 
-	bag.forEachPlugin('onModel', (onModel) => onModel(model, rematchStore))
+	// inject model so effects creator can access it
+	rematchStore.dispatch[
+		`${model.name}` as keyof RematchDispatch<TModels>
+	] = modelDispatcher
+
+	createDispatcher(rematchStore, bag, model)
+
+	bag.forEachPlugin('onModel', (onModel) => {
+		onModel(model, rematchStore)
+	})
 }
 
 /**
@@ -101,9 +111,12 @@ function prepareModel<TModels extends Models, TModel extends NamedModel>(
  * adding the properties that you exposed from your plugin.
  */
 function addExposed<
-	TModels extends Models<TModels>,
-	TExposedModels extends Models<TModels>
->(store: RematchStore<any>, plugins: Plugin<TModels, TExposedModels>[]): void {
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+>(
+	store: RematchStore<TModels & TExtraModels>,
+	plugins: Plugin<TModels, TExtraModels>[]
+): void {
 	for (const plugin of plugins) {
 		if (plugin.exposed) {
 			for (const key of Object.keys(plugin.exposed)) {
@@ -112,7 +125,6 @@ function addExposed<
 					| ObjectNotAFunction
 				const isExposedFunction = typeof exposedItem === 'function'
 
-				// @ts-ignore
 				store[key] = isExposedFunction
 					? (...params: any[]): any =>
 							(exposedItem as ExposedFunction)(store, ...params)

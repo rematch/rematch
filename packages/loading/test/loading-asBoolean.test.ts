@@ -108,7 +108,7 @@ describe('loading asBoolean', () => {
 		}
 
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		type ExtraModels = ExtraModelsFromLoading<Models>
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
 			plugins: [loadingPlugin()],
@@ -243,7 +243,7 @@ describe('loading asBoolean', () => {
 		}
 
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		type ExtraModels = ExtraModelsFromLoading<Models>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -293,7 +293,7 @@ describe('loading asBoolean', () => {
 		}
 
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		type ExtraModels = ExtraModelsFromLoading<Models>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -319,7 +319,7 @@ describe('loading asBoolean', () => {
 		}
 
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		type ExtraModels = ExtraModelsFromLoading<Models>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -344,7 +344,7 @@ describe('loading asBoolean', () => {
 		}
 
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models & ExtraModels>
+		type ExtraModels = ExtraModelsFromLoading<Models>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },

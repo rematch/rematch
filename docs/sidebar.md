@@ -23,3 +23,4 @@
   - [Decoupling reducers](recipes/decouplingreducers.md#decoupling-reducers)
 - [Examples](examples.md)
 - [Migration Guide](migration-guide.md)
+- [Troubleshoots](troubleshoots.md)

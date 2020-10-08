@@ -67,10 +67,9 @@ export type RematchSelect<M extends object = Models, RootState = any> = ((
 
 declare module '@rematch/core' {
 	interface Model<
-		TModels = Models,
+		TModels extends Models<TModels> = Record<string, any>,
 		TState = any,
-		TBaseState = TState,
-		AllModelsKeys extends string = string
+		TBaseState = TState
 	> {
 		selectors?: ModelSelectorsConfig<TState>
 	}

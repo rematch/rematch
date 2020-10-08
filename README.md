@@ -54,6 +54,15 @@ Rematch and its internals are all built upon a plugin pipeline. As a result, dev
 - Create a [GitHub issue](https://github.com/rematch/rematch/issues) for bug reports, feature requests, or questions
 - Add a ⭐️ [star on GitHub](https://github.com/rematch/rematch) to support the project!
 
+### Contributors
+
+Thank you to all the people who have already contributed to rematch!
+<a href="https://github.com/rematch/rematch/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=rematch/rematch" />
+</a>
+
+Made with [contributors-img](https://contributors-img.web.app).
+
 ## License
 
 This project is licensed under the [MIT license](https://github.com/rematch/rematch/blob/master/LICENSE).

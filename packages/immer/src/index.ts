@@ -1,4 +1,4 @@
-import { Plugin } from '@rematch/core'
+import { Plugin, Models } from '@rematch/core'
 import produce from 'immer'
 import Redux from 'redux'
 
@@ -19,7 +19,12 @@ function wrapReducerWithImmer(reducer: Redux.Reducer) {
 			: reducer(state, payload)
 }
 
-const immerPlugin = (config?: ImmerPluginConfig): Plugin => ({
+const immerPlugin = <
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels> = {}
+>(
+	config?: ImmerPluginConfig
+): Plugin<TModels, TExtraModels> => ({
 	onReducer(reducer: Redux.Reducer, model: string): Redux.Reducer | void {
 		if (
 			!config ||

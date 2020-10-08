@@ -123,14 +123,10 @@ const validateConfig = (config: LoadingConfig): void => {
 
 export default <
 	TModels extends Models<TModels>,
-	TExtraModels extends Models<TModels & TExtraModels> = {}
+	TExtraModels extends Models<TModels> = {}
 >(
 	config: LoadingConfig = {}
-): Plugin<
-	TModels,
-	TExtraModels,
-	ExtraModelsFromLoading<TModels & TExtraModels>
-> => {
+): Plugin<TModels, TExtraModels, ExtraModelsFromLoading<TModels>> => {
 	validateConfig(config)
 
 	const loadingModelName = config.name || 'loading'
@@ -153,16 +149,13 @@ export default <
 		? (cnt: number): number => cnt
 		: (cnt: number): boolean => cnt > 0
 
-	const loading: LoadingModel<TModels & TExtraModels, typeof isAsNumber> = {
+	const loading: LoadingModel<TModels, typeof isAsNumber> = {
 		name: loadingModelName,
 		reducers: {
 			hide: createLoadingAction(converter, -1, cntState),
 			show: createLoadingAction(converter, 1, cntState),
 		},
-		state: loadingInitialState as LoadingState<
-			TModels & TExtraModels,
-			typeof isAsNumber
-		>,
+		state: loadingInitialState as LoadingState<TModels, typeof isAsNumber>,
 	}
 
 	const initialLoadingValue = converter(0)

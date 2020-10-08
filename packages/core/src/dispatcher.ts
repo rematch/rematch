@@ -1,6 +1,5 @@
 import {
 	Action,
-	ModelDispatcher,
 	ModelEffects,
 	ModelEffectsCreator,
 	Models,
@@ -18,7 +17,9 @@ import { validateModelEffect, validateModelReducer } from './validate'
  * Additionally, adds the isEffect property to the created dispatcher.
  * isEffect helps to differentiate effects dispatchers from reducer dispatchers.
  */
-const createActionDispatcher = <TModels extends Models>(
+const createActionDispatcher = <
+	TModels extends Models<TModels> = Record<string, any>
+>(
 	rematch: RematchStore<TModels>,
 	modelName: string,
 	actionName: string,
@@ -46,24 +47,19 @@ const createActionDispatcher = <TModels extends Models>(
  * actions.
  */
 const createDispatcher = <
-	TModels extends Models<TModels>,
-	TModel extends NamedModel<TModels>
+	TModels extends Models<TModels> = Record<string, any>,
+	TModel extends NamedModel<TModels> = NamedModel
 >(
 	rematch: RematchStore<TModels>,
-	bag: RematchBag,
+	bag: RematchBag<TModels>,
 	model: TModel
-): ModelDispatcher<TModel, TModels> => {
-	const modelDispatcher = {} as ModelDispatcher<TModel, TModels>
-
-	// inject model so effects creator can access it without undefined thrown
-	// @ts-ignore
-	rematch.dispatch[`${model.name}`] = modelDispatcher
+): void => {
+	const modelDispatcher = rematch.dispatch[model.name]
 
 	// map reducer names to dispatch actions
 	for (const reducerName of Object.keys(model.reducers)) {
 		validateModelReducer(model.name, model.reducers, reducerName)
 
-		// @ts-ignore
 		modelDispatcher[reducerName] = createActionDispatcher(
 			rematch,
 			model.name,
@@ -86,13 +82,10 @@ const createDispatcher = <
 	for (const effectName of Object.keys(effects)) {
 		validateModelEffect(model.name, effects, effectName)
 
-		// @ts-ignore
 		bag.effects[`${model.name}/${effectName}`] = effects[effectName].bind(
-			// @ts-ignore
 			modelDispatcher
 		)
 
-		// @ts-ignore
 		modelDispatcher[effectName] = createActionDispatcher(
 			rematch,
 			model.name,
@@ -100,8 +93,6 @@ const createDispatcher = <
 			true
 		)
 	}
-
-	return modelDispatcher
 }
 
 export default createDispatcher

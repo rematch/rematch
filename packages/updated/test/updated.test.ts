@@ -1,5 +1,4 @@
-import { init, ModelDispatcher } from '@rematch/core'
-import { Models } from '@rematch/core/src'
+import { init, ModelDispatcher, Models } from '@rematch/core'
 import updatedPlugin, { ExtraModelsFromUpdated } from '../src'
 
 const mockDate = new Date()
@@ -15,7 +14,7 @@ type CountModel = {
 }
 
 interface RootModel extends Models<RootModel> {
-	[key: string]: CountModel
+	count: CountModel
 }
 
 describe('updated', () => {
@@ -32,7 +31,7 @@ describe('updated', () => {
 			},
 		}
 
-		const store = init({
+		const store = init<RootModel, ExtraModelsFromUpdated<RootModel>>({
 			models: { count },
 			plugins: [
 				updatedPlugin({
@@ -125,7 +124,7 @@ describe('updated', () => {
 			count: AsyncCountModel
 		}
 
-		type ExtraModels = ExtraModelsFromUpdated<ExtraModels & RootModel>
+		type ExtraModels = ExtraModelsFromUpdated<RootModel>
 
 		const store = init<RootModel, ExtraModels>({
 			models: { count },

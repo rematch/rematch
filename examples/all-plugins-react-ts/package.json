@@ -1,0 +1,33 @@
+{
+  "name": "rematch-example-all-plugins-react-ts",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@rematch/core": ">=2.0.0-next.0",
+    "@rematch/immer": ">=2.0.0-next.0",
+    "@rematch/loading": ">=2.0.0-next.0",
+    "@rematch/persist": ">=2.0.0-next.0",
+    "@rematch/select": ">=3.0.0-next.0",
+    "@rematch/updated": ">=2.0.0-next.0",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.11.0",
+    "@types/react": "^16.9.32",
+    "@types/react-dom": "^16.9.6",
+    "@types/react-redux": "^7.1.9",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.1",
+    "react-scripts": "^3.4.3",
+    "redux": "^4.0.5",
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
