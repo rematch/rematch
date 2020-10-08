@@ -2,8 +2,6 @@ import * as React from 'react'
 import { RootState, Dispatch } from './store'
 import { useDispatch, useSelector } from 'react-redux'
 import { PlayerModel } from './models/players';
-import "./index.css";
-import "./switch.css";
 
 const Count = () => {
 	const settingsState = useSelector((state: RootState) => state.settings);
@@ -31,7 +29,7 @@ const Count = () => {
 	return (
 		<div>
 			<div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
-				<h1>NBA Players:</h1>
+				<h1>NBA Hook Players:</h1>
 				<div className="theme-switch-wrapper">
 						<label className="theme-switch">
 							<input checked={!settingsState.isLightThemeOn} onChange={(e) => checkTheme(e)} type="checkbox" id="checkbox" />

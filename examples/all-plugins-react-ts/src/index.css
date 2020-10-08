@@ -12,6 +12,16 @@
   --bg-color: #161625;
 }
 
+button {
+  background-color: var(--secondary-color);
+  color: var(--font-color);
+  font-family: Arial, Helvetica, sans-serif;
+  padding: .5rem;
+  border-radius: .5rem;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
 body {
   font-family: Open Sans, sans-serif;
   background-color: var(--bg-color);
