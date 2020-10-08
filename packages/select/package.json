@@ -1,6 +1,6 @@
 {
   "name": "@rematch/select",
-  "version": "3.0.0-next.5",
+  "version": "3.0.0-next.6",
   "description": "Selectors plugin for Rematch",
   "homepage": "https://rematch.github.io/rematch",
   "main": "dist/index.js",
@@ -27,7 +27,7 @@
     "reselect": "^4.0.0"
   },
   "devDependencies": {
-    "@rematch/core": ">=2.0.0-next.0"
+    "@rematch/core": "^2.0.0-next.6"
   },
   "peerDependencies": {
     "@rematch/core": ">=2.0.0-next.0"

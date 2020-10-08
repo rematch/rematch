@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.6](https://github.com/rematch/rematch/compare/@rematch/immer@2.0.0-next.5...@rematch/immer@2.0.0-next.6) (2020-10-08)
+
+
+### Bug Fixes
+
+* immer compatibility with typescript ([ec97f99](https://github.com/rematch/rematch/commit/ec97f994f2deff75d6a8dc866878a62c8ecf2f1e))
+
+
+
+
+
 # [2.0.0-next.5](https://github.com/rematch/rematch/compare/@rematch/immer@2.0.0-next.4...@rematch/immer@2.0.0-next.5) (2020-09-07)
 
 **Note:** Version bump only for package @rematch/immer

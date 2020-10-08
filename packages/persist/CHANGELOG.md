@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.6](https://github.com/rematch/rematch/compare/@rematch/persist@2.0.0-next.5...@rematch/persist@2.0.0-next.6) (2020-10-08)
+
+
+### Bug Fixes
+
+* persist plugin typescript ([57509c2](https://github.com/rematch/rematch/commit/57509c20018b10e7ab2cbbbd4304b912a85f6ec6))
+
+
+
+
+
 # [2.0.0-next.5](https://github.com/rematch/rematch/compare/@rematch/persist@2.0.0-next.4...@rematch/persist@2.0.0-next.5) (2020-09-07)
 
 **Note:** Version bump only for package @rematch/persist

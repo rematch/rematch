@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.6](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.5...@rematch/core@2.0.0-next.6) (2020-10-08)
+
+
+### Bug Fixes
+
+* **core:** changed option value of TExtraModels ([8b416cd](https://github.com/rematch/rematch/commit/8b416cd6d06c966d56d556486e584c0444ee286e)), closes [/github.com/rematch/rematch/pull/819#discussion_r485297126](https://github.com//github.com/rematch/rematch/pull/819/issues/discussion_r485297126)
+
+
+
+
+
 # [2.0.0-next.5](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.4...@rematch/core@2.0.0-next.5) (2020-09-07)
 
 
