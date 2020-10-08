@@ -56,6 +56,9 @@ To use the plugin, start with adding it to your store:
 
 **store.js**
 
+<!-- tabs:start -->
+#### ** JavaScript **
+
 ```javascript
 import updatedPlugin from '@rematch/updated'
 import { init } from '@rematch/core'
@@ -67,6 +70,33 @@ init({
 	plugins: [updatedPlugin()],
 })
 ```
+
+#### ** Typescript **
+
+```typescript
+import updatedPlugin, { ExtraModelsFromUpdated } from '@rematch/loading'
+import { init, RematchDispatch, RematchRootState } from '@rematch/core'
+import { models, RootModel } from './models'
+
+type FullModel =  ExtraModelsFromUpdated<RootModel>
+
+// Also you can use loading plugin
+// type FullModel =  ExtraModelsFromLoading<RootModel> & ExtraModelsFromUpdated<RootModel>
+
+export const store = init<RootModel, FullModel>({
+    models,
+    // add updatedPlugin to your store
+	  plugins: [updatedPlugin()],
+})
+
+export type Store = typeof store
+export type Dispatch = RematchDispatch<RootModel>
+export type RootState = RematchRootState<RootModel & FullModel>
+
+```
+
+<!-- tabs:end -->
+
 
 **models.js**
 

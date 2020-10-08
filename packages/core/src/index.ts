@@ -42,12 +42,11 @@ export const createModel: <RM extends Models<RM>>() => <
 	baseReducer: BR
 	effects: E
 } = () => (mo): any => {
-	const { reducers = {}, baseReducer = {}, effects = {} } = mo
+	const { reducers = {}, effects = {} } = mo
 
 	return {
 		...mo,
 		reducers,
-		baseReducer,
 		effects,
 	}
 }

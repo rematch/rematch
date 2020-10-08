@@ -59,6 +59,9 @@ Check out below an example of how to use loading plugin in React:
 **store.js**
 
 Set up your store with default or custom settings.
+<!-- tabs:start -->
+
+#### ** JavaScript **
 
 ```javascript
 import loadingPlugin from '@rematch/loading'
@@ -70,6 +73,25 @@ init({
     // add loadingPlugin to your store
 	plugins: [loadingPlugin()],
 })
+```
+#### ** Typescript **
+```typescript
+import loadingPlugin, { ExtraModelsFromLoading } from '@rematch/loading'
+import { init, RematchDispatch, RematchRootState } from '@rematch/core'
+import { models, RootModel } from './models'
+
+type FullModel =  ExtraModelsFromLoading<RootModel>
+
+export const store = init<RootModel, FullModel>({
+    models,
+    // add loadingPlugin to your store
+	  plugins: [loadingPlugin()],
+})
+
+export type Store = typeof store
+export type Dispatch = RematchDispatch<RootModel>
+export type RootState = RematchRootState<RootModel & FullModel>
+
 ```
 
 **models.js**
@@ -97,6 +119,7 @@ export const auth = {
     }
 }
 ```
+<!-- tabs:end -->
 
 **view.js**
 
