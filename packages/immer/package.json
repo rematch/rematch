@@ -24,17 +24,17 @@
     "src"
   ],
   "dependencies": {
-    "immer": "*"
+    "immer": "^7.0.9"
   },
   "devDependencies": {
     "@rematch/core": ">=2.0.0-next.0",
-    "immer": "*",
-    "redux": "*"
+    "immer": "^7.0.9",
+    "redux": "^4.0.5"
   },
   "peerDependencies": {
     "@rematch/core": ">=2.0.0-next.0",
-    "immer": "*",
-    "redux": "*"
+    "immer": "^7.0.9",
+    "redux": "^4.0.5"
   },
   "husky": {
     "hooks": {

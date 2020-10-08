@@ -20,7 +20,7 @@
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
     "react-redux": "^7.2.1",
-    "redux": "*"
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "prettier": "2.1.0"
