@@ -12,7 +12,6 @@ export const store = init<RootModel, FullModel>({
 	plugins: [
 		updated(),
 		loading(),
-		// @ts-ignore
 		persist({
 			key: 'persist-storage',
 			storage,
