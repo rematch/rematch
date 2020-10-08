@@ -52,6 +52,8 @@ export const players = createModel<RootModel>()({
 
 ### Loading plugin - Breaking change
 
+>  Not released yet, in discussion
+
 Loading plugin after `v2.x.x` changed how works internally and now just uses `1-0` or `true-false`, in `v1.x.x` was using an index to increment, if asBoolean config is on
 
 On `v1.x.x`:
