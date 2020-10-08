@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { PlayerModel } from './models/players';
 import "./index.css";
 import "./switch.css";
-import { settings } from 'cluster';
 
 const Count = () => {
 	const settingsState = useSelector((state: RootState) => state.settings);
