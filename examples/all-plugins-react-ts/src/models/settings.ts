@@ -7,10 +7,8 @@ export const settings = createModel<RootModel>()({
 	},
 	reducers: {
 		SET_THEME: (state, payload: "light" | "dark") =>  {
-			return {
-				...state,
-				isLightThemeOn: payload ? (payload === "light") : !state.isLightThemeOn,
-			}
+			state.isLightThemeOn = payload ? (payload === "light") : !state.isLightThemeOn
+			return state;
 		},
 	},
 })

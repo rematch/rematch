@@ -4,6 +4,7 @@ import loading, { ExtraModelsFromLoading } from '@rematch/loading';
 import updated, { ExtraModelsFromUpdated } from '@rematch/updated';
 import persist from '@rematch/persist';
 import storage from 'redux-persist/lib/storage'
+import immerPlugin from '@rematch/immer'
 
 type FullModel =  ExtraModelsFromLoading<RootModel> & ExtraModelsFromUpdated<RootModel>
 export const store = init<RootModel, FullModel>({
@@ -15,6 +16,10 @@ export const store = init<RootModel, FullModel>({
 		persist({
 			key: 'persist-storage',
 			storage,
+			whitelist: ['settings']
+		}),
+		// @ts-ignore
+		immerPlugin({
 			whitelist: ['settings']
 		})
 	]
