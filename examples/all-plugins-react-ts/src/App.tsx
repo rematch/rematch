@@ -1,47 +1,63 @@
 import * as React from 'react'
 import { RootState, Dispatch } from './store'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { PlayerModel } from './models/players';
+import "./index.css";
+import "./switch.css";
+import { settings } from 'cluster';
 
-const mapState = (state: RootState) => ({
-	loading: state.loading,
-	dolphins: state.dolphins,
-	sharks: state.sharks,
-})
+const Count = () => {
+	const settingsState = useSelector((state: RootState) => state.settings);
+	const loadingState = useSelector((state: RootState) => state.loading);
+	const playersState = useSelector((state: RootState) => state.players);
+	const dispatch = useDispatch<Dispatch>();
 
-const mapDispatch = (dispatch: Dispatch) => ({
-	incrementDolphins: () => dispatch.dolphins.increment(1),
-	incrementDolphinsAsync: dispatch.dolphins.incrementAsync,
-	incrementSharks: () => dispatch.sharks.increment(1),
-	incrementSharksAsync: () => dispatch.sharks.incrementAsync(1),
-	incrementSharksAsync2: () =>
-		dispatch({ type: 'sharks/incrementAsync', payload: 2 }),
-})
+	React.useEffect(() => {
+		dispatch.players.getPlayers();
+	}, []);
 
-type StateProps = ReturnType<typeof mapState>
-type DispatchProps = ReturnType<typeof mapDispatch>
-type Props = StateProps & DispatchProps
+	React.useEffect(() => {
+		const theme = settingsState.isLightThemeOn ? 'light' : 'dark'
+		document.documentElement.setAttribute('data-theme', theme);
+	}, [settingsState.isLightThemeOn])
 
-class Count extends React.Component<Props> {
-	render() {
-		return (
-			<div style={{ display: 'flex', flexDirection: 'row' }}>
-				<div style={{ width: 120 }}>
-					<h3>Dolphins</h3>
-					<h1>{this.props.dolphins}</h1>
-					<button onClick={this.props.incrementDolphins}>+1</button>
-					<button onClick={this.props.incrementDolphinsAsync}>Async +1</button>
+	const checkTheme = React.useCallback((e) => {
+		if (e.target.checked) {
+			dispatch.settings.SET_THEME("dark");
+		} else {
+			dispatch.settings.SET_THEME("light");
+		}
+	}, [])
+
+	return (
+		<div>
+			<div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+				<h1>NBA Players:</h1>
+				<div className="theme-switch-wrapper">
+						<label className="theme-switch">
+							<input checked={!settingsState.isLightThemeOn} onChange={(e) => checkTheme(e)} type="checkbox" id="checkbox" />
+							<div className="slider round"></div>
+					</label>
+					<em>Enable Dark Mode!</em>
 				</div>
-				<div style={{ width: 200 }}>
-					<h3>Sharks</h3>
-					<h1>{this.props.sharks}</h1>
-					<button onClick={this.props.incrementSharks}>+1</button>
-					<button onClick={this.props.incrementSharksAsync}>Async +1</button>
-					<button onClick={this.props.incrementSharksAsync2}>Async +2</button>
-				</div>
-				<p>Using Rematch Models</p>
 			</div>
-		)
-	}
+			<div className="container">
+				{loadingState.models.players ? (
+					<div className="loader">Loading...</div>
+				) : (
+					playersState.players.map((player: PlayerModel) => (
+						<div key={player.id} className="card">
+							<h5>{player.first_name} {player.last_name}</h5>
+							<div>
+								<p><b>Position: </b>{player.position}</p>
+								<p><b>Team: </b>{player.team.full_name}</p>
+							</div>
+						</div>
+					))
+				)}
+			</div>
+		</div>
+	)
 }
 
-export default connect(mapState, mapDispatch)(Count)
+export default Count;

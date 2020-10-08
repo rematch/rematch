@@ -1,3 +1,5 @@
-# Rematch Example - All Plugins React Typescript
+# Rematch Example - Count React Typescript
 
-Example demonstrating usage of Rematch with all his plugins in React with Typescript.
+Example demonstrating usage of Rematch in React with Typescript.
+
+[![Edit rematch-example-count-js](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/rematch/rematch/tree/master/examples/count-react-ts?fontsize=14&hidenavigation=1&theme=dark)
