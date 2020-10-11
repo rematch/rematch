@@ -1,0 +1,12 @@
+tasks:
+  - init: npm install && gp sync-done install
+    command: npm run start
+
+  - name: Docs
+    init: gp sync-await install
+    command: npm run docs
+    openMode: split-right
+
+ports:
+  - port: 3000
+    onOpen: open-preview
