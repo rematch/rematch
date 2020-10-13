@@ -21,6 +21,17 @@ It's also important to note that all repositories under the `rematch` banner hav
 
 ## Code contributions
 
+### Online one-click setup
+
+You can use Gitpod(an Online Open Source VS Code like IDE which is free for Open Source) for contributing. With a single click it will start a workspace and automatically:
+
+- clone the `rematch` repo.
+- install all the dependencies.
+- run `npm start`.
+- run `npm run docs`.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
+
 Here is a quick guide to doing code contributions to the library.
 
 1. Find some issue you're interested in, or a feature that you'd like to tackle.
