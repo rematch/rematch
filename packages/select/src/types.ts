@@ -1,7 +1,18 @@
 // Type definitions for @rematch/select 3.0.0
 // Definitions by: Sam Richard <https://github.com/d3dc>
-import { Models, RematchRootState } from '@rematch/core'
+import {
+	Action,
+	ExposedFunction,
+	ModelEffects,
+	ModelEffectsCreator,
+	ModelReducers,
+	Models,
+	NamedModel,
+	RematchDispatch,
+	RematchRootState,
+} from '@rematch/core'
 import * as Reselect from 'reselect'
+import { Reducer as ReduxReducer, Store as ReduxStore } from 'redux'
 
 export { createSelector, createStructuredSelector } from 'reselect'
 
@@ -55,8 +66,8 @@ export type ModelSelectorsConfig<S> =
 	| ModelSelectorsFactory<S>
 	| ModelSelectorFactories<S>
 
-export type RematchSelect<M extends object = Models, RootState = any> = ((
-	mapSelectToProps: (select: RematchSelect<M, RootState>) => object
+export type RematchSelect<TModels extends Models<TModels>, RootState = any> = ((
+	mapSelectToProps: (select: RematchSelect<TModels, RootState>) => object
 ) => Reselect.OutputParametricSelector<
 	RootState,
 	any,
@@ -66,15 +77,34 @@ export type RematchSelect<M extends object = Models, RootState = any> = ((
 	StoreSelectors<RootState>
 
 declare module '@rematch/core' {
-	interface Model<
+	export interface Model<
 		TModels extends Models<TModels> = Record<string, any>,
 		TState = any,
 		TBaseState = TState
 	> {
+		name?: string
+		state: TState
 		selectors?: ModelSelectorsConfig<TState>
+		reducers?: ModelReducers<TState>
+		baseReducer?: ReduxReducer<TBaseState>
+		effects?: ModelEffects<TModels> | ModelEffectsCreator<TModels>
 	}
 
-	interface RematchStore<TModels> {
-		select: RematchSelect<TModels, RematchRootState<TModels>>
+	export interface ModelResult<S, R, BR, E> {
+		name?: string
+		state: S
+		reducers?: R
+		selectors?: ModelSelectorsConfig<S>
+		baseReducer?: BR
+		effects?: E
+	}
+
+	export interface RematchStore<
+		TModels extends Models<TModels> = Record<string, any>
+	> extends ReduxStore<RematchRootState<TModels>, Action> {
+		[index: string]: ExposedFunction | Record<string, any> | string
+		name: string
+		dispatch: RematchDispatch<TModels>
+		addModel: (model: NamedModel<TModels>) => void
 	}
 }

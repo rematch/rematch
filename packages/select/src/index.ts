@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { NamedModel, Plugin } from '@rematch/core'
+import { Models, NamedModel, Plugin, RematchStore } from '@rematch/core'
 import { createSelector, createStructuredSelector } from 'reselect'
 import { SelectConfig } from './types'
 
@@ -72,7 +72,12 @@ const validateSelector = (selectorFactories, selectorName, model): void => {
 	}
 }
 
-const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
+const createSelectPlugin = <
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels> = {}
+>(
+	config: SelectConfig = {}
+): Plugin<TModels, TExtraModels> => {
 	validateConfig(config)
 
 	const sliceState = config.sliceState || ((state, model) => state[model.name])
@@ -103,7 +108,7 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
 			sliceState,
 			selectorCreator,
 		},
-		onModel(model: NamedModel): void {
+		onModel(model: NamedModel<TModels>): void {
 			select[model.name] = {}
 
 			const selectorFactories =
@@ -136,7 +141,7 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
 				})
 			)
 		},
-		onStoreCreated(store): void {
+		onStoreCreated(store) {
 			factoryGroup.startBuilding()
 			store.select = select
 		},

@@ -5,6 +5,7 @@ import updated, { ExtraModelsFromUpdated } from '@rematch/updated';
 import persist from '@rematch/persist';
 import storage from 'redux-persist/lib/storage'
 import immerPlugin from '@rematch/immer'
+import selectPlugin from '@rematch/select'
 
 type FullModel =  ExtraModelsFromLoading<RootModel> & ExtraModelsFromUpdated<RootModel>
 export const store = init<RootModel, FullModel>({
@@ -19,7 +20,8 @@ export const store = init<RootModel, FullModel>({
 		}),
 		immerPlugin({
 			whitelist: ['settings']
-		})
+		}),
+		selectPlugin(),
 	]
 })
 

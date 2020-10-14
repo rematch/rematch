@@ -23,25 +23,23 @@ export const init = <
 	return createRematchStore(config)
 }
 
+export interface ModelResult<S, R, BR, E> {
+	name?: string
+	state: S
+	reducers?: R
+	baseReducer?: BR
+	effects?: E
+}
+
 export const createModel: <RM extends Models<RM>>() => <
 	R extends ModelReducers<S>,
 	BR extends ReduxReducer<BS>,
 	E extends ModelEffects | ModelEffectsCreator<RM>,
 	S,
 	BS = S
->(mo: {
-	name?: string
-	state: S
-	reducers?: R
-	baseReducer?: BR
-	effects?: E
-}) => {
-	name?: string
-	state: S
-	reducers: R
-	baseReducer: BR
-	effects: E
-} = () => (mo): any => {
+>(
+	mo: ModelResult<S, R, BR, E>
+) => ModelResult<S, R, BR, E> = () => (mo): any => {
 	const { reducers = {}, effects = {} } = mo
 
 	return {
