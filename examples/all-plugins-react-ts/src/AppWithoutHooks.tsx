@@ -5,12 +5,6 @@ import { PlayerModel } from './models/players';
 import "./index.css";
 import "./switch.css";
 
-// const Count = () => {
-// 	const settingsState = useSelector((state: RootState) => state.settings);
-// 	const loadingState = useSelector((state: RootState) => state.loading);
-// 	const playersState = useSelector((state: RootState) => state.players);
-// 	const dispatch = useDispatch<Dispatch>();
-
 class App extends React.PureComponent<Props> {
   componentDidMount() {
     const { players } = this.props;
