@@ -44,8 +44,7 @@ export type SelectorParametricFactory<S, P = any> = (
 ) => Selector<S>
 
 export type Slicer<S, M = any, R = any> = Selector<S, void, M> &
-	((resultFn: (slice: M) => R) => Selector<S, void, R>)
-
+	((resultFn: (slice: S) => R) => Selector<S, void, R>)
 export type SelectorCreator = typeof Reselect.createSelector
 
 export type Parameterizer<S, P = any> = (

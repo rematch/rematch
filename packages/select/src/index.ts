@@ -1,7 +1,17 @@
 // @ts-nocheck
-import { Models, NamedModel, Plugin, RematchStore } from '@rematch/core'
+import {
+	Models,
+	NamedModel,
+	Plugin,
+	ExtractRematchStateFromModels,
+	Model,
+	ModelReducers,
+	ModelEffects,
+	ModelEffectsCreator,
+} from '@rematch/core'
+import { Reducer } from 'redux'
 import { createSelector, createStructuredSelector } from 'reselect'
-import { SelectConfig } from './types'
+import { ModelSelectorsConfig, SelectConfig } from './types'
 
 const makeSelect = () => {
 	/**
@@ -64,11 +74,45 @@ const validateConfig = (config: SelectConfig): void => {
 
 const validateSelector = (selectorFactories, selectorName, model): void => {
 	if (process.env.NODE_ENV !== 'production') {
-		if (typeof selectorFactories![selectorName] !== 'function') {
+		if (typeof selectorFactories?.[selectorName] !== 'function') {
 			throw new Error(
 				`Selector (${model.name}/${selectorName}) must be a function`
 			)
 		}
+	}
+}
+
+/**
+ * Todo: could we extend types of standard createModel?
+ */
+export const createModelWithSelectors: <RM extends Models<RM>>() => <
+	R extends ModelReducers<S>,
+	BR extends Reducer<BS>,
+	E extends ModelEffects | ModelEffectsCreator<RM>,
+	SE extends ModelSelectorsConfig<S>,
+	S,
+	BS = S
+>(mo: {
+	name?: string
+	state: S
+	selectors?: SE
+	reducers?: R
+	baseReducer?: BR
+	effects?: E
+}) => {
+	name?: string
+	state: S
+	selectors?: SE
+	reducers: R
+	baseReducer: BR
+	effects: E
+} = () => (mo): any => {
+	const { reducers = {}, effects = {} } = mo
+
+	return {
+		...mo,
+		reducers,
+		effects,
 	}
 }
 
@@ -80,21 +124,30 @@ const createSelectPlugin = <
 ): Plugin<TModels, TExtraModels> => {
 	validateConfig(config)
 
-	const sliceState = config.sliceState || ((state, model) => state[model.name])
+	const sliceState: ExtractRematchStateFromModels<TModels> =
+		config.sliceState ||
+		((state: ExtractRematchStateFromModels<TModels>, model: Model<TModels>) =>
+			state[model.name])
 	const selectorCreator = config.selectorCreator || createSelector
 
-	const slice = (model) => (stateOrNext) => {
+	const slice = (
+		model: Model<TModels, ExtractRematchStateFromModels<TModels>>
+	) => (stateOrNext: ExtractRematchStateFromModels<TModels>) => {
 		if (typeof stateOrNext === 'function') {
-			return selectorCreator((state) => sliceState(state, model), stateOrNext)
+			return selectorCreator(
+				(state: ExtractRematchStateFromModels<TModels>) =>
+					sliceState(state, model),
+				stateOrNext
+			)
 		}
 		return sliceState(stateOrNext, model)
 	}
 
-	const hasProps = (inner) =>
-		function (models) {
+	const hasProps = (inner: any) =>
+		function (models: TModels) {
 			return selectorCreator(
-				(props) => props,
-				(props) => inner.call(this, models, props)
+				(props: any) => props,
+				(props: any) => inner.call(this, models, props)
 			)
 		}
 
@@ -141,7 +194,7 @@ const createSelectPlugin = <
 				})
 			)
 		},
-		onStoreCreated(store) {
+		onStoreCreated(store: any) {
 			factoryGroup.startBuilding()
 			store.select = select
 		},

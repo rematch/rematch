@@ -30,14 +30,6 @@ export const players = createModel<RootModel>()({
 	state: {
 		players: []
 	} as PlayersState,
-	selectors: (slice, createSelector, hasProps) => ({
-		total() {
-			return slice(cart => cart.reduce((t: any, item: any) => t + item.value, 0))
-		},
-		items() {
-			return slice
-		},
-	}),
 	reducers: {
 		SET_PLAYERS: (state: PlayersState, players: PlayerModel[]) =>  {
 			return {
