@@ -1,13 +1,13 @@
 // @ts-nocheck
 import {
 	Models,
-	NamedModel,
 	Plugin,
 	ExtractRematchStateFromModels,
 	Model,
 	ModelReducers,
 	ModelEffects,
 	ModelEffectsCreator,
+	RematchRootState,
 } from '@rematch/core'
 import { Reducer } from 'redux'
 import { createSelector, createStructuredSelector } from 'reselect'
@@ -118,7 +118,7 @@ export const createModelWithSelectors: <RM extends Models<RM>>() => <
 
 const createSelectPlugin = <
 	TModels extends Models<TModels>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 >(
 	config: SelectConfig = {}
 ): Plugin<TModels, TExtraModels> => {
@@ -144,7 +144,7 @@ const createSelectPlugin = <
 	}
 
 	const hasProps = (inner: any) =>
-		function (models: TModels) {
+		function (models: any) {
 			return selectorCreator(
 				(props: any) => props,
 				(props: any) => inner.call(this, models, props)
@@ -161,7 +161,11 @@ const createSelectPlugin = <
 			sliceState,
 			selectorCreator,
 		},
-		onModel(model: NamedModel<TModels>): void {
+		onModel(
+			model: Model<TModels> & {
+				selectors?: ModelSelectorsConfig<RematchRootState<TModels>>
+			}
+		): void {
 			select[model.name] = {}
 
 			const selectorFactories =

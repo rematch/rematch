@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { RootState, Dispatch } from './store'
+import { RootState, Dispatch, store } from './store'
 import { connect } from 'react-redux'
 import { PlayerModel } from './models/players';
 import "./index.css";
@@ -61,10 +61,17 @@ class App extends React.PureComponent<Props> {
   }
 }
 
+const selection = store.select(models => ({
+  // todo: this isn't getting autocompleted
+  total: models.cart.total,
+}))
+
 const mapState = (state: RootState) => ({
 	settingsState: state.settings,
   loadingState: state.loading,
-  playersState: state.players
+  playersState: state.players,
+  // todo: props shouldn't be required
+  ...selection(state, null)
 })
 
 const mapDispatch = (dispatch: Dispatch) => ({
@@ -74,6 +81,7 @@ const mapDispatch = (dispatch: Dispatch) => ({
 
 type StateProps = ReturnType<typeof mapState>
 type DispatchProps = ReturnType<typeof mapDispatch>
+// todo: we must type the props autocomplete of the selector new values
 type Props = StateProps & DispatchProps
 
 export default connect(mapState, mapDispatch)(App);

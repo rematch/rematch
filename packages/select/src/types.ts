@@ -3,16 +3,13 @@
 import {
 	Action,
 	ExposedFunction,
-	ModelEffects,
-	ModelEffectsCreator,
-	ModelReducers,
 	Models,
 	NamedModel,
 	RematchDispatch,
 	RematchRootState,
 } from '@rematch/core'
 import * as Reselect from 'reselect'
-import { Reducer as ReduxReducer, Store as ReduxStore } from 'redux'
+import { Store as ReduxStore } from 'redux'
 
 export { createSelector, createStructuredSelector } from 'reselect'
 
@@ -65,45 +62,29 @@ export type ModelSelectorsConfig<S> =
 	| ModelSelectorsFactory<S>
 	| ModelSelectorFactories<S>
 
-export type RematchSelect<TModels extends Models<TModels>, RootState = any> = ((
-	mapSelectToProps: (select: RematchSelect<TModels, RootState>) => object
+export type RematchSelect<
+	TModels extends Models<TModels>,
+	RootState = Record<string, any>
+> = ((
+	mapSelectToProps: (
+		select: RematchSelect<TModels, RootState>
+	) => Record<string, any>
 ) => Reselect.OutputParametricSelector<
 	RootState,
 	any,
-	object,
-	Reselect.Selector<RootState, object>
+	Record<string, any>,
+	Reselect.Selector<RootState, Record<string, any>>
 >) &
 	StoreSelectors<RootState>
 
 declare module '@rematch/core' {
-	export interface Model<
-		TModels extends Models<TModels> = Record<string, any>,
-		TState = any,
-		TBaseState = TState
-	> {
-		name?: string
-		state: TState
-		selectors?: ModelSelectorsConfig<TState>
-		reducers?: ModelReducers<TState>
-		baseReducer?: ReduxReducer<TBaseState>
-		effects?: ModelEffects<TModels> | ModelEffectsCreator<TModels>
-	}
-
-	export interface ModelResult<S, R, BR, E> {
-		name?: string
-		state: S
-		reducers?: R
-		selectors?: ModelSelectorsConfig<S>
-		baseReducer?: BR
-		effects?: E
-	}
-
 	export interface RematchStore<
 		TModels extends Models<TModels> = Record<string, any>
 	> extends ReduxStore<RematchRootState<TModels>, Action> {
 		[index: string]: ExposedFunction | Record<string, any> | string
 		name: string
 		dispatch: RematchDispatch<TModels>
+		select: RematchSelect<TModels, RematchRootState<TModels>>
 		addModel: (model: NamedModel<TModels>) => void
 	}
 }
