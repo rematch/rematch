@@ -1,13 +1,5 @@
-import { Reducer as ReduxReducer } from 'redux'
 import createRematchStore from './rematchStore'
-import {
-	InitConfig,
-	Models,
-	RematchStore,
-	ModelReducers,
-	ModelEffects,
-	ModelEffectsCreator,
-} from './types'
+import { InitConfig, Models, RematchStore, ModelCreator } from './types'
 import createConfig from './config'
 
 /**
@@ -23,25 +15,7 @@ export const init = <
 	return createRematchStore(config)
 }
 
-export const createModel: <RM extends Models<RM>>() => <
-	R extends ModelReducers<S>,
-	BR extends ReduxReducer<BS>,
-	E extends ModelEffects | ModelEffectsCreator<RM>,
-	S,
-	BS = S
->(mo: {
-	name?: string
-	state: S
-	reducers?: R
-	baseReducer?: BR
-	effects?: E
-}) => {
-	name?: string
-	state: S
-	reducers: R
-	baseReducer: BR
-	effects: E
-} = () => (mo): any => {
+export const createModel: ModelCreator = () => (mo): any => {
 	const { reducers = {}, effects = {} } = mo
 
 	return {

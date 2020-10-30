@@ -82,40 +82,6 @@ const validateSelector = (selectorFactories, selectorName, model): void => {
 	}
 }
 
-/**
- * Todo: could we extend types of standard createModel?
- */
-export const createModelWithSelectors: <RM extends Models<RM>>() => <
-	R extends ModelReducers<S>,
-	BR extends Reducer<BS>,
-	E extends ModelEffects | ModelEffectsCreator<RM>,
-	SE extends ModelSelectorsConfig<S>,
-	S,
-	BS = S
->(mo: {
-	name?: string
-	state: S
-	selectors?: SE
-	reducers?: R
-	baseReducer?: BR
-	effects?: E
-}) => {
-	name?: string
-	state: S
-	selectors?: SE
-	reducers: R
-	baseReducer: BR
-	effects: E
-} = () => (mo): any => {
-	const { reducers = {}, effects = {} } = mo
-
-	return {
-		...mo,
-		reducers,
-		effects,
-	}
-}
-
 const createSelectPlugin = <
 	TModels extends Models<TModels>,
 	TExtraModels extends Models<TModels> = Record<string, any>

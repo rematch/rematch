@@ -422,6 +422,28 @@ export interface DevtoolOptions {
 	[key: string]: any
 }
 
+export interface ModelCreator {
+	<RM extends Models<RM>>(): <
+		R extends ModelReducers<S>,
+		BR extends ReduxReducer<BS>,
+		E extends ModelEffects | ModelEffectsCreator<RM>,
+		S,
+		BS = S
+	>(mo: {
+		name?: string
+		state: S
+		reducers?: R
+		baseReducer?: BR
+		effects?: E
+	}) => {
+		name?: string
+		state: S
+		reducers: R
+		baseReducer: BR
+		effects: E
+	}
+}
+
 declare module 'redux' {
 	export interface Dispatch<A extends Action = AnyAction> {
 		[modelName: string]: any

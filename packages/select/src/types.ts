@@ -3,13 +3,16 @@
 import {
 	Action,
 	ExposedFunction,
+	ModelEffects,
+	ModelEffectsCreator,
+	ModelReducers,
 	Models,
 	NamedModel,
 	RematchDispatch,
 	RematchRootState,
 } from '@rematch/core'
 import * as Reselect from 'reselect'
-import { Store as ReduxStore } from 'redux'
+import { Store as ReduxStore, Reducer as ReduxReducer } from 'redux'
 
 export { createSelector, createStructuredSelector } from 'reselect'
 
@@ -86,5 +89,31 @@ declare module '@rematch/core' {
 		dispatch: RematchDispatch<TModels>
 		select: RematchSelect<TModels, RematchRootState<TModels>>
 		addModel: (model: NamedModel<TModels>) => void
+	}
+
+	// add overloads for ModelCreator here.
+	interface ModelCreator {
+		<RM extends Models<RM>>(): <
+			R extends ModelReducers<S>,
+			BR extends ReduxReducer<BS>,
+			E extends ModelEffects | ModelEffectsCreator<RM>,
+			SE extends ModelSelectorsConfig<S>,
+			S,
+			BS = S
+		>(mo: {
+			name?: string
+			state: S
+			selectors?: SE
+			reducers?: R
+			baseReducer?: BR
+			effects?: E
+		}) => {
+			name?: string
+			state: S
+			selectors?: SE
+			reducers: R
+			baseReducer: BR
+			effects: E
+		}
 	}
 }

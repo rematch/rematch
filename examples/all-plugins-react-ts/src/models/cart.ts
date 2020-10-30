@@ -1,4 +1,4 @@
-import { createModelWithSelectors } from "@rematch/select"
+import { createModel } from "@rematch/core"
 import { RootModel } from "."
 
 interface CartState {
@@ -7,7 +7,7 @@ interface CartState {
   productId: number;
 }
 
-export const cart = createModelWithSelectors<RootModel>()({
+export const cart = createModel<RootModel>()({
   state: [{
     price: 42.00,
     amount: 3,
