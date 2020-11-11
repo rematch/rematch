@@ -7,7 +7,7 @@
   "hoist": true,
   "command": {
     "version": {
-      "message": "chore(release): published new version",
+      "message": "chore(release): released new version [skip ci]",
       "ignoreChanges": [
         "**/CHANGELOG.md",
         "**/examples/*",
