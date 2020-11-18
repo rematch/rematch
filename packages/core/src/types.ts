@@ -117,15 +117,18 @@ export interface PluginHooks<
 	TExtraModels extends Models<TModels> = {}
 > {
 	onStoreCreated?: StoreCreatedHook<TModels, TExtraModels>
-	onModel?: ModelHook<TModels & TExtraModels>
+	onModel?: ModelHook<TModels, TExtraModels>
 	onReducer?: ReducerHook<TModels, TExtraModels>
 	onRootReducer?: RootReducerHook<TModels, TExtraModels>
 	createMiddleware?: MiddlewareCreator<TModels>
 }
 
-export type ModelHook<TModels extends Models<TModels> = Record<string, any>> = (
+export type ModelHook<
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> = (
 	model: NamedModel<TModels>,
-	rematch: RematchStore<TModels>
+	rematch: RematchStore<TModels, TExtraModels>
 ) => void
 
 export type ReducerHook<
@@ -149,9 +152,9 @@ export type StoreCreatedHook<
 	TModels extends Models<TModels> = Record<string, any>,
 	TExtraModels extends Models<TModels> = {}
 > = (
-	store: RematchStore<TModels & TExtraModels>,
+	store: RematchStore<TModels, TExtraModels>,
 	rematch: RematchBag<TModels, TExtraModels>
-) => RematchStore<TModels & TExtraModels> | void
+) => RematchStore<TModels, TExtraModels> | void
 
 export type MiddlewareCreator<
 	TModels extends Models<TModels> = Record<string, any>,
