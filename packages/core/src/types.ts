@@ -250,8 +250,9 @@ export interface ConfigRedux<TRootState = any>
 }
 
 export interface RematchStore<
-	TModels extends Models<TModels> = Record<string, any>
-> extends ReduxStore<RematchRootState<TModels>, Action> {
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> extends ReduxStore<RematchRootState<TModels, TExtraModels>, Action> {
 	[index: string]: ExposedFunction | Record<string, any> | string
 	name: string
 	dispatch: RematchDispatch<TModels>
@@ -264,17 +265,22 @@ export interface RematchStore<
  * The type of state held by a store.
  */
 export type RematchRootState<
-	TModels extends Models<TModels> = Record<string, any>
-> = ExtractRematchStateFromModels<TModels>
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> = ExtractRematchStateFromModels<TModels, TExtraModels>
 
 /**
  * A mapping from each model's name to a type of state it holds.
  */
 export type ExtractRematchStateFromModels<
-	TModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
 > = {
 	[modelKey in keyof TModels]: TModels[modelKey]['state']
-}
+} &
+	{
+		[modelKey in keyof TExtraModels]: TExtraModels[modelKey]['state']
+	}
 
 /** ************************** Dispatch *************************** */
 
