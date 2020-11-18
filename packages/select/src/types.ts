@@ -2,13 +2,10 @@
 // Definitions by: Sam Richard <https://github.com/d3dc>
 import {
 	Action,
-	ExposedFunction,
 	ModelEffects,
 	ModelEffectsCreator,
 	ModelReducers,
 	Models,
-	NamedModel,
-	RematchDispatch,
 	RematchRootState,
 } from '@rematch/core'
 import * as Reselect from 'reselect'
@@ -84,25 +81,15 @@ declare module '@rematch/core' {
 	// Add overloads for store to add select
 	interface RematchStore<TModels extends Models<TModels> = Record<string, any>>
 		extends ReduxStore<RematchRootState<TModels>, Action> {
-		[index: string]: ExposedFunction | Record<string, any> | string
-		name: string
-		dispatch: RematchDispatch<TModels>
 		select: RematchSelect<TModels, RematchRootState<TModels>>
-		addModel: (model: NamedModel<TModels>) => void
 	}
 
 	// add overloads for Model here.
 	interface Model<
 		TModels extends Models<TModels> = Record<string, any>,
-		TState = any,
-		TBaseState = TState
+		TState = any
 	> {
-		name?: string
-		state: TState
 		selectors?: ModelSelectorsConfig<TState>
-		reducers?: ModelReducers<TState>
-		baseReducer?: ReduxReducer<TBaseState>
-		effects?: ModelEffects<TModels> | ModelEffectsCreator<TModels>
 	}
 
 	// add overloads for ModelCreator here.
