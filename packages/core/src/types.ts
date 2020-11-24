@@ -339,7 +339,7 @@ export type ExtractRematchDispatcherFromReducer<
 	: TReducer extends (state: TState) => TState
 	? Parameters<TReducer> extends [TState]
 		? RematchDispatcher
-		: RematchDispatcher<Parameters<TReducer>[1] | undefined>
+		: RematchDispatcher<Parameters<TReducer>[1]>
 	: TReducer extends (state: TState, payload: infer TPayload) => TState
 	? RematchDispatcher<TPayload>
 	: never
