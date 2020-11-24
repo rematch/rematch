@@ -13,8 +13,11 @@ const Count = () => {
 			<div style={{ width: 120 }}>
 				<h3>Dolphins</h3>
 				<h1>{dolphins}</h1>
-				<button onClick={dispatch.dolphins.increment}>+1</button>
-				<button onClick={dispatch.dolphins.incrementAsync}>Async +1</button>
+				<button onClick={() => dispatch.dolphins.increment()}>+1</button>
+				<button onClick={() => dispatch.dolphins.increment(3)}>+3</button>
+				<button onClick={() => dispatch.dolphins.incrementAsync()}>
+					Async +1
+				</button>
 			</div>
 			<div style={{ width: 200 }}>
 				<h3>Sharks</h3>
