@@ -337,7 +337,9 @@ export type ExtractRematchDispatcherFromReducer<
 > = TReducer extends () => any
 	? RematchDispatcher
 	: TReducer extends (state: TState) => TState
-	? RematchDispatcher
+	? Parameters<TReducer> extends [TState]
+		? RematchDispatcher
+		: RematchDispatcher<Parameters<TReducer>[1]>
 	: TReducer extends (state: TState, payload: infer TPayload) => TState
 	? RematchDispatcher<TPayload>
 	: never
@@ -350,6 +352,8 @@ export type ExtractRematchDispatcherFromReducer<
  */
 export type RematchDispatcher<TPayload = void> = [TPayload] extends [void]
 	? (() => Action<void>) & { isEffect: false }
+	: undefined extends TPayload
+	? ((payload?: TPayload) => Action<TPayload>) & { isEffect: false }
 	: ((payload: TPayload) => Action<TPayload>) & { isEffect: false }
 
 /** ************************ Effects Dispatcher ************************* */
