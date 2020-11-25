@@ -23,7 +23,7 @@ import createRematchBag from './bag'
 export default function createRematchStore<
 	TModels extends Models<TModels> = Record<string, any>,
 	TExtraModels extends Models<TModels> = {}
->(config: Config<TModels, TExtraModels>): RematchStore<TModels & TExtraModels> {
+>(config: Config<TModels, TExtraModels>): RematchStore<TModels, TExtraModels> {
 	// setup rematch 'bag' for storing useful values and functions
 	const bag = createRematchBag(config)
 
@@ -47,7 +47,7 @@ export default function createRematchStore<
 			this.replaceReducer(createRootReducer(bag))
 			reduxStore.dispatch({ type: '@@redux/REPLACE' })
 		},
-	} as RematchStore<TModels & TExtraModels>
+	} as RematchStore<TModels, TExtraModels>
 
 	addExposed(rematchStore, config.plugins)
 
@@ -114,7 +114,7 @@ function addExposed<
 	TModels extends Models<TModels> = Record<string, any>,
 	TExtraModels extends Models<TModels> = {}
 >(
-	store: RematchStore<TModels & TExtraModels>,
+	store: RematchStore<TModels, TExtraModels>,
 	plugins: Plugin<TModels, TExtraModels>[]
 ): void {
 	for (const plugin of plugins) {
