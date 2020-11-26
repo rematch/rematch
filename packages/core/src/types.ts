@@ -435,7 +435,7 @@ export interface ModelCreator {
 	<RM extends Models<RM>>(): <
 		R extends ModelReducers<S>,
 		BR extends ReduxReducer<BS>,
-		E extends ModelEffects | ModelEffectsCreator<RM>,
+		E extends ModelEffects<RM> | ModelEffectsCreator<RM>,
 		S,
 		BS = S
 	>(mo: {
