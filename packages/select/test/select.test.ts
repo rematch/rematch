@@ -1,4 +1,4 @@
-import { init } from '@rematch/core'
+import { createModel, init, Models, RematchRootState } from '@rematch/core'
 import selectPlugin from '../src'
 
 describe('select:', () => {
@@ -39,18 +39,24 @@ describe('select:', () => {
 
 	describe('externally created:', () => {
 		it('should register a function', () => {
-			const a = {
+			const a = createModel<RootModel>()({
 				state: 0,
 				reducers: {
-					increment: (s: number): number => s + 1,
+					increment: (s) => s + 1,
 				},
 				selectors: {
 					double: () => (s: any): number => s.a * 2,
 				},
+			})
+
+			interface RootModel extends Models<RootModel> {
+				a: typeof a
 			}
 
-			const store = init({
-				models: { a },
+			const models: RootModel = { a }
+
+			const store = init<RootModel>({
+				models,
 				plugins: [selectPlugin()],
 			})
 
@@ -68,7 +74,11 @@ describe('select:', () => {
 				},
 			}
 
-			const store = init({
+			type RootModel = {
+				a: typeof a
+			}
+
+			const store = init<RootModel>({
 				models: { a },
 				plugins: [selectPlugin()],
 			})
@@ -90,8 +100,11 @@ describe('select:', () => {
 				},
 			}
 
-			const store = init({
-				// @ts-ignore
+			type RootModel = {
+				a: typeof a
+			}
+
+			const store = init<RootModel>({
 				models: { a },
 				plugins: [selectPlugin()],
 			})
@@ -107,19 +120,25 @@ describe('select:', () => {
 
 	describe('internally created: ', () => {
 		it('should create a selector', () => {
-			const count = {
+			const count = createModel<RootModel>()({
 				state: 2,
 				reducers: {},
-				selectors: (_: any, createSelector: any): any => ({
-					double: (): any =>
+				selectors: (_, createSelector) => ({
+					double: () =>
 						createSelector(
-							(state: any): any => state,
-							(state: any): any => state.count * 2
+							(
+								state: RematchRootState<RootModel>
+							): RematchRootState<RootModel> => state,
+							(state): number => state.count * 2
 						),
 				}),
+			})
+
+			interface RootModel extends Models<RootModel> {
+				count: typeof count
 			}
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { count },
 				plugins: [selectPlugin()],
 			})
@@ -130,16 +149,19 @@ describe('select:', () => {
 		})
 
 		it('should create a selector for slice', () => {
-			const count = {
+			const count = createModel<RootModel>()({
 				state: 2,
 				reducers: {},
-				selectors: (slice: any, createSelector: any): any => ({
-					double: (): any =>
-						createSelector(slice, (c: number): number => c * 2),
+				selectors: (slice, createSelector) => ({
+					double: () => createSelector(slice, (c) => c * 2),
 				}),
+			})
+
+			interface RootModel extends Models<RootModel> {
+				count: typeof count
 			}
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { count },
 				plugins: [selectPlugin()],
 			})
@@ -151,18 +173,22 @@ describe('select:', () => {
 		})
 
 		it('should allow for slice shorthand', () => {
-			const count = {
+			const count = createModel<RootModel>()({
 				state: 2,
 				reducers: {},
-				selectors: (slice: any): any => ({
-					double: (): any => slice((c: number): number => c * 2),
+				selectors: (slice) => ({
+					double: () => slice((c) => c * 2),
 				}),
-			}
+			})
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { count },
 				plugins: [selectPlugin()],
 			})
+
+			interface RootModel extends Models<RootModel> {
+				count: typeof count
+			}
 
 			const state = store.getState()
 
@@ -171,30 +197,35 @@ describe('select:', () => {
 		})
 
 		it('create a selector with dependencies', () => {
-			const countA = {
+			const countA = createModel<RootModel>()({
 				state: 2,
 				reducers: {},
 				selectors: {
-					double: () => (state: any): number => state.countA * 2,
+					double: () => (state: any) => state.countA * 2,
 				},
-			}
+			})
 
-			const combined = {
+			const combined = createModel<RootModel>()({
 				state: 10,
 				reducers: {},
-				selectors: (slice: any, createSelector: any): any => ({
-					double: (): any => slice((b: number): number => b * 2),
-					value({ countA }: any): any {
+				selectors: (slice, createSelector) => ({
+					double: () => slice((b) => b * 2),
+					value({ countA }: any) {
 						return createSelector(
 							this.double,
 							countA.double,
-							(b: number, a: number): number => a + b
+							(b, a: any) => a + b
 						)
 					},
 				}),
+			})
+
+			interface RootModel extends Models<RootModel> {
+				countA: typeof countA
+				combined: typeof combined
 			}
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { countA, combined },
 				plugins: [selectPlugin()],
 			})
@@ -207,56 +238,55 @@ describe('select:', () => {
 
 		describe('creating selectors with hasProps factory: ', () => {
 			it('should create a selector with hasProps factory', () => {
-				const a = {
+				const a = createModel<RootModel>()({
 					state: 2,
 					reducers: {},
-					selectors: (
-						slice: any,
-						_createSelector: any,
-						hasProps: any
-					): any => ({
-						prependWithLetter: hasProps((_: any, letter: number) =>
-							slice((a: number): number => letter + a)
+					selectors: (slice, _createSelector, hasProps) => ({
+						prependWithLetter: hasProps((_, letter) =>
+							slice((a) => letter + a)
 						),
 					}),
-				}
+				})
 
-				const store = init({
+				const store = init<RootModel>({
 					models: { a },
 					plugins: [selectPlugin()],
 				})
 
+				interface RootModel extends Models<RootModel> {
+					a: typeof a
+				}
+
 				const state = store.getState()
 
-				// @ts-ignore
 				const prepended = store.select.a.prependWithLetter('P')(state)
 				expect(prepended).toBe('P2')
 			})
 		})
 
 		it('should allow for mixing external and internal selectors', () => {
-			const countA = {
+			const countA = createModel<RootModel>()({
 				state: 2,
 				reducers: {},
-				selectors: (slice: any): any => ({
-					double: () => (state: any): number => state.countA * 2,
-					plusOne: (): any => slice((c: number): number => c + 1),
+				selectors: (slice) => ({
+					double: () => (state: any) => state.countA * 2,
+					plusOne: () => slice((c) => c + 1),
 				}),
-			}
+			})
 
-			const countB = {
+			const countB = createModel<RootModel>()({
 				state: 10,
 				reducers: {},
-				selectors: (slice: any, createSelector: any): any => ({
-					double: (): any =>
-						createSelector(slice, (c: number): number => c * 2),
+				selectors: (slice, createSelector) => ({
+					double: () => createSelector(slice, (c) => c * 2),
 				}),
-			}
-			const countC = {
+			})
+
+			const countC = createModel<RootModel>()({
 				state: 0,
 				reducers: {},
-				selectors: (_: any, createSelector: any): any => ({
-					calc: ({ countA, countB }: any): any =>
+				selectors: (_, createSelector) => ({
+					calc: ({ countA, countB }: any) =>
 						createSelector(
 							countA.double,
 							countA.plusOne,
@@ -265,12 +295,18 @@ describe('select:', () => {
 								countADoubled: number,
 								countAPlusOne: number,
 								countBDoubled: number
-							): number => countADoubled + countAPlusOne + countBDoubled
+							) => countADoubled + countAPlusOne + countBDoubled
 						),
 				}),
+			})
+
+			interface RootModel extends Models<RootModel> {
+				countA: typeof countA
+				countB: typeof countB
+				countC: typeof countC
 			}
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { countA, countB, countC },
 				plugins: [selectPlugin()],
 			})
@@ -284,23 +320,28 @@ describe('select:', () => {
 
 	describe('select function: ', () => {
 		it('should create structural selector', () => {
-			const countA = {
+			const countA = createModel<RootModel>()({
 				state: 2,
 				reducers: {},
 				selectors: {
-					double: () => (state: any): number => state.countA * 2,
+					double: () => (state: any) => state.countA * 2,
 				},
-			}
+			})
 
-			const countB = {
+			const countB = createModel<RootModel>()({
 				state: 10,
 				reducers: {},
 				selectors: {
-					double: () => (state: any): number => state.countB * 2,
+					double: () => (state: any) => state.countB * 2,
 				},
+			})
+
+			interface RootModel extends Models<RootModel> {
+				countA: typeof countA
+				countB: typeof countB
 			}
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { countA, countB },
 				plugins: [selectPlugin()],
 			})
@@ -312,8 +353,7 @@ describe('select:', () => {
 				b: models.countB.double,
 			}))
 
-			// @ts-ignore
-			const result = selector(state)
+			const result = selector(state, undefined)
 			expect(result).toEqual({ a: 4, b: 20 })
 		})
 	})
@@ -330,7 +370,8 @@ describe('select:', () => {
 
 	describe('sliceState config: ', () => {
 		test('should throw if sliceState config is not a function', () => {
-			const start = (): any => {
+			const start = () => {
+				// @ts-expect-error
 				init({ plugins: [selectPlugin({ sliceState: 'error' })] })
 			}
 
@@ -338,27 +379,30 @@ describe('select:', () => {
 		})
 
 		it('should allow access to the global state with a property configured sliceState method', () => {
-			const countA = {
+			const countA = createModel<RootModel>()({
 				state: 2,
 				reducers: {},
-				selectors: (slice: any): any => ({
-					double: (): any => slice((state: any): number => state.countB * 2),
+				selectors: (slice) => ({
+					double: () => slice((state: any) => state.countB * 2),
 				}),
-			}
+			})
 
-			const countB = {
+			const countB = createModel<RootModel>()({
 				state: 10,
 				reducers: {},
-				selectors: (slice: any): any => ({
-					double: (): any => slice((state: any): number => state.countA * 2),
+				selectors: (slice) => ({
+					double: () => slice((state: any) => state.countA * 2),
 				}),
+			})
+
+			interface RootModel extends Models<RootModel> {
+				countA: typeof countA
+				countB: typeof countB
 			}
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { countA, countB },
-				plugins: [
-					selectPlugin({ sliceState: (rootState: any): any => rootState }),
-				],
+				plugins: [selectPlugin({ sliceState: (rootState) => rootState })],
 			})
 
 			const state = store.getState()
