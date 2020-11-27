@@ -62,7 +62,6 @@ class App extends React.PureComponent<Props> {
 }
 
 const selection = store.select(models => ({
-  // todo: this isn't getting autocompleted
   total: models.cart.total,
 }))
 
@@ -70,8 +69,7 @@ const mapState = (state: RootState) => ({
 	settingsState: state.settings,
   loadingState: state.loading,
   playersState: state.players,
-  // todo: props shouldn't be required
-  ...selection(state, null)
+  ...selection(state)
 })
 
 const mapDispatch = (dispatch: Dispatch) => ({
@@ -81,7 +79,6 @@ const mapDispatch = (dispatch: Dispatch) => ({
 
 type StateProps = ReturnType<typeof mapState>
 type DispatchProps = ReturnType<typeof mapDispatch>
-// todo: we must type the props autocomplete of the selector new values
 type Props = StateProps & DispatchProps
 
 export default connect(mapState, mapDispatch)(App);
