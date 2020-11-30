@@ -1,5 +1,10 @@
-// @ts-nocheck
-import { NamedModel, Plugin } from '@rematch/core'
+import {
+	ExtractRematchStateFromModels,
+	Model,
+	Models,
+	Plugin,
+	RematchStore,
+} from '@rematch/core'
 import { createSelector, createStructuredSelector } from 'reselect'
 import { SelectConfig } from './types'
 
@@ -15,12 +20,12 @@ const makeSelect = () => {
 		mapSelectToStructure: any,
 		structuredSelectorCreator = createStructuredSelector
 	) {
-		let func = (state, props) => {
+		let func = (state: any, props: any): any => {
 			func = structuredSelectorCreator(mapSelectToStructure(select))
 			return func(state, props)
 		}
 
-		return (state, props) => func(state, props)
+		return (state: any, props: any) => func(state, props)
 	}
 
 	return select
@@ -30,24 +35,26 @@ const makeFactoryGroup = () => {
 	let ready = false
 	const factories = new Set()
 	return {
-		add(added) {
+		add(added: any) {
 			if (!ready) {
-				added.forEach((factory) => factories.add(factory))
+				added.forEach((factory: any) => factories.add(factory))
 			} else {
-				added.forEach((factory) => factory())
+				added.forEach((factory: any) => factory())
 			}
 		},
-		finish(factory) {
+		finish(factory: any) {
 			factories.delete(factory)
 		},
 		startBuilding() {
 			ready = true
-			factories.forEach((factory) => factory())
+			factories.forEach((factory: any) => factory())
 		},
 	}
 }
 
-const validateConfig = (config: SelectConfig): void => {
+const validateConfig = <TModels extends Models<TModels>>(
+	config: SelectConfig<TModels>
+): void => {
 	if (process.env.NODE_ENV !== 'production') {
 		if (config.sliceState && typeof config.sliceState !== 'function') {
 			throw new Error('select plugin config sliceState must be a function')
@@ -62,9 +69,13 @@ const validateConfig = (config: SelectConfig): void => {
 	}
 }
 
-const validateSelector = (selectorFactories, selectorName, model): void => {
+const validateSelector = (
+	selectorFactories: any,
+	selectorName: any,
+	model: any
+): void => {
 	if (process.env.NODE_ENV !== 'production') {
-		if (typeof selectorFactories![selectorName] !== 'function') {
+		if (typeof selectorFactories?.[selectorName] !== 'function') {
 			throw new Error(
 				`Selector (${model.name}/${selectorName}) must be a function`
 			)
@@ -72,24 +83,36 @@ const validateSelector = (selectorFactories, selectorName, model): void => {
 	}
 }
 
-const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
+const createSelectPlugin = <
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels> = Record<string, any>
+>(
+	config: SelectConfig<TModels> = {}
+): Plugin<TModels, TExtraModels> => {
 	validateConfig(config)
 
-	const sliceState = config.sliceState || ((state, model) => state[model.name])
+	const sliceState: SelectConfig<TModels>['sliceState'] =
+		config.sliceState || ((state, model) => state[model.name || ''])
 	const selectorCreator = config.selectorCreator || createSelector
 
-	const slice = (model) => (stateOrNext) => {
+	const slice = (model: Model<TModels>) => (
+		stateOrNext: ExtractRematchStateFromModels<TModels>
+	) => {
 		if (typeof stateOrNext === 'function') {
-			return selectorCreator((state) => sliceState(state, model), stateOrNext)
+			return selectorCreator(
+				(state: ExtractRematchStateFromModels<TModels>) =>
+					sliceState(state, model),
+				stateOrNext
+			)
 		}
 		return sliceState(stateOrNext, model)
 	}
 
-	const hasProps = (inner) =>
-		function (models) {
+	const hasProps = (inner: any) =>
+		function (this: any, models: any) {
 			return selectorCreator(
-				(props) => props,
-				(props) => inner.call(this, models, props)
+				(props: any) => props,
+				(props: any) => inner.call(this, models, props)
 			)
 		}
 
@@ -100,15 +123,18 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
 	return {
 		exposed: {
 			select,
+			// @ts-ignore
 			sliceState,
 			selectorCreator,
 		},
-		onModel(model: NamedModel): void {
+		onModel(model: Model<TModels>) {
+			// @ts-ignore
 			select[model.name] = {}
 
 			const selectorFactories =
 				typeof model.selectors === 'function'
-					? model.selectors(slice(model), selectorCreator, hasProps)
+					? // @ts-ignore
+					  model.selectors(slice(model), selectorCreator, hasProps)
 					: model.selectors
 
 			factoryGroup.add(
@@ -117,14 +143,19 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
 
 					const factory = () => {
 						factoryGroup.finish(factory)
+						// @ts-ignore
 						delete select[model.name][selectorName]
-						// eslint-disable-next-line no-return-assign
-						return (select[model.name][selectorName] = selectorFactories[
+						// @ts-ignore
+						select[model.name][selectorName] = selectorFactories[
 							selectorName
-						].call(select[model.name], select))
+							// @ts-ignore
+						].call(select[model.name], select)
+						// @ts-ignore
+						return select[model.name][selectorName]
 					}
 
 					// Define a getter for early constructing
+					// @ts-ignore
 					Object.defineProperty(select[model.name], selectorName, {
 						configurable: true,
 						get() {
@@ -136,8 +167,10 @@ const createSelectPlugin = (config: SelectConfig = {}): Plugin => {
 				})
 			)
 		},
-		onStoreCreated(store): void {
+		// @ts-ignore
+		onStoreCreated(store: RematchStore) {
 			factoryGroup.startBuilding()
+			// @ts-ignore
 			store.select = select
 		},
 	}

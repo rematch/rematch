@@ -117,15 +117,18 @@ export interface PluginHooks<
 	TExtraModels extends Models<TModels> = {}
 > {
 	onStoreCreated?: StoreCreatedHook<TModels, TExtraModels>
-	onModel?: ModelHook<TModels & TExtraModels>
+	onModel?: ModelHook<TModels, TExtraModels>
 	onReducer?: ReducerHook<TModels, TExtraModels>
 	onRootReducer?: RootReducerHook<TModels, TExtraModels>
 	createMiddleware?: MiddlewareCreator<TModels>
 }
 
-export type ModelHook<TModels extends Models<TModels> = Record<string, any>> = (
+export type ModelHook<
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> = (
 	model: NamedModel<TModels>,
-	rematch: RematchStore<TModels>
+	rematch: RematchStore<TModels, TExtraModels>
 ) => void
 
 export type ReducerHook<
@@ -149,9 +152,9 @@ export type StoreCreatedHook<
 	TModels extends Models<TModels> = Record<string, any>,
 	TExtraModels extends Models<TModels> = {}
 > = (
-	store: RematchStore<TModels & TExtraModels>,
+	store: RematchStore<TModels, TExtraModels>,
 	rematch: RematchBag<TModels, TExtraModels>
-) => RematchStore<TModels & TExtraModels> | void
+) => RematchStore<TModels, TExtraModels> | void
 
 export type MiddlewareCreator<
 	TModels extends Models<TModels> = Record<string, any>,
@@ -250,8 +253,9 @@ export interface ConfigRedux<TRootState = any>
 }
 
 export interface RematchStore<
-	TModels extends Models<TModels> = Record<string, any>
-> extends ReduxStore<RematchRootState<TModels>, Action> {
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> extends ReduxStore<RematchRootState<TModels, TExtraModels>, Action> {
 	[index: string]: ExposedFunction | Record<string, any> | string
 	name: string
 	dispatch: RematchDispatch<TModels>
@@ -264,17 +268,22 @@ export interface RematchStore<
  * The type of state held by a store.
  */
 export type RematchRootState<
-	TModels extends Models<TModels> = Record<string, any>
-> = ExtractRematchStateFromModels<TModels>
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
+> = ExtractRematchStateFromModels<TModels, TExtraModels>
 
 /**
  * A mapping from each model's name to a type of state it holds.
  */
 export type ExtractRematchStateFromModels<
-	TModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = {}
 > = {
 	[modelKey in keyof TModels]: TModels[modelKey]['state']
-}
+} &
+	{
+		[modelKey in keyof TExtraModels]: TExtraModels[modelKey]['state']
+	}
 
 /** ************************** Dispatch *************************** */
 
@@ -424,6 +433,28 @@ export type EffectRematchDispatcher<TReturn = any, TPayload = void> = [
 export interface DevtoolOptions {
 	disabled?: boolean
 	[key: string]: any
+}
+
+export interface ModelCreator {
+	<RM extends Models<RM>>(): <
+		R extends ModelReducers<S>,
+		BR extends ReduxReducer<BS>,
+		E extends ModelEffects<RM> | ModelEffectsCreator<RM>,
+		S,
+		BS = S
+	>(mo: {
+		name?: string
+		state: S
+		reducers?: R
+		baseReducer?: BR
+		effects?: E
+	}) => {
+		name?: string
+		state: S
+		reducers: R
+		baseReducer: BR
+		effects: E
+	}
 }
 
 declare module 'redux' {

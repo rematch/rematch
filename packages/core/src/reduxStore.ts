@@ -18,7 +18,7 @@ import {
 export default function createReduxStore<
 	TModels extends Models<TModels> = Record<string, any>,
 	TExtraModels extends Models<TModels> = {},
-	RootState = RematchRootState<TModels & TExtraModels>
+	RootState = RematchRootState<TModels, TExtraModels>
 >(bag: RematchBag<TModels, TExtraModels>): Redux.Store<RootState> {
 	for (const model of bag.models) {
 		createModelReducer(bag, model)

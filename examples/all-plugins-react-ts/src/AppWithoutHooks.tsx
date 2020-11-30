@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { RootState, Dispatch } from './store'
+import { RootState, Dispatch, store } from './store'
 import { connect } from 'react-redux'
 import { PlayerModel } from './models/players';
 import "./index.css";
@@ -61,10 +61,15 @@ class App extends React.PureComponent<Props> {
   }
 }
 
+const selection = store.select(models => ({
+  total: models.cart.total,
+}))
+
 const mapState = (state: RootState) => ({
 	settingsState: state.settings,
   loadingState: state.loading,
-  playersState: state.players
+  playersState: state.players,
+  ...selection(state)
 })
 
 const mapDispatch = (dispatch: Dispatch) => ({
