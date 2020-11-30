@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-next.7](https://github.com/rematch/rematch/compare/@rematch/select@3.0.0-next.6...@rematch/select@3.0.0-next.7) (2020-11-30)
+
+
+### Bug Fixes
+
+* @rematch/select typescript plugin compatibility ([#828](https://github.com/rematch/rematch/issues/828)) ([61890ca](https://github.com/rematch/rematch/commit/61890ca645ca1aa44bb375b819ee1d4e4316f9e1))
+
+
+
+
+
 # [3.0.0-next.6](https://github.com/rematch/rematch/compare/@rematch/select@3.0.0-next.5...@rematch/select@3.0.0-next.6) (2020-10-08)
 
 **Note:** Version bump only for package @rematch/select
