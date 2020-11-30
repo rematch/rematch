@@ -40,16 +40,41 @@ The select plugin accepts one optional argument - **config**, which is an object
 Start by adding the plugin to your store:
 
 **store.js**
+<!-- tabs:start -->
+#### ** JavaScript **
 
 ```javascript
-import selectPlugin from '@rematch/select'
 import { init } from '@rematch/core'
+import selectPlugin from '@rematch/select'
+import * as models from './models'
 
 init({
-    // add selectPlugin to your store
-	plugins: [selectPlugin()],
+  models,
+  // add selectPlugin to your store
+  plugins: [selectPlugin()],
 })
 ```
+
+#### ** Typescript **
+
+```typescript
+import selectPlugin from '@rematch/select'
+import { init, RematchDispatch, RematchRootState } from '@rematch/core'
+import { models, RootModel } from './models'
+
+export const store = init<RootModel>({
+    models,
+    // add selectPlugin to your store
+    plugins: [selectPlugin()],
+})
+
+export type Store = typeof store
+export type Dispatch = RematchDispatch<RootModel>
+export type RootState = RematchRootState<RootModel>
+
+```
+
+<!-- tabs:end -->
 
 ### 2. Add selectors
 
