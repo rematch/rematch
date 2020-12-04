@@ -88,6 +88,15 @@ export const store = init<RootModel, FullModel>({
 	  plugins: [loadingPlugin()],
 })
 
+// or
+// type FullModel =  ExtraModelsFromLoading<RootModel, { asNumber: true }>
+//
+// export const store = init<RootModel, FullModel>({
+//     models,
+//     // add loadingPlugin to your store
+//     plugins: [loadingPlugin({ asNumber: true })],
+// })
+
 export type Store = typeof store
 export type Dispatch = RematchDispatch<RootModel>
 export type RootState = RematchRootState<RootModel, FullModel>
