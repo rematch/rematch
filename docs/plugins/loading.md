@@ -89,7 +89,7 @@ export const store = init<RootModel, FullModel>({
 })
 
 // or
-// type FullModel =  ExtraModelsFromLoading<RootModel, { asNumber: true }>
+// type FullModel = ExtraModelsFromLoading<RootModel, { asNumber: true }>
 //
 // export const store = init<RootModel, FullModel>({
 //     models,
