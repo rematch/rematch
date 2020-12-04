@@ -56,9 +56,14 @@ interface LoadingModel<
 	}
 }
 
-export interface ExtraModelsFromLoading<TModels extends Models<TModels>>
-	extends Models<TModels> {
-	loading: LoadingModel<TModels>
+export interface ExtraModelsFromLoading<
+	TModels extends Models<TModels>,
+	Config extends { asNumber: boolean } = { asNumber: false }
+> extends Models<TModels> {
+	loading: LoadingModel<
+		TModels,
+		Config extends { asNumber: true } ? true : false
+	>
 }
 
 const createLoadingAction = <
@@ -123,10 +128,20 @@ const validateConfig = (config: LoadingConfig): void => {
 
 export default <
 	TModels extends Models<TModels>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels>,
+	T extends LoadingConfig
 >(
-	config: LoadingConfig = {}
-): Plugin<TModels, TExtraModels, ExtraModelsFromLoading<TModels>> => {
+	config: T = {} as T
+): Plugin<
+	TModels,
+	TExtraModels,
+	ExtraModelsFromLoading<
+		TModels,
+		T['asNumber'] extends boolean
+			? { asNumber: T['asNumber'] }
+			: { asNumber: false }
+	>
+> => {
 	validateConfig(config)
 
 	const loadingModelName = config.name || 'loading'

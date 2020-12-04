@@ -1,12 +1,14 @@
 import { init } from '@rematch/core'
 import loadingPlugin, { ExtraModelsFromLoading } from '../src'
-import { delay, count, Models, ExtraModels } from './utils'
+import { delay, count, Models } from './utils'
+
+type ExtraModels = ExtraModelsFromLoading<Models, { asNumber: true }>
 
 describe('loading asNumbers', () => {
 	test('loading.global should be 0 for normal dispatched action', () => {
 		const store = init({
-			models: { count } as Models,
-			plugins: [loadingPlugin<Models, ExtraModels>({ asNumber: true })],
+			models: { count },
+			plugins: [loadingPlugin({ asNumber: true })],
 		})
 
 		store.dispatch.count.addOne()
@@ -14,7 +16,7 @@ describe('loading asNumbers', () => {
 	})
 
 	test('loading.global should be 1 for a dispatched effect', () => {
-		const store = init<Models, ExtraModels>({
+		const store = init({
 			models: { count },
 			plugins: [loadingPlugin({ asNumber: true })],
 		})
@@ -108,7 +110,7 @@ describe('loading asNumbers', () => {
 			reducers: {},
 		}
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models>
+		type ExtraModels = ExtraModelsFromLoading<Models, { asNumber: true }>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -153,6 +155,7 @@ describe('loading asNumbers', () => {
 			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
+					// @ts-expect-error
 					loadingPlugin({
 						asNumber: true,
 						// @ts-expect-error
@@ -169,6 +172,7 @@ describe('loading asNumbers', () => {
 			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
+					// @ts-expect-error
 					loadingPlugin({
 						// @ts-expect-error
 						asNumber: 'should throw',
@@ -214,6 +218,7 @@ describe('loading asNumbers', () => {
 			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
+					// @ts-expect-error
 					loadingPlugin({
 						asNumber: true,
 						// @ts-expect-error
@@ -230,6 +235,7 @@ describe('loading asNumbers', () => {
 			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
+					// @ts-expect-error
 					loadingPlugin({
 						asNumber: true,
 						// @ts-expect-error
@@ -268,7 +274,7 @@ describe('loading asNumbers', () => {
 			reducers: {},
 		}
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models>
+		type ExtraModels = ExtraModelsFromLoading<Models, { asNumber: true }>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -317,7 +323,7 @@ describe('loading asNumbers', () => {
 			reducers: {},
 		}
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models>
+		type ExtraModels = ExtraModelsFromLoading<Models, { asNumber: true }>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -343,7 +349,7 @@ describe('loading asNumbers', () => {
 		}
 
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models>
+		type ExtraModels = ExtraModelsFromLoading<Models, { asNumber: true }>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
@@ -367,7 +373,7 @@ describe('loading asNumbers', () => {
 			reducers: {},
 		}
 		type Models = { count: typeof count2 }
-		type ExtraModels = ExtraModelsFromLoading<Models>
+		type ExtraModels = ExtraModelsFromLoading<Models, { asNumber: true }>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
