@@ -6,7 +6,7 @@ type ExtraModels = ExtraModelsFromLoading<Models, { asNumber: true }>
 
 describe('loading asNumbers', () => {
 	test('loading.global should be 0 for normal dispatched action', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin({ asNumber: true })],
 		})
@@ -16,7 +16,7 @@ describe('loading asNumbers', () => {
 	})
 
 	test('loading.global should be 1 for a dispatched effect', () => {
-		const store = init({
+		const store = init<Models, ExtraModels>({
 			models: { count },
 			plugins: [loadingPlugin({ asNumber: true })],
 		})
