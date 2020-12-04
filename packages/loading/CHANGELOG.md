@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.8](https://github.com/rematch/rematch/compare/@rematch/loading@2.0.0-next.7...@rematch/loading@2.0.0-next.8) (2020-12-04)
+
+
+### Bug Fixes
+
+* **loading:** fix ts type when asNumber enabled ([#835](https://github.com/rematch/rematch/issues/835)) ([bec9869](https://github.com/rematch/rematch/commit/bec986925f961629bf618a9fe9bf52873aab7320))
+
+
+
+
+
 # [2.0.0-next.7](https://github.com/rematch/rematch/compare/@rematch/loading@2.0.0-next.6...@rematch/loading@2.0.0-next.7) (2020-11-30)
 
 **Note:** Version bump only for package @rematch/loading
