@@ -69,6 +69,26 @@
     {
       "path": "./packages/core/dist/core.umd.production.min.js",
       "maxSize": "5 kB"
+    },
+    {
+      "path": "./packages/immer/dist/immer.umd.production.min.js",
+      "maxSize": "1 kB"
+    },
+    {
+      "path": "./packages/loading/dist/loading.umd.production.min.js",
+      "maxSize": "1 kB"
+    },
+    {
+      "path": "./packages/persist/dist/persist.umd.production.min.js",
+      "maxSize": "1 kB"
+    },
+    {
+      "path": "./packages/select/dist/select.umd.production.min.js",
+      "maxSize": "1 kB"
+    },
+    {
+      "path": "./packages/updated/dist/updated.umd.production.min.js",
+      "maxSize": "1 kB"
     }
   ],
   "commitlint": {
