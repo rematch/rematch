@@ -20,9 +20,7 @@ export default function createReduxStore<
 	TExtraModels extends Models<TModels> = {},
 	RootState = RematchRootState<TModels, TExtraModels>
 >(bag: RematchBag<TModels, TExtraModels>): Redux.Store<RootState> {
-	for (const model of bag.models) {
-		createModelReducer(bag, model)
-	}
+	bag.models.forEach((model) => createModelReducer(bag, model))
 
 	const rootReducer = createRootReducer<RootState, TModels, TExtraModels>(bag)
 
@@ -62,13 +60,14 @@ export function createModelReducer<
 	const modelReducers: ModelReducers<TState> = {}
 
 	// build action name for each reducer and create mapping from name to reducer
-	for (const reducerKey of Object.keys(model.reducers)) {
+	const modelReducerKeys = Object.keys(model.reducers)
+	modelReducerKeys.forEach((reducerKey) => {
 		const actionName = isAlreadyActionName(reducerKey)
 			? reducerKey
 			: `${model.name}/${reducerKey}`
 
 		modelReducers[actionName] = model.reducers[reducerKey]
-	}
+	})
 
 	// select and run a reducer based on the incoming action
 	const combinedReducer = (

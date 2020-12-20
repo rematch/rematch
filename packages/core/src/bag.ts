@@ -13,13 +13,11 @@ export default function createRematchBag<
 		models: createNamedModels(config.models),
 		reduxConfig: config.redux,
 		forEachPlugin(method, fn): void {
-			for (const plugin of config.plugins) {
+			config.plugins.forEach((plugin) => {
 				if (plugin[method]) {
-					// @ts-ignore
-					// temporary ignore, see: https://github.com/microsoft/TypeScript/issues/40429
-					fn(plugin[method])
+					fn(plugin[method]!)
 				}
-			}
+			})
 		},
 		effects: {},
 	}

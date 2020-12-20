@@ -57,7 +57,8 @@ const createDispatcher = <
 	const modelDispatcher = rematch.dispatch[model.name]
 
 	// map reducer names to dispatch actions
-	for (const reducerName of Object.keys(model.reducers)) {
+	const modelReducersKeys = Object.keys(model.reducers)
+	modelReducersKeys.forEach((reducerName) => {
 		validateModelReducer(model.name, model.reducers, reducerName)
 
 		modelDispatcher[reducerName] = createActionDispatcher(
@@ -66,7 +67,7 @@ const createDispatcher = <
 			reducerName,
 			false
 		)
-	}
+	})
 
 	let effects: ModelEffects<TModels> = {}
 
@@ -79,7 +80,8 @@ const createDispatcher = <
 	}
 
 	// map effects names to dispatch actions
-	for (const effectName of Object.keys(effects)) {
+	const effectKeys = Object.keys(effects)
+	effectKeys.forEach((effectName) => {
 		validateModelEffect(model.name, effects, effectName)
 
 		bag.effects[`${model.name}/${effectName}`] = effects[effectName].bind(
@@ -92,7 +94,7 @@ const createDispatcher = <
 			effectName,
 			true
 		)
-	}
+	})
 }
 
 export default createDispatcher
