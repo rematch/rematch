@@ -21,7 +21,7 @@ export type NestedPersist<M extends Models<M>> = {
 const persistPlugin = <
 	S,
 	TModels extends Models<TModels>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 >(
 	persistConfig: PersistConfig<S>,
 	nestedPersistConfig: NestedPersist<TModels> = {},

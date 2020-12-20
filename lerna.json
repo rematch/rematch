@@ -2,7 +2,9 @@
   "version": "independent",
   "packages": [
     "packages/*",
-	  "examples/*"
+	  "examples/all-plugins-react-ts",
+    "examples/hooks-react-ts",
+    "examples/count-react-ts"
   ],
   "hoist": true,
   "command": {

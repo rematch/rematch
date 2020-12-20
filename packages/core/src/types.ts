@@ -96,7 +96,7 @@ export type ModelEffectsCreator<
 
 export interface PluginConfig<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {},
+	TExtraModels extends Models<TModels> = Record<string, any>,
 	TExposedModels = Partial<TExtraModels>
 > {
 	models?: TExposedModels
@@ -105,7 +105,7 @@ export interface PluginConfig<
 
 export interface Plugin<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {},
+	TExtraModels extends Models<TModels> = Record<string, any>,
 	TExposedModels = Partial<TExtraModels>
 > extends PluginHooks<TModels, TExtraModels> {
 	config?: PluginConfig<TModels, TExtraModels, TExposedModels>
@@ -114,7 +114,7 @@ export interface Plugin<
 
 export interface PluginHooks<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > {
 	onStoreCreated?: StoreCreatedHook<TModels, TExtraModels>
 	onModel?: ModelHook<TModels, TExtraModels>
@@ -125,7 +125,7 @@ export interface PluginHooks<
 
 export type ModelHook<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > = (
 	model: NamedModel<TModels>,
 	rematch: RematchStore<TModels, TExtraModels>
@@ -133,7 +133,7 @@ export type ModelHook<
 
 export type ReducerHook<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > = (
 	reducer: ReduxReducer,
 	modelName: string,
@@ -142,7 +142,7 @@ export type ReducerHook<
 
 export type RootReducerHook<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > = (
 	reducer: ReduxReducer,
 	rematch: RematchBag<TModels, TExtraModels>
@@ -150,7 +150,7 @@ export type RootReducerHook<
 
 export type StoreCreatedHook<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > = (
 	store: RematchStore<TModels, TExtraModels>,
 	rematch: RematchBag<TModels, TExtraModels>
@@ -158,7 +158,7 @@ export type StoreCreatedHook<
 
 export type MiddlewareCreator<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > = (rematch: RematchBag<TModels, TExtraModels>) => Middleware
 
 export type ObjectNotAFunction = { [k: string]: any } & (
@@ -180,7 +180,7 @@ export type ExposedFunction = (rematch: RematchStore<any>, ...args: any) => any
  */
 export interface RematchBag<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > {
 	models: NamedModel<TModels>[]
 	reduxConfig: ConfigRedux
@@ -197,7 +197,7 @@ export interface RematchBag<
  */
 export interface InitConfig<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > {
 	name?: string
 	models?: TModels
@@ -212,7 +212,7 @@ export interface InitConfig<
  */
 export interface Config<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > extends InitConfig<TModels, TExtraModels> {
 	name: string
 	models: TModels
@@ -254,7 +254,7 @@ export interface ConfigRedux<TRootState = any>
 
 export interface RematchStore<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > extends ReduxStore<RematchRootState<TModels, TExtraModels>, Action> {
 	[index: string]: ExposedFunction | Record<string, any> | string
 	name: string
@@ -269,7 +269,7 @@ export interface RematchStore<
  */
 export type RematchRootState<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > = ExtractRematchStateFromModels<TModels, TExtraModels>
 
 /**
@@ -277,7 +277,7 @@ export type RematchRootState<
  */
 export type ExtractRematchStateFromModels<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 > = {
 	[modelKey in keyof TModels]: TModels[modelKey]['state']
 } &
@@ -471,9 +471,9 @@ declare module 'react-redux' {
 		<
 			RM extends Models<RM> = Models,
 			State = DefaultRootState,
-			TStateProps = {},
-			TDispatchProps = {},
-			TOwnProps = {}
+			TStateProps = Record<string, any>,
+			TDispatchProps = Record<string, any>,
+			TOwnProps = Record<string, any>
 		>(
 			mapStateToProps: MapStateToPropsParam<TStateProps, TOwnProps, State>,
 			mapDispatchToProps: MapRematchDispatchToPropsNonObject<
