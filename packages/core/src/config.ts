@@ -10,7 +10,7 @@ let count = 0
  */
 export default function createConfig<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 >(
 	initConfig: InitConfig<TModels, TExtraModels>
 ): Config<TModels, TExtraModels> {
@@ -88,6 +88,9 @@ export default function createConfig<
  * Shallow merges original object with the extra object, giving the precedence
  * to the original object.
  */
-function merge<T extends object>(original: T, extra: T | undefined): T {
+function merge<T extends Record<string, any>>(
+	original: T,
+	extra: T | undefined
+): T {
 	return extra ? { ...extra, ...original } : original
 }

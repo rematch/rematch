@@ -33,7 +33,7 @@ module.exports = {
 			{ exceptAfterSingleLine: true },
 		],
 		'no-param-reassign': 0,
-		'no-use-before-define': 1,
+		'no-use-before-define': 0,
 		'@typescript-eslint/ban-types': 1,
 		'@typescript-eslint/ban-ts-comment': 0,
 		'@typescript-eslint/ban-ts-ignore': 0,

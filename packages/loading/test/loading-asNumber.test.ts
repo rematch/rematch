@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { init } from '@rematch/core'
 import loadingPlugin, { ExtraModelsFromLoading } from '../src'
 import { delay, count, Models } from './utils'

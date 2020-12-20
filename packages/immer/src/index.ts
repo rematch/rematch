@@ -21,7 +21,7 @@ function wrapReducerWithImmer(reducer: Redux.Reducer) {
 
 const immerPlugin = <
 	TModels extends Models<TModels>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 >(
 	config?: ImmerPluginConfig
 ): Plugin<TModels, TExtraModels> => ({

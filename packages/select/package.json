@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@rematch/core": "^2.0.0-next.7",
-    "redux": "^4.0.0"
+    "redux": "^4.0.5"
   },
   "peerDependencies": {
     "@rematch/core": ">=2.0.0-next.0",

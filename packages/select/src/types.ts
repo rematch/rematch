@@ -171,7 +171,7 @@ declare module '@rematch/core' {
 	// Add overloads for store to add select
 	interface RematchStore<
 		TModels extends Models<TModels> = Record<string, any>,
-		TExtraModels extends Models<TModels> = {}
+		TExtraModels extends Models<TModels> = Record<string, any>
 	> extends ReduxStore<RematchRootState<TModels, TExtraModels>, Action> {
 		select: RematchSelect<TModels>
 	}

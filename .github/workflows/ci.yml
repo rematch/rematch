@@ -56,7 +56,7 @@ jobs:
       - name: Test size
         uses: andresz1/size-limit-action@v1.0.0
         with:
-          skip_step: build
+          skip_step: "-"
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release

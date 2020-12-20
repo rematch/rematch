@@ -37,7 +37,7 @@
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
     "docs": "docsify serve docs",
-    "size": "size-limit",
+    "size-build": "size-limit",
     "version:latest": "lerna version --no-private --create-release github --conventional-commits --yes",
     "version:next": "lerna version --no-private --preid next --create-release github --conventional-commits --conventional-prerelease --yes",
     "release:latest": "lerna publish from-package --dist-tag latest --yes",

@@ -17,7 +17,7 @@ import {
  */
 export default function createReduxStore<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {},
+	TExtraModels extends Models<TModels> = Record<string, any>,
 	RootState = RematchRootState<TModels, TExtraModels>
 >(bag: RematchBag<TModels, TExtraModels>): Redux.Store<RootState> {
 	for (const model of bag.models) {
@@ -56,7 +56,7 @@ export default function createReduxStore<
  */
 export function createModelReducer<
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {},
+	TExtraModels extends Models<TModels> = Record<string, any>,
 	TState extends NamedModel<TModels>['state'] = any
 >(bag: RematchBag<TModels, TExtraModels>, model: NamedModel<TModels>): void {
 	const modelReducers: ModelReducers<TState> = {}
@@ -106,7 +106,7 @@ export function createModelReducer<
 export function createRootReducer<
 	TRootState,
 	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = {}
+	TExtraModels extends Models<TModels> = Record<string, any>
 >(bag: RematchBag<TModels, TExtraModels>): Redux.Reducer<TRootState, Action> {
 	const { rootReducers } = bag.reduxConfig
 	const mergedReducers = mergeReducers<TRootState>(bag.reduxConfig)
