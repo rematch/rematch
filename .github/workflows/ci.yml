@@ -15,7 +15,7 @@ on:
 jobs:
   build_and_testing:
     runs-on: ubuntu-latest
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    # if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     env:
       CI: true
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -52,7 +52,12 @@ jobs:
           npm run build
           npm run test
           npm run lint
-          npm run size
+
+      - name: Test size
+        uses: andresz1/size-limit-action@v1.0.0
+        with:
+          skip_step: build
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
         if: ${{github.event.inputs.distTag == 'latest' || github.event.inputs.distTag == 'next'}}

@@ -37,7 +37,7 @@
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
     "docs": "docsify serve docs",
-    "size": "bundlesize",
+    "size": "size-limit",
     "version:latest": "lerna version --no-private --create-release github --conventional-commits --yes",
     "version:next": "lerna version --no-private --preid next --create-release github --conventional-commits --conventional-prerelease --yes",
     "release:latest": "lerna publish from-package --dist-tag latest --yes",
@@ -46,6 +46,7 @@
   "devDependencies": {
     "@commitlint/cli": "^9.1.0",
     "@commitlint/config-conventional": "^9.1.0",
+    "@size-limit/preset-small-lib": "^4.9.1",
     "@types/jest": "^25.2.1",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
@@ -61,14 +62,16 @@
     "lerna": "^3.22.1",
     "prettier": "2.1.0",
     "rimraf": "^3.0.2",
+    "size-limit": "^4.9.1",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
     "typescript": "^4.0.3"
   },
-  "bundlesize": [
+  "size-limit": [
     {
       "path": "./packages/core/dist/core.umd.production.min.js",
-      "maxSize": "5 kB"
+      "limit": "3 KB",
+      "ignore": ["redux"]
     }
   ],
   "commitlint": {
