@@ -75,7 +75,8 @@
     },
     {
       "path": "./packages/immer/dist/immer.umd.production.min.js",
-      "limit": "1 kB"
+      "limit": "1 kB",
+      "ignore": ["immer", "redux"]
     },
     {
       "path": "./packages/loading/dist/loading.umd.production.min.js",
