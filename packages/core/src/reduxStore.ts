@@ -75,7 +75,7 @@ export function createModelReducer<
 		action: Action
 	): TState => {
 		if (action.type in modelReducers) {
-			return modelReducers[action.type](state, action.payload)
+			return modelReducers[action.type](state, action.payload, action.meta)
 		}
 
 		return state

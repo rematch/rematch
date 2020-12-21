@@ -26,11 +26,15 @@ const createActionDispatcher = <
 	isEffect: boolean
 ): RematchDispatcher | EffectRematchDispatcher => {
 	return Object.assign(
-		(payload?: any): Action => {
+		(payload?: any, meta?: any): Action => {
 			const action: Action = { type: `${modelName}/${actionName}` }
 
 			if (typeof payload !== 'undefined') {
 				action.payload = payload
+			}
+
+			if (typeof meta !== 'undefined') {
+				action.meta = meta
 			}
 
 			return rematch.dispatch(action)
