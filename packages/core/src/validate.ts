@@ -36,13 +36,13 @@ const validate = (runValidations: () => Validation[]): void => {
 		const validations = runValidations()
 		const errors: string[] = []
 
-		for (const validation of validations) {
+		validations.forEach((validation) => {
 			const isInvalid = validation[0]
 			const errorMessage = validation[1]
 			if (isInvalid) {
 				errors.push(errorMessage)
 			}
-		}
+		})
 
 		if (errors.length > 0) {
 			throw new Error(errors.join(', '))

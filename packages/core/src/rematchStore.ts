@@ -54,9 +54,7 @@ export default function createRematchStore<
 	rematchStore.addModel.bind(rematchStore)
 
 	// generate dispatch[modelName][actionName] for all reducers and effects
-	for (const model of bag.models) {
-		prepareModel(rematchStore, bag, model)
-	}
+	bag.models.forEach((model) => prepareModel(rematchStore, bag, model))
 
 	bag.forEachPlugin('onStoreCreated', (onStoreCreated) => {
 		rematchStore = onStoreCreated(rematchStore, bag) || rematchStore
@@ -117,19 +115,20 @@ function addExposed<
 	store: RematchStore<TModels, TExtraModels>,
 	plugins: Plugin<TModels, TExtraModels>[]
 ): void {
-	for (const plugin of plugins) {
-		if (plugin.exposed) {
-			for (const key of Object.keys(plugin.exposed)) {
-				const exposedItem = plugin.exposed[key] as
-					| ExposedFunction
-					| ObjectNotAFunction
-				const isExposedFunction = typeof exposedItem === 'function'
+	plugins.forEach((plugin) => {
+		if (!plugin.exposed) return
+		const pluginKeys = Object.keys(plugin.exposed)
+		pluginKeys.forEach((key) => {
+			if (!plugin.exposed) return
+			const exposedItem = plugin.exposed[key] as
+				| ExposedFunction
+				| ObjectNotAFunction
+			const isExposedFunction = typeof exposedItem === 'function'
 
-				store[key] = isExposedFunction
-					? (...params: any[]): any =>
-							(exposedItem as ExposedFunction)(store, ...params)
-					: Object.create(plugin.exposed[key])
-			}
-		}
-	}
+			store[key] = isExposedFunction
+				? (...params: any[]): any =>
+						(exposedItem as ExposedFunction)(store, ...params)
+				: Object.create(plugin.exposed[key])
+		})
+	})
 }

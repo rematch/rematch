@@ -38,7 +38,7 @@ export default function createConfig<
 	validateConfig(config)
 
 	// Apply changes to the config required by plugins
-	for (const plugin of config.plugins) {
+	config.plugins.forEach((plugin) => {
 		if (plugin.config) {
 			// Collect new models
 			config.models = merge(config.models, plugin.config.models)
@@ -79,7 +79,7 @@ export default function createConfig<
 		}
 
 		validatePlugin(plugin)
-	}
+	})
 
 	return config as Config<TModels, TExtraModels>
 }

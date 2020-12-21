@@ -15,7 +15,7 @@ on:
 jobs:
   build_and_testing:
     runs-on: ubuntu-latest
-    # if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     env:
       CI: true
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
