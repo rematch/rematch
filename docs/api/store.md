@@ -31,6 +31,10 @@ store.dispatch.count.increment(1) // the same as above but with action dispatche
 store.dispatch({ type: 'count/incrementAsync', payload: 1 }) // regular dispatch usage
 store.dispatch.count.incrementAsync(1) // the same as above but with action dispatcher
 
+// Dispatch with meta parameters
+store.dispatch.count(1, { additionalMeta: true })
+store.dispatch({ type: 'count/incrementAsync', payload: 1, meta: { additionalMeta: true } })
+
 // add model dynamically
 // (1) initially
 store.getState() // { count: 0 }
