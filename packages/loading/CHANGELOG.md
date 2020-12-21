@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.9](https://github.com/rematch/rematch/compare/@rematch/loading@2.0.0-next.8...@rematch/loading@2.0.0-next.9) (2020-12-21)
+
+**Note:** Version bump only for package @rematch/loading
+
+
+
+
+
 # [2.0.0-next.8](https://github.com/rematch/rematch/compare/@rematch/loading@2.0.0-next.7...@rematch/loading@2.0.0-next.8) (2020-12-04)
 
 

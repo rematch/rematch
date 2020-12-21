@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.8](https://github.com/rematch/rematch/compare/@rematch/immer@2.0.0-next.7...@rematch/immer@2.0.0-next.8) (2020-12-21)
+
+
+### Bug Fixes
+
+* remove immer dependency in @rematch/immer ([819d766](https://github.com/rematch/rematch/commit/819d76654779d883379e3f2e25270a45f8ab72c1))
+
+
+
+
+
 # [2.0.0-next.7](https://github.com/rematch/rematch/compare/@rematch/immer@2.0.0-next.6...@rematch/immer@2.0.0-next.7) (2020-11-30)
 
 **Note:** Version bump only for package @rematch/immer

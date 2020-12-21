@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.8](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.7...@rematch/core@2.0.0-next.8) (2020-12-21)
+
+
+### Bug Fixes
+
+* Improved overall bundle size ([#847](https://github.com/rematch/rematch/issues/847)) ([16e3271](https://github.com/rematch/rematch/commit/16e3271fcb1e44918131971ffd925165a2206fab))
+
+
+
+
+
 # [2.0.0-next.7](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.6...@rematch/core@2.0.0-next.7) (2020-11-30)
 
 
