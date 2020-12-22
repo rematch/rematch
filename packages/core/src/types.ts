@@ -27,8 +27,10 @@ import {
  *
  * @template TPayload The type of the action's payload.
  */
-export interface Action<TPayload = any> extends ReduxAction<string> {
+export interface Action<TPayload = any, TMeta = any>
+	extends ReduxAction<string> {
 	payload?: TPayload
+	meta?: TMeta
 }
 
 /**
@@ -39,7 +41,8 @@ export interface Action<TPayload = any> extends ReduxAction<string> {
  */
 export type Reducer<TState = any> = (
 	state: TState,
-	payload?: Action['payload']
+	payload?: Action['payload'],
+	meta?: Action['meta']
 ) => TState
 
 /** ************************** Model *************************** */
@@ -86,7 +89,11 @@ export interface ModelEffects<
 
 export type ModelEffect<
 	TModels extends Models<TModels> = Record<string, any>
-> = (payload: Action['payload'], rootState: RematchRootState<TModels>) => any
+> = (
+	payload: Action['payload'],
+	rootState: RematchRootState<TModels>,
+	meta: Action['meta']
+) => any
 
 export type ModelEffectsCreator<
 	TModels extends Models<TModels> = Record<string, any>
@@ -337,20 +344,30 @@ export type ExtractRematchDispatchersFromReducers<
  * appropriate type for a dispatcher. Mapping goes like this:
  * - reducer not taking any parameters -> 'empty' dispatcher
  * - reducer only taking state -> 'empty' dispatcher
- * - reducer taking both state and payload -> dispatcher accepting payload as an
- *   argument
+ * - reducer taking both state and payload -> dispatcher accepting payload as an argument
+ * - reducer taking state, payload and meta -> dispatcher accepting payload and meta as arguments
  */
 export type ExtractRematchDispatcherFromReducer<
 	TState,
 	TReducer
 > = TReducer extends () => any
 	? RematchDispatcher
-	: TReducer extends (state: TState) => TState
+	: TReducer extends (state: TState) => TState // support optional payload(and meta) like `(state: TState, payload?: ..., meta?: ...) => TState`
 	? Parameters<TReducer> extends [TState]
 		? RematchDispatcher
-		: RematchDispatcher<Parameters<TReducer>[1]>
-	: TReducer extends (state: TState, payload: infer TPayload) => TState
-	? RematchDispatcher<TPayload>
+		: Parameters<TReducer>[2] extends undefined
+		? RematchDispatcher<Parameters<TReducer>[1]>
+		: RematchDispatcher<Parameters<TReducer>[1], Parameters<TReducer>[2]>
+	: TReducer extends (state: TState, payload: infer TPayload) => TState // support optional meta like `(state: TState, payload: ..., meta?: ...) => TState`
+	? Parameters<TReducer> extends [TState, TPayload]
+		? RematchDispatcher<TPayload>
+		: RematchDispatcher<Parameters<TReducer>[1], Parameters<TReducer>[2]>
+	: TReducer extends (
+			state: TState,
+			payload: infer TPayload,
+			meta: infer TMeta
+	  ) => TState
+	? RematchDispatcher<TPayload, TMeta>
 	: never
 
 /**
@@ -359,11 +376,30 @@ export type ExtractRematchDispatcherFromReducer<
  * Otherwise, it describes dispatcher which accepts one argument (payload)
  * and returns an action.
  */
-export type RematchDispatcher<TPayload = void> = [TPayload] extends [void]
-	? (() => Action<void>) & { isEffect: false }
-	: undefined extends TPayload
-	? ((payload?: TPayload) => Action<TPayload>) & { isEffect: false }
-	: ((payload: TPayload) => Action<TPayload>) & { isEffect: false }
+export type RematchDispatcher<TPayload = void, TMeta = void> = [
+	TPayload,
+	TMeta
+] extends [void, void]
+	? (() => Action<void, void>) & { isEffect: false }
+	: [TMeta] extends [void]
+	? undefined extends TPayload
+		? ((payload?: TPayload) => Action<TPayload, void>) & {
+				isEffect: false
+		  }
+		: ((payload: TPayload) => Action<TPayload, void>) & {
+				isEffect: false
+		  }
+	: [undefined, undefined] extends [TPayload, TMeta]
+	? ((payload?: TPayload, meta?: TMeta) => Action<TPayload, TMeta>) & {
+			isEffect: false
+	  }
+	: undefined extends TMeta
+	? ((payload: TPayload, meta?: TMeta) => Action<TPayload, TMeta>) & {
+			isEffect: false
+	  }
+	: ((payload: TPayload, meta: TMeta) => Action<TPayload, TMeta>) & {
+			isEffect: false
+	  }
 
 /** ************************ Effects Dispatcher ************************* */
 
@@ -416,6 +452,12 @@ export type ExtractRematchDispatcherFromEffect<
 	? EffectRematchDispatcher<TReturn, TPayload>
 	: TEffect extends (payload: infer TPayload, state: any) => infer TReturn
 	? EffectRematchDispatcher<TReturn, TPayload>
+	: TEffect extends (
+			payload: infer TPayload,
+			state: any,
+			meta: infer TMeta
+	  ) => infer TReturn
+	? EffectRematchDispatcher<TReturn, TPayload, TMeta>
 	: never
 
 /**
@@ -424,11 +466,13 @@ export type ExtractRematchDispatcherFromEffect<
  * Otherwise, it describes dispatcher which accepts one argument (payload)
  * and returns an action.
  */
-export type EffectRematchDispatcher<TReturn = any, TPayload = void> = [
-	TPayload
-] extends [void]
+export type EffectRematchDispatcher<
+	TReturn = any,
+	TPayload = void,
+	TMeta = void
+> = [TPayload] extends [void]
 	? (() => TReturn) & { isEffect: true }
-	: ((payload: TPayload) => TReturn) & { isEffect: true }
+	: ((payload: TPayload, meta: TMeta) => TReturn) & { isEffect: true }
 
 export interface DevtoolOptions {
 	disabled?: boolean

@@ -23,7 +23,7 @@ describe('dispatch:', () => {
 			})
 		})
 
-		test('should be able to call dispatch directly', () => {
+		it('should be able to call dispatch directly', () => {
 			type CountState = number
 
 			const count = {
@@ -44,7 +44,7 @@ describe('dispatch:', () => {
 			})
 		})
 
-		test('should dispatch an action', () => {
+		it('should dispatch an action', () => {
 			type CountState = number
 
 			const count = {
@@ -66,7 +66,7 @@ describe('dispatch:', () => {
 			expect(typeof dispatched).toBe('object')
 		})
 
-		test('should dispatch multiple actions', () => {
+		it('should dispatch multiple actions', () => {
 			type CountState = number
 
 			const count = {
@@ -88,7 +88,7 @@ describe('dispatch:', () => {
 			})
 		})
 
-		test('should handle multiple models', () => {
+		it('should handle multiple models', () => {
 			type CountState = number
 
 			const a = {
@@ -117,9 +117,46 @@ describe('dispatch:', () => {
 				b: 1,
 			})
 		})
+
+		it('should pass the meta object as the third param', () => {
+			type CountState = {
+				count: number
+				meta: any
+			}
+
+			const count = {
+				state: {
+					count: 0,
+					meta: null,
+				} as CountState,
+				reducers: {
+					add: (
+						state: CountState,
+						payload: number,
+						meta?: Record<string, any>
+					): CountState => {
+						return {
+							count: state.count + payload,
+							meta,
+						}
+					},
+				},
+			}
+
+			const store = init({
+				models: { count },
+			})
+
+			store.dispatch.count.add(1, { some_meta: true })
+
+			expect(store.getState().count).toEqual({
+				count: 1,
+				meta: { some_meta: true },
+			})
+		})
 	})
 
-	test('should include a payload if it is a false value', () => {
+	it('should include a payload if it is a false value', () => {
 		type AState = boolean
 
 		const a = {
@@ -146,7 +183,7 @@ describe('dispatch:', () => {
 		})
 	})
 
-	test('should throw if the reducer name is invalid', () => {
+	it('should throw if the reducer name is invalid', () => {
 		const store = init()
 
 		expect(() =>
@@ -160,7 +197,7 @@ describe('dispatch:', () => {
 		).toThrow()
 	})
 
-	test('should throw if the reducer is not a function', () => {
+	it('should throw if the reducer is not a function', () => {
 		const store = init()
 
 		expect(() =>
@@ -175,7 +212,7 @@ describe('dispatch:', () => {
 	})
 
 	describe('params:', () => {
-		test('should pass state as the first reducer param', () => {
+		it('should pass state as the first reducer param', () => {
 			type CountState = number
 
 			const count = {
@@ -196,7 +233,7 @@ describe('dispatch:', () => {
 			})
 		})
 
-		test('should pass payload as the second param', () => {
+		it('should pass payload as the second param', () => {
 			type CountState = {
 				countIds: number[]
 			}
@@ -226,7 +263,7 @@ describe('dispatch:', () => {
 	})
 
 	describe('promise middleware', () => {
-		test('should return a promise from an effect', () => {
+		it('should return a promise from an effect', () => {
 			type CountState = number
 			type CountModel = {
 				state: CountState
@@ -265,7 +302,7 @@ describe('dispatch:', () => {
 			expect(typeof dispatched.then).toBe('function')
 		})
 
-		test('should return a promise that resolves to a value from an effect', async () => {
+		it('should return a promise that resolves to a value from an effect', async () => {
 			type CountState = number
 			type CountModel = {
 				state: number
@@ -273,7 +310,7 @@ describe('dispatch:', () => {
 					addOne(state: CountState): CountState
 				}
 				effects: {
-					callAddOne(): Promise<object>
+					callAddOne(): Promise<Record<string, any>>
 				}
 			}
 
@@ -289,7 +326,7 @@ describe('dispatch:', () => {
 				effects: {
 					async callAddOne(
 						this: ModelDispatcher<CountModel, RootModel>
-					): Promise<object> {
+					): Promise<Record<string, any>> {
 						this.addOne()
 						return {
 							added: true,
@@ -311,7 +348,7 @@ describe('dispatch:', () => {
 		})
 	})
 
-	test('should not validate dispatch if production', () => {
+	it('should not validate dispatch if production', () => {
 		process.env.NODE_ENV = 'production'
 		type CountState = number
 

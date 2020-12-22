@@ -13,16 +13,15 @@ Moving from Redux to Rematch involves very few steps.
 For an earlier version, see [v1.x docs](https://github.com/rematch/rematch/tree/master/docs). Currently only displaying v2.x documentation.
 
 Breaking changes for the core functionality:
-- changed the default name assigned to stores from a number to `Rematch Store ${number}` for clarity
-- removed `meta` parameter from the action
-- changed typings to avoid future issues
-- effects: dispatch param can't be destructured
+- Changed the default name assigned to stores from a number to `Rematch Store ${number}` for clarity
+- Changed typings to avoid future issues
+- Effects: dispatch param can't be destructured on Typescript due a design limitation
 
 Plugins:
-- removed `onInit` hook
-- removed possibility for plugins to include any plugins in their configuration
-- changed typings to avoid future issues
-- Persist plugin is updated to match redux-persist, so probably you'll find some errors
+- Removed `onInit` hook
+- Removed possibility for plugins to include any plugins in their configuration
+- Changed typings to avoid future issues
+- Psersist plugin is updated to match redux-persist, so probably you'll find some errors
 
 ### Migration from 0.x to 1.x <a id="migration-from-0x-to-1x"></a>
 
