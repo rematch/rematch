@@ -147,7 +147,6 @@ describe('dispatch:', () => {
 				models: { count },
 			})
 
-			// TODO: type of `add` inferred incorrectly.
 			store.dispatch.count.add(1, { some_meta: true })
 
 			expect(store.getState().count).toEqual({

@@ -381,7 +381,7 @@ export type RematchDispatcher<TPayload = void, TMeta = void> = [
 	TMeta
 ] extends [void, void]
 	? (() => Action<void, void>) & { isEffect: false }
-	: TMeta extends void
+	: [TMeta] extends [void]
 	? undefined extends TPayload
 		? ((payload?: TPayload) => Action<TPayload, void>) & {
 				isEffect: false
