@@ -344,20 +344,24 @@ export type ExtractRematchDispatchersFromReducers<
  * appropriate type for a dispatcher. Mapping goes like this:
  * - reducer not taking any parameters -> 'empty' dispatcher
  * - reducer only taking state -> 'empty' dispatcher
- * - reducer taking both state and payload -> dispatcher accepting payload as an
- *   argument
+ * - reducer taking both state and payload -> dispatcher accepting payload as an argument
+ * - reducer taking state, payload and meta -> dispatcher accepting payload and meta as arguments
  */
 export type ExtractRematchDispatcherFromReducer<
 	TState,
 	TReducer
 > = TReducer extends () => any
 	? RematchDispatcher
-	: TReducer extends (state: TState) => TState
+	: TReducer extends (state: TState) => TState // support optional payload(and meta) like `(state: TState, payload?: ..., meta?: ...) => TState`
 	? Parameters<TReducer> extends [TState]
 		? RematchDispatcher
-		: RematchDispatcher<Parameters<TReducer>[1]>
-	: TReducer extends (state: TState, payload: infer TPayload) => TState
-	? RematchDispatcher<TPayload>
+		: Parameters<TReducer>[2] extends undefined
+		? RematchDispatcher<Parameters<TReducer>[1]>
+		: RematchDispatcher<Parameters<TReducer>[1], Parameters<TReducer>[2]>
+	: TReducer extends (state: TState, payload: infer TPayload) => TState // support optional meta like `(state: TState, payload: ..., meta?: ...) => TState`
+	? Parameters<TReducer> extends [TState, TPayload]
+		? RematchDispatcher<TPayload>
+		: RematchDispatcher<Parameters<TReducer>[1], Parameters<TReducer>[2]>
 	: TReducer extends (
 			state: TState,
 			payload: infer TPayload,
@@ -375,10 +379,22 @@ export type ExtractRematchDispatcherFromReducer<
 export type RematchDispatcher<TPayload = void, TMeta = void> = [
 	TPayload,
 	TMeta
-] extends [void]
-	? (() => Action<void>) & { isEffect: false }
-	: undefined extends TPayload
+] extends [void, void]
+	? (() => Action<void, void>) & { isEffect: false }
+	: TMeta extends void
+	? undefined extends TPayload
+		? ((payload?: TPayload) => Action<TPayload, void>) & {
+				isEffect: false
+		  }
+		: ((payload: TPayload) => Action<TPayload, void>) & {
+				isEffect: false
+		  }
+	: [undefined, undefined] extends [TPayload, TMeta]
 	? ((payload?: TPayload, meta?: TMeta) => Action<TPayload, TMeta>) & {
+			isEffect: false
+	  }
+	: undefined extends TMeta
+	? ((payload: TPayload, meta?: TMeta) => Action<TPayload, TMeta>) & {
 			isEffect: false
 	  }
 	: ((payload: TPayload, meta: TMeta) => Action<TPayload, TMeta>) & {

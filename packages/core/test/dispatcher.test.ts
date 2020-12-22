@@ -133,7 +133,7 @@ describe('dispatch:', () => {
 					add: (
 						state: CountState,
 						payload: number,
-						meta: Record<string, any>
+						meta?: Record<string, any>
 					): CountState => {
 						return {
 							count: state.count + payload,
@@ -147,6 +147,7 @@ describe('dispatch:', () => {
 				models: { count },
 			})
 
+			// TODO: type of `add` inferred incorrectly.
 			store.dispatch.count.add(1, { some_meta: true })
 
 			expect(store.getState().count).toEqual({
