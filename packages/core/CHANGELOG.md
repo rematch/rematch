@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.9](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.8...@rematch/core@2.0.0-next.9) (2020-12-22)
+
+
+### Features
+
+* Introduced meta to action ([#848](https://github.com/rematch/rematch/issues/848)) ([2d55ae4](https://github.com/rematch/rematch/commit/2d55ae4c9612ff6ab01f895e5b9c341fdb96e4f0))
+
+
+
+
+
 # [2.0.0-next.8](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.7...@rematch/core@2.0.0-next.8) (2020-12-21)
 
 
