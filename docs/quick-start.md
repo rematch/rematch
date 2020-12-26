@@ -251,7 +251,7 @@ ReactDOM.render(
 ```typescript
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { RootState, Dispatch } from './store'
+import { RootState, Dispatch, store } from './store'
 
 const mapState = (state: RootState) => ({
 	count: state.count,
