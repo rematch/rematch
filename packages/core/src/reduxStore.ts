@@ -158,12 +158,10 @@ function mergeReducers<TRootState>(
 function composeEnhancersWithDevtools(
 	devtoolOptions: DevtoolOptions = {}
 ): (...args: any[]) => Redux.StoreEnhancer {
-	const { disabled, ...options } = devtoolOptions
-
-	return !disabled &&
+	return !devtoolOptions.disabled &&
 		typeof window === 'object' &&
 		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(options)
+		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devtoolOptions)
 		: Redux.compose
 }
 
