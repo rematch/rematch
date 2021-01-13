@@ -17,6 +17,10 @@ export type NestedPersist<M extends Models<M>> = {
 	[modelKey in keyof M]?: PersistConfig<M[modelKey]['state']>
 }
 
+export type PersistorStoreOptionsNotExposed = {
+	manualPersist?: boolean
+}
+
 // rematch plugin
 const persistPlugin = <
 	S,
@@ -25,7 +29,7 @@ const persistPlugin = <
 >(
 	persistConfig: PersistConfig<S>,
 	nestedPersistConfig: NestedPersist<TModels> = {},
-	persistStoreConfig?: PersistorOptions,
+	persistStoreConfig?: PersistorOptions & PersistorStoreOptionsNotExposed,
 	callback?: () => void
 ): Plugin<TModels, TExtraModels> => {
 	if (!persistConfig) {

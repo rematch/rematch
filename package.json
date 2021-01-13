@@ -71,12 +71,17 @@
     {
       "path": "./packages/core/dist/core.umd.production.min.js",
       "limit": "5 kB",
-      "ignore": ["redux"]
+      "ignore": [
+        "redux"
+      ]
     },
     {
       "path": "./packages/immer/dist/immer.umd.production.min.js",
       "limit": "1 kB",
-      "ignore": ["immer", "redux"]
+      "ignore": [
+        "immer",
+        "redux"
+      ]
     },
     {
       "path": "./packages/loading/dist/loading.umd.production.min.js",
@@ -85,12 +90,16 @@
     {
       "path": "./packages/persist/dist/persist.umd.production.min.js",
       "limit": "1 kB",
-      "ignore": ["redux-persist"]
+      "ignore": [
+        "redux-persist"
+      ]
     },
     {
       "path": "./packages/select/dist/select.umd.production.min.js",
       "limit": "1 kB",
-      "ignore": ["reselect"]
+      "ignore": [
+        "reselect"
+      ]
     },
     {
       "path": "./packages/updated/dist/updated.umd.production.min.js",

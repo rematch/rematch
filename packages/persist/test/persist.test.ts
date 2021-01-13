@@ -117,4 +117,31 @@ describe('persist', () => {
 		getPersistor().purge()
 		expect(store.getState().count).toBe(0)
 	})
+
+	test('should accept persistStoreOptions with a manual persisted option', () => {
+		const store = init({
+			plugins: [
+				persistPlugin(
+					{
+						key: 'test',
+						version: 2,
+						storage: createAsyncStorageMock(),
+					},
+					{},
+					{
+						manualPersist: true,
+					}
+				),
+			],
+		})
+
+		expect(store.getState()._persist).toEqual(undefined)
+
+		getPersistor().persist()
+
+		expect(store.getState()._persist).toEqual({
+			...defaultPersist,
+			version: 2,
+		})
+	})
 })
