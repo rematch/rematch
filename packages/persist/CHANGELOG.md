@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.11](https://github.com/rematch/rematch/compare/@rematch/persist@2.0.0-next.10...@rematch/persist@2.0.0-next.11) (2021-01-13)
+
+
+### Bug Fixes
+
+* @rematch/persist storeOptions types ([21b1371](https://github.com/rematch/rematch/commit/21b13715d1bb5f4cec979f1cb2f6c3cf61c45709))
+
+
+
+
+
 # [2.0.0-next.10](https://github.com/rematch/rematch/compare/@rematch/persist@2.0.0-next.9...@rematch/persist@2.0.0-next.10) (2020-12-27)
 
 **Note:** Version bump only for package @rematch/persist
