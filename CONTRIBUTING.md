@@ -27,8 +27,8 @@ You can use Gitpod(an Online Open Source VS Code like IDE which is free for Open
 
 - clone the `rematch` repo.
 - install all the dependencies.
-- run `npm start`.
-- run `npm run docs`.
+- runs `yarn watch`.
+- run `yarn docs`.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
@@ -42,13 +42,15 @@ Here is a quick guide to doing code contributions to the library.
 
 3. Create a branch with a meaningful name for the issue: `git checkout -b fix-something`
 
-4. Install packages by running `npm install` && `npm run bootstrap` in the root of the project.
+4. Install packages by running `yarn install` in the root of the project.
+
+> Caution!! Use ALWAYS yarn, because we use yarn workspaces to handle the monorepo dependencies, npm install won't work.
 
 5. Make your changes and commit: `git add` and `git commit`
 
 6. Remember commits must be semantic versioning friendly  https://www.conventionalcommits.org/en/v1.0.0/
 
-6. Make sure that the tests still pass: `npm run build` and `npm run test`
+6. Make sure that the tests still pass: `yarn build` and `yarn test` and `yarn lint`
 
 7. Push your branch: `git push -u origin your-branch-name`
 
@@ -62,14 +64,14 @@ Here is a quick guide to doing code contributions to the library.
 
 ### How do I set up the project?
 
-Run [`npm install`](https://npmjs.com/) and edit code in the `packages/core|loading|any-plugin/src/` folder. It's luckily very simple! :wink:
+Run [`yarn install`](https://classic.yarnpkg.com/lang/en) and edit code in the `packages/core|loading|any-plugin/src/` folder. It's luckily very simple! :wink:
 
-> We use [lerna](https://github.com/lerna/lerna) to make this work as a monorepo under the hood.
+> We use [lerna](https://github.com/lerna/lerna) to make this work as a monorepo under the hood and [Yarn Workspaces](https://classic.yarnpkg.com/blog/2017/08/02/introducing-workspaces/).
 
 ### How do I verify and test my changes?
 
 To make development process easier we provide a Sandbox React application in this repo which automatically uses your local version of the `rematch` library.
-That means when you make any changes in the `packages/rematch/core/src/` folder they'll show up automatically there! (You only need to run npm run build for reloading dist folder)
+That means when you make any changes in the `packages/rematch/core/src/` folder they'll show up automatically there! (You only need to run yarn build for reloading dist folder)
 
 ## Credits
 

@@ -20,13 +20,13 @@ const App = ({ total, items, add, remove }) => {
 			<h2>
 				<input
 					value={value}
-					onChange={event => setValue(Number(event.target.value))}
+					onChange={(event) => setValue(Number(event.target.value))}
 				/>
 				<button onClick={() => add({ id: Date.now(), value })}>Add Item</button>{' '}
 			</h2>
 
 			<h5>
-				{items.map(item => (
+				{items.map((item) => (
 					<button
 						key={item.id}
 						onClick={() => remove(item)}
@@ -40,18 +40,15 @@ const App = ({ total, items, add, remove }) => {
 	)
 }
 
-const mapState = select(models => ({
+const mapState = select((models) => ({
 	total: models.cart.total,
 	items: models.cart.items,
 }))
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({
 	add: dispatch.cart.add,
 	remove: dispatch.cart.remove,
 })
 
 // Use react-redux's connect
-export default connect(
-	mapState,
-	mapDispatch
-)(App)
+export default connect(mapState, mapDispatch)(App)

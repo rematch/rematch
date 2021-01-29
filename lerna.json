@@ -1,12 +1,7 @@
 {
   "version": "independent",
-  "packages": [
-    "packages/*",
-	  "examples/all-plugins-react-ts",
-    "examples/hooks-react-ts",
-    "examples/count-react-ts"
-  ],
-  "hoist": true,
+  "useWorkspaces": true,
+  "npmClient": "yarn",
   "command": {
     "version": {
       "message": "chore(release): released new version [skip ci]",
@@ -19,8 +14,8 @@
       ]
     },
     "publish": {
-      "npmClient": "npm",
       "allowBranch": [
+        "main",
         "master",
         "next"
       ],

@@ -1,6 +1,6 @@
 import React from 'react'
-import Left, {store as leftStore} from './LeftStore'
-import Right, {store as rightStore} from './RightStore'
+import Left, { store as leftStore } from './LeftStore'
+import Right, { store as rightStore } from './RightStore'
 
 const styles = {
 	container: {

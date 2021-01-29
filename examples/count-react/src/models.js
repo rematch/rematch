@@ -1,11 +1,11 @@
 export const count = {
 	state: 0,
 	reducers: {
-		increment: s => s + 1,
+		increment: (s) => s + 1,
 	},
-	effects: dispatch => ({
+	effects: (dispatch) => ({
 		async asyncIncrement() {
-			await new Promise(resolve => {
+			await new Promise((resolve) => {
 				setTimeout(resolve, 1000)
 			})
 

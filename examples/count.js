@@ -3,7 +3,7 @@ import { init } from '@rematch/core'
 const count = {
 	state: 0,
 	reducers: {
-		addOne: state => state + 1,
+		addOne: (state) => state + 1,
 	},
 }
 
@@ -13,7 +13,9 @@ const store = init({
 
 export default (countHtmlElement, incrementHtmlElement) => {
 	// add onClick listener
-	incrementHtmlElement.addEventListener('click', () => store.dispatch.count.addOne())
+	incrementHtmlElement.addEventListener('click', () =>
+		store.dispatch.count.addOne()
+	)
 
 	// setup store store subscription
 	store.subscribe(() => {
