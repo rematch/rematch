@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Application is rendered correctly 1`] = `
+<div>
+  <div>
+    <button
+      type="button"
+    >
+      Show Application with hooks
+    </button>
+    <button
+      type="button"
+    >
+      Show Application with classes
+    </button>
+    <div>
+      <div
+        style="display: flex; width: 100%; justify-content: space-between;"
+      >
+        <h1>
+          NBA Hook Players:
+        </h1>
+        <div
+          class="theme-switch-wrapper"
+        >
+          <label
+            class="theme-switch"
+          >
+            <input
+              id="checkbox"
+              type="checkbox"
+            />
+            <div
+              class="slider round"
+            />
+          </label>
+          <em>
+            Enable Dark Mode!
+          </em>
+        </div>
+      </div>
+      <div
+        class="container"
+      />
+    </div>
+  </div>
+</div>
+`;
