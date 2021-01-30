@@ -1,7 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { GlobalApp } from './GlobalApp'
 import { Provider } from 'react-redux'
+
+import { GlobalApp } from './GlobalApp'
 import { store } from './store'
 
 const TestingProvider: React.FC = ({ children }) => (
