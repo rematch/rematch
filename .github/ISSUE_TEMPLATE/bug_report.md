@@ -1,9 +1,6 @@
 ---
-name: Bug report
+name:  🐛 Bug report
 about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
 ---
 
 <!--
@@ -19,7 +16,7 @@ assignees: ''
 **Reproduce Link**
 
 <!--
-  An online demo used for debugging. [CodeSandbox](https://codesandbox.io/) is recommended.
+  An online demo used for debugging. You can use as base this CodeSandbox [CodeSandbox](https://codesandbox.io/s/rematch-todos-demo-forked-xlq9k?file=/App.js) is recommended.
 -->
 
 **To Reproduce**
