@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Rematch Blog</title>
+        <link>https://rematchjs.org/blog</link>
+        <description>Rematch Blog</description>
+        <lastBuildDate>Sat, 25 Jan 2020 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <copyright>Copyright © 2021 Rematch, Inc.</copyright>
+        <item>
+            <title><![CDATA[Welcome to Rematch blog]]></title>
+            <link>https://rematchjs.org/blog/welcome</link>
+            <guid>welcome</guid>
+            <pubDate>Sat, 25 Jan 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[I'm super happy to announce that the new website is the continuation of the work that all of us who collaborate in Rematch have done altruistically because we love it.]]></description>
+        </item>
+    </channel>
+</rss>

@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[20],{90:function(e){e.exports=JSON.parse('{"title":"All our posts","items":[{"title":"Welcome to Rematch blog","permalink":"/blog/welcome"}]}')}}]);
