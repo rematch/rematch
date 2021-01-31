@@ -64,3 +64,12 @@ jobs:
           git config --global user.name "Rematch CI"
           yarn version:${{github.event.inputs.distTag}}
           yarn release:${{github.event.inputs.distTag}}
+
+      - name: Release Graduate
+        if: ${{github.event.inputs.distTag == 'graduate'}}
+        run: |
+          npm whoami
+          git config --global user.email "sergiomorenoalbert@gmail.com"
+          git config --global user.name "Rematch CI"
+          yarn version:latest:graduate
+          yarn release:latest

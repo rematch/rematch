@@ -68,7 +68,7 @@ init({
 ```
 
 ```ts title="store.ts"
-import updatedPlugin, { ExtraModelsFromUpdated } from '@rematch/loading'
+import updatedPlugin, { ExtraModelsFromUpdated } from '@rematch/updated'
 import { init, RematchDispatch, RematchRootState } from '@rematch/core'
 import { models, RootModel } from './models'
 

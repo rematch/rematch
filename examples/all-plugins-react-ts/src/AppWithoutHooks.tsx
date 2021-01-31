@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { RootState, Dispatch, store } from './store'
 import { connect } from 'react-redux'
+import { RootState, Dispatch, store } from './store'
 import { PlayerModel } from './models/players'
 import './index.css'
 import './switch.css'

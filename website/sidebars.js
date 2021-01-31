@@ -3,8 +3,8 @@ module.exports = {
 		Rematch: ['introduction'],
 		'Getting Started': [
 			'installation',
+			'typescript',
 			// 'Configuration',
-			// 'TypeScript support'
 		],
 		'API Reference': [
 			'api-reference/index',

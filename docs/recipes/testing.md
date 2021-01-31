@@ -6,7 +6,7 @@ slug: /recipes/testing/
 ---
 
 :::tip
-You can check our full suite of test of [@rematch/core](https://github.com/rematch/rematch/tree/next/packages/core/test) to check examples of how to test. We're using `jest` but they should work with any testing provider.
+You can check our full suite of test of [@rematch/core](https://github.com/rematch/rematch/tree/main/packages/core/test) to check examples of how to test. We're using `jest` but they should work with any testing provider.
 :::
 
 ## Reducers

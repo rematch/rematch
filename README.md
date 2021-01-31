@@ -1,11 +1,17 @@
-# Rematch
+<div align="center">
+<h1>Rematch<sub>js</sub></h1>
 
-[![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat-square)](https://rematchjs.slack.com) ![Rematch CI](https://github.com/rematch/rematch/workflows/Rematch%20CI/badge.svg?branch=next) ![npm (tag)](https://img.shields.io/npm/v/@rematch/core/next?style=flat-square) [![Bundle size](https://img.shields.io/bundlephobia/minzip/@rematch/core@next?style=flat-square)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat-square) [![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=flat-square)](https://lerna.js.org/)  [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
+Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks in less than 1,4 kilobytes.
 
-> Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
+<hr />
 
-> We're actively looking for a documentation deployment solution, for now you can look @next documentation here:
-https://rematch.netlify.app/#/
+
+[![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat-square)](https://rematchjs.slack.com) ![Rematch CI](https://github.com/rematch/rematch/workflows/Rematch%20CI/badge.svg?branch=main) [![Bundle size](https://img.shields.io/bundlephobia/minzip/@rematch/core@latest?style=flat-square)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat-square) [![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=flat-square)](https://lerna.js.org/)  [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
+
+
+[**Documentation**](https://rematchjs.org)  · [**Quickstart**](https://rematchjs.org/docs/getting-started/installation) · [**Examples**](https://rematchjs.org/examples/) · [**Contribute**](./CONTRIBUTING.md) · [**Licence**](#licence)
+
+</div>
 
 ## Features
 
@@ -42,11 +48,11 @@ Rematch builds upon Redux by reducing boilerplate and enforcing best practices. 
 
 ## Migrate From Redux
 
-Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](https://rematch.netlify.app/#/migration-guide.md) for the details.
+Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](https://rematchjs.org/docs/migrating-from-redux-to-rematch) for the details.
 
 ## Composable Plugins
 
-Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](https://rematch.netlify.app/#/plugins/summary?id=plugins-summary) developed by the Rematch team or the [API for creating plugins](https://rematch.netlify.app/#/api/plugins?id=plugins-api).
+Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](https://rematchjs.org/docs/plugins) developed by the Rematch team or the [API for creating plugins](https://rematchjs.org/docs/api-reference/plugins).
 
 
 ## Contact & Support
@@ -63,6 +69,6 @@ Thank you to all the people who have already contributed to rematch!
 
 Made with [contributors-img](https://contributors-img.web.app).
 
-## License
+## Licence
 
 This project is licensed under the [MIT license](https://github.com/rematch/rematch/blob/main/LICENSE).
