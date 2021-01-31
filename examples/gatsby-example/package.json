@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
-    "@rematch/core": "^2.0.0",
+    "@rematch/core": ">=2.0.0-next.0",
     "@types/react-redux": "^7.1.9",
     "gatsby": "^2.24.50",
     "gatsby-image": "^2.4.16",
