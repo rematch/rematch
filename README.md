@@ -1,12 +1,11 @@
 <div align="center">
 <h1>Rematch<sub>js</sub></h1>
 
-Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks in less than 1,4 kilobytes.
+Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks in less than 1.4 kilobytes.
 
 <hr />
 
-
-[![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat-square)](https://rematchjs.slack.com) ![Rematch CI](https://github.com/rematch/rematch/workflows/Rematch%20CI/badge.svg?branch=main) [![Bundle size](https://img.shields.io/bundlephobia/minzip/@rematch/core@latest?style=flat-square)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat-square) [![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=flat-square)](https://lerna.js.org/)  [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
+[![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat-square)](https://rematchjs.slack.com) ![Rematch CI](https://github.com/rematch/rematch/workflows/Rematch%20CI/badge.svg?branch=main) [![Bundle size](https://img.shields.io/bundlephobia/minzip/@rematch/core?style=flat-square)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat-square) [![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=flat-square)](https://lerna.js.org/)  [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
 
 
 [**Documentation**](https://rematchjs.org)  · [**Quickstart**](https://rematchjs.org/docs/getting-started/installation) · [**Examples**](https://rematchjs.org/examples/) · [**Contribute**](./CONTRIBUTING.md) · [**Licence**](#licence)

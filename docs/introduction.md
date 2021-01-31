@@ -55,14 +55,14 @@ Rematch and its internals are all built upon a plugin pipeline. As a result, dev
 ## All plugins
 
 
-|           name            |   next version  | stable version |
-| :------------------------ | :----: | :-----: |
-|  ‎         core                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/core/next?style=flat-square)    |      ![npm_tag](https://img.shields.io/npm/v/@rematch/core?style=flat-square)    |
-|  ‎         loading                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/loading/next?style=flat-square)    |    ![npm_tag](https://img.shields.io/npm/v/@rematch/loading?style=flat-square)    |
-|  ‎         persist                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/persist/next?style=flat-square)    |    ![npm_tag](https://img.shields.io/npm/v/@rematch/persist?style=flat-square)    |
-|  ‎         select                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/select/next?style=flat-square)    |    ![npm_tag](https://img.shields.io/npm/v/@rematch/select?style=flat-square)    |
-|  ‎         updated                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/updated/next?style=flat-square)    |    ![npm_tag](https://img.shields.io/npm/v/@rematch/updated?style=flat-square)    |
-|  ‎         immer                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/immer/next?style=flat-square)    |    ![npm_tag](https://img.shields.io/npm/v/@rematch/immer?style=flat-square)    |
+|           name            |   stable version |
+| :------------------------ | :----: |
+|  ‎         core                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/core/latest?style=flat-square)    |
+|  ‎         loading                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/loading/latest?style=flat-square)        |
+|  ‎         persist                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/persist/latest?style=flat-square)    |
+|  ‎         select                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/select/latest?style=flat-square)    |
+|  ‎         updated                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/updated/latest?style=flat-square)    |
+|  ‎         immer                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/immer/latest?style=flat-square)    |
 
 ### Deprecated
 |           name            |   version  |
