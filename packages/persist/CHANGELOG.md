@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/rematch/rematch/compare/@rematch/persist@2.0.0-next.11...@rematch/persist@2.0.0) (2021-01-31)
+
+**Note:** Version bump only for package @rematch/persist
+
+
+
+
+
 # [2.0.0-next.11](https://github.com/rematch/rematch/compare/@rematch/persist@2.0.0-next.10...@rematch/persist@2.0.0-next.11) (2021-01-13)
 
 
