@@ -70,12 +70,12 @@ const features = [
 					<img
 						loading="lazy"
 						alt="Rematch Core Size"
-						src="https://badgen.net/bundlephobia/minzip/@rematch/core@next?style=flat"
+						src="https://badgen.net/bundlephobia/minzip/@rematch/core@latest?style=flat"
 					/>{' '}
 					<img
 						loading="lazy"
 						alt="Rematch Core tree-shaking enabled"
-						src="https://badgen.net/bundlephobia/tree-shaking/@rematch/core@next?style=flat"
+						src="https://badgen.net/bundlephobia/tree-shaking/@rematch/core@latest?style=flat"
 					/>
 				</div>
 			</>
