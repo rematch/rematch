@@ -12,7 +12,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.3",
     "typescript": "^4.0.3",
-    "@rematch/core": "^2.0.0",
+    "@rematch/core": ">=2.0.0-next.0",
     "react-redux": "^7.2.1"
   },
   "scripts": {
