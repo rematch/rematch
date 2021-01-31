@@ -1,7 +1,9 @@
-# Rematch
-
-<a class="github-button" href="https://github.com/rematch/rematch" data-icon="octicon-star" data-show-count="true" aria-label="Star rematch/rematch on GitHub">Star</a> [![Chat on slack](https://img.shields.io/badge/slack-rematchjs-blue.svg?logo=slack&style=flat-square)](https://rematchjs.slack.com) ![Rematch CI](https://github.com/rematch/rematch/workflows/Rematch%20CI/badge.svg?branch=next) ![npm (tag)](https://img.shields.io/npm/v/@rematch/core/next?style=flat-square) [![Bundle size](https://img.shields.io/badge/bundlesize-~2.2kb-brightgreen.svg?style=flat-square)](https://img.shields.io/badge/bundlesize-~5kb-brightgreen.svg?style=flat-square) [![File size](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square)](https://img.shields.io/badge/dependencies-redux-brightgreen.svg?style=flat-square) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=flat-square)](https://lerna.js.org/)
-
+---
+id: introduction
+title: Introduction
+sidebar_label: Introduction
+slug: /
+---
 > Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
 
 ## Features
@@ -9,6 +11,7 @@
 Redux is an amazing state management tool, supported by a healthy middleware ecosystem and excellent devtools.
 Rematch builds upon Redux by reducing boilerplate and enforcing best practices. It provides the following features:
 
+- Less than 2kb of size
 - No configuration needed
 - Reduces Redux boilerplate
 - Built-in side-effects support
@@ -38,15 +41,15 @@ Rematch builds upon Redux by reducing boilerplate and enforcing best practices. 
 | async                     | thunks | ‎async/await |
 
 ## How to start
-[Learn how to integrate easily on Javascript or Typescript (React, Vue...)](quick-start.md)
+[Learn how to integrate easily on Javascript or Typescript (React, Vue...)](getting-started/installation)
 
 ## Migrate From Redux
 
-Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](migration-guide.md) for the details.
+Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](migrating-from-redux-to-rematch) for the details.
 
 ## Composable Plugins
 
-Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](plugins/summary.md) developed by the Rematch team or the [API for creating plugins](api/plugins.md#plugins-api).
+Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](plugins) developed by the Rematch team or the [API for creating plugins](api-reference/plugins).
 
 
 ## All plugins
@@ -74,7 +77,4 @@ Rematch and its internals are all built upon a plugin pipeline. As a result, dev
 
 ## License
 
-This project is licensed under the [MIT license](https://github.com/rematch/rematch/blob/master/LICENSE).
-
-<!-- GitHub Buttons -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
+This project is licensed under the [MIT license](https://github.com/rematch/rematch/blob/main/LICENSE).

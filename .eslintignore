@@ -3,3 +3,6 @@ package.json
 lerna.json
 packages/*/dist
 packages/*/node_modules
+website/*/node_modules
+website/*/build
+website/*/.docusaurus

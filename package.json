@@ -36,7 +36,9 @@
     "prettier:write": "prettier --write \"(examples|packages)/**/*.(js|ts|tsx|ts)\"",
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
-    "docs": "docsify serve docs",
+    "start:docs": "lerna run start --scope rematch-docs --stream",
+    "lint:docs": "lerna run lint --scope rematch-docs --stream",
+    "build:docs": "lerna run build --scope rematch-docs --stream",
     "size-build": "size-limit",
     "version:latest": "lerna version --no-private --create-release github --conventional-commits --yes",
     "version:next": "lerna version --no-private --preid next --create-release github --conventional-commits --conventional-prerelease --yes",
@@ -119,8 +121,12 @@
   },
   "workspaces": [
     "packages/*",
+    "website",
     "examples/all-plugins-react-ts",
     "examples/hooks-react-ts",
     "examples/count-react-ts"
-  ]
+  ],
+  "resolutions": {
+    "terser" : "4.8.0"
+  }
 }

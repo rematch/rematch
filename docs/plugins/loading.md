@@ -1,29 +1,29 @@
-# Loading Plugin
+---
+id: loading
+title: Loading
+sidebar_label: "@rematch/loading"
+slug: /plugins/loading/
+---
+import { MultiLangComponent } from "/src/components/MultiLangComponent"
 
 The loading plugin for Rematch. Adds automated loading indicators for effects, so you don't need to manage state like `loading: true` by yourself. Inspired by [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading).
 
-## Compatibility {docsify-ignore}
+## Compatibility
 
 Install the correct version of loading plugin based on the version of the core Rematch library in your project.
 
 |         @rematch/core  | @rematch/immer  |
 | :--------------------: | :----: |
-| 0.x ‎                   |   0.5.0  |
-| 1.x                    |    1.x   |
-| 2.x                    |    2.x   |
+| 1.x.x                   |    1.x.x  |
+| 2.x.x                   |    2.x.x  |
 
-## Install {docsify-ignore}
+## Install
 
-```bash
-npm install @rematch/loading@next
-```
-or
-
-```bash
-yarn add @rematch/loading@next
+```bash npm2yarn
+npm install @rematch/loading
 ```
 
-## loadingPlugin([config]) {docsify-ignore}
+## loadingPlugin([config])
 
 The loading plugin accepts one optional argument - **config**, which is an object with the following properties:
 
@@ -36,19 +36,19 @@ Both `blacklist` and `whitelist` accept the "full" effect name, in a format `mod
 
 If both `blacklist` and `whitelist` aren't provided, plugin works for all effects.
 
-## Usage {docsify-ignore}
+## Usage
 
 Let's say we have a model 'count' in our store. Loading plugin's state will have the following format:
 
-```javascript
+```js
 {
-	global, // true when any effect in any model is loading
-    models: {
-      count // true when any effect in 'count' model is loading
+	"global": true, // true when any effect in any model is loading
+    "models": {
+      "count": true // true when any effect in 'count' model is loading
     },
-    effects: {
-      count: {
-        addOne, // true when effect 'addOne' in model 'count' is loading
+    "effects": {
+      "count": {
+        "addOne": true, // true when effect 'addOne' in model 'count' is loading
       },
     },
 }
@@ -56,14 +56,12 @@ Let's say we have a model 'count' in our store. Loading plugin's state will have
 
 Check out below an example of how to use loading plugin in React:
 
-**store.js**
-
 Set up your store with default or custom settings.
-<!-- tabs:start -->
 
-#### ** JavaScript **
+### Setup the store
+<MultiLangComponent>
 
-```javascript
+```js title="store.js"
 import loadingPlugin from '@rematch/loading'
 import { init } from '@rematch/core'
 import * as models from './models'
@@ -74,67 +72,42 @@ init({
 	plugins: [loadingPlugin()],
 })
 ```
-#### ** Typescript **
-```typescript
+
+```ts title="store.ts"
 import loadingPlugin, { ExtraModelsFromLoading } from '@rematch/loading'
 import { init, RematchDispatch, RematchRootState } from '@rematch/core'
 import { models, RootModel } from './models'
 
+
+/** IF YOU USE THE BASIC SETUP USE THIS METHOD **/
 type FullModel =  ExtraModelsFromLoading<RootModel>
 
 export const store = init<RootModel, FullModel>({
     models,
-    // add loadingPlugin to your store
 	  plugins: [loadingPlugin()],
 })
 
-// or
-// type FullModel = ExtraModelsFromLoading<RootModel, { asNumber: true }>
-//
-// export const store = init<RootModel, FullModel>({
-//     models,
-//     // add loadingPlugin to your store
-//     plugins: [loadingPlugin({ asNumber: true })],
-// })
+
+/** IF YOU USE THE { asNumber } SETUP USE THIS METHOD **/
+type FullModel = ExtraModelsFromLoading<RootModel, { asNumber: true }>
+
+export const store = init<RootModel, FullModel>({
+    models,
+    plugins: [loadingPlugin({ asNumber: true })],
+})
 
 export type Store = typeof store
 export type Dispatch = RematchDispatch<RootModel>
 export type RootState = RematchRootState<RootModel, FullModel>
 
 ```
+</MultiLangComponent>
 
-**models.js**
-
-Define a model which uses effects.
-
-```javascript
-export const auth = {
-	state: {
-	  user: null,
-    },
-    reducers: {
-      setUser(state, user) {
-        return {
-          ...state,
-           user,
-        };
-      },
-    },
-    effects: {
-      async login() {
-        const user = await api.login();
-        this.setUser(user);
-      }
-    }
-}
-```
-<!-- tabs:end -->
-
-**view.js**
+### Use in the view
 
 Use state created by the loading plugin in your view.
 
-```javascript
+```js title="App.jsx"
 import React from 'react'
 import { connect } from 'react-redux'
 import AwesomeLoadingButton from './AwesomeLoadingButton'
@@ -155,8 +128,5 @@ const mapDispatch = dispatch => ({
 	login: () => dispatch.auth.login(),
 })
 
-export default connect(
-	mapState,
-	mapDispatch
-)(LoginButton)
+export default connect(mapState,mapDispatch)(LoginButton)
 ```

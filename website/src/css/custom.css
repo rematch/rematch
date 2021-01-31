@@ -1,0 +1,63 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
+
+/* You can override the default Infima variables here. */
+:root {
+  --unit: 4px;
+  --ifm-font-family-base: "Inter";
+  --ifm-color-primary: #5468ff;
+  --ifm-color-primary-dark: #324aff;
+  --ifm-color-primary-darker: #213bff;
+  --ifm-color-primary-darkest: #001ced;
+  --ifm-color-primary-light: #7686ff;
+  --ifm-color-primary-lighter: #8795ff;
+  --ifm-color-primary-lightest: #bac2ff;
+  --ifm-color-secondary-grey: #f4f5f7;
+  --ifm-p-main: rgba(102, 102, 102, 1);
+  --ifm-main: #0a141c;
+}
+
+:root[data-theme="dark"] {
+  --unit: 4px;
+  --ifm-font-family-base: "Inter";
+  --ifm-navbar-link-hover-color: #8b9dff;
+  --ifm-link-color: #8b9dff;
+  --ifm-menu-color-active: #8b9dff;
+  --ifm-background-color: #0a141c;
+  --ifm-footer-background-color: #0a141c;
+  --ifm-navbar-background-color: #21243d;
+  --ifm-menu-color-background-active: #21243d;
+  --ifm-color-secondary-grey: #21243d;
+  --ifm-p-main: #e1e1e1;
+  --ifm-main: #fff;
+}
+
+.button--tertiary {
+  background: linear-gradient(180deg, #8b9dff 0%, #3578e5 100%);
+  color: white;
+  border-color: #8b9dff;
+}
+
+.table-align--center {
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+}
+
+html,
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+.m-auto {
+  margin: 0 auto !important;
+}
+
+.shadow--lg {
+  box-shadow: 0 0 2px 0 var(--ifm-color-emphasis-400);
+}

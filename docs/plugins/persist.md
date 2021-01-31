@@ -1,29 +1,27 @@
-# Persist Plugin
-
+---
+id: persist
+title: Persist
+sidebar_label: "@rematch/persist"
+slug: /plugins/persist/
+---
 Redux-Persist v6 plugin for Rematch. Provides automatic Redux state persistence.
 
-## Compatibility {docsify-ignore}
+## Compatibility
 
 Install the correct version of persist plugin based on the version of the core Rematch library in your project.
 
 |         @rematch/core  | @rematch/persist  |
 | :--------------------: | :----: |
-| 0.x ‎                   |   0.2.1  |
-| 1.x                    |    1.x   |
-| 2.x                    |    2.x   |
+| 1.x.x                   |    1.x.x  |
+| 2.x.x                   |    2.x.x  |
 
-## Install {docsify-ignore}
+## Install
 
-```bash
-npm install @rematch/persist@next
-```
-or
-
-```bash
-yarn add @rematch/persist@next
+```bash npm2yarn
+npm install @rematch/persist
 ```
 
-## persistPlugin(persistConfig, [nestedPersistConfig, persistStoreConfig, callback]) {docsify-ignore}
+## persistPlugin(persistConfig, [nestedPersistConfig, persistStoreConfig, callback])
 
 The persist plugin accepts four arguments - **persistConfig**, **nestedPersistConfig**, **persistStoreConfig**, **callback**.
 
@@ -35,11 +33,11 @@ The persist plugin accepts four arguments - **persistConfig**, **nestedPersistCo
 
 - [`callback`] (_() => void_): a function called after rehydration is finished.
 
-## Usage {docsify-ignore}
+## Usage
 
-**store.js**
+### Setup the store
 
-```javascript
+```js title="store.js"
 import persistPlugin from '@rematch/persist'
 import { init } from '@rematch/core'
 import storage from 'redux-persist/lib/storage'
@@ -50,7 +48,6 @@ const persistConfig = {
 }
 
 init({
-    // add persistPlugin to your store
 	plugins: [persistPlugin(persistConfig)],
 })
 ```
@@ -59,7 +56,7 @@ init({
 
 In React you can use a special component provided by redux-persist to display a loading indicator while waiting for data to async load from the storage.
 
-```javascript
+```js
 import { getPersistor } from '@rematch/persist'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 

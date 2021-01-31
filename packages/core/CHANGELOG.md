@@ -187,7 +187,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- added `model.baseReducer` for using normal redux reducers within a model [#450](https://github.com/rematch/rematch/pull/446). Additional `model.reducers` run after the baseReducer to produce the final state. See [model.baseReducer](https://github.com/rematch/rematch/blob/master/docs/api.md#basereducer) for details.
+- added `model.baseReducer` for using normal redux reducers within a model [#450](https://github.com/rematch/rematch/pull/446). Additional `model.reducers` run after the baseReducer to produce the final state. See [model.baseReducer](https://github.com/rematch/rematch/blob/main/docs/api.md#basereducer) for details.
 
 ## [1.0.0-beta.3] - 2018-06-23
 

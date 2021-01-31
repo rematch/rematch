@@ -73,6 +73,14 @@ Run [`yarn install`](https://classic.yarnpkg.com/lang/en) and edit code in the `
 To make development process easier we provide a Sandbox React application in this repo which automatically uses your local version of the `rematch` library.
 That means when you make any changes in the `packages/rematch/core/src/` folder they'll show up automatically there! (You only need to run yarn build for reloading dist folder)
 
+## Documentation contributions
+
+1. Run `yarn install` in the root of project.
+2. Run `yarn start:docs`
+3. And do whatever you want. =)
+4. Check prettier and eslint: `yarn lint:docs`
+5. You're done, git add, git commit, and push to a new branch.
+
 ## Credits
 
 These contribution guidelines are based on https://github.com/moya/contributors also to https://github.com/styled-components/styled-components.

@@ -1,29 +1,29 @@
-# Immer Plugin
+---
+id: immer
+title: Immer
+sidebar_label: "@rematch/immer"
+slug: /plugins/immer/
+---
+import { MultiLangComponent } from "/src/components/MultiLangComponent"
 
 Immer plugin for Rematch. Wraps your reducers with immer, providing ability to safely do mutable changes resulting in immutable state.
 
-## Compatibility {docsify-ignore}
+## Compatibility
 
 Install the correct version of immer plugin based on the version of the core Rematch library in your project.
 
-|         @rematch/core  | @rematch/immer  |
-| :--------------------: | :----: |
-| 0.x ‎                   |   0.1.0  |
-| 1.x                    |    1.x   |
-| 2.x                    |    2.x   |
+|         @rematch/core  | @rematch/immer  	 |
+| :--------------------: | :----: 				 	 |
+| 1.x.x                  |    1.x.x   			 |
+| 2.x.x                  |    2.x.x   			 |
 
-## Install {docsify-ignore}
+## Install
 
-```bash
-npm install @rematch/immer@next
-```
-or
-
-```bash
-yarn add @rematch/immer@next
+```bash npm2yarn
+npm install @rematch/immer
 ```
 
-## immerPlugin([config]) {docsify-ignore}
+## immerPlugin([config])
 
 Immer plugin accepts one optional argument - **config**, which is an object with the following properties:
 
@@ -32,48 +32,45 @@ Immer plugin accepts one optional argument - **config**, which is an object with
 
 If config isn't provided, reducers from all models will be wrapped with immer.
 
-## Usage {docsify-ignore}
+## Usage
 
 In Immer, reducers can perform mutations to achieve the next immutable state. **Immer doesn't require that you return the next state from a reducer, but @rematch/immer plugin expects you to do it!** Your reducers must always return the next state. Otherwise, you will reset your model's state. See the example below for details.
 
 If your state is a primitive value like a number of a string, plugin automatically avoids using immer to execute the reducer, because immer can only recognize changes to the plain objects or arrays.
 
-**store.js**
+<MultiLangComponent>
 
-<!-- tabs:start -->
-
-#### ** JavaScript **
-
-```javascript
+```js title="store.js"
 import immerPlugin from '@rematch/immer'
 import { init } from '@rematch/core'
-import * as models from './models'
+import { models } from './models'
 
 init({
-    models,
-    // add immerPlugin to your store
+  models,
 	plugins: [immerPlugin()],
 })
 ```
 
-#### ** Typescript **
-
-```typescript
+```ts title="store.ts"
 import immerPlugin from '@rematch/immer'
 import { init } from '@rematch/core'
-import * as models from './models'
+import { models, RootModel } from './models'
 
-init({
-    models,
-    // add immerPlugin to your store
+export const store = init<RootModel>({
+  models,
+  // add immerPlugin to your store
 	plugins: [immerPlugin()],
 })
+
+export type Store = typeof store
+export type Dispatch = RematchDispatch<RootModel>
+export type RootState = RematchRootState<RootModel>
 ```
-<!-- tabs:end -->
+</MultiLangComponent>
 
-**models.js**
+<MultiLangComponent>
 
-```javascript
+```js
 export const todo = {
 	state: [
 		{
@@ -100,3 +97,35 @@ export const todo = {
 	},
 }
 ```
+
+```ts
+import { createModel } from '@rematch/core'
+import { RootModel } from '.'
+
+export const todo = createModel<RootModel>()({
+	state: [
+		{
+			todo: 'Learn typescript',
+			done: true,
+		},
+		{
+			todo: 'Try immer',
+			done: false,
+		},
+	],
+	reducers: {
+		done(state) {
+      // mutable changes to the state
+			state.push({ todo: 'Tweet about it' })
+			state[1].done = true
+			return state
+		},
+		// when 'reset' reducer is executed, the state will be set
+		// to 'undefined' because reducer doesn't return the next state
+		reset(state) {
+				state[0].done = false
+		},
+	},
+})
+```
+</MultiLangComponent>

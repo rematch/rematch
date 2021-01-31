@@ -38,6 +38,11 @@ module.exports = {
 		'@typescript-eslint/ban-ts-comment': 0,
 		'@typescript-eslint/ban-ts-ignore': 0,
 		'no-shadow': 1,
+		'import/prefer-default-export': 0,
+		'import/no-unresolved': [
+			0,
+			{ ignore: ['^@theme', '^@docusaurus', '^@generated'] },
+		],
 		'import/extensions': [
 			'error',
 			'ignorePackages',

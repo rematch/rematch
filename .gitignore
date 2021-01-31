@@ -13,6 +13,7 @@ dist
 .rts2_cache_system
 lerna-debug.log
 *.log
+**/*/.eslintcache
 
 # editor
 .vscode
