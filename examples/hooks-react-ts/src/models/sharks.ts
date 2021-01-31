@@ -5,8 +5,7 @@ import { RootModel } from '.'
 export const sharks = createModel<RootModel>()({
 	state: 0,
 	reducers: {
-		increment: (state, payload: number) =>
-			state + payload,
+		increment: (state, payload: number) => state + payload,
 	},
 	effects: (dispatch) => ({
 		async incrementAsync(payload: number) {
@@ -14,4 +13,4 @@ export const sharks = createModel<RootModel>()({
 			dispatch.sharks.increment(payload)
 		},
 	}),
-});
+})

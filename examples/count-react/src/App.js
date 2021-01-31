@@ -21,16 +21,13 @@ const App = ({ count, asyncIncrement, increment }) => (
 	</div>
 )
 
-const mapState = state => ({
+const mapState = (state) => ({
 	count: state.count,
 })
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({
 	increment: dispatch.count.increment,
 	asyncIncrement: dispatch.count.asyncIncrement,
 })
 
-export default connect(
-	mapState,
-	mapDispatch
-)(App)
+export default connect(mapState, mapDispatch)(App)

@@ -43,7 +43,7 @@ const App = ({ submit, loading }) => (
 	</div>
 )
 
-const mapState = state => ({
+const mapState = (state) => ({
 	count: state.count,
 	loading: {
 		global: state.loading.global,
@@ -52,11 +52,8 @@ const mapState = state => ({
 	},
 })
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({
 	submit: dispatch.count.submit,
 })
 
-export default connect(
-	mapState,
-	mapDispatch
-)(App)
+export default connect(mapState, mapDispatch)(App)

@@ -1,13 +1,19 @@
-import { init, RematchDispatch, RematchRootState, RematchStore } from '@rematch/core'
+import {
+	init,
+	RematchDispatch,
+	RematchRootState,
+	RematchStore,
+} from '@rematch/core'
 import { models, RootModel } from './models'
-import loading, { ExtraModelsFromLoading } from '@rematch/loading';
-import updated, { ExtraModelsFromUpdated } from '@rematch/updated';
-import persist from '@rematch/persist';
+import loading, { ExtraModelsFromLoading } from '@rematch/loading'
+import updated, { ExtraModelsFromUpdated } from '@rematch/updated'
+import persist from '@rematch/persist'
 import storage from 'redux-persist/lib/storage'
 import immerPlugin from '@rematch/immer'
 import selectPlugin from '@rematch/select'
 
-type FullModel =  ExtraModelsFromLoading<RootModel> & ExtraModelsFromUpdated<RootModel>
+type FullModel = ExtraModelsFromLoading<RootModel> &
+	ExtraModelsFromUpdated<RootModel>
 export const store = init<RootModel, FullModel>({
 	models,
 	plugins: [
@@ -16,13 +22,13 @@ export const store = init<RootModel, FullModel>({
 		persist({
 			key: 'persist-storage',
 			storage,
-			whitelist: ['settings']
+			whitelist: ['settings'],
 		}),
 		immerPlugin({
-			whitelist: ['settings']
+			whitelist: ['settings'],
 		}),
 		selectPlugin(),
-	]
+	],
 })
 
 export type Store = typeof store

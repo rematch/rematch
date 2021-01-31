@@ -31,7 +31,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "yarn lint"
     }
   },
   "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",

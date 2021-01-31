@@ -34,24 +34,27 @@ jobs:
       - name: Creates local .npmrc
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - uses: actions/cache@v2
-        name: Cache node modules
+        id: yarn-cache
         with:
-            path: |
-              node_modules
-              */*/node_modules
-            key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Install
-        run: |
-          npm ci
-          npm run bootstrap
+        run: yarn install --frozen-lockfile --pure-lockfile
 
       - name: Build & Testing
         run: |
-          npm run build
-          npm run test
-          npm run lint
+          yarn build
+          yarn test
+          yarn lint
+          yarn prettier:check
 
       - name: Release
         if: ${{github.event.inputs.distTag == 'latest' || github.event.inputs.distTag == 'next'}}
@@ -59,5 +62,5 @@ jobs:
           npm whoami
           git config --global user.email "sergiomorenoalbert@gmail.com"
           git config --global user.name "Rematch CI"
-          npm run version:${{github.event.inputs.distTag}}
-          npm run release:${{github.event.inputs.distTag}}
+          yarn version:${{github.event.inputs.distTag}}
+          yarn release:${{github.event.inputs.distTag}}

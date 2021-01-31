@@ -1,4 +1,4 @@
-const asyncDelay = ms => new Promise(r => setTimeout(r, ms))
+const asyncDelay = (ms) => new Promise((r) => setTimeout(r, ms))
 
 export const count = {
 	state: 0,

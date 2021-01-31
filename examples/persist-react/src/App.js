@@ -14,7 +14,7 @@ const styles = {
 	},
 }
 
-const App = props => (
+const App = (props) => (
 	<div style={styles.container}>
 		<button onClick={props.addOne}>+1</button>
 		<div>
@@ -34,7 +34,7 @@ const App = props => (
 	</div>
 )
 
-const mapState = state => ({
+const mapState = (state) => ({
 	formattedState: JSON.stringify(state, null, '\t'),
 	count: {
 		persisted: state.persisted,
@@ -42,14 +42,11 @@ const mapState = state => ({
 	},
 })
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({
 	addOne: () => {
 		dispatch.persisted.addOne()
 		dispatch.nonpersisted.addOne()
 	},
 })
 
-export default connect(
-	mapState,
-	mapDispatch
-)(App)
+export default connect(mapState, mapDispatch)(App)

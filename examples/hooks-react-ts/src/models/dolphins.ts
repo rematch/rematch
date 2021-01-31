@@ -1,6 +1,6 @@
 import { createModel } from '@rematch/core'
 import { delay } from './utils'
-import { RootModel } from '.';
+import { RootModel } from '.'
 
 export const dolphins = createModel<RootModel>()({
 	state: 0,
@@ -13,4 +13,4 @@ export const dolphins = createModel<RootModel>()({
 			dispatch.dolphins.increment()
 		},
 	}),
-});
+})

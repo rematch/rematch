@@ -14,15 +14,17 @@
     "@types/react": "^16.9.32",
     "@types/react-dom": "^16.9.6",
     "@types/react-redux": "^7.1.9",
+    "@testing-library/react": "11.2.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
-    "react-scripts": "^3.4.3",
+    "react-scripts": "^4.0.1",
     "redux": "^4.0.5",
     "typescript": "^4.0.3"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "test": "react-scripts test --watchAll=false"
   },
   "browserslist": [
     ">0.2%",

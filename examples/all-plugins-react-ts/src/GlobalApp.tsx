@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
 import App from './AppWithHooks'
 import AppWithoutHooks from './AppWithoutHooks'
 import './index.css'
@@ -23,11 +22,9 @@ const PreviewSelector = () => {
 		</div>
 	)
 }
-ReactDOM.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<PreviewSelector />
-		</Provider>
-	</React.StrictMode>,
-	document.getElementById('root')
+
+export const GlobalApp = () => (
+	<Provider store={store}>
+		<PreviewSelector />
+	</Provider>
 )

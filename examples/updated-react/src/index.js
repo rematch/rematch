@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { init } from '@rematch/core'
 import createUpdatedPlugin from '@rematch/updated'
@@ -15,12 +15,12 @@ const store = init({
 })
 
 ReactDOM.render(
-  <React.StrictMode>
+	<React.StrictMode>
 		<Provider store={store}>
 			<PersistGate loading={<Spinner />} persistor={getPersistor()}>
 				<App />
 			</PersistGate>
 		</Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+	</React.StrictMode>,
+	document.getElementById('root')
+)
