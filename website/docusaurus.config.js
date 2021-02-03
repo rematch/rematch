@@ -23,8 +23,8 @@ module.exports = {
 		},
 		algolia: {
 			// todo: set real keys
-			apiKey: 'process.env.ALGOLIA_API_KEY',
-			indexName: 'process.env.INDEX_NAME',
+			apiKey: 'bf1caf576975a08099ac1d3dbbe58f96',
+			indexName: 'rematchjs',
 		},
 		announcementBar: {
 			id: 'supportus',
