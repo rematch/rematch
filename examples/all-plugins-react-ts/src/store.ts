@@ -1,16 +1,11 @@
-import {
-	init,
-	RematchDispatch,
-	RematchRootState,
-	RematchStore,
-} from '@rematch/core'
-import { models, RootModel } from './models'
+import { init, RematchDispatch, RematchRootState } from '@rematch/core'
 import loading, { ExtraModelsFromLoading } from '@rematch/loading'
 import updated, { ExtraModelsFromUpdated } from '@rematch/updated'
 import persist from '@rematch/persist'
 import storage from 'redux-persist/lib/storage'
 import immerPlugin from '@rematch/immer'
 import selectPlugin from '@rematch/select'
+import { models, RootModel } from './models'
 
 type FullModel = ExtraModelsFromLoading<RootModel> &
 	ExtraModelsFromUpdated<RootModel>
