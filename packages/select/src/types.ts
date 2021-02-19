@@ -152,17 +152,17 @@ export type ModelSelectorsConfig<
 export type RematchSelect<
 	TModels extends Models<TModels>,
 	TRootState = RematchRootState<TModels>
-> = (<TReturn>(
+> = (<TReturn extends { [key: string]: (state: TRootState) => any }>(
 	mapSelectToProps: (select: RematchSelect<TModels>) => TReturn
 ) => Reselect.OutputParametricSelector<
 	TRootState,
 	any,
-	TReturn,
+	{ [K in keyof TReturn]: ReturnType<TReturn[K]> },
 	Reselect.Selector<TRootState, Record<string, any>>
 > &
 	Reselect.OutputSelector<
 		TRootState,
-		TReturn,
+		{ [K in keyof TReturn]: ReturnType<TReturn[K]> },
 		Reselect.Selector<TRootState, Record<string, any>>
 	>) &
 	StoreSelectors<TModels>

@@ -353,7 +353,7 @@ describe('select:', () => {
 				b: models.countB.double,
 			}))
 
-			const result = selector(state, undefined)
+			const result: { a: number; b: number } = selector(state, undefined)
 			expect(result).toEqual({ a: 4, b: 20 })
 		})
 	})
