@@ -29,8 +29,8 @@ const immerPlugin = <
 		if (
 			!config ||
 			(!config.whitelist && !config.blacklist) ||
-			(config.whitelist && model in config.whitelist) ||
-			(config.blacklist && !(model in config.blacklist))
+			(config.whitelist && config.whitelist.includes(model)) ||
+			(config.blacklist && !config.blacklist.includes(model))
 		) {
 			return wrapReducerWithImmer(reducer)
 		}

@@ -59,4 +59,79 @@ describe('immer', () => {
 		expect(todo.state[1].done).toBe(false)
 		expect(newState[1].done).toBe(true)
 	})
+
+	describe('whitelist/blacklist', () => {
+		let todo1: any
+		let todo2: any
+
+		beforeEach(() => {
+			todo1 = {
+				state: [
+					{
+						todo: 'Learn typescript',
+						done: true,
+					},
+				],
+				reducers: {
+					add(state: any, newTodo: any): any {
+						state.push(newTodo)
+						return state
+					},
+				},
+			}
+
+			todo2 = {
+				state: [
+					{
+						todo: 'Learn typescript',
+						done: true,
+					},
+				],
+				reducers: {
+					add(state: any, newTodo: any): any {
+						state.push(newTodo)
+						return state
+					},
+				},
+			}
+		})
+
+		test('should load the immer plugin on whitelisted model', () => {
+			const store = init({
+				plugins: [
+					immerPlugin({
+						whitelist: ['todo1'],
+					}),
+				],
+				models: { todo1, todo2 },
+			})
+
+			const state = store.getState()
+
+			store.dispatch.todo1.add({ todo: 'Tweet about it', done: false })
+			expect(store.getState().todo1).not.toEqual(state.todo1)
+
+			store.dispatch.todo2.add({ todo: 'Tweet about it', done: false })
+			expect(store.getState().todo2).toEqual(state.todo2)
+		})
+
+		test('should not load the immer plugin on blacklisted model', () => {
+			const store = init({
+				plugins: [
+					immerPlugin({
+						blacklist: ['todo2'],
+					}),
+				],
+				models: { todo1, todo2 },
+			})
+
+			const state = store.getState()
+
+			store.dispatch.todo1.add({ todo: 'Tweet about it', done: false })
+			expect(store.getState().todo1).not.toEqual(state.todo1)
+
+			store.dispatch.todo2.add({ todo: 'Tweet about it', done: false })
+			expect(store.getState().todo2).toEqual(state.todo2)
+		})
+	})
 })
