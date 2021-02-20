@@ -1,5 +1,6 @@
+/* eslint-disable camelcase */
 import { createModel } from '@rematch/core'
-import { RootModel } from '.'
+import type { RootModel } from '.'
 
 export interface Team {
 	id: number
@@ -42,8 +43,10 @@ export const players = createModel<RootModel>()({
 		const { players } = dispatch
 		return {
 			async getPlayers(): Promise<any> {
-				let response = await fetch('https://www.balldontlie.io/api/v1/players')
-				let { data }: { data: PlayerModel[] } = await response.json()
+				const response = await fetch(
+					'https://www.balldontlie.io/api/v1/players'
+				)
+				const { data }: { data: PlayerModel[] } = await response.json()
 				players.SET_PLAYERS(data)
 			},
 		}

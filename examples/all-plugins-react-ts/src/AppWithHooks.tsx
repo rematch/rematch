@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { RootState, Dispatch } from './store'
 import { useDispatch, useSelector } from 'react-redux'
+import { RootState, Dispatch } from './store'
 import { PlayerModel } from './models/players'
 
 const Count = () => {

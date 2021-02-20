@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 
 import { GlobalApp } from './GlobalApp'
 import { store } from './store'
+import { cart } from './models/cart'
 
 const TestingProvider: React.FC = ({ children }) => (
 	<Provider store={store}>{children}</Provider>
@@ -21,13 +22,13 @@ test('Store is correctly initialized', () => {
 			rehydrated: true,
 			version: -1,
 		},
-		cart: [
-			{
-				amount: 3,
-				price: 42,
-				productId: 2,
-			},
-		],
+		cart: {
+			taxPercent: 8,
+			items: [
+				{ name: 'apple', value: 1.2 },
+				{ name: 'orange', value: 0.95 },
+			],
+		},
 		loading: {
 			effects: {
 				cart: {},

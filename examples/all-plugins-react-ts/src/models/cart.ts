@@ -1,57 +1,43 @@
 import { createModel } from '@rematch/core'
-import { RootModel } from '.'
-
-interface CartState {
-	price: number
-	amount: number
-	productId: number
-}
+import type { RootModel } from '.'
 
 export const cart = createModel<RootModel>()({
-	state: [
-		{
-			price: 42.0,
-			amount: 3,
-			productId: 2,
+	state: {
+		taxPercent: 8,
+		items: [
+			{ name: 'apple', value: 1.2 },
+			{ name: 'orange', value: 0.95 },
+		],
+	},
+	selectors: (slice, createSelector) => ({
+		shopItemsSelector() {
+			return slice((cart) => cart.items)
 		},
-	] as CartState[],
-	selectors: (slice, createSelector, hasProps) => ({
-		// creates a simple memoized selector based on the cart state
-		total() {
-			return slice((cart) => cart.reduce((a, b) => a + b.price * b.amount, 0))
+		taxPercentSelector() {
+			return slice((cart) => cart.taxPercent)
 		},
-		// uses createSelector method to create more complex memoized selector
-		// totalWithShipping() {
-		// 	return createSelector(
-		// 		// IMP: `slice` is a `Selector` and `(rootState, props) => props.shipping` is an `ParametricSelector`. In reselect, there are no overloads for it.
-		// 		slice, // shortcut for (rootState) => rootState.cart
-		// 		(rootState: any, props: any) => props.shipping as number,
-		// 		(cart, shipping) =>
-		// 			cart.reduce((a, b) => a + b.price * b.amount, shipping)
-		// 	)
-		// },
-		// refers to the other selector from this model
-		// doubleTotal() {
-		// 	return createSelector(
-		// 		this.totalWithShipping(),
-		// 		(totalWithShipping) => totalWithShipping * 2
-		// 	)
-		// },
-		// accesses selector from a different model
-		// productsPopularity(models, a) {
-		// 	return createSelector(
-		// 		slice, // shortcut for (rootState) => rootState.cart
-		// 		models.popularity.pastDay, // gets 'pastDay' selector from 'popularity' model
-		// 		(cart, hot) => cart.sort((a, b) => hot[a.productId] - hot[b.productId])
-		// 	)
-		// },
-		// uses hasProps function, which returns new selector for each given lowerLimit prop
-		// expensiveFilter: hasProps(function (models, lowerLimit) {
-		// 	return slice((items) => items.filter((item) => item.price > lowerLimit))
-		// }),
-		// uses expensiveFilter selector to create a new selector where lowerLimit is set to 20.00
-		// wouldGetFreeShipping(models) {
-		// 	return this.expensiveFilter(models, 20.0)
-		// },
+		subTotalSelector() {
+			return createSelector(this.shopItemsSelector, (items) =>
+				(items as any).reduce(
+					(subtotal: number, item: { name: string; value: number }) =>
+						subtotal + item.value,
+					0
+				)
+			)
+		},
+		taxSelector() {
+			return createSelector(
+				this.subTotalSelector,
+				this.taxPercentSelector,
+				(subtotal: any, taxPercent: any) => subtotal * (taxPercent / 100)
+			)
+		},
+		totalSelector() {
+			return createSelector(
+				this.subTotalSelector,
+				this.taxSelector,
+				(subtotal: any, tax: any) => ({ total: subtotal + tax })
+			)
+		},
 	}),
 })

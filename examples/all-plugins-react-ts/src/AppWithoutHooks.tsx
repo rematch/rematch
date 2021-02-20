@@ -81,7 +81,9 @@ class App extends React.PureComponent<Props> {
 }
 
 const selection = store.select((models) => ({
-	total: models.cart.total,
+	subtotalSelector: models.cart.subTotalSelector,
+	taxSelector: models.cart.taxSelector,
+	totalSelector: models.cart.totalSelector,
 }))
 
 const mapState = (state: RootState) => ({

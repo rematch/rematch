@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
+import { Provider } from 'react-redux'
 import App from './AppWithHooks'
 import AppWithoutHooks from './AppWithoutHooks'
 import './index.css'
 import './switch.css'
 
-import { Provider } from 'react-redux'
 import { store } from './store'
 
 const PreviewSelector = () => {

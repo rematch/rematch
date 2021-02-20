@@ -1,5 +1,5 @@
 import { createModel } from '@rematch/core'
-import { RootModel } from '.'
+import type { RootModel } from '.'
 
 export const settings = createModel<RootModel>()({
 	state: {
