@@ -188,3 +188,26 @@ type Props = StateProps & DispatchProps
 
 export default connect(mapState, mapDispatch)(App)
 ```
+
+## Effects returning values
+
+There's a situation where if you're accessing the `rootState` value of the same model and returning this value. Typescript will fail because circular references itself (has sense)...
+
+You should try to avoid returning values on effects and just dispatch data to reducers or write pure functions outside Rematch for a better performance.
+
+Anyways, you can omit this error force typing the effect. [Related Github Issue](https://github.com/rematch/rematch/issues/864#issuecomment-781357794)
+
+Instead of:
+
+```ts
+async isIdEnabled(payload: { name: string }, rootState) {
+   // ...
+}
+```
+
+Define the return value:
+```ts
+async isIdEnabled(payload: { name: string }, rootState): Promise<boolean> {
+  // ...
+}
+```
