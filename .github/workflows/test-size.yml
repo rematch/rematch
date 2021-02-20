@@ -1,10 +1,7 @@
 name: Rematch Size Testing
 on:
   pull_request:
-    branches:
-      - master
-      - main
-      - next
+
 jobs:
   size:
     runs-on: ubuntu-latest
