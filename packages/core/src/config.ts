@@ -1,7 +1,11 @@
-import { InitConfig, Config, Models } from './types'
+import { InitConfig, Config, Models, ConfigRedux, Plugin } from './types'
 import { validateConfig, validatePlugin } from './validate'
 
 let count = 0
+
+type KeysOfConfig<K extends keyof ConfigRedux> = Array<
+	keyof Pick<ConfigRedux, K>
+>
 
 /**
  * Builds complete Rematch config using default values for properties not
@@ -18,10 +22,10 @@ export default function createConfig<
 
 	count += 1
 
-	const config = {
+	const config: Config<TModels, TExtraModels> = {
 		name: storeName,
-		models: initConfig.models || {},
-		plugins: initConfig.plugins || [],
+		models: initConfig.models || ({} as TModels),
+		plugins: initConfig.plugins || ([] as Plugin<TModels, TExtraModels>[]),
 		redux: {
 			reducers: {},
 			rootReducers: {},
@@ -33,7 +37,7 @@ export default function createConfig<
 				...(initConfig.redux?.devtoolOptions ?? {}),
 			},
 		},
-	} as Config
+	}
 
 	validateConfig(config)
 
@@ -41,34 +45,23 @@ export default function createConfig<
 	config.plugins.forEach((plugin) => {
 		if (plugin.config) {
 			// Collect new models
-			config.models = merge(config.models, plugin.config.models)
+			config.models = merge(config.models, plugin.config.models as any)
 
 			// Collect redux configuration changes
 			if (plugin.config.redux) {
-				config.redux.initialState = merge(
-					config.redux.initialState,
-					plugin.config.redux.initialState
-				)
-
-				config.redux.reducers = merge(
-					config.redux.reducers,
-					plugin.config.redux.reducers
-				)
-
-				config.redux.rootReducers = merge(
-					config.redux.rootReducers,
-					plugin.config.redux.reducers
-				)
-
-				config.redux.enhancers = [
-					...config.redux.enhancers,
-					...(plugin.config.redux.enhancers || []),
-				]
-
-				config.redux.middlewares = [
-					...config.redux.middlewares,
-					...(plugin.config.redux.middlewares || []),
-				]
+				;(['initialState', 'reducers', 'rootReducers'] as KeysOfConfig<
+					'reducers' | 'initialState' | 'rootReducers'
+				>).forEach((r) => {
+					config.redux[r] = merge(config.redux[r], plugin.config?.redux?.[r])
+				})
+				;(['enhancers', 'middlewares'] as KeysOfConfig<
+					'enhancers' | 'middlewares'
+				>).forEach((m) => {
+					config.redux[m] = [
+						...config.redux[m],
+						...(plugin.config?.redux?.[m] || ([] as any)),
+					]
+				})
 
 				config.redux.combineReducers =
 					config.redux.combineReducers || plugin.config.redux.combineReducers
