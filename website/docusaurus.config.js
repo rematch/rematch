@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+/** @type import('@docusaurus/types').DocusaurusConfig */
 module.exports = {
 	title: 'Rematch',
 	tagline: 'Rematch is Redux best practices without the boilerplate',
@@ -10,6 +11,7 @@ module.exports = {
 	organizationName: 'rematch', // Usually your GitHub org/user name.
 	projectName: 'rematch', // Usually your repo name.
 	themeConfig: {
+		image: 'img/meta-image.png',
 		hideableSidebar: true,
 		sidebarCollapsible: true,
 		colorMode: {
