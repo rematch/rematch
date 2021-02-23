@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/rematch/rematch/compare/@rematch/select@3.0.0...@rematch/select@3.0.1) (2021-02-23)
+
+
+### Bug Fixes
+
+* @rematch/select structured selector typing ([#866](https://github.com/rematch/rematch/issues/866)) ([#868](https://github.com/rematch/rematch/issues/868)) ([42d2676](https://github.com/rematch/rematch/commit/42d267669d1bf821657f295434a9ef766e58c84d))
+
+
+
+
+
 # [3.0.0](https://github.com/rematch/rematch/compare/@rematch/select@3.0.0-next.10...@rematch/select@3.0.0) (2021-01-31)
 
 **Note:** Version bump only for package @rematch/select

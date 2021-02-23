@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/rematch/rematch/compare/@rematch/immer@2.0.0...@rematch/immer@2.0.1) (2021-02-23)
+
+
+### Bug Fixes
+
+* immer `whitelist` and `blacklist` conf no longer ignored ([#867](https://github.com/rematch/rematch/issues/867)) ([775258e](https://github.com/rematch/rematch/commit/775258eb8c81ad4bb3548b0d43445c4061bbbd5d))
+
+
+
+
+
 # [2.0.0](https://github.com/rematch/rematch/compare/@rematch/immer@2.0.0-next.10...@rematch/immer@2.0.0) (2021-01-31)
 
 **Note:** Version bump only for package @rematch/immer

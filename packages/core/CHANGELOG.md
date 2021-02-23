@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0...@rematch/core@2.0.1) (2021-02-23)
+
+
+### Bug Fixes
+
+* redux devtool options ts types ([5fbf8ea](https://github.com/rematch/rematch/commit/5fbf8eaf7599295214f5f76714a644e04280c7d1))
+
+
+
+
+
 # [2.0.0](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0-next.10...@rematch/core@2.0.0) (2021-01-31)
 
 **Note:** Version bump only for package @rematch/core
