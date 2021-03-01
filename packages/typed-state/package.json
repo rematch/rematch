@@ -1,0 +1,53 @@
+{
+  "name": "@rematch/typed-state",
+  "version": "2.0.1",
+  "description": "Rematch plugin for typing the state",
+  "homepage": "https://rematch.github.io/rematch",
+  "main": "dist/index.js",
+  "module": "dist/typed-state.esm.js",
+  "browser": "dist/typed-state.esm.js",
+  "unpkg": "dist/typed-state.umd.production.min.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build --format cjs,esm,umd --tsconfig ./tsconfig.build.json",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "clean": "rimraf dist"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "devDependencies": {
+    "@rematch/core": "^2.0.1",
+    "prop-types": "^15.7.2",
+    "redux": "^4.0.5"
+  },
+  "peerDependencies": {
+    "@rematch/core": "^2.0.0",
+    "prop-types": "^15.7.2",
+    "redux": "^4.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
+  },
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)",
+  "keywords": [
+    "@rematch",
+    "rematch",
+    "plugin",
+    "updated"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rematch/rematch.git"
+  }
+}
