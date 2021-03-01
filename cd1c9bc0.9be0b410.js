@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[37],{106:function(a){a.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"rematchjs","name":"rematchjs","count":1,"permalink":"/blog/tags/rematchjs"}')}}]);
