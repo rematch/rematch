@@ -1,28 +1,14 @@
 import {
+	Plugin,
 	ModelEffects,
 	ModelEffectsCreator,
 	ModelReducers,
 	Models,
-	Plugin,
 } from '@rematch/core'
+
 import { Reducer } from 'redux'
 
 const cachedTypings: Record<string, any> = {}
-
-declare module '@rematch/core' {
-	export interface Model<
-		TModels extends Models<TModels> = Record<string, any>,
-		TState = any,
-		TBaseState = TState
-	> {
-		name?: string
-		typings?: Record<string, any>
-		state: TState
-		reducers?: ModelReducers<TState>
-		baseReducer?: Reducer<TBaseState>
-		effects?: ModelEffects<TModels> | ModelEffectsCreator<TModels>
-	}
-}
 
 export type TypedStateConfiguration = {
 	strict?: boolean
@@ -75,7 +61,12 @@ function validate(
 	}
 }
 
-const typedStatePlugin = (config = DEFAULT_SETTINGS): Plugin => {
+const typedStatePlugin = <
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels> = Record<string, any>
+>(
+	config = DEFAULT_SETTINGS
+): Plugin<TModels, TExtraModels> => {
 	if (!config.logSeverity && config.strict) config.logSeverity = 'warn'
 	if (!config.strict) config.strict = false
 
@@ -104,3 +95,37 @@ const typedStatePlugin = (config = DEFAULT_SETTINGS): Plugin => {
 }
 
 export default typedStatePlugin
+
+declare module '@rematch/core' {
+	interface Model<
+		TModels extends Models<TModels> = Record<string, any>,
+		TState = any
+	> {
+		typings?: Record<string, any>
+	}
+
+	// add overloads for ModelCreator here.
+	interface ModelCreator {
+		<RM extends Models<RM>>(): <
+			R extends ModelReducers<S>,
+			BR extends Reducer<BS>,
+			E extends ModelEffects<RM> | ModelEffectsCreator<RM>,
+			S,
+			BS = S
+		>(mo: {
+			name?: string
+			state: S
+			reducers?: R
+			baseReducer?: BR
+			effects?: E
+			typings?: Record<string, any>
+		}) => {
+			name?: string
+			state: S
+			typings?: Record<string, any>
+			reducers: R
+			baseReducer: BR
+			effects: E
+		}
+	}
+}
