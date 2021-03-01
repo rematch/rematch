@@ -14,7 +14,7 @@ npm install @rematch/core
 If you want to update all your @rematch packages to next features you can try:
 
 ```bash
-npx update-by-scope -t next @rematch
+npx update-by-scope @rematch
 ```
 
 ## Basic usage
