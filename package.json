@@ -2,7 +2,7 @@
   "name": "rematch",
   "private": true,
   "description": "The root package for rematch",
-  "homepage": "https://rematch.github.io/rematch",
+  "homepage": "https://rematchjs.org",
   "bugs": {
     "url": "https://github.com/rematch/rematch/issues"
   },
