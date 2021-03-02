@@ -4,9 +4,46 @@
   box-sizing: border-box;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local(''),
+    url('/fonts/inter-v3-latin-regular.woff2') format('woff2'),
+    url('/fonts/inter-v3-latin-regular.woff') format('woff');
+}
 
-/* You can override the default Infima variables here. */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  src:
+    local(''),
+    url('/fonts/inter-v3-latin-600.woff2') format('woff2'),
+    url('/fonts/inter-v3-latin-600.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src:
+    local(''),
+    url('/fonts/inter-v3-latin-700.woff2') format('woff2'),
+    url('/fonts/inter-v3-latin-700.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  src:
+    local(''),
+    url('/fonts/inter-v3-latin-900.woff2') format('woff2'),
+    url('/fonts/inter-v3-latin-900.woff') format('woff');
+}
+
 :root {
   --unit: 4px;
   --ifm-font-family-base: "Inter";
