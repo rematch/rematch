@@ -133,4 +133,20 @@ describe('createStore:', () => {
 
 		expect(store.getState()).toEqual({ countA: 0, countB: 0, countC: 0 })
 	})
+
+	test('addModel works when it was used alone', () => {
+		const store = init()
+
+		const { addModel } = store
+
+		addModel({
+			name: 'count',
+			state: 0,
+			reducers: {},
+		})
+
+		expect(store.getState()).toEqual({
+			count: 0,
+		})
+	})
 })
