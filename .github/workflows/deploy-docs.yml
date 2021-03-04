@@ -54,3 +54,10 @@ jobs:
           BRANCH: gh-pages
           FOLDER: website/build
           CLEAN: true
+
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'Just released a new version of the documentation 🥳, check it out: https://rematchjs.org. 👀 Commit URL: {{ EVENT_PAYLOAD.head_commit.url }}'

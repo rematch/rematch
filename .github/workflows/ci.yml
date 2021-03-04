@@ -6,7 +6,7 @@ on:
         distTag:
           description: 'Dist tag to publish'
           required: true
-          default: 'next'
+          default: 'latest'
   pull_request:
   push:
     branches:
@@ -65,11 +65,10 @@ jobs:
           yarn version:${{github.event.inputs.distTag}}
           yarn release:${{github.event.inputs.distTag}}
 
-      - name: Release Graduate
-        if: ${{github.event.inputs.distTag == 'graduate'}}
-        run: |
-          npm whoami
-          git config --global user.email "sergiomorenoalbert@gmail.com"
-          git config --global user.name "Rematch CI"
-          yarn version:latest:graduate
-          yarn release:latest
+      - name: Discord notification
+        if: ${{github.event.inputs.distTag == 'latest' || github.event.inputs.distTag == 'next'}}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: '🙌 Rematch released a new version 🔥!, check it out: https://github.com/rematch/rematch/releases'
