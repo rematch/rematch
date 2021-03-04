@@ -143,13 +143,29 @@ export type RootState = RematchRootState<RootModel>
 
 - **RootState** and **Dispatch** types: import this types from the previous file mentioned: [init](#init)
 
+### useSelector
 ```tsx
 import React from 'react'
-import { RootState, Dispatch } from './store'
-import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from './store'
+import { useSelector } from 'react-redux'
 
 const Count = () => {
 	const countState = useSelector((state: RootState) => state.count)
+
+	return (
+		<div>example</div>
+	)
+}
+```
+
+### useDispatch
+
+```tsx
+import React from 'react'
+import { Dispatch } from './store'
+import { useDispatch } from 'react-redux'
+
+const Count = () => {
 	const dispatch = useDispatch<Dispatch>()
 
 	return (
