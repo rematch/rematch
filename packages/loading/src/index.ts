@@ -143,7 +143,9 @@ export default <
 			: { asNumber: false }
 	>
 > => {
-	validateConfig(config)
+	if (process.env.NODE_ENV !== 'production') {
+		validateConfig(config)
+	}
 
 	const loadingModelName = config.name || 'loading'
 

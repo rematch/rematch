@@ -89,7 +89,9 @@ const createSelectPlugin = <
 >(
 	config: SelectConfig<TModels> = {}
 ): Plugin<TModels, TExtraModels> => {
-	validateConfig(config)
+	if (process.env.NODE_ENV !== 'production') {
+		validateConfig(config)
+	}
 
 	const sliceState: SelectConfig<TModels>['sliceState'] =
 		config.sliceState || ((state, model) => state[model.name || ''])
@@ -139,7 +141,9 @@ const createSelectPlugin = <
 
 			factoryGroup.add(
 				Object.keys(selectorFactories || {}).map((selectorName: string) => {
-					validateSelector(selectorFactories, selectorName, model)
+					if (process.env.NODE_ENV !== 'production') {
+						validateSelector(selectorFactories, selectorName, model)
+					}
 
 					const factory = () => {
 						factoryGroup.finish(factory)

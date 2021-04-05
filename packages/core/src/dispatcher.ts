@@ -63,7 +63,9 @@ const createDispatcher = <
 	// map reducer names to dispatch actions
 	const modelReducersKeys = Object.keys(model.reducers)
 	modelReducersKeys.forEach((reducerName) => {
-		validateModelReducer(model.name, model.reducers, reducerName)
+		if (process.env.NODE_ENV !== 'production') {
+			validateModelReducer(model.name, model.reducers, reducerName)
+		}
 
 		modelDispatcher[reducerName] = createActionDispatcher(
 			rematch,
@@ -86,7 +88,9 @@ const createDispatcher = <
 	// map effects names to dispatch actions
 	const effectKeys = Object.keys(effects)
 	effectKeys.forEach((effectName) => {
-		validateModelEffect(model.name, effects, effectName)
+		if (process.env.NODE_ENV !== 'production') {
+			validateModelEffect(model.name, effects, effectName)
+		}
 
 		bag.effects[`${model.name}/${effectName}`] = effects[effectName].bind(
 			modelDispatcher
