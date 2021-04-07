@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { RootState, Dispatch } from './store'
 import { connect } from 'react-redux'
+import { RootState, Dispatch } from './store'
 
 const mapState = (state: RootState) => ({
 	dolphins: state.dolphins,
