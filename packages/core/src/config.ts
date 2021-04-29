@@ -1,4 +1,4 @@
-import { InitConfig, Config, Models } from './types'
+import { InitConfig, Config, Models, ConfigRedux } from './types'
 import { validateConfig, validatePlugin } from './validate'
 
 let count = 0
@@ -35,7 +35,9 @@ export default function createConfig<
 		},
 	} as Config
 
-	validateConfig(config)
+	if (process.env.NODE_ENV !== 'production') {
+		validateConfig(config)
+	}
 
 	// Apply changes to the config required by plugins
 	config.plugins.forEach((plugin) => {
@@ -43,42 +45,39 @@ export default function createConfig<
 			// Collect new models
 			config.models = merge(config.models, plugin.config.models)
 
+			type ConfigReduxKeys = keyof ConfigRedux
+
 			// Collect redux configuration changes
+			// we use the non-nullish assertion because typecript complains about probability of nullish values
+			// to win some bundlesize we avoid this recommendation of checking on every foreach if the value is nullish
+			// because it's already checked in the upper scope and isn't necessary giving the context.
 			if (plugin.config.redux) {
-				config.redux.initialState = merge(
-					config.redux.initialState,
-					plugin.config.redux.initialState
+				;([
+					'initialState',
+					'reducers',
+					'rootReducers',
+				] as Array<ConfigReduxKeys>).forEach((e) => {
+					config.redux[e] = merge(config.redux[e], plugin!.config!.redux![e])
+				})
+				;(['middlewares', 'enhancers'] as Array<ConfigReduxKeys>).forEach(
+					(e) => {
+						config.redux[e] = [
+							...config.redux[e],
+							...(plugin!.config!.redux![e] || []),
+						]
+					}
 				)
-
-				config.redux.reducers = merge(
-					config.redux.reducers,
-					plugin.config.redux.reducers
+				;(['combineReducers', 'createStore'] as Array<ConfigReduxKeys>).forEach(
+					(e) => {
+						config.redux[e] = config.redux[e] || plugin!.config!.redux![e]
+					}
 				)
-
-				config.redux.rootReducers = merge(
-					config.redux.rootReducers,
-					plugin.config.redux.reducers
-				)
-
-				config.redux.enhancers = [
-					...config.redux.enhancers,
-					...(plugin.config.redux.enhancers || []),
-				]
-
-				config.redux.middlewares = [
-					...config.redux.middlewares,
-					...(plugin.config.redux.middlewares || []),
-				]
-
-				config.redux.combineReducers =
-					config.redux.combineReducers || plugin.config.redux.combineReducers
-
-				config.redux.createStore =
-					config.redux.createStore || plugin.config.redux.createStore
 			}
 		}
 
-		validatePlugin(plugin)
+		if (process.env.NODE_ENV !== 'production') {
+			validatePlugin(plugin)
+		}
 	})
 
 	return config as Config<TModels, TExtraModels>

@@ -33,7 +33,10 @@ function createNamedModels<
 >(models: TModels): NamedModel<TModels>[] {
 	return Object.keys(models).map((modelName: string) => {
 		const model = createNamedModel(modelName, models[modelName])
-		validateModel(model)
+		if (process.env.NODE_ENV !== 'production') {
+			validateModel(model)
+		}
+
 		return model
 	})
 }

@@ -1,0 +1,16 @@
+name: Yarn Lock Changes
+on: [pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Yarn Lock Changes
+        uses: Simek/yarn-lock-changes@main
+        with:
+          collapsibleThreshold: '25'
+          path: 'yarn.lock'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          updateComment: 'true'

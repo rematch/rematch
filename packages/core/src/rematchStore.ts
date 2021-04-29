@@ -41,7 +41,9 @@ export default function createRematchStore<
 		...reduxStore,
 		name: config.name,
 		addModel(model: NamedModel<TModels>) {
-			validateModel(model)
+			if (process.env.NODE_ENV !== 'production') {
+				validateModel(model)
+			}
 			createModelReducer(bag, model)
 			prepareModel(rematchStore, bag, model)
 			reduxStore.replaceReducer(createRootReducer(bag))
