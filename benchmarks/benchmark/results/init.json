@@ -1,0 +1,27 @@
+{
+  "name": "Dispatching actions",
+  "date": "2021-05-05T09:06:44.586Z",
+  "version": "2.0.1",
+  "results": [
+    {
+      "name": "Rematch",
+      "ops": 114973,
+      "margin": 7.07,
+      "percentSlower": 73.64
+    },
+    {
+      "name": "Redux",
+      "ops": 436139,
+      "margin": 2.24,
+      "percentSlower": 0
+    }
+  ],
+  "fastest": {
+    "name": "Redux",
+    "index": 1
+  },
+  "slowest": {
+    "name": "Rematch",
+    "index": 0
+  }
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+    <style>
+      .wrapper {
+        display: flex;
+        flex: wrap;
+        order: row;
+      }
+    </style>
+    <title>Dispatching actions</title>
+  </head>
+  <body>
+    <div style="max-width: 800px">
+      <canvas id="chart1620205593019" width="16" height="9"></canvas>
+    </div>
+    <script>
+      const format = (num) => {
+        const chunked = [];
+        String(num)
+          .split("")
+          .reverse()
+          .forEach((char, index) => {
+            if (index % 3 === 0) {
+              chunked.unshift([char]);
+            } else {
+              chunked[0].unshift(char);
+            }
+          });
+
+        return chunked.map((chunk) => chunk.join("")).join(" ");
+      };
+      const ctx1620205593019 = document
+        .getElementById("chart1620205593019")
+        .getContext("2d");
+      const chart1620205593019 = new Chart(ctx1620205593019, {
+        type: "bar",
+        data: {
+          labels: ["Rematch", "Redux"],
+          datasets: [
+            {
+              data: [1760528, 1801385],
+              backgroundColor: [
+                "rgba(63, 142, 252, 0.8)",
+                "rgba(116, 165, 127, 0.8)",
+              ],
+              borderColor: ["rgba(63, 142, 252, 1)", "rgba(116, 165, 127, 1)"],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          legend: {
+            display: false,
+          },
+          title: {
+            display: true,
+            text: "Dispatching actions",
+            fontSize: 16,
+            padding: 20,
+          },
+          tooltips: {
+            callbacks: {
+              label: (tooltipItem) => {
+                return format(tooltipItem.yLabel) + " ops/s";
+              },
+            },
+          },
+          scales: {
+            yAxes: [
+              {
+                gridLines: {
+                  color: "rgba(127, 127, 127, 0.2)",
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: "Operations per second",
+                },
+                ticks: {
+                  beginAtZero: true,
+                  callback: format,
+                },
+              },
+            ],
+            xAxes: [
+              {
+                gridLines: {
+                  color: "rgba(127, 127, 127, 0.2)",
+                },
+                maxBarThickness: 150,
+              },
+            ],
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
