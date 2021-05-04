@@ -1,0 +1,21 @@
+{
+  "name": "init() function initializer",
+  "date": "2021-05-24T21:03:34.464Z",
+  "version": "2.0.1",
+  "results": [
+    {
+      "name": "Rematch",
+      "ops": 108967,
+      "margin": 3.11,
+      "percentSlower": 0
+    }
+  ],
+  "fastest": {
+    "name": "Rematch",
+    "index": 0
+  },
+  "slowest": {
+    "name": "Rematch",
+    "index": 0
+  }
+}

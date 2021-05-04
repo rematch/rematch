@@ -1,0 +1,21 @@
+{
+  "name": "init() function with plugins and some configuration",
+  "date": "2021-05-24T21:03:40.742Z",
+  "version": "2.0.1",
+  "results": [
+    {
+      "name": "Rematch",
+      "ops": 56165,
+      "margin": 3.8,
+      "percentSlower": 0
+    }
+  ],
+  "fastest": {
+    "name": "Rematch",
+    "index": 0
+  },
+  "slowest": {
+    "name": "Rematch",
+    "index": 0
+  }
+}

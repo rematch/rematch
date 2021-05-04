@@ -1,0 +1,21 @@
+{
+  "name": "Dispatching asynchronous actions",
+  "date": "2021-05-24T21:03:21.913Z",
+  "version": "2.0.1",
+  "results": [
+    {
+      "name": "Rematch",
+      "ops": 384993,
+      "margin": 2.01,
+      "percentSlower": 0
+    }
+  ],
+  "fastest": {
+    "name": "Rematch",
+    "index": 0
+  },
+  "slowest": {
+    "name": "Rematch",
+    "index": 0
+  }
+}

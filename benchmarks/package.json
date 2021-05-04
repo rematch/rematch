@@ -1,0 +1,16 @@
+{
+  "name": "@rematch/benchmarks",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "ts-node dispatching-async.ts && ts-node dispatching.ts && ts-node init.ts && ts-node init-with-plugins.ts"
+  },
+  "dependencies": {
+    "ts-node": "^9.1.1",
+    "@rematch/core": "^2.0.1",
+    "@rematch/loading": "^2.0.1",
+    "@rematch/updated": "^2.0.1",
+    "benny": "^3.6.15",
+    "redux": "^4.1.0"
+  }
+}
