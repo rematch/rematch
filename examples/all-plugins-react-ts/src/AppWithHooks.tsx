@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState, Dispatch } from './store'
+import { RootState, Dispatch, store } from './store'
 import { PlayerModel } from './models/players'
+import { settings } from './models/settings'
 
 const Count = () => {
 	const settingsState = useSelector((state: RootState) => state.settings)
@@ -10,13 +11,14 @@ const Count = () => {
 	const dispatch = useDispatch<Dispatch>()
 
 	React.useEffect(() => {
+		store.addModel(settings)
 		dispatch.players.getPlayers()
 	}, [])
 
 	React.useEffect(() => {
-		const theme = settingsState.isLightThemeOn ? 'light' : 'dark'
+		const theme = settingsState?.isLightThemeOn ? 'light' : 'dark'
 		document.documentElement.setAttribute('data-theme', theme)
-	}, [settingsState.isLightThemeOn])
+	}, [settingsState?.isLightThemeOn])
 
 	const checkTheme = React.useCallback((e) => {
 		if (e.target.checked) {
@@ -39,7 +41,7 @@ const Count = () => {
 				<div className="theme-switch-wrapper">
 					<label className="theme-switch">
 						<input
-							checked={!settingsState.isLightThemeOn}
+							checked={!settingsState?.isLightThemeOn}
 							onChange={(e) => checkTheme(e)}
 							type="checkbox"
 							id="checkbox"

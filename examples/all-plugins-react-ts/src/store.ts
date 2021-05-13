@@ -10,6 +10,7 @@ import { models, RootModel } from './models'
 type FullModel = ExtraModelsFromLoading<RootModel> &
 	ExtraModelsFromUpdated<RootModel>
 export const store = init<RootModel, FullModel>({
+	// @ts-ignore
 	models,
 	plugins: [
 		updated(),

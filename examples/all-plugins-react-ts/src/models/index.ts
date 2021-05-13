@@ -9,4 +9,4 @@ export interface RootModel extends Models<RootModel> {
 	settings: typeof settings
 }
 
-export const models: RootModel = { players, settings, cart }
+export const models: Partial<RootModel> = { players, cart }

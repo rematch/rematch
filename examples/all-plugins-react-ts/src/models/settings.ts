@@ -2,6 +2,7 @@ import { createModel } from '@rematch/core'
 import type { RootModel } from '.'
 
 export const settings = createModel<RootModel>()({
+	name: 'settings',
 	state: {
 		isLightThemeOn: true,
 	},
