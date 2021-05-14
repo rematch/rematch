@@ -15,11 +15,17 @@ export const store = init<RootModel, FullModel>({
 	plugins: [
 		updated(),
 		loading(),
-		persist({
-			key: 'persist-storage',
-			storage,
-			whitelist: ['settings'],
-		}),
+		persist(
+			{
+				key: 'persist-storage',
+				storage,
+				whitelist: ['settings'],
+			},
+			{},
+			{
+				manualPersist: true,
+			}
+		),
 		immerPlugin({
 			whitelist: ['settings'],
 		}),

@@ -1,9 +1,11 @@
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { getPersistor } from '@rematch/persist'
 import { RootState, Dispatch, store } from './store'
 import { PlayerModel } from './models/players'
 import { settings } from './models/settings'
 
+const persistor = getPersistor()
 const Count = () => {
 	const settingsState = useSelector((state: RootState) => state.settings)
 	const loadingState = useSelector((state: RootState) => state.loading)
@@ -12,6 +14,7 @@ const Count = () => {
 
 	React.useEffect(() => {
 		store.addModel(settings)
+		persistor.persist()
 		dispatch.players.getPlayers()
 	}, [])
 
