@@ -30,9 +30,9 @@ export default function createRematchBag<
  */
 function createNamedModels<
 	TModels extends Models<TModels> = Record<string, any>
->(models: TModels): NamedModel<TModels>[] {
+>(models: TModels | Partial<TModels>): NamedModel<TModels>[] {
 	return Object.keys(models).map((modelName: string) => {
-		const model = createNamedModel(modelName, models[modelName])
+		const model = createNamedModel(modelName, (models as TModels)[modelName])
 		validateModel(model)
 		return model
 	})
