@@ -40,6 +40,7 @@
     "lint:docs": "lerna run lint --scope rematch-docs --stream",
     "build:docs": "lerna run build --scope rematch-docs --stream",
     "size-build": "size-limit",
+    "benchmarks": "lerna run start --scope=@rematch/benchmarks",
     "postbuild": "node ./scripts/moveReadmeToDist.js",
     "version:latest:graduate": "lerna version --no-private --create-release github --conventional-commits --conventional-graduate --yes",
     "version:latest": "lerna version --no-private --create-release github --conventional-commits --yes",
@@ -69,6 +70,7 @@
     "lerna": "^3.22.1",
     "pinst": "^2.1.4",
     "prettier": "2.2.1",
+    "redux": "^4.1.0",
     "rimraf": "^3.0.2",
     "size-limit": "^4.9.1",
     "tsdx": "^0.14.1",
@@ -122,6 +124,7 @@
   "workspaces": [
     "packages/*",
     "website",
+    "benchmarks",
     "examples/all-plugins-react-ts",
     "examples/hooks-react-ts",
     "examples/count-react-ts"

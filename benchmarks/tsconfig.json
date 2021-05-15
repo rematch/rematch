@@ -1,0 +1,10 @@
+{
+  "extends": "ts-node/tsconfig.schema.json",
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "compilerOptions": {
+      "resolveJsonModule": true
+    }
+  }
+}
