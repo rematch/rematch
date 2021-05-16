@@ -40,7 +40,7 @@ const plugin = {
         },
 	},
     expose: { select: {} },
-    createMiddleware: bag => next => action => {
+    createMiddleware: rematchBag => store => next => action => {
         // do something here
         return next(action)
     },

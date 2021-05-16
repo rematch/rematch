@@ -43,15 +43,13 @@ export default function createRematchStore<
 		addModel(model: NamedModel<TModels>) {
 			validateModel(model)
 			createModelReducer(bag, model)
-			prepareModel(this, bag, model)
-			this.replaceReducer(createRootReducer(bag))
+			prepareModel(rematchStore, bag, model)
+			reduxStore.replaceReducer(createRootReducer(bag))
 			reduxStore.dispatch({ type: '@@redux/REPLACE' })
 		},
 	} as RematchStore<TModels, TExtraModels>
 
 	addExposed(rematchStore, config.plugins)
-
-	rematchStore.addModel.bind(rematchStore)
 
 	// generate dispatch[modelName][actionName] for all reducers and effects
 	bag.models.forEach((model) => prepareModel(rematchStore, bag, model))

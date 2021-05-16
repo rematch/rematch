@@ -26,7 +26,7 @@ It's also important to note that all repositories under the `rematch` banner hav
 You can use Gitpod(an Online Open Source VS Code like IDE which is free for Open Source) for contributing. With a single click it will start a workspace and automatically:
 
 - clone the `rematch` repo.
-- install all the dependencies.
+- install all the dependencies
 - runs `yarn watch`.
 - run `yarn docs`.
 
@@ -64,7 +64,12 @@ Here is a quick guide to doing code contributions to the library.
 
 ### How do I set up the project?
 
-Run [`yarn install`](https://classic.yarnpkg.com/lang/en) and edit code in the `packages/core|loading|any-plugin/src/` folder. It's luckily very simple! :wink:
+- Run [`yarn install`](https://classic.yarnpkg.com/lang/en) 
+- Run `yarn build` (just the first time, is for generating types, etc)
+- Run `yarn watch` for live-reloading testing suite
+- Edit code in the `packages/core|loading|any-plugin/src/` folder.
+
+It's luckily very simple! :wink:
 
 > We use [lerna](https://github.com/lerna/lerna) to make this work as a monorepo under the hood and [Yarn Workspaces](https://classic.yarnpkg.com/blog/2017/08/02/introducing-workspaces/).
 

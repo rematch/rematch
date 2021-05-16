@@ -2,7 +2,7 @@
   "name": "@rematch/select",
   "version": "3.0.1",
   "description": "Selectors plugin for Rematch",
-  "homepage": "https://rematch.github.io/rematch",
+  "homepage": "https://rematchjs.org",
   "main": "dist/index.js",
   "module": "dist/select.esm.js",
   "browser": "dist/select.esm.js",

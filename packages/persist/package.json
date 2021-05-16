@@ -2,7 +2,7 @@
   "name": "@rematch/persist",
   "version": "2.0.1",
   "description": "Redux-Persist v6 plugin for Rematch. Provides simple redux state persistence using local storage options.",
-  "homepage": "https://rematch.github.io/rematch",
+  "homepage": "https://rematchjs.org",
   "main": "dist/index.js",
   "module": "dist/persist.esm.js",
   "browser": "dist/persist.esm.js",

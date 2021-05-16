@@ -208,7 +208,7 @@ export interface InitConfig<
 	TExtraModels extends Models<TModels> = Record<string, any>
 > {
 	name?: string
-	models?: TModels
+	models?: TModels | Partial<TModels>
 	plugins?: Plugin<TModels, TExtraModels>[]
 	redux?: InitConfigRedux
 }
@@ -223,7 +223,7 @@ export interface Config<
 	TExtraModels extends Models<TModels> = Record<string, any>
 > extends InitConfig<TModels, TExtraModels> {
 	name: string
-	models: TModels
+	models: TModels | Partial<TModels>
 	plugins: Plugin<TModels, TExtraModels>[]
 	redux: ConfigRedux
 }

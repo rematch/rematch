@@ -49,7 +49,7 @@ Migrating from Redux to Rematch may only involve minor changes to your state man
 
 ## Composable Plugins
 
-Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](plugins) developed by the Rematch team or the [API for creating plugins](api-reference/plugins).
+Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](plugins/) developed by the Rematch team or the [API for creating plugins](api-reference/plugins).
 
 
 ## All plugins
