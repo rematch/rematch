@@ -39,7 +39,7 @@ const plugin = {
           extra: extraModel,
         },
 	},
-    expose: { select: {} },
+    exposed: { select: {} },
     createMiddleware: rematchBag => store => next => action => {
         // do something here
         return next(action)
