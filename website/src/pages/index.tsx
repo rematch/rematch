@@ -130,7 +130,7 @@ const FeaturesSection = () => (
 
 const OpenSourceSection = () => (
 	<section className={clsx(styles.features, styles.absoluteFeatures)}>
-		<div className={clsx('container margin-top--lg', styles.absoluteContainer)}>
+		<div className="container margin-top--lg">
 			<div className="row text--center row--align-center">
 				<div className="col col--6 m-auto">
 					<h1 className="h1">Open Sourcerers 🧙🏻‍♂️</h1>
