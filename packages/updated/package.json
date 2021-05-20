@@ -27,7 +27,7 @@
     "@rematch/core": "^2.0.1"
   },
   "peerDependencies": {
-    "@rematch/core": "^2.0.0"
+    "@rematch/core": ">=2"
   },
   "husky": {
     "hooks": {
