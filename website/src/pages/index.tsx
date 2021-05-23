@@ -302,6 +302,11 @@ const TrustedBy = () => {
 								logo: useBaseUrl('/img/showroom/gatsby.svg'),
 							},
 							{
+								name: 'Facebook',
+								href: 'https://opensource.facebook.com/',
+								logo: useBaseUrl('/img/showroom/fb-incubator.png'),
+							},
+							{
 								name: 'Allfunds',
 								logo: useBaseUrl('/img/showroom/allfunds.png'),
 								href: 'https://allfunds.com/',

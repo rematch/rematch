@@ -230,6 +230,7 @@
   position: absolute;
   inset: 0;
   box-sizing: border-box;
+  object-fit: contain;
   padding: 0;
   border: none;
   margin: auto;
