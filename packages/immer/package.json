@@ -33,11 +33,6 @@
     "immer": ">=7 | >= 8",
     "redux": ">=4"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
-    }
-  },
   "authors": [
     "arcthur <arthurtemptation@gmail.com>",
     "Przemyslaw Jamrozowicz <pjamrozowicz@gmail.com> (https://github.com/pjamrozowicz)"

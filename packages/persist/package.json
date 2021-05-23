@@ -33,11 +33,6 @@
     "@rematch/core": "^2.0.0",
     "redux": "^4.0.5"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
-    }
-  },
   "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
   "keywords": [
     "@rematch",

@@ -33,11 +33,6 @@
     "redux": "^4.0.5",
     "typings-tester": "^0.3.2"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
-    }
-  },
   "authors": [
     "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
     "Shawn McKay <shawn.j.mckay@gmail.com> (https://github.com/shmck)"
