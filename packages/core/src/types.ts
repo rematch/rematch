@@ -433,13 +433,13 @@ export type ExtractRematchDispatchersFromEffectsObject<
  */
 export type ExtractRematchDispatcherFromEffect<
 	TEffect extends ModelEffect<TModels>,
-	TModels extends Models<TModels> = Record<string, any>
-> = TEffect extends (
-	payload: infer TPayload,
-	rootState: RematchRootState<TModels>,
-	meta: infer TMeta
-) => infer TReturn
-	? EffectRematchDispatcher<TReturn, TPayload, TMeta>
+	TModels extends Models<TModels>
+> = TEffect extends (...args: infer TRest) => infer TReturn
+	? TRest[1] extends undefined
+		? EffectRematchDispatcher<TReturn, TRest[0]>
+		: RematchRootState<TModels> extends TRest[1]
+		? EffectRematchDispatcher<TReturn, TRest[0], TRest[2]>
+		: never
 	: never
 
 /**
@@ -453,7 +453,7 @@ export type EffectRematchDispatcher<
 	TReturn = any,
 	TPayload = void,
 	TMeta = void
-> = [TReturn, TPayload, TMeta] extends [void, void, void]
+> = [TPayload, TMeta] extends [void, void]
 	? (() => TReturn) & { isEffect: true }
 	: [TMeta] extends [void]
 	? undefined extends TPayload
