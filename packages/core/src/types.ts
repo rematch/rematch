@@ -358,7 +358,6 @@ export type ExtractRematchDispatcherFromReducer<
 		? RematchDispatcher
 		: RematchDispatcher<TRest[0], TRest[1]>
 	: never
-
 /**
  * When payload is of type void, it describes 'empty' dispatcher - meaning
  * it's a function not taking any arguments and returning an action.
@@ -435,33 +434,46 @@ export type ExtractRematchDispatchersFromEffectsObject<
 export type ExtractRematchDispatcherFromEffect<
 	TEffect extends ModelEffect<TModels>,
 	TModels extends Models<TModels> = Record<string, any>
-> = TEffect extends () => infer TReturn
-	? EffectRematchDispatcher<TReturn>
-	: TEffect extends (payload: infer TPayload) => infer TReturn
-	? EffectRematchDispatcher<TReturn, TPayload>
-	: TEffect extends (payload: infer TPayload, state: any) => infer TReturn
-	? EffectRematchDispatcher<TReturn, TPayload>
-	: TEffect extends (
-			payload: infer TPayload,
-			state: any,
-			meta: infer TMeta
-	  ) => infer TReturn
+> = TEffect extends (
+	payload: infer TPayload,
+	rootState: RematchRootState<TModels>,
+	meta: infer TMeta
+) => infer TReturn
 	? EffectRematchDispatcher<TReturn, TPayload, TMeta>
 	: never
 
 /**
  * When payload is of type void, it describes 'empty' dispatcher - meaning
  * it's a function not taking any arguments and returning an action.
- * Otherwise, it describes dispatcher which accepts one argument (payload)
+ * Can be the case that payload is optional in the effect so, also handles payload as optional
+ * Otherwise, it describes dispatcher which accepts one argument (payload and a optional meta)
  * and returns an action.
  */
 export type EffectRematchDispatcher<
 	TReturn = any,
 	TPayload = void,
 	TMeta = void
-> = [TPayload] extends [void]
+> = [TReturn, TPayload, TMeta] extends [void, void, void]
 	? (() => TReturn) & { isEffect: true }
-	: ((payload: TPayload, meta: TMeta) => TReturn) & { isEffect: true }
+	: [TMeta] extends [void]
+	? undefined extends TPayload
+		? ((payload?: TPayload) => TReturn) & {
+				isEffect: true
+		  }
+		: ((payload: TPayload) => TReturn) & {
+				isEffect: true
+		  }
+	: [undefined, undefined] extends [TPayload, TMeta]
+	? ((payload?: TPayload, meta?: TMeta) => TReturn) & {
+			isEffect: true
+	  }
+	: undefined extends TMeta
+	? ((payload: TPayload, meta?: TMeta) => TReturn) & {
+			isEffect: true
+	  }
+	: ((payload: TPayload, meta: TMeta) => TReturn) & {
+			isEffect: true
+	  }
 
 export interface DevtoolOptions {
 	/**
