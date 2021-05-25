@@ -345,30 +345,18 @@ export type ExtractRematchDispatchersFromReducers<
  * appropriate type for a dispatcher. Mapping goes like this:
  * - reducer not taking any parameters -> 'empty' dispatcher
  * - reducer only taking state -> 'empty' dispatcher
- * - reducer taking both state and payload -> dispatcher accepting payload as an argument
- * - reducer taking state, payload and meta -> dispatcher accepting payload and meta as arguments
+ * - reducer taking state and optional payload (and may also taking optional meta)
+ * 	 -> dispatcher accepting payload and meta as arguments
  */
 export type ExtractRematchDispatcherFromReducer<
 	TState,
 	TReducer
 > = TReducer extends () => any
 	? RematchDispatcher
-	: TReducer extends (state: TState) => TState // support optional payload(and meta) like `(state: TState, payload?: ..., meta?: ...) => TState`
-	? Parameters<TReducer> extends [TState]
+	: TReducer extends (state: TState, ...args: infer TRest) => TState
+	? TRest extends []
 		? RematchDispatcher
-		: Parameters<TReducer>[2] extends undefined
-		? RematchDispatcher<Parameters<TReducer>[1]>
-		: RematchDispatcher<Parameters<TReducer>[1], Parameters<TReducer>[2]>
-	: TReducer extends (state: TState, payload: infer TPayload) => TState // support optional meta like `(state: TState, payload: ..., meta?: ...) => TState`
-	? Parameters<TReducer> extends [TState, TPayload]
-		? RematchDispatcher<TPayload>
-		: RematchDispatcher<Parameters<TReducer>[1], Parameters<TReducer>[2]>
-	: TReducer extends (
-			state: TState,
-			payload: infer TPayload,
-			meta: infer TMeta
-	  ) => TState
-	? RematchDispatcher<TPayload, TMeta>
+		: RematchDispatcher<TRest[0], TRest[1]>
 	: never
 
 /**
