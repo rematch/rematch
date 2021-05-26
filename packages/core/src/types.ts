@@ -345,32 +345,19 @@ export type ExtractRematchDispatchersFromReducers<
  * appropriate type for a dispatcher. Mapping goes like this:
  * - reducer not taking any parameters -> 'empty' dispatcher
  * - reducer only taking state -> 'empty' dispatcher
- * - reducer taking both state and payload -> dispatcher accepting payload as an argument
- * - reducer taking state, payload and meta -> dispatcher accepting payload and meta as arguments
+ * - reducer taking state and optional payload (and may also taking optional meta)
+ * 	 -> dispatcher accepting payload and meta as arguments
  */
 export type ExtractRematchDispatcherFromReducer<
 	TState,
 	TReducer
 > = TReducer extends () => any
 	? RematchDispatcher
-	: TReducer extends (state: TState) => TState // support optional payload(and meta) like `(state: TState, payload?: ..., meta?: ...) => TState`
-	? Parameters<TReducer> extends [TState]
+	: TReducer extends (state: TState, ...args: infer TRest) => TState
+	? TRest extends []
 		? RematchDispatcher
-		: Parameters<TReducer>[2] extends undefined
-		? RematchDispatcher<Parameters<TReducer>[1]>
-		: RematchDispatcher<Parameters<TReducer>[1], Parameters<TReducer>[2]>
-	: TReducer extends (state: TState, payload: infer TPayload) => TState // support optional meta like `(state: TState, payload: ..., meta?: ...) => TState`
-	? Parameters<TReducer> extends [TState, TPayload]
-		? RematchDispatcher<TPayload>
-		: RematchDispatcher<Parameters<TReducer>[1], Parameters<TReducer>[2]>
-	: TReducer extends (
-			state: TState,
-			payload: infer TPayload,
-			meta: infer TMeta
-	  ) => TState
-	? RematchDispatcher<TPayload, TMeta>
+		: RematchDispatcher<TRest[0], TRest[1]>
 	: never
-
 /**
  * When payload is of type void, it describes 'empty' dispatcher - meaning
  * it's a function not taking any arguments and returning an action.
@@ -446,34 +433,47 @@ export type ExtractRematchDispatchersFromEffectsObject<
  */
 export type ExtractRematchDispatcherFromEffect<
 	TEffect extends ModelEffect<TModels>,
-	TModels extends Models<TModels> = Record<string, any>
-> = TEffect extends () => infer TReturn
-	? EffectRematchDispatcher<TReturn>
-	: TEffect extends (payload: infer TPayload) => infer TReturn
-	? EffectRematchDispatcher<TReturn, TPayload>
-	: TEffect extends (payload: infer TPayload, state: any) => infer TReturn
-	? EffectRematchDispatcher<TReturn, TPayload>
-	: TEffect extends (
-			payload: infer TPayload,
-			state: any,
-			meta: infer TMeta
-	  ) => infer TReturn
-	? EffectRematchDispatcher<TReturn, TPayload, TMeta>
+	TModels extends Models<TModels>
+> = TEffect extends (...args: infer TRest) => infer TReturn
+	? TRest[1] extends undefined
+		? EffectRematchDispatcher<TReturn, TRest[0]>
+		: RematchRootState<TModels> extends TRest[1]
+		? EffectRematchDispatcher<TReturn, TRest[0], TRest[2]>
+		: never
 	: never
 
 /**
  * When payload is of type void, it describes 'empty' dispatcher - meaning
  * it's a function not taking any arguments and returning an action.
- * Otherwise, it describes dispatcher which accepts one argument (payload)
+ * Can be the case that payload is optional in the effect so, also handles payload as optional
+ * Otherwise, it describes dispatcher which accepts one argument (payload and a optional meta)
  * and returns an action.
  */
 export type EffectRematchDispatcher<
 	TReturn = any,
 	TPayload = void,
 	TMeta = void
-> = [TPayload] extends [void]
+> = [TPayload, TMeta] extends [void, void]
 	? (() => TReturn) & { isEffect: true }
-	: ((payload: TPayload, meta: TMeta) => TReturn) & { isEffect: true }
+	: [TMeta] extends [void]
+	? undefined extends TPayload
+		? ((payload?: TPayload) => TReturn) & {
+				isEffect: true
+		  }
+		: ((payload: TPayload) => TReturn) & {
+				isEffect: true
+		  }
+	: [undefined, undefined] extends [TPayload, TMeta]
+	? ((payload?: TPayload, meta?: TMeta) => TReturn) & {
+			isEffect: true
+	  }
+	: undefined extends TMeta
+	? ((payload: TPayload, meta?: TMeta) => TReturn) & {
+			isEffect: true
+	  }
+	: ((payload: TPayload, meta: TMeta) => TReturn) & {
+			isEffect: true
+	  }
 
 export interface DevtoolOptions {
 	/**
