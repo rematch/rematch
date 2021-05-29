@@ -34,11 +34,6 @@
     "@rematch/core": "^2.0.0",
     "redux": ">=4"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
-    }
-  },
   "authors": [
     "Sam Richard <sam.richard@gmail.com> (https://github.com/d3dc)",
     "Blair Bodnar <blairbodnar@gmail.com> (https://github.com/blairbodnar)",
