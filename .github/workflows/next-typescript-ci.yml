@@ -1,25 +1,16 @@
-name: Rematch CI
+name: Rematch Nightly Suite + Typescript@next
 
 on:
   workflow_dispatch:
-    inputs:
-        distTag:
-          description: 'Dist tag to publish'
-          required: true
-          default: 'latest'
-  pull_request:
-  push:
-    branches:
-      - '*'
+  schedule:
+    - cron: '0 2 * * *'
 
 jobs:
-  build_and_testing:
+  next-typescript-ci:
     runs-on: ubuntu-latest
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     env:
       CI: true
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -49,26 +40,12 @@ jobs:
       - name: Install
         run: yarn install --frozen-lockfile --pure-lockfile
 
+      - name: Add Typescript@next
+        run: yarn add --dev typescript@next -W
+
       - name: Build & Testing
         run: |
           yarn build
           yarn test
           yarn lint
           yarn prettier:check
-
-      - name: Release
-        if: ${{github.event.inputs.distTag == 'latest' || github.event.inputs.distTag == 'next'}}
-        run: |
-          npm whoami
-          git config --global user.email "sergiomorenoalbert@gmail.com"
-          git config --global user.name "Rematch CI"
-          yarn version:${{github.event.inputs.distTag}}
-          yarn release:${{github.event.inputs.distTag}}
-
-      - name: Discord notification
-        if: ${{github.event.inputs.distTag == 'latest' || github.event.inputs.distTag == 'next'}}
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@master
-        with:
-          args: '🙌 Rematch released a new version 🔥!, check it out: https://github.com/rematch/rematch/releases'
