@@ -27,7 +27,7 @@
     "node": ">=10"
   },
   "peerDependencies": {
-    "redux": "^4.0.5"
+    "redux": ">=4"
   },
   "devDependencies": {
     "redux": "^4.0.5",

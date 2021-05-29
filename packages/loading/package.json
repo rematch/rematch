@@ -24,13 +24,10 @@
     "src"
   ],
   "devDependencies": {
-    "@rematch/core": "^2.0.1",
-    "@types/redux-immutable": "^4.0.1",
-    "immutable": "^3.8.2",
-    "redux-immutable": "^4.0.0"
+    "@rematch/core": "^2.0.1"
   },
   "peerDependencies": {
-    "@rematch/core": "^2.0.0"
+    "@rematch/core": ">=2"
   },
   "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
   "keywords": [

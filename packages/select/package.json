@@ -31,7 +31,7 @@
     "redux": "^4.0.5"
   },
   "peerDependencies": {
-    "@rematch/core": "^2.0.0",
+    "@rematch/core": ">=2",
     "redux": ">=4"
   },
   "authors": [

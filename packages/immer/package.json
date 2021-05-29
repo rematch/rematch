@@ -29,8 +29,8 @@
     "redux": "^4.0.5"
   },
   "peerDependencies": {
-    "@rematch/core": "^2.0.0",
-    "immer": ">=7 | >= 8",
+    "@rematch/core": ">=2",
+    "immer": ">=7 | >= 8 | >= 9",
     "redux": ">=4"
   },
   "authors": [
