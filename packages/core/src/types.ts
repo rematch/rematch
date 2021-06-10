@@ -246,10 +246,12 @@ export interface InitConfigRedux<TRootState = any> {
 	enhancers?: StoreEnhancer[]
 	middlewares?: Middleware[]
 	rootReducers?: ReducersMapObject<TRootState, Action>
-	combineReducers?: (
-		reducers: ReducersMapObject<TRootState, Action>
-	) => ReduxReducer<TRootState>
-	createStore?: StoreCreator
+	combineReducers?:
+		| ((
+				reducers: ReducersMapObject<TRootState, Action>
+		  ) => ReduxReducer<TRootState>)
+		| undefined
+	createStore?: StoreCreator | undefined
 	devtoolOptions?: DevtoolOptions
 }
 
