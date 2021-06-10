@@ -717,7 +717,7 @@ declare module 'react-redux' {
 		TOwnProps,
 		RM extends Models<RM> = Models
 	> = (
-		dispatch: RematchDispatch<RM>,
+		dispatch: any,
 		ownProps: TOwnProps
 	) => MapRematchDispatchToPropsFunction<TDispatchProps, TOwnProps, RM>
 
@@ -725,7 +725,7 @@ declare module 'react-redux' {
 		TDispatchProps,
 		TOwnProps,
 		RM extends Models<RM> = Models
-	> = (dispatch: RematchDispatch<RM>, ownProps: TOwnProps) => TDispatchProps
+	> = (dispatch: any, ownProps: TOwnProps) => TDispatchProps
 }
 
 declare global {
