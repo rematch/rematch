@@ -88,9 +88,14 @@ export interface ModelEffects<
 	[key: string]: ModelEffect<TModels>
 }
 
+export type ModelEffectThisTyped = {
+	[key: string]: (payload?: any, meta?: any) => Action<any, any>
+}
+
 export type ModelEffect<
 	TModels extends Models<TModels> = Record<string, any>
 > = (
+	this: ModelEffectThisTyped,
 	payload: Action['payload'],
 	rootState: RematchRootState<TModels>,
 	meta: Action['meta']
