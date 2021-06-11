@@ -21,8 +21,8 @@ import { validateModel } from './validate'
 import createRematchBag from './bag'
 
 export default function createRematchStore<
-	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
 >(config: Config<TModels, TExtraModels>): RematchStore<TModels, TExtraModels> {
 	// setup rematch 'bag' for storing useful values and functions
 	const bag = createRematchBag(config)
@@ -62,8 +62,9 @@ export default function createRematchStore<
 }
 
 function createEffectsMiddleware<
-	TModels extends Models<TModels> = Record<string, any>
->(bag: RematchBag<TModels>): Middleware {
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
+>(bag: RematchBag<TModels, TExtraModels>): Middleware {
 	return (store) => (next) => (action: Action): any => {
 		if (action.type in bag.effects) {
 			// first run reducer action if exists
@@ -82,11 +83,12 @@ function createEffectsMiddleware<
 }
 
 function prepareModel<
-	TModels extends Models<TModels> = Record<string, any>,
-	TModel extends NamedModel<TModels> = NamedModel
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
+	TModel extends NamedModel<TModels>
 >(
-	rematchStore: RematchStore<TModels>,
-	bag: RematchBag<TModels>,
+	rematchStore: RematchStore<TModels, TExtraModels>,
+	bag: RematchBag<TModels, TExtraModels>,
 	model: TModel
 ): void {
 	const modelDispatcher = {} as ModelDispatcher<TModel, TModels>
@@ -111,8 +113,8 @@ function prepareModel<
  * adding the properties that you exposed from your plugin.
  */
 function addExposed<
-	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
 >(
 	store: RematchStore<TModels, TExtraModels>,
 	plugins: Plugin<TModels, TExtraModels>[]
@@ -123,13 +125,16 @@ function addExposed<
 		pluginKeys.forEach((key) => {
 			if (!plugin.exposed) return
 			const exposedItem = plugin.exposed[key] as
-				| ExposedFunction
+				| ExposedFunction<TModels, TExtraModels>
 				| ObjectNotAFunction
 			const isExposedFunction = typeof exposedItem === 'function'
 
 			store[key] = isExposedFunction
 				? (...params: any[]): any =>
-						(exposedItem as ExposedFunction)(store, ...params)
+						(exposedItem as ExposedFunction<TModels, TExtraModels>)(
+							store,
+							...params
+						)
 				: Object.create(plugin.exposed[key])
 		})
 	})

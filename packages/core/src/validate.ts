@@ -51,8 +51,8 @@ const validate = (runValidations: () => Validation[]): void => {
 }
 
 export const validateConfig = <
-	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
 >(
 	config: Config<TModels, TExtraModels>
 ): void => {
@@ -82,9 +82,7 @@ export const validateConfig = <
 	])
 }
 
-export const validateModel = <
-	TModels extends Models<TModels> = Record<string, any>
->(
+export const validateModel = <TModels extends Models<TModels>>(
 	model: NamedModel<TModels>
 ): void => {
 	validate(() => [
@@ -102,8 +100,8 @@ export const validateModel = <
 }
 
 export const validatePlugin = <
-	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
 >(
 	plugin: Plugin<TModels, TExtraModels>
 ): void => {

@@ -18,9 +18,10 @@ import { validateModelEffect, validateModelReducer } from './validate'
  * isEffect helps to differentiate effects dispatchers from reducer dispatchers.
  */
 const createActionDispatcher = <
-	TModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
 >(
-	rematch: RematchStore<TModels>,
+	rematch: RematchStore<TModels, TExtraModels>,
 	modelName: string,
 	actionName: string,
 	isEffect: boolean
@@ -51,11 +52,12 @@ const createActionDispatcher = <
  * actions.
  */
 const createDispatcher = <
-	TModels extends Models<TModels> = Record<string, any>,
-	TModel extends NamedModel<TModels> = NamedModel
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
+	TModel extends NamedModel<TModels>
 >(
-	rematch: RematchStore<TModels>,
-	bag: RematchBag<TModels>,
+	rematch: RematchStore<TModels, TExtraModels>,
+	bag: RematchBag<TModels, TExtraModels>,
 	model: TModel
 ): void => {
 	const modelDispatcher = rematch.dispatch[model.name]

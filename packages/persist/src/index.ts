@@ -25,7 +25,7 @@ export type PersistorStoreOptionsNotExposed = {
 const persistPlugin = <
 	S,
 	TModels extends Models<TModels>,
-	TExtraModels extends Models<TModels> = Record<string, any>
+	TExtraModels extends Models<TModels> = Record<string, never>
 >(
 	persistConfig: PersistConfig<S>,
 	nestedPersistConfig: NestedPersist<TModels> = {},

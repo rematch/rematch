@@ -20,7 +20,18 @@ describe('plugins:', () => {
 	})
 
 	test('should add middleware', () => {
-		const payloadIsAlways100Middleware: MiddlewareCreator = () => () => (
+		const a = {
+			state: 0,
+			reducers: {
+				set: (_state: number, payload: number): number => payload,
+			},
+		}
+
+		type RootModel = {
+			a: typeof a
+		}
+
+		const payloadIsAlways100Middleware: MiddlewareCreator<RootModel> = () => () => (
 			next
 		) => (action): any => {
 			return next({ ...action, payload: 100 })
@@ -28,12 +39,7 @@ describe('plugins:', () => {
 
 		const store = init({
 			models: {
-				a: {
-					state: 0,
-					reducers: {
-						set: (_state: number, payload: number): number => payload,
-					},
-				},
+				a,
 			},
 			plugins: [{ createMiddleware: payloadIsAlways100Middleware }],
 		})
@@ -96,7 +102,7 @@ describe('plugins:', () => {
 	})
 
 	test('plugins should be able to set a value in store', () => {
-		const pluginWithReturn: Plugin = {
+		const pluginWithReturn: Plugin<{}> = {
 			onStoreCreated: (store): void => {
 				// @ts-expect-error
 				store.returned = 42 // when creating plugin, we would need to expand type for the rematch store to include 'returned'

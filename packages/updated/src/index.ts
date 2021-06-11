@@ -39,7 +39,7 @@ export interface ExtraModelsFromUpdated<
 
 const updatedPlugin = <
 	TModels extends Models<TModels>,
-	TExtraModels extends Models<TModels> = Record<string, any>,
+	TExtraModels extends Models<TModels> = Record<string, never>,
 	T = Date
 >(
 	config: UpdatedConfig<T> = {}
