@@ -20,7 +20,7 @@ export type Selector<TState, TReturns, TProps = void> = TProps extends void
 	: (state: TState, props: TProps) => TReturns
 
 export type ExtractSelectorsFromModel<
-	TModels extends Models<TModels> = Record<string, any>,
+	TModels extends Models<TModels>,
 	TModel extends Model<TModels> = Model<TModels>
 > =
 	// thunk case: (models) => ({...})
@@ -49,24 +49,26 @@ export type ExtractSelectorsSignatureFromSelectorsModel<
 	: never
 
 export interface SelectConfig<
-	TModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
 > {
 	sliceState?: (
-		state: ExtractRematchStateFromModels<TModels>,
+		state: ExtractRematchStateFromModels<TModels, TExtraModels>,
 		model: Model<TModels>
 	) => Record<string, any> | undefined
 	selectorCreator?: any
 }
 
 export type ModelSelectors<
-	TModels extends Models<TModels> = Record<string, any>,
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
 	TModel extends Model<TModels> = Model<TModels>
 > = {
 	[key in keyof ExtractSelectorsFromModel<
 		TModels,
 		TModel
 	>]: ExtractSelectorsSignatureFromSelectorsModel<
-		RematchRootState<TModels>,
+		RematchRootState<TModels, TExtraModels>,
 		ExtractSelectorsFromModel<TModels, TModel>,
 		key
 	>
@@ -78,109 +80,135 @@ export type Slicer<TSliceState, TRootState> = (<TReturns>(
 	Selector<TRootState, TSliceState>
 
 export interface ModelSelectorFactories<
-	TModels extends Models<TModels> = Record<string, any>,
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
 	TSliceState = any
 > {
 	[key: string]:
-		| SelectorFactory<TModels, TSliceState>
-		| SelectorParametricFactory<TModels, TSliceState>
+		| SelectorFactory<TModels, TExtraModels, TSliceState>
+		| SelectorParametricFactory<TModels, TExtraModels, TSliceState>
 }
 
 export type StoreSelectors<
-	TModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
 > = {
-	[TModelKey in keyof TModels]: ModelSelectors<TModels, TModels[TModelKey]>
+	[TModelKey in keyof TModels]: ModelSelectors<
+		TModels,
+		TExtraModels,
+		TModels[TModelKey]
+	>
 }
 
 export type SelectorFactory<
-	TModels extends Models<TModels> = Record<string, any>,
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
 	TSliceState = any
 > = <TReturns>(
 	// FIXME: https://github.com/Microsoft/TypeScript/issues/27862
-	this: ModelSelectorFactories<TModels, TSliceState>,
-	models: StoreSelectors<TModels>
+	this: ModelSelectorFactories<TModels, TExtraModels, TSliceState>,
+	models: StoreSelectors<TModels, TExtraModels>
 ) => Selector<RematchRootState<TModels>, TReturns>
 
 export type SelectorParametricFactory<
-	TModels extends Models<TModels> = Record<string, any>,
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
 	TSliceState = any,
 	TProps = any,
 	TReturns = any
 > = (
 	// FIXME: https://github.com/Microsoft/TypeScript/issues/27862
-	this: ModelSelectorFactories<TModels, TSliceState>,
-	models: StoreSelectors<TModels>,
+	this: ModelSelectorFactories<TModels, TExtraModels, TSliceState>,
+	models: StoreSelectors<TModels, TExtraModels>,
 	props: TProps
 ) => Selector<RematchRootState<TModels>, TReturns, TProps>
 
 // the same as `SelectorParametricFactory` but with different return signature
 export type ParameterizerSelectorFactory<
-	TModels extends Models<TModels> = Record<string, any>,
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
 	TSliceState = any,
 	TProps = any,
 	TReturns = any
 > = (
 	// FIXME: https://github.com/Microsoft/TypeScript/issues/27862
-	this: ModelSelectorFactories<TModels, TSliceState>,
-	models: StoreSelectors<TModels>,
+	this: ModelSelectorFactories<TModels, TExtraModels, TSliceState>,
+	models: StoreSelectors<TModels, TExtraModels>,
 	props: TProps
 ) => (props: TProps) => Selector<RematchRootState<TModels>, TReturns>
 
 export type Parameterizer<
-	TModels extends Models<TModels> = Record<string, any>,
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
 	TSliceState = any
 > = <TProps, TReturns>(
-	factory: SelectorParametricFactory<TModels, TSliceState, TProps, TReturns>
-) => ParameterizerSelectorFactory<TModels, TSliceState, TProps, TReturns>
+	factory: SelectorParametricFactory<
+		TModels,
+		TExtraModels,
+		TSliceState,
+		TProps,
+		TReturns
+	>
+) => ParameterizerSelectorFactory<
+	TModels,
+	TExtraModels,
+	TSliceState,
+	TProps,
+	TReturns
+>
 
 export type ModelSelectorsFactory<
-	TModels extends Models<TModels> = Record<string, any>,
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
 	TSliceState = any
 > = (
 	slice: Slicer<TSliceState, RematchRootState<TModels>>,
 	createSelector: typeof Reselect.createSelector,
-	hasProps: Parameterizer<TModels, TSliceState>
-) => ModelSelectorFactories<TModels, TSliceState>
+	hasProps: Parameterizer<TModels, TExtraModels, TSliceState>
+) => ModelSelectorFactories<TModels, TExtraModels, TSliceState>
 
 export type ModelSelectorsConfig<
-	TModels extends Models<TModels> = Record<string, any>,
-	TSliceState = any
+	TModels extends Models<TModels>,
+	TSliceState = any,
+	TExtraModels extends Models<TModels> = Record<string, never>
 > =
-	| ModelSelectorsFactory<TModels, TSliceState>
-	| ModelSelectorFactories<TModels, TSliceState>
+	| ModelSelectorsFactory<TModels, TExtraModels, TSliceState>
+	| ModelSelectorFactories<TModels, TExtraModels, TSliceState>
 
 export type RematchSelect<
 	TModels extends Models<TModels>,
-	TRootState = RematchRootState<TModels>
+	TExtraModels extends Models<TModels>,
+	TRootState = RematchRootState<TModels, TExtraModels>
 > = (<TReturn extends { [key: string]: (state: TRootState) => any }>(
-	mapSelectToProps: (select: RematchSelect<TModels>) => TReturn
+	mapSelectToProps: (select: RematchSelect<TModels, TExtraModels>) => TReturn
 ) => Reselect.OutputParametricSelector<
 	TRootState,
 	any,
 	{ [K in keyof TReturn]: ReturnType<TReturn[K]> },
-	Reselect.Selector<TRootState, Record<string, any>>
+	Reselect.Selector<TRootState, TRootState>
 > &
 	Reselect.OutputSelector<
 		TRootState,
 		{ [K in keyof TReturn]: ReturnType<TReturn[K]> },
-		Reselect.Selector<TRootState, Record<string, any>>
+		Reselect.Selector<TRootState, TRootState>
 	>) &
-	StoreSelectors<TModels>
+	StoreSelectors<TModels, TExtraModels>
 
 declare module '@rematch/core' {
 	// Add overloads for store to add select
 	interface RematchStore<
-		TModels extends Models<TModels> = Record<string, any>,
-		TExtraModels extends Models<TModels> = Record<string, any>
+		TModels extends Models<TModels>,
+		TExtraModels extends Models<TModels>
 	> extends ReduxStore<RematchRootState<TModels, TExtraModels>, Action> {
-		select: RematchSelect<TModels>
+		select: RematchSelect<
+			TModels,
+			TExtraModels,
+			RematchRootState<TModels, TExtraModels>
+		>
 	}
 
 	// add overloads for Model here.
-	interface Model<
-		TModels extends Models<TModels> = Record<string, any>,
-		TState = any
-	> {
+	interface Model<TModels extends Models<TModels>, TState = any> {
 		selectors?: ModelSelectorsConfig<TModels, TState>
 	}
 
