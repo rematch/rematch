@@ -51,13 +51,13 @@ describe('immer', () => {
 			models: { todo },
 		})
 		store.dispatch({ type: 'todo/done' })
-		const newState = store.getState().todo
+		const newState = store.getState().todo as typeof todo['state']
 
 		expect(todo.state.length).toBe(2)
-		expect(newState.length).toBe(3)
+		expect(newState).toHaveLength(3)
 
 		expect(todo.state[1].done).toBe(false)
-		expect(newState[1].done).toBe(true)
+		expect(newState[1].done).toEqual(true)
 	})
 
 	describe('whitelist/blacklist', () => {

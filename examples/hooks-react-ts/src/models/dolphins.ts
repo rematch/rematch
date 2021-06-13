@@ -1,10 +1,11 @@
 import { createModel } from '@rematch/core'
 import { delay } from './utils'
-import { RootModel } from '.'
+import type { RootModel } from '.'
 
 export const dolphins = createModel<RootModel>()({
 	state: 0,
 	reducers: {
+		// eslint-disable-next-line @typescript-eslint/no-inferrable-types
 		increment: (state, payload: number = 1) => state + payload,
 	},
 	effects: (dispatch) => ({
