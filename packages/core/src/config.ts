@@ -9,8 +9,8 @@ let count = 0
  * the plugins selected by the user.
  */
 export default function createConfig<
-	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
 >(
 	initConfig: InitConfig<TModels, TExtraModels>
 ): Config<TModels, TExtraModels> {
@@ -33,7 +33,7 @@ export default function createConfig<
 				...(initConfig.redux?.devtoolOptions ?? {}),
 			},
 		},
-	} as Config
+	} as Config<TModels, TExtraModels>
 
 	validateConfig(config)
 
@@ -88,9 +88,9 @@ export default function createConfig<
  * Shallow merges original object with the extra object, giving the precedence
  * to the original object.
  */
-function merge<T extends Record<string, any>>(
-	original: T,
-	extra: T | undefined
-): T {
+function merge<
+	T extends Record<string, unknown>,
+	U extends Record<string, unknown> = T
+>(original: T, extra?: U): T | (T & U) {
 	return extra ? { ...extra, ...original } : original
 }

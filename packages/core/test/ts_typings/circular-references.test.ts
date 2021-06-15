@@ -1,4 +1,4 @@
-import { createModel, Models } from '../src'
+import { createModel, Models } from '../../src'
 
 describe('circular references', () => {
 	it("shouldn't throw error accessing rootState in effects with a return value", () => {

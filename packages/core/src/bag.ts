@@ -6,8 +6,8 @@ import { validateModel } from './validate'
  * used by the Rematch library in various functions.
  */
 export default function createRematchBag<
-	TModels extends Models<TModels> = Record<string, any>,
-	TExtraModels extends Models<TModels> = Record<string, any>
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
 >(config: Config<TModels, TExtraModels>): RematchBag<TModels, TExtraModels> {
 	return {
 		models: createNamedModels(config.models),
@@ -28,9 +28,9 @@ export default function createRematchBag<
  * 'named' models - models with embedded name and default value for reducers
  * if user didn't provide any.
  */
-function createNamedModels<
-	TModels extends Models<TModels> = Record<string, any>
->(models: TModels | Partial<TModels>): NamedModel<TModels>[] {
+function createNamedModels<TModels extends Models<TModels>>(
+	models: TModels | Partial<TModels>
+): NamedModel<TModels>[] {
 	return Object.keys(models).map((modelName: string) => {
 		const model = createNamedModel(modelName, (models as TModels)[modelName])
 		validateModel(model)
@@ -42,9 +42,10 @@ function createNamedModels<
  * Transforms a model into 'named' model - model which contains 'name' and
  * 'reducers' properties if user didn't provide any.
  */
-function createNamedModel<
-	TModels extends Models<TModels> = Record<string, any>
->(name: string, model: Model<TModels>): NamedModel<TModels> {
+function createNamedModel<TModels extends Models<TModels>>(
+	name: string,
+	model: Model<TModels>
+): NamedModel<TModels> {
 	return {
 		name,
 		reducers: {},

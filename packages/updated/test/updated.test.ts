@@ -67,7 +67,11 @@ describe('updated', () => {
 			},
 		}
 
-		const store = init({
+		interface RootModel extends Models<RootModel> {
+			count: typeof count
+		}
+
+		const store = init<RootModel, ExtraModelsFromUpdated<RootModel>>({
 			models: { count },
 			plugins: [
 				updatedPlugin({
