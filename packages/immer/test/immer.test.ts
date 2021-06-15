@@ -1,4 +1,4 @@
-import { init } from '@rematch/core'
+import { init, Models } from '@rematch/core'
 import immerPlugin from '../src'
 
 describe('immer', () => {
@@ -46,12 +46,16 @@ describe('immer', () => {
 			},
 		}
 
-		const store = init({
+		interface RootModel extends Models<RootModel> {
+			todo: typeof todo
+		}
+
+		const store = init<RootModel>({
 			plugins: [immerPlugin()],
 			models: { todo },
 		})
 		store.dispatch({ type: 'todo/done' })
-		const newState = store.getState().todo as typeof todo['state']
+		const newState = store.getState().todo
 
 		expect(todo.state.length).toBe(2)
 		expect(newState).toHaveLength(3)
