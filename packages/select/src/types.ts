@@ -21,7 +21,7 @@ export type Selector<TState, TReturns, TProps = void> = TProps extends void
 
 export type ExtractSelectorsFromModel<
 	TModels extends Models<TModels>,
-	TModel extends Model<TModels> = Model<TModels>
+	TModel extends Model<TModels>
 > =
 	// thunk case: (models) => ({...})
 	TModel['selectors'] extends (...args: any[]) => infer TReturnObj
@@ -62,7 +62,7 @@ export interface SelectConfig<
 export type ModelSelectors<
 	TModels extends Models<TModels>,
 	TExtraModels extends Models<TModels>,
-	TModel extends Model<TModels> = Model<TModels>
+	TModel extends Model<TModels>
 > = {
 	[key in keyof ExtractSelectorsFromModel<
 		TModels,
