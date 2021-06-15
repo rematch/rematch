@@ -1,4 +1,4 @@
-import { createModel, init, Models, RematchDispatch } from '../../src'
+import { createModel, init, Models } from '../../src'
 
 describe('Dispatcher typings', () => {
 	describe("shouldn't throw error accessing reducers with", () => {
@@ -17,7 +17,7 @@ describe('Dispatcher typings', () => {
 
 			const store = init({ models: { myModel: model } })
 
-			const dispatch = store.dispatch as RematchDispatch<RootModel>
+			const { dispatch } = store
 			dispatch.myModel.inc(1)
 			// @ts-expect-error
 			dispatch.myModel.inc()
@@ -37,8 +37,29 @@ describe('Dispatcher typings', () => {
 
 			const store = init({ models: { myModel: model } })
 
-			const dispatch = store.dispatch as RematchDispatch<RootModel>
+			const { dispatch } = store
 			dispatch.myModel.inc(1)
+			dispatch.myModel.inc()
+		})
+
+		it('optional payload with default value when nil', () => {
+			const model = createModel<RootModel>()({
+				state: 0,
+				reducers: {
+					// eslint-disable-next-line @typescript-eslint/no-inferrable-types
+					inc(state, payload: number = 3) {
+						return state + payload
+					},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+
+			const { dispatch } = store
+			dispatch.myModel.inc(4)
 			dispatch.myModel.inc()
 		})
 	})
@@ -57,7 +78,7 @@ describe('Dispatcher typings', () => {
 			}
 
 			const store = init<RootModel>({ models: { count } })
-			const dispatch = store.dispatch as RematchDispatch<RootModel>
+			const { dispatch } = store
 
 			// @ts-expect-error
 			dispatch.count.incrementEffect()
@@ -106,7 +127,7 @@ describe('Dispatcher typings', () => {
 			}
 
 			const store = init<RootModel>({ models: { count } })
-			const dispatch = store.dispatch as RematchDispatch<RootModel>
+			const { dispatch } = store
 
 			// @ts-expect-error
 			dispatch.count.incrementEffect()
@@ -131,7 +152,7 @@ describe('Dispatcher typings', () => {
 			}
 
 			const store = init<RootModel>({ models: { count } })
-			const dispatch = store.dispatch as RematchDispatch<RootModel>
+			const { dispatch } = store
 
 			dispatch.count.incrementEffect(2)
 			dispatch.count.incrementEffect()

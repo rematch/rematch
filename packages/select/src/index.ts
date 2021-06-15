@@ -52,8 +52,11 @@ const makeFactoryGroup = () => {
 	}
 }
 
-const validateConfig = <TModels extends Models<TModels>>(
-	config: SelectConfig<TModels>
+const validateConfig = <
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>
+>(
+	config: SelectConfig<TModels, TExtraModels>
 ): void => {
 	if (process.env.NODE_ENV !== 'production') {
 		if (config.sliceState && typeof config.sliceState !== 'function') {
@@ -87,20 +90,20 @@ const createSelectPlugin = <
 	TModels extends Models<TModels>,
 	TExtraModels extends Models<TModels> = Record<string, any>
 >(
-	config: SelectConfig<TModels> = {}
+	config: SelectConfig<TModels, TExtraModels> = {}
 ): Plugin<TModels, TExtraModels> => {
 	validateConfig(config)
 
-	const sliceState: SelectConfig<TModels>['sliceState'] =
+	const sliceState: SelectConfig<TModels, TExtraModels>['sliceState'] =
 		config.sliceState || ((state, model) => state[model.name || ''])
 	const selectorCreator = config.selectorCreator || createSelector
 
 	const slice = (model: Model<TModels>) => (
-		stateOrNext: ExtractRematchStateFromModels<TModels>
+		stateOrNext: ExtractRematchStateFromModels<TModels, TExtraModels>
 	) => {
 		if (typeof stateOrNext === 'function') {
 			return selectorCreator(
-				(state: ExtractRematchStateFromModels<TModels>) =>
+				(state: ExtractRematchStateFromModels<TModels, TExtraModels>) =>
 					sliceState(state, model),
 				stateOrNext
 			)
@@ -167,8 +170,7 @@ const createSelectPlugin = <
 				})
 			)
 		},
-		// @ts-ignore
-		onStoreCreated(store: RematchStore) {
+		onStoreCreated(store: RematchStore<TModels, TExtraModels>) {
 			factoryGroup.startBuilding()
 			// @ts-ignore
 			store.select = select

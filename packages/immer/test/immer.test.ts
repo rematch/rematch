@@ -1,4 +1,4 @@
-import { init } from '@rematch/core'
+import { init, Models } from '@rematch/core'
 import immerPlugin from '../src'
 
 describe('immer', () => {
@@ -46,7 +46,11 @@ describe('immer', () => {
 			},
 		}
 
-		const store = init({
+		interface RootModel extends Models<RootModel> {
+			todo: typeof todo
+		}
+
+		const store = init<RootModel>({
 			plugins: [immerPlugin()],
 			models: { todo },
 		})
@@ -54,10 +58,10 @@ describe('immer', () => {
 		const newState = store.getState().todo
 
 		expect(todo.state.length).toBe(2)
-		expect(newState.length).toBe(3)
+		expect(newState).toHaveLength(3)
 
 		expect(todo.state[1].done).toBe(false)
-		expect(newState[1].done).toBe(true)
+		expect(newState[1].done).toEqual(true)
 	})
 
 	describe('whitelist/blacklist', () => {
