@@ -41,7 +41,7 @@ jobs:
         run: yarn install --frozen-lockfile --pure-lockfile
 
       - name: Add Typescript@next
-        run: yarn add --dev typescript@next -W
+        run: yarn add --dev typescript@next tslib -W
 
       - name: Build & Testing
         run: |
