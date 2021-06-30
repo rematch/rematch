@@ -233,7 +233,7 @@ export default <
 						// check if result is a promise
 						if (effectResult?.then) {
 							// hide loading when promise finishes either with success or error
-							effectResult
+							return effectResult
 								.then((r: any) => {
 									rematch.dispatch[loadingModelName].hide({ name, action })
 									return r
@@ -242,10 +242,10 @@ export default <
 									rematch.dispatch[loadingModelName].hide({ name, action })
 									throw err
 								})
-						} else {
-							// original action doesn't return a promise so there's nothing to wait for
-							rematch.dispatch[loadingModelName].hide({ name, action })
 						}
+
+						// original action doesn't return a promise so there's nothing to wait for
+						rematch.dispatch[loadingModelName].hide({ name, action })
 
 						// return the original result of this reducer
 						return effectResult
