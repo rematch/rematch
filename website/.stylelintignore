@@ -6,3 +6,4 @@ build
 coverage
 scripts
 src/**/*.tsx
+src/css/twoslash.css
