@@ -135,14 +135,10 @@ module.exports = {
 					editUrl: 'https://github.com/rematch/rematch/edit/main/blog/',
 				},
 				theme: {
-					customCss: [
-						require.resolve('./src/css/custom.css'),
-						require.resolve('./src/css/twoslash.css'),
-					],
+					customCss: [require.resolve('./src/css/custom.css')],
 				},
 			},
 		],
 		['docusaurus-preset-shiki-twoslash', { themes: ['min-light', 'min-dark'] }],
 	],
-	plugins: [require.resolve('./src/plugins/copy-to-clipboard')],
 }

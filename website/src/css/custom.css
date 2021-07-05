@@ -98,3 +98,17 @@ body {
 .shadow--lg {
   box-shadow: 0 0 2px 0 var(--ifm-color-emphasis-400);
 }
+
+/* Hide code blocks according to theme */
+[data-theme="light"] .shiki.min-dark {
+  display: none;
+}
+
+[data-theme="dark"] .shiki.min-light {
+  display: none;
+}
+
+/* Patches */
+pre.shiki > .code-title {
+  color: var(--ifm-color-emphasis-900) !important;
+}
