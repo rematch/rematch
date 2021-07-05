@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Layout from '@theme/Layout'
 import clsx from 'clsx'
 import useBaseUrl from '@docusaurus/useBaseUrl'
 import { Wave } from '.'
 import styles from './styles.module.css'
+import useWindowSize from '../components/useWindowSize'
 
 const FIRST_SECTION = [
 	"You'll learn why Redux was created",
@@ -26,6 +27,8 @@ const SECOND_SECTION = [
 	'Optimize our website with React performance optimizations',
 ]
 const BookPage = (): React.ReactElement => {
+	const { width } = useWindowSize()
+	const isMobile = useMemo(() => width <= 840, [width])
 	return (
 		<Layout
 			title="Redux made easy with Rematch book"
@@ -33,7 +36,13 @@ const BookPage = (): React.ReactElement => {
 		>
 			<div>
 				<div className="row padding--lg m-auto">
-					<div className="col col--8">
+					<div
+						className={clsx(
+							'col col--8 m-auto text--center',
+							styles.flex,
+							styles['flex-column']
+						)}
+					>
 						<h1 className={clsx(styles.h2, 'text--center')}>
 							Redux made easy with Rematch
 						</h1>
@@ -54,32 +63,73 @@ const BookPage = (): React.ReactElement => {
 							</a>
 						</div>
 					</div>
-					<div className="col col--4 text--center">
+					<div className="col col--4 text--center padding-top--lg">
 						<img src="https://images-na.ssl-images-amazon.com/images/I/41uBNjJDYpS._SX403_BO1,204,203,200_.jpg" />
 					</div>
 				</div>
 				<div className={clsx('row padding--lg m-auto', styles.waveTop)}>
-					<h4>What you'll learn {'->'}</h4>
+					<h2>
+						What you'll <u>learn</u>
+						{'->'}
+					</h2>
 					<div className={clsx('col col--12', styles.flex)}>
-						<ul>
-							{FIRST_SECTION.map((key) => (
-								<li key={key}>{key}</li>
-							))}
-						</ul>
-						<ul>
-							{SECOND_SECTION.map((key) => (
-								<li key={key}>{key}</li>
-							))}
-						</ul>
+						{isMobile ? (
+							<ul>
+								{[...FIRST_SECTION, ...SECOND_SECTION].map((key) => (
+									<li key={key}>{key}</li>
+								))}
+							</ul>
+						) : (
+							<>
+								<ul>
+									{FIRST_SECTION.map((key) => (
+										<li key={key}>{key}</li>
+									))}
+								</ul>
+								<ul>
+									{SECOND_SECTION.map((key) => (
+										<li key={key}>{key}</li>
+									))}
+								</ul>
+							</>
+						)}
 					</div>
 				</div>
-				<div className={clsx('row padding--lg m-auto')}>
-					<div className={clsx('col col--6 m-auto')}>
+				<div
+					className={clsx('row padding--lg m-auto', styles.absoluteFeatures)}
+				>
+					<div
+						className={clsx(
+							'col col--6 m-auto text--center',
+							styles.flex,
+							styles['flex-column']
+						)}
+					>
 						<h3 className={styles.h3}>Amazhop website</h3>
-						<p className={styles.p}>Lorem ipsum</p>
+						<p className={styles.p}>
+							You will build an amazing React application with TypeScript,
+							Rematch, TailwindCSS, with Vite as bundler.
+						</p>
+						<a
+							className={clsx(
+								'button button--outline button--tertiary button--lg',
+								styles.getStarted
+							)}
+							data-extlink
+							target="_blank"
+							href="https://github.com/PacktPublishing/Redux-Made-Easy-with-Rematch"
+						>
+							Learn more
+						</a>
 					</div>
-					<div className={clsx('col col--6')}>
-						<video width="640" height="480" autoPlay loop>
+					<div className={clsx('col col--6 padding-top--lg')}>
+						<video
+							width="640"
+							height="480"
+							autoPlay
+							loop
+							className={styles.video}
+						>
 							<source
 								src={useBaseUrl('/img/amazhop-website.webm')}
 								type="video/webm"
@@ -87,32 +137,17 @@ const BookPage = (): React.ReactElement => {
 							Your browser does not support the video tag.
 						</video>
 					</div>
+					<Wave />
 				</div>
-				<div className={clsx('row padding--lg m-auto')}>
-					<div className={clsx('col col--6')}>
-						<video width="640" height="480" autoPlay loop>
-							<source
-								src={useBaseUrl('/img/amazhop-app.webm')}
-								type="video/webm"
-							/>
-							Your browser does not support the video tag.
-						</video>
-					</div>
-					<div className={clsx('col col--6')}>
-						<h3 className={styles.h3}>Amazhop React Native Application</h3>
-						<p className={styles.p}>Lorem ipsum</p>
-					</div>
-				</div>
-				<div
-					className={clsx(
-						'row padding--lg m-auto text--center',
-						styles.waveTop
-					)}
-				>
+
+				<div className={clsx('row padding--lg m-auto text--center')}>
 					<div className={clsx('col col--12')}>
 						<div className="row padding--lg m-auto text--center">
 							<div className="col col--12">
-								<h3 className={styles.h3}>Technologies used in the book</h3>
+								<h3 className={styles.h3}>Technologies used</h3>
+								<p className={styles.p}>
+									Latest trending technologies used with their best practices
+								</p>
 							</div>
 						</div>
 						{[
@@ -120,6 +155,11 @@ const BookPage = (): React.ReactElement => {
 								name: 'Vite',
 								image: useBaseUrl('/img/tech/vite.svg'),
 								href: 'https://vitejs.dev/',
+							},
+							{
+								name: 'TSDX',
+								image: useBaseUrl('/img/tech/tsdx.svg'),
+								href: 'https://tsdx.io/',
 							},
 							{
 								name: 'Immer.js',
@@ -176,6 +216,48 @@ const BookPage = (): React.ReactElement => {
 
 								return element
 							})}
+					</div>
+				</div>
+
+				<div className={clsx('row padding--lg m-auto', styles.waveTop)}>
+					<div className={clsx('col col--6')}>
+						<video
+							width="640"
+							height="480"
+							autoPlay
+							loop
+							className={styles.video}
+						>
+							<source
+								src={useBaseUrl('/img/amazhop-app.webm')}
+								type="video/webm"
+							/>
+							Your browser does not support the video tag.
+						</video>
+					</div>
+					<div
+						className={clsx(
+							'col col--6 m-auto text--center',
+							styles.flex,
+							styles['flex-column']
+						)}
+					>
+						<h3 className={styles.h3}>Amazhop React Native Application</h3>
+						<p className={styles.p}>
+							Built with Expo and React Native, sharing the business logic
+							written in Rematch through Yarn Workspaces and TSDX
+						</p>
+						<a
+							className={clsx(
+								'button button--outline button--tertiary button--lg',
+								styles.getStarted
+							)}
+							data-extlink
+							target="_blank"
+							href="https://github.com/PacktPublishing/Redux-Made-Easy-with-Rematch"
+						>
+							Explore more
+						</a>
 					</div>
 				</div>
 			</div>

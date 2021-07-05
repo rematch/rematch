@@ -43,12 +43,12 @@
   font-weight: 800;
   line-height: 1.125;
   letter-spacing: -0.04em;
-  font-size: calc(var(--ifm-h1-font-size));
+  font-size: calc(var(--ifm-h1-font-size) * 1.5);
   pointer-events: auto;
   box-sizing: border-box;
   border: 0 solid #dfdfdf;
   background-clip: text;
-  background-image: linear-gradient(180deg, #ffe88b 0%, #e59f35 100%);
+  background-image: linear-gradient(180deg, #f1d45f 0%, #e59f35 100%);
   color: transparent;
 }
 
@@ -89,6 +89,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.video {
+  object-fit: contain;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .heroImage {
