@@ -139,6 +139,9 @@ module.exports = {
 				},
 			},
 		],
-		['docusaurus-preset-shiki-twoslash', { themes: ['min-light', 'min-dark'] }],
+		[
+			'docusaurus-preset-shiki-twoslash',
+			{ themes: ['github-light', 'github-dark'] },
+		],
 	],
 }

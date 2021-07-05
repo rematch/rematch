@@ -4,7 +4,8 @@ title: Introduction
 sidebar_label: Introduction
 slug: /
 ---
-> Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
+
+Rematch is Redux best practices without the boilerplate. No more action types, action creators, switch statements or thunks.
 
 ## Features
 
@@ -28,47 +29,11 @@ Rematch builds upon Redux by reducing boilerplate and enforcing best practices. 
     - for creating selectors with [reselect](https://github.com/reduxjs/reselect)
     - ...and others
 
-## Redux vs Rematch
+## Getting started
 
-|                           | Redux  | Rematch      |
-| :------------------------ | :----: | :----------: |
-| simple setup ‎            |        | ‎✔           |
-| less boilerplate          |        | ‎✔           |
-| readability               |        | ‎✔           |
-| configurable              | ‎   ✔  | ‎✔           |
-| redux devtools            |   ‎✔   |       ‎✔     |
-| generated action creators | ‎      |       ‎✔     |
-| async                     | thunks | ‎async/await |
-
-## How to start
-[Learn how to integrate easily on Javascript or Typescript (React, Vue...)](getting-started/installation)
-
-## Migrate From Redux
-
-Migrating from Redux to Rematch may only involve minor changes to your state management, and no necessary changes to your view logic. See the [migration reference](migrating-from-redux-to-rematch) for the details.
-
-## Composable Plugins
-
-Rematch and its internals are all built upon a plugin pipeline. As a result, developers can make complex custom plugins that modify the setup or add data models, often without requiring any changes to Rematch itself. See the [plugins](plugins/) developed by the Rematch team or the [API for creating plugins](api-reference/plugins).
-
-
-## All plugins
-
-
-|           name            |   stable version |
-| :------------------------ | :----: |
-|  ‎         core                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/core/latest?style=flat-square)    |
-|  ‎         loading                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/loading/latest?style=flat-square)        |
-|  ‎         persist                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/persist/latest?style=flat-square)    |
-|  ‎         select                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/select/latest?style=flat-square)    |
-|  ‎         updated                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/updated/latest?style=flat-square)    |
-|  ‎         immer                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/immer/latest?style=flat-square)    |
-
-### Deprecated
-|           name            |   version  |
-| :------------------------ | :----: |
-|  ‎         typed-state                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/typed-state?style=flat-square)    |
-|  ‎         react-navigation                |    ![npm_tag](https://img.shields.io/npm/v/@rematch/react-navigation?style=flat-square)    |
+- Are you coming from an existing Redux codebase?, [follow our tutorial](/docs/migrating-from-redux-to-rematch)
+- Are you starting from the ground?, [follow our starter tutorial](/docs/getting-started/installation)
+    - If you're using TypeScript, you can jump to TypeScript utility types. [Jump](/docs/getting-started/typescript)
 
 ## Contact & Support
 
