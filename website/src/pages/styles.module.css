@@ -24,6 +24,34 @@
   color: transparent;
 }
 
+.h2 {
+  text-align: center;
+  font-weight: 800;
+  line-height: 1.125;
+  letter-spacing: -0.04em;
+  font-size: calc(var(--ifm-h1-font-size) * 2);
+  pointer-events: auto;
+  box-sizing: border-box;
+  border: 0 solid #dfdfdf;
+  background-clip: text;
+  background-image: linear-gradient(180deg, #8b9dff 0%, #3578e5 100%);
+  color: transparent;
+}
+
+.h3 {
+  text-align: center;
+  font-weight: 800;
+  line-height: 1.125;
+  letter-spacing: -0.04em;
+  font-size: calc(var(--ifm-h1-font-size));
+  pointer-events: auto;
+  box-sizing: border-box;
+  border: 0 solid #dfdfdf;
+  background-clip: text;
+  background-image: linear-gradient(180deg, #ffe88b 0%, #e59f35 100%);
+  color: transparent;
+}
+
 .heroContainer {
   padding: 10rem;
   padding-top: 2rem;
@@ -52,6 +80,12 @@
 }
 
 .buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -287,6 +321,10 @@
 .rematchContributorsImage {
   /* contributors image has like a empty space at the right */
   margin-left: 10%;
+}
+
+.techImage {
+  width: 5rem;
 }
 
 @media (max-width: 1224px) {

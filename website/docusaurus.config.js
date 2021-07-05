@@ -26,7 +26,7 @@ module.exports = {
 		announcementBar: {
 			id: 'supportus',
 			content:
-				'⭐️ If you like Rematch, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/rematch/rematch">GitHub</a>! ⭐️',
+				'🔥 If you want to learn more about Rematch, check the newest official book on <a target="_blank" rel="noopener noreferrer" href="https://amz.run/4iDY">Amazon</a>! 🆕',
 		},
 		navbar: {
 			title: 'Rematch',
@@ -62,6 +62,11 @@ module.exports = {
 					href: 'https://rematchjs.slack.com',
 					label: 'Slack',
 					position: 'right',
+				},
+				{
+					href: '/redux-made-easy-book',
+					label: 'Official book 🆕',
+					position: 'left',
 				},
 			],
 		},
