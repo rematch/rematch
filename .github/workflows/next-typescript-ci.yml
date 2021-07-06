@@ -7,6 +7,9 @@ on:
 
 jobs:
   next-typescript-ci:
+    strategy:
+      matrix:
+        typescript: ["dev", "latest", "next"]
     runs-on: ubuntu-latest
     if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     env:
@@ -41,7 +44,7 @@ jobs:
         run: yarn install --frozen-lockfile --pure-lockfile
 
       - name: Add Typescript@next
-        run: yarn add --dev typescript@next tslib -W
+        run: yarn add --dev typescript@${{ matrix.typescript }} tslib -W
 
       - name: Build & Testing
         run: |
