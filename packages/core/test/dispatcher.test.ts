@@ -1,4 +1,4 @@
-import { init, ModelDispatcher, Models } from '../src'
+import { createModel, init, ModelDispatcher, Models } from '../src'
 
 describe('dispatch:', () => {
 	describe('action:', () => {
@@ -47,12 +47,15 @@ describe('dispatch:', () => {
 		it('should dispatch an action', () => {
 			type CountState = number
 
-			const count = {
+			interface RootModel extends Models<RootModel> {
+				count: typeof count
+			}
+			const count = createModel<RootModel>()({
 				state: 0,
 				reducers: {
 					add: (state: CountState): CountState => state + 1,
 				},
-			}
+			})
 
 			const store = init({
 				models: { count },
@@ -69,12 +72,15 @@ describe('dispatch:', () => {
 		it('should dispatch multiple actions', () => {
 			type CountState = number
 
-			const count = {
+			interface RootModel extends Models<RootModel> {
+				count: typeof count
+			}
+			const count = createModel<RootModel>()({
 				state: 0,
 				reducers: {
 					add: (state: CountState): CountState => state + 1,
 				},
-			}
+			})
 
 			const store = init({
 				models: { count },
@@ -91,21 +97,26 @@ describe('dispatch:', () => {
 		it('should handle multiple models', () => {
 			type CountState = number
 
-			const a = {
+			const a = createModel<RootModel>()({
 				state: 42,
 				reducers: {
 					add: (state: CountState): CountState => state + 1,
 				},
-			}
+			})
 
-			const b = {
+			const b = createModel<RootModel>()({
 				state: 0,
 				reducers: {
 					add: (state: CountState): CountState => state + 1,
 				},
+			})
+
+			interface RootModel extends Models<RootModel> {
+				a: typeof a
+				b: typeof b
 			}
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { a, b },
 			})
 
@@ -124,7 +135,7 @@ describe('dispatch:', () => {
 				meta: any
 			}
 
-			const count = {
+			const count = createModel<RootModel>()({
 				state: {
 					count: 0,
 					meta: null,
@@ -141,9 +152,13 @@ describe('dispatch:', () => {
 						}
 					},
 				},
+			})
+
+			interface RootModel extends Models<RootModel> {
+				count: typeof count
 			}
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { count },
 			})
 
@@ -154,25 +169,60 @@ describe('dispatch:', () => {
 				meta: { some_meta: true },
 			})
 		})
+
+		it('effects functions that share a name with a reducer are called after their reducer counterpart.', () => {
+			interface RootModel extends Models<RootModel> {
+				count: typeof count
+			}
+
+			const effectMock = jest.fn()
+			const reducerMock = jest.fn()
+
+			const count = createModel<RootModel>()({
+				state: {
+					count: 0,
+				},
+				reducers: {
+					add(state) {
+						reducerMock()
+						return state
+					},
+				},
+				effects: () => ({
+					add() {
+						effectMock()
+					},
+				}),
+			})
+
+			const store = init<RootModel>({
+				models: { count },
+			})
+
+			store.dispatch.count.add()
+			expect(effectMock.mock.invocationCallOrder[0]).toBeGreaterThan(
+				reducerMock.mock.invocationCallOrder[0]
+			)
+		})
 	})
 
 	it('should include a payload if it is a false value', () => {
 		type AState = boolean
 
-		const a = {
+		const a = createModel<RootModel>()({
 			state: true,
 			reducers: {
 				toggle: (_: AState, payload: boolean): boolean => payload,
 			},
-		}
-
-		type RootModel = {
-			a: typeof a
-		}
+		})
 
 		const models: RootModel = { a }
 
-		const store = init({
+		interface RootModel extends Models<RootModel> {
+			a: typeof a
+		}
+
+		const store = init<RootModel>({
 			models,
 		})
 
@@ -215,14 +265,18 @@ describe('dispatch:', () => {
 		it('should pass state as the first reducer param', () => {
 			type CountState = number
 
-			const count = {
+			const count = createModel<RootModel>()({
 				state: 0,
 				reducers: {
 					doNothing: (state: CountState): CountState => state,
 				},
+			})
+
+			interface RootModel extends Models<RootModel> {
+				count: typeof count
 			}
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { count },
 			})
 
@@ -238,7 +292,7 @@ describe('dispatch:', () => {
 				countIds: number[]
 			}
 
-			const count = {
+			const count = createModel<RootModel>()({
 				state: {
 					countIds: [],
 				} as CountState,
@@ -250,9 +304,13 @@ describe('dispatch:', () => {
 						}
 					},
 				},
+			})
+
+			interface RootModel extends Models<RootModel> {
+				count: typeof count
 			}
 
-			const store = init({
+			const store = init<RootModel>({
 				models: { count },
 			})
 

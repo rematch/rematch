@@ -1,5 +1,5 @@
 import { Middleware } from 'redux'
-import { init } from '../src'
+import { createModel, init, Models } from '../src'
 
 describe('init config:', () => {
 	test('should not throw with an empty config', () => {
@@ -29,16 +29,22 @@ describe('init config:', () => {
 			return next(newAction)
 		}
 
-		const store = init({
-			models: {
-				count: {
-					state: 0,
-					reducers: {
-						addBy(state: number, payload: number): number {
-							return state + payload
-						},
-					},
+		const count = createModel<RootModel>()({
+			state: 0,
+			reducers: {
+				addBy(state: number, payload: number): number {
+					return state + payload
 				},
+			},
+		})
+
+		interface RootModel extends Models<RootModel> {
+			count: typeof count
+		}
+
+		const store = init<RootModel>({
+			models: {
+				count,
 			},
 			redux: {
 				middlewares: [add5Middleware, subtract2Middleware],

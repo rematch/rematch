@@ -176,9 +176,11 @@ describe('Dispatcher typings', () => {
 					return state - payload
 				},
 			},
-			effects: () => ({
-				increment(payload: number) {
-					this.increment(payload)
+			effects: (dispatch) => ({
+				increment(_: number, state) {
+					if (state.count < 5) {
+						dispatch.count.increment(1)
+					}
 				},
 			}),
 		})
@@ -191,8 +193,10 @@ describe('Dispatcher typings', () => {
 
 		store.dispatch.count.increment(1)
 		store.dispatch.count.increment(10)
+		// @ts-expect-error because increment payload:number, not string
 		store.dispatch.count.increment('10')
-		store.dispatch.count.decrement(1)
+		store.dispatch.count.decrement(3)
+		// @ts-expect-error because increment payload:number, not string
 		store.dispatch.count.decrement('10')
 	})
 })

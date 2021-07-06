@@ -1,4 +1,4 @@
-import { init } from '../src'
+import { createModel, init, Models } from '../src'
 
 describe('createStore:', () => {
 	it('no params should create store with state `{}`', () => {
@@ -85,15 +85,18 @@ describe('createStore:', () => {
 	})
 
 	test('should allow resetting state through root reducer', () => {
-		const count = {
+		const count = createModel<RootModel>()({
 			state: 0,
 			reducers: {
 				addOne(state: number): number {
 					return state + 1
 				},
 			},
+		})
+		interface RootModel extends Models<RootModel> {
+			count: typeof count
 		}
-		const store = init({
+		const store = init<RootModel>({
 			models: { count },
 			redux: {
 				rootReducers: {
@@ -112,9 +115,13 @@ describe('createStore:', () => {
 	})
 
 	test('root reducer should work with dynamic model', () => {
-		const store = init({
+		const countA = createModel<RootModel>()({
+			state: 0,
+			reducers: { up: (s): number => s + 1 },
+		})
+		const store = init<RootModel>({
 			models: {
-				countA: { state: 0, reducers: { up: (s): number => s + 1 } },
+				countA,
 				countB: { state: 0, reducers: {} },
 			},
 			redux: {
@@ -125,6 +132,10 @@ describe('createStore:', () => {
 				},
 			},
 		})
+
+		interface RootModel extends Models<RootModel> {
+			countA: typeof countA
+		}
 
 		store.addModel({ name: 'countC', state: 0, reducers: {} })
 
