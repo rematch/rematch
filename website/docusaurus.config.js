@@ -19,10 +19,6 @@ module.exports = {
 			disableSwitch: false,
 			respectPrefersColorScheme: true,
 		},
-		prism: {
-			// eslint-disable-next-line import/no-extraneous-dependencies
-			theme: require('prism-react-renderer/themes/dracula'),
-		},
 		algolia: {
 			// todo: set real keys
 			apiKey: 'bf1caf576975a08099ac1d3dbbe58f96',
@@ -139,7 +135,16 @@ module.exports = {
 					editUrl: 'https://github.com/rematch/rematch/edit/main/blog/',
 				},
 				theme: {
-					customCss: require.resolve('./src/css/custom.css'),
+					customCss: [require.resolve('./src/css/custom.css')],
+				},
+			},
+		],
+		[
+			'docusaurus-preset-shiki-twoslash',
+			{
+				themes: ['github-light', 'github-dark'],
+				defaultCompilerOptions: {
+					types: ['@types/jest'],
 				},
 			},
 		],

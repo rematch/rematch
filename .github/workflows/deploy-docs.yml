@@ -39,8 +39,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Install
-        run: yarn install --frozen-lockfile --pure-lockfile
+      - name: Install & Build packages
+        run: |
+          yarn install --frozen-lockfile --pure-lockfile
+          yarn build
 
       - name: Build & Testing
         run: |
@@ -49,6 +51,7 @@ jobs:
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.3
+        if: github.ref == 'refs/heads/main'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
@@ -56,6 +59,7 @@ jobs:
           clean: true
 
       - name: Discord notification
+        if: github.ref == 'refs/heads/main'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master

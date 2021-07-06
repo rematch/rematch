@@ -40,7 +40,7 @@ const transformNode = (node) => {
 	]
 }
 
-const matchNode = (node) => node.type === 'code' && node.meta === 'npm2yarn'
+const matchNode = (node) => node.meta === 'npm2yarn'
 const nodeForImport = {
 	type: 'import',
 	value:

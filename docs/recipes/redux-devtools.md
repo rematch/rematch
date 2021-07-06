@@ -7,30 +7,37 @@ slug: /recipes/redux-devtools/
 
 Rematch works with [Redux Devtools](https://github.com/zalmoxisus/redux-devtools-extension) out of the box. No configuration required.
 
-```js
-init() // devtools up and running
+```ts twoslash
+import { init } from "@rematch/core";
+init(); // devtools up and running
 ```
 
 Its also possible to add redux devtools [configuration options](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md).
 
-```js
+```ts twoslash
+import { init } from "@rematch/core";
+
 init({
-	redux: {
-		devtoolOptions: options,
-	},
-})
+  redux: {
+    devtoolOptions: {
+      actionSanitizer: (action) => action,
+    },
+  },
+});
 ```
 
 To disable redux devtools, set `disabled` property to `true`:
 
-```js
+```ts twoslash
+import { init } from "@rematch/core";
+
 init({
-	redux: {
-		devtoolOptions: {
-			disabled: true,
-		},
-	},
-})
+  redux: {
+    devtoolOptions: {
+      disabled: true,
+    },
+  },
+});
 ```
 
 ## Remote Redux-Devtools
@@ -42,29 +49,30 @@ You can use [react-native-debugger](https://github.com/jhen0409/react-native-deb
 
 Setup Rematch to also work with [Reactotron devtools](https://github.com/infinitered/reactotron).
 
-```js
-// Reactotron.config.js
-import Reactotron from 'reactotron-react-native'
-import { reactotronRedux } from 'reactotron-redux'
+```ts twoslash title="Reactotron.config.js"
+// @noErrors
+import Reactotron from "reactotron-react-native";
+import { reactotronRedux } from "reactotron-redux";
 
 export default Reactotron.configure({
-	name: 'MyAwesomeApp',
+  name: "MyAwesomeApp",
 })
-	.use(reactotronRedux())
-	// add other devtools here
-	.connect()
+  .use(reactotronRedux())
+  // add other devtools here
+  .connect();
 ```
 
 Overwrite `createStore` to complete the config.
 
-```js
-// index.js
-import Reactotron from './Reactotron.config.js'
+```ts twoslash title="store.ts"
+// @noErrors
+import { init } from "@rematch/core";
+import Reactotron from "./Reactotron.config.js";
 
 init({
-	redux: {
-		enhancers: [Reactotron.createEnhancer()],
-		// If using typescript/flow, enhancers: [Reactotron.createEnhancer!()]
-	},
-})
+  redux: {
+    enhancers: [Reactotron.createEnhancer()],
+    // If using typescript/flow, enhancers: [Reactotron.createEnhancer!()]
+  },
+});
 ```

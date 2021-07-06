@@ -11,7 +11,8 @@ Moving from Redux to Rematch involves very few steps.
 
 Imagine a simple app than increments a value in a redux store written in React.
 
-```jsx
+```tsx twoslash
+// @noErrors
 import React from "react";
 import ReactDOM from "react-dom";
 import { init } from "@rematch/core";
@@ -27,7 +28,7 @@ const store = init({
     reducers: {
       sharks,
     },
-    middlewares: [thunk]
+    middlewares: [thunk],
   },
 });
 
@@ -37,23 +38,23 @@ const Root = () => (
   </Provider>
 );
 
-ReactDOM.render(<Root />, document.querySelector('#root'));
+ReactDOM.render(<Root />, document.querySelector("#root"));
 ```
 
 ### 2. Mix reducers & models
 
 Our currently `Redux` reducers are currently like this:
 
-```js
+```ts twoslash
 const INCREMENT = "sharks/increment";
 
-export const incrementSharks = (payload) => ({
+export const incrementSharks = (payload: number) => ({
   type: INCREMENT,
   payload,
 });
 
-export default (state = 0, action) => {
-  switch(action.type) {
+export default (state = 0, action: { payload: number; type: string }) => {
+  switch (action.type) {
     case INCREMENT:
       return state + action.payload;
     default:
@@ -64,13 +65,14 @@ export default (state = 0, action) => {
 
 But now we'll move them to Rematch Models, create a new file called `/models/sharks.js`:
 
-```js
+```ts twoslash
+// @noErrors
 export default {
   state: 0,
   reducers: {
-    increment: (state, payload) => state + payload
-  }
-}
+    increment: (state, payload: number) => state + payload,
+  },
+};
 ```
 
 :::info
@@ -78,11 +80,15 @@ Both snippets (Redux one and Rematch Model) are equivalent.
 :::
 
 Now, add it to your `init()` method and remove `redux-thunk` because isn't required with Rematch:
-```js
+
+```ts twoslash
+// @noErrors
+import { init } from "@rematch/core";
+
 const store = init({
   models: {
     sharks,
-  }
+  },
 });
 ```
 
