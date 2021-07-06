@@ -42,7 +42,7 @@ jobs:
       - name: Install & Build packages
         run: |
           yarn install --frozen-lockfile --pure-lockfile
-          yarn build --ignore rematch-docs
+          yarn build
 
       - name: Build & Testing
         run: |
