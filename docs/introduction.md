@@ -24,16 +24,16 @@ Rematch builds upon Redux by reducing boilerplate and enforcing best practices. 
 - Supports React Native
 - Extendable with plugins
 - Many plugins available out of the box:
-    - for persisting data with [redux-persist](https://github.com/rt2zz/redux-persist)
-    - for wrapping state with [immer.js](https://github.com/immerjs/immer)
-    - for creating selectors with [reselect](https://github.com/reduxjs/reselect)
-    - ...and others
+  - for persisting data with [redux-persist](https://github.com/rt2zz/redux-persist)
+  - for wrapping state with [immer.js](https://github.com/immerjs/immer)
+  - for creating selectors with [reselect](https://github.com/reduxjs/reselect)
+  - ...and others
 
 ## Getting started
 
 - Are you coming from an existing Redux codebase?, [follow our tutorial](/docs/migrating-from-redux-to-rematch)
 - Are you starting from the ground?, [follow our starter tutorial](/docs/getting-started/installation)
-    - If you're using TypeScript, you can jump to TypeScript utility types. [Jump](/docs/getting-started/typescript)
+  - If you're using TypeScript, you can jump to TypeScript utility types. [Jump](/docs/getting-started/typescript)
 
 ## Contact & Support
 

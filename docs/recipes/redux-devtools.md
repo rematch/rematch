@@ -8,29 +8,29 @@ slug: /recipes/redux-devtools/
 Rematch works with [Redux Devtools](https://github.com/zalmoxisus/redux-devtools-extension) out of the box. No configuration required.
 
 ```js
-init() // devtools up and running
+init(); // devtools up and running
 ```
 
 Its also possible to add redux devtools [configuration options](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md).
 
 ```js
 init({
-	redux: {
-		devtoolOptions: options,
-	},
-})
+  redux: {
+    devtoolOptions: options,
+  },
+});
 ```
 
 To disable redux devtools, set `disabled` property to `true`:
 
 ```js
 init({
-	redux: {
-		devtoolOptions: {
-			disabled: true,
-		},
-	},
-})
+  redux: {
+    devtoolOptions: {
+      disabled: true,
+    },
+  },
+});
 ```
 
 ## Remote Redux-Devtools
@@ -44,27 +44,27 @@ Setup Rematch to also work with [Reactotron devtools](https://github.com/infinit
 
 ```js
 // Reactotron.config.js
-import Reactotron from 'reactotron-react-native'
-import { reactotronRedux } from 'reactotron-redux'
+import Reactotron from "reactotron-react-native";
+import { reactotronRedux } from "reactotron-redux";
 
 export default Reactotron.configure({
-	name: 'MyAwesomeApp',
+  name: "MyAwesomeApp",
 })
-	.use(reactotronRedux())
-	// add other devtools here
-	.connect()
+  .use(reactotronRedux())
+  // add other devtools here
+  .connect();
 ```
 
 Overwrite `createStore` to complete the config.
 
 ```js
 // index.js
-import Reactotron from './Reactotron.config.js'
+import Reactotron from "./Reactotron.config.js";
 
 init({
-	redux: {
-		enhancers: [Reactotron.createEnhancer()],
-		// If using typescript/flow, enhancers: [Reactotron.createEnhancer!()]
-	},
-})
+  redux: {
+    enhancers: [Reactotron.createEnhancer()],
+    // If using typescript/flow, enhancers: [Reactotron.createEnhancer!()]
+  },
+});
 ```

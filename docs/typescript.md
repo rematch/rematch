@@ -5,7 +5,6 @@ sidebar_label: Typescript
 slug: /getting-started/typescript
 ---
 
-
 ```twoslash include countModel
 // @filename: count.ts
 import { createModel } from '@rematch/core'
@@ -157,16 +156,16 @@ Now we like to export some common types:
 
 // @filename: store.ts
 // ---cut---
-import { init, RematchDispatch, RematchRootState } from "@rematch/core"
-import { models, RootModel } from "./models"
+import { init, RematchDispatch, RematchRootState } from "@rematch/core";
+import { models, RootModel } from "./models";
 
 export const store = init({
   models,
-})
+});
 
-export type Store = typeof store
-export type Dispatch = RematchDispatch<RootModel>
-export type RootState = RematchRootState<RootModel>
+export type Store = typeof store;
+export type Dispatch = RematchDispatch<RootModel>;
+export type RootState = RematchRootState<RootModel>;
 ```
 
 :::tip
@@ -222,15 +221,15 @@ export type RootState = RematchRootState<RootModel>
 // @include: store
 // @filename: Count.tsx
 // ---cut---
-import React from "react"
-import { RootState } from "./store"
-import { useSelector } from "react-redux"
+import React from "react";
+import { RootState } from "./store";
+import { useSelector } from "react-redux";
 
 const Count = () => {
-  const countState = useSelector((state: RootState) => state.count)
+  const countState = useSelector((state: RootState) => state.count);
 
-  return <div>example</div>
-}
+  return <div>example</div>;
+};
 ```
 
 ### useDispatch
@@ -266,30 +265,30 @@ const Count = () => {
 // @include: store
 // @filename: App.tsx
 // ---cut---
-import React from "react"
-import { RootState, Dispatch } from "./store"
-import { connect } from "react-redux"
+import React from "react";
+import { RootState, Dispatch } from "./store";
+import { connect } from "react-redux";
 
 class App extends React.PureComponent<Props> {
   render() {
-    const { countState } = this.props
-    return <div>example</div>
+    const { countState } = this.props;
+    return <div>example</div>;
   }
 }
 
 const mapState = (state: RootState) => ({
   countState: state.count,
-})
+});
 
 const mapDispatch = (dispatch: Dispatch) => ({
   count: dispatch.count,
-})
+});
 
-type StateProps = ReturnType<typeof mapState>
-type DispatchProps = ReturnType<typeof mapDispatch>
-type Props = StateProps & DispatchProps
+type StateProps = ReturnType<typeof mapState>;
+type DispatchProps = ReturnType<typeof mapDispatch>;
+type Props = StateProps & DispatchProps;
 
-export default connect(mapState, mapDispatch)(App)
+export default connect(mapState, mapDispatch)(App);
 ```
 
 ## Effects returning values

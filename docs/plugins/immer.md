@@ -4,6 +4,7 @@ title: Immer
 sidebar_label: "@rematch/immer"
 slug: /plugins/immer/
 ---
+
 import { MultiLangComponent } from "/src/components/MultiLangComponent"
 
 Immer plugin for Rematch. Wraps your reducers with immer, providing ability to safely do mutable changes resulting in immutable state.
@@ -12,10 +13,10 @@ Immer plugin for Rematch. Wraps your reducers with immer, providing ability to s
 
 Install the correct version of immer plugin based on the version of the core Rematch library in your project.
 
-|         @rematch/core  | @rematch/immer  	 |
-| :--------------------: | :----: 				 	 |
-| 1.x.x                  |    1.x.x   			 |
-| 2.x.x                  |    2.x.x   			 |
+| @rematch/core | @rematch/immer |
+| :-----------: | :------------: |
+|     1.x.x     |     1.x.x      |
+|     2.x.x     |     2.x.x      |
 
 ## Install
 
@@ -27,8 +28,8 @@ npm install @rematch/immer
 
 Immer plugin accepts one optional argument - **config**, which is an object with the following properties:
 
-- [`whitelist`] (*string[]*): an array of models' names. Allows defining on a model level, which reducers should be wrapped with immer.
-- [`blacklist`] (*string[]*): an array of models' names. Allows defining on a model level, which reducers should **not** be wrapped with immer.
+- [`whitelist`] (_string[]_): an array of models' names. Allows defining on a model level, which reducers should be wrapped with immer.
+- [`blacklist`] (_string[]_): an array of models' names. Allows defining on a model level, which reducers should **not** be wrapped with immer.
 
 If config isn't provided, reducers from all models will be wrapped with immer.
 
@@ -41,61 +42,65 @@ If your state is a primitive value like a number of a string, plugin automatical
 <MultiLangComponent>
 
 ```js title="store.js"
-import immerPlugin from '@rematch/immer'
-import { init } from '@rematch/core'
-import { models } from './models'
+import immerPlugin from "@rematch/immer";
+import { init } from "@rematch/core";
+import { models } from "./models";
 
 init({
   models,
-	plugins: [immerPlugin()],
-})
+  plugins: [immerPlugin()],
+});
 ```
 
 ```ts title="store.ts"
-import immerPlugin from '@rematch/immer'
-import { init } from '@rematch/core'
-import { models, RootModel } from './models'
+import immerPlugin from "@rematch/immer";
+import { init } from "@rematch/core";
+import { models, RootModel } from "./models";
 
-export const store = init<RootModel>({
-  models,
-  // add immerPlugin to your store
-	plugins: [immerPlugin()],
-})
+export const store =
+  init <
+  RootModel >
+  {
+    models,
+    // add immerPlugin to your store
+    plugins: [immerPlugin()],
+  };
 
-export type Store = typeof store
-export type Dispatch = RematchDispatch<RootModel>
-export type RootState = RematchRootState<RootModel>
+export type Store = typeof store;
+export type Dispatch = RematchDispatch<RootModel>;
+export type RootState = RematchRootState<RootModel>;
 ```
+
 </MultiLangComponent>
 
 <MultiLangComponent>
 
 ```js
 export const todo = {
-	state: [
-		{
-			todo: 'Learn typescript',
-			done: true,
-		},
-		{
-			todo: 'Try immer',
-			done: false,
-		},
-	],
-	reducers: {
-		done(state) {
+  state: [
+    {
+      todo: "Learn typescript",
+      done: true,
+    },
+    {
+      todo: "Try immer",
+      done: false,
+    },
+  ],
+  reducers: {
+    done(state) {
       // mutable changes to the state
-			state.push({ todo: 'Tweet about it' })
-			state[1].done = true
-			return state
-		},
-		// when 'reset' reducer is executed, the state will be set
-		// to 'undefined' because reducer doesn't return the next state
-		reset(state) {
-				state[0].done = false
-		},
-	},
-}
+      state.push({ todo: "Tweet about it" });
+      state[1].done = true;
+      return state;
+    },
+    // when 'reset' reducer is executed, the state will be set
+    // to 'undefined' because reducer doesn't return the next state
+    reset(state) {
+      state[0].done = false;
+    },
+  },
+};
 ```
 
 ```ts
@@ -128,4 +133,5 @@ export const todo = createModel<RootModel>()({
 	},
 })
 ```
+
 </MultiLangComponent>

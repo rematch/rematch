@@ -27,7 +27,7 @@ const store = init({
     reducers: {
       sharks,
     },
-    middlewares: [thunk]
+    middlewares: [thunk],
   },
 });
 
@@ -37,7 +37,7 @@ const Root = () => (
   </Provider>
 );
 
-ReactDOM.render(<Root />, document.querySelector('#root'));
+ReactDOM.render(<Root />, document.querySelector("#root"));
 ```
 
 ### 2. Mix reducers & models
@@ -53,7 +53,7 @@ export const incrementSharks = (payload) => ({
 });
 
 export default (state = 0, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case INCREMENT:
       return state + action.payload;
     default:
@@ -68,9 +68,9 @@ But now we'll move them to Rematch Models, create a new file called `/models/sha
 export default {
   state: 0,
   reducers: {
-    increment: (state, payload) => state + payload
-  }
-}
+    increment: (state, payload) => state + payload,
+  },
+};
 ```
 
 :::info
@@ -78,11 +78,12 @@ Both snippets (Redux one and Rematch Model) are equivalent.
 :::
 
 Now, add it to your `init()` method and remove `redux-thunk` because isn't required with Rematch:
+
 ```js
 const store = init({
   models: {
     sharks,
-  }
+  },
 });
 ```
 

@@ -4,6 +4,7 @@ title: Updated
 sidebar_label: "@rematch/updated"
 slug: /plugins/updated/
 ---
+
 import { MultiLangComponent } from "/src/components/MultiLangComponent"
 
 Rematch plugin for maintaining timestamps when an effect is triggered.
@@ -17,10 +18,10 @@ Updated is primarily used for optimizing effects. It can be used to:
 
 Install the correct version of the updated plugin based on the version of the core Rematch library in your project.
 
-|         @rematch/core  | @rematch/updated  |
-| :--------------------: | :----: |
-| 1.x.x                   |    1.x.x  |
-| 2.x.x                   |    2.x.x  |
+| @rematch/core | @rematch/updated |
+| :-----------: | :--------------: |
+|     1.x.x     |      1.x.x       |
+|     2.x.x     |      2.x.x       |
 
 ## Install
 
@@ -52,19 +53,20 @@ Let’s say we have a model ‘count’ in our store which has two effects - _fe
 ```
 
 ### Setup the store
+
 To use the plugin, start with adding it to your store:
 
 <MultiLangComponent>
 
 ```js title="store.js"
-import updatedPlugin from '@rematch/updated'
-import { init } from '@rematch/core'
-import * as models from './models'
+import updatedPlugin from "@rematch/updated";
+import { init } from "@rematch/core";
+import * as models from "./models";
 
 init({
-    models,
-	plugins: [updatedPlugin()],
-})
+  models,
+  plugins: [updatedPlugin()],
+});
 ```
 
 ```ts title="store.ts"
@@ -106,9 +108,9 @@ export const count = {
 Use the updated state:
 
 ```js title="someView.jsx"
-const state = store.getState()
+const state = store.getState();
 // or just connect() on `react-redux`
 
-console.log(state.updated.count.fetchOne)
-console.log(state.updated.count.fetchTwo)
+console.log(state.updated.count.fetchOne);
+console.log(state.updated.count.fetchTwo);
 ```

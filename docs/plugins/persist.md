@@ -4,16 +4,17 @@ title: Persist
 sidebar_label: "@rematch/persist"
 slug: /plugins/persist/
 ---
+
 Redux-Persist v6 plugin for Rematch. Provides automatic Redux state persistence.
 
 ## Compatibility
 
 Install the correct version of persist plugin based on the version of the core Rematch library in your project.
 
-|         @rematch/core  | @rematch/persist  |
-| :--------------------: | :----: |
-| 1.x.x                   |    1.x.x  |
-| 2.x.x                   |    2.x.x  |
+| @rematch/core | @rematch/persist |
+| :-----------: | :--------------: |
+|     1.x.x     |      1.x.x       |
+|     2.x.x     |      2.x.x       |
 
 ## Install
 
@@ -38,18 +39,18 @@ The persist plugin accepts four arguments - **persistConfig**, **nestedPersistCo
 ### Setup the store
 
 ```js title="store.js"
-import persistPlugin from '@rematch/persist'
-import { init } from '@rematch/core'
-import storage from 'redux-persist/lib/storage'
+import persistPlugin from "@rematch/persist";
+import { init } from "@rematch/core";
+import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-}
+};
 
 init({
-	plugins: [persistPlugin(persistConfig)],
-})
+  plugins: [persistPlugin(persistConfig)],
+});
 ```
 
 ### Persist Gate
@@ -57,14 +58,14 @@ init({
 In React you can use a special component provided by redux-persist to display a loading indicator while waiting for data to async load from the storage.
 
 ```js
-import { getPersistor } from '@rematch/persist'
-import { PersistGate } from 'redux-persist/lib/integration/react'
+import { getPersistor } from "@rematch/persist";
+import { PersistGate } from "redux-persist/lib/integration/react";
 
-const persistor = getPersistor()
+const persistor = getPersistor();
 
 const Root = () => (
-	<PersistGate persistor={persistor}>
-		<App />
-	</PersistGate>
-)
+  <PersistGate persistor={persistor}>
+    <App />
+  </PersistGate>
+);
 ```

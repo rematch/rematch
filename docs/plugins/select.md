@@ -4,6 +4,7 @@ title: Select
 sidebar_label: "@rematch/select"
 slug: /plugins/select/
 ---
+
 import { MultiLangComponent } from "/src/components/MultiLangComponent"
 
 A plugin to add memoized state selection to Rematch. Selectors are created using [Reselect](https://github.com/reduxjs/reselect) by default and are automatically wired with selector dependencies from other models.
@@ -12,10 +13,10 @@ A plugin to add memoized state selection to Rematch. Selectors are created using
 
 Install the correct version of select plugin based on the version of the core Rematch library in your project.
 
-|         @rematch/core  | @rematch/select  |
-| :--------------------: | :----: |
-| 1.x.x                   |    2.x.x  |
-| 2.x.x                   |    3.x   |
+| @rematch/core | @rematch/select |
+| :-----------: | :-------------: |
+|     1.x.x     |      2.x.x      |
+|     2.x.x     |       3.x       |
 
 ## Install
 
@@ -31,7 +32,6 @@ The select plugin accepts one optional argument - **config**, which is an object
 
 - [`selectorCreator`] (_(selector, combiner) => outputSelector_): you can replace Reselect library with a different one by providing a custom function for creating selectors that has the same interface as Reselect. See the [plugin's recipes for an example](#re-reselect).
 
-
 ## Usage
 
 ### 1. Add plugin
@@ -41,32 +41,34 @@ Start by adding the plugin to your store:
 <MultiLangComponent>
 
 ```js title="store.js"
-import { init } from '@rematch/core'
-import selectPlugin from '@rematch/select'
-import * as models from './models'
+import { init } from "@rematch/core";
+import selectPlugin from "@rematch/select";
+import * as models from "./models";
 
 init({
   models,
   // add selectPlugin to your store
   plugins: [selectPlugin()],
-})
+});
 ```
 
 ```ts title="store.ts"
-import selectPlugin from '@rematch/select'
-import { init, RematchDispatch, RematchRootState } from '@rematch/core'
-import { models, RootModel } from './models'
+import selectPlugin from "@rematch/select";
+import { init, RematchDispatch, RematchRootState } from "@rematch/core";
+import { models, RootModel } from "./models";
 
-export const store = init<RootModel>({
+export const store =
+  init <
+  RootModel >
+  {
     models,
     // add selectPlugin to your store
     plugins: [selectPlugin()],
-})
+  };
 
-export type Store = typeof store
-export type Dispatch = RematchDispatch<RootModel>
-export type RootState = RematchRootState<RootModel>
-
+export type Store = typeof store;
+export type Dispatch = RematchDispatch<RootModel>;
+export type RootState = RematchRootState<RootModel>;
 ```
 
 </MultiLangComponent>
@@ -75,20 +77,23 @@ export type RootState = RematchRootState<RootModel>
 
 Now add selectors to your models. A **"selector"** is a function that given the current **root state** and **props** returns some value:
 
- ```js
-(rootState, props) => rootState.cart.reduce((total, item) => total + (item.price * item.amount), 0)
+```js
+(rootState, props) =>
+  rootState.cart.reduce((total, item) => total + item.price * item.amount, 0);
 ```
 
- To make our applications fast, we actually want to create **"memoized selectors"**, which means they recalculate only when the data they are based on changes. The selector plugin exposes some functions to make this process easy.
+To make our applications fast, we actually want to create **"memoized selectors"**, which means they recalculate only when the data they are based on changes. The selector plugin exposes some functions to make this process easy.
 
 Selectors can be added to a model using the `selectors` property. It must be a function accepting the following arguments and returning selectors:
+
 - `slice` - utility function that can be used in two different ways:
-    - (_(modelState => value) => memoizedSelector_): it can accept as an argument a selector from current's model state. In this case it returns a memoized selector. It is basically a shortcut for creating simple memoized selectors.
-    - (_(rootState) => modelState_): if given a root state as an argument, it returns current's model state.
+  - (_(modelState => value) => memoizedSelector_): it can accept as an argument a selector from current's model state. In this case it returns a memoized selector. It is basically a shortcut for creating simple memoized selectors.
+  - (_(rootState) => modelState_): if given a root state as an argument, it returns current's model state.
 - `createSelector` - function for creating memoized selectors. By default, it's Reselect's _createSelector_ function. Refer to [Reselect documentation](https://github.com/reduxjs/reselect#createselectorinputselectors--inputselectors-resultfunc) for details.
 - `hasProps` - utility function which creates a new selector cache for each new set of `props`. It wraps an entire selector factory and creates a higher-order selector. [For complex calculations or dashboards a recipe may be better](#re-reselect).
 
 There are three more details to keep in mind:
+
 - Inside selectors, `this` is bound to the current model's selectors.
 - Each selector accepts `models` argument which allows accessing selectors from other models.
 - [Be careful when passing `props` to a selector because of how reselect caches results.](https://github.com/reduxjs/reselect/blob/master/README.md#sharing-selectors-with-props-across-multiple-component-instances)
@@ -99,52 +104,53 @@ Let's look at the examples!
 
 ```js
 const model = {
-  name: 'cart',
-  state: [{
-    price: 42.00,
-    amount: 3,
-    productId: 2,
-  }],
+  name: "cart",
+  state: [
+    {
+      price: 42.0,
+      amount: 3,
+      productId: 2,
+    },
+  ],
   selectors: (slice, createSelector, hasProps) => ({
     // creates a simple memoized selector based on the cart state
-    total () {
-      return slice(cart =>
-        cart.reduce((a, b) => a + (b.price * b.amount), 0)
-      )
+    total() {
+      return slice((cart) => cart.reduce((a, b) => a + b.price * b.amount, 0));
     },
     // uses createSelector method to create more complex memoized selector
-    totalWithShipping () {
+    totalWithShipping() {
       return createSelector(
         slice, // shortcut for (rootState) => rootState.cart
         (rootState, props) => props.shipping,
-        (cart, shipping) => cart.reduce((a, b) => a + (b.price * b.amount), shipping)
-      )
+        (cart, shipping) =>
+          cart.reduce((a, b) => a + b.price * b.amount, shipping)
+      );
     },
     // refers to the other selector from this model
-    doubleTotal () {
+    doubleTotal() {
       return createSelector(
         this.totalWithShipping,
-        (totalWithShipping) => totalWithShipping * 2,
-      )
+        (totalWithShipping) => totalWithShipping * 2
+      );
     },
     // accesses selector from a different model
-    productsPopularity (models) {
+    productsPopularity(models) {
       return createSelector(
         slice, // shortcut for (rootState) => rootState.cart
         models.popularity.pastDay, // gets 'pastDay' selector from 'popularity' model
         (cart, hot) => cart.sort((a, b) => hot[a.productId] > hot[b.productId])
-      )
+      );
     },
     // uses hasProps function, which returns new selector for each given lowerLimit prop
     expensiveFilter: hasProps(function (models, lowerLimit) {
-      return slice(items => items.filter(item => item.price > lowerLimit))
+      return slice((items) => items.filter((item) => item.price > lowerLimit));
     }),
     // uses expensiveFilter selector to create a new selector where lowerLimit is set to 20.00
-    wouldGetFreeShipping () {
-      return this.expensiveFilter(20.00)
+    wouldGetFreeShipping() {
+      return this.expensiveFilter(20.0);
     },
   }),
-}
+};
 ```
 
 ### 4. Using Selectors In Your App
@@ -156,18 +162,18 @@ const model = {
 When called as a function, `select` lazily creates a [structuredSelector](https://github.com/reduxjs/reselect#createstructuredselectorinputselectors-selectorcreator--createselector) using the selectors you return in `mapSelectToStructure`.
 
 ```js
-const selection = store.select(models => ({
-	total: models.cart.total,
-	eligibleItems: models.cart.wouldGetFreeShipping,
-}))
+const selection = store.select((models) => ({
+  total: models.cart.total,
+  eligibleItems: models.cart.wouldGetFreeShipping,
+}));
 
 // it can be used as 'mapStateToProps'
-connect(selection)(MyComponent)
+connect(selection)(MyComponent);
 // or
-connect(state => ({
-	contacts: state.contacts.collection,
-	...selection(state),
-}))(MyComponent)
+connect((state) => ({
+  contacts: state.contacts.collection,
+  ...selection(state),
+}))(MyComponent);
 ```
 
 - `select: { [modelName]: { [selectorName]: (state) => any } }`
@@ -175,13 +181,13 @@ connect(state => ({
 `select` is also an object with a group of selectors for each of your store models. Selectors are regular functions that can be called anywhere within your application.
 
 ```js
-const moreThan50 = store.select.cart.expensiveFilter(50.0)
+const moreThan50 = store.select.cart.expensiveFilter(50.0);
 
-console.log(moreThan50(store.getState()))
+console.log(moreThan50(store.getState()));
 
-const mapStateToProps = state => ({
-	items: moreThan50(state),
-})
+const mapStateToProps = (state) => ({
+  items: moreThan50(state),
+});
 ```
 
 ## Recipes
@@ -192,8 +198,8 @@ If you are using an [Immutable.js](https://facebook.github.io/immutable-js/) Map
 
 ```js
 selectorsPlugin({
-	sliceState: (rootState, model) => rootState.get(model.name),
-})
+  sliceState: (rootState, model) => rootState.get(model.name),
+});
 ```
 
 Now you can use an [Immutable.js Map](http://facebook.github.io/immutable-js/docs/#/Map) as your store and access the appropriate slice of the state in each of your selectors.
@@ -207,11 +213,11 @@ Selectors have a cache size of 1. Passing a different set of props will invalida
 You can configure the plugin to use re-reselect:
 
 ```js
-import createCachedSelector from 're-reselect'
+import createCachedSelector from "re-reselect";
 
 selectorPlugin({
-	selectorCreator: createCachedSelector,
-})
+  selectorCreator: createCachedSelector,
+});
 ```
 
 ### Alternative to selecting
