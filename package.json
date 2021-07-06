@@ -30,7 +30,7 @@
   "scripts": {
     "pre-commit": "lint-staged",
     "clean": "lerna run clean",
-    "build": "lerna run build",
+    "build": "lerna run build --ignore rematch-docs",
     "test": "lerna run test",
     "watch": "lerna run test --stream -- --watch",
     "prettier:check": "prettier --check \"(examples|packages)/**/*.(js|ts|tsx|ts)\"",
