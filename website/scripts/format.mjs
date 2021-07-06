@@ -7,18 +7,9 @@ import prettier from 'prettier'
 async function ooop(f, file) {
 	const pathToWrite = path.join('..', 'docs', f, file)
 	let content = await fs.readFile(pathToWrite, 'utf-8')
-	content = content.replace(
-		/```(tsx|ts)/gi,
-		(_, type) => `\`\`\`${type === 'tsx' ? 'jsx' : 'js'} %%`
-	)
 	content = prettier.format(content, {
 		parser: 'markdown',
 	})
-	content = content.replace(
-		/```(jsx|js) %%/gi,
-		(_, type) => `\`\`\`${type === 'jsx' ? 'tsx' : 'ts'}`
-	)
-
 	await fs.writeFile(pathToWrite, content)
 	console.log(`Written ${pathToWrite}`)
 }

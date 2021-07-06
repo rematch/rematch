@@ -73,22 +73,22 @@ Use helper method `createModel` to create a model.
 // @include: rootModel
 // @filename: count.ts
 // ---cut---
-import { createModel } from '@rematch/core'
-import type { RootModel } from './models'
+import { createModel } from "@rematch/core";
+import type { RootModel } from "./models";
 
 export const count = createModel<RootModel>()({
-	state: 0,
-	reducers: {
-		increment(state, payload: number) {
-			return state + payload
-		},
-	},
-	effects: (dispatch) => ({
-		incrementAsync(payload: number, state) {
-			dispatch.count.increment(payload)
-		},
-	}),
-})
+  state: 0,
+  reducers: {
+    increment(state, payload: number) {
+      return state + payload;
+    },
+  },
+  effects: (dispatch) => ({
+    incrementAsync(payload: number, state) {
+      dispatch.count.increment(payload);
+    },
+  }),
+});
 ```
 
 In the case of a complex state, you can just type the state with the `as` keyword:
@@ -98,34 +98,34 @@ In the case of a complex state, you can just type the state with the `as` keywor
 
 // @filename: count.ts
 // ---cut---
-import { createModel } from '@rematch/core'
-import type { RootModel } from './models'
+import { createModel } from "@rematch/core";
+import type { RootModel } from "./models";
 
-type Names = 'custom'
+type Names = "custom";
 type ComplexCountState = {
-	count: number
-	multiplierName: Names
-}
+  count: number;
+  multiplierName: Names;
+};
 
 export const count = createModel<RootModel>()({
-	state: {
-		count: 0,
-		multiplierName: 'custom'
-	} as ComplexCountState,
-	reducers: {
-		increment(state, payload: number) {
-			return {
-				count: state.count + payload,
-				multiplierName: 'custom'
-			}
-		},
-	},
-	effects: (dispatch) => ({
-		incrementEffect(payload: number, rootState) {
-			dispatch.count.increment(payload)
-		},
-	}),
-})
+  state: {
+    count: 0,
+    multiplierName: "custom",
+  } as ComplexCountState,
+  reducers: {
+    increment(state, payload: number) {
+      return {
+        count: state.count + payload,
+        multiplierName: "custom",
+      };
+    },
+  },
+  effects: (dispatch) => ({
+    incrementEffect(payload: number, rootState) {
+      dispatch.count.increment(payload);
+    },
+  }),
+});
 ```
 
 ### RootModel
@@ -187,26 +187,24 @@ You need to pass the [`RootModel`](#RootModel) to `init()` function and introduc
 
 // @filename: store.ts
 // ---cut---
-import { init, RematchDispatch, RematchRootState } from '@rematch/core'
-import { models, RootModel } from './models'
+import { init, RematchDispatch, RematchRootState } from "@rematch/core";
+import { models, RootModel } from "./models";
 
 /** Plugins **/
-import updatedPlugin, { ExtraModelsFromUpdated } from '@rematch/updated'
-import loadingPlugin, { ExtraModelsFromLoading } from '@rematch/loading'
+import updatedPlugin, { ExtraModelsFromUpdated } from "@rematch/updated";
+import loadingPlugin, { ExtraModelsFromLoading } from "@rematch/loading";
 
-type FullModel =  ExtraModelsFromLoading<RootModel> & ExtraModelsFromUpdated<RootModel>
+type FullModel = ExtraModelsFromLoading<RootModel> &
+  ExtraModelsFromUpdated<RootModel>;
 
 export const store = init<RootModel, FullModel>({
-	models,
-	plugins: [
-		loadingPlugin(),
-		updatedPlugin(),
-	]
-})
+  models,
+  plugins: [loadingPlugin(), updatedPlugin()],
+});
 
-export type Store = typeof store
-export type Dispatch = RematchDispatch<RootModel>
-export type RootState = RematchRootState<RootModel>
+export type Store = typeof store;
+export type Dispatch = RematchDispatch<RootModel>;
+export type RootState = RematchRootState<RootModel>;
 ```
 
 ## React Hooks Types
@@ -240,21 +238,19 @@ const Count = () => {
 // @include: store
 // @filename: Count.tsx
 // ---cut---
-import React, { useEffect } from 'react'
-import { Dispatch } from './store'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from "react";
+import { Dispatch } from "./store";
+import { useDispatch } from "react-redux";
 
 const Count = () => {
-	const dispatch = useDispatch<Dispatch>()
-	useEffect(() => {
-		dispatch.count.incrementAsync(2)
-		// 												^?
-	}, [])
+  const dispatch = useDispatch<Dispatch>();
+  useEffect(() => {
+    dispatch.count.incrementAsync(2);
+    // 												^?
+  }, []);
 
-	return (
-		<div>example</div>
-	)
-}
+  return <div>example</div>;
+};
 ```
 
 ## React class types
@@ -306,23 +302,23 @@ Instead of:
 // @filename: count.ts
 // ---cut---
 // @errors: 2502 7022 2615
-import { createModel } from '@rematch/core'
-import { RootModel } from "./models"
+import { createModel } from "@rematch/core";
+import { RootModel } from "./models";
 
 export const count = createModel<RootModel>()({
-	state: 0,
-	reducers: {
-		increment(state, payload: number) {
-			return state + payload
-		},
-	},
-	effects: (dispatch) => ({
-		async incrementAsync(payload: number, state) {
-			dispatch.count.increment(payload)
-			return state.count
-		},
-	}),
-})
+  state: 0,
+  reducers: {
+    increment(state, payload: number) {
+      return state + payload;
+    },
+  },
+  effects: (dispatch) => ({
+    async incrementAsync(payload: number, state) {
+      dispatch.count.increment(payload);
+      return state.count;
+    },
+  }),
+});
 ```
 
 Define the return value:
@@ -331,21 +327,21 @@ Define the return value:
 // @include: rootModel
 // @filename: count.ts
 // ---cut---
-import { createModel } from '@rematch/core'
-import { RootModel } from "./models"
+import { createModel } from "@rematch/core";
+import { RootModel } from "./models";
 
 export const count = createModel<RootModel>()({
-	state: 0,
-	reducers: {
-		increment(state, payload: number) {
-			return state + payload
-		},
-	},
-	effects: (dispatch) => ({
-		async incrementAsync(payload: number, state): Promise<number> {
-			dispatch.count.increment(payload)
-			return state.count
-		},
-	}),
-})
+  state: 0,
+  reducers: {
+    increment(state, payload: number) {
+      return state + payload;
+    },
+  },
+  effects: (dispatch) => ({
+    async incrementAsync(payload: number, state): Promise<number> {
+      dispatch.count.increment(payload);
+      return state.count;
+    },
+  }),
+});
 ```

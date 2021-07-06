@@ -70,23 +70,23 @@ init({
 ```
 
 ```ts title="store.ts"
-import updatedPlugin, { ExtraModelsFromUpdated } from '@rematch/updated'
-import { init, RematchDispatch, RematchRootState } from '@rematch/core'
-import { models, RootModel } from './models'
+import updatedPlugin, { ExtraModelsFromUpdated } from "@rematch/updated";
+import { init, RematchDispatch, RematchRootState } from "@rematch/core";
+import { models, RootModel } from "./models";
 
-type FullModel =  ExtraModelsFromUpdated<RootModel>
+type FullModel = ExtraModelsFromUpdated<RootModel>;
 
 // Also you can use loading plugin
 // type FullModel =  ExtraModelsFromLoading<RootModel> & ExtraModelsFromUpdated<RootModel>
 
 export const store = init<RootModel, FullModel>({
-    models,
-	  plugins: [updatedPlugin()],
-})
+  models,
+  plugins: [updatedPlugin()],
+});
 
-export type Store = typeof store
-export type Dispatch = RematchDispatch<RootModel>
-export type RootState = RematchRootState<RootModel, FullModel>
+export type Store = typeof store;
+export type Dispatch = RematchDispatch<RootModel>;
+export type RootState = RematchRootState<RootModel, FullModel>;
 ```
 
 </MultiLangComponent>

@@ -58,28 +58,27 @@ export const count = {
 > All the examples of Rematch with Typescript are fully tested in our testing suite, so feel free to look at the /examples folder for an easier integration with your codebase.
 
 ```ts title="./models/countModel.ts"
-import { createModel } from '@rematch/core'
-import { RootModel } from './models'
+import { createModel } from "@rematch/core";
+import { RootModel } from "./models";
 
 export const count = createModel<RootModel>()({
-	state: 0, // initial state
-	reducers: {
-		// handle state changes with pure functions
-		increment(state, payload: number) {
-			return state + payload
-		},
-	},
-	effects: (dispatch) => ({
-		// handle state changes with impure functions.
-		// use async/await for async actions
-		async incrementAsync(payload: number, state) {
-			console.log('This is current root state', state);
-			await new Promise(resolve => setTimeout(resolve, 1000))
-			dispatch.count.increment(payload)
-		},
-	}),
+  state: 0, // initial state
+  reducers: {
+    // handle state changes with pure functions
+    increment(state, payload: number) {
+      return state + payload;
+    },
+  },
+  effects: (dispatch) => ({
+    // handle state changes with impure functions.
+    // use async/await for async actions
+    async incrementAsync(payload: number, state) {
+      console.log("This is current root state", state);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      dispatch.count.increment(payload);
+    },
+  }),
 });
-
 ```
 
 ```ts title="./models/index.ts"
@@ -96,39 +95,39 @@ export const models: RootModel = { count };
 **Example with a more complex state**
 
 ```ts
-import { createModel } from '@rematch/core'
-import { RootModel } from './models'
+import { createModel } from "@rematch/core";
+import { RootModel } from "./models";
 
-type QuestionType = "true-false" | "other-value"
+type QuestionType = "true-false" | "other-value";
 type Question = {
-	title: string
-}
+  title: string;
+};
 
 interface CountState {
-	questions: Array<Question>
-	questionType: QuestionType
+  questions: Array<Question>;
+  questionType: QuestionType;
 }
 
 export const count = createModel<RootModel>()({
-	state: {
-		questions: [],
-		questionType: "true-false"
-	} as CountState, // typed complex state
-	reducers: {
-		// handle state changes with pure functions
-		increment(state, payload: number) {
-			return state
-		},
-	},
-	effects: (dispatch) => ({
-		// handle state changes with impure functions.
-		// use async/await for async actions
-		async incrementAsync(payload: number, state) {
-			console.log('This is current root state', state);
-			await new Promise(resolve => setTimeout(resolve, 1000))
-			dispatch.count.increment(payload)
-		},
-	}),
+  state: {
+    questions: [],
+    questionType: "true-false",
+  } as CountState, // typed complex state
+  reducers: {
+    // handle state changes with pure functions
+    increment(state, payload: number) {
+      return state;
+    },
+  },
+  effects: (dispatch) => ({
+    // handle state changes with impure functions.
+    // use async/await for async actions
+    async incrementAsync(payload: number, state) {
+      console.log("This is current root state", state);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      dispatch.count.increment(payload);
+    },
+  }),
 });
 ```
 

@@ -76,32 +76,29 @@ init({
 ```
 
 ```ts title="store.ts"
-import loadingPlugin, { ExtraModelsFromLoading } from '@rematch/loading'
-import { init, RematchDispatch, RematchRootState } from '@rematch/core'
-import { models, RootModel } from './models'
-
+import loadingPlugin, { ExtraModelsFromLoading } from "@rematch/loading";
+import { init, RematchDispatch, RematchRootState } from "@rematch/core";
+import { models, RootModel } from "./models";
 
 /** IF YOU USE THE BASIC SETUP USE THIS METHOD **/
-type FullModel =  ExtraModelsFromLoading<RootModel>
+type FullModel = ExtraModelsFromLoading<RootModel>;
 
 export const store = init<RootModel, FullModel>({
-    models,
-	  plugins: [loadingPlugin()],
-})
-
+  models,
+  plugins: [loadingPlugin()],
+});
 
 /** IF YOU USE THE { asNumber } SETUP USE THIS METHOD **/
-type FullModel = ExtraModelsFromLoading<RootModel, { asNumber: true }>
+type FullModel = ExtraModelsFromLoading<RootModel, { asNumber: true }>;
 
 export const store = init<RootModel, FullModel>({
-    models,
-    plugins: [loadingPlugin({ asNumber: true })],
-})
+  models,
+  plugins: [loadingPlugin({ asNumber: true })],
+});
 
-export type Store = typeof store
-export type Dispatch = RematchDispatch<RootModel>
-export type RootState = RematchRootState<RootModel, FullModel>
-
+export type Store = typeof store;
+export type Dispatch = RematchDispatch<RootModel>;
+export type RootState = RematchRootState<RootModel, FullModel>;
 ```
 
 </MultiLangComponent>
