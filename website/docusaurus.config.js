@@ -59,8 +59,8 @@ module.exports = {
 					position: 'right',
 				},
 				{
-					href: 'https://rematchjs.slack.com',
-					label: 'Slack',
+					href: 'https://discord.gg/zMzsMGvEHk',
+					label: 'Discord',
 					position: 'right',
 				},
 				{
@@ -94,8 +94,8 @@ module.exports = {
 							href: 'https://stackoverflow.com/questions/tagged/rematch',
 						},
 						{
-							label: 'Slack',
-							href: 'https://rematchjs.slack.com',
+							label: 'Discord',
+							href: 'https://discord.gg/zMzsMGvEHk',
 						},
 					],
 				},
