@@ -53,7 +53,7 @@ export const incrementSharks = (payload: number) => ({
   payload,
 });
 
-export default (state = 0, action: { payload: number, type: string }) => {
+export default (state = 0, action: { payload: number; type: string }) => {
   switch (action.type) {
     case INCREMENT:
       return state + action.payload;
@@ -83,7 +83,7 @@ Now, add it to your `init()` method and remove `redux-thunk` because isn't requi
 
 ```ts twoslash
 // @noErrors
-import { init } from "@rematch/core"
+import { init } from "@rematch/core";
 
 const store = init({
   models: {

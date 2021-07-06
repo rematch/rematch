@@ -5,7 +5,73 @@ sidebar_label: "@rematch/loading"
 slug: /plugins/loading/
 ---
 
-import { MultiLangComponent } from "/src/components/MultiLangComponent"
+```twoslash include countModel
+// @filename: count.ts
+import { createModel } from '@rematch/core'
+import { RootModel } from "./models"
+
+export const count = createModel<RootModel>()({
+	state: 0,
+	reducers: {
+		increment(state, payload: number) {
+			return state + payload
+		},
+	},
+	effects: (dispatch) => ({
+		async incrementAsync(payload: number, state) {
+			dispatch.count.increment(payload)
+		},
+	}),
+})
+```
+
+```twoslash include rootModel
+// @filename: models.ts
+import { Models } from "@rematch/core"
+import { count } from "./count"
+
+export interface RootModel extends Models<RootModel> {
+  count: typeof count
+}
+
+export const models: RootModel = { count }
+```
+
+```twoslash include store
+// @filename: store.ts
+import loadingPlugin, { ExtraModelsFromLoading } from "@rematch/loading"
+import { init, RematchDispatch, RematchRootState } from "@rematch/core"
+import { models, RootModel } from "./models"
+
+type FullModel = ExtraModelsFromLoading<RootModel>
+
+export const store = init<RootModel, FullModel>({
+  models,
+  plugins: [loadingPlugin()],
+})
+
+export type Store = typeof store
+export type Dispatch = RematchDispatch<RootModel>
+export type RootState = RematchRootState<RootModel, FullModel>
+```
+
+```twoslash include storeAsNumber
+// @filename: storeAsNumber.ts
+import loadingPlugin, { ExtraModelsFromLoading } from "@rematch/loading"
+import { init, RematchDispatch, RematchRootState } from "@rematch/core"
+import { models, RootModel } from "./models"
+
+type FullModel = ExtraModelsFromLoading<RootModel, { asNumber: true }>
+
+export const store = init<RootModel, FullModel>({
+  models,
+  plugins: [loadingPlugin({ asNumber: true })],
+})
+
+export type Store = typeof store
+export type Dispatch = RematchDispatch<RootModel>
+export type RootState = RematchRootState<RootModel, FullModel>
+```
 
 The loading plugin for Rematch. Adds automated loading indicators for effects, so you don't need to manage state like `loading: true` by yourself. Inspired by [dva-loading](https://github.com/dvajs/dva/tree/master/packages/dva-loading).
 
@@ -41,17 +107,17 @@ If both `blacklist` and `whitelist` aren't provided, plugin works for all effect
 
 Let's say we have a model 'count' in our store. Loading plugin's state will have the following format:
 
-```js
+```json
 {
-	"global": true, // true when any effect in any model is loading
-    "models": {
-      "count": true // true when any effect in 'count' model is loading
-    },
-    "effects": {
-      "count": {
-        "addOne": true, // true when effect 'addOne' in model 'count' is loading
-      },
-    },
+  "global": true, // true when any effect in any model is loading
+  "models": {
+    "count": true // true when any effect in 'count' model is loading
+  },
+  "effects": {
+    "count": {
+      "addOne": true // true when effect 'addOne' in model 'count' is loading
+    }
+  }
 }
 ```
 
@@ -61,72 +127,48 @@ Set up your store with default or custom settings.
 
 ### Setup the store
 
-<MultiLangComponent>
-
-```js title="store.js"
-import loadingPlugin from "@rematch/loading";
-import { init } from "@rematch/core";
-import * as models from "./models";
-
-init({
-  models,
-  // add loadingPlugin to your store
-  plugins: [loadingPlugin()],
-});
+```ts twoslash {1,5,7,9} title="store.ts"
+// @include: countModel
+// @include: rootModel
+// ---cut---
+// @include: store
 ```
 
-```ts title="store.ts"
-import loadingPlugin, { ExtraModelsFromLoading } from "@rematch/loading";
-import { init, RematchDispatch, RematchRootState } from "@rematch/core";
-import { models, RootModel } from "./models";
+If you want to use the `loadingPlugin` with numbers instead of booleans, you can also change the typings:
 
-/** IF YOU USE THE BASIC SETUP USE THIS METHOD **/
-type FullModel = ExtraModelsFromLoading<RootModel>;
-
-export const store = init<RootModel, FullModel>({
-  models,
-  plugins: [loadingPlugin()],
-});
-
-/** IF YOU USE THE { asNumber } SETUP USE THIS METHOD **/
-type FullModel = ExtraModelsFromLoading<RootModel, { asNumber: true }>;
-
-export const store = init<RootModel, FullModel>({
-  models,
-  plugins: [loadingPlugin({ asNumber: true })],
-});
-
-export type Store = typeof store;
-export type Dispatch = RematchDispatch<RootModel>;
-export type RootState = RematchRootState<RootModel, FullModel>;
+```ts twoslash {1,5,7,9}
+// @include: countModel
+// @include: rootModel
+// ---cut---
+// @include: storeAsNumber
 ```
-
-</MultiLangComponent>
 
 ### Use in the view
 
 Use state created by the loading plugin in your view.
 
-```js title="App.jsx"
-import React from "react";
-import { connect } from "react-redux";
-import AwesomeLoadingButton from "./AwesomeLoadingButton";
+```twoslash include appTemplate
+// @filename: appTemplate.tsx
+import React from "react"
+import { useSelector } from "react-redux"
+import { RootState } from "./store"
 
-const LoginButton = (props) => (
-  <AwesomeLoadingButton onClick={props.login} loading={props.isLoading}>
-    Login
-  </AwesomeLoadingButton>
-);
+export const App = () => {
+  const isCountLoading = useSelector((rootState: RootState) => rootState.loading.models.count)
+  if (isCountLoading) return <div>LOADING...</div>
 
-const mapState = (state) => ({
-  isLoading: state.loading.effects.auth.login, // true when the `auth/login` effect is running
-  // or
-  isLoading: state.loading.models.auth, // true when ANY effect on the `auth` model is running
-});
+  return (
+    <div>
+      Data succesfully loaded
+    </div>
+  )
+}
+```
 
-const mapDispatch = (dispatch) => ({
-  login: () => dispatch.auth.login(),
-});
-
-export default connect(mapState, mapDispatch)(LoginButton);
+```tsx twoslash
+// @include: countModel
+// @include: rootModel
+// @include: store
+// ---cut---
+// @include: appTemplate
 ```
