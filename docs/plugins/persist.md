@@ -38,7 +38,7 @@ The persist plugin accepts four arguments - **persistConfig**, **nestedPersistCo
 
 ### Setup the store
 
-```js title="store.js"
+```ts twoslash title="store.js"
 import persistPlugin from "@rematch/persist";
 import { init } from "@rematch/core";
 import storage from "redux-persist/lib/storage";
@@ -57,7 +57,7 @@ init({
 
 In React you can use a special component provided by redux-persist to display a loading indicator while waiting for data to async load from the storage.
 
-```js
+```tsx twoslash
 import { getPersistor } from "@rematch/persist";
 import { PersistGate } from "redux-persist/lib/integration/react";
 
@@ -65,7 +65,7 @@ const persistor = getPersistor();
 
 const Root = () => (
   <PersistGate persistor={persistor}>
-    <App />
+    <div>app</div>
   </PersistGate>
 );
 ```

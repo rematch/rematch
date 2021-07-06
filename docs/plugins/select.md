@@ -57,14 +57,11 @@ import selectPlugin from "@rematch/select";
 import { init, RematchDispatch, RematchRootState } from "@rematch/core";
 import { models, RootModel } from "./models";
 
-export const store =
-  init <
-  RootModel >
-  {
-    models,
-    // add selectPlugin to your store
-    plugins: [selectPlugin()],
-  };
+export const store = init<RootModel>({
+  models,
+  // add selectPlugin to your store
+  plugins: [selectPlugin()],
+})
 
 export type Store = typeof store;
 export type Dispatch = RematchDispatch<RootModel>;
