@@ -17,9 +17,7 @@ const store = init({
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>
-			<PersistGate loading={<Spinner />} persistor={getPersistor()}>
 				<App />
-			</PersistGate>
 		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')
