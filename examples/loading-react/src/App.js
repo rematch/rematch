@@ -32,8 +32,9 @@ const Loading = ({ label, show }) => (
 	</div>
 )
 
-const App = ({ submit, loading }) => (
+const App = ({ submit, loading, count }) => (
 	<div style={styles.page}>
+		<div>count: {count}</div>
 		<button onClick={submit}>Submit Async</button>
 		<div style={styles.container}>
 			<Loading label="loading.global" show={loading.global > 0} />
