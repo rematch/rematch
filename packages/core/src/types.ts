@@ -21,6 +21,22 @@ import {
 } from 'redux'
 
 /**
+ * Utility type taken by type-fest repository
+ * https://github.com/sindresorhus/type-fest/blob/main/source/merge-exclusive.d.ts
+ * Merges Exclusively two types into one
+ * Used to fix this https://github.com/rematch/rematch/issues/912
+ */
+type Without<FirstType, SecondType> = {
+	[KeyType in Exclude<keyof FirstType, keyof SecondType>]: never
+}
+export type MergeExclusive<FirstType, SecondType> =
+	| FirstType
+	| SecondType extends object
+	?
+			| (Without<FirstType, SecondType> & SecondType)
+			| (Without<SecondType, FirstType> & FirstType)
+	: FirstType | SecondType
+/**
  * Custom Action interface, adds an additional field - `payload`.
  *
  * Strings (instead of Symbols) are used as the type for `type` field inherited
@@ -333,13 +349,14 @@ export type ExtractRematchDispatchersFromModels<
 export type ModelDispatcher<
 	TModel extends Model<TModels>,
 	TModels extends Models<TModels>
-> = ExtractRematchDispatchersFromReducers<
-	TModel['state'],
-	TModel['reducers'],
-	TModels
-> &
-	ExtractRematchDispatchersFromEffects<TModel['effects'], TModels>
-
+> = MergeExclusive<
+	ExtractRematchDispatchersFromEffects<TModel['effects'], TModels>,
+	ExtractRematchDispatchersFromReducers<
+		TModel['state'],
+		TModel['reducers'],
+		TModels
+	>
+>
 /** ************************ Reducers Dispatcher ************************* */
 
 /**

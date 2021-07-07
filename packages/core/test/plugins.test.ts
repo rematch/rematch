@@ -1,4 +1,4 @@
-import { init, MiddlewareCreator, Plugin } from '../src'
+import { createModel, init, MiddlewareCreator, Models, Plugin } from '../src'
 
 describe('plugins:', () => {
 	test('should add onModel subscription', () => {
@@ -20,14 +20,14 @@ describe('plugins:', () => {
 	})
 
 	test('should add middleware', () => {
-		const a = {
+		const a = createModel<RootModel>()({
 			state: 0,
 			reducers: {
 				set: (_state: number, payload: number): number => payload,
 			},
-		}
+		})
 
-		type RootModel = {
+		interface RootModel extends Models<RootModel> {
 			a: typeof a
 		}
 
@@ -37,7 +37,7 @@ describe('plugins:', () => {
 			return next({ ...action, payload: 100 })
 		}
 
-		const store = init({
+		const store = init<RootModel>({
 			models: {
 				a,
 			},

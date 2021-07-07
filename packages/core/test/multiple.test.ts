@@ -1,4 +1,4 @@
-import { init } from '../src'
+import { createModel, init, Models } from '../src'
 
 describe('multiple stores:', () => {
 	afterEach(() => {
@@ -19,11 +19,15 @@ describe('multiple stores:', () => {
 	})
 
 	test('should be able to store.dispatch to specific stores', () => {
-		const count = {
+		const count = createModel<RootModel>()({
 			state: 0,
 			reducers: {
 				increment: (state: number): number => state + 1,
 			},
+		})
+
+		interface RootModel extends Models<RootModel> {
+			count: typeof count
 		}
 
 		const store1 = init({ models: { count } })
@@ -64,27 +68,28 @@ describe('multiple stores:', () => {
 	})
 
 	test('dispatch should not contain another stores reducers', () => {
-		const count1 = {
+		const count1 = createModel<RootModel>()({
 			state: 0,
 			reducers: {
 				increment: (state: number): number => state + 1,
 			},
-		}
+		})
 
-		const count2 = {
+		const count2 = createModel<RootModel>()({
 			state: 0,
 			reducers: {
 				add: (state: number): number => state + 2,
 			},
-		}
+		})
 
-		const store1 = init({ models: { count: count1 } })
-		const store2 = init({ models: { count: count2 } })
+		interface RootModel extends Models<RootModel> {
+			count: typeof count1 | typeof count2
+		}
+		const store1 = init<RootModel>({ models: { count: count1 } })
+		const store2 = init<RootModel>({ models: { count: count2 } })
 
 		expect(store1.dispatch.count.increment).toBeDefined()
-		// @ts-expect-error
 		expect(store2.dispatch.count.increment).not.toBeDefined()
-		// @ts-expect-error
 		expect(store1.dispatch.count.add).not.toBeDefined()
 		expect(store2.dispatch.count.add).toBeDefined()
 	})

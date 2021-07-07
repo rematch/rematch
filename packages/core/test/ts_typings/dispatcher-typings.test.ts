@@ -160,4 +160,43 @@ describe('Dispatcher typings', () => {
 			dispatch.count.incrementEffect('test', { prueba: 'hola ' })
 		})
 	})
+
+	describe('dispatch to an effect with the same name of the reducer', () => {
+		interface RootModel extends Models<RootModel> {
+			count: typeof count
+		}
+
+		const count = createModel<RootModel>()({
+			state: 0,
+			reducers: {
+				increment(state, payload: number) {
+					return state + payload
+				},
+				decrement(state, payload: number) {
+					return state - payload
+				},
+			},
+			effects: (dispatch) => ({
+				increment(_: number, state) {
+					if (state.count < 5) {
+						dispatch.count.increment(1)
+					}
+				},
+			}),
+		})
+
+		const store = init<RootModel>({
+			models: {
+				count,
+			},
+		})
+
+		store.dispatch.count.increment(1)
+		store.dispatch.count.increment(10)
+		// @ts-expect-error because increment payload:number, not string
+		store.dispatch.count.increment('10')
+		store.dispatch.count.decrement(3)
+		// @ts-expect-error because increment payload:number, not string
+		store.dispatch.count.decrement('10')
+	})
 })
