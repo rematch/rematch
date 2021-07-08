@@ -303,8 +303,8 @@ describe('loading asBoolean', () => {
 
 		try {
 			await store.dispatch.count.throwError()
-		} catch (err: any) {
-			expect(err.message).toBe('effect error')
+		} catch (err) {
+			expect((err as Error).message).toBe('effect error')
 		}
 	})
 
