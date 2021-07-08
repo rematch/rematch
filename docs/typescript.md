@@ -1,7 +1,7 @@
 ---
 id: typescript
-title: Typescript
-sidebar_label: Typescript
+title: TypeScript
+sidebar_label: TypeScript
 slug: /getting-started/typescript
 ---
 
@@ -61,9 +61,9 @@ export type Dispatch = RematchDispatch<RootModel>
 export type RootState = RematchRootState<RootModel>
 ```
 
-Rematch handles Typescript inference practically out of the box, we have all our codebase with Typescript (latest version) and we do continuous testing to our [typescript examples](https://github.com/rematch/rematch/tree/main/examples/all-plugins-react-ts).
+Rematch handles TypeScript inference practically out of the box, we have all our codebase with TypeScript (latest version) and we do continuous testing to our [TypeScript examples](https://github.com/rematch/rematch/tree/main/examples/all-plugins-react-ts).
 
-For getting a cool Typescript setup with Rematch, it's as easy as using `createModel` helper.
+For getting a cool TypeScript setup with Rematch, it's as easy as using `createModel` helper.
 
 ### createModel
 
@@ -174,7 +174,7 @@ In the case you use some plugin, please read this:
 
 ### init with plugins
 
-Some plugins modifies the store like [`@rematch/loading`](/docs/plugins/loading), that introduces a new state with all your promises status, Typescript to know that needs some helper.
+Some plugins modifies the store like [`@rematch/loading`](/docs/plugins/loading), that introduces a new state with all your promises status, TypeScript to know that needs some helper.
 
 You need to pass the [`RootModel`](#RootModel) to `init()` function and introduce the helpers:
 
@@ -289,7 +289,7 @@ export default connect(mapState, mapDispatch)(App);
 
 ## Effects returning values
 
-There's a situation where if you're accessing the `rootState` value of the same model and returning this value. Typescript will fail because circular references itself (has sense)...
+There's a situation where if you're accessing the `rootState` value of the same model and returning this value. TypeScript will fail because circular references itself (has sense)...
 
 You should try to avoid returning values on effects and just dispatch data to reducers or write pure functions outside Rematch for a better performance.
 

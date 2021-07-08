@@ -43,7 +43,7 @@ jobs:
       - name: Install
         run: yarn install --frozen-lockfile --pure-lockfile
 
-      - name: Add Typescript@next
+      - name: Add TypeScript@next
         run: yarn add --dev typescript@${{ matrix.typescript }} tslib -W
 
       - name: Build & Testing

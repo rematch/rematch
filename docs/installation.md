@@ -55,7 +55,7 @@ export const count = {
 - You must pass the `RootModel` type that is exported on your index.ts of your models.
 - State is automatically infered, if your state contains complex types you only need to use an `as` [Look at count-react-ts example on questions.ts](https://github.com/rematch/rematch/blob/next-types/examples/count-react-ts/src/models/questions.ts)
 
-> All the examples of Rematch with Typescript are fully tested in our testing suite, so feel free to look at the /examples folder for an easier integration with your codebase.
+> All the examples of Rematch with TypeScript are fully tested in our testing suite, so feel free to look at the /examples folder for an easier integration with your codebase.
 
 ```ts title="./models/countModel.ts"
 import { createModel } from "@rematch/core";

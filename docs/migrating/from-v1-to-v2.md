@@ -11,7 +11,7 @@ Breaking changes for:
 
 - Changed the default name assigned to stores from a number to `Rematch Store ${number}` for clarity. This could be a potential breaking change in your testing suite.
 - Changed typings to avoid future issues, on v1.x types doesn't work so the change should be easy.
-- Effects dispatch param can't be destructured in function Typescript (typescript design limitation).
+- Effects dispatch param can't be destructured in function TypeScript (typescript design limitation).
 
 **Plugins:**
 
