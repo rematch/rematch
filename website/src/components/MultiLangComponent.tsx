@@ -4,7 +4,7 @@ import TabItem from '@theme/TabItem'
 
 const DEFAULT_LANGS = [
 	{ label: 'JavaScript', value: 'js' },
-	{ label: 'Typescript', value: 'ts' },
+	{ label: 'TypeScript', value: 'ts' },
 ]
 
 export const MultiLangComponent: React.FC<{

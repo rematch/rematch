@@ -40,13 +40,13 @@ const features = [
 		),
 	},
 	{
-		title: 'Typescript support',
+		title: 'TypeScript support',
 		imageUrl: 'icons/type.svg',
 		description: (
 			<>
-				<code>Typescript</code> support out of the box. You will have
+				<code>TypeScript</code> support out of the box. You will have
 				autocomplete of all your methods, state and reducers. Written 100% in
-				Typescript.
+				TypeScript.
 			</>
 		),
 	},
@@ -210,7 +210,7 @@ const NeverHasBeenThatEasy = () => (
 					<p className={styles.p}>
 						<ul>
 							<li className="margin-top--md">
-								Automatic intellisense with Typescript steroids, autocomplete
+								Automatic intellisense with TypeScript steroids, autocomplete
 								everything, avoid regressions.
 							</li>
 							<li className="margin-top--md">
@@ -236,7 +236,7 @@ const NeverHasBeenThatEasy = () => (
 				<div className="col col--6 text--center margin-top--lg">
 					<img
 						loading="lazy"
-						alt="Real code of Rematch with Typescript"
+						alt="Real code of Rematch with TypeScript"
 						style={{ borderRadius: '0.75rem' }}
 						src={useBaseUrl('/img/real-code.gif')}
 					/>
