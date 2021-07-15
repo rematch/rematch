@@ -93,7 +93,7 @@ export const count = createModel<RootModel>()({
 
 In the case of a complex state, you can just type the state with the `as` keyword:
 
-```ts twoslash {12}
+```ts twoslash {13}
 // @include: rootModel
 
 // @filename: count.ts
