@@ -20,6 +20,7 @@ module.exports = {
 			'plugins/loading',
 			'plugins/updated',
 			'plugins/persist',
+			'plugins/typed-state',
 		],
 		Recipes: [
 			'recipes/redux-devtools',

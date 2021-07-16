@@ -101,14 +101,14 @@
   "size-limit": [
     {
       "path": "./packages/core/dist/core.umd.production.min.js",
-      "limit": "5 kB",
+      "limit": "2 kB",
       "ignore": [
         "redux"
       ]
     },
     {
       "path": "./packages/immer/dist/immer.umd.production.min.js",
-      "limit": "1 kB",
+      "limit": "200 kB",
       "ignore": [
         "immer",
         "redux"
@@ -116,25 +116,29 @@
     },
     {
       "path": "./packages/loading/dist/loading.umd.production.min.js",
-      "limit": "1 kB"
+      "limit": "700 B"
     },
     {
       "path": "./packages/persist/dist/persist.umd.production.min.js",
-      "limit": "1 kB",
+      "limit": "200 B",
       "ignore": [
         "redux-persist"
       ]
     },
     {
       "path": "./packages/select/dist/select.umd.production.min.js",
-      "limit": "1 kB",
+      "limit": "500 B",
       "ignore": [
         "reselect"
       ]
     },
     {
       "path": "./packages/updated/dist/updated.umd.production.min.js",
-      "limit": "1 kB"
+      "limit": "500 B"
+    },
+    {
+      "path": "./packages/typed-state/dist/typed-state.umd.production.min.js",
+      "limit": "300 B"
     }
   ]
 }
