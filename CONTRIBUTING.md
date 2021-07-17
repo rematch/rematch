@@ -9,7 +9,7 @@ Through this, we hope to mitigate the problems of a project that needs updates b
 It's normal for a first pull request to be a potential fix for a problem, and moving on from there to helping the project's direction can be difficult.
 We try to help contributors cross that barrier by offering good first step issues. These issues can be fixed without feeling like you're stepping on toes. Ideally, these are non-critical issues that are well defined. They will be purposely avoided by mature contributors to the project, to make space for others.
 
-We aim to keep all technical discussions inside GitHub issues, and all other discussions in our [Slack community](https://rematchjs.slack.com). If you have questions about a specific PR, want to discuss a new API idea etc GitHub issues are the right place.
+We aim to keep all technical discussions inside GitHub issues, and all other discussions in our [Discord community](https://discord.gg/zMzsMGvEHk). If you have questions about a specific PR, want to discuss a new API idea etc GitHub issues are the right place.
 
 ### What about if you have problems that cannot be discussed in a public issue?
 

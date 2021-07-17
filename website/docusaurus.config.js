@@ -27,7 +27,7 @@ module.exports = {
 		announcementBar: {
 			id: 'supportus',
 			content:
-				'⭐️ If you like Rematch, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/rematch/rematch">GitHub</a>! ⭐️',
+				'🔥 If you want to learn more about Rematch, check the newest official book on <a target="_blank" rel="noopener noreferrer" href="https://amz.run/4iDY">Amazon</a>! 🆕',
 		},
 		navbar: {
 			title: 'Rematch',
@@ -60,9 +60,14 @@ module.exports = {
 					position: 'right',
 				},
 				{
-					href: 'https://rematchjs.slack.com',
-					label: 'Slack',
+					href: 'https://discord.gg/zMzsMGvEHk',
+					label: 'Discord',
 					position: 'right',
+				},
+				{
+					href: '/redux-made-easy-book',
+					label: 'Official book 🆕',
+					position: 'left',
 				},
 			],
 		},
@@ -90,8 +95,8 @@ module.exports = {
 							href: 'https://stackoverflow.com/questions/tagged/rematch',
 						},
 						{
-							label: 'Slack',
-							href: 'https://rematchjs.slack.com',
+							label: 'Discord',
+							href: 'https://discord.gg/zMzsMGvEHk',
 						},
 					],
 				},
