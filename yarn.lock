@@ -4652,10 +4652,10 @@
     "@typescript-eslint/types" "4.28.1"
     eslint-visitor-keys "^2.0.0"
 
-"@typescript/twoslash@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@typescript/twoslash/-/twoslash-2.0.1.tgz#bf6dbd571e832e8f2114810d562eec00632ce107"
-  integrity sha512-+TgjZp0d331A2A9nBBjX/EFax3LnR9MtziICqgo2l23hXV9JY4EiNPdcBSEDBRzaWQIMvSa5YvBENnE6uZ33EA==
+"@typescript/twoslash@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@typescript/twoslash/-/twoslash-2.1.0.tgz#0128312e002670367393bb9b48378ac818aceccd"
+  integrity sha512-J72HH+zAMPA9udOuOgAxTXnzeRyz0t33Ww1jQ6CgNfjP3HtrOS4lNgG+m3u1H497U366zbcUOjNkIgNGqefd/A==
   dependencies:
     "@typescript/vfs" "1.3.4"
     debug "^4.1.1"
@@ -8517,13 +8517,13 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-docusaurus-preset-shiki-twoslash@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/docusaurus-preset-shiki-twoslash/-/docusaurus-preset-shiki-twoslash-1.1.7.tgz#1b6ba535e0ad9b4140bbbcefbcc582f51c308e5b"
-  integrity sha512-F6qKvBeC6yhIswK28lPV1weNf5dbR8hsfWAWYxYOsmAiUbL55jVnJShRZD+5nwi9LzRtToAOxDjhDOWk1c4RoQ==
+docusaurus-preset-shiki-twoslash@^1.1.16:
+  version "1.1.16"
+  resolved "https://registry.yarnpkg.com/docusaurus-preset-shiki-twoslash/-/docusaurus-preset-shiki-twoslash-1.1.16.tgz#6811d18b91508ace49a921398636d3057fa7a2b1"
+  integrity sha512-tvwCOw6Xnvu9Id8AsWIASm5Asbqa9yExeo8v6Zt7tbbVxwiEnuWkuN9bjMBnNQecUZPJYWMaq7m2jzLk6u7irA==
   dependencies:
     copy-text-to-clipboard "^3.0.1"
-    remark-shiki-twoslash "1.5.1"
+    remark-shiki-twoslash "2.0.1"
     typescript ">3"
 
 dom-accessibility-api@^0.5.6:
@@ -9818,6 +9818,11 @@ feed@^4.2.2:
   integrity sha512-u5/sxGfiMfZNtJ3OvQpXcvotFpYkL0n9u9mM2vkui2nGo8b4wvDkJ8gAkYqbA8QpGyFCv3RK0Z+Iv+9veCS9bQ==
   dependencies:
     xml-js "^1.6.11"
+
+fenceparser@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/fenceparser/-/fenceparser-1.1.0.tgz#b509f16e3ce68b04e19caa8636037755cfa4a67b"
+  integrity sha512-2/48W+LjGeYLYc7Z2WodoPv4xP4Bd9e2CsnnFZuzzoNkv+w8NyJKDD/EUhcwv9VkmXsnGtnDzZz6DNykD9JrlA==
 
 figgy-pudding@^3.4.1, figgy-pudding@^3.5.1:
   version "3.5.2"
@@ -18498,16 +18503,17 @@ remark-parse@^9.0.0:
   dependencies:
     mdast-util-from-markdown "^0.8.0"
 
-remark-shiki-twoslash@1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/remark-shiki-twoslash/-/remark-shiki-twoslash-1.5.1.tgz#caa7e9aaf7a192d0312cda88d701e79b54202e46"
-  integrity sha512-J4OiPxGiti2+wB30yfOqJJ4dEkR+j02CspH8/ifFb3fVKx190NUhBdaAgGQbepDAuEP8jZCU50mZrIOaY8JHyw==
+remark-shiki-twoslash@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/remark-shiki-twoslash/-/remark-shiki-twoslash-2.0.1.tgz#f47a304f044e0d78fdb09505442397fa7104509e"
+  integrity sha512-Xj2pMArldasY6WvqjaVR/G7HJnqIGYGIQlpNCpeq2kGTaABU80nJ5lF7AiELUGbg1f5aK4tosE24zo2ChWi9Zg==
   dependencies:
-    "@typescript/twoslash" "2.0.1"
+    "@typescript/twoslash" "2.1.0"
     "@typescript/vfs" "1.3.4"
+    fenceparser "^1.1.0"
     regenerator-runtime "^0.13.7"
     shiki "0.9.3"
-    shiki-twoslash "1.6.0"
+    shiki-twoslash "2.0.3"
     tslib "2.1.0"
     typescript ">3"
     unist-util-visit "^2.0.0"
@@ -19321,12 +19327,12 @@ shellwords@^0.1.1:
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
 
-shiki-twoslash@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/shiki-twoslash/-/shiki-twoslash-1.6.0.tgz#a6e4906cdc5a7c0d8d902b9701b855f92270ceb9"
-  integrity sha512-kM/5YbMg3gWK8T/uUtveS4MA91Ag0/T0NjxwkDpLpEPBzV5VDkVwX5qNYx5amYNkwvrtGRFmyca2uCmcHygSrQ==
+shiki-twoslash@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/shiki-twoslash/-/shiki-twoslash-2.0.3.tgz#b3f212560f63c3a73c2622feb4d92748a91cdd2d"
+  integrity sha512-tUeoek4e0pShUp0AnkfLXl4DCnvcC3iI1pDspPfdWKaBYY8hPW7J4iWxf9VXkdCA7wxwmT1bsiZ6e9h9Tndehg==
   dependencies:
-    "@typescript/twoslash" "2.0.1"
+    "@typescript/twoslash" "2.1.0"
     "@typescript/vfs" "1.3.4"
     shiki "0.9.3"
     typescript ">3"

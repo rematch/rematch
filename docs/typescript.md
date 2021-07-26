@@ -194,8 +194,7 @@ import { models, RootModel } from "./models";
 import updatedPlugin, { ExtraModelsFromUpdated } from "@rematch/updated";
 import loadingPlugin, { ExtraModelsFromLoading } from "@rematch/loading";
 
-type FullModel = ExtraModelsFromLoading<RootModel> &
-  ExtraModelsFromUpdated<RootModel>;
+type FullModel = ExtraModelsFromLoading<RootModel> & ExtraModelsFromUpdated<RootModel>
 
 export const store = init<RootModel, FullModel>({
   models,

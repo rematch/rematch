@@ -27,7 +27,7 @@
     "postel": "^0.1.4",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "docusaurus-preset-shiki-twoslash": "^1.1.7"
+    "docusaurus-preset-shiki-twoslash": "^1.1.16"
   },
   "browserslist": {
     "production": [
