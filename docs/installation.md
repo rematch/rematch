@@ -57,7 +57,7 @@ export const count = {
 
 > All the examples of Rematch with TypeScript are fully tested in our testing suite, so feel free to look at the /examples folder for an easier integration with your codebase.
 
-```ts title="./models/countModel.ts"
+```ts title="./models/count.ts"
 import { createModel } from "@rematch/core";
 import { RootModel } from "./models";
 
@@ -222,7 +222,7 @@ ReactDOM.render(
 
 ```ts title="App.tsx"
 import * as React from "react";
-import { connect } from "react-redux";
+import { Provider, connect } from "react-redux";
 import { RootState, Dispatch } from "./store";
 
 const mapState = (state: RootState) => ({
