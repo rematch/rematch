@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 
 import { GlobalApp } from './GlobalApp'
 import { store } from './store'
-import { cart } from './models/cart'
 
 const TestingProvider: React.FC = ({ children }) => (
 	<Provider store={store}>{children}</Provider>
@@ -32,14 +31,16 @@ test('Store is correctly initialized', () => {
 		loading: {
 			effects: {
 				cart: {},
-				players: {},
+				players: {
+					getPlayers: true,
+				},
 				settings: {},
 				updated: {},
 			},
-			global: false,
+			global: true,
 			models: {
 				cart: false,
-				players: false,
+				players: true,
 				settings: false,
 				updated: false,
 			},

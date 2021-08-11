@@ -11,74 +11,116 @@ export interface LoadingConfig {
 	name?: string
 	whitelist?: string[]
 	blacklist?: string[]
+	type?: 'number' | 'boolean' | 'detailed'
+	// @deprecated Use type: 'number' instead
 	asNumber?: boolean
 }
 
-export type LoadingAsNumberConfig = Required<Pick<LoadingConfig, 'asNumber'>>
-
-interface LoadingState<
+interface LoadingStateV2<
 	TModels extends Models<TModels>,
-	AsNumber extends boolean = false
+	WhichType extends 'number' | 'boolean' | 'detailed'
 > {
-	global: AsNumber extends true ? number : boolean
+	global: WhichType extends 'number'
+		? number
+		: WhichType extends 'detailed'
+		? DetailedPayload
+		: boolean
 	models: {
-		[modelName in keyof TModels]: AsNumber extends true ? number : boolean
+		[modelName in keyof TModels]: WhichType extends 'number'
+			? number
+			: WhichType extends 'detailed'
+			? DetailedPayload
+			: boolean
 	}
 	effects: {
 		[modelName in keyof TModels]: {
 			[effectName in keyof ExtractRematchDispatchersFromEffects<
 				TModels[modelName]['effects'],
 				TModels
-			>]: AsNumber extends true ? number : boolean
+			>]: WhichType extends 'number'
+				? number
+				: WhichType extends 'detailed'
+				? DetailedPayload
+				: boolean
 		}
 	}
 }
 
-interface InitialState<AsNumber extends boolean = false> {
-	global: AsNumber extends true ? number : boolean
+interface InitialStateV2<WhichType extends 'number' | 'boolean' | 'detailed'> {
+	global: WhichType extends 'number'
+		? number
+		: WhichType extends 'detailed'
+		? DetailedPayload
+		: boolean
 	models: {
-		[modelName: string]: AsNumber extends true ? number : boolean
+		[modelName: string]: WhichType extends 'number'
+			? number
+			: WhichType extends 'detailed'
+			? DetailedPayload
+			: boolean
 	}
 	effects: {
 		[modelName: string]: {
-			[effectName: string]: AsNumber extends true ? number : boolean
+			[effectName: string]: WhichType extends 'number'
+				? number
+				: WhichType extends 'detailed'
+				? DetailedPayload
+				: boolean
 		}
 	}
 }
 
-type Converter = ((cnt: number) => number) | ((cnt: number) => boolean)
+type Converter = (
+	cnt: number,
+	detailedPayload?: DetailedPayload
+) => number | boolean | DetailedPayload
 
-interface LoadingModel<
+interface LoadingModelV2<
 	TModels extends Models<TModels>,
-	AsNumber extends boolean = false
-> extends NamedModel<TModels, LoadingState<TModels, AsNumber>> {
+	WhichType extends 'number' | 'boolean' | 'detailed'
+> extends NamedModel<TModels, LoadingStateV2<TModels, WhichType>> {
 	reducers: {
-		hide: Reducer<LoadingState<TModels, AsNumber>>
-		show: Reducer<LoadingState<TModels, AsNumber>>
+		hide: Reducer<LoadingStateV2<TModels, WhichType>>
+		show: Reducer<LoadingStateV2<TModels, WhichType>>
 	}
 }
 
 export interface ExtraModelsFromLoading<
 	TModels extends Models<TModels>,
-	TConfig extends LoadingAsNumberConfig = {
-		asNumber: false
+	TConfig extends LoadingConfig = {
+		type: 'boolean'
 	}
 > extends Models<TModels> {
-	loading: LoadingModel<TModels, TConfig['asNumber']>
+	loading: LoadingModelV2<
+		TModels,
+		TConfig['type'] extends 'number' | 'boolean' | 'detailed'
+			? TConfig['type']
+			: 'boolean'
+	>
+}
+
+type DetailedPayload = {
+	error: unknown
+	success: boolean
+	loading?: boolean
 }
 
 const createLoadingAction = <
 	TModels extends Models<TModels>,
-	AsNumber extends boolean = false
+	WhichType extends 'number' | 'boolean' | 'detailed'
 >(
 	converter: Converter,
 	i: number,
-	cntState: InitialState<true>
-): Reducer<LoadingState<TModels, AsNumber>> => (
+	cntState: InitialStateV2<'number'>
+): Reducer<LoadingStateV2<TModels, WhichType>> => (
 	state,
-	payload: Action<{ name: string; action: string }>['payload']
-): LoadingState<TModels, boolean> => {
-	const { name, action } = payload || { name: '', action: '' }
+	payload: Action<{
+		name: string
+		action: string
+		detailedPayload: DetailedPayload
+	}>['payload']
+): LoadingStateV2<TModels, WhichType> => {
+	const { name, action, detailedPayload } = payload || { name: '', action: '' }
 
 	cntState.global += i
 	cntState.models[name] += i
@@ -86,16 +128,17 @@ const createLoadingAction = <
 
 	return {
 		...state,
-		global: converter(cntState.global),
+		// todo: check this
+		global: converter(cntState.global, detailedPayload) as any,
 		models: {
 			...state.models,
-			[name]: converter(cntState.models[name]),
+			[name]: converter(cntState.models[name], detailedPayload),
 		},
 		effects: {
 			...state.effects,
 			[name]: {
 				...state.effects[name],
-				[action]: converter(cntState.effects[name][action]),
+				[action]: converter(cntState.effects[name][action], detailedPayload),
 			},
 		},
 	}
@@ -108,6 +151,17 @@ const validateConfig = (config: LoadingConfig): void => {
 		}
 		if (config.asNumber && typeof config.asNumber !== 'boolean') {
 			throw new Error('loading plugin config asNumber must be a boolean')
+		}
+		if (config.asNumber) {
+			console.warn(
+				[
+					'@rematch/loading deprecation warning:',
+					'\n',
+					'"asNumber" property from @rematch/loading is deprecated, consider replacing "asNumber" to "type": "number".',
+					'\n',
+					'In future Rematch versions, "asNumber" will be removed.',
+				].join(' ')
+			)
 		}
 		if (config.whitelist && !Array.isArray(config.whitelist)) {
 			throw new Error(
@@ -138,51 +192,63 @@ export default <
 	TExtraModels,
 	ExtraModelsFromLoading<
 		TModels,
-		TConfig['asNumber'] extends boolean
-			? { asNumber: TConfig['asNumber'] }
-			: { asNumber: false }
+		TConfig extends LoadingConfig ? TConfig : { type: 'boolean' }
 	>
 > => {
 	validateConfig(config)
 
 	const loadingModelName = config.name || 'loading'
+	if (config.asNumber) {
+		config.type = 'number'
+	}
+	const isAsNumber = config.type === 'number'
+	const isAsDetailed = config.type === 'detailed'
 
-	const cntState: InitialState<true> = {
-		global: 0,
+	const converter = (cnt: number, detailedPayload?: DetailedPayload) => {
+		if (isAsNumber) return cnt
+		if (isAsDetailed && detailedPayload) {
+			return { ...detailedPayload, loading: cnt > 0 } as DetailedPayload
+		}
+		if (isAsDetailed) {
+			return { loading: cnt > 0, success: false, error: false }
+		}
+		return cnt > 0
+	}
+
+	type WhichTypeResolved = typeof isAsNumber extends boolean
+		? 'number'
+		: typeof isAsDetailed extends boolean
+		? 'detailed'
+		: 'boolean'
+
+	const loadingInitialState: InitialStateV2<WhichTypeResolved> = {
+		global: converter(0) as any,
 		models: {},
 		effects: {},
 	}
 
-	const isAsNumber = config.asNumber === true
-
-	const loadingInitialState: InitialState<typeof isAsNumber> = {
+	const cntState: InitialStateV2<'number'> = {
 		global: 0,
 		models: {},
 		effects: {},
 	}
-
-	const converter = isAsNumber
-		? (cnt: number): number => cnt
-		: (cnt: number): boolean => cnt > 0
-
-	const loading: LoadingModel<TModels, typeof isAsNumber> = {
+	const loading: LoadingModelV2<TModels, WhichTypeResolved> = {
 		name: loadingModelName,
 		reducers: {
 			hide: createLoadingAction(converter, -1, cntState),
 			show: createLoadingAction(converter, 1, cntState),
 		},
-		state: loadingInitialState as LoadingState<TModels, typeof isAsNumber>,
+		state: loadingInitialState as LoadingStateV2<TModels, WhichTypeResolved>,
 	}
 
 	const initialLoadingValue = converter(0)
-
-	loadingInitialState.global = initialLoadingValue
 
 	return {
 		config: {
 			models: {
 				loading,
-			},
+				// todo: crashes when building
+			} as any,
 		},
 		onModel({ name }, rematch): void {
 			// do not run dispatch on "loading" model
@@ -193,19 +259,21 @@ export default <
 			cntState.models[name] = 0
 			cntState.effects[name] = {}
 
-			loadingInitialState.models[name] = initialLoadingValue
+			loadingInitialState.models[name] = initialLoadingValue as number
 			loadingInitialState.effects[name] = {}
 
 			const modelActions = rematch.dispatch[name]
 
 			// map over effects within models
 			Object.keys(modelActions).forEach((action: string) => {
-				if (!rematch.dispatch[name][action].isEffect) {
+				if (rematch.dispatch[name][action].isEffect === false) {
 					return
 				}
 
 				cntState.effects[name][action] = 0
-				loadingInitialState.effects[name][action] = initialLoadingValue
+				loadingInitialState.effects[name][
+					action
+				] = initialLoadingValue as number
 
 				const actionType = `${name}/${action}`
 
@@ -226,7 +294,16 @@ export default <
 				const effectWrapper = (...props: any): any => {
 					try {
 						// show loading
-						rematch.dispatch[loadingModelName].show({ name, action })
+						rematch.dispatch[loadingModelName].show({
+							name,
+							action,
+							detailedPayload: isAsDetailed
+								? {
+										success: false,
+										error: false,
+								  }
+								: null,
+						})
 						// dispatch the original action
 						const effectResult = origEffect(...props)
 
@@ -235,22 +312,58 @@ export default <
 							// hide loading when promise finishes either with success or error
 							return effectResult
 								.then((r: any) => {
-									rematch.dispatch[loadingModelName].hide({ name, action })
+									rematch.dispatch[loadingModelName].hide({
+										name,
+										action,
+										detailedPayload: isAsDetailed
+											? {
+													error: false,
+													success: true,
+											  }
+											: null,
+									})
 									return r
 								})
 								.catch((err: any) => {
-									rematch.dispatch[loadingModelName].hide({ name, action })
+									rematch.dispatch[loadingModelName].hide({
+										name,
+										action,
+										detailedPayload: isAsDetailed
+											? {
+													error: err,
+													success: false,
+											  }
+											: null,
+									})
 									throw err
 								})
 						}
 
 						// original action doesn't return a promise so there's nothing to wait for
-						rematch.dispatch[loadingModelName].hide({ name, action })
+						rematch.dispatch[loadingModelName].hide({
+							name,
+							action,
+							detailedPayload: isAsDetailed
+								? {
+										error: false,
+										success: true,
+								  }
+								: null,
+						})
 
 						// return the original result of this reducer
 						return effectResult
 					} catch (error) {
-						rematch.dispatch[loadingModelName].hide({ name, action })
+						rematch.dispatch[loadingModelName].hide({
+							name,
+							action,
+							detailedPayload: isAsDetailed
+								? {
+										error,
+										success: false,
+								  }
+								: null,
+						})
 						throw error
 					}
 				}
