@@ -61,11 +61,29 @@ import loadingPlugin, { ExtraModelsFromLoading } from "@rematch/loading"
 import { init, RematchDispatch, RematchRootState } from "@rematch/core"
 import { models, RootModel } from "./models"
 
-type FullModel = ExtraModelsFromLoading<RootModel, { asNumber: true }>
+type FullModel = ExtraModelsFromLoading<RootModel, { type: 'number' }>
 
 export const store = init<RootModel, FullModel>({
   models,
-  plugins: [loadingPlugin({ asNumber: true })],
+  plugins: [loadingPlugin({ type: 'number' })],
+})
+
+export type Store = typeof store
+export type Dispatch = RematchDispatch<RootModel>
+export type RootState = RematchRootState<RootModel, FullModel>
+```
+
+```twoslash include storeAsDetailed
+// @filename: storeAsDetailed.ts
+import loadingPlugin, { ExtraModelsFromLoading } from "@rematch/loading"
+import { init, RematchDispatch, RematchRootState } from "@rematch/core"
+import { models, RootModel } from "./models"
+
+type FullModel = ExtraModelsFromLoading<RootModel, { type: 'detailed' }>
+
+export const store = init<RootModel, FullModel>({
+  models,
+  plugins: [loadingPlugin({ type: 'detailed' })],
 })
 
 export type Store = typeof store
@@ -95,7 +113,8 @@ npm install @rematch/loading
 The loading plugin accepts one optional argument - **config**, which is an object with the following properties:
 
 - [`name`] (_string?_): key for the loading model in your store. If you name it "custom", loading state can be accessed from _state.custom_. **Defaults to _loading_**.
-- [`asNumber`] (_boolean?_): loading plugin by default keeps track of running effects using booleans, so for example: _state.loading.global === true_. You can change that behaviour and use numbers instead - plugin will keep track of the number of times an effect was executed, for example: _state.loading.global === 5_. Defaults to _false_.
+- [`asNumber`] (_boolean?_): loading plugin by default keeps track of running effects using booleans, so for example: _state.loading.global === true_. You can change that behaviour and use numbers instead - plugin will keep track of the number of times an effect was executed, for example: _state.loading.global === 5_. Defaults to _false_. **Deprecated, use `type` instead**
+- [`type`] (_"number"|"boolean"|"detailed"_): Loading plugin by default keeps track of running effects using booleans, but sometimes you want to track errors and if the promise is resolved, in that case you can use `detailed`. If you want to track the number of times an effect was executed, you can use `number` instead.
 - [`whitelist`] (_string[]?_): an array of effects names that you want to use loading plugin for. If defined, plugin will work only for the whitelisted effects.
 - [`blacklist`] (_string[]?_): an array of effects names that you **don't want** to use loading plugin for. If defined, plugin will work for all effects except those blacklisted.
 
@@ -127,7 +146,7 @@ Set up your store with default or custom settings.
 
 ### Setup the store
 
-```ts twoslash {1,5,7,9} title="store.ts"
+```ts twoslash {2,6,8,10,15} title="store.ts"
 // @include: countModel
 // @include: rootModel
 // ---cut---
@@ -136,18 +155,34 @@ Set up your store with default or custom settings.
 
 If you want to use the `loadingPlugin` with numbers instead of booleans, you can also change the typings:
 
-```ts twoslash {1,5,7,9}
+```ts twoslash {2,6,8,10,15}
 // @include: countModel
 // @include: rootModel
 // ---cut---
 // @include: storeAsNumber
 ```
 
-### Use in the view
+If you want to use the `loadingPlugin` with detailed Errors and Success information instead of booleans, you can also change the typings:
+
+```ts twoslash {2,6,8,10,15}
+// @include: countModel
+// @include: rootModel
+// ---cut---
+// @include: storeAsDetailed
+```
+
+### React usage
 
 Use state created by the loading plugin in your view.
 
-```twoslash include appTemplate
+
+#### Default
+
+```tsx twoslash
+// @include: countModel
+// @include: rootModel
+// @include: store
+// ---cut---
 // @filename: appTemplate.tsx
 import React from "react"
 import { useSelector } from "react-redux"
@@ -165,10 +200,51 @@ export const App = () => {
 }
 ```
 
+#### Detailed
+
 ```tsx twoslash
 // @include: countModel
 // @include: rootModel
-// @include: store
+// @include: storeAsDetailed
 // ---cut---
-// @include: appTemplate
+// @filename: appTemplate.tsx
+import React from "react"
+import { useSelector } from "react-redux"
+import { RootState } from "./storeAsDetailed"
+
+export const App = () => {
+  const { loading, success, error } = useSelector((rootState: RootState) => rootState.loading.models.count)
+  if (loading) return <div>LOADING...</div>
+  if (error) return <div>{(error as Error).name}</div>
+
+  return (
+    <div>
+      Data succesfully loaded
+    </div>
+  )
+}
+```
+
+#### Number
+
+```tsx twoslash
+// @include: countModel
+// @include: rootModel
+// @include: storeAsNumber
+// ---cut---
+// @filename: appTemplate.tsx
+import React from "react"
+import { useSelector } from "react-redux"
+import { RootState } from "./storeAsNumber"
+
+export const App = () => {
+  const countCalledTimes = useSelector((rootState: RootState) => rootState.loading.models.count)
+  if (countCalledTimes > 0) return <div>LOADING...</div>
+
+  return (
+    <div>
+      Data succesfully loaded
+    </div>
+  )
+}
 ```

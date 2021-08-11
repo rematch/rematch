@@ -13,7 +13,6 @@ module.exports = {
 	themeConfig: {
 		image: 'img/meta-image.png',
 		hideableSidebar: true,
-		sidebarCollapsible: true,
 		colorMode: {
 			defaultMode: 'light',
 			disableSwitch: false,
@@ -118,6 +117,7 @@ module.exports = {
 			{
 				docs: {
 					path: '../docs',
+					sidebarCollapsible: true,
 					remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
 					sidebarPath: require.resolve('./sidebars.js'),
 					editUrl: 'https://github.com/rematch/rematch/edit/main/docs/',
