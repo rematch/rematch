@@ -181,6 +181,10 @@ const validateConfig = (config: LoadingConfig): void => {
 	}
 }
 
+function assignExtraPayload<T, B>(insert: boolean, error: T, success: B) {
+	return insert ? { error, success } : null
+}
+
 export default <
 	TModels extends Models<TModels>,
 	TExtraModels extends Models<TModels>,
@@ -297,12 +301,7 @@ export default <
 						rematch.dispatch[loadingModelName].show({
 							name,
 							action,
-							detailedPayload: isAsDetailed
-								? {
-										success: false,
-										error: false,
-								  }
-								: null,
+							detailedPayload: assignExtraPayload(isAsDetailed, false, false),
 						})
 						// dispatch the original action
 						const effectResult = origEffect(...props)
@@ -315,12 +314,11 @@ export default <
 									rematch.dispatch[loadingModelName].hide({
 										name,
 										action,
-										detailedPayload: isAsDetailed
-											? {
-													error: false,
-													success: true,
-											  }
-											: null,
+										detailedPayload: assignExtraPayload(
+											isAsDetailed,
+											false,
+											true
+										),
 									})
 									return r
 								})
@@ -328,12 +326,11 @@ export default <
 									rematch.dispatch[loadingModelName].hide({
 										name,
 										action,
-										detailedPayload: isAsDetailed
-											? {
-													error: err,
-													success: false,
-											  }
-											: null,
+										detailedPayload: assignExtraPayload(
+											isAsDetailed,
+											err,
+											false
+										),
 									})
 									throw err
 								})
@@ -343,12 +340,7 @@ export default <
 						rematch.dispatch[loadingModelName].hide({
 							name,
 							action,
-							detailedPayload: isAsDetailed
-								? {
-										error: false,
-										success: true,
-								  }
-								: null,
+							detailedPayload: assignExtraPayload(isAsDetailed, false, true),
 						})
 
 						// return the original result of this reducer
@@ -357,12 +349,7 @@ export default <
 						rematch.dispatch[loadingModelName].hide({
 							name,
 							action,
-							detailedPayload: isAsDetailed
-								? {
-										error,
-										success: false,
-								  }
-								: null,
+							detailedPayload: assignExtraPayload(isAsDetailed, error, false),
 						})
 						throw error
 					}
