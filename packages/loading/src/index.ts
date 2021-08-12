@@ -56,10 +56,10 @@ interface InitialStateV2<WhichType extends LoadingPluginType> {
 	}
 }
 
-type Converter = (
+type Converter<WhichType extends LoadingPluginType> = (
 	cnt: number,
 	detailedPayload?: DetailedPayload
-) => number | boolean | DetailedPayload
+) => PickLoadingPluginType<WhichType>
 
 interface LoadingModelV2<
 	TModels extends Models<TModels>,
@@ -93,7 +93,7 @@ const createLoadingAction = <
 	TModels extends Models<TModels>,
 	WhichType extends LoadingPluginType
 >(
-	converter: Converter,
+	converter: Converter<WhichType>,
 	i: number,
 	cntState: InitialStateV2<'number'>
 ): Reducer<LoadingStateV2<TModels, WhichType>> => (
@@ -112,8 +112,7 @@ const createLoadingAction = <
 
 	return {
 		...state,
-		// todo: check this
-		global: converter(cntState.global, detailedPayload) as any,
+		global: converter(cntState.global, detailedPayload),
 		models: {
 			...state.models,
 			[name]: converter(cntState.models[name], detailedPayload),
@@ -192,7 +191,7 @@ export default <
 	const isAsNumber = config.type === 'number'
 	const isAsDetailed = config.type === 'detailed'
 
-	const converter = (cnt: number, detailedPayload?: DetailedPayload) => {
+	const converter: Converter<LoadingPluginType> = (cnt, detailedPayload) => {
 		if (isAsNumber) return cnt
 		if (isAsDetailed && detailedPayload) {
 			return { ...detailedPayload, loading: cnt > 0 } as DetailedPayload
@@ -203,14 +202,8 @@ export default <
 		return cnt > 0
 	}
 
-	type WhichTypeResolved = typeof isAsNumber extends boolean
-		? 'number'
-		: typeof isAsDetailed extends boolean
-		? 'detailed'
-		: 'boolean'
-
-	const loadingInitialState: InitialStateV2<WhichTypeResolved> = {
-		global: converter(0) as any,
+	const loadingInitialState: InitialStateV2<LoadingPluginType> = {
+		global: converter(0),
 		models: {},
 		effects: {},
 	}
@@ -220,13 +213,13 @@ export default <
 		models: {},
 		effects: {},
 	}
-	const loading: LoadingModelV2<TModels, WhichTypeResolved> = {
+	const loading: LoadingModelV2<TModels, LoadingPluginType> = {
 		name: loadingModelName,
 		reducers: {
 			hide: createLoadingAction(converter, -1, cntState),
 			show: createLoadingAction(converter, 1, cntState),
 		},
-		state: loadingInitialState as LoadingStateV2<TModels, WhichTypeResolved>,
+		state: loadingInitialState as LoadingStateV2<TModels, LoadingPluginType>,
 	}
 
 	const initialLoadingValue = converter(0)
@@ -235,8 +228,7 @@ export default <
 		config: {
 			models: {
 				loading,
-				// todo: crashes when building
-			} as any,
+			},
 		},
 		onModel({ name }, rematch): void {
 			// do not run dispatch on "loading" model
