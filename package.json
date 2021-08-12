@@ -116,7 +116,7 @@
     },
     {
       "path": "./packages/loading/dist/loading.umd.production.min.js",
-      "limit": "700 B"
+      "limit": "1 kb"
     },
     {
       "path": "./packages/persist/dist/persist.umd.production.min.js",

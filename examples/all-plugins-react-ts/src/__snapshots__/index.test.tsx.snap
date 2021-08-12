@@ -41,7 +41,13 @@ exports[`Application is rendered correctly 1`] = `
       </div>
       <div
         class="container"
-      />
+      >
+        <div
+          class="loader"
+        >
+          Loading...
+        </div>
+      </div>
     </div>
   </div>
 </div>

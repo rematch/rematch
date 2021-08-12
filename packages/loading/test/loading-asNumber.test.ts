@@ -156,7 +156,6 @@ describe('loading asNumbers', () => {
 			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
-					// @ts-expect-error
 					loadingPlugin({
 						asNumber: true,
 						// @ts-expect-error
@@ -173,7 +172,6 @@ describe('loading asNumbers', () => {
 			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
-					// @ts-expect-error
 					loadingPlugin({
 						// @ts-expect-error
 						asNumber: 'should throw',
@@ -219,7 +217,6 @@ describe('loading asNumbers', () => {
 			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
-					// @ts-expect-error
 					loadingPlugin({
 						asNumber: true,
 						// @ts-expect-error
@@ -236,7 +233,6 @@ describe('loading asNumbers', () => {
 			init<Models, ExtraModels>({
 				models: { count },
 				plugins: [
-					// @ts-expect-error
 					loadingPlugin({
 						asNumber: true,
 						// @ts-expect-error
