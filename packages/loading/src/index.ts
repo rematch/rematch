@@ -7,67 +7,51 @@ import {
 	Action,
 } from '@rematch/core'
 
+export type LoadingPluginType = 'number' | 'boolean' | 'detailed'
 export interface LoadingConfig {
 	name?: string
 	whitelist?: string[]
 	blacklist?: string[]
-	type?: 'number' | 'boolean' | 'detailed'
+	type?: LoadingPluginType
 	/**
 	 * @deprecated Use `type: 'number'` instead
 	 */
 	asNumber?: boolean
 }
+type PickLoadingPluginType<
+	WhichType extends LoadingPluginType
+> = WhichType extends 'number'
+	? number
+	: WhichType extends 'detailed'
+	? DetailedPayload
+	: boolean
 
 interface LoadingStateV2<
 	TModels extends Models<TModels>,
-	WhichType extends 'number' | 'boolean' | 'detailed'
+	WhichType extends LoadingPluginType
 > {
-	global: WhichType extends 'number'
-		? number
-		: WhichType extends 'detailed'
-		? DetailedPayload
-		: boolean
+	global: PickLoadingPluginType<WhichType>
 	models: {
-		[modelName in keyof TModels]: WhichType extends 'number'
-			? number
-			: WhichType extends 'detailed'
-			? DetailedPayload
-			: boolean
+		[modelName in keyof TModels]: PickLoadingPluginType<WhichType>
 	}
 	effects: {
 		[modelName in keyof TModels]: {
 			[effectName in keyof ExtractRematchDispatchersFromEffects<
 				TModels[modelName]['effects'],
 				TModels
-			>]: WhichType extends 'number'
-				? number
-				: WhichType extends 'detailed'
-				? DetailedPayload
-				: boolean
+			>]: PickLoadingPluginType<WhichType>
 		}
 	}
 }
 
-interface InitialStateV2<WhichType extends 'number' | 'boolean' | 'detailed'> {
-	global: WhichType extends 'number'
-		? number
-		: WhichType extends 'detailed'
-		? DetailedPayload
-		: boolean
+interface InitialStateV2<WhichType extends LoadingPluginType> {
+	global: PickLoadingPluginType<WhichType>
 	models: {
-		[modelName: string]: WhichType extends 'number'
-			? number
-			: WhichType extends 'detailed'
-			? DetailedPayload
-			: boolean
+		[modelName: string]: PickLoadingPluginType<WhichType>
 	}
 	effects: {
 		[modelName: string]: {
-			[effectName: string]: WhichType extends 'number'
-				? number
-				: WhichType extends 'detailed'
-				? DetailedPayload
-				: boolean
+			[effectName: string]: PickLoadingPluginType<WhichType>
 		}
 	}
 }
@@ -79,7 +63,7 @@ type Converter = (
 
 interface LoadingModelV2<
 	TModels extends Models<TModels>,
-	WhichType extends 'number' | 'boolean' | 'detailed'
+	WhichType extends LoadingPluginType
 > extends NamedModel<TModels, LoadingStateV2<TModels, WhichType>> {
 	reducers: {
 		hide: Reducer<LoadingStateV2<TModels, WhichType>>
@@ -95,9 +79,7 @@ export interface ExtraModelsFromLoading<
 > extends Models<TModels> {
 	loading: LoadingModelV2<
 		TModels,
-		TConfig['type'] extends 'number' | 'boolean' | 'detailed'
-			? TConfig['type']
-			: 'boolean'
+		TConfig['type'] extends LoadingPluginType ? TConfig['type'] : 'boolean'
 	>
 }
 
@@ -109,7 +91,7 @@ type DetailedPayload = {
 
 const createLoadingAction = <
 	TModels extends Models<TModels>,
-	WhichType extends 'number' | 'boolean' | 'detailed'
+	WhichType extends LoadingPluginType
 >(
 	converter: Converter,
 	i: number,
