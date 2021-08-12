@@ -1,11 +1,12 @@
 {
   "name": "@rematch/select",
   "version": "3.0.1",
+  "sideEffects": false,
   "description": "Selectors plugin for Rematch",
   "homepage": "https://rematchjs.org",
   "main": "dist/index.js",
-  "module": "dist/select.esm.js",
-  "browser": "dist/select.esm.js",
+  "module": "dist/select.esm.mjs",
+  "browser": "dist/select.esm.mjs",
   "unpkg": "dist/select.umd.production.min.js",
   "types": "dist/index.d.ts",
   "publishConfig": {

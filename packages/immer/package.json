@@ -1,11 +1,12 @@
 {
   "name": "@rematch/immer",
   "version": "2.0.1",
+  "sideEffects": false,
   "description": "Redux-Immer v6 plugin for Rematch. Provides immutable ability for rematch.",
   "homepage": "https://rematchjs.org",
   "main": "dist/index.js",
-  "module": "dist/immer.esm.js",
-  "browser": "dist/immer.esm.js",
+  "module": "dist/immer.esm.mjs",
+  "browser": "dist/immer.esm.mjs",
   "unpkg": "dist/immer.umd.production.min.js",
   "types": "dist/index.d.ts",
   "publishConfig": {

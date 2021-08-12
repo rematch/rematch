@@ -3,9 +3,10 @@
   "version": "2.0.1",
   "description": "A Redux Framework",
   "homepage": "https://rematchjs.org",
+  "sideEffects": false,
   "main": "dist/index.js",
-  "module": "dist/core.esm.js",
-  "browser": "dist/core.esm.js",
+  "module": "dist/core.esm.mjs",
+  "browser": "dist/core.esm.mjs",
   "unpkg": "dist/core.umd.production.min.js",
   "types": "dist/index.d.ts",
   "publishConfig": {

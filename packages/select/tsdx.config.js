@@ -4,7 +4,6 @@ module.exports = {
 			config.output.file = config.output.file.replace('.js', '.mjs')
 		}
 
-		config.output.globals.Redux = 'Redux'
 		return config
 	},
 }

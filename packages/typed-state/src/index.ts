@@ -71,9 +71,6 @@ const typedStatePlugin = <
 	if (!config.strict) config.strict = false
 
 	return {
-		exposed: {
-			typings: {},
-		},
 		onModel(model): void {
 			cachedTypings[model.name] = model.typings
 		},

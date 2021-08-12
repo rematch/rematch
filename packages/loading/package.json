@@ -1,11 +1,12 @@
 {
   "name": "@rematch/loading",
   "version": "2.0.1",
+  "sideEffects": false,
   "description": "Loading indicator plugin for Rematch",
   "homepage": "https://rematchjs.org",
   "main": "dist/index.js",
-  "module": "dist/loading.esm.js",
-  "browser": "dist/loading.esm.js",
+  "module": "dist/loading.esm.mjs",
+  "browser": "dist/loading.esm.mjs",
   "unpkg": "dist/loading.umd.production.min.js",
   "types": "dist/index.d.ts",
   "publishConfig": {
