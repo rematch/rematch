@@ -26,7 +26,7 @@ type PickLoadingPluginType<
 	? DetailedPayload
 	: boolean
 
-interface LoadingStateV2<
+interface LoadingState<
 	TModels extends Models<TModels>,
 	WhichType extends LoadingPluginType
 > {
@@ -44,7 +44,7 @@ interface LoadingStateV2<
 	}
 }
 
-interface InitialStateV2<WhichType extends LoadingPluginType> {
+interface InitialState<WhichType extends LoadingPluginType> {
 	global: PickLoadingPluginType<WhichType>
 	models: {
 		[modelName: string]: PickLoadingPluginType<WhichType>
@@ -61,13 +61,13 @@ type Converter<WhichType extends LoadingPluginType> = (
 	detailedPayload?: DetailedPayload
 ) => PickLoadingPluginType<WhichType>
 
-interface LoadingModelV2<
+interface LoadingModel<
 	TModels extends Models<TModels>,
 	WhichType extends LoadingPluginType
-> extends NamedModel<TModels, LoadingStateV2<TModels, WhichType>> {
+> extends NamedModel<TModels, LoadingState<TModels, WhichType>> {
 	reducers: {
-		hide: Reducer<LoadingStateV2<TModels, WhichType>>
-		show: Reducer<LoadingStateV2<TModels, WhichType>>
+		hide: Reducer<LoadingState<TModels, WhichType>>
+		show: Reducer<LoadingState<TModels, WhichType>>
 	}
 }
 
@@ -77,7 +77,7 @@ export interface ExtraModelsFromLoading<
 		type: 'boolean'
 	}
 > extends Models<TModels> {
-	loading: LoadingModelV2<
+	loading: LoadingModel<
 		TModels,
 		TConfig['type'] extends LoadingPluginType ? TConfig['type'] : 'boolean'
 	>
@@ -95,15 +95,15 @@ const createLoadingAction = <
 >(
 	converter: Converter<WhichType>,
 	i: number,
-	cntState: InitialStateV2<'number'>
-): Reducer<LoadingStateV2<TModels, WhichType>> => (
+	cntState: InitialState<'number'>
+): Reducer<LoadingState<TModels, WhichType>> => (
 	state,
 	payload: Action<{
 		name: string
 		action: string
 		detailedPayload: DetailedPayload
 	}>['payload']
-): LoadingStateV2<TModels, WhichType> => {
+): LoadingState<TModels, WhichType> => {
 	const { name, action, detailedPayload } = payload || { name: '', action: '' }
 
 	cntState.global += i
@@ -202,24 +202,24 @@ export default <
 		return cnt > 0
 	}
 
-	const loadingInitialState: InitialStateV2<LoadingPluginType> = {
+	const loadingInitialState: InitialState<LoadingPluginType> = {
 		global: converter(0),
 		models: {},
 		effects: {},
 	}
 
-	const cntState: InitialStateV2<'number'> = {
+	const cntState: InitialState<'number'> = {
 		global: 0,
 		models: {},
 		effects: {},
 	}
-	const loading: LoadingModelV2<TModels, LoadingPluginType> = {
+	const loading: LoadingModel<TModels, LoadingPluginType> = {
 		name: loadingModelName,
 		reducers: {
 			hide: createLoadingAction(converter, -1, cntState),
 			show: createLoadingAction(converter, 1, cntState),
 		},
-		state: loadingInitialState as LoadingStateV2<TModels, LoadingPluginType>,
+		state: loadingInitialState as LoadingState<TModels, LoadingPluginType>,
 	}
 
 	const initialLoadingValue = converter(0)
