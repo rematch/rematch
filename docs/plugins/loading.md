@@ -1,7 +1,7 @@
 ---
 id: loading
 title: Loading
-sidebar_label: "@rematch/loading"
+sidebar_label: '@rematch/loading'
 slug: /plugins/loading/
 ---
 
@@ -73,17 +73,17 @@ export type Dispatch = RematchDispatch<RootModel>
 export type RootState = RematchRootState<RootModel, FullModel>
 ```
 
-```twoslash include storeAsDetailed
-// @filename: storeAsDetailed.ts
+```twoslash include storeAsFull
+// @filename: storeAsFull.ts
 import loadingPlugin, { ExtraModelsFromLoading } from "@rematch/loading"
 import { init, RematchDispatch, RematchRootState } from "@rematch/core"
 import { models, RootModel } from "./models"
 
-type FullModel = ExtraModelsFromLoading<RootModel, { type: 'detailed' }>
+type FullModel = ExtraModelsFromLoading<RootModel, { type: 'full' }>
 
 export const store = init<RootModel, FullModel>({
   models,
-  plugins: [loadingPlugin({ type: 'detailed' })],
+  plugins: [loadingPlugin({ type: 'full' })],
 })
 
 export type Store = typeof store
@@ -114,7 +114,7 @@ The loading plugin accepts one optional argument - **config**, which is an objec
 
 - [`name`] (_string?_): key for the loading model in your store. If you name it "custom", loading state can be accessed from _state.custom_. **Defaults to _loading_**.
 - [`asNumber`] (_boolean?_): loading plugin by default keeps track of running effects using booleans, so for example: _state.loading.global === true_. You can change that behaviour and use numbers instead - plugin will keep track of the number of times an effect was executed, for example: _state.loading.global === 5_. Defaults to _false_. **Deprecated, use `type` instead**
-- [`type`] (_"number"|"boolean"|"detailed"_): Loading plugin by default keeps track of running effects using booleans, but sometimes you want to track errors and if the promise is resolved, in that case you can use `detailed`. If you want to track the number of times an effect was executed, you can use `number` instead.
+- [`type`] (_"number"|"boolean"|"full"_): Loading plugin by default keeps track of running effects using booleans, but sometimes you want to track if the effect promise is resolved to an Error, or loading, or if the promise is resolved correctly, in that case you can use `full`. If you want to track the number of times an effect was executed, you can use `number` instead.
 - [`whitelist`] (_string[]?_): an array of effects names that you want to use loading plugin for. If defined, plugin will work only for the whitelisted effects.
 - [`blacklist`] (_string[]?_): an array of effects names that you **don't want** to use loading plugin for. If defined, plugin will work for all effects except those blacklisted.
 
@@ -128,15 +128,15 @@ Let's say we have a model 'count' in our store. Loading plugin's state will have
 
 ```json
 {
-  "global": true, // true when any effect in any model is loading
-  "models": {
-    "count": true // true when any effect in 'count' model is loading
-  },
-  "effects": {
-    "count": {
-      "addOne": true // true when effect 'addOne' in model 'count' is loading
-    }
-  }
+	"global": true, // true when any effect in any model is loading
+	"models": {
+		"count": true // true when any effect in 'count' model is loading
+	},
+	"effects": {
+		"count": {
+			"addOne": true // true when effect 'addOne' in model 'count' is loading
+		}
+	}
 }
 ```
 
@@ -168,13 +168,12 @@ If you want to use the `loadingPlugin` with detailed Errors and Success informat
 // @include: countModel
 // @include: rootModel
 // ---cut---
-// @include: storeAsDetailed
+// @include: storeAsFull
 ```
 
 ### React usage
 
 Use state created by the loading plugin in your view.
-
 
 #### Default
 
@@ -184,44 +183,40 @@ Use state created by the loading plugin in your view.
 // @include: store
 // ---cut---
 // @filename: appTemplate.tsx
-import React from "react"
-import { useSelector } from "react-redux"
-import { RootState } from "./store"
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from './store'
 
 export const App = () => {
-  const isCountLoading = useSelector((rootState: RootState) => rootState.loading.models.count)
-  if (isCountLoading) return <div>LOADING...</div>
+	const isCountLoading = useSelector(
+		(rootState: RootState) => rootState.loading.models.count
+	)
+	if (isCountLoading) return <div>LOADING...</div>
 
-  return (
-    <div>
-      Data succesfully loaded
-    </div>
-  )
+	return <div>Data succesfully loaded</div>
 }
 ```
 
-#### Detailed
+#### Full
 
 ```tsx twoslash
 // @include: countModel
 // @include: rootModel
-// @include: storeAsDetailed
+// @include: storeAsFull
 // ---cut---
 // @filename: appTemplate.tsx
-import React from "react"
-import { useSelector } from "react-redux"
-import { RootState } from "./storeAsDetailed"
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from './storeAsFull'
 
 export const App = () => {
-  const { loading, success, error } = useSelector((rootState: RootState) => rootState.loading.models.count)
-  if (loading) return <div>LOADING...</div>
-  if (error) return <div>{(error as Error).name}</div>
+	const { loading, success, error } = useSelector(
+		(rootState: RootState) => rootState.loading.models.count
+	)
+	if (loading) return <div>LOADING...</div>
+	if (error) return <div>{(error as Error).name}</div>
 
-  return (
-    <div>
-      Data succesfully loaded
-    </div>
-  )
+	return <div>Data succesfully loaded</div>
 }
 ```
 
@@ -233,18 +228,16 @@ export const App = () => {
 // @include: storeAsNumber
 // ---cut---
 // @filename: appTemplate.tsx
-import React from "react"
-import { useSelector } from "react-redux"
-import { RootState } from "./storeAsNumber"
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from './storeAsNumber'
 
 export const App = () => {
-  const countCalledTimes = useSelector((rootState: RootState) => rootState.loading.models.count)
-  if (countCalledTimes > 0) return <div>LOADING...</div>
+	const countCalledTimes = useSelector(
+		(rootState: RootState) => rootState.loading.models.count
+	)
+	if (countCalledTimes > 0) return <div>LOADING...</div>
 
-  return (
-    <div>
-      Data succesfully loaded
-    </div>
-  )
+	return <div>Data succesfully loaded</div>
 }
 ```

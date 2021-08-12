@@ -3,7 +3,7 @@ import { init } from '@rematch/core'
 import loadingPlugin, { ExtraModelsFromLoading } from '../src'
 import { delay } from './utils'
 
-describe('loading asDetailed', () => {
+describe('loading asFull', () => {
 	test('should capture all model and global loading for simultaneous effects', async () => {
 		const count2 = {
 			state: 0,
@@ -22,12 +22,12 @@ describe('loading asDetailed', () => {
 		type ExtraModels = ExtraModelsFromLoading<
 			Models,
 			{
-				type: 'detailed'
+				type: 'full'
 			}
 		>
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
-			plugins: [loadingPlugin({ type: 'detailed' })],
+			plugins: [loadingPlugin({ type: 'full' })],
 		})
 
 		const effect1 = store.dispatch.count.timeout1()
@@ -117,13 +117,13 @@ describe('loading asDetailed', () => {
 		type ExtraModels = ExtraModelsFromLoading<
 			Models,
 			{
-				type: 'detailed'
+				type: 'full'
 			}
 		>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
-			plugins: [loadingPlugin({ type: 'detailed' })],
+			plugins: [loadingPlugin({ type: 'full' })],
 		})
 
 		await store.dispatch.count.success()
@@ -149,13 +149,13 @@ describe('loading asDetailed', () => {
 		type ExtraModels = ExtraModelsFromLoading<
 			Models,
 			{
-				type: 'detailed'
+				type: 'full'
 			}
 		>
 
 		const store = init<Models, ExtraModels>({
 			models: { count: count2 },
-			plugins: [loadingPlugin({ type: 'detailed' })],
+			plugins: [loadingPlugin({ type: 'full' })],
 		})
 
 		try {

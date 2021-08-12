@@ -7,7 +7,7 @@ import {
 	Action,
 } from '@rematch/core'
 
-export type LoadingPluginType = 'number' | 'boolean' | 'detailed'
+export type LoadingPluginType = 'number' | 'boolean' | 'full'
 export interface LoadingConfig {
 	name?: string
 	whitelist?: string[]
@@ -22,7 +22,7 @@ type PickLoadingPluginType<
 	WhichType extends LoadingPluginType
 > = WhichType extends 'number'
 	? number
-	: WhichType extends 'detailed'
+	: WhichType extends 'full'
 	? DetailedPayload
 	: boolean
 
@@ -189,7 +189,7 @@ export default <
 		config.type = 'number'
 	}
 	const isAsNumber = config.type === 'number'
-	const isAsDetailed = config.type === 'detailed'
+	const isAsDetailed = config.type === 'full'
 
 	const converter: Converter<LoadingPluginType> = (cnt, detailedPayload) => {
 		if (isAsNumber) return cnt
