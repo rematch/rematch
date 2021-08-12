@@ -12,7 +12,9 @@ export interface LoadingConfig {
 	whitelist?: string[]
 	blacklist?: string[]
 	type?: 'number' | 'boolean' | 'detailed'
-	// @deprecated Use type: 'number' instead
+	/**
+	 * @deprecated Use `type: 'number'` instead
+	 */
 	asNumber?: boolean
 }
 
