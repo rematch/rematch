@@ -5,8 +5,8 @@
   "homepage": "https://rematchjs.org",
   "sideEffects": false,
   "main": "dist/index.js",
-  "module": "dist/core.esm.mjs",
-  "browser": "dist/core.esm.mjs",
+  "module": "dist/core.esm.js",
+  "browser": "dist/core.esm.js",
   "unpkg": "dist/core.umd.production.min.js",
   "types": "dist/index.d.ts",
   "publishConfig": {

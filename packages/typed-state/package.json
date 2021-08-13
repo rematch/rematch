@@ -5,8 +5,8 @@
   "description": "Rematch plugin for typing the state",
   "homepage": "https://rematch.github.io/rematch",
   "main": "dist/index.js",
-  "module": "dist/typed-state.esm.mjs",
-  "browser": "dist/typed-state.esm.mjs",
+  "module": "dist/typed-state.esm.js",
+  "browser": "dist/typed-state.esm.js",
   "unpkg": "dist/typed-state.umd.production.min.js",
   "types": "dist/index.d.ts",
   "publishConfig": {

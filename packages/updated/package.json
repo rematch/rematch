@@ -5,8 +5,8 @@
   "description": "Rematch plugin for maintaining timestamps when effects are called",
   "homepage": "https://rematchjs.org",
   "main": "dist/index.js",
-  "module": "dist/updated.esm.mjs",
-  "browser": "dist/updated.esm.mjs",
+  "module": "dist/updated.esm.js",
+  "browser": "dist/updated.esm.js",
   "unpkg": "dist/updated.umd.production.min.js",
   "types": "dist/index.d.ts",
   "publishConfig": {

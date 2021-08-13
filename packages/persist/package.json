@@ -5,8 +5,8 @@
   "description": "Redux-Persist v6 plugin for Rematch. Provides simple redux state persistence using local storage options.",
   "homepage": "https://rematchjs.org",
   "main": "dist/index.js",
-  "module": "dist/persist.esm.mjs",
-  "browser": "dist/persist.esm.mjs",
+  "module": "dist/persist.esm.js",
+  "browser": "dist/persist.esm.js",
   "unpkg": "dist/persist.umd.production.min.js",
   "types": "dist/index.d.ts",
   "publishConfig": {
