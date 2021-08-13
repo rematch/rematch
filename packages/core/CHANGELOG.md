@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/rematch/rematch/compare/@rematch/core@2.0.1...@rematch/core@2.1.0) (2021-08-13)
+
+
+### Bug Fixes
+
+* build to modules to .mjs instead of .js and sideEffects: false for better treeshaking ([c2978f3](https://github.com/rematch/rematch/commit/c2978f3087f8283249f69b60c569720e56091c36))
+* connect() fails on Typescript4.3+ [#893](https://github.com/rematch/rematch/issues/893) ([f794263](https://github.com/rematch/rematch/commit/f7942635d67362565fd72ba0840e31cef1550321))
+* context binding in addModel ([#873](https://github.com/rematch/rematch/issues/873)) ([7f99a45](https://github.com/rematch/rematch/commit/7f99a45034848c0c7391862d0b3d6fe6f0288c9b))
+* make models on init() Partial<T> ([#892](https://github.com/rematch/rematch/issues/892)) ([991a9d8](https://github.com/rematch/rematch/commit/991a9d842b38aa1a974c0befade3e4be579384c8))
+* optional payload inference ([#901](https://github.com/rematch/rematch/issues/901)) ([dfff163](https://github.com/rematch/rematch/commit/dfff1634eb6b4b5d69cca4e7d7c9073fb1583332)), closes [#902](https://github.com/rematch/rematch/issues/902)
+* reducers and effects with same name are correctly typed 4.3.X ([#913](https://github.com/rematch/rematch/issues/913)) ([3db2d9f](https://github.com/rematch/rematch/commit/3db2d9f2ad10aa5017960020f643544562d0b031))
+* this.reducer typed partially correct ([f43c3a7](https://github.com/rematch/rematch/commit/f43c3a787779cacc8c09ae7827a66bcdd7c6ecd0))
+* updated peerDependencies ([#898](https://github.com/rematch/rematch/issues/898)) ([3013605](https://github.com/rematch/rematch/commit/30136054a9c7d2f1b4215e66e2e4065314f841eb))
+
+
+
+
+
 ## [2.0.1](https://github.com/rematch/rematch/compare/@rematch/core@2.0.0...@rematch/core@2.0.1) (2021-02-23)
 
 

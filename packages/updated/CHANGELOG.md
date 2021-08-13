@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/rematch/rematch/compare/@rematch/updated@2.0.1...@rematch/updated@2.1.0) (2021-08-13)
+
+
+### Bug Fixes
+
+* build to modules to .mjs instead of .js and sideEffects: false for better treeshaking ([c2978f3](https://github.com/rematch/rematch/commit/c2978f3087f8283249f69b60c569720e56091c36))
+* updated peerDependencies ([#898](https://github.com/rematch/rematch/issues/898)) ([3013605](https://github.com/rematch/rematch/commit/30136054a9c7d2f1b4215e66e2e4065314f841eb))
+
+
+
+
+
 ## [2.0.1](https://github.com/rematch/rematch/compare/@rematch/updated@2.0.0...@rematch/updated@2.0.1) (2021-02-23)
 
 **Note:** Version bump only for package @rematch/updated

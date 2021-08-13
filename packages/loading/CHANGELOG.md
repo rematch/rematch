@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/rematch/rematch/compare/@rematch/loading@2.0.1...@rematch/loading@2.1.0) (2021-08-13)
+
+
+### Bug Fixes
+
+* build to modules to .mjs instead of .js and sideEffects: false for better treeshaking ([c2978f3](https://github.com/rematch/rematch/commit/c2978f3087f8283249f69b60c569720e56091c36))
+* loading plugin returns chain of promises effect ([#907](https://github.com/rematch/rematch/issues/907)) ([aba57b3](https://github.com/rematch/rematch/commit/aba57b37f0dc915f0d37752474e5c2e2582249c1))
+* updated peerDependencies ([#898](https://github.com/rematch/rematch/issues/898)) ([3013605](https://github.com/rematch/rematch/commit/30136054a9c7d2f1b4215e66e2e4065314f841eb))
+
+
+### Features
+
+* @rematch/loading with type: 'full' returns success/error/loading ([#922](https://github.com/rematch/rematch/issues/922)) ([6992fc5](https://github.com/rematch/rematch/commit/6992fc5226ad682efa071a32c7ddb3f9549e59e8))
+
+
+
+
+
 ## [2.0.1](https://github.com/rematch/rematch/compare/@rematch/loading@2.0.0...@rematch/loading@2.0.1) (2021-02-23)
 
 **Note:** Version bump only for package @rematch/loading
