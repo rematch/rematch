@@ -43,6 +43,8 @@
     "size-build": "size-limit",
     "postbuild": "node ./scripts/moveReadmeToDist.js",
     "version:latest:graduate": "lerna version --no-private --create-release github --conventional-commits --conventional-graduate --yes",
+    "version:latest:minor": "lerna version minor --no-private --create-release github --conventional-commits --yes",
+    "version:latest:patch": "lerna version patch --no-private --create-release github --conventional-commits --yes",
     "version:latest": "lerna version --no-private --create-release github --conventional-commits --yes",
     "version:next": "lerna version --no-private --preid next --create-release github --conventional-commits --conventional-prerelease --yes",
     "release:latest": "lerna publish from-package --dist-tag latest --yes",

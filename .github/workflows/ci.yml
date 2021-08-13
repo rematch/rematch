@@ -3,10 +3,14 @@ name: Rematch CI
 on:
   workflow_dispatch:
     inputs:
-        distTag:
-          description: 'Dist tag to publish'
-          required: true
-          default: 'latest'
+      distTag:
+        description: 'Dist tag to publish'
+        required: true
+        default: 'latest'
+      typeOfRelease:
+        description: "Release with 'patch' or 'minor'"
+        required: false
+        default: null
   pull_request:
   push:
     branches:
@@ -24,13 +28,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           # pulls all commits (needed for lerna to correctly version)
-          fetch-depth: "0"
+          fetch-depth: '0'
 
       - uses: actions/setup-node@v2
         with:
-            always-auth: true
-            node-version: 14
-            scope: '@rematch'
+          always-auth: true
+          node-version: 14
+          scope: '@rematch'
       - name: Creates local .npmrc
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
@@ -57,12 +61,21 @@ jobs:
           yarn prettier:check
 
       - name: Release
-        if: ${{github.event.inputs.distTag == 'latest' || github.event.inputs.distTag == 'next'}}
+        if: ${{(github.event.inputs.distTag == 'latest' || github.event.inputs.distTag == 'next') && github.event.inputs.typeOfRelease == null}}
         run: |
           npm whoami
           git config --global user.email "sergiomorenoalbert@gmail.com"
           git config --global user.name "Rematch CI"
           yarn version:${{github.event.inputs.distTag}}
+          yarn release:${{github.event.inputs.distTag}}
+
+      - name: Release ${{github.event.inputs.typeOfRelease}}
+        if: ${{(github.event.inputs.distTag == 'latest' || github.event.inputs.distTag == 'next') && github.event.inputs.typeOfRelease != null}}
+        run: |
+          npm whoami
+          git config --global user.email "sergiomorenoalbert@gmail.com"
+          git config --global user.name "Rematch CI"
+          yarn version:${{github.event.inputs.distTag}}:${{github.event.inputs.typeOfRelease}}
           yarn release:${{github.event.inputs.distTag}}
 
       - name: Discord notification
