@@ -3,7 +3,7 @@
   "version": "2.0.1",
   "sideEffects": false,
   "description": "Rematch plugin for typing the state",
-  "homepage": "https://rematch.github.io/rematch",
+  "homepage": "https://rematchjs.org",
   "main": "dist/index.js",
   "module": "dist/typed-state.esm.js",
   "browser": "dist/typed-state.esm.js",
