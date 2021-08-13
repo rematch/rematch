@@ -1,5 +1,8 @@
 /.git
 package.json
 lerna.json
+CHANGELOG.md
 packages/*/dist
 packages/*/node_modules
+packages/*/package.json
+packages/*/CHANGELOG.md
