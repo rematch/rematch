@@ -1,4 +1,5 @@
 # Contributing to rematch
+
 As the creators and maintainers of this project, we want to ensure that rematch lives and continues to grow and evolve.
 The evolution of the library should never be blocked by any single person's time.
 One of the simplest ways of doing this is by encouraging a larger set of shallow contributors.
@@ -9,7 +10,7 @@ Through this, we hope to mitigate the problems of a project that needs updates b
 It's normal for a first pull request to be a potential fix for a problem, and moving on from there to helping the project's direction can be difficult.
 We try to help contributors cross that barrier by offering good first step issues. These issues can be fixed without feeling like you're stepping on toes. Ideally, these are non-critical issues that are well defined. They will be purposely avoided by mature contributors to the project, to make space for others.
 
-We aim to keep all technical discussions inside GitHub issues, and all other discussions in our [Slack community](https://rematchjs.slack.com). If you have questions about a specific PR, want to discuss a new API idea etc GitHub issues are the right place.
+We aim to keep all technical discussions inside GitHub issues, and all other discussions in our [Discord community](https://discord.gg/zMzsMGvEHk). If you have questions about a specific PR, want to discuss a new API idea etc GitHub issues are the right place.
 
 ### What about if you have problems that cannot be discussed in a public issue?
 
@@ -48,23 +49,23 @@ Here is a quick guide to doing code contributions to the library.
 
 5. Make your changes and commit: `git add` and `git commit`
 
-6. Remember commits must be semantic versioning friendly  https://www.conventionalcommits.org/en/v1.0.0/
+6. Remember commits must be semantic versioning friendly https://www.conventionalcommits.org/en/v1.0.0/
 
-6. Make sure that the tests still pass: `yarn build` and `yarn test` and `yarn lint`
+7. Make sure that the tests still pass: `yarn build` and `yarn test` and `yarn lint`
 
-7. Push your branch: `git push -u origin your-branch-name`
+8. Push your branch: `git push -u origin your-branch-name`
 
-8. Submit a pull request to the upstream rematch repository.
+9. Submit a pull request to the upstream rematch repository.
 
-9. Choose a descriptive title and describe your changes briefly.
+10. Choose a descriptive title and describe your changes briefly.
 
-10. Wait for a maintainer to review your PR, make changes if it's being recommended, and get it merged.
+11. Wait for a maintainer to review your PR, make changes if it's being recommended, and get it merged.
 
-11. Perform a celebratory dance! :dancer:
+12. Perform a celebratory dance! :dancer:
 
 ### How do I set up the project?
 
-- Run [`yarn install`](https://classic.yarnpkg.com/lang/en) 
+- Run [`yarn install`](https://classic.yarnpkg.com/lang/en)
 - Run `yarn build` (just the first time, is for generating types, etc)
 - Run `yarn watch` for live-reloading testing suite
 - Edit code in the `packages/core|loading|any-plugin/src/` folder.
@@ -94,7 +95,7 @@ These contribution guidelines are based on https://github.com/moya/contributors 
 
 Thank you to all the people who have already contributed to rematch!
 <a href="https://github.com/rematch/rematch/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=rematch/rematch" />
+<img src="https://contributors-img.web.app/image?repo=rematch/rematch" />
 </a>
 
 Made with [contributors-img](https://contributors-img.web.app).
