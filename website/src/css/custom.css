@@ -9,7 +9,6 @@
   font-style: normal;
   font-weight: 400;
   src:
-    local(''),
     url('/fonts/inter-v3-latin-regular.woff2') format('woff2'),
     url('/fonts/inter-v3-latin-regular.woff') format('woff');
 }
@@ -19,7 +18,6 @@
   font-style: normal;
   font-weight: 600;
   src:
-    local(''),
     url('/fonts/inter-v3-latin-600.woff2') format('woff2'),
     url('/fonts/inter-v3-latin-600.woff') format('woff');
 }
@@ -29,7 +27,6 @@
   font-style: normal;
   font-weight: 700;
   src:
-    local(''),
     url('/fonts/inter-v3-latin-700.woff2') format('woff2'),
     url('/fonts/inter-v3-latin-700.woff') format('woff');
 }
@@ -39,14 +36,13 @@
   font-style: normal;
   font-weight: 900;
   src:
-    local(''),
     url('/fonts/inter-v3-latin-900.woff2') format('woff2'),
     url('/fonts/inter-v3-latin-900.woff') format('woff');
 }
 
 :root {
   --unit: 4px;
-  --ifm-font-family-base: "Inter";
+  --ifm-font-family-base: 'Inter';
   --ifm-color-primary: #5468ff;
   --ifm-color-primary-dark: #324aff;
   --ifm-color-primary-darker: #213bff;
@@ -59,9 +55,9 @@
   --ifm-main: #0a141c;
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   --unit: 4px;
-  --ifm-font-family-base: "Inter";
+  --ifm-font-family-base: 'Inter';
   --ifm-navbar-link-hover-color: #8b9dff;
   --ifm-link-color: #8b9dff;
   --ifm-menu-color-active: #8b9dff;
@@ -100,15 +96,78 @@ body {
 }
 
 /* Hide code blocks according to theme */
-[data-theme="light"] .shiki.github-dark {
+[data-theme='light'] .shiki.github-dark {
   display: none;
 }
 
-[data-theme="dark"] .shiki.github-light {
+[data-theme='dark'] .shiki.github-light {
   display: none;
 }
 
 /* Patches */
 pre.shiki > .code-title {
   color: var(--ifm-color-emphasis-900) !important;
+}
+
+.book-cover-image {
+  border-radius: 0.75rem;
+  width: 100%;
+}
+
+.image-shadow {
+  box-shadow: 6px 6px 39px 0 #8b9cff79;
+  -webkit-box-shadow: 6px 6px 39px 0 #8b9cff79;
+  -moz-box-shadow: 6px 6px 39px 0 #8b9cff79;
+}
+
+.padding--2lg {
+  padding: 15rem;
+}
+
+.padding-top--2lg {
+  padding-top: 15rem;
+}
+
+.padding-left--2lg {
+  padding-left: 15rem;
+}
+
+.padding-right--2lg {
+  padding-right: 15rem;
+}
+
+.padding-bottom--2lg {
+  padding-bottom: 15rem;
+}
+
+@media (max-width: 996px) {
+  .book-cover-image {
+    width: 50%;
+  }
+}
+
+@media (max-width: 1400px) {
+  .padding--2lg {
+    padding: 1rem;
+  }
+
+  .padding--lg {
+    padding: 2rem 0 0 0 !important;
+  }
+
+  .padding-top--2lg {
+    padding-top: 2rem;
+  }
+
+  .padding-left--2lg {
+    padding-left: 1rem;
+  }
+
+  .padding-right--2lg {
+    padding-right: 1rem;
+  }
+
+  .padding-bottom--2lg {
+    padding-bottom: 1rem;
+  }
 }

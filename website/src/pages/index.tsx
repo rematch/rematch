@@ -105,7 +105,7 @@ const Feature = ({ imageUrl, title, description }) => {
 	)
 }
 
-const Wave = () => <div className={styles.underWave} />
+export const Wave = () => <div className={styles.underWave} />
 
 const FeaturesSection = () => (
 	<section className={clsx(styles.features, styles.waveTop)}>

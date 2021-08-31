@@ -1,9 +1,0 @@
-__fixtures__
-build
-node_modules
-.yarn
-build
-coverage
-scripts
-src/**/*.tsx
-src/css/twoslash.css
