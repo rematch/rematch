@@ -11,9 +11,8 @@
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,jsx,ts,tsx}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,jsx,ts,tsx}\"",
     "prettier-docs": "prettier --config .prettierrc --write \"**/*.md\"",
-    "lint": "yarn lint:js && yarn lint:style",
+    "lint": "yarn lint:js",
     "lint:js": "eslint --cache \"**/*.{js,jsx,ts,tsx}\"",
-    "lint:style": "stylelint \"**/*.css\"",
     "clear": "docusaurus clear"
   },
   "dependencies": {
@@ -60,8 +59,6 @@
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
     "prism-react-renderer": "^1.2.1",
-    "stylelint": "^13.13.1",
-    "stylelint-config-standard": "^22.0.0",
     "typescript": "^4.4.2"
   },
   "lint-staged": {

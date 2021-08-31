@@ -1,13 +1,13 @@
 .examples--container {
-	margin-right: auto;
-	margin-left: auto;
-	padding: 2rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 2rem;
 }
 
 .examples--bg-card {
-	background: var(--ifm-color-secondary);
+  background: var(--ifm-color-secondary);
 }
 
 .examples--bg-card-image {
-	display: flex;
+  display: flex;
 }
