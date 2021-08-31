@@ -4,10 +4,17 @@
         <title>Rematch Blog</title>
         <link>https://rematchjs.org/blog</link>
         <description>Rematch Blog</description>
-        <lastBuildDate>Mon, 01 Feb 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 30 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <copyright>Copyright © 2021 Rematch, Inc.</copyright>
+        <item>
+            <title><![CDATA[Released 2.1.0]]></title>
+            <link>https://rematchjs.org/blog/released-2.1.0</link>
+            <guid>released-2.1.0</guid>
+            <pubDate>Mon, 30 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Today we're announcing version 2.1.0 of Rematch. More or less 4 months passed since we opened the Roadmap for version 2.1.0. Here we are writing this post telling you guys all the incredible improvements and features we introduced to this new version of Rematch.]]></description>
+        </item>
         <item>
             <title><![CDATA[Welcome to Rematch blog]]></title>
             <link>https://rematchjs.org/blog/welcome</link>

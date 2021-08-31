@@ -1,0 +1,1 @@
+(self.webpackChunkrematch_docs=self.webpackChunkrematch_docs||[]).push([[8917],{7010:function(e){"use strict";e.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/redux","name":"redux","count":2,"permalink":"/blog/tags/redux"}')}}]);

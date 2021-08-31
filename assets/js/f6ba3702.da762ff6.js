@@ -1,0 +1,1 @@
+(self.webpackChunkrematch_docs=self.webpackChunkrematch_docs||[]).push([[9293],{5434:function(e){"use strict";e.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/welcome","name":"welcome","count":1,"permalink":"/blog/tags/welcome"}')}}]);

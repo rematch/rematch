@@ -1,0 +1,1 @@
+(self.webpackChunkrematch_docs=self.webpackChunkrematch_docs||[]).push([[9848],{3357:function(a){"use strict";a.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/react","name":"react","count":2,"permalink":"/blog/tags/react"}')}}]);
