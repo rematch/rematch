@@ -265,10 +265,12 @@ describe('loading asBoolean', () => {
 			plugins: [loadingPlugin()],
 			redux: {
 				middlewares: [
-					() => (next: any) => (action: any): any => {
-						actions.push(action.type)
-						return next(action)
-					},
+					() =>
+						(next: any) =>
+						(action: any): any => {
+							actions.push(action.type)
+							return next(action)
+						},
 				],
 			},
 		})

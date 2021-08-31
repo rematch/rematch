@@ -60,9 +60,7 @@ describe('redux:', () => {
 			}
 			reducers: {}
 			baseReducer: typeof libReducer
-			effects(
-				dispatch: any
-			): {
+			effects(dispatch: any): {
 				dinner(): void
 			}
 		}

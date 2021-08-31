@@ -45,7 +45,10 @@ describe('select:', () => {
 					increment: (s) => s + 1,
 				},
 				selectors: {
-					double: () => (s: any): number => s.a * 2,
+					double:
+						() =>
+						(s: any): number =>
+							s.a * 2,
 				},
 			})
 
@@ -70,7 +73,10 @@ describe('select:', () => {
 					increment: (s: number): number => s + 1,
 				},
 				selectors: {
-					double: () => (s: any): number => s.a * 2,
+					double:
+						() =>
+						(s: any): number =>
+							s.a * 2,
 				},
 			}
 
@@ -95,8 +101,10 @@ describe('select:', () => {
 					increment: (s: number): number => s + 1,
 				},
 				selectors: {
-					prependWithLetter: () => (s: any, { letter }: any): any =>
-						letter + s.a,
+					prependWithLetter:
+						() =>
+						(s: any, { letter }: any): any =>
+							letter + s.a,
 				},
 			}
 

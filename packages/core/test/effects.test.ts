@@ -378,10 +378,13 @@ describe('effects:', () => {
 
 	test('should appear as an action for devtools', async () => {
 		const actions: string[] = []
-		const middleware: Middleware = () => (next) => (action): any => {
-			actions.push(action.type)
-			return next(action)
-		}
+		const middleware: Middleware =
+			() =>
+			(next) =>
+			(action): any => {
+				actions.push(action.type)
+				return next(action)
+			}
 
 		type CountState = number
 		type CountModel = {
@@ -389,9 +392,7 @@ describe('effects:', () => {
 			reducers: {
 				addOne(state: CountState): CountState
 			}
-			effects(
-				dispatch: any
-			): {
+			effects(dispatch: any): {
 				addOneAsync(): void
 			}
 		}
@@ -449,9 +450,7 @@ describe('effects:', () => {
 				reducers: {
 					addOne(state: CountState): CountState
 				}
-				effects(
-					dispatch: any
-				): {
+				effects(dispatch: any): {
 					asyncAddOneArrow(): Promise<void>
 				}
 			}

@@ -90,9 +90,8 @@ const createDispatcher = <
 	effectKeys.forEach((effectName) => {
 		validateModelEffect(model.name, effects, effectName)
 
-		bag.effects[`${model.name}/${effectName}`] = effects[effectName].bind(
-			modelDispatcher
-		)
+		bag.effects[`${model.name}/${effectName}`] =
+			effects[effectName].bind(modelDispatcher)
 
 		modelDispatcher[effectName] = createActionDispatcher(
 			rematch,

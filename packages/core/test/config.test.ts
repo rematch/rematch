@@ -17,17 +17,23 @@ describe('init config:', () => {
 	})
 
 	test('should ensure multiple middlewares are working', () => {
-		const add5Middleware: Middleware = () => (next) => (action): any => {
-			const newAction = { ...action }
-			newAction.payload += 5
-			return next(newAction)
-		}
+		const add5Middleware: Middleware =
+			() =>
+			(next) =>
+			(action): any => {
+				const newAction = { ...action }
+				newAction.payload += 5
+				return next(newAction)
+			}
 
-		const subtract2Middleware: Middleware = () => (next) => (action): any => {
-			const newAction = { ...action }
-			newAction.payload -= 2
-			return next(newAction)
-		}
+		const subtract2Middleware: Middleware =
+			() =>
+			(next) =>
+			(action): any => {
+				const newAction = { ...action }
+				newAction.payload -= 2
+				return next(newAction)
+			}
 
 		const count = createModel<RootModel>()({
 			state: 0,

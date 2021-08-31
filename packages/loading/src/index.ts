@@ -18,13 +18,12 @@ export interface LoadingConfig {
 	 */
 	asNumber?: boolean
 }
-type PickLoadingPluginType<
-	WhichType extends LoadingPluginType
-> = WhichType extends 'number'
-	? number
-	: WhichType extends 'full'
-	? DetailedPayload
-	: boolean
+type PickLoadingPluginType<WhichType extends LoadingPluginType> =
+	WhichType extends 'number'
+		? number
+		: WhichType extends 'full'
+		? DetailedPayload
+		: boolean
 
 interface LoadingState<
 	TModels extends Models<TModels>,
@@ -89,43 +88,45 @@ type DetailedPayload = {
 	loading?: boolean
 }
 
-const createLoadingAction = <
-	TModels extends Models<TModels>,
-	WhichType extends LoadingPluginType
->(
-	converter: Converter<WhichType>,
-	i: number,
-	cntState: InitialState<'number'>
-): Reducer<LoadingState<TModels, WhichType>> => (
-	state,
-	payload: Action<{
-		name: string
-		action: string
-		detailedPayload: DetailedPayload
-	}>['payload']
-): LoadingState<TModels, WhichType> => {
-	const { name, action, detailedPayload } = payload || { name: '', action: '' }
+const createLoadingAction =
+	<TModels extends Models<TModels>, WhichType extends LoadingPluginType>(
+		converter: Converter<WhichType>,
+		i: number,
+		cntState: InitialState<'number'>
+	): Reducer<LoadingState<TModels, WhichType>> =>
+	(
+		state,
+		payload: Action<{
+			name: string
+			action: string
+			detailedPayload: DetailedPayload
+		}>['payload']
+	): LoadingState<TModels, WhichType> => {
+		const { name, action, detailedPayload } = payload || {
+			name: '',
+			action: '',
+		}
 
-	cntState.global += i
-	cntState.models[name] += i
-	cntState.effects[name][action] += i
+		cntState.global += i
+		cntState.models[name] += i
+		cntState.effects[name][action] += i
 
-	return {
-		...state,
-		global: converter(cntState.global, detailedPayload),
-		models: {
-			...state.models,
-			[name]: converter(cntState.models[name], detailedPayload),
-		},
-		effects: {
-			...state.effects,
-			[name]: {
-				...state.effects[name],
-				[action]: converter(cntState.effects[name][action], detailedPayload),
+		return {
+			...state,
+			global: converter(cntState.global, detailedPayload),
+			models: {
+				...state.models,
+				[name]: converter(cntState.models[name], detailedPayload),
 			},
-		},
+			effects: {
+				...state.effects,
+				[name]: {
+					...state.effects[name],
+					[action]: converter(cntState.effects[name][action], detailedPayload),
+				},
+			},
+		}
 	}
-}
 
 const validateConfig = (config: LoadingConfig): void => {
 	if (process.env.NODE_ENV !== 'production') {
@@ -251,9 +252,8 @@ export default <
 				}
 
 				cntState.effects[name][action] = 0
-				loadingInitialState.effects[name][
-					action
-				] = initialLoadingValue as number
+				loadingInitialState.effects[name][action] =
+					initialLoadingValue as number
 
 				const actionType = `${name}/${action}`
 

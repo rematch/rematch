@@ -31,11 +31,13 @@ describe('plugins:', () => {
 			a: typeof a
 		}
 
-		const payloadIsAlways100Middleware: MiddlewareCreator<RootModel> = () => () => (
-			next
-		) => (action): any => {
-			return next({ ...action, payload: 100 })
-		}
+		const payloadIsAlways100Middleware: MiddlewareCreator<RootModel> =
+			() =>
+			() =>
+			(next) =>
+			(action): any => {
+				return next({ ...action, payload: 100 })
+			}
 
 		const store = init<RootModel>({
 			models: {

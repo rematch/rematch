@@ -381,16 +381,14 @@ export type ExtractRematchDispatchersFromReducers<
  * - reducer taking state and optional payload (and may also taking optional meta)
  * 	 -> dispatcher accepting payload and meta as arguments
  */
-export type ExtractRematchDispatcherFromReducer<
-	TState,
-	TReducer
-> = TReducer extends () => any
-	? RematchDispatcher
-	: TReducer extends (state: TState, ...args: infer TRest) => TState
-	? TRest extends []
+export type ExtractRematchDispatcherFromReducer<TState, TReducer> =
+	TReducer extends () => any
 		? RematchDispatcher
-		: RematchDispatcher<TRest[0], TRest[1]>
-	: never
+		: TReducer extends (state: TState, ...args: infer TRest) => TState
+		? TRest extends []
+			? RematchDispatcher
+			: RematchDispatcher<TRest[0], TRest[1]>
+		: never
 /**
  * When payload is of type void, it describes 'empty' dispatcher - meaning
  * it's a function not taking any arguments and returning an action.

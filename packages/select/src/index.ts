@@ -98,18 +98,18 @@ const createSelectPlugin = <
 		config.sliceState || ((state, model) => state[model.name || ''])
 	const selectorCreator = config.selectorCreator || createSelector
 
-	const slice = (model: Model<TModels>) => (
-		stateOrNext: ExtractRematchStateFromModels<TModels, TExtraModels>
-	) => {
-		if (typeof stateOrNext === 'function') {
-			return selectorCreator(
-				(state: ExtractRematchStateFromModels<TModels, TExtraModels>) =>
-					sliceState(state, model),
-				stateOrNext
-			)
+	const slice =
+		(model: Model<TModels>) =>
+		(stateOrNext: ExtractRematchStateFromModels<TModels, TExtraModels>) => {
+			if (typeof stateOrNext === 'function') {
+				return selectorCreator(
+					(state: ExtractRematchStateFromModels<TModels, TExtraModels>) =>
+						sliceState(state, model),
+					stateOrNext
+				)
+			}
+			return sliceState(stateOrNext, model)
 		}
-		return sliceState(stateOrNext, model)
-	}
 
 	const hasProps = (inner: any) =>
 		function (this: any, models: any) {

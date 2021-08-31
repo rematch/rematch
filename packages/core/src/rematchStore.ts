@@ -65,21 +65,23 @@ function createEffectsMiddleware<
 	TModels extends Models<TModels>,
 	TExtraModels extends Models<TModels>
 >(bag: RematchBag<TModels, TExtraModels>): Middleware {
-	return (store) => (next) => (action: Action): any => {
-		if (action.type in bag.effects) {
-			// first run reducer action if exists
-			next(action)
+	return (store) =>
+		(next) =>
+		(action: Action): any => {
+			if (action.type in bag.effects) {
+				// first run reducer action if exists
+				next(action)
 
-			// then run the effect and return its result
-			return (bag.effects as any)[action.type](
-				action.payload,
-				store.getState(),
-				action.meta
-			)
+				// then run the effect and return its result
+				return (bag.effects as any)[action.type](
+					action.payload,
+					store.getState(),
+					action.meta
+				)
+			}
+
+			return next(action)
 		}
-
-		return next(action)
-	}
 }
 
 function prepareModel<
@@ -94,9 +96,8 @@ function prepareModel<
 	const modelDispatcher = {} as ModelDispatcher<TModel, TModels>
 
 	// inject model so effects creator can access it
-	rematchStore.dispatch[
-		`${model.name}` as keyof RematchDispatch<TModels>
-	] = modelDispatcher
+	rematchStore.dispatch[`${model.name}` as keyof RematchDispatch<TModels>] =
+		modelDispatcher
 
 	createDispatcher(rematchStore, bag, model)
 

@@ -292,10 +292,12 @@ describe('loading asNumbers', () => {
 			plugins: [loadingPlugin({ asNumber: true })],
 			redux: {
 				middlewares: [
-					() => (next) => (action: any): any => {
-						actions.push(action.type)
-						return next(action)
-					},
+					() =>
+						(next) =>
+						(action: any): any => {
+							actions.push(action.type)
+							return next(action)
+						},
 				],
 			},
 		})
