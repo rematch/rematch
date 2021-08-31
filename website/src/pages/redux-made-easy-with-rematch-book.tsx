@@ -57,7 +57,7 @@ const BookPage = (): React.ReactElement => {
 								)}
 								data-extlink
 								target="_blank"
-								href="https://amz.run/4iDY"
+								href="https://www.amazon.com/dp/B092RFFGNS"
 							>
 								Pre order on Amazon
 							</a>
@@ -141,6 +141,10 @@ const BookPage = (): React.ReactElement => {
 							loop
 							className={styles.video}
 						>
+							<source
+								src={useBaseUrl('/img/amazhop-website.mp4')}
+								type="video/mp4"
+							/>
 							<source
 								src={useBaseUrl('/img/amazhop-website.webm')}
 								type="video/webm"
@@ -247,6 +251,10 @@ const BookPage = (): React.ReactElement => {
 							loop
 							className={styles.video}
 						>
+							<source
+								src={useBaseUrl('/img/amazhop-app.mp4')}
+								type="video/mp4"
+							/>
 							<source
 								src={useBaseUrl('/img/amazhop-app.webm')}
 								type="video/webm"
