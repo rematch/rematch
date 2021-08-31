@@ -35,7 +35,7 @@ const BookPage = (): React.ReactElement => {
 			description="Redux made easy with Rematch official book"
 		>
 			<div>
-				<div className="row padding--lg m-auto">
+				<div className="row padding-left--2lg padding-right--2lg m-auto">
 					<div
 						className={clsx(
 							'col col--8 m-auto text--center',
@@ -59,15 +59,23 @@ const BookPage = (): React.ReactElement => {
 								target="_blank"
 								href="https://amz.run/4iDY"
 							>
-								Purchase on Amazon
+								Pre order on Amazon
 							</a>
 						</div>
 					</div>
 					<div className="col col--4 text--center padding-top--lg">
-						<img src="https://images-na.ssl-images-amazon.com/images/I/41uBNjJDYpS._SX403_BO1,204,203,200_.jpg" />
+						<img
+							src={useBaseUrl('/img/book-cover.png')}
+							className="book-cover-image image-shadow"
+						/>
 					</div>
 				</div>
-				<div className={clsx('row padding--lg m-auto', styles.waveTop)}>
+				<div
+					className={clsx(
+						'row padding-top--xl padding-left--2lg padding-right--2lg m-auto',
+						styles.waveTop
+					)}
+				>
 					<h2>
 						What you'll <u>learn</u>
 						{'->'}
@@ -96,7 +104,10 @@ const BookPage = (): React.ReactElement => {
 					</div>
 				</div>
 				<div
-					className={clsx('row padding--lg m-auto', styles.absoluteFeatures)}
+					className={clsx(
+						'row padding-left--2lg padding-right--2lg m-auto',
+						styles.absoluteFeatures
+					)}
 				>
 					<div
 						className={clsx(
@@ -150,76 +161,84 @@ const BookPage = (): React.ReactElement => {
 								</p>
 							</div>
 						</div>
-						{[
-							{
-								name: 'Vite',
-								image: useBaseUrl('/img/tech/vite.svg'),
-								href: 'https://vitejs.dev/',
-							},
-							{
-								name: 'TSDX',
-								image: useBaseUrl('/img/tech/tsdx.svg'),
-								href: 'https://tsdx.io/',
-							},
-							{
-								name: 'Immer.js',
-								image: useBaseUrl('/img/tech/immer.svg'),
-								href: 'https://immerjs.github.io/immer',
-							},
-							{
-								name: 'TypeScript',
-								image: useBaseUrl('/img/tech/typescript.png'),
-								href: 'https://www.typescriptlang.org/',
-							},
-							{
-								name: 'Rematch.js',
-								image: useBaseUrl('/img/tech/rematchjs.png'),
-								href: 'https://rematchjs.org/',
-							},
-							{
-								name: 'Expo.io',
-								image: useBaseUrl('/img/tech/expo.svg'),
-								href: 'https://expo.io/',
-							},
-							{
-								name: 'Tailwind CSS',
-								image: useBaseUrl('/img/tech/tailwind.svg'),
-								href: 'https://tailwindcss.com/',
-							},
-							{
-								name: 'React',
-								image: useBaseUrl('/img/tech/react.png'),
-								href: 'https://reactjs.org',
-							},
-						]
-							.sort((a, b) => a.name.localeCompare(b.name))
-							.map((company) => {
-								const element = (
-									<a
-										target="__blank"
-										rel="noopener"
-										href={company.href}
-										data-extlink
-									>
-										<div className={styles.trustedBy}>
-											<div className={styles.trustedByContainerImage}>
-												<img
-													loading="lazy"
-													className={styles.trustedByImage}
-													src={company.image}
-													alt={`${company.name} Logo`}
-												/>
+						<div>
+							{[
+								{
+									name: 'Vite',
+									image: useBaseUrl('/img/tech/vite.svg'),
+									href: 'https://vitejs.dev/',
+								},
+								{
+									name: 'TSDX',
+									image: useBaseUrl('/img/tech/tsdx.svg'),
+									href: 'https://tsdx.io/',
+								},
+								{
+									name: 'Immer.js',
+									image: useBaseUrl('/img/tech/immer.svg'),
+									href: 'https://immerjs.github.io/immer',
+								},
+								{
+									name: 'TypeScript',
+									image: useBaseUrl('/img/tech/typescript.png'),
+									href: 'https://www.typescriptlang.org/',
+								},
+								{
+									name: 'Rematch.js',
+									image: useBaseUrl('/img/tech/rematchjs.png'),
+									href: 'https://rematchjs.org/',
+								},
+								{
+									name: 'Expo.io',
+									image: useBaseUrl('/img/tech/expo.svg'),
+									href: 'https://expo.io/',
+								},
+								{
+									name: 'Tailwind CSS',
+									image: useBaseUrl('/img/tech/tailwind.svg'),
+									href: 'https://tailwindcss.com/',
+								},
+								{
+									name: 'React',
+									image: useBaseUrl('/img/tech/react.png'),
+									href: 'https://reactjs.org',
+								},
+							]
+								.sort((a, b) => a.name.localeCompare(b.name))
+								.map((company) => {
+									const element = (
+										<a
+											key={company.href}
+											target="__blank"
+											rel="noopener"
+											href={company.href}
+											data-extlink
+										>
+											<div className={styles.trustedBy}>
+												<div className={styles.trustedByContainerImage}>
+													<img
+														loading="lazy"
+														className={styles.trustedByImage}
+														src={company.image}
+														alt={`${company.name} Logo`}
+													/>
+												</div>
 											</div>
-										</div>
-									</a>
-								)
+										</a>
+									)
 
-								return element
-							})}
+									return element
+								})}
+						</div>
 					</div>
 				</div>
 
-				<div className={clsx('row padding--lg m-auto', styles.waveTop)}>
+				<div
+					className={clsx(
+						'row padding--2lg padding-top--lg padding-bottom--lg m-auto',
+						styles.waveTop
+					)}
+				>
 					<div className={clsx('col col--6')}>
 						<video
 							width="640"
