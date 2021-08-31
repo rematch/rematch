@@ -64,7 +64,7 @@ module.exports = {
 					position: 'right',
 				},
 				{
-					href: '/redux-made-easy-book',
+					href: '/redux-made-easy-with-rematch-book',
 					label: 'Official book 🆕',
 					position: 'left',
 				},
