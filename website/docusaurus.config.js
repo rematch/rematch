@@ -26,7 +26,7 @@ module.exports = {
 		announcementBar: {
 			id: 'supportus',
 			content:
-				'🔥 If you want to learn more about Rematch, check the newest official book on <a target="_blank" rel="noopener noreferrer" href="https://www.amazon.com/dp/B092RFFGNS">Amazon</a>! 🆕',
+				'🔥 If you want to learn more about Rematch, check the newest official book on <a target="_blank" rel="noopener noreferrer" href="https://packt.link/Yg4NQ">Amazon</a>! 🆕',
 		},
 		navbar: {
 			title: 'Rematch',

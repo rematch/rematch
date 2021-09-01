@@ -57,7 +57,7 @@ const BookPage = (): React.ReactElement => {
 								)}
 								data-extlink
 								target="_blank"
-								href="https://www.amazon.com/dp/B092RFFGNS"
+								href="https://packt.link/Yg4NQ"
 							>
 								Pre order on Amazon
 							</a>
