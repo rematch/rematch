@@ -20,13 +20,12 @@ The function called to setup Rematch.
 
 Init accepts one argument - **config**, which is an object with the following properties:
 
-- [`name`] (_string_): a name for your store. It might be useful when creating multiple stores. Default value is: _"Rematch Store {counter}"_.
-
-- [`models`] (_Object_): each model describes its part of the state, reducers and effects. This parameter is a mapping from models' names to their configuration. See [Model API](models) for details.
-
-- [`plugins`] (_Array_): plugins are special sets of configuration that can extend the functionality of your store. You can pass an array of plugins that you want to use in your store. See the [plugins](/docs/plugins/) developed by the Rematch team or the [API for creating plugins](plugins).
-
-- [`redux`] (_Object_): there are situations where you might want to access Redux configuration directly, e.g. to migrate existing redux project or add middlewares. See [Redux API](redux) for details.
+| Property Name | Data Type |                                                                                                                                 Description                                                                                                                                 |
+| :-----------: | :-------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|    `name`     | _string_  |                                                                           a name for your store. It might be useful when creating multiple stores. Default value is: _"Rematch Store {counter}"_.                                                                           |
+|   `models`    | _Object_  |                                                ach model describes its part of the state, reducers and effects. This parameter is a mapping from models' names to their configuration. See [Model API](models) for details.                                                 |
+|   `plugins`   |  _Array_  | plugins are special sets of configuration that can extend the functionality of your store. You can pass an array of plugins that you want to use in your store. See the [plugins](/docs/plugins/) developed by the Rematch team or the [API for creating plugins](plugins). |
+|    `redux`    | _Object_  |                                              there are situations where you might want to access Redux configuration directly, e.g. to migrate existing redux project or add middlewares. See [Redux API](redux) for details.                                               |
 
 **Returns**:
 
