@@ -10,13 +10,9 @@ export type ImmerPluginConfig = {
 function wrapReducerWithImmer(reducer: Redux.Reducer) {
 	// reducer must return value because literal don't support immer
 	return (state: any, payload: any): any =>
-		typeof state === 'object'
-			? produce(state, (draft: any) => {
-					const next = reducer(draft, payload)
-					if (typeof next === 'object') return next
-					return undefined
-			  })
-			: reducer(state, payload)
+		produce(state, (draft: any) => {
+			return reducer(draft, payload)
+		})
 }
 
 const immerPlugin = <

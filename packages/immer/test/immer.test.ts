@@ -25,6 +25,28 @@ describe('immer', () => {
 		})
 	})
 
+	test('should load the immer plugin with a nullable basic literal', () => {
+		const model = {
+			state: null as number | null,
+			reducers: {
+				set(_state: number, payload: number): number {
+					return payload
+				},
+			},
+		}
+
+		const store = init({
+			plugins: [immerPlugin()],
+			models: { model },
+		})
+
+		store.dispatch({ type: 'model/set', payload: 1 })
+
+		expect(store.getState()).toEqual({
+			model: 1,
+		})
+	})
+
 	test('should load the immer plugin with a object condition', () => {
 		const todo = {
 			state: [
