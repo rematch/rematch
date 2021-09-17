@@ -8,7 +8,6 @@ export type ImmerPluginConfig = {
 }
 
 function wrapReducerWithImmer(reducer: Redux.Reducer) {
-	// reducer must return value because literal don't support immer
 	return (state: any, payload: any): any =>
 		produce(state, (draft: any) => {
 			return reducer(draft, payload)
