@@ -53,7 +53,7 @@ export const count = {
 
 - Use helper method `createModel` to create a model.
 - You must pass the `RootModel` type that is exported on your index.ts of your models.
-- State is automatically infered, if your state contains complex types you only need to use an `as` [Look at count-react-ts example on questions.ts](https://github.com/rematch/rematch/blob/next-types/examples/count-react-ts/src/models/questions.ts)
+- State is automatically infered, if your state contains complex types you only need to use an `as` [Look at count-react-ts example on questions.ts](https://github.com/rematch/rematch/blob/main/examples/count-react-ts/src/models/questions.ts)
 
 > All the examples of Rematch with TypeScript are fully tested in our testing suite, so feel free to look at the /examples folder for an easier integration with your codebase.
 
