@@ -58,7 +58,6 @@ export const todo = createModel<RootModel>()({
       // mutable changes to the state
       state.push({ todo: "Tweet about it", done: false })
       state[1].done = true
-      return state
     },
   },
 })
