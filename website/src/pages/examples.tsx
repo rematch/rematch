@@ -24,8 +24,8 @@ const Examples = () => {
 				owner: 'rematch',
 				repo: 'rematch',
 				path: '/examples',
-				ref: 'next',
-				branch: 'next',
+				ref: 'main',
+				branch: 'main',
 			})
 			.then(({ data }) => {
 				const res =
