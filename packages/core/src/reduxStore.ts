@@ -75,7 +75,13 @@ export function createModelReducer<
 		action: Action
 	): TState => {
 		if (action.type in modelReducers) {
-			return modelReducers[action.type](state, action.payload, action.meta)
+			return modelReducers[action.type](
+				state,
+				action.payload,
+				action.meta
+				// we use augmentation because a reducer can return void due immer plugin,
+				// which makes optional returning the reducer state
+			) as TState
 		}
 
 		return state

@@ -60,7 +60,7 @@ export type Reducer<TState = any> = (
 	state: TState,
 	payload?: Action['payload'],
 	meta?: Action['meta']
-) => TState
+) => TState | void
 
 /** ************************** Model *************************** */
 
@@ -384,7 +384,7 @@ export type ExtractRematchDispatchersFromReducers<
 export type ExtractRematchDispatcherFromReducer<TState, TReducer> =
 	TReducer extends () => any
 		? RematchDispatcher
-		: TReducer extends (state: TState, ...args: infer TRest) => TState
+		: TReducer extends (state: TState, ...args: infer TRest) => TState | void
 		? TRest extends []
 			? RematchDispatcher
 			: RematchDispatcher<TRest[0], TRest[1]>

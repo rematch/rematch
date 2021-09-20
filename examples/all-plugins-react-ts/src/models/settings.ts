@@ -10,7 +10,6 @@ export const settings = createModel<RootModel>()({
 			state.isLightThemeOn = payload
 				? payload === 'light'
 				: !state.isLightThemeOn
-			return state
 		},
 	},
 })
