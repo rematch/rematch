@@ -101,7 +101,6 @@ describe('immer', () => {
 				reducers: {
 					add(state: any, newTodo: any): any {
 						state.push(newTodo)
-						return state
 					},
 				},
 			}
