@@ -33,9 +33,7 @@ If config isn't provided, reducers from all models will be wrapped with immer.
 
 ## Usage
 
-In Immer, reducers can perform mutations to achieve the next immutable state. **Immer doesn't require that you return the next state from a reducer, but @rematch/immer plugin expects you to do it!** Your reducers must always return the next state. Otherwise, you will reset your model's state. See the example below for details.
-
-If your state is a primitive value like a number of a string, plugin automatically avoids using immer to execute the reducer, because immer can only recognize changes to the plain objects or arrays.
+In Immer, reducers can perform mutations to achieve the next immutable state. **Immer doesn't require that you return the next state from a reducer and Rematch won't force you to do it.**
 
 ```twoslash include todoModel
 // @filename: todo.ts
