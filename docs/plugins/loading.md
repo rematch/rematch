@@ -97,10 +97,10 @@ The loading plugin for Rematch. Adds automated loading indicators for effects, s
 
 Install the correct version of loading plugin based on the version of the core Rematch library in your project.
 
-| @rematch/core | @rematch/immer |
-| :-----------: | :------------: |
-|     1.x.x     |     1.x.x      |
-|     2.x.x     |     2.x.x      |
+| @rematch/core | @rematch/loading |
+| :-----------: | :--------------: |
+|     1.x.x     |      1.x.x       |
+|     2.x.x     |      2.x.x       |
 
 ## Install
 
