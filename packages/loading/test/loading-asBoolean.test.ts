@@ -24,6 +24,16 @@ describe('loading asBoolean', () => {
 		expect(store.getState().loading.global).toBe(true)
 	})
 
+	test('loading.global as common dispatch should be true', () => {
+		const store = init<Models, ExtraModels>({
+			models: { count },
+			plugins: [loadingPlugin()],
+		})
+
+		store.dispatch({ type: 'count/timeout' })
+		expect(store.getState().loading.global).toBe(true)
+	})
+
 	test('loading.global should be 2 for two dispatched effects', () => {
 		const store = init<Models, ExtraModels>({
 			models: { count },
