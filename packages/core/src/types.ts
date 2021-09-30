@@ -424,8 +424,11 @@ export type ExtractRematchDispatcherFromReducer<TState, TReducer> =
 		? TRest extends []
 			? RematchDispatcher
 			: TRest[1] extends undefined
-			? RematchDispatcher<TRest[0]>
-			: RematchDispatcher<TRest[0], TRest[1]>
+			? RematchDispatcher<ExtractParameter<TRest, 'payload'>>
+			: RematchDispatcher<
+					ExtractParameter<TRest, 'payload'>,
+					ExtractParameter<TRest, 'meta'>
+			  >
 		: never
 /**
  * When payload is of type void, it describes 'empty' dispatcher - meaning
@@ -433,28 +436,37 @@ export type ExtractRematchDispatcherFromReducer<TState, TReducer> =
  * Otherwise, it describes dispatcher which accepts one argument (payload)
  * and returns an action.
  */
-export type RematchDispatcher<TPayload = never, TMeta = never> = [
-	TPayload,
-	TMeta
-] extends [never, never]
+export type RematchDispatcher<
+	TPayload extends [p?: unknown] = never,
+	TMeta extends [m?: unknown] = never
+> = [TPayload, TMeta] extends [never, never]
 	? (() => Action<void, void>) & { isEffect: false }
 	: [TMeta] extends [never]
-	? undefined extends TPayload
-		? ((payload?: TPayload) => Action<TPayload, void>) & {
+	? CheckIfParameterOptional<TPayload> extends true
+		? ((payload?: TPayload[0]) => Action<TPayload[0], void>) & {
 				isEffect: false
 		  }
-		: ((payload: TPayload) => Action<TPayload, void>) & {
+		: ((payload: TPayload[0]) => Action<TPayload[0], void>) & {
 				isEffect: false
 		  }
-	: [undefined, undefined] extends [TPayload, TMeta]
-	? ((payload?: TPayload, meta?: TMeta) => Action<TPayload, TMeta>) & {
-			isEffect: false
-	  }
-	: undefined extends TMeta
-	? ((payload: TPayload, meta?: TMeta) => Action<TPayload, TMeta>) & {
-			isEffect: false
-	  }
-	: ((payload: TPayload, meta: TMeta) => Action<TPayload, TMeta>) & {
+	: CheckIfParameterOptional<TMeta> extends true
+	? CheckIfParameterOptional<TPayload> extends true
+		? ((
+				payload?: TPayload[0],
+				meta?: TMeta[0]
+		  ) => Action<TPayload[0], TMeta[0]>) & {
+				isEffect: false
+		  }
+		: ((
+				payload: TPayload[0],
+				meta?: TMeta[0]
+		  ) => Action<TPayload[0], TMeta[0]>) & {
+				isEffect: false
+		  }
+	: ((
+			payload: TPayload[0],
+			meta: TMeta[0]
+	  ) => Action<TPayload[0], TMeta[0]>) & {
 			isEffect: false
 	  }
 

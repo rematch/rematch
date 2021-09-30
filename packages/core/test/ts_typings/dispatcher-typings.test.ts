@@ -67,7 +67,6 @@ describe('Dispatcher typings', () => {
 			const model = createModel<RootModel>()({
 				state: 0,
 				reducers: {
-					// eslint-disable-next-line @typescript-eslint/no-inferrable-types
 					inc(state, payload: any) {
 						return state + payload
 					},
@@ -85,11 +84,10 @@ describe('Dispatcher typings', () => {
 			// @ts-expect-error
 			dispatch.myModel.inc()
 		})
-		it('payload defined as optional any type', () => {
+		it('optional payload defined as any type', () => {
 			const model = createModel<RootModel>()({
 				state: 0,
 				reducers: {
-					// eslint-disable-next-line @typescript-eslint/no-inferrable-types
 					inc(state, payload?: any) {
 						return state + payload
 					},
@@ -105,6 +103,66 @@ describe('Dispatcher typings', () => {
 			dispatch.myModel.inc(4)
 			dispatch.myModel.inc('4')
 			dispatch.myModel.inc()
+		})
+
+		it('required payload but maybe undefined', () => {
+			const model = createModel<RootModel>()({
+				state: 0,
+				reducers: {
+					inc(state, payload: number | undefined) {
+						return state + (payload || 1)
+					},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+
+			const { dispatch } = store
+			dispatch.myModel.inc(4)
+			dispatch.myModel.inc(undefined)
+			// @ts-expect-error
+			dispatch.myModel.inc()
+		})
+
+		it('payload and meta', () => {
+			const model = createModel<RootModel>()({
+				state: 0,
+				reducers: {
+					incWithRequiredMeta(state, payload: number, meta: string) {
+						return state + (payload || 1)
+					},
+					incWithOptionalMeta(state, payload: number, meta?: string) {
+						return state + (payload || 1)
+					},
+					incWithOptionalMetaAndOptionalPayload(
+						state,
+						payload?: number,
+						meta?: string
+					) {
+						return state + (payload || 1)
+					},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+			const { dispatch } = store
+
+			dispatch.myModel.incWithRequiredMeta(4, '4')
+			// @ts-expect-error
+			dispatch.myModel.incWithRequiredMeta(4)
+
+			dispatch.myModel.incWithOptionalMeta(4, '4')
+			dispatch.myModel.incWithOptionalMeta(4)
+
+			dispatch.myModel.incWithOptionalMetaAndOptionalPayload()
+			dispatch.myModel.incWithOptionalMetaAndOptionalPayload(4)
+			dispatch.myModel.incWithOptionalMetaAndOptionalPayload(4, '4')
 		})
 	})
 	describe("shouldn't throw error accessing effects with", () => {
