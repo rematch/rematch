@@ -21,6 +21,42 @@ import {
 } from 'redux'
 
 /**
+ * Utility type used to check if the parameters in reducer/effects is optional
+ * Differentiate `[payload?: number]` from `[payload: number | undefined]`
+ * to improve ts experience
+ */
+type CheckIfParameterOptional<P> = P extends [unknown, ...unknown[]]
+	? false
+	: true
+
+/**
+ * Utility type used to extract the whole payload/meta parameter type
+ * from reducer/effect parameters
+ * For example, extract `[meta?: string]`
+ * from `[payload: number, meta?: string]`
+ */
+type ExtractParameter<
+	P extends unknown[],
+	V extends 'payload' | 'meta'
+> = P extends [p?: infer TPayload, m?: infer TMeta, ...args: unknown[]]
+	? [TPayload] extends undefined
+		? never
+		: [TMeta] extends [undefined]
+		? V extends 'payload'
+			? P extends [infer TPayloadMayUndefined, ...unknown[]]
+				? [p: TPayloadMayUndefined]
+				: [p?: TPayload]
+			: never
+		: V extends 'payload'
+		? P extends [infer TPayloadMayUndefined, ...unknown[]]
+			? [p: TPayloadMayUndefined]
+			: [p?: TPayload]
+		: P extends [unknown, infer TMetaMayUndefined, ...unknown[]]
+		? [m: TMetaMayUndefined]
+		: [m?: TMeta]
+	: never
+
+/**
  * Utility type taken by type-fest repository
  * https://github.com/sindresorhus/type-fest/blob/main/source/merge-exclusive.d.ts
  * Merges Exclusively two types into one
@@ -387,6 +423,8 @@ export type ExtractRematchDispatcherFromReducer<TState, TReducer> =
 		: TReducer extends (state: TState, ...args: infer TRest) => TState | void
 		? TRest extends []
 			? RematchDispatcher
+			: TRest[1] extends undefined
+			? RematchDispatcher<TRest[0]>
 			: RematchDispatcher<TRest[0], TRest[1]>
 		: never
 /**
@@ -395,12 +433,12 @@ export type ExtractRematchDispatcherFromReducer<TState, TReducer> =
  * Otherwise, it describes dispatcher which accepts one argument (payload)
  * and returns an action.
  */
-export type RematchDispatcher<TPayload = void, TMeta = void> = [
+export type RematchDispatcher<TPayload = never, TMeta = never> = [
 	TPayload,
 	TMeta
-] extends [void, void]
+] extends [never, never]
 	? (() => Action<void, void>) & { isEffect: false }
-	: [TMeta] extends [void]
+	: [TMeta] extends [never]
 	? undefined extends TPayload
 		? ((payload?: TPayload) => Action<TPayload, void>) & {
 				isEffect: false

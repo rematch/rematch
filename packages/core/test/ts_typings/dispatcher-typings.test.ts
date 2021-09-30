@@ -62,6 +62,50 @@ describe('Dispatcher typings', () => {
 			dispatch.myModel.inc(4)
 			dispatch.myModel.inc()
 		})
+
+		it('payload defined as any type', () => {
+			const model = createModel<RootModel>()({
+				state: 0,
+				reducers: {
+					// eslint-disable-next-line @typescript-eslint/no-inferrable-types
+					inc(state, payload: any) {
+						return state + payload
+					},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+
+			const { dispatch } = store
+			dispatch.myModel.inc(4)
+			dispatch.myModel.inc('4')
+			// @ts-expect-error
+			dispatch.myModel.inc()
+		})
+		it('payload defined as optional any type', () => {
+			const model = createModel<RootModel>()({
+				state: 0,
+				reducers: {
+					// eslint-disable-next-line @typescript-eslint/no-inferrable-types
+					inc(state, payload?: any) {
+						return state + payload
+					},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+
+			const { dispatch } = store
+			dispatch.myModel.inc(4)
+			dispatch.myModel.inc('4')
+			dispatch.myModel.inc()
+		})
 	})
 	describe("shouldn't throw error accessing effects with", () => {
 		it('required payload', () => {
