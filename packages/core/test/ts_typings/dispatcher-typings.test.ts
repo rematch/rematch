@@ -22,6 +22,7 @@ describe('Dispatcher typings', () => {
 			// @ts-expect-error
 			dispatch.myModel.inc()
 		})
+
 		it('optional payload', () => {
 			const model = createModel<RootModel>()({
 				state: 0,
@@ -84,6 +85,7 @@ describe('Dispatcher typings', () => {
 			// @ts-expect-error
 			dispatch.myModel.inc()
 		})
+
 		it('optional payload defined as any type', () => {
 			const model = createModel<RootModel>()({
 				state: 0,
@@ -165,12 +167,16 @@ describe('Dispatcher typings', () => {
 			dispatch.myModel.incWithOptionalMetaAndOptionalPayload(4, '4')
 		})
 	})
+
 	describe("shouldn't throw error accessing effects with", () => {
 		it('required payload', () => {
 			const count = createModel<RootModel>()({
 				state: 0, // initial state
 				effects: () => ({
 					incrementEffect(payload: number) {
+						return payload
+					},
+					incWithPayloadMaybeUndefined(payload: number | undefined) {
 						return payload
 					},
 				}),
@@ -185,9 +191,13 @@ describe('Dispatcher typings', () => {
 			// @ts-expect-error
 			dispatch.count.incrementEffect()
 			// @ts-expect-error
+			dispatch.count.incWithPayloadMaybeUndefined()
+			dispatch.count.incWithPayloadMaybeUndefined(undefined)
+			// @ts-expect-error
 			dispatch.count.incrementEffect('test')
 			dispatch.count.incrementEffect(2)
 		})
+
 		it('optional payload', () => {
 			const count = createModel<RootModel>()({
 				state: 0, // initial state
@@ -209,9 +219,7 @@ describe('Dispatcher typings', () => {
 			// @ts-expect-error
 			dispatch.count.incrementEffect('test')
 		})
-	})
 
-	describe("shouldn't throw error accessing effects with", () => {
 		it('required payload and accessing rootState', () => {
 			const count = createModel<RootModel>()({
 				state: 0, // initial state
@@ -237,7 +245,8 @@ describe('Dispatcher typings', () => {
 			dispatch.count.incrementEffect('test')
 			dispatch.count.incrementEffect(2)
 		})
-		it('optional payload  and accessing rootState', () => {
+
+		it('optional payload and accessing rootState', () => {
 			const count = createModel<RootModel>()({
 				state: 0, // initial state
 				effects: () => ({
@@ -261,6 +270,79 @@ describe('Dispatcher typings', () => {
 			// @ts-expect-error
 			dispatch.count.incrementEffect('test', { prueba: 'hola ' })
 		})
+
+		it('payload and meta', () => {
+			const model = createModel<RootModel>()({
+				state: 0,
+				effects: {
+					// eslint-disable-next-line @typescript-eslint/no-empty-function
+					incWithRequiredMeta(payload: number, rootState, meta: string) {},
+					// eslint-disable-next-line @typescript-eslint/no-empty-function
+					incWithOptionalMeta(payload: number, rootState, meta?: string) {},
+					incWithOptionalMetaAndOptionalPayload(
+						payload?: number,
+						rootState?,
+						meta?: string
+						// eslint-disable-next-line @typescript-eslint/no-empty-function
+					) {},
+					incWithMetaMaybeUndefined(
+						payload: number,
+						rootState,
+						meta: string | undefined
+						// eslint-disable-next-line @typescript-eslint/no-empty-function
+					) {},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+			const { dispatch } = store
+
+			dispatch.myModel.incWithRequiredMeta(4, '4')
+			// @ts-expect-error
+			dispatch.myModel.incWithRequiredMeta(4)
+
+			dispatch.myModel.incWithOptionalMeta(4, '4')
+			dispatch.myModel.incWithOptionalMeta(4)
+
+			dispatch.myModel.incWithOptionalMetaAndOptionalPayload()
+			dispatch.myModel.incWithOptionalMetaAndOptionalPayload(4)
+			dispatch.myModel.incWithOptionalMetaAndOptionalPayload(4, '4')
+
+			// @ts-expect-error
+			dispatch.myModel.incWithMetaMaybeUndefined(4)
+			dispatch.myModel.incWithMetaMaybeUndefined(4, undefined)
+		})
+	})
+
+	describe('should throw error while accessing non-existent reducer/effects', () => {
+		interface RootModel extends Models<RootModel> {
+			count: typeof count
+		}
+
+		const count = createModel<RootModel>()({
+			state: 0,
+			reducers: {
+				increment(state, payload: number) {
+					return state + payload
+				},
+			},
+			effects: (dispatch) => ({
+				// eslint-disable-next-line @typescript-eslint/no-empty-function
+				decrement(_: number, state) {},
+			}),
+		})
+
+		const store = init<RootModel>({
+			models: {
+				count,
+			},
+		})
+
+		// @ts-expect-error
+		store.dispatch.count.foo()
 	})
 
 	describe('dispatch to an effect with the same name of the reducer', () => {
