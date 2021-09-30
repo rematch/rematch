@@ -6,7 +6,6 @@ import {
 	NamedModel,
 	RematchBag,
 	RematchDispatcher,
-	EffectRematchDispatcher,
 	RematchStore,
 } from './types'
 import { validateModelEffect, validateModelReducer } from './validate'
@@ -25,7 +24,7 @@ const createActionDispatcher = <
 	modelName: string,
 	actionName: string,
 	isEffect: boolean
-): RematchDispatcher | EffectRematchDispatcher => {
+): RematchDispatcher<boolean> => {
 	return Object.assign(
 		(payload?: any, meta?: any): Action => {
 			const action: Action = { type: `${modelName}/${actionName}` }

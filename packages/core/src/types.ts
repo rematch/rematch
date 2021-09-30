@@ -38,20 +38,78 @@ type CheckIfParameterOptional<P> = P extends [unknown, ...unknown[]]
 type ExtractParameter<
 	P extends unknown[],
 	V extends 'payload' | 'meta'
-> = P extends [p?: infer TPayload, m?: infer TMeta, ...args: unknown[]]
-	? [TPayload] extends undefined
-		? never
-		: [TMeta] extends [undefined]
-		? V extends 'payload'
-			? P extends [infer TPayloadMayUndefined, ...unknown[]]
-				? [p: TPayloadMayUndefined]
-				: [p?: TPayload]
-			: never
-		: V extends 'payload'
+> = P extends []
+	? never
+	: P extends [p?: infer TPayload]
+	? V extends 'payload'
+		? P extends [infer TPayloadMayUndefined, ...unknown[]]
+			? [p: TPayloadMayUndefined]
+			: [p?: TPayload]
+		: never
+	: P extends [p?: infer TPayload, m?: infer TMeta, ...args: unknown[]]
+	? V extends 'payload'
 		? P extends [infer TPayloadMayUndefined, ...unknown[]]
 			? [p: TPayloadMayUndefined]
 			: [p?: TPayload]
 		: P extends [unknown, infer TMetaMayUndefined, ...unknown[]]
+		? [m: TMetaMayUndefined]
+		: [m?: TMeta]
+	: never
+
+/**
+ * Utility type used to extract the whole payload/meta parameter type
+ * from reducer/effect parameters
+ * For example, extract `[meta?: string]`
+ * from `[payload: number, meta?: string]`
+ */
+// type ExtractParameterFromEffect2<
+// 	P extends unknown[],
+// 	V extends 'payload' | 'meta'
+// > = P extends [
+// 	p?: infer TPayload,
+// 	s?: unknown,
+// 	m?: infer TMeta,
+// 	...args: unknown[]
+// ]
+// 	? [TPayload] extends [undefined]
+// 		? never
+// 		: [TMeta] extends [undefined]
+// 		? V extends 'payload'
+// 			? P extends [infer TPayloadMayUndefined, ...unknown[]]
+// 				? [p: TPayloadMayUndefined]
+// 				: [p?: TPayload]
+// 			: never
+// 		: V extends 'payload'
+// 		? P extends [infer TPayloadMayUndefined, ...unknown[]]
+// 			? [p: TPayloadMayUndefined]
+// 			: [p?: TPayload]
+// 		: P extends [unknown, unknown, infer TMetaMayUndefined, ...unknown[]]
+// 		? [m: TMetaMayUndefined]
+// 		: [m?: TMeta]
+// 	: never
+
+type ExtractParameterFromEffect<
+	P extends unknown[],
+	V extends 'payload' | 'meta'
+> = P extends []
+	? never
+	: P extends [p?: infer TPayload, s?: unknown]
+	? V extends 'payload'
+		? P extends [infer TPayloadMayUndefined, ...unknown[]]
+			? [p: TPayloadMayUndefined]
+			: [p?: TPayload]
+		: never
+	: P extends [
+			p?: infer TPayload,
+			s?: unknown,
+			m?: infer TMeta,
+			...args: unknown[]
+	  ]
+	? V extends 'payload'
+		? P extends [infer TPayloadMayUndefined, ...unknown[]]
+			? [p: TPayloadMayUndefined]
+			: [p?: TPayload]
+		: P extends [unknown, unknown, infer TMetaMayUndefined, ...unknown[]]
 		? [m: TMetaMayUndefined]
 		: [m?: TMeta]
 	: never
@@ -419,17 +477,29 @@ export type ExtractRematchDispatchersFromReducers<
  */
 export type ExtractRematchDispatcherFromReducer<TState, TReducer> =
 	TReducer extends () => any
-		? RematchDispatcher
+		? RematchDispatcher<false>
 		: TReducer extends (state: TState, ...args: infer TRest) => TState | void
 		? TRest extends []
-			? RematchDispatcher
+			? RematchDispatcher<false>
 			: TRest[1] extends undefined
-			? RematchDispatcher<ExtractParameter<TRest, 'payload'>>
+			? RematchDispatcher<false, ExtractParameter<TRest, 'payload'>>
 			: RematchDispatcher<
+					false,
 					ExtractParameter<TRest, 'payload'>,
 					ExtractParameter<TRest, 'meta'>
 			  >
 		: never
+
+/**
+ * Get return type of rematch dispatcher
+ */
+export type ReturnOfDispatcher<
+	IsEffect extends boolean,
+	TReturn = any,
+	TPayload = void,
+	TMeta = void
+> = IsEffect extends true ? TReturn : Action<TPayload, TMeta>
+
 /**
  * When payload is of type void, it describes 'empty' dispatcher - meaning
  * it's a function not taking any arguments and returning an action.
@@ -437,37 +507,43 @@ export type ExtractRematchDispatcherFromReducer<TState, TReducer> =
  * and returns an action.
  */
 export type RematchDispatcher<
+	IsEffect extends boolean,
 	TPayload extends [p?: unknown] = never,
-	TMeta extends [m?: unknown] = never
+	TMeta extends [m?: unknown] = never,
+	TReturn = any
 > = [TPayload, TMeta] extends [never, never]
-	? (() => Action<void, void>) & { isEffect: false }
+	? (() => ReturnOfDispatcher<IsEffect, TReturn>) & { isEffect: IsEffect }
 	: [TMeta] extends [never]
 	? CheckIfParameterOptional<TPayload> extends true
-		? ((payload?: TPayload[0]) => Action<TPayload[0], void>) & {
-				isEffect: false
+		? ((
+				payload?: TPayload[0]
+		  ) => ReturnOfDispatcher<IsEffect, TReturn, TPayload[0]>) & {
+				isEffect: IsEffect
 		  }
-		: ((payload: TPayload[0]) => Action<TPayload[0], void>) & {
-				isEffect: false
+		: ((
+				payload: TPayload[0]
+		  ) => ReturnOfDispatcher<IsEffect, TReturn, TPayload[0]>) & {
+				isEffect: IsEffect
 		  }
 	: CheckIfParameterOptional<TMeta> extends true
 	? CheckIfParameterOptional<TPayload> extends true
 		? ((
 				payload?: TPayload[0],
 				meta?: TMeta[0]
-		  ) => Action<TPayload[0], TMeta[0]>) & {
-				isEffect: false
+		  ) => ReturnOfDispatcher<IsEffect, TReturn, TPayload[0], TMeta[0]>) & {
+				isEffect: IsEffect
 		  }
 		: ((
 				payload: TPayload[0],
 				meta?: TMeta[0]
-		  ) => Action<TPayload[0], TMeta[0]>) & {
-				isEffect: false
+		  ) => ReturnOfDispatcher<IsEffect, TReturn, TPayload[0], TMeta[0]>) & {
+				isEffect: IsEffect
 		  }
 	: ((
 			payload: TPayload[0],
 			meta: TMeta[0]
-	  ) => Action<TPayload[0], TMeta[0]>) & {
-			isEffect: false
+	  ) => ReturnOfDispatcher<IsEffect, TReturn, TPayload[0], TMeta[0]>) & {
+			isEffect: IsEffect
 	  }
 
 /** ************************ Effects Dispatcher ************************* */
@@ -516,45 +592,29 @@ export type ExtractRematchDispatcherFromEffect<
 	TEffect extends ModelEffect<TModels>,
 	TModels extends Models<TModels>
 > = TEffect extends (...args: infer TRest) => infer TReturn
-	? TRest[1] extends undefined
-		? EffectRematchDispatcher<TReturn, TRest[0]>
-		: RematchRootState<TModels> extends TRest[1]
-		? EffectRematchDispatcher<TReturn, TRest[0], TRest[2]>
-		: never
+	? TRest extends []
+		? RematchDispatcher<true, never, never, TReturn>
+		: TRest[1] extends undefined
+		? RematchDispatcher<
+				true,
+				ExtractParameterFromEffect<TRest, 'payload'>,
+				never,
+				TReturn
+		  >
+		: TRest[2] extends undefined
+		? RematchDispatcher<
+				true,
+				ExtractParameterFromEffect<TRest, 'payload'>,
+				never,
+				TReturn
+		  >
+		: RematchDispatcher<
+				true,
+				ExtractParameterFromEffect<TRest, 'payload'>,
+				ExtractParameterFromEffect<TRest, 'meta'>,
+				TReturn
+		  >
 	: never
-
-/**
- * When payload is of type void, it describes 'empty' dispatcher - meaning
- * it's a function not taking any arguments and returning an action.
- * Can be the case that payload is optional in the effect so, also handles payload as optional
- * Otherwise, it describes dispatcher which accepts one argument (payload and a optional meta)
- * and returns an action.
- */
-export type EffectRematchDispatcher<
-	TReturn = any,
-	TPayload = void,
-	TMeta = void
-> = [TPayload, TMeta] extends [void, void]
-	? (() => TReturn) & { isEffect: true }
-	: [TMeta] extends [void]
-	? undefined extends TPayload
-		? ((payload?: TPayload) => TReturn) & {
-				isEffect: true
-		  }
-		: ((payload: TPayload) => TReturn) & {
-				isEffect: true
-		  }
-	: [undefined, undefined] extends [TPayload, TMeta]
-	? ((payload?: TPayload, meta?: TMeta) => TReturn) & {
-			isEffect: true
-	  }
-	: undefined extends TMeta
-	? ((payload: TPayload, meta?: TMeta) => TReturn) & {
-			isEffect: true
-	  }
-	: ((payload: TPayload, meta: TMeta) => TReturn) & {
-			isEffect: true
-	  }
 
 export interface DevtoolOptions {
 	/**
