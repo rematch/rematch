@@ -565,7 +565,7 @@ export type ExtractRematchDispatchersFromEffects<
 		: never
 	: TEffects extends ModelEffects<TModels>
 	? ExtractRematchDispatchersFromEffectsObject<TEffects, TModels>
-	: void
+	: never
 
 /**
  * Extracts a dispatcher for each effect that is defined for a model.
@@ -790,9 +790,9 @@ export interface DevtoolOptions {
 
 export interface ModelCreator {
 	<RM extends Models<RM>>(): <
-		R extends ModelReducers<S>,
-		BR extends ReduxReducer<BS>,
-		E extends ModelEffects<RM> | ModelEffectsCreator<RM>,
+		R extends ModelReducers<S> | undefined,
+		BR extends ReduxReducer<BS> | undefined,
+		E extends ModelEffects<RM> | ModelEffectsCreator<RM> | undefined,
 		S,
 		BS = S
 	>(mo: {
@@ -804,10 +804,9 @@ export interface ModelCreator {
 	}) => {
 		name?: string
 		state: S
-		reducers: R
-		baseReducer: BR
-		effects: E
-	}
+	} & (E extends undefined ? {} : { effects: E }) &
+		(R extends undefined ? {} : { reducers: R }) &
+		(BR extends undefined ? {} : { baseReducer: BR })
 }
 
 declare module 'redux' {

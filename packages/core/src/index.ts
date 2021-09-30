@@ -15,17 +15,7 @@ export const init = <
 	return createRematchStore(config)
 }
 
-export const createModel: ModelCreator =
-	() =>
-	(mo): any => {
-		const { reducers = {}, effects = {} } = mo
-
-		return {
-			...mo,
-			reducers,
-			effects,
-		}
-	}
+export const createModel: ModelCreator = () => (mo) => mo as any
 
 export default {
 	init,
