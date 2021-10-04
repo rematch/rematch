@@ -14,10 +14,10 @@
     "access": "public"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build --format cjs,esm,umd --tsconfig ./tsconfig.build.json",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
+    "start": "dts watch",
+    "build": "dts build --format cjs,esm,umd --tsconfig ./tsconfig.build.json",
+    "test": "dts test",
+    "lint": "dts lint",
     "clean": "rimraf dist"
   },
   "files": [
