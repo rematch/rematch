@@ -22,7 +22,8 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "README.md"
   ],
   "dependencies": {
     "redux-persist": "^6.0.0"

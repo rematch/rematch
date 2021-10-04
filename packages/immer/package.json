@@ -22,7 +22,8 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "README.md"
   ],
   "devDependencies": {
     "@rematch/core": "^2.1.0",
