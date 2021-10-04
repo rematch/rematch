@@ -23,6 +23,55 @@ describe('Dispatcher typings', () => {
 			dispatch.myModel.inc()
 		})
 
+		it('custom types', () => {
+			type Themes = 'light' | 'dark'
+			const model = createModel<RootModel>()({
+				state: 'light',
+				reducers: {
+					inc(_state, payload: Themes) {
+						return payload
+					},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+
+			const { dispatch } = store
+			dispatch.myModel.inc('light')
+			dispatch.myModel.inc('dark')
+			// @ts-expect-error
+			dispatch.myModel.inc('other')
+			// @ts-expect-error
+			dispatch.myModel.inc()
+		})
+
+		it('with union types', () => {
+			const model = createModel<RootModel>()({
+				state: 'light',
+				reducers: {
+					inc(_state, payload: 'light' | 'dark') {
+						return payload
+					},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+
+			const { dispatch } = store
+			dispatch.myModel.inc('light')
+			dispatch.myModel.inc('dark')
+			// @ts-expect-error
+			dispatch.myModel.inc('other')
+			// @ts-expect-error
+			dispatch.myModel.inc()
+		})
+
 		it('optional payload', () => {
 			const model = createModel<RootModel>()({
 				state: 0,
