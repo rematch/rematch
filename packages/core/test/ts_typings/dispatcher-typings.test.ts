@@ -28,8 +28,8 @@ describe('Dispatcher typings', () => {
 			const model = createModel<RootModel>()({
 				state: 'light',
 				reducers: {
-					inc(_state, payload: Themes) {
-						return payload
+					inc(state, payload: Themes) {
+						return payload ?? state
 					},
 				},
 			})
@@ -52,8 +52,8 @@ describe('Dispatcher typings', () => {
 			const model = createModel<RootModel>()({
 				state: 'light',
 				reducers: {
-					inc(_state, payload: 'light' | 'dark') {
-						return payload
+					inc(state, payload: 'light' | 'dark') {
+						return payload ?? state
 					},
 				},
 			})
@@ -395,7 +395,6 @@ describe('Dispatcher typings', () => {
 			store.dispatch.count.foo()
 		} catch (error: any) {
 			// catch because .foo() doesn't exist
-			console.warn(error)
 		}
 	})
 
