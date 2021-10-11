@@ -215,26 +215,41 @@ declare module '@rematch/core' {
 	// add overloads for ModelCreator here.
 	interface ModelCreator {
 		<RM extends Models<RM>>(): <
-			R extends ModelReducers<S>,
-			BR extends ReduxReducer<BS>,
-			E extends ModelEffects<RM> | ModelEffectsCreator<RM>,
-			SE extends ModelSelectorsConfig<RM, S>,
+			R extends ModelReducers<S> | undefined,
+			BR extends ReduxReducer<BS> | undefined,
+			E extends ModelEffects<RM> | ModelEffectsCreator<RM> | undefined,
+			SE extends ModelSelectorsConfig<RM, S> | undefined,
 			S,
 			BS = S
 		>(mo: {
 			name?: string
 			state: S
-			selectors?: SE
 			reducers?: R
 			baseReducer?: BR
 			effects?: E
+			selectors?: SE
 		}) => {
 			name?: string
 			state: S
-			selectors: SE
-			reducers: R
-			baseReducer: BR
-			effects: E
-		}
+		} & (E extends undefined
+			? {}
+			: {
+					effects: E
+			  }) &
+			(R extends undefined
+				? {}
+				: {
+						reducers: R
+				  }) &
+			(BR extends undefined
+				? {}
+				: {
+						baseReducer: BR
+				  }) &
+			(SE extends undefined
+				? {}
+				: {
+						selectors: SE
+				  })
 	}
 }
