@@ -1,6 +1,6 @@
 {
   "name": "@rematch/immer",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "sideEffects": false,
   "description": "Redux-Immer v6 plugin for Rematch. Provides immutable ability for rematch.",
   "homepage": "https://rematchjs.org",
@@ -26,7 +26,7 @@
     "README.md"
   ],
   "devDependencies": {
-    "@rematch/core": "^2.1.0",
+    "@rematch/core": "^2.1.1",
     "immer": "^8.0.1",
     "redux": "^4.0.5"
   },

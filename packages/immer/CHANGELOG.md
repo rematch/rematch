@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/rematch/rematch/compare/@rematch/immer@2.1.0...@rematch/immer@2.1.1) (2021-10-11)
+
+
+### Bug Fixes
+
+* immer behaves unexpectedly when model state is a nullable primitive value ([#928](https://github.com/rematch/rematch/issues/928)) ([f4107ba](https://github.com/rematch/rematch/commit/f4107ba811ad8239dccf42a7cf83fe2883166233))
+* **types:** improve the accuracy of dispatcher inference ([#937](https://github.com/rematch/rematch/issues/937)) ([4bca82d](https://github.com/rematch/rematch/commit/4bca82d10a7e21d6b7217d31a285150d7ea069c9)), closes [#939](https://github.com/rematch/rematch/issues/939)
+
+
+
+
+
 # [2.1.0](https://github.com/rematch/rematch/compare/@rematch/immer@2.0.1...@rematch/immer@2.1.0) (2021-08-13)
 
 
