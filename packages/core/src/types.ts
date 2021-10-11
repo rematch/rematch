@@ -21,6 +21,15 @@ import {
 } from 'redux'
 
 /**
+ * Utility type used to check if the parameters in reducer/effects is optional
+ * Differentiate `[payload?: number]` from `[payload: number | undefined]`
+ * to improve ts experience
+ */
+type CheckIfParameterOptional<P> = P extends [unknown, ...unknown[]]
+	? false
+	: true
+
+/**
  * Utility type taken by type-fest repository
  * https://github.com/sindresorhus/type-fest/blob/main/source/merge-exclusive.d.ts
  * Merges Exclusively two types into one
@@ -36,6 +45,7 @@ export type MergeExclusive<FirstType, SecondType> =
 			| (Without<FirstType, SecondType> & SecondType)
 			| (Without<SecondType, FirstType> & FirstType)
 	: FirstType | SecondType
+
 /**
  * Custom Action interface, adds an additional field - `payload`.
  *
@@ -357,7 +367,91 @@ export type ModelDispatcher<
 		TModels
 	>
 >
+
+/**
+ * Get return type of rematch dispatcher
+ */
+export type ReturnOfDispatcher<
+	IsEffect extends boolean,
+	TReturn = any,
+	TPayload = void,
+	TMeta = void
+> = IsEffect extends true ? TReturn : Action<TPayload, TMeta>
+
+/**
+ * When payload is of type never, it describes 'empty' dispatcher - meaning
+ * it's a function not taking any arguments and returning an action.
+ * Otherwise, it describes dispatcher which accepts two optional argument (payload/meta)
+ * and returns an action.
+ */
+export type RematchDispatcher<
+	IsEffect extends boolean,
+	TPayload extends [p?: unknown] = never,
+	TMeta extends [m?: unknown] = never,
+	TReturn = any
+> = [TPayload, TMeta] extends [never, never]
+	? (() => ReturnOfDispatcher<IsEffect, TReturn>) & { isEffect: IsEffect }
+	: [TMeta] extends [never]
+	? CheckIfParameterOptional<TPayload> extends true
+		? ((
+				payload?: TPayload[0]
+		  ) => ReturnOfDispatcher<IsEffect, TReturn, TPayload[0]>) & {
+				isEffect: IsEffect
+		  }
+		: ((
+				payload: TPayload[0]
+		  ) => ReturnOfDispatcher<IsEffect, TReturn, TPayload[0]>) & {
+				isEffect: IsEffect
+		  }
+	: CheckIfParameterOptional<TMeta> extends true
+	? CheckIfParameterOptional<TPayload> extends true
+		? ((
+				payload?: TPayload[0],
+				meta?: TMeta[0]
+		  ) => ReturnOfDispatcher<IsEffect, TReturn, TPayload[0], TMeta[0]>) & {
+				isEffect: IsEffect
+		  }
+		: ((
+				payload: TPayload[0],
+				meta?: TMeta[0]
+		  ) => ReturnOfDispatcher<IsEffect, TReturn, TPayload[0], TMeta[0]>) & {
+				isEffect: IsEffect
+		  }
+	: ((
+			payload: TPayload[0],
+			meta: TMeta[0]
+	  ) => ReturnOfDispatcher<IsEffect, TReturn, TPayload[0], TMeta[0]>) & {
+			isEffect: IsEffect
+	  }
+
 /** ************************ Reducers Dispatcher ************************* */
+
+/**
+ * Utility type used to extract the whole payload/meta parameter type
+ * from reducer parameters
+ * For example, extract `[meta?: string]`
+ * from `[payload: number, meta?: string]`
+ */
+type ExtractParameterFromReducer<
+	P extends unknown[],
+	V extends 'payload' | 'meta'
+> = P extends []
+	? never
+	: P extends [p?: infer TPayload]
+	? V extends 'payload'
+		? P extends [infer TPayloadMayUndefined, ...unknown[]]
+			? [p: TPayloadMayUndefined]
+			: [p?: TPayload]
+		: never
+	: P extends [p?: infer TPayload, m?: infer TMeta, ...args: unknown[]]
+	? V extends 'payload'
+		? P extends [infer TPayloadMayUndefined, ...unknown[]]
+			? [p: TPayloadMayUndefined]
+			: [p?: TPayload]
+		: P extends [unknown, infer TMetaMayUndefined, ...unknown[]]
+		? [m: TMetaMayUndefined]
+		: [m?: TMeta]
+	: never
 
 /**
  * Extracts a dispatcher for each reducer that is defined for a model.
@@ -383,49 +477,25 @@ export type ExtractRematchDispatchersFromReducers<
  */
 export type ExtractRematchDispatcherFromReducer<TState, TReducer> =
 	TReducer extends () => any
-		? RematchDispatcher
+		? RematchDispatcher<false>
 		: TReducer extends (state: TState, ...args: infer TRest) => TState | void
 		? TRest extends []
-			? RematchDispatcher
-			: RematchDispatcher<TRest[0], TRest[1]>
+			? RematchDispatcher<false>
+			: TRest[1] extends undefined
+			? RematchDispatcher<false, ExtractParameterFromReducer<TRest, 'payload'>>
+			: RematchDispatcher<
+					false,
+					ExtractParameterFromReducer<TRest, 'payload'>,
+					ExtractParameterFromReducer<TRest, 'meta'>
+			  >
 		: never
-/**
- * When payload is of type void, it describes 'empty' dispatcher - meaning
- * it's a function not taking any arguments and returning an action.
- * Otherwise, it describes dispatcher which accepts one argument (payload)
- * and returns an action.
- */
-export type RematchDispatcher<TPayload = void, TMeta = void> = [
-	TPayload,
-	TMeta
-] extends [void, void]
-	? (() => Action<void, void>) & { isEffect: false }
-	: [TMeta] extends [void]
-	? undefined extends TPayload
-		? ((payload?: TPayload) => Action<TPayload, void>) & {
-				isEffect: false
-		  }
-		: ((payload: TPayload) => Action<TPayload, void>) & {
-				isEffect: false
-		  }
-	: [undefined, undefined] extends [TPayload, TMeta]
-	? ((payload?: TPayload, meta?: TMeta) => Action<TPayload, TMeta>) & {
-			isEffect: false
-	  }
-	: undefined extends TMeta
-	? ((payload: TPayload, meta?: TMeta) => Action<TPayload, TMeta>) & {
-			isEffect: false
-	  }
-	: ((payload: TPayload, meta: TMeta) => Action<TPayload, TMeta>) & {
-			isEffect: false
-	  }
 
 /** ************************ Effects Dispatcher ************************* */
 
 /**
  * Based on the shape of 'effects' property it extracts dispatchers from it.
  * 'effects' can be:
- * - empty - in this case the type is just void
+ * - empty - in this case the type is just never
  * - an object defining effects
  * - a function returning effects
  * If it's a function it infers its return type which must define effects.
@@ -439,7 +509,7 @@ export type ExtractRematchDispatchersFromEffects<
 		: never
 	: TEffects extends ModelEffects<TModels>
 	? ExtractRematchDispatchersFromEffectsObject<TEffects, TModels>
-	: void
+	: never
 
 /**
  * Extracts a dispatcher for each effect that is defined for a model.
@@ -455,56 +525,74 @@ export type ExtractRematchDispatchersFromEffectsObject<
 }
 
 /**
+ * Utility type used to extract the whole payload/meta parameter type
+ * from effect parameters
+ * For example, extract `[meta?: string]`
+ * from `[payload: number, state: RootState, meta?: string]`
+ */
+type ExtractParameterFromEffect<
+	P extends unknown[],
+	V extends 'payload' | 'meta'
+> = P extends []
+	? never
+	: P extends [p?: infer TPayload, s?: unknown]
+	? V extends 'payload'
+		? P extends [infer TPayloadMayUndefined, ...unknown[]]
+			? [p: TPayloadMayUndefined]
+			: [p?: TPayload]
+		: never
+	: P extends [
+			p?: infer TPayload,
+			s?: unknown,
+			m?: infer TMeta,
+			...args: unknown[]
+	  ]
+	? V extends 'payload'
+		? P extends [infer TPayloadMayUndefined, ...unknown[]]
+			? [p: TPayloadMayUndefined]
+			: [p?: TPayload]
+		: P extends [unknown, unknown, infer TMetaMayUndefined, ...unknown[]]
+		? [m: TMetaMayUndefined]
+		: [m?: TMeta]
+	: never
+
+/**
  * Matches an effect to different forms and based on the form, selects an
  * appropriate type for a dispatcher. Mapping goes like this:
  * - effect not taking any parameters -> 'empty' dispatcher
  * - effect only taking payload -> dispatcher accepting payload as an argument
  * - effect taking both payload and root state -> dispatcher accepting payload
  *   as an argument
+ * - effect taking payload, root state and meta -> dispatcher accepting payload
+ *   and meta as arguments
  */
 export type ExtractRematchDispatcherFromEffect<
 	TEffect extends ModelEffect<TModels>,
 	TModels extends Models<TModels>
 > = TEffect extends (...args: infer TRest) => infer TReturn
-	? TRest[1] extends undefined
-		? EffectRematchDispatcher<TReturn, TRest[0]>
-		: RematchRootState<TModels> extends TRest[1]
-		? EffectRematchDispatcher<TReturn, TRest[0], TRest[2]>
-		: never
+	? TRest extends []
+		? RematchDispatcher<true, never, never, TReturn>
+		: TRest[1] extends undefined
+		? RematchDispatcher<
+				true,
+				ExtractParameterFromEffect<TRest, 'payload'>,
+				never,
+				TReturn
+		  >
+		: TRest[2] extends undefined
+		? RematchDispatcher<
+				true,
+				ExtractParameterFromEffect<TRest, 'payload'>,
+				never,
+				TReturn
+		  >
+		: RematchDispatcher<
+				true,
+				ExtractParameterFromEffect<TRest, 'payload'>,
+				ExtractParameterFromEffect<TRest, 'meta'>,
+				TReturn
+		  >
 	: never
-
-/**
- * When payload is of type void, it describes 'empty' dispatcher - meaning
- * it's a function not taking any arguments and returning an action.
- * Can be the case that payload is optional in the effect so, also handles payload as optional
- * Otherwise, it describes dispatcher which accepts one argument (payload and a optional meta)
- * and returns an action.
- */
-export type EffectRematchDispatcher<
-	TReturn = any,
-	TPayload = void,
-	TMeta = void
-> = [TPayload, TMeta] extends [void, void]
-	? (() => TReturn) & { isEffect: true }
-	: [TMeta] extends [void]
-	? undefined extends TPayload
-		? ((payload?: TPayload) => TReturn) & {
-				isEffect: true
-		  }
-		: ((payload: TPayload) => TReturn) & {
-				isEffect: true
-		  }
-	: [undefined, undefined] extends [TPayload, TMeta]
-	? ((payload?: TPayload, meta?: TMeta) => TReturn) & {
-			isEffect: true
-	  }
-	: undefined extends TMeta
-	? ((payload: TPayload, meta?: TMeta) => TReturn) & {
-			isEffect: true
-	  }
-	: ((payload: TPayload, meta: TMeta) => TReturn) & {
-			isEffect: true
-	  }
 
 export interface DevtoolOptions {
 	/**
@@ -680,9 +768,9 @@ export interface DevtoolOptions {
 
 export interface ModelCreator {
 	<RM extends Models<RM>>(): <
-		R extends ModelReducers<S>,
-		BR extends ReduxReducer<BS>,
-		E extends ModelEffects<RM> | ModelEffectsCreator<RM>,
+		R extends ModelReducers<S> | undefined,
+		BR extends ReduxReducer<BS> | undefined,
+		E extends ModelEffects<RM> | ModelEffectsCreator<RM> | undefined,
 		S,
 		BS = S
 	>(mo: {
@@ -694,10 +782,9 @@ export interface ModelCreator {
 	}) => {
 		name?: string
 		state: S
-		reducers: R
-		baseReducer: BR
-		effects: E
-	}
+	} & (E extends undefined ? {} : { effects: E }) &
+		(R extends undefined ? {} : { reducers: R }) &
+		(BR extends undefined ? {} : { baseReducer: BR })
 }
 
 declare module 'redux' {
