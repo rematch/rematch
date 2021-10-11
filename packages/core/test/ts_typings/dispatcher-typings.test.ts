@@ -23,6 +23,55 @@ describe('Dispatcher typings', () => {
 			dispatch.myModel.inc()
 		})
 
+		it('custom types', () => {
+			type Themes = 'light' | 'dark'
+			const model = createModel<RootModel>()({
+				state: 'light',
+				reducers: {
+					inc(state, payload: Themes) {
+						return payload ?? state
+					},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+
+			const { dispatch } = store
+			dispatch.myModel.inc('light')
+			dispatch.myModel.inc('dark')
+			// @ts-expect-error
+			dispatch.myModel.inc('other')
+			// @ts-expect-error
+			dispatch.myModel.inc()
+		})
+
+		it('with union types', () => {
+			const model = createModel<RootModel>()({
+				state: 'light',
+				reducers: {
+					inc(state, payload: 'light' | 'dark') {
+						return payload ?? state
+					},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+
+			const { dispatch } = store
+			dispatch.myModel.inc('light')
+			dispatch.myModel.inc('dark')
+			// @ts-expect-error
+			dispatch.myModel.inc('other')
+			// @ts-expect-error
+			dispatch.myModel.inc()
+		})
+
 		it('optional payload', () => {
 			const model = createModel<RootModel>()({
 				state: 0,
@@ -133,16 +182,16 @@ describe('Dispatcher typings', () => {
 			const model = createModel<RootModel>()({
 				state: 0,
 				reducers: {
-					incWithRequiredMeta(state, payload: number, meta: string) {
+					incWithRequiredMeta(state, payload: number, _meta: string) {
 						return state + (payload || 1)
 					},
-					incWithOptionalMeta(state, payload: number, meta?: string) {
+					incWithOptionalMeta(state, payload: number, _meta?: string) {
 						return state + (payload || 1)
 					},
 					incWithOptionalMetaAndOptionalPayload(
 						state,
 						payload?: number,
-						meta?: string
+						_meta?: string
 					) {
 						return state + (payload || 1)
 					},
@@ -276,19 +325,19 @@ describe('Dispatcher typings', () => {
 				state: 0,
 				effects: {
 					// eslint-disable-next-line @typescript-eslint/no-empty-function
-					incWithRequiredMeta(payload: number, rootState, meta: string) {},
+					incWithRequiredMeta(_payload: number, _rootState, _meta: string) {},
 					// eslint-disable-next-line @typescript-eslint/no-empty-function
-					incWithOptionalMeta(payload: number, rootState, meta?: string) {},
+					incWithOptionalMeta(_payload: number, _rootState, _meta?: string) {},
 					incWithOptionalMetaAndOptionalPayload(
-						payload?: number,
-						rootState?,
-						meta?: string
+						_payload?: number,
+						_rootState?,
+						_meta?: string
 						// eslint-disable-next-line @typescript-eslint/no-empty-function
 					) {},
 					incWithMetaMaybeUndefined(
-						payload: number,
-						rootState,
-						meta: string | undefined
+						_payload: number,
+						_rootState,
+						_meta: string | undefined
 						// eslint-disable-next-line @typescript-eslint/no-empty-function
 					) {},
 				},
@@ -329,9 +378,9 @@ describe('Dispatcher typings', () => {
 					return state + payload
 				},
 			},
-			effects: (dispatch) => ({
+			effects: (_dispatch) => ({
 				// eslint-disable-next-line @typescript-eslint/no-empty-function
-				decrement(_: number, state) {},
+				decrement(_: number, _state) {},
 			}),
 		})
 
@@ -341,8 +390,12 @@ describe('Dispatcher typings', () => {
 			},
 		})
 
-		// @ts-expect-error
-		store.dispatch.count.foo()
+		try {
+			// @ts-expect-error
+			store.dispatch.count.foo()
+		} catch (error: any) {
+			// catch because .foo() doesn't exist
+		}
 	})
 
 	describe('dispatch to an effect with the same name of the reducer', () => {
