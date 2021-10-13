@@ -1,6 +1,6 @@
 {
   "name": "@rematch/loading",
-  "version": "2.1.2",
+  "version": "2.1.1",
   "sideEffects": false,
   "description": "Loading indicator plugin for Rematch",
   "homepage": "https://rematchjs.org",
@@ -26,7 +26,7 @@
     "README.md"
   ],
   "devDependencies": {
-    "@rematch/core": "^2.1.2"
+    "@rematch/core": "^2.1.1"
   },
   "peerDependencies": {
     "@rematch/core": ">=2"

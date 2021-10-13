@@ -1,6 +1,6 @@
 {
   "name": "@rematch/persist",
-  "version": "2.1.2",
+  "version": "2.1.1",
   "sideEffects": false,
   "description": "Redux-Persist v6 plugin for Rematch. Provides simple redux state persistence using local storage options.",
   "homepage": "https://rematchjs.org",
@@ -29,7 +29,7 @@
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
-    "@rematch/core": "^2.1.2"
+    "@rematch/core": "^2.1.1"
   },
   "peerDependencies": {
     "@rematch/core": ">=2",
