@@ -25,9 +25,12 @@ export default function createReduxStore<
 	const rootReducer = createRootReducer<RootState, TModels, TExtraModels>(bag)
 
 	const middlewares = Redux.applyMiddleware(...bag.reduxConfig.middlewares)
-	const enhancers = composeEnhancersWithDevtools(
-		bag.reduxConfig.devtoolOptions
-	)(...bag.reduxConfig.enhancers, middlewares)
+	const enhancers = bag.reduxConfig.devtoolComposer
+		? bag.reduxConfig.devtoolComposer(...bag.reduxConfig.enhancers, middlewares)
+		: composeEnhancersWithDevtools(bag.reduxConfig.devtoolOptions)(
+				...bag.reduxConfig.enhancers,
+				middlewares
+		  )
 
 	const createStore = bag.reduxConfig.createStore || Redux.createStore
 	const bagInitialState = bag.reduxConfig.initialState

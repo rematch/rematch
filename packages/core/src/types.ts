@@ -268,7 +268,10 @@ export interface Config<
  * to gain full control over the way Redux is configured by Rematch and
  * override any defaults.
  */
-export interface InitConfigRedux<TRootState = any> {
+export interface InitConfigRedux<
+	TRootState = any,
+	DevtoolComposerGeneric = any
+> {
 	initialState?: TRootState
 	reducers?: ModelReducers<TRootState>
 	enhancers?: StoreEnhancer[]
@@ -281,6 +284,7 @@ export interface InitConfigRedux<TRootState = any> {
 		| undefined
 	createStore?: StoreCreator | undefined
 	devtoolOptions?: DevtoolOptions
+	devtoolComposer?: DevtoolComposerGeneric
 }
 
 /**
