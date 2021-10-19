@@ -5,13 +5,12 @@ module.exports = {
 	},
 	extends: [
 		'airbnb-base',
+		'eslint:recommended',
 		'plugin:import/errors',
 		'plugin:import/warnings',
 		'plugin:import/typescript',
-		'eslint:recommended',
 		'plugin:@typescript-eslint/eslint-recommended',
 		'plugin:@typescript-eslint/recommended',
-		'prettier',
 		'plugin:prettier/recommended',
 	],
 	globals: {
@@ -23,7 +22,7 @@ module.exports = {
 		ecmaVersion: 2018,
 		sourceType: 'module',
 	},
-	plugins: ['@typescript-eslint'],
+	plugins: ['@typescript-eslint', 'prettier'],
 	rules: {
 		'no-restricted-syntax': 0,
 		'lines-between-class-members': [

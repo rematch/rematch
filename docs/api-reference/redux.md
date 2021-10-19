@@ -37,30 +37,33 @@ Configuration for Redux can be build using the following properties:
 
 - [`devtoolOptions`] (_Redux.DevtoolOptions_): provides access to [React Devtools](https://github.com/facebook/react/tree/master/packages/react-devtools) options.
 
+- [`devtoolComposer`] (_remote-redux-devtools.composeWithDevTools_): (Added on 2.2.0) allows passing a custom composer to our middlewares for allowing custom remote devtools, you can read more [here](/docs/recipes/redux-devtools/#remote-redux-devtools).
+
 **Example**:
 
 ```js
-import { init } from "@rematch/core";
+import { init } from '@rematch/core'
 
 const store = init({
-  redux: {
-    initialState: { example: 12 },
-    reducers: {
-      someReducer(state, action) {
-        switch (action.type) {
-          default:
-            return state;
-        }
-      },
-    },
-    enhancers: [customEnhancer()],
-    middlewares: [customMiddleware()],
-    rootReducers: {
-      RESET: (state, action) => {},
-    },
-    combineReducers: customCombineReducers,
-    createStore: customCreateStore,
-    devtoolOptions: customDevtoolOptions,
-  },
-});
+	redux: {
+		initialState: { example: 12 },
+		reducers: {
+			someReducer(state, action) {
+				switch (action.type) {
+					default:
+						return state
+				}
+			},
+		},
+		enhancers: [customEnhancer()],
+		middlewares: [customMiddleware()],
+		rootReducers: {
+			RESET: (state, action) => {},
+		},
+		combineReducers: customCombineReducers,
+		createStore: customCreateStore,
+		devtoolOptions: customDevtoolOptions,
+		devtoolComposer: customDevtoolComposeFunction,
+	},
+})
 ```

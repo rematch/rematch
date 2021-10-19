@@ -4364,6 +4364,13 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
+"@types/remote-redux-devtools@^0.5.5":
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/@types/remote-redux-devtools/-/remote-redux-devtools-0.5.5.tgz#cc48e4625817ab8688d92058d224b774870a7bff"
+  integrity sha512-Xuya1TegRPAe92+nnEeYpfufE/mtfN99+GH272edaoWohbMA+yP6r+wYqK4sq/fvmoUPtPHtwZR2Mkk+6uHeBQ==
+  dependencies:
+    redux "^4.0.0"
+
 "@types/resolve@0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-0.0.8.tgz#f26074d238e02659e323ce1a13d041eee280e194"

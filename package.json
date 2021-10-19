@@ -78,7 +78,6 @@
   },
   "lint-staged": {
     "packages/**/*.{ts,tsx,jsx,js,json,md,mdx}": [
-      "yarn run prettier:check",
       "eslint"
     ]
   },
