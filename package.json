@@ -41,7 +41,6 @@
     "lint:docs": "lerna run lint --scope rematch-docs --stream",
     "build:docs": "lerna run build --scope rematch-docs --stream",
     "size-build": "size-limit",
-    "postbuild": "node ./scripts/moveReadmeToDist.js",
     "version:latest:graduate": "lerna version --no-private --create-release github --conventional-commits --conventional-graduate --yes",
     "version:latest:minor": "lerna version minor --no-private --create-release github --conventional-commits --yes",
     "version:latest:patch": "lerna version patch --no-private --create-release github --conventional-commits --yes",

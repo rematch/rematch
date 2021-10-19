@@ -23,7 +23,7 @@
   "files": [
     "dist",
     "src",
-    "README.md"
+    "../../README.md"
   ],
   "dependencies": {
     "reselect": "^4.0.0"
