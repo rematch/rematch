@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2](https://github.com/rematch/rematch/compare/@rematch/immer@2.1.1...@rematch/immer@2.1.2) (2021-10-19)
+
+
+### Bug Fixes
+
+* immer returned an error when state was undefined [#942](https://github.com/rematch/rematch/issues/942) ([c11aa73](https://github.com/rematch/rematch/commit/c11aa73273c338b02f6f03ea8568580f0d833388))
+
+
+### Reverts
+
+* Revert "chore(release): released new version [skip ci]" ([6d2ebc7](https://github.com/rematch/rematch/commit/6d2ebc76e48ef0c8b4041c6df30db733a60ec9a2))
+
+
+
+
+
 ## [2.1.1](https://github.com/rematch/rematch/compare/@rematch/immer@2.1.0...@rematch/immer@2.1.1) (2021-10-11)
 
 
