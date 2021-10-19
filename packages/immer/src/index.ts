@@ -8,10 +8,10 @@ export type ImmerPluginConfig = {
 }
 
 function wrapReducerWithImmer(reducer: Redux.Reducer) {
-	return (state: any, payload: any): any =>
-		produce(state, (draft: any) => {
-			return reducer(draft, payload)
-		})
+	return (state: any, payload: any): any => {
+		if (state === undefined) return reducer(state, payload)
+		return produce(state, (draft: any) => reducer(draft, payload))
+	}
 }
 
 const immerPlugin = <
