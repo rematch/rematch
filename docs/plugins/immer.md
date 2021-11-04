@@ -19,7 +19,7 @@ Install the correct version of immer plugin based on the version of the core Rem
 ## Install
 
 ```bash npm2yarn
-npm install @rematch/immer
+npm install immer @rematch/immer
 ```
 
 ## immerPlugin([config])
