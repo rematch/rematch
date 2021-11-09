@@ -49,7 +49,7 @@ const createActionDispatcher = <
  * Creates a dispatcher object for a model - it contains a mapping from all
  * reducers to functions which dispatch their corresponding actions.
  */
-export const createDispatcher = <
+export const createReducerDispatcher = <
 	TModels extends Models<TModels>,
 	TExtraModels extends Models<TModels>,
 	TModel extends NamedModel<TModels>
@@ -57,7 +57,7 @@ export const createDispatcher = <
 	rematch: RematchStore<TModels, TExtraModels>,
 	model: TModel
 ): void => {
-	const modelDispatcher = rematch.dispatch[model.name] || {}
+	const modelDispatcher = rematch.dispatch[model.name]
 
 	// map reducer names to dispatch actions
 	const modelReducersKeys = Object.keys(model.reducers)

@@ -16,7 +16,7 @@ import createReduxStore, {
 	createModelReducer,
 	createRootReducer,
 } from './reduxStore'
-import { createDispatcher, createEffectDispatcher } from './dispatcher'
+import { createReducerDispatcher, createEffectDispatcher } from './dispatcher'
 import { validateModel } from './validate'
 import createRematchBag from './bag'
 
@@ -103,7 +103,7 @@ function prepareModel<
 	rematchStore.dispatch[`${model.name}` as keyof RematchDispatch<TModels>] =
 		modelDispatcher
 
-	createDispatcher(rematchStore, model)
+	createReducerDispatcher(rematchStore, model)
 }
 
 function enhanceModel<
