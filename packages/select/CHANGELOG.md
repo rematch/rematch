@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.2](https://github.com/rematch/rematch/compare/@rematch/select@3.1.1...@rematch/select@3.1.2) (2021-11-09)
+
+
+### Reverts
+
+* Revert "chore(release): released new version [skip ci]" ([6d2ebc7](https://github.com/rematch/rematch/commit/6d2ebc76e48ef0c8b4041c6df30db733a60ec9a2))
+
+
+
+
+
 ## [3.1.1](https://github.com/rematch/rematch/compare/@rematch/select@3.1.0...@rematch/select@3.1.1) (2021-10-11)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@rematch/typed-state",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "sideEffects": false,
   "description": "Rematch plugin for typing the state",
   "homepage": "https://rematchjs.org",
@@ -26,7 +26,7 @@
     "../../README.md"
   ],
   "devDependencies": {
-    "@rematch/core": "^2.1.1",
+    "@rematch/core": "^2.2.0",
     "prop-types": "^15.7.2",
     "redux": "^4.0.5"
   },

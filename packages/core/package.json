@@ -1,6 +1,6 @@
 {
   "name": "@rematch/core",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "A Redux Framework",
   "homepage": "https://rematchjs.org",
   "sideEffects": false,

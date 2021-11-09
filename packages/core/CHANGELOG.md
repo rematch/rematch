@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/rematch/rematch/compare/@rematch/core@2.1.1...@rematch/core@2.2.0) (2021-11-09)
+
+
+### Bug Fixes
+
+* circular reference destructuring works with all models ([#947](https://github.com/rematch/rematch/issues/947)) ([7ada366](https://github.com/rematch/rematch/commit/7ada36600bcfa1349309c6a42f2f431d17fb692c))
+
+
+### Features
+
+* allow to config pass custom devtoolComposer for handling remote-dev-tools ([#941](https://github.com/rematch/rematch/issues/941)) ([3634f5c](https://github.com/rematch/rematch/commit/3634f5c2a8cb1a8e98cfc23449c0df55caeec99a))
+
+
+### Reverts
+
+* Revert "chore(release): released new version [skip ci]" ([6d2ebc7](https://github.com/rematch/rematch/commit/6d2ebc76e48ef0c8b4041c6df30db733a60ec9a2))
+
+
+
+
+
 ## [2.1.1](https://github.com/rematch/rematch/compare/@rematch/core@2.1.0...@rematch/core@2.1.1) (2021-10-11)
 
 
