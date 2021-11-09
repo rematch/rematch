@@ -47,16 +47,14 @@ const createActionDispatcher = <
 
 /**
  * Creates a dispatcher object for a model - it contains a mapping from all
- * reducers and effects *names* to functions which dispatch their corresponding
- * actions.
+ * reducers to functions which dispatch their corresponding actions.
  */
-const createDispatcher = <
+export const createReducerDispatcher = <
 	TModels extends Models<TModels>,
 	TExtraModels extends Models<TModels>,
 	TModel extends NamedModel<TModels>
 >(
 	rematch: RematchStore<TModels, TExtraModels>,
-	bag: RematchBag<TModels, TExtraModels>,
 	model: TModel
 ): void => {
 	const modelDispatcher = rematch.dispatch[model.name]
@@ -73,7 +71,22 @@ const createDispatcher = <
 			false
 		)
 	})
+}
 
+/**
+ * Creates effects dispatcher for a model - it contains a mapping from all
+ * effects *names* to functions which dispatch their corresponding actions.
+ */
+export const createEffectDispatcher = <
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
+	TModel extends NamedModel<TModels>
+>(
+	rematch: RematchStore<TModels, TExtraModels>,
+	bag: RematchBag<TModels, TExtraModels>,
+	model: TModel
+): void => {
+	const modelDispatcher = rematch.dispatch[model.name]
 	let effects: ModelEffects<TModels> = {}
 
 	// 'effects' might be actually a function creating effects
@@ -100,5 +113,3 @@ const createDispatcher = <
 		)
 	})
 }
-
-export default createDispatcher

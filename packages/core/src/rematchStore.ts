@@ -16,7 +16,7 @@ import createReduxStore, {
 	createModelReducer,
 	createRootReducer,
 } from './reduxStore'
-import createDispatcher from './dispatcher'
+import { createReducerDispatcher, createEffectDispatcher } from './dispatcher'
 import { validateModel } from './validate'
 import createRematchBag from './bag'
 
@@ -43,7 +43,8 @@ export default function createRematchStore<
 		addModel(model: NamedModel<TModels>) {
 			validateModel(model)
 			createModelReducer(bag, model)
-			prepareModel(rematchStore, bag, model)
+			prepareModel(rematchStore, model)
+			enhanceModel(rematchStore, bag, model)
 			reduxStore.replaceReducer(createRootReducer(bag))
 			reduxStore.dispatch({ type: '@@redux/REPLACE' })
 		},
@@ -51,8 +52,15 @@ export default function createRematchStore<
 
 	addExposed(rematchStore, config.plugins)
 
-	// generate dispatch[modelName][actionName] for all reducers and effects
-	bag.models.forEach((model) => prepareModel(rematchStore, bag, model))
+	/**
+	 * generate dispatch[modelName][actionName] for all reducers and effects
+	 *
+	 * Note: To have circular models accessible in effects method with destructing,
+	 *       ensure that model generation and effects generation execute in
+	 *       different steps.
+	 */
+	bag.models.forEach((model) => prepareModel(rematchStore, model))
+	bag.models.forEach((model) => enhanceModel(rematchStore, bag, model))
 
 	bag.forEachPlugin('onStoreCreated', (onStoreCreated) => {
 		rematchStore = onStoreCreated(rematchStore, bag) || rematchStore
@@ -88,18 +96,26 @@ function prepareModel<
 	TModels extends Models<TModels>,
 	TExtraModels extends Models<TModels>,
 	TModel extends NamedModel<TModels>
->(
-	rematchStore: RematchStore<TModels, TExtraModels>,
-	bag: RematchBag<TModels, TExtraModels>,
-	model: TModel
-): void {
+>(rematchStore: RematchStore<TModels, TExtraModels>, model: TModel): void {
 	const modelDispatcher = {} as ModelDispatcher<TModel, TModels>
 
 	// inject model so effects creator can access it
 	rematchStore.dispatch[`${model.name}` as keyof RematchDispatch<TModels>] =
 		modelDispatcher
 
-	createDispatcher(rematchStore, bag, model)
+	createReducerDispatcher(rematchStore, model)
+}
+
+function enhanceModel<
+	TModels extends Models<TModels>,
+	TExtraModels extends Models<TModels>,
+	TModel extends NamedModel<TModels>
+>(
+	rematchStore: RematchStore<TModels, TExtraModels>,
+	bag: RematchBag<TModels, TExtraModels>,
+	model: TModel
+): void {
+	createEffectDispatcher(rematchStore, bag, model)
 
 	bag.forEachPlugin('onModel', (onModel) => {
 		onModel(model, rematchStore)
