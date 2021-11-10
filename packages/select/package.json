@@ -26,11 +26,12 @@
     "../../README.md"
   ],
   "dependencies": {
-    "reselect": "^4.0.0"
+    "reselect": "^4.1.2"
   },
   "devDependencies": {
     "@rematch/core": "^2.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "reselect": "^4.1.2"
   },
   "peerDependencies": {
     "@rematch/core": ">=2",
