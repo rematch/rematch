@@ -215,6 +215,27 @@ describe('Dispatcher typings', () => {
 			dispatch.myModel.incWithOptionalMetaAndOptionalPayload(4)
 			dispatch.myModel.incWithOptionalMetaAndOptionalPayload(4, '4')
 		})
+
+		it('reducer without arguments', () => {
+			const model = createModel<RootModel>()({
+				state: 0,
+				reducers: {
+					inc(state) {
+						return state
+					},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+
+			const { dispatch } = store
+			dispatch.myModel.inc()
+			// @ts-expect-error
+			dispatch.myModel.inc(1)
+		})
 	})
 
 	describe("shouldn't throw error accessing effects with", () => {
@@ -363,6 +384,30 @@ describe('Dispatcher typings', () => {
 			// @ts-expect-error
 			dispatch.myModel.incWithMetaMaybeUndefined(4)
 			dispatch.myModel.incWithMetaMaybeUndefined(4, undefined)
+		})
+
+		it('without any parameter', () => {
+			const model = createModel<RootModel>()({
+				state: 0,
+				effects: {
+					// eslint-disable-next-line @typescript-eslint/no-empty-function
+					withoutArgs() {},
+				},
+			})
+			interface RootModel extends Models<RootModel> {
+				myModel: typeof model
+			}
+
+			const store = init({ models: { myModel: model } })
+			const { dispatch } = store
+
+			dispatch.myModel.withoutArgs()
+			// @ts-expect-error
+			dispatch.myModel.withoutArgs(1)
+			// @ts-expect-error
+			dispatch.myModel.withoutArgs(1, 2)
+			// @ts-expect-error
+			dispatch.myModel.withoutArgs({ '1': 1 })
 		})
 	})
 
