@@ -29,17 +29,18 @@
   },
   "scripts": {
     "pre-commit": "lint-staged",
-    "clean": "lerna run clean",
-    "build": "lerna run build --ignore rematch-docs",
-    "test": "lerna run test",
-    "watch": "lerna run test --stream -- --watch",
+    "clean": "turbo run clean --no-cache",
+    "build": "turbo run build --scope=\"@rematch/**\"",
+    "start": "turbo run start --scope=\"@rematch/**\"",
+    "test": "turbo run test",
+    "watch": "turbo run test --parallel --no-cache",
     "prettier:check": "prettier --check \"(examples|packages)/**/*.(js|ts|tsx|ts)\"",
     "prettier:write": "prettier --write \"(examples|packages)/**/*.(js|ts|tsx|ts)\"",
-    "lint": "lerna run lint",
-    "lint:fix": "lerna run lint:fix",
-    "start:docs": "lerna run start --scope rematch-docs --stream",
-    "lint:docs": "lerna run lint --scope rematch-docs --stream",
-    "build:docs": "lerna run build --scope rematch-docs --stream",
+    "lint": "turbo run lint --parallel",
+    "lint:fix": "turbo run lint:fix",
+    "start:docs": "turbo run start --scope=\"rematch-docs\" --parallel",
+    "lint:docs": "turbo run lint --scope=\"rematch-docs\" --parallel",
+    "build:docs": "turbo run build --scope=\"rematch-docs\" --parallel",
     "size-build": "size-limit",
     "version:latest:graduate": "lerna version --no-private --create-release github --conventional-commits --conventional-graduate --yes",
     "version:latest:minor": "lerna version minor --no-private --create-release github --conventional-commits --yes",
@@ -60,20 +61,21 @@
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "bundlesize": "^0.18.1",
+    "dts-cli": "^0.19.2",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.2",
-    "lint-staged": "^11.1.2",
     "lerna": "^4.0.0",
+    "lint-staged": "^11.1.2",
     "pinst": "^2.1.6",
     "prettier": "2.3.2",
     "rimraf": "^3.0.2",
     "size-limit": "^5.0.3",
-    "dts-cli": "^0.19.2",
     "tslib": "^2.3.1",
+    "turbo": "^1.0.23",
     "typescript": "^4.4.2"
   },
   "lint-staged": {
@@ -86,6 +88,21 @@
       "@commitlint/config-conventional"
     ]
   },
+  "turbo": {
+    "pipeline": {
+      "build": {
+        "dependsOn": ["^build"],
+        "outputs": ["dist/**"]
+      },
+      "clean": {},
+      "lint": {},
+      "start": {},
+      "test": {},
+      "dev": {
+        "cache": false
+      }
+    }
+   },
   "workspaces": [
     "packages/*",
     "website",
