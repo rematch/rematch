@@ -59,7 +59,7 @@ export const count = {
 
 ```ts title="./models/count.ts"
 import { createModel } from "@rematch/core";
-import { RootModel } from "./models";
+import { RootModel } from ".";
 
 export const count = createModel<RootModel>()({
   state: 0, // initial state
