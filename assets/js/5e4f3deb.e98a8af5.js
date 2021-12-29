@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkrematch_docs=self.webpackChunkrematch_docs||[]).push([[1527],{4035:function(a){a.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/rematch","name":"rematch","count":2,"permalink":"/blog/tags/rematch"}')}}]);

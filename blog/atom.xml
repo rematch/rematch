@@ -14,6 +14,97 @@
         <link href="https://rematchjs.org/blog/released-2.1.0"/>
         <updated>2021-08-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Today we're announcing version 2.1.0 of Rematch. More or less 4 months passed since we opened the Roadmap for version 2.1.0. Here we are writing this post telling you guys all the incredible improvements and features we introduced to this new version of Rematch.]]></summary>
+        <content type="html"><![CDATA[<p>Today we&#x27;re announcing version <strong>2.1.0</strong> of Rematch. More or less 4 months passed since we opened the <a href="https://github.com/rematch/rematch/issues/896">Roadmap for version 2.1.0</a>. Here we are writing this post telling you guys all the incredible improvements and features we introduced to this new version of Rematch.</p><h3>Bug fixes</h3><ul><li>Typescript 4.3.X typings was causing some issues with <code>connect()</code> method and Rematch. <a href="https://github.com/rematch/rematch/issues/893">#893</a></li><li>When the <code>payload</code> of an effect or reducer was explicitly adding a default value in case of null, wasn&#x27;t getting inferred. <a href="https://github.com/rematch/rematch/issues/894">#894</a></li><li>When using <code>this</code> object accessor inside <code>effects</code> property, wasn&#x27;t autocompleted. Since getting autocomplete was like a super-man task we ended up at least not throwing an error of any. Now returns an <code>Action&lt;any, any&gt;</code> <a href="https://github.com/rematch/rematch/issues/870">#870</a></li><li><code>init()</code> function now accepts Rematch models like <code>Partial&lt;RootModel&gt;</code>, this can be used in conjuntion with store function <code>store.addModel()</code> for dynamically adding models. <a href="https://github.com/rematch/rematch/pull/892">#892</a></li><li>Loading plugin returns the chain of promises, that means if an effect crashes you can catch that error. <a href="https://github.com/rematch/rematch/pull/907">#907</a></li><li>Upgrading TypeScript from <code>4.1.2</code> version to <code>4.3.X</code> caused some unexpected <code>never</code> types. <a href="https://github.com/rematch/rematch/issues/912">#912</a></li><li><a href="https://github.com/immerjs/immer"><code>Immer</code></a> peer dependency of <code>@rematch/immer</code> plugin updated to &gt; 9, we keep our official plugins updated.</li></ul><h3>New features</h3><ul><li>We officially released <code>@rematch/typed-state</code> plugin, was an official plugin for Rematch v1, but we didn&#x27;t back ported it to v2 since now. It&#x27;s just <code>258 bytes</code>, and recommended to anyone who wants to encourage a good shape of state on any JavaScript codebase. <a href="https://rematchjs.org/docs/plugins/typed-state/">You can read more about this plugin in the official documentation.</a></li><li><code>@rematch/loading</code> now has been refactored to accept more options than <code>boolean</code> or <code>number</code>, now you can pass `</li></ul><p><strong>Store as full object</strong></p><p>Passing <code>full</code> to config will create a shape where if any effect promise crashes, will save the error object inside <code>error</code>, if the promise resolves correctly will set <code>success</code> to true, and if it keeps loading, will keep the <code>loading</code> property to true.
+It&#x27;s quite similar to React-Query library, and really powerful for building interactive libraries without writing tons of reducers for our effects.</p><pre><code class="language-ts">type FullModel = ExtraModelsFromLoading&lt;RootModel, { type: &#x27;full&#x27; }&gt;
+
+export const store = init&lt;RootModel, FullModel&gt;({
+    models,
+    plugins: [loadingPlugin({ type: &#x27;full&#x27; })],
+})
+</code></pre><p><strong>Store as numbers</strong></p><p>Will work as usual, when a effect is loading will increment the number of the state.</p><pre><code class="language-ts">type FullModel = ExtraModelsFromLoading&lt;RootModel, { type: &#x27;number&#x27; }&gt;
+
+export const store = init&lt;RootModel, FullModel&gt;({
+    models,
+    plugins: [loadingPlugin({ type: &#x27;number&#x27; })],
+})
+</code></pre><p><strong>Store as booleans</strong></p><p><code>true</code> or <code>false</code> given the effect promise if it&#x27;s resolved or not.</p><pre><code class="language-ts">type FullModel = ExtraModelsFromLoading&lt;RootModel&gt;
+
+export const store = init&lt;RootModel, FullModel&gt;({
+    models,
+    plugins: [loadingPlugin()],
+})
+</code></pre><p>You can see the pull request implementation <a href="https://github.com/rematch/rematch/pull/922">here</a> and read more about this on the official documentation <a href="https://rematchjs.org/docs/plugins/loading/">here</a>.</p><h3>Chore</h3><ul><li>Now we test every night our entire CI setup with <code>latest</code> and <code>next</code> TypeScript versions, which means a bunch of tests integration, unit and even end-to-end in a real world React application written with TypeScript with all our plugins is tested before TypeScript releases a new version.
+:::info
+This will avoid issues with future versions of Rematch + TypeScript since we&#x27;re testing before TypeScript officially releases the version is causing issues, giving us time to fix the issue on Rematch side.
+:::</li><li>Now we added <a href="https://github.com/shikijs/twoslash"><code>shiki-twoslash</code></a> to Rematch documentation, now you can see the powerful of Rematch with TypeScript directly in the browser, not needed to download any project, just check the typings as you would do on your favorite code editor.</li></ul><pre><code class="language-twoslash" metastring="include countModel">// @filename: count.ts
+import { createModel } from &#x27;@rematch/core&#x27;
+import { RootModel } from &quot;./models&quot;
+
+export const count = createModel&lt;RootModel&gt;()({
+    state: 0,
+    reducers: {
+        increment(state, payload: number) {
+            return state + payload
+        },
+    },
+    effects: (dispatch) =&gt; ({
+        incrementAsync(payload: number, state) {
+            dispatch.count.increment(payload)
+        },
+    }),
+})
+</code></pre><pre><code class="language-twoslash" metastring="include rootModel">// @filename: models.ts
+import { Models } from &quot;@rematch/core&quot;
+import { count } from &quot;./count&quot;
+
+export interface RootModel extends Models&lt;RootModel&gt; {
+  count: typeof count
+}
+
+export const models: RootModel = { count }
+</code></pre><pre><code class="language-twoslash" metastring="include store">// @filename: store.ts
+import { init, RematchDispatch, RematchRootState } from &#x27;@rematch/core&#x27;
+import { models, RootModel } from &#x27;./models&#x27;
+
+/** Plugins **/
+import updatedPlugin, { ExtraModelsFromUpdated } from &#x27;@rematch/updated&#x27;
+import loadingPlugin, { ExtraModelsFromLoading } from &#x27;@rematch/loading&#x27;
+
+type FullModel =  ExtraModelsFromLoading&lt;RootModel&gt; &amp; ExtraModelsFromUpdated&lt;RootModel&gt;
+
+export const store = init&lt;RootModel, FullModel&gt;({
+    models,
+    plugins: [
+        loadingPlugin(),
+        updatedPlugin(),
+    ]
+})
+
+export type Store = typeof store
+export type Dispatch = RematchDispatch&lt;RootModel&gt;
+export type RootState = RematchRootState&lt;RootModel&gt;
+</code></pre><p>For instance, check this <code>count</code> model:</p><pre><code class="language-ts" metastring="twoslash">// @include: rootModel
+// @filename: count.ts
+// ---cut---
+import { createModel } from &#x27;@rematch/core&#x27;
+import type { RootModel } from &#x27;./models&#x27;
+
+export const count = createModel&lt;RootModel&gt;()({
+    state: 0,
+    reducers: {
+        increment(state, payload: number) {
+            return state + payload
+        },
+    },
+    effects: (dispatch) =&gt; ({
+        incrementAsync(payload: number, state) {
+            dispatch.count.increment(payload)
+        },
+    }),
+})
+</code></pre><p>Hope you enjoy this new release, feel free install it as usual with your favorite package manager.</p><pre><code class="language-bash">npm install @rematch/core --save
+</code></pre><h3>Social</h3><p>Feel free to <a href="https://twitter.com/rematchjs"><img src="https://img.shields.io/twitter/url/https/twitter.com/rematchjs.svg?style=social&amp;label=Follow%20Rematch" alt="Twitter URL"/></a> official Twitter to get live updates of Rematch new releases or any news related to Rematch.</p><p>Also, you can join our Discord community to live-guidance or assistance with your Rematch projects.
+<a href="https://discord.gg/zMzsMGvEHk"><img src="https://img.shields.io/badge/discord-rematch-purple.svg?logo=discord&amp;style=flat-square" alt="Chat on Discord"/></a></p>]]></content>
         <author>
             <name>Sergio Moreno</name>
             <uri>https://github.com/semoal</uri>
@@ -25,6 +116,9 @@
         <link href="https://rematchjs.org/blog/welcome"/>
         <updated>2021-02-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[I'm super happy to announce that the new website is the continuation of the work that all of us who collaborate in Rematch have done altruistically because we love it.]]></summary>
+        <content type="html"><![CDATA[<p>I&#x27;m super happy to announce that the new website is the continuation of the work that all of us who collaborate in Rematch have done altruistically because we love it.</p><p>Today we&#x27;re announcing version 2.0.0 of Rematch. Almost 6 months passed since we opened the <a href="https://github.com/rematch/rematch/issues/792">Roadmap V2 for Rematch</a>. Here we are writing this post telling you guys all the incredible improvements and features we introduced to this new version of Rematch.</p><h3>Bug fixes</h3><ul><li>We&#x27;re 100% compatible with <a href="https://www.typescriptlang.org/"><code>TypeScript</code></a>, YES!! Using <code>createModel()</code> helper we get autocomplete of effects, reducers, also the state, also we accept if the state is complex (like custom types) with a simple <code>as</code>. This is thanks to much people but <a href="https://github.com/tianzhich">Zhi Tian</a> worked hard here with d.ts files, he&#x27;s the type sorcerer.</li></ul><p>:::tip
+How to easily start with TypeScript + Rematch <a href="/docs/getting-started/installation">here</a>
+:::</p><p>And no more bug fixes... because there aren&#x27;t any. Rematch is consolidated as a stable alternative to Redux and other state-management solutions, it&#x27;s fast, light, easy, and maintanaible. <em>What else do we need?</em></p><h3>New features</h3><ul><li>We introduced a new method of directories, <code>MONOREPO</code>. Yes, we are using <a href="https://github.com/lerna/lerna"><code>lerna</code></a> to handle all the packages deployment and common dependencies.</li><li>We used <a href="https://github.com/formium/tsdx"><code>tsdx</code></a> for building our packages to UMD,CJS, and ES. That means we&#x27;re compatible with all the formats that exists nowadays.</li><li>Now we collect all the errors you have on your configuration - <em>(there&#x27;s any?)</em>. And we throw all of them not just the first one. This avoids doing computation in production build, so we got some speed improvements.</li><li>Added new hooks for custom plugins: <code>onReducer</code>, and <code>onRootReducer</code>. Super useful if you pretend to migrate some native redux plugin to Rematch.</li></ul><h3>Chore</h3><ul><li>We refactored the documentation to <a href="https://v2.docusaurus.io/"><code>Docusaurus</code></a>, now it contains a blog ;), also we have warnings if some link is broken, and a super cool landing page.</li><li>We worked hard to reduce bundle size a lot but still being compatible with Internet Explorer 11 is a must for us the results are <strong>incredible</strong>:</li></ul><table><thead><tr><th>package</th><th>old version</th><th>latest version</th><th>diff</th></tr></thead><tbody><tr><td>@rematch/core</td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/core@1.4.0"/></td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/core"/></td><td>-106.12%</td></tr><tr><td>@rematch/loading</td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/loading@1.2.1"/></td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/loading"/></td><td>-76.36%</td></tr><tr><td>@rematch/updated</td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/updated@0.1.5"/></td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/updated"/></td><td>-87.18%</td></tr><tr><td>@rematch/select</td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/select@2.0.5"/></td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/select"/></td><td>-24.24%</td></tr><tr><td>@rematch/persist</td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/persist@1.1.6"/></td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/persist"/></td><td>-44.33%</td></tr><tr><td>@rematch/immer</td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/immer@1.2.0"/></td><td><img src="https://img.shields.io/bundlephobia/min/@rematch/immer"/></td><td>-189.75%</td></tr></tbody></table><p>As you can see, <s>holy moly</s>, we reduced the size drastically.</p><ul><li>Also we migrated from <a href="https://travis-ci.org/"><code>Travis.ci</code></a> to <a href="https://github.com/features/actions"><code>Github Actions</code></a>, and we&#x27;re really happy with the change because we have three workflows:<ul><li>Size Testing: we avoid regressions of size on each pull-request.</li><li>Pull Request title: we&#x27;re using <code>semantic-release</code> to generate cool changelogs, we ensure that the title follows the angular convention.</li><li>Rematch CI: of course the main workflow that runs all the testing suite (also we test typescript types to avoid regressions).</li></ul></li></ul><p>In 2021 Redux isn&#x27;t that cool as <code>React.useContext, React.useReducer</code>, or other alternatives of state-management like <a href="https://github.com/pmndrs/jotai"><code>jotai</code></a>, but we keep working hard inside Rematch to keep the essence of simplicity and still be in conjuntion with Redux to provide an easy and a powerful state-management solution to every project.</p><p>Happy new year to everyone!</p>]]></content>
         <author>
             <name>Sergio Moreno</name>
             <uri>https://github.com/semoal</uri>
