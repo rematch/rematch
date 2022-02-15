@@ -43,7 +43,7 @@ ReactDOM.render(<Root />, document.querySelector("#root"));
 
 ### 2. Mix reducers & models
 
-Our currently `Redux` reducers are currently like this:
+Our `Redux` reducers are currently like this:
 
 ```ts twoslash
 const INCREMENT = "sharks/increment";
