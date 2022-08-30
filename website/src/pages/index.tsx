@@ -14,7 +14,7 @@ const features = [
 		imageUrl: 'icons/tool.svg',
 		description: (
 			<>
-				No more thunks, switch staments, action types, action creators. All is
+				No more thunks, switch statements, action types, action creators. All is
 				handled out of the box with just one file.
 			</>
 		),
