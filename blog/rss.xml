@@ -7,7 +7,7 @@
         <lastBuildDate>Mon, 30 Aug 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
-        <copyright>Copyright © 2022 Rematch, Inc.</copyright>
+        <copyright>Copyright © 2023 Rematch, Inc.</copyright>
         <item>
             <title><![CDATA[Released 2.1.0]]></title>
             <link>https://rematchjs.org/blog/released-2.1.0</link>
