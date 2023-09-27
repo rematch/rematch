@@ -1,5 +1,5 @@
 import { Plugin, Models } from '@rematch/core'
-import produce from 'immer'
+import { produce } from 'immer'
 import Redux from 'redux'
 
 export type ImmerPluginConfig = {
