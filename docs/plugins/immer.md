@@ -22,6 +22,8 @@ Install the correct version of immer plugin based on the version of the core Rem
 npm install immer @rematch/immer
 ```
 
+> Notice: Upgrade your `@rematch/immer` version if you encountered [this issue](https://github.com/rematch/rematch/issues/983).
+
 ## immerPlugin([config])
 
 Immer plugin accepts one optional argument - **config**, which is an object with the following properties:

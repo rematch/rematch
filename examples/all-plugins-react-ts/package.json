@@ -9,7 +9,7 @@
     "@rematch/persist": "^2.0.0",
     "@rematch/select": "^3.0.0",
     "@rematch/updated": "^2.0.0",
-    "immer": "^8.0.1",
+    "immer": "^10.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.1",
