@@ -180,7 +180,9 @@ export type RematchSelect<
 	TExtraModels extends Models<TModels>,
 	TRootState = RematchRootState<TModels, TExtraModels>
 > = (<TReturn extends { [key: string]: (state: TRootState) => any }>(
-	mapSelectToProps: (select: RematchSelect<TModels, TExtraModels>) => TReturn
+	mapSelectToProps: (
+		select: RematchSelect<TModels, TExtraModels, TRootState>
+	) => TReturn
 ) => Reselect.OutputParametricSelector<
 	TRootState,
 	any,
@@ -188,10 +190,11 @@ export type RematchSelect<
 	Reselect.Selector<TRootState, TRootState>
 > &
 	Reselect.OutputSelector<
-		TRootState,
+		Reselect.SelectorArray,
 		{ [K in keyof TReturn]: ReturnType<TReturn[K]> },
 		Reselect.Selector<TRootState, TRootState>
-	>) &
+	> &
+	Reselect.Selector<TRootState, TRootState>) &
 	StoreSelectors<TModels, TExtraModels>
 
 declare module '@rematch/core' {
