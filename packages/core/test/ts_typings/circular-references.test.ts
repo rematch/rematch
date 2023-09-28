@@ -46,4 +46,49 @@ describe('circular references', () => {
 			otherModel: typeof otherModel
 		}
 	})
+	it("shouldn't throw an error if you want to extend a model", () => {
+		const base = createModel<RootModel>()({
+			state: { foo: false },
+			reducers: {
+				setFoo(state, value) {
+					return {
+						...state,
+						foo: value,
+					}
+				},
+			},
+			// the dispatch parameter triggers: "Type of property 'base' circularly references itself in mapped type 'ExtractRematchDispatchersFromModels<ExtendedModel>'"
+			// if you type this to any, the circular dependency is interrupted but why does this not work?
+			effects: (dispatch) => ({
+				async setFooAsync(_, rootState): Promise<boolean> {
+					dispatch.base.setFoo(true)
+					return rootState.base.foo
+				},
+			}),
+		})
+		interface RootModel extends Models<RootModel> {
+			base: typeof base
+		}
+		const extension = createModel<ExtendedModel>()({
+			state: { bar: false } as { bar: boolean },
+			reducers: {
+				setBar(state, value: boolean) {
+					return {
+						...state,
+						bar: value,
+					}
+				},
+			},
+			effects: (dispatch) => ({
+				async setBarAsync(_, rootState): Promise<boolean> {
+					dispatch.extension.setBar(true)
+					return rootState.extension.bar
+				},
+			}),
+		})
+		interface ExtendedModel extends Models<ExtendedModel> {
+			base: typeof base
+			extension: typeof extension
+		}
+	})
 })

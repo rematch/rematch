@@ -352,9 +352,14 @@ export type RematchDispatch<TModels extends Models<TModels>> = ReduxDispatch &
 export type ExtractRematchDispatchersFromModels<
 	TModels extends Models<TModels>
 > = {
+	// this causes the "Type of property 'base' circularly references itself in mapped type 'ExtractRematchDispatchersFromModels<ExtendedModel>'" typescript error when reusing models
 	[modelKey in keyof TModels]: TModels[modelKey] extends Model<TModels>
 		? ModelDispatcher<TModels[modelKey], TModels>
 		: never
+
+	// this modification also fixes the broken circular dependency issue:
+	// QUESTION: why is the conditional type check even needed in the first place?
+	// [modelKey in keyof TModels]: ModelDispatcher<TModels[modelKey], TModels>
 }
 
 /**
